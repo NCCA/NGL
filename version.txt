@@ -1,0 +1,7 @@
+------------------------------------------------------------
+revno: 90
+committer: Jon Macey jmacey@bournemouth.ac.uk
+branch nick: NGL
+timestamp: Thu 2014-03-20 19:28:05 +0000
+message:
+  updated the Text renderer to allow an optional scale element to transform the text

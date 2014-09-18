@@ -1,0 +1,73 @@
+#######################################################################
+# import the os module so we can read environment variables
+#######################################################################
+import os
+#######################################################################
+# sourcefiles is the  list  of the files used for the library
+# we use the Scons Split function to seperate them for  the build
+#######################################################################
+sourcefiles = Split("""Obj2VBO.cpp""")
+#######################################################################
+# PROGRAM is the name of the executable we wish to  create
+#######################################################################
+PROGRAM='Obj2VBO'
+#######################################################################
+# get the home directory so we can build relative to that
+#######################################################################
+home = os.environ['HOME']
+
+########################################################################
+# Create an environment for the build setting  global flags for all
+# operating systems
+########################################################################
+env = Environment(
+CPPPATH = [home+'/GraphicsLib/include'], # directory to find the  include files used for dep checks
+LIBPATH =[home+'/GraphicsLib/lib'],
+LIBS=['ngl'],
+CCFLAGS = '-g -Wall -funroll-loops -O3 -ffast-math -D_DEBUG -Wno-switch ', # compiler flags
+CC='g++', # which compiler to use
+) #end  of environment
+### now we export the environment for the platform build
+Export('env') 
+#set some  of the build options
+env.Decider('content')
+
+###########################################################################
+# now we add OS dependent flags
+###########################################################################
+print "Building for OS ", env['PLATFORM']
+
+if env['PLATFORM'] == 'darwin': # we on MAC OS X so add the flags we need
+	print "Setting MAC OS X specific flags"
+	# linker flags for mac and frameworks we need
+	env['LINKFLAGS'] = '$LINKFLAGS -L/System/Library/Frameworks/OpenGL.framework/Libraries -framework OpenGL -framework Cocoa'
+	# we define DARWIN for conditional includes in the .cpp and .h files
+	env.Append(CCFLAGS = ' -DDARWIN')
+	# we only need to add imageMagick for mac
+	LIBS = []   
+	env.Append(LIBS=LIBS)
+#######################################################################
+# Linux build
+#######################################################################
+elif env['PLATFORM'] == 'posix' :
+	print "Setting Linux specific flags"
+	# linker flags for mac and frameworks we need
+	# we define DARWIN for conditional includes in the .cpp and .h files
+	env.Append(CCFLAGS = ' -DLINUX')
+	# we only need to add imageMagick for mac
+	LIBS = ['GL','GLU','GLEW'] 
+	env.Append(LIBS=LIBS)
+	# use the -l command to include the library
+	# and look in /usr/lib for  imageMagick
+	LIBPATH=['/usr/lib','/usr/X11R6/lib']
+	env.Append(LIBPATH=LIBPATH)
+
+else :
+	print "os is not supported at present"
+	Exit(1)
+
+###########################################################################
+# and finally build the program
+###########################################################################
+
+env.Program(PROGRAM,sourcefiles)

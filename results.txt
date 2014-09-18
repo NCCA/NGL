@@ -1,0 +1,13 @@
+Configuration: 
+  Number of files: 0
+  Minimal block size: 4
+  Minimal characters in line: 3
+  Ignore preprocessor directives: 0
+  Ignore same filenames: 0
+
+Results: 
+  Lines of code: 0
+  Duplicate lines of code: 0
+  Total 0 duplicate block(s) found.
+
+  Time: 8.5e-05 seconds

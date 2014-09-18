@@ -1,0 +1,166 @@
+/*
+  Copyright (C) 2009 Jon Macey
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+#include <fstream>
+#include "NGLStream.h"
+#include "Material.h"
+#include "ShaderLib.h"
+#include <boost/format.hpp>
+//----------------------------------------------------------------------------------------------------------------------
+/// @file Material.cpp
+/// @brief implementation files for Material class
+//----------------------------------------------------------------------------------------------------------------------
+
+namespace ngl
+{
+
+//----------------------------------------------------------------------------------------------------------------------
+void Material :: setDefault()
+{
+	m_transparency = 0.0;
+	m_specularExponent = 1.0;
+	m_surfaceRoughness = 0.0;
+	m_ambient.set(0.1f,0.1f,0.1f);
+	m_diffuse.set(0.8f,0.8f,0.8f);
+	m_specular.set(0,0,0);
+}
+//----------------------------------------------------------------------------------------------------------------------
+Material::Material(STDMAT _mat )
+{
+	m_specularExponent = s_materials[_mat][9];
+	m_ambient.set(s_materials[_mat][0],s_materials[_mat][1],s_materials[_mat][2]);
+	m_diffuse.set(s_materials[_mat][3],s_materials[_mat][4],s_materials[_mat][5]);
+	m_specular.set(s_materials[_mat][6],s_materials[_mat][7],s_materials[_mat][8]);
+	m_specularExponent = s_materials[_mat][9];
+	m_surfaceRoughness = 0.0;
+
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void Material :: change( STDMAT _mat )
+{
+	m_specularExponent = s_materials[_mat][9];
+	m_ambient.set(s_materials[_mat][0],s_materials[_mat][1],s_materials[_mat][2]);
+	m_diffuse.set(s_materials[_mat][3],s_materials[_mat][4],s_materials[_mat][5]);
+	m_specular.set(s_materials[_mat][6],s_materials[_mat][7],s_materials[_mat][8]);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+Material::Material(int _mat )
+{
+	m_specularExponent = s_materials[_mat][9];
+	m_ambient.set(s_materials[_mat][0],s_materials[_mat][1],s_materials[_mat][2]);
+	m_diffuse.set(s_materials[_mat][3],s_materials[_mat][4],s_materials[_mat][5]);
+	m_specular.set(s_materials[_mat][6],s_materials[_mat][7],s_materials[_mat][8]);
+	m_surfaceRoughness = 0.0;
+
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void Material :: set( const Material &_m )
+{
+	m_transparency = _m.m_transparency;
+	m_specularExponent = _m.m_specularExponent;
+	m_surfaceRoughness = _m.m_surfaceRoughness;
+	m_ambient.set(_m.m_ambient);
+	m_diffuse.set(_m.m_diffuse);
+	m_specular.set(_m.m_specular);
+}
+
+
+
+//----------------------------------------------------------------------------------------------------------------------
+Material::Material( const std::string &_fName)
+{
+	std::ifstream FileIn;
+	FileIn.open(_fName.c_str(),std::ios::in);
+
+	if (!FileIn.is_open())
+	{
+		std::cout << "File : "<< _fName <<" Not found Exiting "<<std::endl;
+		exit(EXIT_FAILURE);
+	}
+
+	FileIn>>m_ambient;
+	FileIn>>m_diffuse;
+	FileIn>>m_specular;
+
+	FileIn.close();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void Material::load(const std::string &_fname)
+{
+/// @todo write some code to get this to load .mtl files
+	std::cout<<"Load of "<<_fname <<" not yet implemented\n";
+}
+
+
+void Material::loadToShader( std::string _uniformName  )const
+{
+
+  ShaderLib *shader=ShaderLib::instance();
+  /*
+  so if we use one of our standard shaders for NGL we can load these values
+  /// struct Material
+  /// {
+  ///  vec4 ambient;
+  ///  vec4 diffuse;
+  ///  vec4 specular;
+  ///  float shininess;
+  /// };
+  */
+
+
+  shader->setShaderParam4f(_uniformName+".ambient",m_ambient.m_r,m_ambient.m_g,m_ambient.m_b,m_ambient.m_a);
+  shader->setShaderParam4f(_uniformName+".diffuse",m_diffuse.m_r,m_diffuse.m_g,m_diffuse.m_b,m_diffuse.m_a);
+  shader->setShaderParam4f(_uniformName+".specular",m_specular.m_r,m_specular.m_g,m_specular.m_b,m_specular.m_a);
+  shader->setShaderParam1f(_uniformName+".shininess", m_specularExponent);
+
+ // std::cout<<"block id = "<<blockID<<"\n";
+
+}
+
+void Material::writeXML(rapidxml::xml_document<> &_doc, std::string _tag) const
+{
+/*  char *nodeName = _doc.allocate_string(_tag.c_str());        // Allocate string and copy name into it
+
+  rapidxml::xml_node<>* root = _doc.allocate_node(rapidxml::node_element,nodeName);
+  _doc.append_node(root);
+
+  m_diffuse.writeXML(_doc,root,"diffuse");
+  m_specular.writeXML(_doc,root,"specular");
+  m_ambient.writeXML(_doc,root,"ambient");
+
+  char *value = _doc.allocate_string(boost::str( boost::format(" %f") % m_specularExponent).c_str());
+  rapidxml::xml_node<>* child = _doc.allocate_node(rapidxml::node_element, "specularExponent",value);
+  root->append_node(child);
+
+
+  value = _doc.allocate_string(boost::str( boost::format(" %f") % m_transparency).c_str());
+  child = _doc.allocate_node(rapidxml::node_element, "transparency",value);
+  root->append_node(child);
+
+  value = _doc.allocate_string(boost::str( boost::format(" %f") % m_surfaceRoughness).c_str());
+  child = _doc.allocate_node(rapidxml::node_element, "roughness",value);
+  root->append_node(child);*/
+}
+
+
+} // end ngl namespace
+
+
+
