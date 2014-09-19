@@ -1,4 +1,11 @@
-This is the repository for the NCCA Graphics Library this is used in all NCCA teaching 
-for more details look here 
+This is the main source branch for the NCCA Graphics Library ngl.
 
-http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/index.html
+It needs to be built using QtCreator and you will also need to install
+boost
+
+For more info check out the website here
+
+http://nccastaff.bmth.ac.uk/jmacey/GraphicsLib/
+and for the demos
+
+http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/index.html
