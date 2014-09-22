@@ -28,3 +28,6 @@
 *.app
 # temp files under linux
 *.~*
+#Qt creator stuff
+.qmake*
+Makefile
