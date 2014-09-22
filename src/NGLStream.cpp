@@ -5,7 +5,6 @@
 #include "Vec4.h"
 #include "Mat3.h"
 #include "Mat4.h"
-#include "TransformStack.h"
 #include "Quaternion.h"
 #include <iostream>
 #include <limits>
@@ -92,15 +91,7 @@ NGL_DLLEXPORT std::ostream& operator<<(std::ostream &_output,const Mat4 &_m)
         <<"["<<_m.m_03<<","<<_m.m_13<<","<<_m.m_23<<","<<_m.m_33<<"]"<<std::endl;
 
 }
-#warning This method is marked for deprecation
-#ifndef REMOVEDDEPRECATED
 
-NGL_DLLEXPORT std::ostream& operator<<(std::ostream& _output,  TransformStack& _m)
-{
-  return _output<<_m.getCurrentTransform().getMatrix()<<"\n"<<
-            _m.getCurrentTransform().getTransposeMatrix()<<"\n";
-}
-#endif
 //----------------------------------------------------------------------------------------------------------------------
 //NGL_DLLEXPORT std::istream& operator >> ( std::istream& _ifs, Quaternion &_q )
 //{
