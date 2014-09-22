@@ -23,7 +23,6 @@
 #include <string>
 #include <iostream>
 #include "Colour.h"
-#include "TransformStack.h"
 #include "Mat3.h"
 #include "Quaternion.h"
 

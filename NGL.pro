@@ -44,7 +44,7 @@ unix:INCLUDEPATH+=/usr/local/include
 #set some flags for sse etc
 unix:QMAKE_CXXFLAGS+=  -msse -msse2 -msse3 -fms-extensions -O3
 unix:QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
-
+macx:DEFINES +=GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 
 # this is where to look for includes
 INCLUDEPATH += $$BASE_DIR/include/ngl
