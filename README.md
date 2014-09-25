@@ -101,3 +101,151 @@ Loads a mesh from an obj file using ngl::Obj and displays it.
 
 [Interactive WebGL demo](http://nccastaff.bournemouth.ac.uk/jmacey/WebGL/ObjDemo/)
 
+##[GameKeyControl](https://github.com/NCCA/GameKeyControl)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/GameKeyControl.png)
+
+A demonstration on how to do game style multi key controls within Qt
+
+##[AdvancedGameKeyControl](https://github.com/NCCA/AdvancedGameKeyControl)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/GameKeyControl.png)
+
+A demonstration on how to do game style multi key controls within Qt and record them
+
+##[SDLJoyPad](https://github.com/NCCA/SDLJoyPad)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/JoyPad.png)
+
+This demo requires SDL 2.0 and a wireless xbox controller. Under the mac you can install this driver. Under linux you may have to install the xpad kernel driver
+
+So far it has not been tested under windows and the button mappings may be different.
+
+##[Interpolation](https://github.com/NCCA/Interpolation)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Interp.png)
+
+This demo demonstrates the different interpolation templates in ngl, see this [blog post](http://jonmacey.blogspot.co.uk/2010/11/interpolation.html)
+
+##[QuatSlerp](https://github.com/NCCA/QuatSlerp)
+
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/SLERP.png)
+
+This demo shows how the Quaternion spherical interpolation works. Interactive WebGL [demo](http://nccastaff.bournemouth.ac.uk/jmacey/WebGL/QuatSlerp/)
+
+##[CurveDemos](https://github.com/NCCA/CurveDemos)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Curve.png)
+
+Two demos showing how to use the ngl::BezierCurve class, including an example of exporting from maya using a simple script
+
+##[Collision Demos](https://github.com/NCCA/Collisions)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Collisions.png)
+
+A series of programs showing Ray-Sphere, Ray-Triangle, Sphere-Sphere, Sphere-Plane collision detection algorithms
+
+An interactive WebGL [demo](http://nccastaff.bournemouth.ac.uk/jmacey/WebGL/RaySphere/)
+
+##[OctreeAbstract](https://github.com/NCCA/OctreeAbstract)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Octree.png)
+
+An Abstract Octree template to use in your own projects, this code is originally writen by my collegue Dr Xiaosong Yangfor his advanced collision detection lectures and templated and ported to ngl by me.
+Interactive WebGL demo [here](http://nccastaff.bournemouth.ac.uk/jmacey/WebGL/Octree/)
+
+##[Particle Demos](https://github.com/NCCA/ParticleSystem)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Particles.png)
+
+Simple particle system demos, need to update these and add some more at some stage.
+
+#[ParticleFactory](https://github.com/NCCA/ParticleFactory)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/ParticleFactory.png)
+
+This demo demonstrates the use of the [factory pattern](http://en.wikipedia.org/wiki/Factory_method_pattern) and [runtime polymorphism](http://en.wikipedia.org/wiki/Polymorphism_(computer_science))
+
+##[ColourSelection](https://github.com/NCCA/ColourSelection)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/ColourSelect.png)
+
+Picking of objects using Colour values based on this [post](http://content.gpwiki.org/index.php/OpenGL_Selection_Using_Unique_Color_IDs)
+
+##[Point Bake Demos](https://github.com/NCCA/ColourSelection)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/PointBake.png)
+
+The NCCA PointBake format is a simple xml format for storing per vertex animation data, presented in these demos are maya scripts to export in the format and some demos to show how to load and visualise this data.
+
+##[Morph Objects](https://github.com/NCCA/MorphObj)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Morph.png)
+
+Morphing meshes using shaders. based on the paper [here](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch03.html)
+
+##[Morph Objects (Texture Buffer Objects)](https://github.com/NCCA/MorphObjTBO)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Morph.png)
+
+Morphing meshes using shaders and texture buffer objects. based on the paper [here](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch03.html)
+
+##[Facial Animation](https://github.com/NCCA/FacialAnimation)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Face.png)
+
+Simple Facial animation using blen shape meshes and texture buffer objects
+
+##[Using libassimp to load meshes](https://github.com/NCCA/AssetImportDemos)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Assimp.png)
+
+How to load and animate meshes using assimp
+
+##[Embeded Python](https://github.com/NCCA/EmbedPython)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/EmbedPy.png)
+
+This demo show how to embed the pyhton C interpretor into your own code and run python scripts
+
+##[QtNGL](https://github.com/NCCA/QtNGL)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/QtNGL.png)
+
+How to use the Qt GUI with NGL
+
+##[Mass Spring System using RK 4 integration](https://github.com/NCCA/MassSpring)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/MassSpring.png)
+
+This demonstrates a simple spring using RK4 integration as shown [here](http://gafferongames.com/game-physics/)
+
+##[Affine Transforms](https://github.com/NCCA/AffineTransforms)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Affine.png)
+
+A demonstration of affine transforms using matrices (mainly used for teaching maths)
+
+##[FrustumCull](https://github.com/NCCA/FrustumCull)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Frustrum.png)
+
+Added frustum culling to the ngl::Camera class, this demo shows how to use it, most of the code is based on the article [here](http://www.lighthouse3d.com/tutorials/view-frustum-culling/)
+
+##[Geometry Shaders](https://github.com/NCCA/GeometryShaders)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/GeoShader.png)
+
+Simple Geometry shader demo
+
+##[Tesselation shader](https://github.com/NCCA/TessellationShader)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Tessellation.png)
+
+This demo is the one written for [this](http://jonmacey.blogspot.co.uk/2013/05/glsl-tessellation-shaders-under-mac-osx.html) blog post and implements [this](http://prideout.net/blog/?p=48) code
+
+##[Animated Textures](https://github.com/NCCA/AnimatedTextures)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Fire.png)
+
+This demo uses several sprite sheets of fire to generate an animated fire using billboards. The billboards are generated on the GPU using a geometry shader and the data for the frames / animation is passes using attributes.
+
+##[Instancing](https://github.com/NCCA/Instancing) 
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Instancing.png)
+
+A number of demos showing how instancing in OpenGL works
+
+##[Normal Mapping](https://github.com/NCCA/NormalMapping)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/NormalMapping.png)
+
+This demo uses the ngl::Obj and ngl::VertexArrayObject classes to read in a mesh then construct an extended VAO passing in Tangents and Bi-Tangents (BiNormals) to glsl as attributes. This is then used to do normal mapping along the lines of [this](http://www.ozone3d.net/tutorials/bump_mapping.php)
+
+##[Using Framebuffer Objects](https://github.com/NCCA/FBODemos)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/FBO.png)
+
+A number of demos showing how to use Frame buffer objects, including real time shadows and render to FBO demos
+
+
+
+
+
+
+
+
