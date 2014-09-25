@@ -242,8 +242,17 @@ This demo uses the ngl::Obj and ngl::VertexArrayObject classes to read in a mesh
 
 A number of demos showing how to use Frame buffer objects, including real time shadows and render to FBO demos
 
+##[Bullet Physics and NGL](https://github.com/NCCA/BulletNGL)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Bullet.png)
 
+Using the Bullet Physics with NGL, the demo has basic wrappers for the Physics world and rigid bodies, it also uses the ngl::Obj to load low-res collision meshes and uses higher detail ones for the drawing.
 
+For more details read the user [guide](http://bulletphysics.org/wordpress/) of Bullet.
+
+##[ODE NGL](git@github.com:NCCA/ODENGL.git)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/ODENGL.png)
+
+Using the ODE Physics engine 
 
 
 
