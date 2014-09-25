@@ -269,7 +269,7 @@ This demo shows how to use the kinect with the OpenKinect drivers and Qt / ngl. 
 This has issues on the mac due to the C++ compiler and OpenCV
 
 ##[Sponza Demo](https://github.com/NCCA/Sponza)
-![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/SimpleNGL.png)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Sponza.png)
 
 A basic framework to load a Wavefront OBJ file with groups and an MTL file with textures and draw the scene as efficiently as possible. The source contains the models and textures from here and is quite large
 
