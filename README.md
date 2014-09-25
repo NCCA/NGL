@@ -282,7 +282,12 @@ For a detailed look at how this work see the following blog posts
 
 [GroupedObj class](http://jonmacey.blogspot.co.uk/2012/11/sponza-demo-pt-3-groupedobj-class.html)
 
-##[Box2D Demo]()
+##[Box2D Demo](https://github.com/NCCA/Box2D)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Box2D.png)
 
 A simple demo to show Box2D being used with ngl
+
+##[Export from Maya to Box2D](https://github.com/NCCA/Box2DExport)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Box2D.png)
+
+A simple example of an exported then using it in box 2D see the python files for more details
