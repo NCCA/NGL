@@ -29,12 +29,13 @@ This is the simplest SDL / NGL demo using a basic SDL2.0 window and core profile
 
 Note that this .pro file contains the calls to add the output of sdl2-config to the build using
 
-##[VertexArrayObject](https://github.com/NCCA/VAOPrimitives)
-![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/VAO.png)
-
-A series of demos to show how to create a VertexArrayObject from different types of data. There are examples of how to create a simple boid shape as I was getting fed up of flocking teapots!
 
 There is a webgl demo of the sphere program [here](http://nccastaff.bournemouth.ac.uk/jmacey/WebGL/VAO1/)
+
+##[VAOPrimitives](https://github.com/NCCA/VAOPrimitives)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/VAOPrims.png)
+
+A simple scene using all of the built in VAO primitives, this has approx 350,000 Verts so is a good performance test of NGL
 
 ##[Camera](https://github.com/NCCA/Camera)
 
@@ -67,3 +68,36 @@ Simple demo showing how to use the ngl::Light class for point lighting
 
 This demo show the ngl::SpotLight class in action
 [interactive webgl demo](http://nccastaff.bournemouth.ac.uk/jmacey/WebGL/Spotlights/)
+
+##[ShadingModels](https://github.com/NCCA/ShadingModels)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Shading.png)
+
+A series of examples to demonstrate different shaders and techniques in glsl. Eventually I'm going to replace all of this with a simpler demo as most of the code in these examples is very similar.
+
+##[VertexArrayObject](https://github.com/NCCA/VertexArrayObject)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/VAO.png)
+
+A series of demos to show how to create a VertexArrayObject from different types of data. There are examples of how to create a simple boid shape as I was getting fed up of flocking teapots!
+
+## [Demo showing how to use ngl::VertexArrayObject](https://github.com/NCCA/KleinBottle)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Klein.png)
+
+This program demonstrates the production of a Klein bottle based on the code from this excellent [website](http://paulbourke.net/geometry/klein/) It uses the ngl::VertexArrayObject class
+
+##[TextureDemos](https://github.com/NCCA/Textures)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/texture.png)
+
+A collection of demos showing how to use textures in ngl including examples of loading from a QImage.
+
+##[ImageHeightMap](https://github.com/NCCA/ImageHeightMap)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/ImageHeighmap.png)
+
+This demo shows how to read in an image and create terrain from it by using one of the channels as the height of the vertex in the y.
+
+##[ObjDemo](https://github.com/NCCA/ObjDemo)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/obj.png)
+
+Loads a mesh from an obj file using ngl::Obj and displays it.
+
+[Interactive WebGL demo](http://nccastaff.bournemouth.ac.uk/jmacey/WebGL/ObjDemo/)
+
