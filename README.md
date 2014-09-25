@@ -255,6 +255,34 @@ For more details read the user [guide](http://bulletphysics.org/wordpress/) of B
 Using the ODE Physics engine 
 
 
+##[Using the Kinect with NGL](https://github.com/NCCA/KinectMDI)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Kinect.png)
+
+This demo shows how to use the kinect with the OpenKinect drivers and Qt / ngl. The code base is a modified version of my Qt Kinect Reference design which can be seen here. You will need to install the libfreenect drivers
 
 
+##[Using the Kinect with NGL and OpenCV](https://github.com/NCCA/OpenCVKinect)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/OpenCV.png)
 
+This demo shows how to use the kinect with the OpenKinect drivers and Qt / ngl. The code base is a modified version of my Qt Kinect Reference design which can be seen here. You will need to install the libfreenect drivers
+
+This has issues on the mac due to the C++ compiler and OpenCV
+
+##[Sponza Demo](https://github.com/NCCA/Sponza)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/SimpleNGL.png)
+
+A basic framework to load a Wavefront OBJ file with groups and an MTL file with textures and draw the scene as efficiently as possible. The source contains the models and textures from here and is quite large
+
+
+For a detailed look at how this work see the following blog posts
+
+[The Initial Design](http://jonmacey.blogspot.co.uk/2012/11/sponza-demo-pt-1-initial-design.html)
+
+[The mtl Class](http://jonmacey.blogspot.co.uk/2012/11/sponza-demo-pt-2-mtl-class.html)
+
+[GroupedObj class](http://jonmacey.blogspot.co.uk/2012/11/sponza-demo-pt-3-groupedobj-class.html)
+
+##[Box2D Demo]()
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Box2D.png)
+
+A simple demo to show Box2D being used with ngl
