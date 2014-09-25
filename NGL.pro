@@ -111,7 +111,6 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/PathCamera.cpp \
 		$$SRC_DIR/Obj.cpp \
 		$$SRC_DIR/Mat4.cpp \
-		$$SRC_DIR/TransformStack.cpp \
 		$$SRC_DIR/Material.cpp \
 		$$SRC_DIR/Light.cpp \
 		$$SRC_DIR/NGLInit.cpp \
@@ -160,7 +159,6 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/Obj.h \
 		$$INC_DIR/NGLassert.h \
 		$$INC_DIR/Mat4.h \
-		$$INC_DIR/TransformStack.h \
 		$$INC_DIR/Material.h \
 		$$INC_DIR/Light.h \
 		$$INC_DIR/NGLInit.h \
