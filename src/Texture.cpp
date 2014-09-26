@@ -29,7 +29,7 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 bool Texture::loadImage( const std::string &_fName  )
 {
-  std::cout<<"NGL loading texture\n";
+ // std::cout<<"NGL loading texture\n";
   QImage *image = new QImage();
   bool loaded=image->load(_fName.c_str());
   if(loaded ==false)
@@ -71,9 +71,9 @@ bool Texture::loadImage( const std::string &_fName  )
       }
     }
 
-    std::cout<<"Image size ="<<m_width<<"x"<<m_height<<std::endl;
-    std::cout<<"has alpha = "<<m_hasAlpha<<std::endl;
-    std::cout<<"bpp = "<<m_bpp<<std::endl;
+   // std::cout<<"Image size ="<<m_width<<"x"<<m_height<<std::endl;
+   // std::cout<<"has alpha = "<<m_hasAlpha<<std::endl;
+   // std::cout<<"bpp = "<<m_bpp<<std::endl;
     return true;
 
   }
