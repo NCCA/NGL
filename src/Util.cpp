@@ -236,6 +236,29 @@ NGL_DLLEXPORT Mat4 frustum(Real _left, Real _right, Real _bottom, Real _top, Rea
   return result;
 }
 
+// for more details see this site some greate stuff here (this code was modified from it)
+// http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/
+NGL_DLLEXPORT bool isPowerOfTwo (unsigned int _x)
+{
+ while (((_x % 2) == 0) && _x > 1) /* While x is even and > 1 */
+ {
+     _x /= 2;
+ }
+  return (_x == 1);
+}
+
+// from http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
+
+NGL_DLLEXPORT unsigned int nextPow2(unsigned int _x)
+{
+	_x -= 1;
+	_x |= _x >> 1;
+	_x |= _x >> 2;
+	_x |= _x >> 4;
+	_x |= _x >> 8;
+	_x |= _x >> 16;
+	return _x + 1;
+}
 
 
 } // end of namespace

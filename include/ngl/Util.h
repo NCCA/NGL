@@ -153,6 +153,20 @@ extern NGL_DLLEXPORT Real radians(const Real _deg );
 //----------------------------------------------------------------------------------------------------------------------
 extern NGL_DLLEXPORT Real degrees( const Real _rad );
 
+//----------------------------------------------------------------------------------------------------------------------
+/// @brief returns if value is a power of 2
+/// @param[in]  _x value to check
+/// @returns true if a power of 2
+//----------------------------------------------------------------------------------------------------------------------
+extern NGL_DLLEXPORT bool isPowerOfTwo (unsigned int _x);
+//----------------------------------------------------------------------------------------------------------------------
+/// @brief rounds up the value to next power of 2
+/// @param[in]  _x value to round
+/// @returns the next pow 2 value
+//----------------------------------------------------------------------------------------------------------------------
+
+extern NGL_DLLEXPORT unsigned int nextPow2(unsigned int _x);
+
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief check for openGL errors and print out.
