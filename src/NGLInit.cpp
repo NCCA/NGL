@@ -44,7 +44,7 @@ NGLInit::NGLInit()
     std::cerr<<"Error: "<<glewGetErrorString(err)<<"\n";
   }
   // now see if NGL can run in this environment
-  std::cout<<"Using GLEW "<<glewGetString(GLEW_VERSION);
+  std::cout<<"Using GLEW "<<glewGetString(GLEW_VERSION)<<"\n";
   if(!glewIsSupported("GL_VERSION_3_2") )
   {
     std::cerr<<"To run these demos you need a modern OpenGL Version\n";
