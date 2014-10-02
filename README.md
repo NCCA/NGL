@@ -88,6 +88,13 @@ This program demonstrates the production of a Klein bottle based on the code fro
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/texture.png)
 
 A collection of demos showing how to use textures in ngl including examples of loading from a QImage.
+##[Texture Compression](https://github.com/NCCA/TextureCompressor)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/TextureComp.png)
+
+A series of demos to show how to create and then use [DXT](http://en.wikipedia.org/wiki/S3_Texture_Compression) compressed textures.
+
+[Compressor](https://github.com/NCCA/TextureCompressor/tree/master/Compressor) Is a simple command line tool to create basic DxT1,3,5 textures to be used with [glCompressedTexImage2D](https://www.khronos.org/opengles/sdk/docs/man/xhtml/glCompressedTexImage2D.xml) formats.
+[DXTViewer](https://github.com/NCCA/TextureCompressor/tree/master/DXTViewer) is a simple tool to load in the compressed files and view them. You can specify the name of the file on the command line or use the file open dialog presented at startup. Use o to reload a file.
 
 ##[ImageHeightMap](https://github.com/NCCA/ImageHeightMap)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/ImageHeighmap.png)
