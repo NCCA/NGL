@@ -22,6 +22,7 @@
 #include "Colour.h"
 #include "Types.h"
 #include <string>
+#include <boost/scoped_array.hpp>
 
 namespace ngl
 {
@@ -108,8 +109,9 @@ public :
 protected :
 		//----------------------------------------------------------------------------------------------------------------------
 		/// @brief the actual image data loaded packed in r,g,b,a format in contiguous memory
+		/// stored in a smart_pointer for safety
 		//----------------------------------------------------------------------------------------------------------------------
-		unsigned char *m_data;
+		boost::scoped_array <unsigned char> m_data;
 		//----------------------------------------------------------------------------------------------------------------------
 		/// @brief the size of the image in the X direction
 		//----------------------------------------------------------------------------------------------------------------------

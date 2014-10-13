@@ -52,7 +52,7 @@ bool Texture::loadImage( const std::string &_fName  )
       m_format = GL_RGB;
     }
 
-    m_data = new unsigned char[ m_width*m_height*m_bpp];
+    m_data.reset(new unsigned char[ m_width*m_height*m_bpp]);
     unsigned int index=0;
     QRgb colour;
     for(unsigned int y=m_height-1; y>0; y--)
@@ -86,7 +86,7 @@ Texture::Texture()
 {
 	m_width=0;
 	m_height=0;
-	m_data=0;
+	m_data.reset(0);
 	m_multiTextureID=0;
 	m_hasAlpha=false;
 }
@@ -96,7 +96,7 @@ Texture::Texture( const std::string &_fName  )
 {
 	m_width=0;
 	m_height=0;
-	m_data=NULL;
+	m_data.reset(0);
 	m_multiTextureID=0;
 	loadImage(_fName);
 }
@@ -105,11 +105,7 @@ Texture::Texture( const std::string &_fName  )
 //----------------------------------------------------------------------------------------------------------------------
 Texture::~Texture()
 {
-  if(m_data !=0)
-  {
-    delete [] m_data;
-  }
-
+	// smart pointer clears for us
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -141,7 +137,7 @@ GLuint Texture::setTextureGL() const
   glBindTexture(GL_TEXTURE_2D,textureName);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-  glTexImage2D(GL_TEXTURE_2D,0,m_format,m_width,m_height,0,m_format,GL_UNSIGNED_BYTE,m_data);
+  glTexImage2D(GL_TEXTURE_2D,0,m_format,m_width,m_height,0,m_format,GL_UNSIGNED_BYTE,m_data.get());
   std::cout<<"texture GL set "<<textureName<<"\n";
   glGenerateMipmap(GL_TEXTURE_2D);
   return textureName;
