@@ -1,7 +1,10 @@
 #NGL the NCCA Graphics Library
 This is the main source branch for the NCCA Graphics Library ngl.
+
+
 Here is an example MathJax inline rendering \\( 1/x^{2} \\), and here is a block rendering: 
 \\[ \frac{1}{n^{2}} \\]
+
 It needs to be built using QtCreator and you will also need to install
 boost
 
