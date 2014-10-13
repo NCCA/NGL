@@ -1,10 +1,6 @@
 #NGL the NCCA Graphics Library
 This is the main source branch for the NCCA Graphics Library ngl.
 
-```tex
-\sum_{x=0}^n f(x)
-```
-
 It needs to be built using QtCreator and you will also need to install
 boost
 
