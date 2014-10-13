@@ -1,12 +1,9 @@
-<head>
-    <script type="text/javascript"
-            src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-</head>
 #NGL the NCCA Graphics Library
 This is the main source branch for the NCCA Graphics Library ngl.
-Here is an example MathJax inline rendering \\( 1/x^{2} \\), and here is a block rendering: 
-\\[ \frac{1}{n^{2}} \\]
+
+```tex
+\sum_{x=0}^n f(x)
+```
 
 It needs to be built using QtCreator and you will also need to install
 boost
