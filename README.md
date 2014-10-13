@@ -1,3 +1,8 @@
+<head>
+    <script type="text/javascript"
+            src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+</head>
 #NGL the NCCA Graphics Library
 This is the main source branch for the NCCA Graphics Library ngl.
 
