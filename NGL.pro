@@ -33,7 +33,6 @@ QMAKE_LFLAGS_SHLIB -= -single_module
 QMAKE_LFLAGS_VERSION=
 QMAKE_LFLAGS_COMPAT_VERSION=
 QMAKE_LFLAGS_SONAME=
-QMAKE_CXXFLAGS += -std=c++11
 # use this to suppress some warning from boost
 unix:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
 # define the NGL_DEBUG flag for the graphics lib
