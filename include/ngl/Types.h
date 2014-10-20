@@ -33,7 +33,6 @@
   #include "glew.h"
   #include <GL/gl.h>
   #include <GL/glext.h>
-  #include <GL/glx.h>
 #endif
 
 
