@@ -43,6 +43,7 @@ DEFINES += NGL_DEBUG
 unix:INCLUDEPATH+=/usr/local/include
 #set some flags for sse etc
 unix:QMAKE_CXXFLAGS+=  -msse -msse2 -msse3 -fms-extensions -O3
+QMAKE_CFLAGS+= -DGLEW_NO_GLU -DGLEW_STATIC
 unix:QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
 macx:DEFINES +=GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 
@@ -52,6 +53,7 @@ INCLUDEPATH += $$BASE_DIR/glew/
 
 INCLUDEPATH += $$BASE_DIR/src/ngl
 INCLUDEPATH +=$$BASE_DIR/src/shaders
+INCLUDEPATH +=$$BASE_DIR/glew/
 unix:LIBS += -L/usr/local/lib
 
 # set the SRC_DIR so we can find the project files
