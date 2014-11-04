@@ -193,6 +193,40 @@ void VertexArrayObject::updateIndexedData(GLuint vboidx, unsigned int _size,cons
     }
 }
 
+
+
+void VertexArrayObject::updateData( unsigned int _size, const GLfloat &_data,GLenum _mode )
+{
+
+  if(m_bound == false)
+  {
+    std::cerr<<"trying to set VOA data when unbound\n";
+  }
+
+  if(m_allocated )
+  {
+    glBindBuffer(GL_ARRAY_BUFFER, getVBOid(0));
+    glBufferData(GL_ARRAY_BUFFER, _size, &_data, _mode);
+  }
+}
+
+
+void VertexArrayObject::updateData(GLuint vboidx, unsigned int _size,const GLfloat &_data,GLenum _mode)
+{
+    if(m_bound == false)
+    {
+      std::cerr<<"trying to set VOA data when unbound\n";
+    }
+
+    if(m_allocated )
+    {
+      glBindBuffer(GL_ARRAY_BUFFER, getVBOid(vboidx));
+      glBufferData(GL_ARRAY_BUFFER, _size, &_data, _mode);
+    }
+}
+
+
+
 GLuint VertexArrayObject::getVBOid(unsigned int _index)
 {
   GLuint id=0;
