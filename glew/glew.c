@@ -32,7 +32,6 @@
 #ifdef __cplusplus
 extern "C"{
 #endif
-
 #include <glew.h>
 
 #if defined(_WIN32)
