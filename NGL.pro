@@ -23,7 +23,7 @@ DEFINES+=ADDLARGEMODELS
 
 # set the base directory of our project so Qt knows where to find them
 # we can use shell vars but need to use $$
-BASE_DIR = $$(HOME)/NGL
+BASE_DIR = $$PWD
 # This is the output target we want to create
 TARGET = $$BASE_DIR/lib/NGL
 # this is where we want to put the intermediate build files ( ../obj)
