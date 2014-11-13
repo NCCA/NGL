@@ -133,6 +133,14 @@ public:
 	//----------------------------------------------------------------------------------------------------------------------
 	void updateIndexedData(unsigned int _size,const GLfloat &_data,GLenum _mode=GL_STREAM_DRAW);
 	void updateIndexedData(GLuint _vboidx, unsigned int _size, const GLfloat &_data, GLenum _mode=GL_STREAM_DRAW);
+	//----------------------------------------------------------------------------------------------------------------------
+	/// @brief allow to update the vertex data of the VBO when declared as dynamic (with GL_STREAM_DRAW)
+	/// @param _size the size of the raw data passed
+	/// @param _data the actual data to set for the VOA
+	/// @param _mode the draw mode hint used by GL (choose GL_STREAM_DRAW by default, recommended mode for dynamic VBO's)
+	//----------------------------------------------------------------------------------------------------------------------
+	void updateData(unsigned int _size,const GLfloat &_data,GLenum _mode=GL_STREAM_DRAW);
+	void updateData(GLuint _vboidx, unsigned int _size, const GLfloat &_data, GLenum _mode=GL_STREAM_DRAW);
 
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief allocate our data
