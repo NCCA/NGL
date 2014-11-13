@@ -283,7 +283,7 @@ void VertexArrayObject::draw(GLenum _mode) const
   }
   else
   {
-    glDrawElements(m_drawMode,m_indicesCount,m_indexType,(GLvoid*)((char*)NULL));
+    glDrawElements(_mode,m_indicesCount,m_indexType,(GLvoid*)((char*)NULL));
   }
 }
 
