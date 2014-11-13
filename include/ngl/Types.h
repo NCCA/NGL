@@ -25,8 +25,6 @@
 #ifdef DARWIN
   #include <unistd.h>
   #include "glew.h"
-
-  #include <OpenGL/gl3.h>
   #include <OpenGL/glext.h>
 #else
 
