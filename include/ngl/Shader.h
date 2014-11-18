@@ -27,7 +27,7 @@ namespace ngl
 
 /// @enum Type of shader this object is
 // for c++ 11 use enum class
-enum  SHADERTYPE{VERTEX,FRAGMENT,GEOMETRY,TESSCONTROL,TESSEVAL};
+enum  SHADERTYPE{VERTEX,FRAGMENT,GEOMETRY,TESSCONTROL,TESSEVAL,COMPUTE};
 /// @class Shader
 /// @brief and encapsulation of an OpenGL Shader object with
 /// associations for source code, etc.

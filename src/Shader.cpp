@@ -64,7 +64,7 @@ Shader::Shader( std::string _name,  SHADERTYPE _type )
     case GEOMETRY : { m_shaderHandle = glCreateShader(GL_GEOMETRY_SHADER); break; }
     case TESSCONTROL : { m_shaderHandle =glCreateShader(GL_TESS_CONTROL_SHADER); break; }
     case TESSEVAL : { m_shaderHandle =glCreateShader(GL_TESS_EVALUATION_SHADER); break; }
-
+    case COMPUTE : { m_shaderHandle =glCreateShader(GL_COMPUTE_SHADER); break; }
   }
   m_compiled = false;
   m_refCount=0;
