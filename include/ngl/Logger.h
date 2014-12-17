@@ -13,7 +13,7 @@
 /// @brief logger class for writing to stream and file.
 namespace ngl
 {
-  enum Colours{NORMAL,RED,GREEN ,YELLOW,BLUE,MAGENTA,CYAN,WHITE,RESET};
+  enum Colours{CNORMAL,RED,GREEN ,YELLOW,BLUE,MAGENTA,CYAN,WHITE,RESET};
   enum TimeFormat{TIME,TIMEDATE,TIMEDATEDAY};
   class NGL_DLLEXPORT Logger : public  Singleton<Logger>
   {

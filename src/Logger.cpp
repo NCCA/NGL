@@ -120,7 +120,7 @@ namespace ngl
 
     switch(c)
     {
-      case NORMAL : m_output<<"\x1B[0m"; break;
+      case CNORMAL : m_output<<"\x1B[0m"; break;
       case RED : m_output<<"\x1B[31m"; break;
       case GREEN : m_output<<"\x1B[32m"; break;
       case YELLOW : m_output<<"\x1B[33m"; break;
