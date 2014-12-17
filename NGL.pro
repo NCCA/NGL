@@ -138,6 +138,7 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/AbstractSerializer.cpp \
 		$$SRC_DIR/XMLSerializer.cpp \
 		$$SRC_DIR/NGLStream.cpp \
+		$$SRC_DIR/Logger.cpp \
 		glew/glew.c
 
 
@@ -182,6 +183,7 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/Vec2.h \
 		$$INC_DIR/Text.h \
 		$$INC_DIR/Mat3.h \
+		$$INC_DIR/Logger.h \
 		$$INC_DIR/AbstractSerializer.h \
 		$$INC_DIR/XMLSerializer.h \
 		$$INC_DIR/NGLStream.h \
