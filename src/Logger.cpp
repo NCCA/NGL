@@ -1,7 +1,8 @@
 #include "Logger.h"
 #include <cstdarg>
 #include <vector>
-#include <pthread.h>
+//#include <pthread.h>
+#include <QtCore/QMutexLocker>
 #include <boost/format.hpp>
 
 
@@ -24,7 +25,7 @@ namespace ngl
     std::string m_logfileName;
     TeeStream m_output;
     std::ofstream m_file;
-    pthread_mutex_t m_mutex;
+//    pthread_mutex_t m_mutex;
     std::string m_timeString;
 
     Impl(const std::string &_fname);
@@ -171,7 +172,12 @@ void Logger::close()
 
   void Logger::logMessage(const char *fmt,...)
   {
-    pthread_mutex_lock (&m_impl->m_mutex);
+    // create a mutux to stop other threads accessing
+    QMutex m;
+    // the locker will auto unlock when out of scope
+    QMutexLocker locker(&m);
+
+//    pthread_mutex_lock (&m_impl->m_mutex);
     m_impl->writeLineNumber();
     m_impl->writeTimeStamp();
     char buffer[1024];
@@ -182,12 +188,17 @@ void Logger::close()
     va_end (args);
     m_impl->write(text);
     fflush(stdout);
-    pthread_mutex_unlock(&m_impl->m_mutex);
+//    pthread_mutex_unlock(&m_impl->m_mutex);
   }
 
   void Logger::logError(const char* fmt,...)
   {
-    pthread_mutex_lock (&m_impl->m_mutex);
+    // create a mutux to stop other threads accessing
+    QMutex m;
+    // the locker will auto unlock when out of scope
+    QMutexLocker locker(&m);
+
+    //    pthread_mutex_lock (&m_impl->m_mutex);
     m_impl->writeLineNumber();
     m_impl->writeTimeStamp();
     char buffer[1024];
@@ -200,13 +211,17 @@ void Logger::close()
     va_end (args);
     m_impl->write(text);
     fflush(stdout);
-    pthread_mutex_unlock(&m_impl->m_mutex);
+//    pthread_mutex_unlock(&m_impl->m_mutex);
 
   }
 
   void Logger::logWarning(const char* fmt...)
   {
-    pthread_mutex_lock (&m_impl->m_mutex);
+ //   pthread_mutex_lock (&m_impl->m_mutex);
+    // create a mutux to stop other threads accessing
+    QMutex m;
+    // the locker will auto unlock when out of scope
+    QMutexLocker locker(&m);
     m_impl->writeLineNumber();
     m_impl->writeTimeStamp();
     char buffer[1024];
@@ -219,7 +234,7 @@ void Logger::close()
     va_end (args);
     m_impl->write(text);
     fflush(stdout);
-    pthread_mutex_unlock(&m_impl->m_mutex);
+//    pthread_mutex_unlock(&m_impl->m_mutex);
 
   }
 
