@@ -129,12 +129,12 @@ void AbstractMesh::writeToRibSubdiv(RibExport& _ribFile )const
 		for (unsigned long int i = 0; i < m_face[I].m_numVerts; ++i)
 		{
 			// Set the verts vector size and testing variables
-			int iVecSize = vVerts.size();
+			size_t iVecSize = vVerts.size();
 			bool bTest = false;
 			int counter = 0;
 			// Loop through the expanding vector checking whether
 			// the current vertice exists
-			for (int j = 0; j < iVecSize; j = j + 3)
+			for (size_t j = 0; j < iVecSize; j = j + 3)
 			{
 				// If the vertice if found in the vector, set the test
 				// flag and exit the loop. Else keep going.

@@ -238,7 +238,7 @@ void BezierCurve::createVAO()
 
   m_vaoPoints=VertexArrayObject::createVOA(GL_POINTS);
   m_vaoPoints->bind();
-  unsigned int size=m_cp.size();
+  size_t size=m_cp.size();
   std::vector <Vec3> points(size);
   for(unsigned int i=0;i<size;++i)
   {

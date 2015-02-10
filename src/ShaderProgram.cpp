@@ -637,7 +637,7 @@ void ShaderProgram::parseUniform(const std::string &_s, const std::map <std::str
 void ShaderProgram::autoRegisterUniforms()
 {
 
-  unsigned int size=m_shaders.size();
+  size_t size=m_shaders.size();
   const std::string *source;
   std::vector<std::string> lines;
 

@@ -258,10 +258,10 @@ void NCCAPointBake::setMeshToFrame(  const unsigned int _frame  )
     // map the m_obj's vbo dat
     Real *ptr=m_mesh->mapVAOVerts();
     std::vector <Face> faces=m_mesh->getFaceList();
-    unsigned int nFaces=faces.size();
+    size_t nFaces=faces.size();
     // loop for each of the faces
     unsigned int step=0;
-    for(unsigned int i=0;i<nFaces;++i)
+    for(size_t i=0;i<nFaces;++i)
     {
       // now for each triangle in the face (remember we ensured tri above)
       // loop for all the verts and set the new vert value

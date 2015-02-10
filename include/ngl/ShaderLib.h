@@ -165,7 +165,7 @@ public :
   /// @brief get the number of shaders stored
   /// @returns the number of shaders
   //----------------------------------------------------------------------------------------------------------------------
-  unsigned int getNumShaders() const
+  size_t getNumShaders() const
   {
     return m_shaders.size();
   }
