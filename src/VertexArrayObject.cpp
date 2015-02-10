@@ -57,11 +57,10 @@ void VertexArrayObject::removeVOA()
   }
   if( m_allocated ==true)
   {
-    size_t size=m_vboIDs.size();
-    for(size_t i=0; i<size; ++i)
-    {
-      glDeleteBuffers(1,&m_vboIDs[i]);
-    }
+    int size=m_vboIDs.size();
+    for(int i=0; i<size; ++i)
+    glDeleteBuffers(1,&m_vboIDs[i]);
+
     glDeleteVertexArrays(1,&m_id);
     m_allocated=false;
   }
