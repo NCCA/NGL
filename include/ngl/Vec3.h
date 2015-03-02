@@ -275,6 +275,11 @@ public:
   /// @returns  the result of this cross b
   //----------------------------------------------------------------------------------------------------------------------
   Vec3 cross(const Vec3& _b )const;
+  void clamp(float _min, float _max);
+  // use +/- max
+  void clamp(float _max);
+
+  Vec3 reflect(const Vec3 & _n) const;
 
 
   //----------------------------------------------------------------------------------------------------------------------

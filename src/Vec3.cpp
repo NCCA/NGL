@@ -303,7 +303,43 @@ Vec3 Vec3::operator*(const Mat3 &_m ) const
    return v;
  }
 
+Vec3 Vec3::reflect(const Vec3 & _n) const
+ {
+   float d=this->dot(_n);
+   //  I - 2.0 * dot(N, I) * N
+   return Vec3(
+                m_x-2.0*d*_n.m_x,
+                m_y-2.0*d*_n.m_y,
+                m_z-2.0*d*_n.m_z
+              );
+ }
 
+void Vec3::clamp(float _min, float _max )
+{
+  m_x<_min ? m_x = _min : m_x;
+  m_x>_max ? m_x = _max : m_x;
+
+  m_y<_min ? m_y = _min : m_y;
+  m_y>_max ? m_y = _max : m_y;
+
+  m_z<_min ? m_z = _min : m_z;
+  m_z>_max ? m_z = _max : m_z;
+
+
+}
+void Vec3::clamp(float _max )
+{
+  m_x<-_max ? m_x = -_max : m_x;
+  m_x>_max ? m_x = _max : m_x;
+
+  m_y<-_max ? m_y = -_max : m_y;
+  m_y>_max ? m_y = _max : m_y;
+
+  m_z<-_max ? m_z = -_max : m_z;
+  m_z>_max ? m_z = _max : m_z;
+
+
+}
 
 } // end namspace ngl
 
