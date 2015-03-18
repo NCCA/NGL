@@ -249,10 +249,12 @@ Vec3 Vec3::cross( const Vec3& _v )const
 void Vec3::normalize()
 {
   Real len=(Real)sqrt(m_x*m_x+m_y*m_y+m_z*m_z);
-  NGL_ASSERT(len!=0);
-  m_x/=len;
-  m_y/=len;
-  m_z/=len;
+  if (len!=0)
+  {
+    m_x/=len;
+    m_y/=len;
+    m_z/=len;
+  }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
