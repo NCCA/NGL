@@ -117,6 +117,7 @@ void VAOPrimitives::createVAOFromHeader(const std::string &_name, const Real *_d
     // finally we have finished for now so time to unbind the VAO
     vao->unbind();
     m_createdVAOs[_name]=vao;
+   // std::cout<<_name<<" Num Triangles "<<data.size()/3<<"\n";
 
 }
 
@@ -376,6 +377,7 @@ void VAOPrimitives::createVAO(const std::string &_name,const std::vector<vertDat
   // finally we have finished for now so time to unbind the VAO
   vao->unbind();
   m_createdVAOs[_name]=vao;
+ // std::cout<<_name<<" Num Triangles "<<_data.size()/3<<"\n";
 
 }
 

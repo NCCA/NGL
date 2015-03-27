@@ -182,20 +182,20 @@ extern NGL_DLLEXPORT void NGLCheckGLError(const std::string  &_file, const int _
 /// @param [in] _b the template value for the first parameter
 /// @param [in] _t the value for the blend between _a and _b must be between 0 - 1
 //----------------------------------------------------------------------------------------------------------------------
-template <class T> T lerp(T _a, T _b, Real _t)
+template <typename T> T lerp(T _a, T _b, Real _t)
 {
 	T p;
 	p=_a+(_b-_a)*_t;
 	return p;
 }
 
-template <class T> T trigInterp(T _a, T _b, Real _t )
+template <typename T> T trigInterp(T _a, T _b, Real _t )
 {
   Real angle=radians(90*_t);
   return _a*cos(angle)*cos(angle)+_b*sin(angle)*sin(angle);
 }
 
-template <class T> T cubic( T _a, T _b,Real _t)
+template <typename T> T cubic( T _a, T _b,Real _t)
 {
   Real v1=(2.0*_t*_t*_t)-3.0*(_t*_t)+1.0;
   Real v2=-(2.0*_t*_t*_t)+3*(_t*_t);
