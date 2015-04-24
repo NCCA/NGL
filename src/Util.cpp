@@ -125,12 +125,21 @@ NGL_DLLEXPORT  void NGLCheckGLError( const std::string  &_file, const int _line 
 
 NGL_DLLEXPORT Mat4 perspective(Real _fovy,Real _aspect, Real _zNear, Real _zFar)
 {
+  Mat4 result;
+//  result.null();
+//  Real tanHalfFovy = tan(radians(_fovy) / 2.0f);
+
+//  result.m_00  = 1.0f / (_aspect * tanHalfFovy);
+//  result.m_11   = 1.0f / (tanHalfFovy);
+//  result.m_22   = - (_zFar + _zNear) / (_zFar - _zNear);
+//  result.m_23   = - 1.0;
+//  result.m_32  = - (2.0f * _zFar * _zNear) / (_zFar - _zNear);
+
     Real range = tan(radians(_fovy / 2.0)) * _zNear;
     Real left = -range * _aspect;
     Real right = range * _aspect;
     Real bottom = -range;
     Real top = range;
-    Mat4 result;
     result.m_00 = (2.0f * _zNear) / (right - left);
     result.m_11 = (2.0f * _zNear) / (top - bottom);
     result.m_22 = - (_zFar + _zNear) / (_zFar - _zNear);
@@ -236,6 +245,26 @@ NGL_DLLEXPORT Mat4 frustum(Real _left, Real _right, Real _bottom, Real _top, Rea
   return result;
 }
 
+NGL_DLLEXPORT Vec3 unProject(const Vec3 &_win, const Mat4 &_model, const Mat4 &_project, const Vec4 &_viewport )
+{
+  ngl::Mat4 p,m;
+  p=_project;
+  m=_model;
+
+  Mat4 inverse=( p.transpose()*m.transpose()).inverse();
+
+  Vec4 tmp(0,0,_win.m_z,1.0f);
+  // convert into NDC
+  tmp.m_x=(2.0f * _win.m_x) / _viewport.m_openGL[2] - 1.0f;
+  tmp.m_y=1.0f - (2.0f * _win.m_y) / _viewport.m_openGL[3];
+  // scale by inverse MV * Project transform
+  Vec4 obj=inverse*tmp;
+  // Scale by w
+  obj/=obj.m_w;
+  return obj.toVec3();
+}
+
+
 // for more details see this site some greate stuff here (this code was modified from it)
 // http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/
 NGL_DLLEXPORT bool isPowerOfTwo (unsigned int _x)
@@ -259,6 +288,10 @@ NGL_DLLEXPORT unsigned int nextPow2(unsigned int _x)
 	_x |= _x >> 16;
 	return _x + 1;
 }
+
+
+
+
 
 
 } // end of namespace

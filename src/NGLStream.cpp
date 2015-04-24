@@ -83,7 +83,7 @@ NGL_DLLEXPORT std::ostream& operator<<(std::ostream &_output,const Mat4 &_m)
 {
   /// @todo use boost::format to change this
   std::cout.setf(std::ios::fixed|std::ios::adjustfield|std::ios::showpos);
-  std::cout.precision(std::numeric_limits<double>::digits10 + 1);
+ // std::cout.precision(std::numeric_limits<double>::digits10 + 1);
   return _output
         <<"["<<_m.m_00<<","<<_m.m_10<<","<<_m.m_20<<","<<_m.m_30<<"]"<<std::endl
         <<"["<<_m.m_01<<","<<_m.m_11<<","<<_m.m_21<<","<<_m.m_31<<"]"<<std::endl

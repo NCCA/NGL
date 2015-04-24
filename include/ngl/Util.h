@@ -69,7 +69,7 @@ extern NGL_DLLEXPORT Vec3 calcNormal( const Vec3 &_p1,  const Vec3 &_p2, const V
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief computer a perspective projection matrix similar to the one from the GLM library
 /// this is to help make prorting glm code easier http://glm.g-truc.net/
-/// @param[in]  _fovy the fov of the camera frustrum
+/// @param[in]  _fovy the fov of the camera frustrum in degrees
 /// @param[in] _aspect the aspect ratio of the screen
 /// @param[in] _zNear the near plane for projection
 /// @param[in] _zFar the far plane for the projection
@@ -139,6 +139,16 @@ NGL_DLLEXPORT Mat4 ortho(Real _left, Real _right, Real _bottom, Real _top);
 /// @param[in] _zFar the far plane for the projection
 //----------------------------------------------------------------------------------------------------------------------
 NGL_DLLEXPORT Mat4 frustum(Real _left, Real _right, Real _bottom, Real _top, Real _nearVal, Real _farVal);
+//----------------------------------------------------------------------------------------------------------------------
+/// @brief unproject points similar to the one from the GLM library
+/// this is to help make porting glm code easier http://glm.g-truc.net/
+/// @param[in] _win the window position
+/// @param[in]  _model the model matrix
+/// @param[in]  _project the projection matrix
+/// @param[in] _viewport the viewport extents.
+//----------------------------------------------------------------------------------------------------------------------
+NGL_DLLEXPORT Vec3 unProject(const Vec3 &_win, const Mat4 &_model, const Mat4 &_project, const Vec4 &_viewport );
+
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief converts Degrees to Radians
