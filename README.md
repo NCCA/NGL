@@ -7,9 +7,11 @@ boost
 For more info check out the website here
 
 http://nccastaff.bmth.ac.uk/jmacey/GraphicsLib/
-and for the demos
+and for the demos 
 
 http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/index.html
+
+Theres are also other demos on github which are generally work in progress.
 #Demos
 ##[BlankNGL](https://github.com/NCCA/BlankNGL)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/BlankNGL.png)
