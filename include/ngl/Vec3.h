@@ -144,7 +144,15 @@ public:
   /// @param[in] _v the vector to calc against
   /// @returns a new vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 outer( const Vec3& _v )const;
+  //Vec3 outer( const Vec3& _v )const;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief compute the outer product of this vector and vector (requested by PJ)
+  /// @param[in] _v the vector to calc against
+  /// @returns a mat 3
+  //----------------------------------------------------------------------------------------------------------------------
+
+  Mat3 outer(const Vec3 &_v  )  const;
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief returns the length of the vector
   /// @returns  \f$\sqrt{x^2+y^2+z^2} \f$

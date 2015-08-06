@@ -266,13 +266,22 @@ Real Vec3::inner( const Vec3& _v  )const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec3 Vec3::outer(const Vec3 &_v  )  const
-{
-  Real x = (m_y * _v.m_z) - (m_z * _v.m_y);
-  Real y = (m_z * _v.m_x) - (m_x * _v.m_z);
-  Real z = (m_x * _v.m_y) - (m_y * _v.m_x);
+//Vec3 Vec3::outer(const Vec3 &_v  )  const
+//{
+//  Real x = (m_y * _v.m_z) - (m_z * _v.m_y);
+//  Real y = (m_z * _v.m_x) - (m_x * _v.m_z);
+//  Real z = (m_x * _v.m_y) - (m_y * _v.m_x);
 
-  return Vec3(x,y,z);
+//  return Vec3(x,y,z);
+//}
+
+Mat3 Vec3::outer(const Vec3 &_v  )  const
+{
+  return Mat3(
+              m_x * _v.m_x, m_x * _v.m_y, m_x * _v.m_z,
+              m_y * _v.m_x, m_y * _v.m_y, m_y * _v.m_z,
+              m_z * _v.m_x, m_z * _v.m_y, m_z * _v.m_z
+            );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
