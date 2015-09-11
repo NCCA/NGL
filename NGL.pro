@@ -205,7 +205,8 @@ unix:PRECOMPILED_HEADER += $$SRC_DIR/ngl/Meshes.h \
 
 PYTHON_DIR=$$BASE_DIR/python
 OTHER_FILES+= Doxyfile \
-							README.md
+              README.md \
+              CMakeLists.txt
 
 
 
