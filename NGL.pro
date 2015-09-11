@@ -52,12 +52,11 @@ macx:DEFINES +=GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 # this is where to look for includes
 INCLUDEPATH += $$BASE_DIR/include/ngl
 INCLUDEPATH += $$BASE_DIR/glew/
-
 INCLUDEPATH += $$BASE_DIR/src/ngl
 INCLUDEPATH +=$$BASE_DIR/src/shaders
-INCLUDEPATH +=$$BASE_DIR/glew/
+
 unix:LIBS += -L/usr/local/lib
-macx:LIBS+=-lboost_system
+
 # set the SRC_DIR so we can find the project files
 SRC_DIR = $$BASE_DIR/src
 

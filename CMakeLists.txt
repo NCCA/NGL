@@ -54,6 +54,56 @@ set(SOURCES
     src/NGLStream.cpp
     src/Logger.cpp
     glew/glew.c
+    include/ngl/Vec4.h
+    include/ngl/VAOPrimitives.h
+    include/ngl/Singleton.h
+    include/ngl/Util.h
+    include/ngl/Types.h
+    include/ngl/Texture.h
+    include/ngl/SpotLight.h
+    include/ngl/ShaderLib.h
+    include/ngl/RibExport.h
+    include/ngl/Transformation.h
+    include/ngl/Quaternion.h
+    include/ngl/PathCamera.h
+    include/ngl/Obj.h
+    include/ngl/NGLassert.h
+    include/ngl/Mat4.h
+    include/ngl/Material.h
+    include/ngl/Light.h
+    include/ngl/NGLInit.h
+    include/ngl/Colour.h
+    include/ngl/Camera.h
+    include/ngl/BezierCurve.h
+    include/ngl/NCCABinMesh.h
+    include/ngl/BBox.h
+    include/ngl/AbstractMesh.h
+    include/ngl/Random.h
+    include/ngl/NCCAPointBake.h
+    include/ngl/Shader.h
+    include/ngl/ShaderProgram.h
+    include/ngl/Plane.h
+    include/ngl/AABB.h
+    include/ngl/VertexArrayObject.h
+    include/ngl/Vec3.h
+    include/ngl/Vec2.h
+    include/ngl/Text.h
+    include/ngl/Mat3.h
+    include/ngl/Logger.h
+    include/ngl/AbstractSerializer.h
+    include/ngl/XMLSerializer.h
+    include/ngl/NGLStream.h
+    src/shaders/TextShaders.h
+    src/shaders/ColourShaders.h
+    src/shaders/DiffuseShaders.h
+    src/shaders/ToonShaders.h
+    include/ngl/rapidxml/rapidxml.hpp
+    include/ngl/rapidxml/rapidxml_iterators.hpp
+    include/ngl/rapidxml/rapidxml_print.hpp
+    include/ngl/rapidxml/rapidxml_utils.hpp
+
+
+
 )
 
 
