@@ -110,8 +110,12 @@ set(SOURCES
 # see what platform we are on and set platform defines
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	add_definitions(-DDARWIN)
+    find_library(MACGL OpenGL)
+    set(PROJECT_LINK_LIBS -lboost_system)
+    set(EXTRALIBS  ${MACGL})
 
-elif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	add_definitions(-DLINUX)
 endif()
 
@@ -128,5 +132,5 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 add_library(NGL SHARED ${SOURCES})
 
 target_link_libraries(NGL Qt5::OpenGL)
-target_link_libraries(NGL ${PROJECT_LINK_LIBS} )
+target_link_libraries(NGL ${PROJECT_LINK_LIBS} ${EXTRALIBS})
 

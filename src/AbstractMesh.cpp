@@ -20,6 +20,7 @@
 #include <boost/foreach.hpp>
 #include <boost/tokenizer.hpp>
 #include <list>
+#include <iostream>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file AbstractMesh.cpp
 /// @brief a series of classes used to define an abstract 3D mesh of Faces, Vertex Normals and TexCords

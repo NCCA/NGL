@@ -17,6 +17,7 @@
 
 #include <cstring>
 #include "NCCABinMesh.h"
+#include <iostream>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file NCCABinMesh.cpp
 /// @brief implementation files for NCCABinMesh class

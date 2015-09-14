@@ -21,7 +21,7 @@
 #include <QtGui/QImage>
 #include "NGLassert.h"
 #include "Texture.h"
-
+#include <iostream>
 
 namespace ngl
 {
