@@ -56,7 +56,7 @@ INCLUDEPATH += $$BASE_DIR/src/ngl
 INCLUDEPATH +=$$BASE_DIR/src/shaders
 
 unix:LIBS += -L/usr/local/lib
-
+LIBS+= -lboost_system
 # set the SRC_DIR so we can find the project files
 SRC_DIR = $$BASE_DIR/src
 
@@ -71,7 +71,7 @@ macx:{
 	QMAKE_CXXFLAGS+=  -fPIC
 	LIBS+= -L/System/Library/Frameworks/OpenGL.framework/Libraries -framework OpenGL
 	LIBS+=  -Wl,-framework,Cocoa
-	DEFINES += DARWIN
+	#DEFINES += DARWIN
 
 }
 
@@ -80,7 +80,7 @@ macx:{
 win32|unix:!macx{
 	# now define some linux specific flags
 	unix:QMAKE_CXXFLAGS+=  -march=native
-	unix:DEFINES += LINUX
+	#unix:DEFINES += LINUX
 	unix:LIBS+= -L/usr/lib64 -lGL -lGLU -lX11
 
 }

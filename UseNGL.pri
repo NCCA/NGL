@@ -37,11 +37,11 @@ unix:LIBS +=  -L$${NGLBASE}/lib -l NGL
 # now if we are under unix and not on a Mac (i.e. linux)
 linux-*{
 		linux-*:QMAKE_CXXFLAGS +=  -march=native
-		DEFINES += LINUX
+		#DEFINES += LINUX
 }
 DEPENDPATH+=include
 # if we are on a mac define DARWIN
-macx:DEFINES += DARWIN
+#macx:DEFINES += DARWIN
 # this is where to look for includes
 INCLUDEPATH += $${NGLBASE}/include/
 
