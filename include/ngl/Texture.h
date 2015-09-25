@@ -61,9 +61,15 @@ public :
   /// @brief method to load the image file into the texture class
   /// @param[in] _fName the name of the file to load
   /// imageMagick will determine if it can load the file
-  /// @returns true on success else false if load fails
+  /// @returns true on success else false if load fails  
   //----------------------------------------------------------------------------------------------------------------------
   bool loadImage( const std::string  &_fName );
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief method to access the pixel data pointer
+  /// @returns  reference to the pixel data
+  //----------------------------------------------------------------------------------------------------------------------
+   unsigned char *getPixels() const {return m_data.get();}
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the pixel data from x,y cords
   /// @param[in] _x the x position of the pixel
@@ -99,12 +105,17 @@ public :
   /// @brief Get the width of the texture
   /// @return width of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  inline GLuint getWidth()const {return m_width;}
+  GLuint getWidth()const {return m_width;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Get the height of the texture
   /// @return height of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  inline GLuint getHeight()const {return m_height;}
+  GLuint getHeight()const {return m_height;}
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief Get the pixel format
+  /// @return pixel format of the texture
+  //----------------------------------------------------------------------------------------------------------------------
+  GLuint getFormat()const {return m_format;}
 
 protected :
 		//----------------------------------------------------------------------------------------------------------------------

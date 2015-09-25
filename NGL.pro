@@ -36,7 +36,7 @@ QMAKE_LFLAGS_SONAME=
 # use this to suppress some warning from boost
 unix:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
 #macx:CONFIG+=c++11
-
+macx:QMAKE_MAC_SDK = macosx10.11
 # define the NGL_DEBUG flag for the graphics lib
 DEFINES += NGL_DEBUG
 # if you install boost to /usr/local/include/ we can find it from this line
