@@ -34,6 +34,35 @@ namespace ngl
 
 //----------------------------------------------------------------------------------------------------------------------
 
+AbstractMesh::AbstractMesh()
+{
+  m_vbo=false;
+  m_vao=false;
+  m_ext=0;
+  m_nVerts=0;
+  m_nNorm=0;
+  m_nTex=0;
+  m_nFaces=0;
+  m_indexSize=0;
+  m_meshSize=0;
+  m_vboBuffers=0;
+  m_vaoMesh=0;
+  m_vboMapped=false;
+  m_texture=0;
+  m_textureID=0;
+  m_maxX=0.0f;
+  m_minX=0.0f;
+  m_maxY=0.0f;
+  m_minY=0.0f;
+  m_maxZ=0.0f;
+  m_minZ=0.0f;
+  m_dataPackType=0;
+  m_bufferPackSize=0;
+  m_vboDrawType=GL_FILL;
+  m_loaded=false;
+
+}
+
 //----------------------------------------------------------------------------------------------------------------------
 void AbstractMesh::drawBBox() const
 {

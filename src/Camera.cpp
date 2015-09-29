@@ -82,6 +82,9 @@ void Camera :: set(const Vec3 &_eye, const Vec3 &_look,  const Vec3 &_up  )
 //----------------------------------------------------------------------------------------------------------------------
 Camera::Camera(const Vec3 &_eye, const Vec3 &_look, const Vec3 &_up )
 {
+  m_width=720;
+  m_height=576;
+
 	setDefaultCamera();
 	set(_eye,_look,_up);
 }

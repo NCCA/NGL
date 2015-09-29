@@ -46,6 +46,7 @@ Material::Material(STDMAT _mat )
 	m_specular.set(s_materials[_mat][6],s_materials[_mat][7],s_materials[_mat][8]);
 	m_specularExponent = s_materials[_mat][9];
 	m_surfaceRoughness = 0.0;
+	m_transparency=1.0;
 
 }
 
@@ -66,6 +67,7 @@ Material::Material(int _mat )
 	m_diffuse.set(s_materials[_mat][3],s_materials[_mat][4],s_materials[_mat][5]);
 	m_specular.set(s_materials[_mat][6],s_materials[_mat][7],s_materials[_mat][8]);
 	m_surfaceRoughness = 0.0;
+	m_transparency=1.0;
 
 }
 
@@ -97,7 +99,9 @@ Material::Material( const std::string &_fName)
 	FileIn>>m_ambient;
 	FileIn>>m_diffuse;
 	FileIn>>m_specular;
-
+	m_specularExponent=1.0f;
+	m_transparency=1.0f;
+	m_surfaceRoughness=0.0f;
 	FileIn.close();
 }
 

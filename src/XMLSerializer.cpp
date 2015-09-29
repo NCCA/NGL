@@ -56,6 +56,7 @@ namespace ngl
     m_doc.append_node(declatation);
     m_fname=_fname;
     m_mode=_mode;
+    m_currentNode=0;
   }
 
   XMLSerializer::~XMLSerializer()

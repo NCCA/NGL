@@ -29,7 +29,6 @@ BezierCurve::BezierCurve()
 	m_order=m_degree+1;
 	m_numKnots=m_numCP+m_degree;
 	m_lod=20;
-	m_listIndex=0;
 	m_vaoCurve=0;
 	m_vaoPoints=0;
 }

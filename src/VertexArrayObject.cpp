@@ -34,6 +34,7 @@ VertexArrayObject::VertexArrayObject(GLenum _mode)
   m_indicesCount=0;
   m_indexed=false;
   m_indexType = GL_UNSIGNED_BYTE;
+  m_iboID=0;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -57,7 +57,12 @@ BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  )
 	m_vert[5].m_x=_center.m_x+(_width/2.0f); m_vert[5].m_y=_center.m_y-(_height/2.0f); m_vert[5].m_z=_center.m_z-(_depth/2.0f);
 	m_vert[6].m_x=_center.m_x+(_width/2.0f); m_vert[6].m_y=_center.m_y-(_height/2.0f); m_vert[6].m_z=_center.m_z+(_depth/2.0f);
 	m_vert[7].m_x=_center.m_x-(_width/2.0f); m_vert[7].m_y=_center.m_y-(_height/2.0f); m_vert[7].m_z=_center.m_z+(_depth/2.0f);
-
+	m_minX=-_center.m_x+(_width/2.0f);
+	m_maxX=_center.m_x+(_width/2.0f);
+	m_minY=-_center.m_y+(_height/2.0f);
+	m_maxY=_center.m_y+(_height/2.0f);
+	m_minZ=-_center.m_z+(_depth/2.0f);
+	m_maxZ=_center.m_z+(_depth/2.0f);
 	//Store the _center
 	m_center=_center;
 	// Setup the Plane Normals for Collision Detection
@@ -74,10 +79,7 @@ BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  )
 	m_drawMode=GL_LINE;
 	m_vao=0;
 	setVAO();
-	for(int i=0; i<8; ++i)
-	{
-		std::cout<<&m_vert[i]<<"\n";
-	}
+
 }
 
 
