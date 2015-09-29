@@ -71,10 +71,10 @@ NGLInit::~NGLInit()
 
 void NGLInit::NGLQuit()
 {
-  VAOPrimitives *prim=VAOPrimitives::instance();
-  prim->clear();
-  ShaderLib *shader=ShaderLib::instance();
-  shader->reset();
+//  VAOPrimitives *prim=VAOPrimitives::instance();
+//  prim->clear();
+//  ShaderLib *shader=ShaderLib::instance();
+//  shader->reset();
 
 }
 } // end of ngl namespace

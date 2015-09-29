@@ -18,6 +18,7 @@
 #define SINGLETON_H__
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
+#include <cstdlib>
 #include <boost/noncopyable.hpp>
 #include <QtCore/QMutexLocker>
 //----------------------------------------------------------------------------------------------------------------------
@@ -64,6 +65,7 @@ protected:
   /// @brief unique instance of the singleton
   //----------------------------------------------------------------------------------------------------------------------
   static T* s_instance;
+  static void killSingleton() { if(s_instance !=NULL) delete s_instance;}
 };
 
 
@@ -80,10 +82,10 @@ template<class T> Singleton<T>::Singleton()
 
 template<class T> Singleton<T>::~Singleton()
 {
-    if (s_instance)
-    {
-        delete s_instance;
-    }
+//    if (s_instance)
+//    {
+//        delete s_instance;
+//    }
 }
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief Get instance --------------------------------------------------------------------------------------------------------------
@@ -101,6 +103,7 @@ template<class T> T* Singleton<T>::instance()
     if (s_instance == 0)
     {
       s_instance = new T();
+      std::atexit(killSingleton);
     }
 
    }
