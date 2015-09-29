@@ -60,6 +60,7 @@ AbstractMesh::AbstractMesh()
   m_bufferPackSize=0;
   m_vboDrawType=GL_FILL;
   m_loaded=false;
+  m_sphereRadius=0;
 
 }
 

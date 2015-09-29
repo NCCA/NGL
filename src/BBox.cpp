@@ -94,6 +94,13 @@ BBox::BBox()
   m_depth=2.0;
   m_vao=0;
   setVAO();
+  m_minX=-1.0f;
+  m_maxX=1.0f;
+  m_minY=-1.0f;
+  m_maxY=1.0f;
+  m_minZ=-1.0f;
+  m_maxZ=1.0f;
+
 }
 
 BBox::BBox(const BBox &_b)
