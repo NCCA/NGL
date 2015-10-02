@@ -48,6 +48,7 @@ Texture::Texture( const std::string &_fname  )
 	m_multiTextureID=0;
 }
 
+
 bool Texture::loadImage( const std::string  &_fname )
 {
 	m_image.load(_fname);

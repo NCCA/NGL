@@ -45,6 +45,16 @@ Image::Image(const std::string &_fname)
 	load(_fname);
 }
 
+Image::Image(const Image &_i) :m_width(_i.m_width),m_height(_i.m_height),
+															 m_channels(_i.m_channels),m_format(_i.m_format),
+															 m_loaded(_i.m_loaded),m_hasAlpha(_i.m_hasAlpha)
+{
+	size_t size=m_width*m_height*m_channels;
+	m_data.reset(new unsigned char[ size]);
+	memcpy(m_data.get(),_i.m_data.get(),size);
+
+}
+
 Colour Image::getColour(const GLuint _x,const GLuint _y ) const
 {
 // make sure were in the image range
