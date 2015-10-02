@@ -27,15 +27,18 @@
 #if defined(USEIMAGEMAGIC)
   #include <ImageMagick-6/Magick++.h>
 #endif
-
+#if defined(USEOIIO)
+  #include <OpenImageIO/imageio.h>
+#endif
 
 #include <iostream>
 
 namespace ngl
 {
 
+#define IMAGE_DEBUG_ON 1
 
-Image::Image() : m_width(0),m_height(0),m_bpp(0),m_format(GL_RGBA),m_loaded(false),m_hasAlpha(true){;}
+Image::Image() : m_width(0),m_height(0),m_channels(0),m_format(GL_RGBA),m_loaded(false),m_hasAlpha(true){;}
 
 Image::Image(const std::string &_fname)
 {
@@ -48,8 +51,8 @@ Colour Image::getColour(const GLuint _x,const GLuint _y ) const
 	NGL_ASSERT(_x<=m_width && _y<=m_height);
 	if (m_data !=0)
 	{
-		int offset=_x*m_bpp+((_y)*m_width*m_bpp);
-		if(m_bpp == 3)
+		int offset=_x*m_channels+((_y)*m_width*m_channels);
+		if(m_channels == 3)
 		{
 		return Colour(m_data[offset],m_data[offset+1],m_data[offset+2]);
 		}
@@ -75,8 +78,8 @@ Colour Image::getColour(const Real _uvX, const Real _uvY ) const
 
   if(m_data!=0)
   {
-    int offset = xx * m_bpp + (yy * m_width * m_bpp );
-    if(m_bpp == 4)
+    int offset = xx * m_channels + (yy * m_width * m_channels );
+    if(m_channels == 4)
     {
       return Colour(m_data[offset],m_data[offset+1],m_data[offset+2],m_data[offset+3]);
     }
@@ -99,6 +102,9 @@ Colour Image::getColour(const Real _uvX, const Real _uvY ) const
 //----------------------------------------------------------------------------------------------------------------------
 bool Image::load( const std::string &_fName  )
 {
+#ifdef IMAGE_DEBUG_ON
+  std::cerr<<"loading with QImage"<<std::endl;
+#endif
   QImage *image = new QImage();
   bool loaded=image->load(_fName.c_str());
   if(loaded ==false)
@@ -112,16 +118,16 @@ bool Image::load( const std::string &_fName  )
     m_hasAlpha=image->hasAlphaChannel();
     if(m_hasAlpha == true)
     {
-      m_bpp=4;
+      m_channels=4;
       m_format = GL_RGBA;
     }
     else
     {
-      m_bpp=3;
+      m_channels=3;
       m_format = GL_RGB;
     }
 
-    m_data.reset(new unsigned char[ m_width*m_height*m_bpp]);
+    m_data.reset(new unsigned char[ m_width*m_height*m_channels]);
     unsigned int index=0;
     QRgb colour;
     for(unsigned int y=0; y<m_height; ++y)
@@ -157,6 +163,9 @@ bool Image::load( const std::string &_fName  )
 //----------------------------------------------------------------------------------------------------------------------
 bool Image::load( const std::string &_fname  )
 {
+  #ifdef IMAGE_DEBUG_ON
+  std::cerr<<"loading with ImageMagick"<<std::endl;
+  #endif
   Magick::Image image;
   Magick::Blob blob;
 
@@ -172,14 +181,47 @@ bool Image::load( const std::string &_fname  )
   }
   m_width=image.columns();
   m_height=image.rows();
-  m_bpp=4;
+  m_channels=4;
   m_format=GL_RGBA;
-  m_data.reset(new unsigned char[ m_width*m_height*m_bpp]);
+  m_data.reset(new unsigned char[ m_width*m_height*m_channels]);
+  // simple memcpy of the blob data to our internal data, not worrying about RGB/RGBA
+  // here (as OpenGL doesn't really either).
   memcpy(m_data.get(),blob.data(),blob.length());
 }
 #endif // end of image magick loading routines
 
+#if defined(USEOIIO)
 
+//----------------------------------------------------------------------------------------------------------------------
+// Open Image I/O loading routines
+//----------------------------------------------------------------------------------------------------------------------
+bool Image::load( const std::string &_fname  )
+{
+#ifdef IMAGE_DEBUG_ON
+  std::cerr<<"loading with OpenImageIO"<<std::endl;
+#endif
+  OpenImageIO::ImageInput *in = OpenImageIO::ImageInput::open (_fname);
+  if (! in)
+  {
+    return false;
+  }
+  const OpenImageIO::ImageSpec &spec = in->spec();
+  m_width = spec.width;
+  m_height = spec.height;
+  m_channels = spec.nchannels;
+  if(m_channels==3)
+    m_format=GL_RGB;
+  else if(m_channels==4)
+    m_format=GL_RGBA;
+  m_data.reset(new unsigned char[ m_width*m_height*m_channels]);
+  in->read_image (OpenImageIO::TypeDesc::UINT8, &m_data[0]);
+  in->close ();
+  delete in;
+  return true;
+}
+
+
+#endif // end USEOIIO
 
 
 } // end of namespace

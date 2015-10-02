@@ -17,13 +17,15 @@ DEFINES += REMOVEDDEPRECATED
 # QImage USEQIMAGE
 # ImageMagick USEIMAGEMAGIC
 # OpenImageIO USEOIIO
-# DevIL USEDEVIL
-IMAGELIB=USEIMAGEMAGIC
-
+IMAGELIB=USEOIIO
+# add this to the global defines
 DEFINES +=$$IMAGELIB
 equals(IMAGELIB,"USEIMAGEMAGIC"){
 	QMAKE_CXXFLAGS+=$$system(Magick++-config --cppflags )
 	LIBS+=$$system(Magick++-config --ldflags --libs )
+}
+equals(IMAGELIB,"USEOIIO"){
+	LIBS+=-lOpenImageIO
 }
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
 # mainly in the types.h file for the setMacVisual which is native in Qt5

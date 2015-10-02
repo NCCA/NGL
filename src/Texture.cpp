@@ -33,7 +33,7 @@ Texture::Texture()
 	m_height=0;
 	m_multiTextureID=0;
 	m_hasAlpha=false;
-	m_bpp=0;
+	m_channels=0;
 	m_format=0;
 }
 
@@ -43,7 +43,7 @@ Texture::Texture( const std::string &_fname  )
 	m_image.load(_fname);
 	m_width=m_image.width();
 	m_height=m_image.height();
-	m_bpp=m_image.bpp();
+	m_channels=m_image.channels();
 	m_format=m_image.format();
 	m_multiTextureID=0;
 }
