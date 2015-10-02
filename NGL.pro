@@ -13,6 +13,12 @@ QT -=xml
 
 # use this to remove any marked as deprecated classes from NGL
 DEFINES += REMOVEDDEPRECATED
+# What image library to use change to 1 of these depending on what platform
+# QImage USEQIMAGE
+# ImageMagick USEIMAGEMAGIC
+# OpenImageIO USEOIIO
+# DevIL USEDEVIL
+DEFINES +=USEQIMAGE
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
 # mainly in the types.h file for the setMacVisual which is native in Qt5
 isEqual(QT_MAJOR_VERSION, 5) {DEFINES +=QT5BUILD }
@@ -140,6 +146,7 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/XMLSerializer.cpp \
 		$$SRC_DIR/NGLStream.cpp \
 		$$SRC_DIR/Logger.cpp \
+		$$SRC_DIR/Image.cpp \
 		glew/glew.c
 
 
@@ -185,6 +192,7 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/Text.h \
 		$$INC_DIR/Mat3.h \
 		$$INC_DIR/Logger.h \
+		$$INC_DIR/Image.h \
 		$$INC_DIR/AbstractSerializer.h \
 		$$INC_DIR/XMLSerializer.h \
 		$$INC_DIR/NGLStream.h \
