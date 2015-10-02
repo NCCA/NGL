@@ -25,7 +25,8 @@
 /// Image data will be stored in either RGB or RGBA contiguos unsigned char data
 #include <string>
 #include <boost/scoped_array.hpp>
-#include <Types.h>
+#include "Types.h"
+#include "Colour.h"
 namespace ngl
 {
 
@@ -65,17 +66,35 @@ public:
   /// @brief Get the width of the texture
   /// @return width of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getWidth()const {return m_width;}
+  GLuint width()const {return m_width;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Get the height of the texture
   /// @return height of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getHeight()const {return m_height;}
+  GLuint height()const {return m_height;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Get the pixel format
   /// @return pixel format of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getFormat()const {return m_format;}
+  GLuint format()const {return m_format;}
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief Get the bits per pixel
+  /// @return bits per pigel
+  //----------------------------------------------------------------------------------------------------------------------
+  GLuint bpp()const {return m_bpp;}
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief get the colour value from X,Y co-ordinates (image absolute 0,0 = top Left)
+  /// @param[in] _x the x position in the image
+  /// @param[in] _y the y position in the image
+  //----------------------------------------------------------------------------------------------------------------------
+  Colour getColour(const GLuint _x, const GLuint _y ) const;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief get the colour value from X,Y co-ordinates in texture space
+  /// @param[in] _uvX the x position in the image
+  /// @param[in] _uvY the y position in the image
+  //----------------------------------------------------------------------------------------------------------------------
+  Colour getColour(const Real _uvX, const Real _uvY) const;
+
 private :
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief the actual image data loaded packed in r,g,b,(a) format in contiguous memory

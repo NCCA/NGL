@@ -18,8 +18,7 @@
 #define TEXTURE_H__
 /// @file Texture.h
 /// @brief a simple texture loader / GL texture object
-// must include types.h first for Real and GLEW if required
-#include "Colour.h"
+#include "Image.h"
 #include "Types.h"
 #include <string>
 #include <boost/scoped_array.hpp>
@@ -56,26 +55,19 @@ public :
   /// @brief Constructor passing the file to load
   /// @param[in] &_fName the name of the file to load
   //----------------------------------------------------------------------------------------------------------------------
-  Texture(const std::string  &_fName );
+  Texture(const std::string  &_fname );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to load the image file into the texture class
   /// @param[in] _fName the name of the file to load
   /// imageMagick will determine if it can load the file
   /// @returns true on success else false if load fails  
   //----------------------------------------------------------------------------------------------------------------------
-  bool loadImage( const std::string  &_fName );
+  bool loadImage(const std::string  &_fname );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to access the pixel data pointer
   /// @returns  reference to the pixel data
   //----------------------------------------------------------------------------------------------------------------------
-   unsigned char *getPixels() const {return m_data.get();}
-
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief get the pixel data from x,y cords
-  /// @param[in] _x the x position of the pixel
-  /// @param[in] _y the y position of the pixel */
-  //----------------------------------------------------------------------------------------------------------------------
-  double getFromXY(const GLuint _x, const GLuint _y ) const;
+   unsigned char *getPixels() const {return m_image.getPixels();}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the image as an OpenGL texture object
   /// @returns the texture object id
@@ -86,21 +78,6 @@ public :
   /// @param _id the texture id
   //----------------------------------------------------------------------------------------------------------------------
   void setMultiTexture(const GLint _id );
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief get the colour value from X,Y co-ordinates (image absolute 0,0 = top Left)
-  /// @param[in] _x the x position in the image
-  /// @param[in] _y the y position in the image
-  //----------------------------------------------------------------------------------------------------------------------
-  Colour getColourFromXY(const GLuint _x, const GLuint _y ) const;
-
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief Get the colour information at the uv locations uvX and uvY
-  /// @param[in] c_uvX The uv x coordinate
-  /// @param[in] c_uvY The uv y coordinate
-  /// @return The colour at that uv coordinate
-  /// @author Luis Pereira
-  //----------------------------------------------------------------------------------------------------------------------
-  Colour getColour( const Real _uvX, const Real _uvY  ) const;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Get the width of the texture
   /// @return width of the texture
@@ -122,7 +99,7 @@ protected :
 		/// @brief the actual image data loaded packed in r,g,b,a format in contiguous memory
 		/// stored in a smart_pointer for safety
 		//----------------------------------------------------------------------------------------------------------------------
-		boost::scoped_array <unsigned char> m_data;
+		Image m_image;
 		//----------------------------------------------------------------------------------------------------------------------
 		/// @brief the size of the image in the X direction
 		//----------------------------------------------------------------------------------------------------------------------

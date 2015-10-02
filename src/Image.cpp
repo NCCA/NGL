@@ -19,12 +19,13 @@
 /// @brief implementation files for Image class
 //----------------------------------------------------------------------------------------------------------------------
 #include "Image.h"
+#include "NGLassert.h"
 
 #if defined(USEQIMAGE)
   #include <QtGui/QImage>
 #endif
 #if defined(USEIMAGEMAGIC)
-  #include <ImageMagick/Magick++.h>
+  #include <ImageMagick-6/Magick++.h>
 #endif
 
 
@@ -38,7 +39,56 @@ Image::Image() : m_width(0),m_height(0),m_bpp(0),m_format(GL_RGBA),m_loaded(fals
 
 Image::Image(const std::string &_fname)
 {
-  load(_fname);
+	load(_fname);
+}
+
+Colour Image::getColour(const GLuint _x,const GLuint _y ) const
+{
+// make sure were in the image range
+	NGL_ASSERT(_x<=m_width && _y<=m_height);
+	if (m_data !=0)
+	{
+		int offset=_x*m_bpp+((_y)*m_width*m_bpp);
+		if(m_bpp == 3)
+		{
+		return Colour(m_data[offset],m_data[offset+1],m_data[offset+2]);
+		}
+		else
+		{
+		return Colour(m_data[offset],m_data[offset+1],m_data[offset+2],m_data[offset+3]);
+		}
+	}
+	else
+	{
+		return Colour(0,0,0,0);
+	}
+}
+
+
+Colour Image::getColour(const Real _uvX, const Real _uvY ) const
+{
+
+  GLuint xx = _uvX * (m_width-1);
+  GLuint yy = _uvY * (m_height-1);
+
+  NGL_ASSERT(xx<m_width && yy<m_height);
+
+  if(m_data!=0)
+  {
+    int offset = xx * m_bpp + (yy * m_width * m_bpp );
+    if(m_bpp == 4)
+    {
+      return Colour(m_data[offset],m_data[offset+1],m_data[offset+2],m_data[offset+3]);
+    }
+    else
+    {
+      return Colour(m_data[offset],m_data[offset+1],m_data[offset+2],1.0);
+    }
+  }
+  else
+  {
+    return Colour(0,0,0,0);
+  }
 }
 
 
@@ -74,7 +124,7 @@ bool Image::load( const std::string &_fName  )
     m_data.reset(new unsigned char[ m_width*m_height*m_bpp]);
     unsigned int index=0;
     QRgb colour;
-    for(unsigned int y=m_height-1; y>0; y--)
+    for(unsigned int y=0; y<m_height; ++y)
     {
       for(unsigned int x=0; x<m_width; ++x)
       {
@@ -97,6 +147,39 @@ bool Image::load( const std::string &_fName  )
   else return false;
 }
 
-#endif
+#endif // end of QImage loading routines
 
+
+#if defined(USEIMAGEMAGIC)
+
+//----------------------------------------------------------------------------------------------------------------------
+// Image Magick Image loading routines
+//----------------------------------------------------------------------------------------------------------------------
+bool Image::load( const std::string &_fname  )
+{
+  Magick::Image image;
+  Magick::Blob blob;
+
+  try
+  {
+    image.read(_fname);
+    image.write(&blob, "RGBA");
+  }
+  catch (Magick::Error& Error)
+  {
+  std::cout << "Error loading texture '" << _fname << "': " << Error.what() << std::endl;
+  return false;
+  }
+  m_width=image.columns();
+  m_height=image.rows();
+  m_bpp=4;
+  m_format=GL_RGBA;
+  m_data.reset(new unsigned char[ m_width*m_height*m_bpp]);
+  memcpy(m_data.get(),blob.data(),blob.length());
 }
+#endif // end of image magick loading routines
+
+
+
+
+} // end of namespace
