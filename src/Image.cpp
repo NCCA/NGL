@@ -155,6 +155,10 @@ bool Image::load( const std::string &_fName  )
         }
       }
     }
+#ifdef IMAGE_DEBUG_ON
+  std::cerr<<"size "<<m_width<<" "<<m_height<<std::endl;
+  std::cerr<<"channels "<<m_channels<<std::endl;
+#endif
 
    return true;
 
