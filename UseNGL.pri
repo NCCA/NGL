@@ -37,6 +37,7 @@ unix:LIBS +=  -L$${NGLBASE}/lib -l NGL
 # now if we are under unix and not on a Mac (i.e. linux)
 linux-*{
 		linux-*:QMAKE_CXXFLAGS +=  -march=native
+		LIBS+=-ltiff
 		#DEFINES += LINUX
 }
 DEPENDPATH+=include
