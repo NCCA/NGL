@@ -45,6 +45,11 @@ A simple scene using all of the built in VAO primitives, this has approx 350,000
 
 This demonstrates the use of the ngl::Camera class as well as showing how the camera is actually made up of a simple series of matrices
 
+##[Matrix Stack](https://github.com/NCCA/MatrixStack)
+![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/MatrixStack.png)
+
+This demo implements a matrix stack similar to the immediate mode OpenGL push / pop matrix functionality. It can be extended to replicate basic immediate mode OpenGL pipeline functions with modern OpenGL rendering.
+
 ##[SDLNGL](https://github.com/NCCA/SDLTTF)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/TTFText.png)
 
