@@ -46,7 +46,8 @@ message("Building for Mac El-Capitain using sdk 10.11 if this is not found")
 message("Modify UseNGL.pri and modify QMAKE_MACK_SDK to macosx10.10")
 
 macx:QMAKE_MAC_SDK = macosx10.11
-
+# to ensure we don't get any ABI issues use c++ and correct libs on mac
+macx:CONFIG+=c++11
 # this is where to look for includes
 INCLUDEPATH += $${NGLBASE}/include/
 

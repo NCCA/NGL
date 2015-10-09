@@ -115,17 +115,18 @@ bool Image::load( const std::string &_fName  )
 #ifdef IMAGE_DEBUG_ON
   std::cerr<<"loading with QImage"<<std::endl;
 #endif
-  QImage *image = new QImage();
-  bool loaded=image->load(_fName.c_str());
+  QImage image;
+  bool loaded=image.load(_fName.c_str());
   if(loaded ==false)
   {
     std::cerr<<"error loading image "<<_fName.c_str()<<"\n";
   }
   if(loaded == true)
   {
-    m_width=image->width();
-    m_height=image->height();
-    m_hasAlpha=image->hasAlphaChannel();
+    image=image.mirrored();
+    m_width=image.width();
+    m_height=image.height();
+    m_hasAlpha=image.hasAlphaChannel();
     if(m_hasAlpha == true)
     {
       m_channels=4;
@@ -144,7 +145,7 @@ bool Image::load( const std::string &_fName  )
     {
       for(unsigned int x=0; x<m_width; ++x)
       {
-        colour=image->pixel(x,y);
+        colour=image.pixel(x,y);
 
         m_data[index++]=qRed(colour);
         m_data[index++]=qGreen(colour);
@@ -186,6 +187,8 @@ bool Image::load( const std::string &_fname  )
   try
   {
     image.read(_fname);
+    // need to flip image as OpenGL uses textures starting the other way round.
+    image.flip();
     image.write(&blob, "RGBA");
   }
   catch (Magick::Error& Error)
@@ -201,6 +204,7 @@ bool Image::load( const std::string &_fname  )
   // simple memcpy of the blob data to our internal data, not worrying about RGB/RGBA
   // here (as OpenGL doesn't really either).
   memcpy(m_data.get(),blob.data(),blob.length());
+  return true;
 }
 #endif // end of image magick loading routines
 
@@ -228,7 +232,14 @@ bool Image::load( const std::string &_fname  )
   else if(m_channels==4)
     m_format=GL_RGBA;
   m_data.reset(new unsigned char[ m_width*m_height*m_channels]);
-  in->read_image (OpenImageIO::TypeDesc::UINT8, &m_data[0]);
+  // this will read an flip the pixel for OpenGL
+  int scanlinesize = spec.width * spec.nchannels * sizeof(m_data[0]);
+  in->read_image (OpenImageIO::TypeDesc::UINT8,
+  (char *)m_data.get() + (m_height-1)*scanlinesize, // offset to last
+  OpenImageIO::AutoStride, // default x stride
+  -scanlinesize, // special y stride
+  OpenImageIO::AutoStride); // default z stride
+  //in->read_image (OpenImageIO::TypeDesc::UINT8, &m_data[0]);
   in->close ();
   delete in;
   return true;

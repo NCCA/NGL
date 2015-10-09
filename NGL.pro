@@ -17,16 +17,22 @@ DEFINES += REMOVEDDEPRECATED
 # QImage USEQIMAGE
 # ImageMagick USEIMAGEMAGIC
 # OpenImageIO USEOIIO
-IMAGELIB=USEQIMAGE
+IMAGELIB=USEOIIO
 # add this to the global defines
 DEFINES +=$$IMAGELIB
 equals(IMAGELIB,"USEIMAGEMAGIC"){
 	QMAKE_CXXFLAGS+=$$system(Magick++-config --cppflags )
 	LIBS+=$$system(Magick++-config --ldflags --libs )
+	message("Using Image Magick config is")
+	message($$system(Magick++-config --cppflags ) )
+	message($$system(Magick++-config --ldflags --libs ))
 }
 equals(IMAGELIB,"USEOIIO"){
 	LIBS+=-L/usr/local/lib/ -lOpenImageIO
 }
+# to ensure we don't get any ABI issues use c++ and correct libs on mac
+macx:CONFIG+=c++11
+
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
 # mainly in the types.h file for the setMacVisual which is native in Qt5
 isEqual(QT_MAJOR_VERSION, 5) {DEFINES +=QT5BUILD }
@@ -34,7 +40,6 @@ isEqual(QT_MAJOR_VERSION, 5) {DEFINES +=QT5BUILD }
 # define this if you want to include the stanford data sets
 # these are very big and make compilation time huge
 DEFINES+=ADDLARGEMODELS
-
 # set the base directory of our project so Qt knows where to find them
 # we can use shell vars but need to use $$
 BASE_DIR = $$(HOME)/NGL
