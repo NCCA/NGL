@@ -71,31 +71,16 @@ void VAOPrimitives::draw( const std::string &_name, GLenum _mode )
 
 }
 
-void VAOPrimitives::createVAOFromHeader(const std::string &_name, const Real *_data, const unsigned int _size )
+void VAOPrimitives::createVAOFromHeader(const std::string &_name, const Real *_data,  unsigned int _size )
 {
     VertexArrayObject *vao = VertexArrayObject::createVOA(GL_TRIANGLES);
     // next we bind it so it's active for setting data
     vao->bind();
-    std::vector <vertData> data;
-    vertData d;
-    // format tx,ty,nx,ny,nz,vx,vy,vz so increment by 8
-    for(unsigned int i=0; i<_size; i+=8)
-    {
-      d.u=_data[i];
-      d.v=_data[i+1];
-      d.nx=_data[i+2];
-      d.ny=_data[i+3];
-      d.nz=_data[i+4];
-      d.x=_data[i+5];
-      d.y=_data[i+6];
-      d.z=_data[i+7];
-    data.push_back(d);
-    }
     // now we have our data add it to the VAO, we need to tell the VAO the following
     // how much (in bytes) data we are copying
     // a pointer to the first element of data (in this case the address of the first element of the
     // std::vector
-    vao->setData(data.size()*sizeof(vertData),data[0].u);
+    vao->setData( _size*sizeof(Real),_data[0]);
     // in this case we have packed our data in interleaved format as follows
     // u,v,nx,ny,nz,x,y,z
     // If you look at the shader we have the following attributes being used
@@ -113,7 +98,8 @@ void VAOPrimitives::createVAOFromHeader(const std::string &_name, const Real *_d
     // now we have set the vertex attributes we tell the VAO class how many indices to draw when
     // glDrawArrays is called, in this case we use buffSize (but if we wished less of the sphere to be drawn we could
     // specify less (in steps of 3))
-    vao->setNumIndices(data.size());
+    // In this case each Generic Vertex attribute is 8 elements so we use _size / 8
+    vao->setNumIndices(_size/8);
     // finally we have finished for now so time to unbind the VAO
     vao->unbind();
     m_createdVAOs[_name]=vao;

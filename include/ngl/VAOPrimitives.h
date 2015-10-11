@@ -178,7 +178,7 @@ private :
   /// @param[in] _data a pointer to the data to load
   /// @param[in] _Size the size of the array of data to load
   //----------------------------------------------------------------------------------------------------------------------
-  void createVAOFromHeader( const std::string &_name, Real const *_data, const unsigned int _Size );
+  void createVAOFromHeader( const std::string &_name, Real const *_data,  unsigned int _Size );
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create the default VAO's this is done by the ctor anyway but can be called
