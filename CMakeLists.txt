@@ -1,6 +1,45 @@
 cmake_minimum_required(VERSION 2.8.11)
 # Name of the project
 project(NGL)
+
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
+#######################################################
+#######################################################
+#Search for dependencies
+find_package(Boost COMPONENTS system REQUIRED) #iostreams system filesystem regex thread date_time timer atomic locale graph exception
+find_package(GLEW)
+find_package(OpenGL REQUIRED)
+#####
+find_package(OpenImageIO REQUIRED)
+if (OpenImageIO_FOUND)
+    add_definitions(-DUSEOIIO) #linking doesn't work without this
+endif ()
+#####
+# as NGL uses Qt we need to define this flag
+# NGL also needs the OpenGL framework from Qt so add it
+find_package(Qt5Core REQUIRED)
+find_package(Qt5OpenGL REQUIRED)
+
+add_definitions(${Qt5Core_DEFINITIONS})
+add_definitions(${Qt5OpenGL_DEFINITIONS})
+
+#c++11 ?
+if(NOT WIN32)
+    set(CMAKE_CXX_FLAGS "-Wall -std=c++0x -fPIC ${Qt5Core_EXECUTABLE_COMPILE_FLAGS} ${Qt5OpenGL_EXECUTABLE_COMPILE_FLAGS}" CACHE STRING "Flags used by the compiler during all build types.")
+endif()
+
+#######################################################
+#######################################################
+
+include_directories(${Boost_INCLUDE_DIRS}
+    ${GLEW_INCLUDE_DIR}
+    ${OPENGL_INCLUDE_DIR}
+    ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5OpenGL_INCLUDE_DIRS}
+    ${OpenImageIO_INCLUDE_DIRS}
+)
+
 #Bring the headers into the project (local ones)
 include_directories(${PROJECT_SOURCE_DIR}/include/ngl)
 include_directories(${PROJECT_SOURCE_DIR}/src/ngl)
@@ -15,124 +54,52 @@ add_definitions(-DQT5BUILD)
 # these are very big and make compilation time huge
 add_definitions(-DADDLARGEMODELS)
 
-set(SOURCES
-    ${PROJECT_SOURCE_DIR}/src/Vec4.cpp
-    ${PROJECT_SOURCE_DIR}/src/VAOPrimitives.cpp
-    ${PROJECT_SOURCE_DIR}/src/Util.cpp
-    ${PROJECT_SOURCE_DIR}/src/Texture.cpp
-    ${PROJECT_SOURCE_DIR}/src/SpotLight.cpp
-    ${PROJECT_SOURCE_DIR}/src/ShaderLib.cpp
-    ${PROJECT_SOURCE_DIR}/src/Transformation.cpp
-    ${PROJECT_SOURCE_DIR}/src/RibExport.cpp
-    ${PROJECT_SOURCE_DIR}/src/Quaternion.cpp
-    ${PROJECT_SOURCE_DIR}/src/PathCamera.cpp
-    ${PROJECT_SOURCE_DIR}/src/Obj.cpp
-    ${PROJECT_SOURCE_DIR}/src/Mat4.cpp
-    ${PROJECT_SOURCE_DIR}/src/Material.cpp
-    ${PROJECT_SOURCE_DIR}/src/Light.cpp
-    ${PROJECT_SOURCE_DIR}/src/NGLInit.cpp
-    ${PROJECT_SOURCE_DIR}/src/Colour.cpp
-    ${PROJECT_SOURCE_DIR}/src/Camera.cpp
-    ${PROJECT_SOURCE_DIR}/src/NCCABinMesh.cpp
-    ${PROJECT_SOURCE_DIR}/src/BezierCurve.cpp
-    ${PROJECT_SOURCE_DIR}/src/BBox.cpp
-    ${PROJECT_SOURCE_DIR}/src/AbstractMesh.cpp
-    ${PROJECT_SOURCE_DIR}/src/Random.cpp
-    ${PROJECT_SOURCE_DIR}/src/NCCAPointBake.cpp
-    ${PROJECT_SOURCE_DIR}/src/Shader.cpp
-    ${PROJECT_SOURCE_DIR}/src/ShaderProgram.cpp
-    ${PROJECT_SOURCE_DIR}/src/Plane.cpp
-    ${PROJECT_SOURCE_DIR}/src/AABB.cpp
-    ${PROJECT_SOURCE_DIR}/src/VertexArrayObject.cpp
-    ${PROJECT_SOURCE_DIR}/src/createDefaultVAOs.cpp
-    ${PROJECT_SOURCE_DIR}/src/Vec3.cpp
-    ${PROJECT_SOURCE_DIR}/src/Vec2.cpp
-    ${PROJECT_SOURCE_DIR}/src/Text.cpp
-    ${PROJECT_SOURCE_DIR}/src/Mat3.cpp
-    ${PROJECT_SOURCE_DIR}/src/AbstractSerializer.cpp
-    ${PROJECT_SOURCE_DIR}/src/XMLSerializer.cpp
-    ${PROJECT_SOURCE_DIR}/src/NGLStream.cpp
-    ${PROJECT_SOURCE_DIR}/src/Logger.cpp
-    ${PROJECT_SOURCE_DIR}/src/Image.cpp
-    ${PROJECT_SOURCE_DIR}/glew/glew.c
-    ${PROJECT_SOURCE_DIR}/include/ngl/Vec4.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/VAOPrimitives.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Singleton.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Util.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Types.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Texture.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/SpotLight.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/ShaderLib.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/RibExport.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Transformation.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Quaternion.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/PathCamera.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Obj.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/NGLassert.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Mat4.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Material.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Light.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/NGLInit.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Colour.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Camera.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/BezierCurve.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/NCCABinMesh.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/BBox.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/AbstractMesh.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Random.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/NCCAPointBake.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Shader.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/ShaderProgram.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Plane.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/AABB.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/VertexArrayObject.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Vec3.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Vec2.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Text.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Mat3.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Logger.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Image.h 
-    ${PROJECT_SOURCE_DIR}/include/ngl/AbstractSerializer.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/XMLSerializer.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/NGLStream.h
-    ${PROJECT_SOURCE_DIR}/src/shaders/TextShaders.h
-    ${PROJECT_SOURCE_DIR}/src/shaders/ColourShaders.h
-    ${PROJECT_SOURCE_DIR}/src/shaders/DiffuseShaders.h
-    ${PROJECT_SOURCE_DIR}/src/shaders/ToonShaders.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/rapidxml/rapidxml.hpp
-    ${PROJECT_SOURCE_DIR}/include/ngl/rapidxml/rapidxml_iterators.hpp
-    ${PROJECT_SOURCE_DIR}/include/ngl/rapidxml/rapidxml_print.hpp
-    ${PROJECT_SOURCE_DIR}/include/ngl/rapidxml/rapidxml_utils.hpp
+#######################################################
+#######################################################
 
-
-
+file(GLOB SOURCES
+    ${PROJECT_SOURCE_DIR}/src/*.cpp
+    ${PROJECT_SOURCE_DIR}/src/ngl/*.cpp
+    # ${PROJECT_SOURCE_DIR}/glew/glew.c
 )
 
+list(REMOVE_ITEM SOURCES ${PROJECT_SOURCE_DIR}/src/HoudiniGeo.cpp)
 
+file(GLOB HEADERS
+    ${PROJECT_SOURCE_DIR}/src/ngl/*.h
+    ${PROJECT_SOURCE_DIR}/include/ngl/*.h
+    ${PROJECT_SOURCE_DIR}/src/shaders/*.h
+    ${PROJECT_SOURCE_DIR}/include/ngl/rapidxml/*.hpp
+)
+
+list(REMOVE_ITEM HEADERS ${PROJECT_SOURCE_DIR}/include/ngl/HoudiniGeo.h)
+
+#######################################################
+#######################################################
 # see what platform we are on and set platform defines
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	add_definitions(-DDARWIN)
     find_library(MACGL OpenGL)
-    set(PROJECT_LINK_LIBS -lboost_system)
     set(EXTRALIBS  ${MACGL})
-
-
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	add_definitions(-DLINUX)
 endif()
 
+#######################################################
+#######################################################
+set(PROJECT_LINK_LIBS
+    ${Boost_LIBRARY_DIRS}
+    ${Qt5Core_LIBRARIES} ${Qt5OpenGL_LIBRARIES}
+    ${OPENGL_gl_LIBRARY} ${GLEW_LIBRARIES}
+    ${OpenImageIO_LIBRARY}
+)
 
-
-# as NGL uses Qt we need to define this flag
-# NGL also needs the OpenGL framework from Qt so add it
-find_package(Qt5OpenGL)
-
+#######################################################
+#######################################################
 # add exe and link libs this must be after the other defines
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
+add_library(NGL SHARED ${SOURCES} ${HEADERS})
 
-add_library(NGL SHARED ${SOURCES})
-
-target_link_libraries(NGL Qt5::OpenGL)
 target_link_libraries(NGL ${PROJECT_LINK_LIBS} ${EXTRALIBS})
 
