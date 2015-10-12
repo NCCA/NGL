@@ -74,6 +74,15 @@ file(GLOB HEADERS
 
 list(REMOVE_ITEM HEADERS ${PROJECT_SOURCE_DIR}/include/ngl/HoudiniGeo.h)
 
+if(APPLE)
+    file(GLOB OBJC_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/*.mm
+    )
+    find_library(COCOA_LIBRARY Cocoa)
+    find_library(FOUNDATION_LIBRARY Foundation)
+endif()
+
+
 #######################################################
 #######################################################
 # see what platform we are on and set platform defines
@@ -99,7 +108,12 @@ set(PROJECT_LINK_LIBS
 # add exe and link libs this must be after the other defines
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-add_library(NGL SHARED ${SOURCES} ${HEADERS})
+add_library(NGL SHARED ${SOURCES} ${OBJC_SOURCES} ${HEADERS})
 
 target_link_libraries(NGL ${PROJECT_LINK_LIBS} ${EXTRALIBS})
 
+if(APPLE)
+target_link_libraries(NGL
+    ${FOUNDATION_LIBRARY} ${COCOA_LIBRARY}
+)
+endif()

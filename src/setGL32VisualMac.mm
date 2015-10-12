@@ -1,5 +1,7 @@
 #include <QGLContext>
 
+#include <Foundation/Foundation.h>
+#include <Cocoa/Cocoa.h>
 
 void* setGL32VisualMac(bool _multisample=true)
 {
