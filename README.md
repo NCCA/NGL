@@ -271,7 +271,7 @@ An interactive WebGL demo is [here](http://nccastaff.bournemouth.ac.uk/jmacey/We
 For more details read the user [guide](http://bulletphysics.org/wordpress/) of Bullet.
 
 
-##[ODE NGL](https://github.com:NCCA/ODENGL)
+##[ODE NGL](https://github.com/NCCA/ODENGL)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/ODENGL.png)
 
 Using the ODE Physics engine 
