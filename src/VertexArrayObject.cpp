@@ -78,7 +78,7 @@ void VertexArrayObject::setData(unsigned int _size,const GLfloat &_data,GLenum _
   m_vboIDs.push_back(vboID);
   // now we will bind an array buffer to the first one and load the data for the verts
   glBindBuffer(GL_ARRAY_BUFFER, vboID);
-  glBufferData(GL_ARRAY_BUFFER, _size, &_data, _mode);
+  glBufferData(GL_ARRAY_BUFFER, _size*sizeof(Real), &_data, _mode);
   m_allocated=true;
 
 }

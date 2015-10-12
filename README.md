@@ -176,7 +176,7 @@ This demo demonstrates the use of the [factory pattern](http://en.wikipedia.org/
 
 Picking of objects using Colour values based on this [post](http://content.gpwiki.org/index.php/OpenGL_Selection_Using_Unique_Color_IDs)
 
-##[Point Bake Demos](https://github.com/NCCA/ColourSelection)
+##[Point Bake Demos](https://github.com/NCCA/PointBake)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/PointBake.png)
 
 The NCCA PointBake format is a simple xml format for storing per vertex animation data, presented in these demos are maya scripts to export in the format and some demos to show how to load and visualise this data.
@@ -271,7 +271,7 @@ An interactive WebGL demo is [here](http://nccastaff.bournemouth.ac.uk/jmacey/We
 For more details read the user [guide](http://bulletphysics.org/wordpress/) of Bullet.
 
 
-##[ODE NGL](git@github.com:NCCA/ODENGL.git)
+##[ODE NGL](git@github.com:NCCA/ODENGL)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/ODENGL.png)
 
 Using the ODE Physics engine 
