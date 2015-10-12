@@ -96,8 +96,11 @@ endif()
 
 #######################################################
 #######################################################
-set(PROJECT_LINK_LIBS
+set(PROJEECT_LIB_DIRS
     ${Boost_LIBRARY_DIRS}
+)
+set(PROJECT_LINK_LIBS
+    ${Boost_LIBRARIES}
     ${Qt5Core_LIBRARIES} ${Qt5OpenGL_LIBRARIES}
     ${OPENGL_gl_LIBRARY} ${GLEW_LIBRARIES}
     ${OpenImageIO_LIBRARY}
@@ -110,6 +113,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 add_library(NGL SHARED ${SOURCES} ${OBJC_SOURCES} ${HEADERS})
 
+link_directories(${PROJEECT_LIB_DIRS})
 target_link_libraries(NGL ${PROJECT_LINK_LIBS} ${EXTRALIBS})
 
 if(APPLE)
