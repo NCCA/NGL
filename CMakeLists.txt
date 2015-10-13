@@ -14,6 +14,8 @@ add_definitions(-DQT5BUILD)
 # define this if you want to include the stanford data sets
 # these are very big and make compilation time huge
 add_definitions(-DADDLARGEMODELS)
+#This defines the image lib to use by default use QIMAGE, I need to fix this for the others
+add_definitions(-DUSEQIMAGE)
 
 set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Vec4.cpp
