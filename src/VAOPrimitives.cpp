@@ -80,7 +80,7 @@ void VAOPrimitives::createVAOFromHeader(const std::string &_name, const Real *_d
     // how much (in bytes) data we are copying
     // a pointer to the first element of data (in this case the address of the first element of the
     // std::vector
-    vao->setData( _size,_data[0]);
+    vao->setData( _size*sizeof(Real),_data[0]);
     // in this case we have packed our data in interleaved format as follows
     // u,v,nx,ny,nz,x,y,z
     // If you look at the shader we have the following attributes being used
