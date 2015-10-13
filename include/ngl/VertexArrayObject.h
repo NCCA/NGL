@@ -94,7 +94,7 @@ public:
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief allocate our data using raw face values (for example tri's) data, attributes must be bound to match at
 	/// a different level of code (usually in the client as part of the shader loading, see VAO examples for more details
-	/// @param _size the size of the raw data passed
+	/// @param _size the size of the raw data passed (this will be *sizeof(Real) to convert (this could cause potential bugs!)
 	/// @param _data the actual data to set for the VOA
 	/// @param _mode the draw mode hint used by GL
 	//----------------------------------------------------------------------------------------------------------------------

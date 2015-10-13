@@ -15,7 +15,7 @@ void VAOPrimitives::createDefaultVAOs()
 {
   // load into the vbo list some basic primitives (these are created in .h file arrays from Obj2VBO)
   // Obj2VBO and the original models may be found in the Models directory
-   createVAOFromHeader("teapot",teapot,teapotSIZE);
+  createVAOFromHeader("teapot",teapot,teapotSIZE);
   createVAOFromHeader("octahedron",Octahedron,OctahedronSIZE);
   createVAOFromHeader("dodecahedron",dodecahedron,dodecahedronSIZE);
   createVAOFromHeader("icosahedron",icosahedron,icosahedronSIZE);
