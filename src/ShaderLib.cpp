@@ -15,11 +15,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <cstdlib>
+#include <fstream>
 #include "ShaderLib.h"
 #include "TextShaders.h"
 #include "ColourShaders.h"
 #include "DiffuseShaders.h"
 #include "ToonShaders.h"
+#include "rapidjson/document.h"
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -323,7 +325,125 @@ void ShaderLib::loadShaderSource(std::string _shaderName,	std::string _sourceFil
 }
 
 
+SHADERTYPE ShaderLib::getShaderType(const std::string &type)
+{
+  // convert to low for test
+  std::string tlower=type;
+  std::transform(type.begin(), type.end(), tlower.begin(), ::tolower);
+  SHADERTYPE shadertype;
+  if(tlower=="vertex")
+  {
+    shadertype=VERTEX;
+  }
+  else if(tlower=="fragment")
+  {
+    shadertype=FRAGMENT;
+  }
+  else if(tlower=="geometry")
+  {
+    shadertype=GEOMETRY;
+  }
+  else if(tlower=="tesscontrol")
+  {
+    shadertype=TESSCONTROL;
+  }
+  else if(tlower=="tesseval")
+  {
+    shadertype=TESSEVAL;
+  }
+  else if(tlower=="compute")
+  {
+    shadertype=COMPUTE;
+  }
+  else shadertype=NONE;
+  return shadertype;
+}
 
+
+bool ShaderLib::loadFromJson(const std::string &_fname)
+{
+  namespace rj=rapidjson;
+  std::ifstream file;
+  file.open(_fname.c_str(), std::ios::in);
+  if (file.fail())
+  {
+      std::cerr<<"error opening json file\n";
+      exit(EXIT_FAILURE);
+  }
+  std::string *source = new std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+  file.close();
+  // we need a mutable string for parsing so copy to a char * buffer
+  char *buffer = new char[source->size()];
+  memcpy(buffer, source->c_str(), source->size());
+  // null terminate the string!
+  buffer[source->size()]='\0';
+
+  rj::Document doc;
+
+  if (doc.ParseInsitu<0>(buffer).HasParseError())
+  {
+    std::cerr<<"Parse Error for file "<<_fname<<"\n";
+    return false;
+
+  }
+
+  if(!doc.HasMember("ShaderProgram"))
+  {
+    std::cerr<<"This does not seem to be a valid shader json file"<<std::endl;
+    return false;
+  }
+  // Now we iterate through the json and gather our data.
+  for (rj::Value::ConstMemberIterator itr = doc.MemberBegin(); itr != doc.MemberEnd(); ++itr)
+  {
+
+    const rj::Value::Ch* progName=itr->value["name"].GetString();
+    if(progName ==NULL || strlen(progName)==0 )
+    {
+      std::cerr<<"ShaderProgram must have a name (or could be 0 length) \n";
+      return false;
+    }
+    createShaderProgram(progName);
+    const rj::Value& shaders = itr->value["Shaders"];
+    for (rj::SizeType i = 0; i < shaders.Size(); i++)
+    {
+      const rj::Value &currentShader = shaders[i];
+      const rj::Value::Ch *name=currentShader["name"].GetString();
+      SHADERTYPE shadertype=getShaderType(currentShader["type"].GetString());
+
+      attachShader(name,shadertype);
+      const rj::Value& paths = currentShader["path"];
+      std::string shaderSource;
+      for (rj::SizeType p = 0; p < paths.Size(); p++)
+      {
+        // load the shader sources in order.
+        std::ifstream source;
+        source.open(paths[p].GetString(), std::ios::in);
+        std::cout<<"attempting to load "<<paths[p].GetString()<<"\n";
+        if (source.fail())
+        {
+            std::cerr<<"error opening shader file\n";
+            exit(EXIT_FAILURE);
+        }
+        std::string *f = new std::string((std::istreambuf_iterator<char>(source)), std::istreambuf_iterator<char>());
+        std::cout<<"loaded "<<*f->c_str()<<"\n";
+        source.close();
+        shaderSource+=*f;
+        shaderSource+="\n";
+        delete f;
+      }
+      const char *d=shaderSource.c_str();
+      loadShaderSourceFromString(name,&d);
+      compileShader(name);
+      attachShaderToProgram(progName,name);
+    } // end parse shader loop
+    linkProgramObject(progName);
+    use(progName);
+    autoRegisterUniforms(progName);
+  }
+  delete source;
+  delete buffer;
+  return true;
+}
 
 
 //----------------------------------------------------------------------------------------------------------------------

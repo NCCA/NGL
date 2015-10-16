@@ -148,6 +148,10 @@ public :
                   const std::string &_geo="",
                   const bool _exitOnError=false );
   //----------------------------------------------------------------------------------------------------------------------
+  /// @brief method to load multiple shaders from a json file
+  /// @param[in] _shaderName the name of the json resource file
+  bool loadFromJson(const std::string &_fname);
+  //----------------------------------------------------------------------------------------------------------------------
   /// @brief Toggle debug mode on
   //----------------------------------------------------------------------------------------------------------------------
   inline void debugOn()
@@ -610,6 +614,10 @@ public :
 
 protected:
 
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief  get shader type from string (used for json parsing)
+  //----------------------------------------------------------------------------------------------------------------------
+  SHADERTYPE getShaderType(const std::string &type);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  this will load the pre-defined text rendering shaders
   /// these are stored in the file src/shaders/TextShaders.h

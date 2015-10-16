@@ -73,7 +73,7 @@ INCLUDEPATH += $$BASE_DIR/include/ngl
 INCLUDEPATH += $$BASE_DIR/glew/
 INCLUDEPATH += $$BASE_DIR/src/ngl
 INCLUDEPATH +=$$BASE_DIR/src/shaders
-
+INCLUDEPATH +=$$BASE_DIR/include/rapidjson
 unix:LIBS += -L/usr/local/lib
 LIBS+= -lboost_system
 # set the SRC_DIR so we can find the project files
