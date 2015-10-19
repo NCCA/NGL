@@ -392,10 +392,16 @@ bool ShaderLib::loadFromJson(const std::string &_fname)
     std::cerr<<"This does not seem to be a valid shader json file"<<std::endl;
     return false;
   }
+  std::cout<<"***************Loading Shaders from JSON*****************\n";
+
+  bool debug=false;
   // Now we iterate through the json and gather our data.
   for (rj::Value::ConstMemberIterator itr = doc.MemberBegin(); itr != doc.MemberEnd(); ++itr)
   {
-
+    if(itr->value.HasMember("debug"))
+    {
+      debug=itr->value["debug"].GetBool();
+    }
     const rj::Value::Ch* progName=itr->value["name"].GetString();
     if(progName ==NULL || strlen(progName)==0 )
     {
@@ -418,14 +424,20 @@ bool ShaderLib::loadFromJson(const std::string &_fname)
         // load the shader sources in order.
         std::ifstream source;
         source.open(paths[p].GetString(), std::ios::in);
-        std::cout<<"attempting to load "<<paths[p].GetString()<<"\n";
+        if(debug)
+        {
+          std::cout<<"attempting to load "<<paths[p].GetString()<<"\n";
+        }
         if (source.fail())
         {
             std::cerr<<"error opening shader file\n";
             exit(EXIT_FAILURE);
         }
         std::string *f = new std::string((std::istreambuf_iterator<char>(source)), std::istreambuf_iterator<char>());
-        std::cout<<"loaded "<<*f->c_str()<<"\n";
+        if(debug)
+        {
+          std::cout<<"loaded data string \n"<< const_cast<char *>(f->c_str())<<"\n";
+        }
         source.close();
         shaderSource+=*f;
         shaderSource+="\n";
@@ -433,12 +445,22 @@ bool ShaderLib::loadFromJson(const std::string &_fname)
       }
       const char *d=shaderSource.c_str();
       loadShaderSourceFromString(name,&d);
+      if(debug)
+      {
+        std::cout<<"********* Final Shader String ***************\n";
+        std::cout<<d<<"\n";
+      }
       compileShader(name);
       attachShaderToProgram(progName,name);
     } // end parse shader loop
+    if(debug)
+    {
+      std::cout<<"Linking and registering Uniforms to ShaderLib\n";
+    }
     linkProgramObject(progName);
     use(progName);
     autoRegisterUniforms(progName);
+    std::cout<<"**********************DONE********************\n";
   }
   delete source;
   delete buffer;
