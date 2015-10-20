@@ -50,7 +50,7 @@ void printInfoLog( const GLuint &_obj)
 }
 
 
-Shader::Shader( std::string _name,  ShaderType _type )
+Shader::Shader( std::string _name,  ShaderType _type ) noexcept
 {
   m_name=_name;
   m_shaderType = _type;
@@ -76,7 +76,7 @@ Shader::~Shader()
   glDeleteShader(m_shaderHandle);
 }
 
-void Shader::compile()
+void Shader::compile() noexcept
 {
   if (m_source.empty() )
   {
@@ -110,7 +110,7 @@ void Shader::compile()
 }
 
 
-void Shader::load( std::string _name )
+void Shader::load( std::string _name ) noexcept
 {
   // see if we already have some source attached
   if(m_source.empty())

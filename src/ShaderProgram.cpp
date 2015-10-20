@@ -28,7 +28,7 @@
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
-ShaderProgram::ShaderProgram(std::string _name)
+ShaderProgram::ShaderProgram(std::string _name) noexcept
 {
   // we create a special NULL program so the shader manager can return
   // a NULL object.
@@ -48,11 +48,11 @@ if (_name !="NULL")
 }
 ShaderProgram::~ShaderProgram()
 {
-  std::cerr<<"removing shader program "<< m_programName<<"\n";
+  std::cerr<<"removing ShaderProgram "<< m_programName<<"\n";
   glDeleteProgram(m_programID);
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::use()
+void ShaderProgram::use() noexcept
 {
  // std::cerr<<"Using shader "<<m_programName<<" id "<<m_programID<<"\n";
   glUseProgram(m_programID);
@@ -61,21 +61,21 @@ void ShaderProgram::use()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::unbind()
+void ShaderProgram::unbind() noexcept
 {
   m_active=false;
   glUseProgram(0);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::attachShader(Shader *_shader)
+void ShaderProgram::attachShader(Shader *_shader) noexcept
 {
   m_shaders.push_back(_shader);
   glAttachShader(m_programID,_shader->getShaderHandle());
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::bindAttribute(GLuint _index, const std::string &_attribName)
+void ShaderProgram::bindAttribute(GLuint _index, const std::string &_attribName) noexcept
 {
   if(m_linked == true)
   {
@@ -87,7 +87,7 @@ void ShaderProgram::bindAttribute(GLuint _index, const std::string &_attribName)
   NGLCheckGLError(__FILE__,__LINE__);
 }
 
-void ShaderProgram::bindFragDataLocation(GLuint _index, const std::string &_attribName)
+void ShaderProgram::bindFragDataLocation(GLuint _index, const std::string &_attribName) noexcept
 {
   if(m_linked == true)
   {
@@ -100,7 +100,7 @@ void ShaderProgram::bindFragDataLocation(GLuint _index, const std::string &_attr
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::link()
+void ShaderProgram::link() noexcept
 {
   glLinkProgram(m_programID);
 if(m_debugState==true)
@@ -133,7 +133,7 @@ if(m_debugState==true)
 
 
 //----------------------------------------------------------------------------------------------------------------------
-GLuint ShaderProgram::getUniformLocation(const char* _name   ) const
+GLuint ShaderProgram::getUniformLocation(const char* _name   ) const noexcept
 {
   GLint loc = glGetUniformLocation( m_programID ,_name);
   if (loc == -1)
@@ -143,7 +143,7 @@ GLuint ShaderProgram::getUniformLocation(const char* _name   ) const
   return loc;
 }
 
-void ShaderProgram::printProperties() const
+void ShaderProgram::printProperties() const noexcept
 {
   printActiveUniforms();
   std::cerr<<"_______________________________________________________________________________________________________________________\n";
@@ -151,7 +151,7 @@ void ShaderProgram::printProperties() const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::printActiveUniforms() const
+void ShaderProgram::printActiveUniforms() const noexcept
 {
   if(m_active !=true)
   {
@@ -168,7 +168,7 @@ void ShaderProgram::printActiveUniforms() const
   }
 }
 
-void ShaderProgram::printActiveAttributes() const
+void ShaderProgram::printActiveAttributes() const noexcept
 {
   GLint nAttribs;
 
@@ -202,13 +202,13 @@ void ShaderProgram::printActiveAttributes() const
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform1f( const char* _varname,  float _v0  ) const
+void ShaderProgram::setUniform1f( const char* _varname,  float _v0  ) const noexcept
 {
   glUniform1f(getUniformLocation(_varname),_v0);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform1f( const std::string &_varname, float _v0    ) const
+void ShaderProgram::setRegisteredUniform1f( const std::string &_varname, float _v0    ) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
@@ -219,14 +219,14 @@ void ShaderProgram::setRegisteredUniform1f( const std::string &_varname, float _
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform2f(const char* _varname, float _v0, float _v1 ) const
+void ShaderProgram::setUniform2f(const char* _varname, float _v0, float _v1 ) const noexcept
 {
   glUniform2f(getUniformLocation(_varname),_v0,_v1);
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform2f(const std::string &_varname, float _v0, float _v1 ) const
+void ShaderProgram::setRegisteredUniform2f(const std::string &_varname, float _v0, float _v1 ) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
@@ -238,12 +238,12 @@ void ShaderProgram::setRegisteredUniform2f(const std::string &_varname, float _v
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform3f(const char* _varname, float _v0,  float _v1, float _v2  ) const
+void ShaderProgram::setUniform3f(const char* _varname, float _v0,  float _v1, float _v2  ) const noexcept
 {
   glUniform3f(getUniformLocation(_varname),_v0,_v1,_v2);
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform3f( const std::string &_varname, float _v0, float _v1, float _v2  ) const
+void ShaderProgram::setRegisteredUniform3f( const std::string &_varname, float _v0, float _v1, float _v2  ) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
@@ -254,13 +254,13 @@ void ShaderProgram::setRegisteredUniform3f( const std::string &_varname, float _
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform4f( const char* _varname, float _v0,float _v1,  float _v2, float _v3 ) const
+void ShaderProgram::setUniform4f( const char* _varname, float _v0,float _v1,  float _v2, float _v3 ) const noexcept
 {
 
   glUniform4f(getUniformLocation(_varname),_v0,_v1,_v2,_v3);
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform4f( const std::string &_varname, float _v0, float _v1,  float _v2, float _v3  ) const
+void ShaderProgram::setRegisteredUniform4f( const std::string &_varname, float _v0, float _v1,  float _v2, float _v3  ) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
@@ -272,25 +272,25 @@ void ShaderProgram::setRegisteredUniform4f( const std::string &_varname, float _
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform1fv(const char* _varname,  size_t _count,  const float* _value ) const
+void ShaderProgram::setUniform1fv(const char* _varname,  size_t _count,  const float* _value ) const noexcept
 {
   glUniform1fv(getUniformLocation(_varname),_count,_value);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform2fv(const char* _varname,  size_t _count,  const float* _value ) const
+void ShaderProgram::setUniform2fv(const char* _varname,  size_t _count,  const float* _value ) const noexcept
 {
   glUniform2fv(getUniformLocation(_varname),_count,_value);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform3fv( const char* _varname, size_t _count, const float* _value  ) const
+void ShaderProgram::setUniform3fv( const char* _varname, size_t _count, const float* _value  ) const noexcept
 {
   glUniform3fv(getUniformLocation(_varname),_count,_value);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform4fv(const char* _varname,size_t _count, const float* _value  ) const
+void ShaderProgram::setUniform4fv(const char* _varname,size_t _count, const float* _value  ) const noexcept
 {
   glUniform4fv(getUniformLocation(_varname),_count,_value);
 
@@ -298,14 +298,14 @@ void ShaderProgram::setUniform4fv(const char* _varname,size_t _count, const floa
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform1i( const char* _varname, GLint _v0 ) const
+void ShaderProgram::setUniform1i( const char* _varname, GLint _v0 ) const noexcept
 {
   glUniform1i(getUniformLocation(_varname),_v0);
 
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform1i( const std::string &_varname, int _v0  ) const
+void ShaderProgram::setRegisteredUniform1i( const std::string &_varname, int _v0  ) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
@@ -317,7 +317,7 @@ void ShaderProgram::setRegisteredUniform1i( const std::string &_varname, int _v0
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform2i( const std::string &_varname, int _v0, int _v1   ) const
+void ShaderProgram::setRegisteredUniform2i( const std::string &_varname, int _v0, int _v1   ) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
@@ -330,7 +330,7 @@ void ShaderProgram::setRegisteredUniform2i( const std::string &_varname, int _v0
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform3i(const std::string &_varname,  int _v0,   int _v1,  int _v2   ) const
+void ShaderProgram::setRegisteredUniform3i(const std::string &_varname,  int _v0,   int _v1,  int _v2   ) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
@@ -341,7 +341,7 @@ void ShaderProgram::setRegisteredUniform3i(const std::string &_varname,  int _v0
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform4i( const std::string &_varname,  int _v0,   int _v1, int _v2,  int _v3  ) const
+void ShaderProgram::setRegisteredUniform4i( const std::string &_varname,  int _v0,   int _v1, int _v2,  int _v3  ) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
@@ -352,55 +352,55 @@ void ShaderProgram::setRegisteredUniform4i( const std::string &_varname,  int _v
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform2i( const char* _varname,  GLint _v0,  GLint _v1 ) const
+void ShaderProgram::setUniform2i( const char* _varname,  GLint _v0,  GLint _v1 ) const noexcept
 {
   glUniform2i(getUniformLocation(_varname),_v0,_v1);
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform3i( const char* _varname, GLint _v0,  GLint _v1,   GLint _v2  ) const
+void ShaderProgram::setUniform3i( const char* _varname, GLint _v0,  GLint _v1,   GLint _v2  ) const noexcept
 {
   glUniform3i(getUniformLocation(_varname),_v0,_v1,_v2);
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform4i( const char* _varname,   GLint _v0,GLint _v1,   GLint _v2, GLint _v3  ) const
+void ShaderProgram::setUniform4i( const char* _varname,   GLint _v0,GLint _v1,   GLint _v2, GLint _v3  ) const noexcept
 {
   glUniform4i(getUniformLocation(_varname),_v0,_v1,_v2,_v3);
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform1iv( const char* _varname, size_t _count,  const GLint* _value ) const
+void ShaderProgram::setUniform1iv( const char* _varname, size_t _count,  const GLint* _value ) const noexcept
 {
   glUniform1iv(getUniformLocation(_varname),_count,_value);
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform2iv( const char* _varname, size_t _count, const GLint* _value   ) const
+void ShaderProgram::setUniform2iv( const char* _varname, size_t _count, const GLint* _value   ) const noexcept
 {
   glUniform2iv(getUniformLocation(_varname),_count,_value);
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform3iv( const char* _varname,size_t _count, const GLint* _value ) const
+void ShaderProgram::setUniform3iv( const char* _varname,size_t _count, const GLint* _value ) const noexcept
 {
   glUniform3iv(getUniformLocation(_varname),_count,_value);
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniform4iv(const char* _varname, size_t _count,const GLint* _value  ) const
+void ShaderProgram::setUniform4iv(const char* _varname, size_t _count,const GLint* _value  ) const noexcept
 {
   glUniform4iv(getUniformLocation(_varname),_count,_value);
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniformMatrix2fv(const char* _varname,size_t _count, bool _transpose,const float* _value ) const
+void ShaderProgram::setUniformMatrix2fv(const char* _varname,size_t _count, bool _transpose,const float* _value ) const noexcept
 {
   glUniformMatrix2fv(getUniformLocation(_varname),_count,_transpose,_value);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniformMatrix3fv( const char* _varname, size_t _count,bool _transpose, const float* _value ) const
+void ShaderProgram::setUniformMatrix3fv( const char* _varname, size_t _count,bool _transpose, const float* _value ) const noexcept
 {
   glUniformMatrix3fv(getUniformLocation(_varname),_count,_transpose,_value);
 
@@ -408,7 +408,7 @@ void ShaderProgram::setUniformMatrix3fv( const char* _varname, size_t _count,boo
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string &_varname,size_t _count, bool _transpose,const float* _value) const
+void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string &_varname,size_t _count, bool _transpose,const float* _value) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
@@ -419,14 +419,14 @@ void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string &_varname,s
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniformMatrix4fv(const char* _varname, size_t _count, bool _transpose, const float* _value ) const
+void ShaderProgram::setUniformMatrix4fv(const char* _varname, size_t _count, bool _transpose, const float* _value ) const noexcept
 {
   glUniformMatrix4fv(getUniformLocation(_varname),_count,_transpose,_value);
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string &_varname, size_t _count, bool _transpose,  const float* _value ) const
+void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string &_varname, size_t _count, bool _transpose,  const float* _value ) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
@@ -441,59 +441,59 @@ void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string &_varname, s
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniformMatrix2x3fv(const char* _varname,size_t _count,bool _transpose, const float* _value  ) const
+void ShaderProgram::setUniformMatrix2x3fv(const char* _varname,size_t _count,bool _transpose, const float* _value  ) const noexcept
 {
   glUniformMatrix2x3fv(getUniformLocation(_varname),_count,_transpose,_value);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniformMatrix2x4fv(const char* _varname, size_t _count,bool _transpose,const float* _value) const
+void ShaderProgram::setUniformMatrix2x4fv(const char* _varname, size_t _count,bool _transpose,const float* _value) const noexcept
 {
   glUniformMatrix2x4fv(getUniformLocation(_varname),_count,_transpose,_value);
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniformMatrix3x2fv(const char* _varname,size_t _count,bool _transpose,const float* _value ) const
+void ShaderProgram::setUniformMatrix3x2fv(const char* _varname,size_t _count,bool _transpose,const float* _value ) const noexcept
 {
   glUniformMatrix3x2fv(getUniformLocation(_varname),_count,_transpose,_value);
 
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniformMatrix3x4fv(const char* _varname,size_t _count,bool _transpose, const float* _value) const
+void ShaderProgram::setUniformMatrix3x4fv(const char* _varname,size_t _count,bool _transpose, const float* _value) const noexcept
 {
   glUniformMatrix3x4fv(getUniformLocation(_varname),_count,_transpose,_value);
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniformMatrix4x2fv(const char* _varname,size_t _count,bool _transpose,const float* _value ) const
+void ShaderProgram::setUniformMatrix4x2fv(const char* _varname,size_t _count,bool _transpose,const float* _value ) const noexcept
 {
   glUniformMatrix4x2fv(getUniformLocation(_varname),_count,_transpose,_value);
 
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setUniformMatrix4x3fv(const char* _varname,size_t _count,bool _transpose,const float* _value) const
+void ShaderProgram::setUniformMatrix4x3fv(const char* _varname,size_t _count,bool _transpose,const float* _value) const noexcept
 {
   glUniformMatrix4x3fv(getUniformLocation(_varname),_count,_transpose,_value);
 
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::getUniformfv( const char* _varname,float* o_values ) const
+void ShaderProgram::getUniformfv( const char* _varname,float* o_values ) const noexcept
 {
   glGetUniformfv(m_programID, getUniformLocation(_varname),o_values);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::getUniformiv(const char* _varname,int *o_values ) const
+void ShaderProgram::getUniformiv(const char* _varname,int *o_values ) const noexcept
 {
   glGetUniformiv(m_programID,getUniformLocation(_varname),o_values);
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::enableAttribArray( const char* _name) const
+void ShaderProgram::enableAttribArray( const char* _name) const noexcept
 {
 
   auto index=m_attribs.find(_name);
@@ -507,7 +507,7 @@ void ShaderProgram::enableAttribArray( const char* _name) const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::disableAttribArray(const char* _name) const
+void ShaderProgram::disableAttribArray(const char* _name) const noexcept
 {
   glDisableVertexAttribArray(getUniformLocation(_name));
 
@@ -515,25 +515,25 @@ void ShaderProgram::disableAttribArray(const char* _name) const
 
 
 
-void ShaderProgram::bindFragDataLocation(GLuint _colourNumber, const char *_name)
+void ShaderProgram::bindFragDataLocation(GLuint _colourNumber, const char *_name) noexcept
 {
     glBindFragDataLocation(m_programID , _colourNumber, _name);
 }
 
-GLuint ShaderProgram::getUniformBlockIndex( const std::string &_uniformBlockName )const
+GLuint ShaderProgram::getUniformBlockIndex( const std::string &_uniformBlockName )const noexcept
 {
   return glGetUniformBlockIndex(m_programID,_uniformBlockName.c_str());
 }
 
 
-void ShaderProgram::registerUniform(std::string _uniformName )
+void ShaderProgram::registerUniform(std::string _uniformName ) noexcept
 {
 
   m_registeredUniforms[_uniformName]=getUniformLocation(_uniformName.c_str());
 
 }
 
-bool ShaderProgram::parseHashDefine(const std::string &_s,std::string &o_name,int &o_value ) const
+bool ShaderProgram::parseHashDefine(const std::string &_s,std::string &o_name,int &o_value ) const noexcept
 {
   // typedef our tokenizer for speed and clarity
   typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
@@ -571,7 +571,7 @@ bool ShaderProgram::parseHashDefine(const std::string &_s,std::string &o_name,in
 // [ a define ]
 // we can't process these ones so will just put error message not harmful tho
 
-void ShaderProgram::parseUniform(const std::string &_s, const std::unordered_map <std::string,int> &_defines  )
+void ShaderProgram::parseUniform(const std::string &_s, const std::unordered_map <std::string,int> &_defines  ) noexcept
 {
  typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
 
@@ -634,7 +634,7 @@ void ShaderProgram::parseUniform(const std::string &_s, const std::unordered_map
 }
 
 
-void ShaderProgram::autoRegisterUniforms()
+void ShaderProgram::autoRegisterUniforms() noexcept
 {
 
   std::string source;
@@ -676,7 +676,7 @@ void ShaderProgram::autoRegisterUniforms()
   }
 }
 
-void ShaderProgram::printRegisteredUniforms() const
+void ShaderProgram::printRegisteredUniforms() const noexcept
 {
   std::cout<<"Registered Uniforms for shader "<< m_programName<<"\n";
   for(auto uniform : m_registeredUniforms)
