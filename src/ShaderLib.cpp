@@ -330,7 +330,27 @@ SHADERTYPE ShaderLib::getShaderType(const std::string &type)
   // convert to low for test
   std::string tlower=type;
   std::transform(type.begin(), type.end(), tlower.begin(), ::tolower);
-  SHADERTYPE shadertype;
+  const static std::map<std::string,SHADERTYPE> stype=
+  {
+    {"vertex",VERTEX},
+    {"fragment",FRAGMENT},
+    {"geometry",GEOMETRY},
+    {"tesscontrol",TESSCONTROL},
+    {"tesseval",TESSEVAL},
+    {"compute",COMPUTE}
+  };
+
+  auto value=stype.find(tlower);
+  if(value !=stype.end())
+  {
+    return value->second;
+  }
+  else
+  {
+    return NONE;
+  }
+/*
+//  SHADERTYPE shadertype;
   if(tlower=="vertex")
   {
     shadertype=VERTEX;
@@ -356,7 +376,7 @@ SHADERTYPE ShaderLib::getShaderType(const std::string &type)
     shadertype=COMPUTE;
   }
   else shadertype=NONE;
-  return shadertype;
+  return shadertype;*/
 }
 
 
