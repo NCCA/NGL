@@ -1,8 +1,11 @@
 #NGL the NCCA Graphics Library
 This is the main source branch for the NCCA Graphics Library ngl.
 
-It needs to be built using QtCreator and you will also need to install
-boost
+It needs to be built using QtCreator or CMake and you will also need to install
+boost (pathed in /usr/local/include as default)
+
+Note this is now being built using C++ 11 and will use many C++ 11 features so make sure you 
+have a modern compiler such as clang++ or g++ >4.8
 
 For more info check out the website here
 
