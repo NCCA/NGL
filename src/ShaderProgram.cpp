@@ -637,21 +637,20 @@ void ShaderProgram::parseUniform(const std::string &_s, const std::unordered_map
 void ShaderProgram::autoRegisterUniforms()
 {
 
-  unsigned int size=m_shaders.size();
-  const std::string *source;
+  std::string source;
   std::vector<std::string> lines;
 
-  for(unsigned int i=0; i<size; ++i)
+  for(auto shader : m_shaders)
   {
     /// first grab all of the shader source for this program
-    source=m_shaders[i]->getShaderSource();
+    source=shader->getShaderSource();
     // and split on new lines
-    boost::split(lines, *source, boost::is_any_of("\n\r"));
+    boost::split(lines, source, boost::is_any_of("\n\r"));
 
     // now we loop for the strings and tokenize looking for the uniform keyword
     // or the #define keyword
-    std::vector<std::string>::iterator start=lines.begin();
-    std::vector<std::string>::iterator end=lines.end();
+    auto start=lines.begin();
+    auto end=lines.end();
     std::unordered_map<std::string,int> defines;
 
     while(start!=end)
@@ -679,18 +678,12 @@ void ShaderProgram::autoRegisterUniforms()
 
 void ShaderProgram::printRegisteredUniforms() const
 {
-  auto start=m_registeredUniforms.begin();
-  auto end=m_registeredUniforms.end();
-
   std::cout<<"Registered Uniforms for shader "<< m_programName<<"\n";
-
-  while(start !=end)
+  for(auto uniform : m_registeredUniforms)
   {
-    std::cout<<"Uniform "<<start->first<<"\n";
-    ++start;
+    std::cout<<"Uniform "<<uniform.first<<std::endl;
   }
 }
-
 
 
 } // end ngl namespace

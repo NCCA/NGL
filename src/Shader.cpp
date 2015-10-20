@@ -69,18 +69,16 @@ Shader::Shader( std::string _name,  ShaderType _type )
   }
   m_compiled = false;
   m_refCount=0;
-  m_source=0;
 }
 Shader::~Shader()
 {
   std::cerr<<"removing shader "<<m_name<<"\n";
-  delete m_source;
   glDeleteShader(m_shaderHandle);
 }
 
 void Shader::compile()
 {
-  if (m_source == 0)
+  if (m_source.empty() )
   {
     std::cerr<<"Warning no shader source loaded\n";
     return;
@@ -115,10 +113,10 @@ void Shader::compile()
 void Shader::load( std::string _name )
 {
   // see if we already have some source attached
-  if(m_source !=0)
+  if(m_source.empty())
   {
     std::cerr<<"deleting existing source code\n";
-    delete m_source;
+    m_source.clear();
   }
   std::ifstream shaderSource(_name.c_str());
   if (!shaderSource.is_open())
@@ -127,11 +125,11 @@ void Shader::load( std::string _name )
    exit(EXIT_FAILURE);
   }
   // now read in the data
-  m_source = new std::string((std::istreambuf_iterator<char>(shaderSource)), std::istreambuf_iterator<char>());
+  m_source =  std::string((std::istreambuf_iterator<char>(shaderSource)), std::istreambuf_iterator<char>());
   shaderSource.close();
-  *m_source+="\0";
-
-  const char* data=m_source->c_str();
+  // glShaderSource needs null terminated const char *
+  m_source+='\0';
+  const char* data=m_source.c_str();
   glShaderSource(m_shaderHandle , 1, &data,NULL);
   m_compiled=false;
 
@@ -147,20 +145,21 @@ void Shader::load( std::string _name )
 
 
 
-void Shader::loadFromString( const char ** _string )
+void Shader::loadFromString(const std::string &_string ) noexcept
 {
   // see if we already have some source attached
-  if(m_source !=0)
+  if(m_source.size()!=0)
   {
     std::cerr<<"deleting existing source code\n";
-    delete m_source;
+    m_source.clear();
   }
 
-
-  glShaderSource(m_shaderHandle , 1, _string,NULL);
-  m_compiled=false;
   // we need this for the check in the compile bit
-  m_source=new std::string(*_string);
+  m_source=_string;
+  const char* data=m_source.c_str();
+
+  glShaderSource(m_shaderHandle , 1, &data,NULL);
+  m_compiled=false;
  if (m_debugState == true)
   {
     //std::cerr<<"Shader Loaded and source attached\n";

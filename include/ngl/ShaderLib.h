@@ -347,7 +347,7 @@ public :
   /// @param _shaderName the name of the shader program
   /// @param _string the text array of shader data
   //----------------------------------------------------------------------------------------------------------------------
-  void loadShaderSourceFromString( const std::string &_shaderName, const char **_string );
+  void loadShaderSourceFromString(const std::string &_shaderName, const std::string &_string ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief use the null program (this will turn off any shaders), if using some drivers this
   /// will go to the fixed function pipeline

@@ -464,7 +464,7 @@ bool ShaderLib::loadFromJson(const std::string &_fname)
         delete f;
       }
       const char *d=shaderSource.c_str();
-      loadShaderSourceFromString(name,&d);
+      loadShaderSourceFromString(name,shaderSource);//&d);
       if(debug)
       {
         std::cout<<"********* Final Shader String ***************\n";
@@ -489,7 +489,7 @@ bool ShaderLib::loadFromJson(const std::string &_fname)
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::loadShaderSourceFromString(const std::string &_shaderName, const char **_string )
+void ShaderLib::loadShaderSourceFromString(const std::string &_shaderName, const std::string &_string ) noexcept
 {
   auto shader=m_shaders.find(_shaderName);
   // make sure we have a valid shader and program
