@@ -10,6 +10,7 @@ QT += opengl
 QT += core
 QT += gui
 QT -=xml
+CONFIG+=c++11
 
 # use this to remove any marked as deprecated classes from NGL
 DEFINES += REMOVEDDEPRECATED
@@ -31,7 +32,6 @@ equals(IMAGELIB,"USEOIIO"){
 	LIBS+=-L/usr/local/lib/ -lOpenImageIO
 }
 # to ensure we don't get any ABI issues use c++ and correct libs on mac
-macx:CONFIG+=c++11
 
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
 # mainly in the types.h file for the setMacVisual which is native in Qt5
@@ -54,7 +54,6 @@ QMAKE_LFLAGS_COMPAT_VERSION=
 QMAKE_LFLAGS_SONAME=
 # use this to suppress some warning from boost
 unix:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
-#macx:CONFIG+=c++11
 macx:QMAKE_MAC_SDK = macosx10.11
 # define the NGL_DEBUG flag for the graphics lib
 DEFINES += NGL_DEBUG
