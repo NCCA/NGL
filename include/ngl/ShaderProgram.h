@@ -527,7 +527,7 @@ private :
   /// @brief parse a string to get the #define value
   /// @param[in] _str the string to parse
   /// @param[in] _defines any pre found defines
-  void parseUniform(const std::string &_s,  const std::unordered_map<std::__1::string, int> &_defines  ) noexcept;
+  void parseUniform(const std::string &_s,  const std::unordered_map<std::string, int> &_defines  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
 
   #ifdef NO_PYTHON_LIB
