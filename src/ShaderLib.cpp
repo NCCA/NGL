@@ -168,8 +168,8 @@ void ShaderLib::loadShader( const std::string &_shaderName,const std::string &_v
   NGL_UNUSED(_exitOnError);
   createShaderProgram(_shaderName);
 
-  attachShader(_shaderName+"Vertex",VERTEX);
-  attachShader(_shaderName+"Fragment",FRAGMENT);
+  attachShader(_shaderName+"Vertex",ShaderType::VERTEX);
+  attachShader(_shaderName+"Fragment",ShaderType::FRAGMENT);
   loadShaderSource(_shaderName+"Vertex",_vert);
   loadShaderSource(_shaderName+"Fragment",_frag);
 
@@ -179,7 +179,7 @@ void ShaderLib::loadShader( const std::string &_shaderName,const std::string &_v
   attachShaderToProgram(_shaderName,_shaderName+"Fragment");
   if( _geo !="")
   {
-    attachShader(_shaderName+"Geo",GEOMETRY);
+    attachShader(_shaderName+"Geo",ShaderType::GEOMETRY);
     loadShaderSource(_shaderName+"Geo",_vert);
     compileShader(_shaderName+"Geo");
     attachShaderToProgram(_shaderName,_shaderName+"Geo");
@@ -194,8 +194,8 @@ void ShaderLib::reset()
 {
   std::cerr<<"Closing down shader manager\n";
 
-  std::map <std::string,ShaderProgram *>::iterator pbegin=m_shaderPrograms.begin();
-  std::map <std::string,ShaderProgram *>::iterator pend=m_shaderPrograms.end();
+  auto pbegin=m_shaderPrograms.begin();
+  auto pend=m_shaderPrograms.end();
   // delete each of the shader programs first (this will clear the maps in Program)
   // but not delete the shaders
   while(pbegin != pend)
@@ -204,8 +204,8 @@ void ShaderLib::reset()
     ++pbegin;
   }
   // now we delete all of the shaders
-  std::map <std::string,Shader *>::iterator sbegin=m_shaders.begin();;
-  std::map <std::string,Shader *>::iterator send=m_shaders.end();;
+  auto sbegin=m_shaders.begin();;
+  auto send=m_shaders.end();;
 
   while(sbegin != send)
   {
@@ -223,7 +223,7 @@ GLint ShaderLib::getAttribLocation( const std::string &_shaderName,   const std:
   GLint attrib=0;
 
   // get an iterator to the shaders
-  std::map <std::string, ShaderProgram * >::const_iterator shader=m_shaderPrograms.find(_shaderName);
+  auto shader=m_shaderPrograms.find(_shaderName);
   // make sure we have a valid shader
   if(shader!=m_shaderPrograms.end())
   {
@@ -259,7 +259,7 @@ ShaderLib::ShaderLib()
 //----------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::attachShader(std::string _name, SHADERTYPE _type )
+void ShaderLib::attachShader(std::string _name, ShaderType _type )
 {
   m_shaders[_name]= new Shader(_name,_type);
   if(m_debugState==true)
@@ -270,7 +270,7 @@ void ShaderLib::attachShader(std::string _name, SHADERTYPE _type )
 void ShaderLib::compileShader( std::string _name  )
 {
   // get an iterator to the shaders
-  std::map <std::string, Shader * >::const_iterator shader=m_shaders.find(_name);
+  auto shader=m_shaders.find(_name);
   // make sure we have a valid shader
   if(shader!=m_shaders.end())
   {
@@ -292,8 +292,8 @@ void ShaderLib::attachShaderToProgram( std::string _program, std::string _shader
 {
 
   // get an iterator to the shader and program
-  std::map <std::string, Shader * >::const_iterator shader=m_shaders.find(_shader);
-  std::map <std::string, ShaderProgram * >::const_iterator program=m_shaderPrograms.find(_program);
+  auto shader=m_shaders.find(_shader);
+  auto program=m_shaderPrograms.find(_program);
 
   // make sure we have a valid shader and program
   if(shader!=m_shaders.end() && program !=m_shaderPrograms.end())
@@ -314,7 +314,7 @@ void ShaderLib::attachShaderToProgram( std::string _program, std::string _shader
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::loadShaderSource(std::string _shaderName,	std::string _sourceFile )
 {
-  std::map <std::string, Shader * >::const_iterator shader=m_shaders.find(_shaderName);
+  auto shader=m_shaders.find(_shaderName);
   // make sure we have a valid shader and program
   if(shader!=m_shaders.end() )
   {
@@ -325,19 +325,19 @@ void ShaderLib::loadShaderSource(std::string _shaderName,	std::string _sourceFil
 }
 
 
-SHADERTYPE ShaderLib::getShaderType(const std::string &type)
+ShaderType ShaderLib::getShaderType(const std::string &type)
 {
   // convert to low for test
   std::string tlower=type;
   std::transform(type.begin(), type.end(), tlower.begin(), ::tolower);
-  const static std::map<std::string,SHADERTYPE> stype=
+  const static std::unordered_map<std::string,ShaderType> stype=
   {
-    {"vertex",VERTEX},
-    {"fragment",FRAGMENT},
-    {"geometry",GEOMETRY},
-    {"tesscontrol",TESSCONTROL},
-    {"tesseval",TESSEVAL},
-    {"compute",COMPUTE}
+    {"vertex",ShaderType::VERTEX},
+    {"fragment",ShaderType::FRAGMENT},
+    {"geometry",ShaderType::GEOMETRY},
+    {"tesscontrol",ShaderType::TESSCONTROL},
+    {"tesseval",ShaderType::TESSEVAL},
+    {"compute",ShaderType::COMPUTE}
   };
 
   auto value=stype.find(tlower);
@@ -347,7 +347,7 @@ SHADERTYPE ShaderLib::getShaderType(const std::string &type)
   }
   else
   {
-    return NONE;
+    return ShaderType::NONE;
   }
 /*
 //  SHADERTYPE shadertype;
@@ -434,7 +434,7 @@ bool ShaderLib::loadFromJson(const std::string &_fname)
     {
       const rj::Value &currentShader = shaders[i];
       const rj::Value::Ch *name=currentShader["name"].GetString();
-      SHADERTYPE shadertype=getShaderType(currentShader["type"].GetString());
+      ShaderType shadertype=getShaderType(currentShader["type"].GetString());
 
       attachShader(name,shadertype);
       const rj::Value& paths = currentShader["path"];
@@ -491,7 +491,7 @@ bool ShaderLib::loadFromJson(const std::string &_fname)
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::loadShaderSourceFromString(const std::string &_shaderName, const char **_string )
 {
-  std::map <std::string, Shader * >::const_iterator shader=m_shaders.find(_shaderName);
+  auto shader=m_shaders.find(_shaderName);
   // make sure we have a valid shader and program
   if(shader!=m_shaders.end() )
   {
@@ -507,7 +507,7 @@ void ShaderLib::loadShaderSourceFromString(const std::string &_shaderName, const
 void ShaderLib::linkProgramObject(std::string _name	)
 {
 
-  std::map <std::string, ShaderProgram * >::const_iterator program=m_shaderPrograms.find(_name);
+  auto program=m_shaderPrograms.find(_name);
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -521,7 +521,7 @@ void ShaderLib::linkProgramObject(std::string _name	)
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::use( std::string _name  )
 {
-  std::map <std::string, ShaderProgram * >::const_iterator program=m_shaderPrograms.find(_name);
+  auto program=m_shaderPrograms.find(_name);
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -542,7 +542,7 @@ void ShaderLib::use( std::string _name  )
 //----------------------------------------------------------------------------------------------------------------------
 GLuint ShaderLib::getProgramID(std::string _name )
 {
-  std::map <std::string, ShaderProgram * >::const_iterator program=m_shaderPrograms.find(_name);
+  auto program=m_shaderPrograms.find(_name);
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -558,7 +558,7 @@ GLuint ShaderLib::getProgramID(std::string _name )
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::registerUniform( std::string _shaderName,std::string _uniformName  )
 {
-  std::map <std::string, ShaderProgram * >::const_iterator program=m_shaderPrograms.find(_shaderName);
+  auto program=m_shaderPrograms.find(_shaderName);
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -574,7 +574,7 @@ void ShaderLib::registerUniform( std::string _shaderName,std::string _uniformNam
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::autoRegisterUniforms( std::string _shaderName   )
 {
-  std::map <std::string, ShaderProgram * >::const_iterator program=m_shaderPrograms.find(_shaderName);
+  auto program=m_shaderPrograms.find(_shaderName);
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -589,7 +589,7 @@ void ShaderLib::autoRegisterUniforms( std::string _shaderName   )
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::bindAttribute( std::string _programName, GLuint _index, std::string _attribName	)
 {
-  std::map <std::string, ShaderProgram * >::const_iterator program=m_shaderPrograms.find(_programName);
+  auto program=m_shaderPrograms.find(_programName);
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -602,7 +602,7 @@ void ShaderLib::bindAttribute( std::string _programName, GLuint _index, std::str
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::bindFragDataLocation( std::string _programName, GLuint _index, std::string _attribName	)
 {
-  std::map <std::string, ShaderProgram * >::const_iterator program=m_shaderPrograms.find(_programName);
+  auto program=m_shaderPrograms.find(_programName);
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -624,7 +624,7 @@ void ceckGLError( const std::string  &_file, const int _line  )
 //----------------------------------------------------------------------------------------------------------------------
 ShaderProgram * ShaderLib::operator[](const std::string &_name  )
 {
-  std::map <std::string, ShaderProgram * >::const_iterator program=m_shaderPrograms.find(_name);
+  auto program=m_shaderPrograms.find(_name);
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -643,7 +643,7 @@ ShaderProgram * ShaderLib::operator[](const std::string &_name  )
 //----------------------------------------------------------------------------------------------------------------------
 ShaderProgram * ShaderLib::operator[]( const char *_name )
 {
-  std::map <std::string, ShaderProgram * >::const_iterator program=m_shaderPrograms.find(_name);
+  auto program=m_shaderPrograms.find(_name);
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -673,7 +673,7 @@ GLuint ShaderLib::getUniformBlockIndex( const std::string &_uniformBlockName  ) 
   GLint id=0;
 
   // get an iterator to the shaders
-  std::map <std::string, ShaderProgram * >::const_iterator shader=m_shaderPrograms.find(m_currentShader);
+  auto shader=m_shaderPrograms.find(m_currentShader);
   // make sure we have a valid shader
   if(shader!=m_shaderPrograms.end())
   {
@@ -693,8 +693,8 @@ void ShaderLib::loadTextShaders()
 
   createShaderProgram("nglTextShader");
 
-  attachShader("nglTextVertex",VERTEX);
-  attachShader("nglTextFragment",FRAGMENT);
+  attachShader("nglTextVertex",ShaderType::VERTEX);
+  attachShader("nglTextFragment",ShaderType::FRAGMENT);
 
   loadShaderSourceFromString("nglTextVertex",textVertexShader);
   loadShaderSourceFromString("nglTextFragment",textFragmentShader);
@@ -722,8 +722,8 @@ void ShaderLib::loadColourShaders()
 
   createShaderProgram("nglColourShader");
 
-  attachShader("nglColourVertex",VERTEX);
-  attachShader("nglColourFragment",FRAGMENT);
+  attachShader("nglColourVertex",ShaderType::VERTEX);
+  attachShader("nglColourFragment",ShaderType::FRAGMENT);
 
   loadShaderSourceFromString("nglColourVertex",colourVertexShader);
   loadShaderSourceFromString("nglColourFragment",colourFragmentShader);
@@ -748,8 +748,8 @@ void ShaderLib::loadDiffuseShaders()
 
   createShaderProgram("nglDiffuseShader");
 
-  attachShader("nglDiffuseVertex",VERTEX);
-  attachShader("nglDiffuseFragment",FRAGMENT);
+  attachShader("nglDiffuseVertex",ShaderType::VERTEX);
+  attachShader("nglDiffuseFragment",ShaderType::FRAGMENT);
 
   loadShaderSourceFromString("nglDiffuseVertex",diffuseVertexShader);
   loadShaderSourceFromString("nglDiffuseFragment",diffuseFragmentShader);
@@ -776,8 +776,8 @@ void ShaderLib::loadToonShaders()
 
   createShaderProgram("nglToonShader");
 
-  attachShader("nglToonVertex",VERTEX);
-  attachShader("nglToonFragment",FRAGMENT);
+  attachShader("nglToonVertex",ShaderType::VERTEX);
+  attachShader("nglToonFragment",ShaderType::FRAGMENT);
 
   loadShaderSourceFromString("nglToonVertex",toonVertexShader);
   loadShaderSourceFromString("nglToonFragment",toonFragmentShader);
@@ -801,7 +801,7 @@ void ShaderLib::loadToonShaders()
 
 void ShaderLib::printRegisteredUniforms(std::string _shader) const
 {
-  std::map <std::string, ShaderProgram * >::const_iterator program=m_shaderPrograms.find(_shader);
+  auto program=m_shaderPrograms.find(_shader);
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -812,7 +812,7 @@ void ShaderLib::printRegisteredUniforms(std::string _shader) const
 void ShaderLib::printProperties() const
 {
 
-  std::map <std::string, ShaderProgram * >::const_iterator program=m_shaderPrograms.find(m_currentShader);
+  auto program=m_shaderPrograms.find(m_currentShader);
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {

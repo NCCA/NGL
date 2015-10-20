@@ -42,7 +42,7 @@ VAOPrimitives::VAOPrimitives()
 void VAOPrimitives::draw( const std::string &_name )
 {
   // get an iterator to the VertexArrayObjects
-  std::map <std::string, VertexArrayObject * >::const_iterator VAO=m_createdVAOs.find(_name);
+  auto VAO=m_createdVAOs.find(_name);
   // make sure we have a valid shader
   if(VAO!=m_createdVAOs.end())
   {
@@ -58,7 +58,7 @@ void VAOPrimitives::draw( const std::string &_name )
 void VAOPrimitives::draw( const std::string &_name, GLenum _mode )
 {
   // get an iterator to the VertexArrayObjects
-  std::map <std::string, VertexArrayObject * >::const_iterator VAO=m_createdVAOs.find(_name);
+  auto VAO=m_createdVAOs.find(_name);
   // make sure we have a valid shader
   if(VAO!=m_createdVAOs.end())
   {
@@ -901,22 +901,14 @@ void VAOPrimitives::createTrianglePlane(const std::string &_name,const Real _wid
 //----------------------------------------------------------------------------------------------------------------------
 void VAOPrimitives::clear()
 {
-    // create an iterator for our map.
-    // not the iterator gives us two components .first .second which lets us access the key,object elements
-    std::map<std::string,VertexArrayObject *>::iterator it;
-    // grab an iterator to the end to make loop quicker
-    std::map<std::string,VertexArrayObject *>::iterator end=m_createdVAOs.end();
 
   std::cerr<<"clearing VAOs\n";
 
-    // loop through the map and delete the VBO's allocated
-    // note glDeleteBuffers needs a const GLUint * so we need to de-reference the map object
-  // note that in c++11 we use this but doesn't work
-  // under current lab build!!
-  //for(auto v : m_createdVAOs)
-  for( it=m_createdVAOs.begin() ; it != end; ++it )
+  // loop through the map and delete the VBO's allocated
+  // note glDeleteBuffers needs a const GLUint * so we need to de-reference the map object
+  for(auto v : m_createdVAOs)
   {
-    GLuint address=(*it).second->getID();
+    GLuint address=v.second->getID();
     glDeleteVertexArrays(1,&address);
 
   }

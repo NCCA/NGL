@@ -21,7 +21,7 @@
 #include "Types.h"
 #include "Util.h"
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 //----------------------------------------------------------------------------------------------------------------------
 ///  @class ShaderProgram  "ShaderProgram.h"
@@ -507,12 +507,12 @@ private :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a list of attributes for this object, mapping name to ID number
   //----------------------------------------------------------------------------------------------------------------------
-  std::map <std::string, GLuint > m_attribs;
+  std::unordered_map <std::string, GLuint > m_attribs;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a list of uniforms for this object, mapping name to ID number must be added by the user
   /// using the registerUniform method
   //----------------------------------------------------------------------------------------------------------------------
-  std::map <std::string, GLuint> m_registeredUniforms;
+  std::unordered_map <std::string, GLuint> m_registeredUniforms;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief indicate if this program is the current active program
   //----------------------------------------------------------------------------------------------------------------------
@@ -527,7 +527,7 @@ private :
   /// @brief parse a string to get the #define value
   /// @param[in] _str the string to parse
   /// @param[in] _defines any pre found defines
-  void parseUniform( const std::string &_s,  const std::map<std::string,int> &_defines  );
+  void parseUniform(const std::string &_s,  const std::unordered_map<std::__1::string, int> &_defines  );
   //----------------------------------------------------------------------------------------------------------------------
 
   #ifdef NO_PYTHON_LIB

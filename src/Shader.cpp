@@ -50,7 +50,7 @@ void printInfoLog( const GLuint &_obj)
 }
 
 
-Shader::Shader( std::string _name,  SHADERTYPE _type )
+Shader::Shader( std::string _name,  ShaderType _type )
 {
   m_name=_name;
   m_shaderType = _type;
@@ -59,13 +59,13 @@ Shader::Shader( std::string _name,  SHADERTYPE _type )
 
   switch (_type)
   {
-    case VERTEX : { m_shaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
-    case FRAGMENT : { m_shaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
-    case GEOMETRY : { m_shaderHandle = glCreateShader(GL_GEOMETRY_SHADER); break; }
-    case TESSCONTROL : { m_shaderHandle =glCreateShader(GL_TESS_CONTROL_SHADER); break; }
-    case TESSEVAL : { m_shaderHandle =glCreateShader(GL_TESS_EVALUATION_SHADER); break; }
-    case COMPUTE : { m_shaderHandle =glCreateShader(GL_COMPUTE_SHADER); break; }
-    case NONE :{;}
+    case ShaderType::VERTEX : { m_shaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
+    case ShaderType::FRAGMENT : { m_shaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
+    case ShaderType::GEOMETRY : { m_shaderHandle = glCreateShader(GL_GEOMETRY_SHADER); break; }
+    case ShaderType::TESSCONTROL : { m_shaderHandle =glCreateShader(GL_TESS_CONTROL_SHADER); break; }
+    case ShaderType::TESSEVAL : { m_shaderHandle =glCreateShader(GL_TESS_EVALUATION_SHADER); break; }
+    case ShaderType::COMPUTE : { m_shaderHandle =glCreateShader(GL_COMPUTE_SHADER); break; }
+    case ShaderType::NONE :{;}
   }
   m_compiled = false;
   m_refCount=0;

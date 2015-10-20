@@ -30,7 +30,7 @@
 #include "Vec4.h"
 
 #include <string>
-#include <map>
+#include <unordered_map>
 
 //----------------------------------------------------------------------------------------------------------------------
 // part of the python bindings
@@ -73,7 +73,7 @@ public :
   /// @brief attatch a Shader to the ShaderProgram referenced by _name
   /// @param _name the name of the ShaderProgram to attach
   //----------------------------------------------------------------------------------------------------------------------
-  void attachShader( std::string _name, SHADERTYPE _type );
+  void attachShader( std::string _name, ShaderType _type );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief attatch a Shader to the ShaderProgram referenced by _name
   /// @param _program the name of the ShaderProgram to attach to
@@ -617,7 +617,7 @@ protected:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  get shader type from string (used for json parsing)
   //----------------------------------------------------------------------------------------------------------------------
-  SHADERTYPE getShaderType(const std::string &type);
+  ShaderType getShaderType(const std::string &type);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  this will load the pre-defined text rendering shaders
   /// these are stored in the file src/shaders/TextShaders.h
@@ -641,11 +641,11 @@ protected:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a map of shader Programs using name as key to shader pointer
   //----------------------------------------------------------------------------------------------------------------------
-  std::map <std::string,ShaderProgram *> m_shaderPrograms;
+  std::unordered_map <std::string,ShaderProgram *> m_shaderPrograms;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief map of shaders using name as key
   //----------------------------------------------------------------------------------------------------------------------
-  std::map <std::string,Shader *> m_shaders;
+  std::unordered_map <std::string,Shader *> m_shaders;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief null ShaderProgram so we can return when shader not know;
   //----------------------------------------------------------------------------------------------------------------------

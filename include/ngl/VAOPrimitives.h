@@ -24,7 +24,7 @@
 #include "VertexArrayObject.h"
 #include <vector>
 #include <string>
-#include <map>
+#include <unordered_map>
 
 namespace ngl
 {
@@ -161,7 +161,7 @@ private :
 	//----------------------------------------------------------------------------------------------------------------------
 	///  a map to store the VAO by name
 	//----------------------------------------------------------------------------------------------------------------------
-	std::map <std::string,VertexArrayObject *> m_createdVAOs;
+	std::unordered_map <std::string,VertexArrayObject *> m_createdVAOs;
 
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief default constructor

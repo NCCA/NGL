@@ -210,7 +210,7 @@ void ShaderProgram::setUniform1f( const char* _varname,  float _v0  ) const
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniform1f( const std::string &_varname, float _v0    ) const
 {
-  std::map <std::string, GLuint >::const_iterator uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -228,7 +228,7 @@ void ShaderProgram::setUniform2f(const char* _varname, float _v0, float _v1 ) co
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniform2f(const std::string &_varname, float _v0, float _v1 ) const
 {
-  std::map <std::string, GLuint >::const_iterator uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -245,7 +245,7 @@ void ShaderProgram::setUniform3f(const char* _varname, float _v0,  float _v1, fl
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniform3f( const std::string &_varname, float _v0, float _v1, float _v2  ) const
 {
-  std::map <std::string, GLuint >::const_iterator uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -262,7 +262,7 @@ void ShaderProgram::setUniform4f( const char* _varname, float _v0,float _v1,  fl
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniform4f( const std::string &_varname, float _v0, float _v1,  float _v2, float _v3  ) const
 {
-  std::map <std::string, GLuint >::const_iterator uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -307,7 +307,7 @@ void ShaderProgram::setUniform1i( const char* _varname, GLint _v0 ) const
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniform1i( const std::string &_varname, int _v0  ) const
 {
-  std::map <std::string, GLuint >::const_iterator uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -319,7 +319,7 @@ void ShaderProgram::setRegisteredUniform1i( const std::string &_varname, int _v0
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniform2i( const std::string &_varname, int _v0, int _v1   ) const
 {
-  std::map <std::string, GLuint >::const_iterator uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -332,7 +332,7 @@ void ShaderProgram::setRegisteredUniform2i( const std::string &_varname, int _v0
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniform3i(const std::string &_varname,  int _v0,   int _v1,  int _v2   ) const
 {
-  std::map <std::string, GLuint >::const_iterator uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -343,7 +343,7 @@ void ShaderProgram::setRegisteredUniform3i(const std::string &_varname,  int _v0
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniform4i( const std::string &_varname,  int _v0,   int _v1, int _v2,  int _v3  ) const
 {
-  std::map <std::string, GLuint >::const_iterator uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -410,7 +410,7 @@ void ShaderProgram::setUniformMatrix3fv( const char* _varname, size_t _count,boo
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string &_varname,size_t _count, bool _transpose,const float* _value) const
 {
-  std::map <std::string, GLuint >::const_iterator uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -428,7 +428,7 @@ void ShaderProgram::setUniformMatrix4fv(const char* _varname, size_t _count, boo
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string &_varname, size_t _count, bool _transpose,  const float* _value ) const
 {
-  std::map <std::string, GLuint >::const_iterator uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname);
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -496,7 +496,7 @@ void ShaderProgram::getUniformiv(const char* _varname,int *o_values ) const
 void ShaderProgram::enableAttribArray( const char* _name) const
 {
 
-  std::map <std::string, GLuint >::const_iterator index=m_attribs.find(_name);
+  auto index=m_attribs.find(_name);
 
 
   if(index!=m_attribs.end())
@@ -571,7 +571,7 @@ bool ShaderProgram::parseHashDefine(const std::string &_s,std::string &o_name,in
 // [ a define ]
 // we can't process these ones so will just put error message not harmful tho
 
-void ShaderProgram::parseUniform(const std::string &_s, const std::map <std::string,int> &_defines  )
+void ShaderProgram::parseUniform(const std::string &_s, const std::unordered_map <std::string,int> &_defines  )
 {
  typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
 
@@ -615,7 +615,7 @@ void ShaderProgram::parseUniform(const std::string &_s, const std::map <std::str
      // catch and lookup in the uniform array
      catch(boost::bad_lexical_cast)
      {
-       std::map <std::string, int >::const_iterator def=_defines.find(data[3]);
+       auto def=_defines.find(data[3]);
        if(def !=_defines.end())
        {
          arraySize=def->second;
@@ -641,9 +641,6 @@ void ShaderProgram::autoRegisterUniforms()
   const std::string *source;
   std::vector<std::string> lines;
 
-  boost::char_separator<char> sep(" \t\r\n");
-  typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-
   for(unsigned int i=0; i<size; ++i)
   {
     /// first grab all of the shader source for this program
@@ -655,7 +652,7 @@ void ShaderProgram::autoRegisterUniforms()
     // or the #define keyword
     std::vector<std::string>::iterator start=lines.begin();
     std::vector<std::string>::iterator end=lines.end();
-    std::map<std::string,int> defines;
+    std::unordered_map<std::string,int> defines;
 
     while(start!=end)
     {
@@ -682,8 +679,8 @@ void ShaderProgram::autoRegisterUniforms()
 
 void ShaderProgram::printRegisteredUniforms() const
 {
-  std::map<std::string,GLuint>::const_iterator start=m_registeredUniforms.begin();
-  std::map<std::string,GLuint>::const_iterator end=m_registeredUniforms.end();
+  auto start=m_registeredUniforms.begin();
+  auto end=m_registeredUniforms.end();
 
   std::cout<<"Registered Uniforms for shader "<< m_programName<<"\n";
 

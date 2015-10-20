@@ -26,8 +26,10 @@ namespace ngl
 
 
 /// @enum Type of shader this object is
-// for c++ 11 use enum class
-enum  SHADERTYPE{VERTEX,FRAGMENT,GEOMETRY,TESSCONTROL,TESSEVAL,COMPUTE,NONE};
+// for c++ 11 use enum class at present internal only
+enum  class ShaderType : char {VERTEX,FRAGMENT,GEOMETRY,TESSCONTROL,TESSEVAL,COMPUTE,NONE};
+// this is kept for backwards compat for now but will be deprecated
+//enum SHADERTYPE{VERTEX,FRAGMENT,GEOMETRY,TESSCONTROL,TESSEVAL,COMPUTE,NONE};
 /// @class Shader
 /// @brief and encapsulation of an OpenGL Shader object with
 /// associations for source code, etc.
@@ -45,7 +47,7 @@ public :
   /// @param _name the name of the program object
   /// @param[in] _type the type of shader we are building
   //----------------------------------------------------------------------------------------------------------------------
-  Shader( std::string _name,  SHADERTYPE _type );
+  Shader( std::string _name,  ShaderType _type );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor, will clean up shader source and remove shader from GL
   //----------------------------------------------------------------------------------------------------------------------
@@ -108,7 +110,7 @@ private :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief what type of shader we are
   //----------------------------------------------------------------------------------------------------------------------
-  SHADERTYPE m_shaderType;
+  ShaderType m_shaderType;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the GL handle for this shader object used in linking etc
   //----------------------------------------------------------------------------------------------------------------------
