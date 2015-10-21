@@ -23,16 +23,16 @@ namespace ngl
 {
 
 //-----------------------------------------------------------------------------
-AABB::AABB()
+AABB::AABB()noexcept
 {
-	m_corner.set(0,0,0,1);
+	m_corner.set(0.0f,0.0f,0.0f,1.0f);
 
 	m_x = 1.0f;
 	m_y = 1.0f;
 	m_z = 1.0f;
 }
 //-----------------------------------------------------------------------------
-AABB::AABB(const Vec4 &_corner,  Real _x,  Real _y,  Real _z )
+AABB::AABB(const Vec4 &_corner,  Real _x,  Real _y,  Real _z ) noexcept
 {
  set(_corner,_x,_y,_z);
 }
@@ -43,21 +43,21 @@ AABB::~AABB()
 
 }
 //-----------------------------------------------------------------------------
-void AABB::set(const Vec4 &_corner,Real _x,Real _y,	Real _z	)
+void AABB::set(const Vec4 &_corner,Real _x,Real _y,	Real _z	) noexcept
 {
 	m_corner=_corner;
 
-	if (_x < 0.0)
+	if (_x < 0.0f)
 	{
 		_x = -_x;
 		m_corner.m_x -= _x;
 	}
-	if (_y < 0.0)
+	if (_y < 0.0f)
 	{
 		_y = -_y;
 		m_corner.m_y -= _y;
 	}
-	if (_z < 0.0)
+	if (_z < 0.0f)
 	{
 		_z = -_z;
 		m_corner.m_z -= _z;
@@ -67,40 +67,40 @@ void AABB::set(const Vec4 &_corner,Real _x,Real _y,	Real _z	)
 	m_z = _z;
 }
 
-Vec4 AABB::getVertexP(const Vec4 &_normal)
+Vec4 AABB::getVertexP(const Vec4 &_normal) noexcept
 {
 	Vec4 res = m_corner;
 
-	if (_normal.m_x > 0)
+	if (_normal.m_x > 0.0f)
 	{
 		res.m_x += m_x;
 	}
-	if (_normal.m_y > 0)
+	if (_normal.m_y > 0.0f)
 	{
 		res.m_y += m_y;
 	}
 
-	if (_normal.m_z > 0)
+	if (_normal.m_z > 0.0f)
 	{
 		res.m_z += m_z;
 	}
 	return res;
 }
 
-Vec4 AABB::getVertexN(const Vec4 &_normal)
+Vec4 AABB::getVertexN(const Vec4 &_normal) noexcept
 {
 	Vec4 res = m_corner;
 
-	if (_normal.m_x < 0)
+	if (_normal.m_x < 0.0f)
 	{
 		res.m_x += m_x;
 	}
-	if (_normal.m_y < 0)
+	if (_normal.m_y < 0.0f)
 	{
 		res.m_y += m_y;
 	}
 
-	if (_normal.m_z < 0)
+	if (_normal.m_z < 0.0f)
 	{
 		res.m_z += m_z;
 	}
