@@ -27,7 +27,7 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-bool NCCABinMesh::load(const std::string &_fname,bool _calcBB)
+bool NCCABinMesh::load(const std::string &_fname,bool _calcBB) noexcept
 {
 
   // open a file stream for ip in binary mode

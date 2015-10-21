@@ -68,7 +68,7 @@ public :
   /// @brief  Method to load the file in
   /// @param[in]  _fname the name of the obj file to load
   //----------------------------------------------------------------------------------------------------------------------
-  bool load( const std::string& _fname, bool _calcBB=true );
+  bool load( const std::string& _fname, bool _calcBB=true ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to save the obj
   /// @param[in] _fname the name of the file to save

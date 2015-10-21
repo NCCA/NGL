@@ -29,6 +29,7 @@
 
 #include <vector>
 #include <string>
+#include <cstdint>
 // part of the python bindings
 #ifdef NO_PYTHON_LIB
   #include <boost/python.hpp>
@@ -52,15 +53,15 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief The vertices index
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector<unsigned  int> m_vert;
+  std::vector<uint32_t> m_vert;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief The texture co-ord index
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector<unsigned  int> m_tex;
+  std::vector<uint32_t> m_tex;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the normal index
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector<unsigned  int> m_norm;
+  std::vector<uint32_t> m_norm;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief debug flag to turn face on and off
   //----------------------------------------------------------------------------------------------------------------------
@@ -79,22 +80,22 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief index into the vert list
   //----------------------------------------------------------------------------------------------------------------------
-  unsigned m_v;
+  uint32_t m_v;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief index into the nornmal list
   //----------------------------------------------------------------------------------------------------------------------
-  unsigned m_n;
+  uint32_t m_n;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief index into the texture list
   //----------------------------------------------------------------------------------------------------------------------
-  unsigned m_t;
+  uint32_t m_t;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor to set the data
   /// @param[in] _v the vert index
   /// @param[in] _n the normal index
   /// @param[in] _t the texture index
   //----------------------------------------------------------------------------------------------------------------------
-  inline IndexRef(unsigned _v, unsigned _n, unsigned _t ):m_v(_v),m_n(_n),m_t(_t){;}
+  inline IndexRef(uint32_t _v, uint32_t _n, uint32_t _t ) noexcept :m_v(_v),m_n(_n),m_t(_t) {;}
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -114,28 +115,28 @@ public :
   /// @brief Method to load the file in
   /// @param[in]  &_fname the name of the obj file to load
   //----------------------------------------------------------------------------------------------------------------------
-  virtual bool load(const std::string &_fname,bool _calcBB=true)=0;
+  virtual bool load(const std::string &_fname,bool _calcBB=true) noexcept =0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief default ctor must be called from the child class so our dtor is called
   //----------------------------------------------------------------------------------------------------------------------
-  AbstractMesh();
+  AbstractMesh() noexcept : m_vao(false){;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief destructor this will clear out all the vert data and the vbo if created
   //----------------------------------------------------------------------------------------------------------------------
-  virtual ~AbstractMesh();
+  virtual ~AbstractMesh() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to draw the bounding box
   //----------------------------------------------------------------------------------------------------------------------
-  void drawBBox() const;
+  void drawBBox() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief draw method to draw the obj as a VBO. The VBO first needs to be created using the CreateVBO method
   //----------------------------------------------------------------------------------------------------------------------
-  void draw() const;
+  void draw() const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief load int a texture and set it as the active texture of the Obj
   /// @param[in] &_fname the name of the file to load
-  void loadTexture(const std::string& _fname );
+  void loadTexture(const std::string& _fname ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief scale the obj by multiplying the actual vertex values by sx,sy and sz
@@ -143,69 +144,69 @@ public :
   /// @param[in] _sy the scale value in y
   /// @param[in] _sz the scale value in z
   //----------------------------------------------------------------------------------------------------------------------
-  void scale( Real _sx, Real _sy, Real _sz );
+  void scale( Real _sx, Real _sy, Real _sz ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a method to set the BBox and center
   //----------------------------------------------------------------------------------------------------------------------
-  void calcDimensions();
+  void calcDimensions() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a method to caluculate the bounding Sphere will set
   /// m_sphereCenter and m_sphereRadius
   //----------------------------------------------------------------------------------------------------------------------
-  void calcBoundingSphere();
+  void calcBoundingSphere() noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// method to write out the obj mesh to a renderman sub div
   /// @param[in] _ribFile the instance of the RibExport class
   //----------------------------------------------------------------------------------------------------------------------
-  void writeToRibSubdiv( RibExport& _ribFile) const;
+  void writeToRibSubdiv( RibExport& _ribFile) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   //// @brief create a VAO from the current mesh data
   //----------------------------------------------------------------------------------------------------------------------
-  void createVAO();
+  void createVAO() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the texture id
   /// @returns the texture id
   //----------------------------------------------------------------------------------------------------------------------
-  unsigned int getTextureID() const { return m_textureID; }
+  unsigned int getTextureID() const  noexcept{ return m_textureID; }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief map the VBO vertex data
   /// @returns a pointer to the VBO vertex data
   //----------------------------------------------------------------------------------------------------------------------
-  Real *mapVAOVerts();
+  Real *mapVAOVerts() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief unmap the VBO based
   //----------------------------------------------------------------------------------------------------------------------
-  void unMapVAO();
+  void unMapVAO() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a pointer to the indices used to represent the VBO data, this is used in the clip
   /// class when re-ordering the clip data values
   /// @returns the array of indices
   //----------------------------------------------------------------------------------------------------------------------
-  inline const std::vector<IndexRef> & getIndices() { return m_indices; }
+  inline const std::vector<IndexRef> & getIndices()  noexcept{ return m_indices; }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief save the mesh as NCCA Binary VBO format
   /// basically this format is the processed binary vbo mesh data as
   /// as packed by the CreateVBO() method is called.
   //----------------------------------------------------------------------------------------------------------------------
-  void saveNCCABinaryMesh( const std::string &_fname );
+  void saveNCCABinaryMesh( const std::string &_fname ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a method to get the current bounding box of the mesh
   /// @returns the bounding box for the loaded mesh;
   //----------------------------------------------------------------------------------------------------------------------
 
-  inline BBox &getBBox(){ return *m_ext;  }
+  inline BBox &getBBox() noexcept{ return *m_ext;  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor for the vertex data
   /// @returns a std::vector containing the vert data
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Vec3> getVertexList(){return m_verts;}
+  std::vector <Vec3> getVertexList() noexcept{return m_verts;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor for the vertex data
   /// @returns a std::vector containing the vert data
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec3 getVertexAtIndex( unsigned long int _i ) const
+  inline Vec3 getVertexAtIndex( uint32_t _i ) const noexcept
   {
     //NGL_ASSERT(_i>0 && _i<m_nVerts);
     return m_verts[_i];
@@ -215,51 +216,51 @@ public :
   /// @brief accessor for the normals data
   /// @returns a std::vector containing the normal data
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Vec3> getNormalList(){return m_norm;}
+  std::vector <Vec3> getNormalList() noexcept{return m_norm;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor for the texture co-ordinates data
   /// @returns a std::vector containing the texture cord data
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Vec3> getTextureCordList(){return m_tex;}
+  std::vector <Vec3> getTextureCordList() noexcept{return m_tex;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor for the Face data
   /// @returns a std::vector containing the face data
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Face> getFaceList(){return m_face;}
+  std::vector <Face> getFaceList() noexcept{return m_face;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of vertices in the object
   //----------------------------------------------------------------------------------------------------------------------
-  inline unsigned int getNumVerts() const {return m_nVerts;}
+  inline unsigned int getNumVerts() const  noexcept{return m_nVerts;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of normals in the object
   //----------------------------------------------------------------------------------------------------------------------
-  inline unsigned int getNumNormals()const {return m_nNorm;}
+  inline unsigned int getNumNormals()const  noexcept{return m_nNorm;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of texture co-ordinates in the object
   //----------------------------------------------------------------------------------------------------------------------
-  inline unsigned int getNumTexCords()const {return m_nTex;}
+  inline unsigned int getNumTexCords()const  noexcept{return m_nTex;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of faces in the object
   //----------------------------------------------------------------------------------------------------------------------
-  inline unsigned int getNumFaces()const {return m_nFaces;}
-  inline unsigned int getMeshSize()const {return m_meshSize;}
+  inline unsigned int getNumFaces()const  noexcept{return m_nFaces;}
+  inline unsigned int getMeshSize()const  noexcept{return m_meshSize;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to get the bounding sphere center
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec3 getSphereCenter() const {return m_sphereCenter;}
+  inline Vec3 getSphereCenter() const  noexcept{return m_sphereCenter;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to get the bounding sphere center
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real getSphereRadius() const {return m_sphereRadius;}
+  inline Real getSphereRadius() const  noexcept{return m_sphereRadius;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to get the center
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec3 getCenter() const {return m_center;}
+  inline Vec3 getCenter() const  noexcept{return m_center;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief check to see if obj is triangulated as we only support tri or quad objs at the moment
   /// @returns true or false
   //----------------------------------------------------------------------------------------------------------------------
-  bool isTriangular();
+  bool isTriangular() noexcept;
 
 protected :
   friend class NCCAPointBake;
@@ -381,15 +382,6 @@ protected :
   //----------------------------------------------------------------------------------------------------------------------
   GLenum m_vboDrawType;
 
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief method used to add an index to the indices array as we need to re-order the data
-  /// @param[in] _v the vertex index
-  /// @param[in] _n the normal index
-  /// @param[in] _t the texture index
-  /// @param[in] io_indices the index list stored
-  /// @param[in] io_outIndices the re-orderd list
-  //----------------------------------------------------------------------------------------------------------------------
-  bool addIndex( const unsigned _v,const unsigned _n,const unsigned _t, std::vector<IndexRef>& io_indices, std::vector<GLuint>& io_outIndices );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  flag to indicate if anything loaded for dtor
   //----------------------------------------------------------------------------------------------------------------------

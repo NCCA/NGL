@@ -75,7 +75,7 @@ public :
   /// @param[in]  _fname the name of the obj file to load
   /// @param[in] _calcBB if we only want to load data and not use GL then set this to false
   //----------------------------------------------------------------------------------------------------------------------
-  bool load(const std::string& _fname, bool _calcBB=true );
+  bool load(const std::string& _fname, bool _calcBB=true ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to save the obj
   /// @param[in] _fname the name of the file to save
