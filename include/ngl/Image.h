@@ -24,7 +24,7 @@
 /// QImage (for Qt builds) ImageMagic, OpenImageIO DevIL
 /// Image data will be stored in either RGB or RGBA contiguos unsigned char data
 #include <string>
-#include <boost/scoped_array.hpp>
+#include <memory>
 #include "Types.h"
 #include "Colour.h"
 namespace ngl
@@ -56,51 +56,51 @@ public:
   /// @param _fname name of the file to load
   /// @returns true is loaded ok, else false
   //----------------------------------------------------------------------------------------------------------------------
-  bool load(const std::string &_fname);
+  bool load(const std::string &_fname) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief raw access to unsigned char pixel data
   /// @returns a pointer to the first image pixel element.
   //----------------------------------------------------------------------------------------------------------------------
-  unsigned char *getPixels() const {return m_data.get();}
+  unsigned char *getPixels() const noexcept {return m_data.get();}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Get the width of the texture
   /// @return width of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint width()const {return m_width;}
+  GLuint width()const  noexcept{return m_width;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Get the height of the texture
   /// @return height of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint height()const {return m_height;}
+  GLuint height()const  noexcept{return m_height;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Get the pixel format
   /// @return pixel format of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint format()const {return m_format;}
+  GLuint format()const  noexcept{return m_format;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief gets the number of channels
   /// @return usually 3 (RGB) or 4 (RGBA) but can handle others depending on libl
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint channels()const {return m_channels;}
+  GLuint channels()const  noexcept{return m_channels;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the colour value from X,Y co-ordinates (image absolute 0,0 = top Left)
   /// @param[in] _x the x position in the image
   /// @param[in] _y the y position in the image
   //----------------------------------------------------------------------------------------------------------------------
-  Colour getColour(const GLuint _x, const GLuint _y ) const;
+  Colour getColour(const GLuint _x, const GLuint _y ) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the colour value from X,Y co-ordinates in texture space
   /// @param[in] _uvX the x position in the image
   /// @param[in] _uvY the y position in the image
   //----------------------------------------------------------------------------------------------------------------------
-  Colour getColour(const Real _uvX, const Real _uvY) const;
+  Colour getColour(const Real _uvX, const Real _uvY) const noexcept;
 
 private :
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief the actual image data loaded packed in r,g,b,(a) format in contiguous memory
 	/// stored in a smart_pointer for safety
 	//----------------------------------------------------------------------------------------------------------------------
-	boost::scoped_array <unsigned char> m_data;
+	std::unique_ptr <unsigned char[] > m_data;
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief the size of the image in the X direction
 	//----------------------------------------------------------------------------------------------------------------------
