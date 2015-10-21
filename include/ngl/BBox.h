@@ -34,14 +34,6 @@ namespace ngl
 ///  @author Jonathan Macey
 ///  @version 4.1
 ///  @date Last Revision updated to use Vec3 to fit with new shader attribute pipeline
-/// Revision History : \n
-/// 07/03/11 Updated to draw with vertex arrays \n
-/// 14/02/03 Removed redundant data types \n
-/// 16/02/03 Added destructor just in case \n
-/// 17/02/03 Added Comments to source using doxygen tags \n
-/// 17/02/03 Updated revision to 3.0 \n
-/// 27/09/09 Updated to NCCA Coding standard updated to V4.0 \n
-/// 07/02/11 added accesors for normals updated to V4.1
 //----------------------------------------------------------------------------------------------------------------------
 
 class NGL_DLLEXPORT BBox
@@ -55,7 +47,7 @@ public :
   ///  @param[in]  _height the height of the BBox (== Y coord).
   ///  @param[in]  _depth the Depth of the BBox (== Z coord).
   //----------------------------------------------------------------------------------------------------------------------
-  BBox(const Vec3 &_center, Real _width,Real _height, Real _depth );
+  BBox(const Vec3 &_center, Real _width,Real _height, Real _depth ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor using +/- x,y,z dimensions
@@ -66,111 +58,108 @@ public :
   /// @param[in]  _minZ the z position of the min z extent
   /// @param[in]  _maxZ the z position of the max z extent
   //----------------------------------------------------------------------------------------------------------------------
-  BBox(Real _minX,Real _maxX,Real _minY,Real _maxY,Real _minZ,Real _maxZ);
+  BBox(Real _minX,Real _maxX,Real _minY,Real _maxY,Real _minZ,Real _maxZ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Default constructor will create a BBox centered at point 0,0,0
   /// With Unit length width and height (== 1)
   //----------------------------------------------------------------------------------------------------------------------
-  BBox();
+  BBox() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor
   /// @param[in] _b the bbox to copy
   //----------------------------------------------------------------------------------------------------------------------
-  BBox(const BBox &_b);
+  BBox(const BBox &_b) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Draw Method draws the BBox using OpenGL
   //----------------------------------------------------------------------------------------------------------------------
-  void draw() const;
+  void draw() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief reset the draw mode for the BBox
   /// @param[in] _mode the mode to draw
   //----------------------------------------------------------------------------------------------------------------------
-  void setDrawMode(GLenum _mode);
+  void setDrawMode(GLenum _mode)noexcept;
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief dtor no dynamic memory so empty
    //----------------------------------------------------------------------------------------------------------------------
-   ~BBox();
+   ~BBox()noexcept;
    //----------------------------------------------------------------------------------------------------------------------
    // accesors
    /// @brief the min x value of the bbox
    //----------------------------------------------------------------------------------------------------------------------
-   inline Real minX()const { return m_minX;}
+   Real minX()const noexcept { return m_minX;}
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief the max x value of the bbox
    //----------------------------------------------------------------------------------------------------------------------
-   inline Real maxX()const{ return m_maxX;}
+   Real maxX()const noexcept{ return m_maxX;}
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief the min y value of the bbox
    //----------------------------------------------------------------------------------------------------------------------
-   inline Real minY()const{ return m_minY;}
+   Real minY()const noexcept{ return m_minY;}
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief the max y value of the bbox
    //----------------------------------------------------------------------------------------------------------------------
-   inline Real maxY()const{ return m_maxY;}
+   Real maxY()const noexcept{ return m_maxY;}
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief the min z value of the bbox
    //----------------------------------------------------------------------------------------------------------------------
-   inline Real minZ()const{ return m_minZ;}
+   Real minZ()const noexcept{ return m_minZ;}
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief the max z value of the bbox
    //----------------------------------------------------------------------------------------------------------------------
-   inline Real maxZ()const{ return m_maxZ;}
+   Real maxZ()const noexcept{ return m_maxZ;}
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief This is the center of the BBox stored for caluculations in other classes s
    //----------------------------------------------------------------------------------------------------------------------
-   inline Vec3 center()const{ return m_center; }
+   Vec3 center()const noexcept{ return m_center; }
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief accessor for the width of the BBox
    /// @returns the width of the BBox
    //----------------------------------------------------------------------------------------------------------------------
-   inline Real width()const{ return m_width; }
+   Real width()const noexcept{ return m_width; }
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief set the width
    /// @param[in] _w the width to set will re-calculate bbox and VAO
    /// @param[in] _recalc flag to indicate if we need to recalc the vao defauts to true
    //----------------------------------------------------------------------------------------------------------------------
-   void width(Real _w, bool _recalc=true);
+   void width(Real _w, bool _recalc=true) noexcept;
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief Height of the BBox
    //----------------------------------------------------------------------------------------------------------------------
-   inline Real height()const{ return m_height;}
+   Real height()const noexcept{ return m_height;}
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief set the height
    /// @param[in] _h the height to set will re-calculate bbox and VAO
    /// @param[in] _recalc flag to indicate if we need to recalc the vao defauts to true
    //----------------------------------------------------------------------------------------------------------------------
-   void height(Real _h, bool _recalc=true);
+   void height(Real _h, bool _recalc=true) noexcept;
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief Depth of the BBox
    //----------------------------------------------------------------------------------------------------------------------
-   inline Real depth()const{ return m_depth;}
+   Real depth()const noexcept{ return m_depth;}
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief set the depth
    /// @param[in] _d the depth to set will re-calculate bbox and VAO
    /// @param[in] _recalc flag to indicate if we need to recalc the vao defauts to true
    //----------------------------------------------------------------------------------------------------------------------
-   void depth(Real _d, bool _recalc=true);
+   void depth(Real _d, bool _recalc=true) noexcept;
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief the array of normals for the  BBox
    //----------------------------------------------------------------------------------------------------------------------
-   inline Vec3 * getNormalArray(){return &m_norm[0];}
+   Vec3 * getNormalArray()noexcept{return &m_norm[0];}
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief the array of verts for the  BBox
    //----------------------------------------------------------------------------------------------------------------------
-   inline Vec3 * getVertexArray(){return &m_vert[0];}
-
+   Vec3 * getVertexArray()noexcept{return &m_vert[0];}
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief set the center of the BBox and re-calculate the extents
    /// @param _center the new center of the BBox
    //----------------------------------------------------------------------------------------------------------------------
-
-   void setCenter(const Vec3 &_center, bool _recalc=true);
+   void setCenter(const Vec3 &_center, bool _recalc=true) noexcept;
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief recalculate the bbox values once things have been changed
    /// this will also re-do the VAO
    //----------------------------------------------------------------------------------------------------------------------
-
-   void recalculate();
+   void recalculate() noexcept;
 
 protected :
 

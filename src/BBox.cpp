@@ -27,9 +27,9 @@ const static GLubyte indices[]=  {
                                     0,1,5,0,4,5, // back
                                     3,2,6,7,6,3, // front
                                     0,1,2,3,2,0, // top
-                                      4,5,6,7,6,4, // bottom
-                                      0,3,4,4,7,3,
-                                      1,5,2,2,6,5
+                                    4,5,6,7,6,4, // bottom
+                                    0,3,4,4,7,3,
+                                    1,5,2,2,6,5
 
                                  };
 // indices for line loop
@@ -42,7 +42,7 @@ const static GLubyte lindices[]=  {
                                  };
 
 //----------------------------------------------------------------------------------------------------------------------
-BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  )
+BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  ) noexcept
 {
 	// Calculate the Vertices based on the w,h,d params passed in the box is asumed
 	// to be centered on the _center with equal w / h / d
@@ -57,12 +57,7 @@ BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  )
 	m_vert[5].m_x=_center.m_x+(_width/2.0f); m_vert[5].m_y=_center.m_y-(_height/2.0f); m_vert[5].m_z=_center.m_z-(_depth/2.0f);
 	m_vert[6].m_x=_center.m_x+(_width/2.0f); m_vert[6].m_y=_center.m_y-(_height/2.0f); m_vert[6].m_z=_center.m_z+(_depth/2.0f);
 	m_vert[7].m_x=_center.m_x-(_width/2.0f); m_vert[7].m_y=_center.m_y-(_height/2.0f); m_vert[7].m_z=_center.m_z+(_depth/2.0f);
-	m_minX=-_center.m_x+(_width/2.0f);
-	m_maxX=_center.m_x+(_width/2.0f);
-	m_minY=-_center.m_y+(_height/2.0f);
-	m_maxY=_center.m_y+(_height/2.0f);
-	m_minZ=-_center.m_z+(_depth/2.0f);
-	m_maxZ=_center.m_z+(_depth/2.0f);
+
 	//Store the _center
 	m_center=_center;
 	// Setup the Plane Normals for Collision Detection
@@ -79,12 +74,11 @@ BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  )
 	m_drawMode=GL_LINE;
 	m_vao=0;
 	setVAO();
-
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
-BBox::BBox()
+BBox::BBox() noexcept
 {
   //default constructor creates a unit BBox
   m_center.m_x=m_center.m_y=m_center.m_z=0.0f;
@@ -94,16 +88,9 @@ BBox::BBox()
   m_depth=2.0;
   m_vao=0;
   setVAO();
-  m_minX=-1.0f;
-  m_maxX=1.0f;
-  m_minY=-1.0f;
-  m_maxY=1.0f;
-  m_minZ=-1.0f;
-  m_maxZ=1.0f;
-
 }
 
-BBox::BBox(const BBox &_b)
+BBox::BBox(const BBox &_b) noexcept
 {
   m_center=_b.m_center;
   m_width=_b.m_width;
@@ -122,7 +109,7 @@ BBox::BBox(const BBox &_b)
 
 
 //----------------------------------------------------------------------------------------------------------------------
-BBox::BBox( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _minZ, Real _maxZ  )
+BBox::BBox( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _minZ, Real _maxZ  ) noexcept
 {
 
 	m_minX=_minX;
@@ -154,7 +141,7 @@ BBox::BBox( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _minZ, Real _m
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void BBox::setDrawMode( GLenum _mode)
+void BBox::setDrawMode( GLenum _mode) noexcept
 {
   m_drawMode=_mode;
   setVAO();
@@ -204,8 +191,6 @@ void BBox::setVAO()
     m_vao->setNumIndices(sizeof(lindices));
     // finally we have finished for now so time to unbind the VAO
     m_vao->unbind();
-
-
   }
 
 
@@ -213,7 +198,7 @@ void BBox::setVAO()
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void BBox::draw() const
+void BBox::draw() const noexcept
 {
   glPolygonMode(GL_FRONT_AND_BACK,m_drawMode);
   m_vao->bind();
@@ -223,7 +208,7 @@ void BBox::draw() const
 }
 //----------------------------------------------------------------------------------------------------------------------
 
-void BBox::setCenter(const Vec3 &_center, bool _recalc)
+void BBox::setCenter(const Vec3 &_center, bool _recalc) noexcept
 {
 	// Calculate the Vertices based on the w,h,d params passed in the box is asumed
 	// to be centered on the _center with equal w / h / d
@@ -239,10 +224,12 @@ void BBox::setCenter(const Vec3 &_center, bool _recalc)
 	m_vert[6].m_x=_center.m_x+(m_width/2.0f); m_vert[6].m_y=_center.m_y-(m_height/2.0f); m_vert[6].m_z=_center.m_z+(m_depth/2.0f);
 	m_vert[7].m_x=_center.m_x-(m_width/2.0f); m_vert[7].m_y=_center.m_y-(m_height/2.0f); m_vert[7].m_z=_center.m_z+(m_depth/2.0f);
 	if(_recalc)
+	{
 		recalculate();
+	}
 }
 
-void BBox::width(Real _w, bool _recalc)
+void BBox::width(Real _w, bool _recalc) noexcept
 {
   m_width=_w;
   if(_recalc)
@@ -251,7 +238,7 @@ void BBox::width(Real _w, bool _recalc)
   }
 }
 
-void BBox::height(Real _h, bool _recalc)
+void BBox::height(Real _h, bool _recalc) noexcept
 {
   m_height=_h;
   if(_recalc)
@@ -260,7 +247,7 @@ void BBox::height(Real _h, bool _recalc)
   }
 }
 
-void BBox::depth(Real _d, bool _recalc)
+void BBox::depth(Real _d, bool _recalc) noexcept
 {
   m_depth=_d;
   if(_recalc)
@@ -269,7 +256,7 @@ void BBox::depth(Real _d, bool _recalc)
   }
 }
 
-void BBox::recalculate()
+void BBox::recalculate() noexcept
 {
   // Calculate the Vertices based on the w,h,d params passed in the box is asumed
   // to be centered on the _center with equal w / h / d
@@ -288,7 +275,7 @@ void BBox::recalculate()
 
 //----------------------------------------------------------------------------------------------------------------------
 
-BBox::~BBox()
+BBox::~BBox() noexcept
 {
   m_vao->removeVOA();
   delete m_vao;
