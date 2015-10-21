@@ -65,7 +65,7 @@ protected:
   /// @brief unique instance of the singleton
   //----------------------------------------------------------------------------------------------------------------------
   static T* s_instance;
-  static void killSingleton() { if(s_instance !=NULL) delete s_instance;}
+  static void killSingleton() { if(s_instance !=nullptr) delete s_instance;}
 };
 
 

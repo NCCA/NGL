@@ -1,11 +1,12 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.1)
 # Name of the project
 project(NGL)
 #Bring the headers into the project (local ones)
 include_directories(${PROJECT_SOURCE_DIR}/include/ngl)
 include_directories(${PROJECT_SOURCE_DIR}/src/ngl)
 include_directories(${PROJECT_SOURCE_DIR}/src/shaders)
-
+# Set to C++ 11
+set(CMAKE_CXX_STANDARD 11)
 # use this to remove any marked as deprecated classes from NGL
 add_definitions(-DREMOVEDDEPRECATED)
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
