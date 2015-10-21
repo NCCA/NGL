@@ -83,8 +83,8 @@ public :
 	//----------------------------------------------------------------------------------------------------------------------
 
 	// for use in frustum computations
-		Vec4 getVertexP(const Vec4 &_normal) noexcept;
-		Vec4 getVertexN(const Vec4 &_normal) noexcept;
+		Vec3 getVertexP(const Vec3 &_normal) const noexcept;
+		Vec3 getVertexN(const Vec3 &_normal) const noexcept;
 private :
 	//----------------------------------------------------------------------------------------------------------------------
 	//----------------------------------------------------------------------------------------------------------------------

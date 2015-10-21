@@ -47,7 +47,7 @@ public :
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief default ctor sets initial values for Curve to be used with AddPoint , AddKnot etc
 	//----------------------------------------------------------------------------------------------------------------------
-	BezierCurve();
+	BezierCurve() noexcept;
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief Ctor passing in an Array of CP's and and Array of knots
 	///  @param[in] _p an array of Vector objects which are the control
@@ -55,7 +55,7 @@ public :
 	///  @param[in] _k and array of knot values
 	///  @param[in] _nKnots the size of the knot array
 	//----------------------------------------------------------------------------------------------------------------------
-	BezierCurve(const Vec3 *_p,int _nPoints,const Real  *_k,int _nKnots );
+	BezierCurve(const Vec3 *_p,int _nPoints,const Real  *_k,int _nKnots ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor passing in an array of points, note the knot vector will be automatically
@@ -63,42 +63,42 @@ public :
   /// @param[in] _p the array of CP values expressed as groups of 3 float x,y,z values
   /// @param[in] _nPoints the size of the array *p (note this is the total size of the array)
   //----------------------------------------------------------------------------------------------------------------------
-  BezierCurve(const Real  *_p,unsigned int _nPoints);
+  BezierCurve(const Real  *_p,unsigned int _nPoints) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor
   /// @param _c the curve to copy
   //----------------------------------------------------------------------------------------------------------------------
-  BezierCurve(const BezierCurve &_c);
+  BezierCurve(const BezierCurve &_c) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief destructor
   //----------------------------------------------------------------------------------------------------------------------
-  ~BezierCurve();
+  ~BezierCurve() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Draw method to draw the curve Note this will be slow as it calls the CoxDeBoor function to calculate each time
   /// it is much quicker to create a display list and use this.
   /// \todo Modify this to use faster method than display lists
   //----------------------------------------------------------------------------------------------------------------------
-  void draw() const;
+  void draw() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief draw the control points
   //----------------------------------------------------------------------------------------------------------------------
-  void drawControlPoints() const;
+  void drawControlPoints() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Draw the control hull
   //----------------------------------------------------------------------------------------------------------------------
-  void drawHull() const;
+  void drawHull() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a point on the curve in the range of 0 - 1 based on the control points
   /// @param[in] _value the point to evaluate between 0 and 1
   /// @returns the value of the point at t
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getPointOnCurve(  Real _value) const;
+  Vec3 getPointOnCurve(  Real _value) const noexcept;
 
 	 //----------------------------------------------------------------------------------------------------------------------
 	/// @brief add a control point to the Curve
 	/// @param[in] &_p the point to add
 	//----------------------------------------------------------------------------------------------------------------------
-	void addPoint( const Vec3 &_p );
+	void addPoint( const Vec3 &_p ) noexcept;
 
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief add a point to the curve using x,y,z values
@@ -106,16 +106,16 @@ public :
 	/// @param[in] _y y value of point
 	/// @param[in] _z z value of point
 	//----------------------------------------------------------------------------------------------------------------------
-	void addPoint(Real _x, Real _y, Real _z );
+	void addPoint(Real _x, Real _y, Real _z ) noexcept;
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief add a knot value to the curve
 	/// @param[in] _k the value of the knot (note this is added to the end of the curve
 	//----------------------------------------------------------------------------------------------------------------------
-	void addKnot( Real _k	);
+	void addKnot( Real _k	) noexcept;
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief create a knot vector array based as an Open Vector (half 0.0 half 1.0)
 	//----------------------------------------------------------------------------------------------------------------------
-	void createKnots();
+	void createKnots() noexcept;
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief implementation of the CoxDeBoor algorithm for Bezier Curves borrowed from Rob Bateman's example and
 	/// modified to make it work with the class. NOTE, this is a recursive function
@@ -125,7 +125,7 @@ public :
 	/// @param[in] _k
 	/// @param[in] _knots the array of knots for the curve
 	//----------------------------------------------------------------------------------------------------------------------
-	Real coxDeBoor(Real _u,int _i,int _k,const std::vector <Real> &_knots) const;
+	Real coxDeBoor(Real _u,int _i,int _k,const std::vector <Real> &_knots) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the Level of Detail for Drawing
@@ -134,13 +134,17 @@ public :
   /// @param[in] _lod the level of detail to use when creating the display list for drawing the higher the number
   /// the finer the drawing
   //----------------------------------------------------------------------------------------------------------------------
-  void inline setLOD(int _lod){m_lod=_lod;}
+  void inline setLOD(int _lod) noexcept{m_lod=_lod;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the Level of Detail for Drawing
   //----------------------------------------------------------------------------------------------------------------------
-  void createVAO();
+  void createVAO() noexcept;
 protected :
 
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief the display list index created from glCreateLists
+  //----------------------------------------------------------------------------------------------------------------------
+  GLuint m_listIndex;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief The Order of the Curve = Degree +1
   //----------------------------------------------------------------------------------------------------------------------

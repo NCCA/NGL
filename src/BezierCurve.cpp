@@ -22,18 +22,19 @@
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
-BezierCurve::BezierCurve()
+BezierCurve::BezierCurve() noexcept
 {
 	m_numCP=0;
 	m_degree=0;
 	m_order=m_degree+1;
 	m_numKnots=m_numCP+m_degree;
 	m_lod=20;
+	m_listIndex=0;
 	m_vaoCurve=0;
 	m_vaoPoints=0;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void BezierCurve::createKnots()
+void BezierCurve::createKnots() noexcept
 {
 	for(unsigned int i=0; i<m_numKnots; ++i)
 	{
@@ -42,7 +43,7 @@ void BezierCurve::createKnots()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-BezierCurve::BezierCurve(const BezierCurve &_c )
+BezierCurve::BezierCurve(const BezierCurve &_c ) noexcept
 {
 	m_order=_c.m_order;
 	m_lod=_c.m_lod;
@@ -57,7 +58,7 @@ BezierCurve::BezierCurve(const BezierCurve &_c )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-BezierCurve::BezierCurve( Real const *_p,  unsigned int _nPoints  )
+BezierCurve::BezierCurve( Real const *_p,  unsigned int _nPoints  ) noexcept
 {
 	for(unsigned int i=0; i<_nPoints; i+=3)
 	{
@@ -75,7 +76,7 @@ BezierCurve::BezierCurve( Real const *_p,  unsigned int _nPoints  )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-BezierCurve::BezierCurve(const Vec3 *_p, int _nPoints, Real const *_k, int _nKnots  )
+BezierCurve::BezierCurve(const Vec3 *_p, int _nPoints, Real const *_k, int _nKnots  ) noexcept
 {
 	m_numCP=_nPoints;
 	m_degree=_nPoints;
@@ -95,7 +96,7 @@ BezierCurve::BezierCurve(const Vec3 *_p, int _nPoints, Real const *_k, int _nKno
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-BezierCurve::~BezierCurve()
+BezierCurve::~BezierCurve() noexcept
 {
 	m_cp.clear();
 	m_knots.clear();
@@ -111,7 +112,7 @@ BezierCurve::~BezierCurve()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Real BezierCurve::coxDeBoor( Real _u,int _i, int _k, const std::vector <Real> &_knots ) const
+Real BezierCurve::coxDeBoor( Real _u,int _i, int _k, const std::vector <Real> &_knots ) const noexcept
 {
 	if(_k==1)
 	{
@@ -137,7 +138,7 @@ Real BezierCurve::coxDeBoor( Real _u,int _i, int _k, const std::vector <Real> &_
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void BezierCurve::drawControlPoints()const
+void BezierCurve::drawControlPoints()const noexcept
 {
 
   m_vaoPoints->bind();
@@ -147,7 +148,7 @@ void BezierCurve::drawControlPoints()const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void BezierCurve::drawHull()const
+void BezierCurve::drawHull()const noexcept
 {
   m_vaoPoints->bind();
   m_vaoPoints->draw(GL_LINE_STRIP);
@@ -155,7 +156,7 @@ void BezierCurve::drawHull()const
  }
 
 //----------------------------------------------------------------------------------------------------------------------
-void BezierCurve::draw() const
+void BezierCurve::draw() const noexcept
 {
 m_vaoCurve->bind();
 m_vaoCurve->draw();
@@ -163,7 +164,7 @@ m_vaoCurve->unbind();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec3 BezierCurve::getPointOnCurve( Real _value  ) const
+Vec3 BezierCurve::getPointOnCurve( Real _value  ) const noexcept
 {
 	Vec3 p;
 
@@ -189,7 +190,7 @@ Vec3 BezierCurve::getPointOnCurve( Real _value  ) const
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void BezierCurve::addPoint( const Vec3 &_p    )
+void BezierCurve::addPoint( const Vec3 &_p    ) noexcept
 {
 	m_cp.push_back(_p);
 	++m_numCP;
@@ -202,7 +203,7 @@ void BezierCurve::addPoint( const Vec3 &_p    )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void BezierCurve::addPoint( Real _x,  Real _y, Real _z  )
+void BezierCurve::addPoint( Real _x,  Real _y, Real _z) noexcept
 {
 	m_cp.push_back(Vec3(_x,_y,_z));
 	++m_numCP;
@@ -215,13 +216,13 @@ void BezierCurve::addPoint( Real _x,  Real _y, Real _z  )
 	#endif
 }
 //----------------------------------------------------------------------------------------------------------------------
-void BezierCurve::addKnot(Real _k   )
+void BezierCurve::addKnot(Real _k) noexcept
 {
 	m_knots.push_back(_k);
 	m_numKnots=m_numCP+m_order;
 }
 
-void BezierCurve::createVAO()
+void BezierCurve::createVAO() noexcept
 {
   if(m_vaoCurve!=0 && m_vaoPoints!=0)
   {
@@ -233,13 +234,11 @@ void BezierCurve::createVAO()
     delete m_vaoPoints;
   }
 
-
-
   m_vaoPoints=VertexArrayObject::createVOA(GL_POINTS);
   m_vaoPoints->bind();
-  unsigned int size=m_cp.size();
+  size_t size=m_cp.size();
   std::vector <Vec3> points(size);
-  for(unsigned int i=0;i<size;++i)
+  for(size_t i=0;i<size;++i)
   {
     points[i].set(m_cp[i]);
   }
