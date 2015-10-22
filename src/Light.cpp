@@ -27,7 +27,7 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-Light::Light(const Vec3 &_pos,const Colour& _col, LIGHTMODES _lightMode )
+Light::Light(const Vec3 &_pos,const Colour& _col, LightModes _lightMode ) noexcept
 {
   // zero now means un-assigned
   m_position.set(_pos);
@@ -45,7 +45,7 @@ Light::Light(const Vec3 &_pos,const Colour& _col, LIGHTMODES _lightMode )
   m_cutoffAngle=180;
 }
 
-Light::Light(const Light &_l)
+Light::Light(const Light &_l) noexcept
 {
   m_position=_l.m_position;
   m_diffuse=_l.m_diffuse;
@@ -63,7 +63,7 @@ Light::Light(const Light &_l)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Light::Light(const Vec3 &_pos,const Colour& _col, const Colour& _specColour,LIGHTMODES _lightMode  )
+Light::Light(const Vec3 &_pos,const Colour& _col, const Colour& _specColour,LightModes _lightMode  ) noexcept
 {
   // zero now means un-assigned
   m_position.set(_pos);
@@ -82,26 +82,19 @@ Light::Light(const Vec3 &_pos,const Colour& _col, const Colour& _specColour,LIGH
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Light::show()
-{
-  ///@todo write code to show the light as some stage
-
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void Light::enable()
+void Light::enable() noexcept
 {
   m_active=true;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Light::disable()
+void Light::disable() noexcept
 {
   m_active=false;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Light::setAttenuation(Real _constant, Real _linear,  Real _quadratic  )
+void Light::setAttenuation(Real _constant, Real _linear,  Real _quadratic  ) noexcept
 {
 	m_constantAtten=_constant;
 	m_linearAtten=_linear;
@@ -110,7 +103,7 @@ void Light::setAttenuation(Real _constant, Real _linear,  Real _quadratic  )
 
 
 
-void Light::loadToShader(std::string _uniformName )const
+void Light::loadToShader(std::string _uniformName )const noexcept
 {
 
   ShaderLib *shader=ShaderLib::instance();
@@ -146,7 +139,7 @@ void Light::loadToShader(std::string _uniformName )const
   }
 }
 
-void Light::setTransform(Mat4 &_t)
+void Light::setTransform(Mat4 &_t) noexcept
 {
   m_transform=_t;
 }

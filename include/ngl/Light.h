@@ -37,7 +37,7 @@ namespace ngl
 ///
 //----------------------------------------------------------------------------------------------------------------------
 // for c++ 11 use enum class LIGHTMODES : int
-enum LIGHTMODES
+enum class  LightModes : char
   {
    DIRECTIONALLIGHT, /// @brief directional light from old OPenGL
   POINTLIGHT,  /// @brief point light
@@ -73,7 +73,7 @@ public:
   /// @brief  set the light position
   /// @param[in]  _p the new light position
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setPosition( const Vec3& _p )
+  inline void setPosition( const Vec3& _p ) noexcept
               {
                 m_position.set(_p.m_x,_p.m_y,_p.m_z,static_cast<Real>(m_lightMode));
               }
@@ -82,7 +82,7 @@ public:
   /// @brief set the light colour
   /// @param[in] _c the colour to set
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setColour(const Colour& _c)
+  inline void setColour(const Colour& _c) noexcept
               {
                 m_diffuse.set(_c);
               }
@@ -91,7 +91,7 @@ public:
   ///  @brief set the specular colour
   /// @param[in] _c the colour to set for the specular
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setSpecColour(const Colour& _c )
+  inline void setSpecColour(const Colour& _c ) noexcept
               {
                 m_specular.set(_c);
               }
@@ -100,19 +100,19 @@ public:
   ///  @brief default constructor
   ///  this set nothing so the light will not illuminate
   //----------------------------------------------------------------------------------------------------------------------
-  inline Light(){;}
+  inline Light() noexcept{;}
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief copy ctor
   ///  this set nothing so the light will not illuminate
   //----------------------------------------------------------------------------------------------------------------------
-  Light(const Light &_l);
+  Light(const Light &_l) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor to create the light
   /// @param[in] _pos the light position
   /// @param[in] _col the light colour
   /// @param[in] _lightmode the mode to set the light to either local or remote
   //----------------------------------------------------------------------------------------------------------------------
-  Light( const Vec3& _pos, const Colour& _col, LIGHTMODES _lightmode );
+  Light( const Vec3& _pos, const Colour& _col, LightModes _lightmode ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor to create the light
@@ -121,58 +121,54 @@ public:
   /// @param[in] _specColour the specular component of the light
   /// @param[in] _lightmode the mode to set the light to either local or remote
   //----------------------------------------------------------------------------------------------------------------------
-  Light(const Vec3& _pos, const Colour& _col,const Colour& _specColour,LIGHTMODES _lightmode);
+  Light(const Vec3& _pos, const Colour& _col,const Colour& _specColour,LightModes _lightmode) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief destructor when light is destroyed we turn it off
   ///
   //----------------------------------------------------------------------------------------------------------------------
-  virtual inline ~Light(){;}
+  virtual inline ~Light() noexcept{;}
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief Disable the light by calling glDisable(GL_LIGHT0+LightNo);
   //----------------------------------------------------------------------------------------------------------------------
-  void disable();
+  void disable() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  Enables the light and automatically allocates an OpenGL light ID.
   /// @return  true if there is a free openGL light ID available.
   //----------------------------------------------------------------------------------------------------------------------
-  virtual void enable();
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief displays the light in the scene
-  //----------------------------------------------------------------------------------------------------------------------
-  void show();
+  virtual void enable() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief returns the current light position as a Vector
   /// @returns Vector pos
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 getPos()const {return m_position; }
+  Vec4 getPos()const  noexcept{return m_position; }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief returns the current light colour
   /// @returns Colour colour
   //----------------------------------------------------------------------------------------------------------------------
-  Colour getColour()const { return m_diffuse; }
+  Colour getColour()const  noexcept{ return m_diffuse; }
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief returns the current light Specular colour
   /// @returns Colour Spec colour
   //----------------------------------------------------------------------------------------------------------------------
-  Colour getSpecColour() const{ return m_specular; }
+  Colour getSpecColour() const noexcept{ return m_specular; }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the light attenuation
   /// @param[in] _constant the constant attenuation
   /// @param[in] _linear attenuation
   /// @param[in] _quadratic attenuation
   //----------------------------------------------------------------------------------------------------------------------
-  void setAttenuation(Real _constant=1.0, Real _linear=0.0, Real _quadratic=0.0 );
+  void setAttenuation(Real _constant=1.0, Real _linear=0.0, Real _quadratic=0.0 ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to load the current light values to the shader that is active at present
   /// @param[in] _uniformName name of the uniform to set
   //----------------------------------------------------------------------------------------------------------------------
-  void loadToShader(std::string _uniformName )const;
+  void loadToShader(std::string _uniformName )const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set a transform so that the light position is multiplied by this value (default is identity matrix)
   /// @param[in] _t the transform matrix
   //----------------------------------------------------------------------------------------------------------------------
-  void setTransform( Mat4 &_t );
+  void setTransform( Mat4 &_t ) noexcept;
 protected :
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief m_pos is used to store the light position w used for point / dir light values
@@ -193,7 +189,7 @@ protected :
    //----------------------------------------------------------------------------------------------------------------------
    ///  @brief  used to hold the current lights mode
    //----------------------------------------------------------------------------------------------------------------------
-   LIGHTMODES m_lightMode;
+   LightModes m_lightMode;
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief attenuation value for constant falloff
    //----------------------------------------------------------------------------------------------------------------------

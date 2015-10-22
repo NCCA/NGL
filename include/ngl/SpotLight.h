@@ -62,33 +62,29 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief default ctor
   //----------------------------------------------------------------------------------------------------------------------
-  SpotLight(){;}
+  SpotLight() noexcept{;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  ctor
   /// @param[in]  _pos    -  the spot position
   /// @param[in]  _dir    -  the spot direction
   /// @param[in]  _col    -  the spot colour
   //----------------------------------------------------------------------------------------------------------------------
-  SpotLight( const Vec3 &_pos,const Vec3 &_dir,const Colour& _col );
+  SpotLight( const Vec3 &_pos,const Vec3 &_dir,const Colour& _col ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  copy ctor
   //----------------------------------------------------------------------------------------------------------------------
-  SpotLight(const SpotLight &_l);
+  SpotLight(const SpotLight &_l) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a method to set the spotlight parameters
   /// @param [in] _pos the position of the Light
   /// @param [in] _dir the direction of the light
   /// @param [in] _col the colour of the light
   //----------------------------------------------------------------------------------------------------------------------
-  void set( const Vec3& _pos, const Vec3& _dir, const Colour& _col );
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief  Displays the light in the scene
-  //----------------------------------------------------------------------------------------------------------------------
-  void show();
+  void set( const Vec3& _pos, const Vec3& _dir, const Colour& _col ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  enables the spot light
   //----------------------------------------------------------------------------------------------------------------------
-  void enable();
+  void enable() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the various spot light params
   /// @param[in] _cutoff the spot cutoff value
@@ -97,27 +93,27 @@ public:
   /// @param[in] _linear linear attenuation value
   /// @param[in] _quadratic quadratic attenuation value
   //----------------------------------------------------------------------------------------------------------------------
-  void setParams(const Real _cutoff, const Real _exponent, const Real _constant, const Real _linear, const Real _quadratic );
+  void setParams(const Real _cutoff, const Real _exponent, const Real _constant, const Real _linear, const Real _quadratic ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the spot cutoff
   /// @param[in] _cutoff this is the spot cos cutoff value, we need to calc the cos(radians(_cutoff))
   //----------------------------------------------------------------------------------------------------------------------
-  void setCutoff( const Real &_cutoff );
+  void setCutoff( const Real &_cutoff ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the spot inner cutoff
   /// @param[in] _cutoff this is the spot cos cutoff value, we need to calc the cos(radians(_cutoff))
   //----------------------------------------------------------------------------------------------------------------------
-  void setInnerCutoff( const Real &_cutoff  );
+  void setInnerCutoff( const Real &_cutoff  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the exponent
   /// @param[in] _exponent the spot exponent vlaue
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setExponent(const Real &_exp ){ m_spotExponent=_exp;}
+  inline void setExponent(const Real &_exp ) noexcept{ m_spotExponent=_exp;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  This function sets the light to aim at the specified point
   /// @param[in]  _pos  -  the aim position
   //----------------------------------------------------------------------------------------------------------------------
-  void aim( const Vec4& _pos );
+  void aim( const Vec4& _pos ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  this method loads the spotlight values to the shader
   /// @param[in]  _uniformName  the uniform base name to load shader values to the struct will be
@@ -133,25 +129,13 @@ public:
   ///   _uniformName.quadraticAttenuation;
   //----------------------------------------------------------------------------------------------------------------------
 
-  void loadToShader(std::string _uniformName  )const;
+  void loadToShader(std::string _uniformName  )const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the transform of the light this will be multiplied by the position
   /// Vec4 pos=m_transform*m_position;
   /// @param[in] _t the transform
   //----------------------------------------------------------------------------------------------------------------------
-  void setTransform(Mat4 &_t);
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief write class to xml stream
-  /// @brief _doc the xml doc to write to
-  /// @param _name an overidable token name for the xml tag
-  //----------------------------------------------------------------------------------------------------------------------
-  void writeXML(rapidxml::xml_document<> &_doc ,std::string _tag="Vec3") const;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief read xml from stream
-  /// @brief _doc the xml document to read
-  //----------------------------------------------------------------------------------------------------------------------
-  void readXML( rapidxml::xml_document<> &_doc );
-
+  void setTransform(Mat4 &_t) noexcept;
 
 
 protected :

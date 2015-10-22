@@ -27,8 +27,8 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-SpotLight::SpotLight(const Vec3& _pos, const Vec3& _aim, const Colour& _col  ):
-            Light( _pos, _col,SPOTLIGHT )
+SpotLight::SpotLight(const Vec3& _pos, const Vec3& _aim, const Colour& _col  )  noexcept:
+            Light( _pos, _col,LightModes::SPOTLIGHT )
 {
   // set up m_direction and default values
   m_dir=_aim-_pos;
@@ -46,20 +46,20 @@ SpotLight::SpotLight(const Vec3& _pos, const Vec3& _aim, const Colour& _col  ):
   m_position=_pos;
   m_aim=_aim;
   m_transform.identity();
-m_lightMode=SPOTLIGHT;
+  m_lightMode=LightModes::SPOTLIGHT;
 }
 
-SpotLight::SpotLight(const SpotLight &_l) : Light(_l)
+SpotLight::SpotLight(const SpotLight &_l)  noexcept: Light(_l)
 {
   m_aim=_l.m_aim;
   m_transform.identity();
-  m_lightMode=SPOTLIGHT;
+  m_lightMode=LightModes::SPOTLIGHT;
 
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void SpotLight::set(const Vec3 &_pos, const Vec3 &_dir,const Colour& _col )
+void SpotLight::set(const Vec3 &_pos, const Vec3 &_dir,const Colour& _col ) noexcept
 {
   // set up m_direction and default values
   m_dir = _dir;
@@ -75,22 +75,14 @@ void SpotLight::set(const Vec3 &_pos, const Vec3 &_dir,const Colour& _col )
   m_linearAtten    = 0.0f;
   m_quadraticAtten = 0.0f;
   m_transform.identity();
-  m_lightMode=SPOTLIGHT;
+  m_lightMode=LightModes::SPOTLIGHT;
 
 
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-void SpotLight::show()
-{
-  // call superclass show method
-  Light::show();
-  this->enable();
-  /// @todo add some visualisation code at some stage
-}
 
 //----------------------------------------------------------------------------------------------------------------------
-void SpotLight::aim( const Vec4& _pos )
+void SpotLight::aim( const Vec4& _pos ) noexcept
 {
   Vec4 dir= _pos-m_position;
   // this is a vector so set 0 component
@@ -103,13 +95,13 @@ void SpotLight::aim( const Vec4& _pos )
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void SpotLight::enable()
+void SpotLight::enable() noexcept
 {
   m_active=true;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void SpotLight::setParams( const Real _cutoff,const Real _exponent, const Real _constant, const Real _linear, const Real _quadratic  )
+void SpotLight::setParams( const Real _cutoff,const Real _exponent, const Real _constant, const Real _linear, const Real _quadratic ) noexcept
 {
   // we need to convert this to the correct values
   m_cutoffAngle=cos(radians(_cutoff));
@@ -119,15 +111,15 @@ void SpotLight::setParams( const Real _cutoff,const Real _exponent, const Real _
   m_quadraticAtten=_quadratic;
 }
 
-void SpotLight::setCutoff(const Real &_cutoff  )
+void SpotLight::setCutoff(const Real &_cutoff) noexcept
 {
   m_cutoffAngle=cos(radians(_cutoff));
 }
-void SpotLight::setInnerCutoff(const Real &_cutoff )
+void SpotLight::setInnerCutoff(const Real &_cutoff) noexcept
 {
   m_innerCutoffAngle=cos(radians(_cutoff));
 }
-void SpotLight::loadToShader( std::string _uniformName)const
+void SpotLight::loadToShader( std::string _uniformName)const noexcept
 {
 
   ShaderLib *shader=ShaderLib::instance();
@@ -168,48 +160,11 @@ void SpotLight::loadToShader( std::string _uniformName)const
     shader->setShaderParam4f(_uniformName+".specular",0,0,0,0);
   }
 }
-void SpotLight::setTransform(Mat4 &_t)
+void SpotLight::setTransform(Mat4 &_t) noexcept
 {
   m_transform=_t;
 }
 
-void SpotLight::writeXML(rapidxml::xml_document<> &_doc, std::string _tag) const
-{
-//  char *nodeName = _doc.allocate_string(_tag.c_str());        // Allocate string and copy name into it
-
-//  rapidxml::xml_node<>* root = _doc.allocate_node(rapidxml::node_element, nodeName);
-//  _doc.append_node(root);
-
-//  m_position.writeXML(_doc,root,"position");
-//  m_diffuse.writeXML(_doc,root,"colour");
-//  m_specular.writeXML(_doc,root,"specColour");
-//  char *value = _doc.allocate_string(boost::str( boost::format(" %f") % m_constantAtten).c_str());
-//  rapidxml::xml_node<>* child = _doc.allocate_node(rapidxml::node_element, "constantAtten",value);
-//  root->append_node(child);
-
-//  value = _doc.allocate_string(boost::str( boost::format(" %f") % m_linearAtten).c_str());
-//  child = _doc.allocate_node(rapidxml::node_element, "linearAtten",value);
-//  root->append_node(child);
-
-//  value = _doc.allocate_string(boost::str( boost::format(" %f") % m_quadraticAtten).c_str());
-//  child = _doc.allocate_node(rapidxml::node_element, "quadraticAtten",value);
-//  root->append_node(child);
-//  value = _doc.allocate_string(boost::str( boost::format(" %f") % m_innerCutoffAngle).c_str());
-//  child = _doc.allocate_node(rapidxml::node_element, "innerCutoff",value);
-//  root->append_node(child);
-
-//  value = _doc.allocate_string(boost::str( boost::format(" %f") % m_spotExponent).c_str());
-//  child = _doc.allocate_node(rapidxml::node_element, "exponent",value);
-//  root->append_node(child);
-//  m_position.writeXML(_doc,root,"position");
-//  m_aim.writeXML(_doc,root,"aim");
-//  m_dir.writeXML(_doc,root,"dir");
-
-
-
-
-
-  }
 
 
 } // end ngl namespace
