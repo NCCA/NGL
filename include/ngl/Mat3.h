@@ -191,7 +191,7 @@ public:
   /// @brief accesor to the openGL matrix
   /// @returns a pointer to m_openGL[0]
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real * openGL() noexcept{return &m_openGL[0];}
+  Real * openGL() noexcept{return &m_openGL[0];}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the left vector of the matrix (-ve 1st Row)
   /// @returns the up vector
