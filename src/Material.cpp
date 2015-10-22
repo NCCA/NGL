@@ -28,7 +28,7 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-void Material :: setDefault()
+void Material :: setDefault() noexcept
 {
 	m_transparency = 0.0;
 	m_specularExponent = 1.0;
@@ -38,41 +38,39 @@ void Material :: setDefault()
 	m_specular.set(0,0,0);
 }
 //----------------------------------------------------------------------------------------------------------------------
-Material::Material(STDMAT _mat )
+Material::Material(STDMAT _mat) noexcept
 {
-	m_specularExponent = s_materials[_mat][9];
-	m_ambient.set(s_materials[_mat][0],s_materials[_mat][1],s_materials[_mat][2]);
-	m_diffuse.set(s_materials[_mat][3],s_materials[_mat][4],s_materials[_mat][5]);
-	m_specular.set(s_materials[_mat][6],s_materials[_mat][7],s_materials[_mat][8]);
-	m_specularExponent = s_materials[_mat][9];
+	m_specularExponent = s_materials[static_cast<int>(_mat)][9];
+	m_ambient.set(s_materials[static_cast<int>(_mat)][0],s_materials[static_cast<int>(_mat)][1],s_materials[static_cast<int>(_mat)][2]);
+	m_diffuse.set(s_materials[static_cast<int>(_mat)][3],s_materials[static_cast<int>(_mat)][4],s_materials[static_cast<int>(_mat)][5]);
+	m_specular.set(s_materials[static_cast<int>(_mat)][6],s_materials[static_cast<int>(_mat)][7],s_materials[static_cast<int>(_mat)][8]);
+	m_specularExponent = s_materials[static_cast<int>(_mat)][9];
 	m_surfaceRoughness = 0.0;
-	m_transparency=1.0;
 
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Material :: change( STDMAT _mat )
+void Material :: change( STDMAT _mat) noexcept
 {
-	m_specularExponent = s_materials[_mat][9];
-	m_ambient.set(s_materials[_mat][0],s_materials[_mat][1],s_materials[_mat][2]);
-	m_diffuse.set(s_materials[_mat][3],s_materials[_mat][4],s_materials[_mat][5]);
-	m_specular.set(s_materials[_mat][6],s_materials[_mat][7],s_materials[_mat][8]);
+	m_specularExponent = s_materials[static_cast<int>(_mat)][9];
+	m_ambient.set(s_materials[static_cast<int>(_mat)][0],s_materials[static_cast<int>(_mat)][1],s_materials[static_cast<int>(_mat)][2]);
+	m_diffuse.set(s_materials[static_cast<int>(_mat)][3],s_materials[static_cast<int>(_mat)][4],s_materials[static_cast<int>(_mat)][5]);
+	m_specular.set(s_materials[static_cast<int>(_mat)][6],s_materials[static_cast<int>(_mat)][7],s_materials[static_cast<int>(_mat)][8]);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Material::Material(int _mat )
+Material::Material(int _mat) noexcept
 {
 	m_specularExponent = s_materials[_mat][9];
 	m_ambient.set(s_materials[_mat][0],s_materials[_mat][1],s_materials[_mat][2]);
 	m_diffuse.set(s_materials[_mat][3],s_materials[_mat][4],s_materials[_mat][5]);
 	m_specular.set(s_materials[_mat][6],s_materials[_mat][7],s_materials[_mat][8]);
 	m_surfaceRoughness = 0.0;
-	m_transparency=1.0;
 
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Material :: set( const Material &_m )
+void Material :: set( const Material &_m) noexcept
 {
 	m_transparency = _m.m_transparency;
 	m_specularExponent = _m.m_specularExponent;
@@ -85,7 +83,7 @@ void Material :: set( const Material &_m )
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Material::Material( const std::string &_fName)
+Material::Material( const std::string &_fName) noexcept
 {
 	std::ifstream FileIn;
 	FileIn.open(_fName.c_str(),std::ios::in);
@@ -99,21 +97,19 @@ Material::Material( const std::string &_fName)
 	FileIn>>m_ambient;
 	FileIn>>m_diffuse;
 	FileIn>>m_specular;
-	m_specularExponent=1.0f;
-	m_transparency=1.0f;
-	m_surfaceRoughness=0.0f;
+
 	FileIn.close();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Material::load(const std::string &_fname)
+void Material::load(const std::string &_fname) noexcept
 {
 /// @todo write some code to get this to load .mtl files
 	std::cout<<"Load of "<<_fname <<" not yet implemented\n";
 }
 
 
-void Material::loadToShader( std::string _uniformName  )const
+void Material::loadToShader( std::string _uniformName  )const noexcept
 {
 
   ShaderLib *shader=ShaderLib::instance();
@@ -136,31 +132,6 @@ void Material::loadToShader( std::string _uniformName  )const
 
  // std::cout<<"block id = "<<blockID<<"\n";
 
-}
-
-void Material::writeXML(rapidxml::xml_document<> &_doc, std::string _tag) const
-{
-/*  char *nodeName = _doc.allocate_string(_tag.c_str());        // Allocate string and copy name into it
-
-  rapidxml::xml_node<>* root = _doc.allocate_node(rapidxml::node_element,nodeName);
-  _doc.append_node(root);
-
-  m_diffuse.writeXML(_doc,root,"diffuse");
-  m_specular.writeXML(_doc,root,"specular");
-  m_ambient.writeXML(_doc,root,"ambient");
-
-  char *value = _doc.allocate_string(boost::str( boost::format(" %f") % m_specularExponent).c_str());
-  rapidxml::xml_node<>* child = _doc.allocate_node(rapidxml::node_element, "specularExponent",value);
-  root->append_node(child);
-
-
-  value = _doc.allocate_string(boost::str( boost::format(" %f") % m_transparency).c_str());
-  child = _doc.allocate_node(rapidxml::node_element, "transparency",value);
-  root->append_node(child);
-
-  value = _doc.allocate_string(boost::str( boost::format(" %f") % m_surfaceRoughness).c_str());
-  child = _doc.allocate_node(rapidxml::node_element, "roughness",value);
-  root->append_node(child);*/
 }
 
 

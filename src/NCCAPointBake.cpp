@@ -30,7 +30,7 @@ namespace ngl
 	typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
 
 //----------------------------------------------------------------------------------------------------------------------
-NCCAPointBake::NCCAPointBake()
+NCCAPointBake::NCCAPointBake() noexcept
 {
 	m_numFrames=0;
 	m_currFrame=0;
@@ -41,7 +41,7 @@ NCCAPointBake::NCCAPointBake()
 	m_binFile=false;
 }
 
-bool NCCAPointBake::loadPointBake(const std::string &_fileName  )
+bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
 {
 	m_numFrames=0;
 	m_currFrame=0;
@@ -91,9 +91,10 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName  )
   m_data.resize(m_numFrames);
   //cout <<"Size is now"<<m_data.size()<<endl;
   //now for each of these we need to allocate more space
-  for(unsigned int i=0; i<m_numFrames; ++i)
+  // NOTE the use of a reference here as we are changing the size
+  for(auto &data : m_data)
   {
-    m_data[i].resize(m_nVerts);
+    data.resize(m_nVerts);
   }
   unsigned int CurrentFrame=0;
   // this is the line we wish to parse
@@ -130,23 +131,22 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName  )
 
 
 //----------------------------------------------------------------------------------------------------------------------
-NCCAPointBake::~NCCAPointBake()
+NCCAPointBake::~NCCAPointBake() noexcept
 {
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-NCCAPointBake::NCCAPointBake( const std::string &_fileName )
+NCCAPointBake::NCCAPointBake( const std::string &_fileName) noexcept
 {
-
   loadPointBake(_fileName);
 }
 //----------------------------------------------------------------------------------------------------------------------
-void NCCAPointBake::setFrame( const unsigned int _frame  )
+void NCCAPointBake::setFrame( const unsigned int _frame) noexcept
 {
  m_currFrame=_frame;
 }
 
-bool NCCAPointBake::loadBinaryPointBake( const std::string &_fileName )
+bool NCCAPointBake::loadBinaryPointBake( const std::string &_fileName) noexcept
 {
   // open a file stream for ip in binary mode
   std::fstream file;
@@ -197,20 +197,10 @@ bool NCCAPointBake::loadBinaryPointBake( const std::string &_fileName )
      file.read( reinterpret_cast <char *>(&m_data[frame][v].m_z),sizeof(Real));
    }
   }
-  std::cout<<"done m_data\n";
-
-
-
-  std::cout<<"finished\n";
   return true;
 }
 
-
-
-
-
-
-bool NCCAPointBake::saveBinaryPointBake( const std::string &_fileName )
+bool NCCAPointBake::saveBinaryPointBake( const std::string &_fileName) noexcept
 {
   // so basically we need to save all the state data from the abstract mesh
   // then map the vbo on the gpu and dump that in one go, this means we have to
@@ -253,17 +243,17 @@ bool NCCAPointBake::saveBinaryPointBake( const std::string &_fileName )
     return true;
 }
 
-void NCCAPointBake::setMeshToFrame(  const unsigned int _frame  )
+void NCCAPointBake::setMeshToFrame(  const unsigned int _frame) noexcept
   {
     // map the m_obj's vbo dat
     Real *ptr=m_mesh->mapVAOVerts();
     std::vector <Face> faces=m_mesh->getFaceList();
-    unsigned int nFaces=faces.size();
+    //unsigned int nFaces=faces.size();
     // loop for each of the faces
     unsigned int step=0;
-    for(unsigned int i=0;i<nFaces;++i)
+    for(auto face : faces)
     {
-      // now for each triangle in the face (remember we ensured tri above)
+      // now for each triangle in the face (remember we ensured tri when loading)
       // loop for all the verts and set the new vert value
       // the data is packed uv, nx,ny,nz then x,y,z
       // as we only want to change x,y,z, we need to skip over
@@ -271,9 +261,9 @@ void NCCAPointBake::setMeshToFrame(  const unsigned int _frame  )
 
       for(int j=0;j<3;++j)
       {
-        ptr[step+5]=m_data[_frame][faces[i].m_vert[j]].m_x;
-        ptr[step+6]=m_data[_frame][faces[i].m_vert[j]].m_y;
-        ptr[step+7]=m_data[_frame][faces[i].m_vert[j]].m_z;
+        ptr[step+5]=m_data[_frame][face.m_vert[j]].m_x;
+        ptr[step+6]=m_data[_frame][face.m_vert[j]].m_y;
+        ptr[step+7]=m_data[_frame][face.m_vert[j]].m_z;
         step+=8;
       }
 
@@ -288,7 +278,7 @@ void NCCAPointBake::setMeshToFrame(  const unsigned int _frame  )
 
 
 //----------------------------------------------------------------------------------------------------------------------
-bool NCCAPointBake::attachMesh(AbstractMesh *_mesh)
+bool NCCAPointBake::attachMesh(AbstractMesh *_mesh) noexcept
 {
   std::cout<<"doing attach mesh\n";
   if(_mesh->m_nVerts != m_nVerts)
@@ -308,11 +298,10 @@ bool NCCAPointBake::attachMesh(AbstractMesh *_mesh)
 
 
 //----------------------------------------------------------------------------------------------------------------------
-std::vector<Vec3> & NCCAPointBake::getRawDataPointerAtFrame(unsigned int _f)
+std::vector<Vec3> & NCCAPointBake::getRawDataPointerAtFrame(unsigned int _f) noexcept
 {
 	NGL_ASSERT(_f<=m_numFrames);
 	return m_data[_f];
-
 }
 
 

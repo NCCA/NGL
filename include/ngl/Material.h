@@ -19,7 +19,6 @@
 // must include types.h first for Real and GLEW if required
 #include "Colour.h"
 #include "Types.h"
-#include "rapidxml/rapidxml.hpp"
 
 /// @file Material.h
 /// @brief a simple Ambient Diffuse, Specular type GL material this will fill in the
@@ -53,7 +52,7 @@ namespace ngl
 /// the actual values are taken from the Hill Book
 //----------------------------------------------------------------------------------------------------------------------
 
-enum STDMAT { BLACKPLASTIC,BRASS,BRONZE,CHROME,COPPER,GOLD,PEWTER,SILVER,POLISHEDSILVER};
+enum class STDMAT : int { BLACKPLASTIC,BRASS,BRONZE,CHROME,COPPER,GOLD,PEWTER,SILVER,POLISHEDSILVER};
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief material values for some standard material values taken from the Hill Book
@@ -87,18 +86,18 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the default material properties
   //----------------------------------------------------------------------------------------------------------------------
-  void setDefault();
+  void setDefault() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief set the material properties based on another matherial
   ///  @param[in]  _m the material to use
   //----------------------------------------------------------------------------------------------------------------------
-  void set( const Material &_m );
+  void set( const Material &_m ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief change the material to one of the standard materials
   /// @param[in] _mat the material to use
   //----------------------------------------------------------------------------------------------------------------------
-  void change( const STDMAT _mat );
+  void change( const STDMAT _mat ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Constructor for material
   /// @param[in]  _amb the ambient colour
@@ -106,7 +105,7 @@ public :
   /// @param[in]  _spec the specular colour
   /// @param[in]  _emis the emimissive colour
   //----------------------------------------------------------------------------------------------------------------------
-  Material( Colour _amb=0.0f,  Colour _dif=0.5f, Colour _spec=1.0f ) :
+  Material( Colour _amb=0.0f,  Colour _dif=0.5f, Colour _spec=1.0f )  noexcept:
             m_ambient(_amb),
             m_diffuse(_dif),
             m_specular(_spec)
@@ -116,57 +115,57 @@ public :
   /// @brief Constructor using a STDMAT for the coulour
   /// @param[in]  _mat the standard material to set
   //----------------------------------------------------------------------------------------------------------------------
-  Material( STDMAT _mat );
+  Material(STDMAT _mat) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Constructor using an index into the default colour array from sdtmat for the coulour
   /// @param[in] _mat the  index
   //----------------------------------------------------------------------------------------------------------------------
-  Material( int _mat );
+  Material( int _mat ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor to load material from a file, need implimenting properly
   /// @param[in] _fName the name of the file to load the material from
   //----------------------------------------------------------------------------------------------------------------------
-  Material( const std::string &_fName );
+  Material( const std::string &_fName ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief load a material from a file needs work
   /// @param[in] _fName  the name of the file to load
   //----------------------------------------------------------------------------------------------------------------------
-  void load(  const std::string &_fName  );
+  void load(  const std::string &_fName  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief mutator to set the Ambient colour value
   /// @param[in] _c  colour values to be set
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setAmbient(const Colour &_c){ m_ambient = _c;}
-  inline Colour getAmbient() const {return m_ambient;}
+  void setAmbient(const Colour &_c) noexcept{ m_ambient = _c;}
+  Colour getAmbient() const noexcept {return m_ambient;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief mutator to set the Diffuse colour value
   /// @param[in] _c  colour values to be set
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setDiffuse(const Colour &_c){ m_diffuse = _c;}
-  inline Colour getDiffuse() const {return m_diffuse;}
+  void setDiffuse(const Colour &_c) noexcept{ m_diffuse = _c;}
+  Colour getDiffuse() const noexcept {return m_diffuse;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief mutator to set the Specular colour value
   /// @param[in] _c  colour values to be set
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setSpecular(const Colour &_c){ m_specular = _c;}
-  inline Colour getSpecular() const {return m_specular;}
+  void setSpecular(const Colour &_c) noexcept{ m_specular = _c;}
+  Colour getSpecular() const  noexcept{return m_specular;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief mutator to set the specular exponent colour value
   /// @param[in] _s  specular exponent value smaller = larger highlights
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setSpecularExponent(Real _s){ m_specularExponent=_s;}
-  inline Real getSpecularExponent()const { return m_specularExponent;}
+  void setSpecularExponent(Real _s) noexcept{ m_specularExponent=_s;}
+  Real getSpecularExponent()const  noexcept{ return m_specularExponent;}
 
-  inline Real getTransparency()const { return m_transparency;}
+  Real getTransparency()const  noexcept{ return m_transparency;}
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief mutator to set the surface roughness, will effect the spread in shading
   /// @param[in] _r  value to set
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setRoughness(Real _r){m_surfaceRoughness=_r;}
-  inline Real getRoughness()const {return m_surfaceRoughness;}
+  void setRoughness(Real _r) noexcept{m_surfaceRoughness=_r;}
+  Real getRoughness()const  noexcept{return m_surfaceRoughness;}
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief load the material values to the currently active shader passed this will set the following glsl shader parameters
@@ -179,20 +178,7 @@ public :
   /// };
   /// @param[in] _uniformName
   //----------------------------------------------------------------------------------------------------------------------
-  void loadToShader( std::string _uniformName )const;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief write class to xml stream
-  /// @brief _doc the xml doc to write to
-  /// @param _name an overidable token name for the xml tag
-  //----------------------------------------------------------------------------------------------------------------------
-  void writeXML(rapidxml::xml_document<> &_doc ,std::string _tag="Vec3") const;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief read xml from stream
-  /// @brief _doc the xml document to read
-  //----------------------------------------------------------------------------------------------------------------------
-  void readXML( rapidxml::xml_document<> &_doc );
-
-
+  void loadToShader( std::string _uniformName )const noexcept;
 
 protected :
   //----------------------------------------------------------------------------------------------------------------------

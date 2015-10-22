@@ -52,28 +52,28 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief default constructor
   //----------------------------------------------------------------------------------------------------------------------
-    NCCABinMesh(){;}
+    NCCABinMesh() noexcept{;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief constructor to load an objfile as a parameter
   /// @param[in]  &_fname the name of the obj file to load
   //----------------------------------------------------------------------------------------------------------------------
-  NCCABinMesh( const std::string& _fname  );
+  NCCABinMesh( const std::string& _fname  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief constructor to load an objfile as a parameter
   /// @param[in]  &_fname the name of the obj file to load
   /// @param[in]  &_texName the name of the texture file
   //----------------------------------------------------------------------------------------------------------------------
-  NCCABinMesh( const std::string& _fname, const std::string& _texName  );
+  NCCABinMesh( const std::string& _fname, const std::string& _texName) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  Method to load the file in
   /// @param[in]  _fname the name of the obj file to load
   //----------------------------------------------------------------------------------------------------------------------
-  bool load( const std::string& _fname, bool _calcBB=true ) noexcept;
+  bool load( const std::string& _fname, bool _calcBB=true) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to save the obj
   /// @param[in] _fname the name of the file to save
   //----------------------------------------------------------------------------------------------------------------------
-  void save( const std::string& _fname );
+  void save( const std::string& _fname) noexcept;
 
 protected :
 

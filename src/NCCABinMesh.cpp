@@ -17,7 +17,6 @@
 
 #include <cstring>
 #include "NCCABinMesh.h"
-#include <iostream>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file NCCABinMesh.cpp
 /// @brief implementation files for NCCABinMesh class
@@ -117,7 +116,7 @@ bool NCCABinMesh::load(const std::string &_fname,bool _calcBB) noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-NCCABinMesh::NCCABinMesh(const std::string& _fname ) :AbstractMesh()
+NCCABinMesh::NCCABinMesh(const std::string& _fname )  noexcept:AbstractMesh()
 {
   m_vbo=false;
   m_ext=0;
@@ -126,7 +125,7 @@ NCCABinMesh::NCCABinMesh(const std::string& _fname ) :AbstractMesh()
  }
 
 //----------------------------------------------------------------------------------------------------------------------
-NCCABinMesh::NCCABinMesh(const std::string& _fname,const std::string& _texName   ):AbstractMesh()
+NCCABinMesh::NCCABinMesh(const std::string& _fname,const std::string& _texName   ) noexcept:AbstractMesh()
 {
   m_vbo=false;
   m_ext=0;
@@ -138,7 +137,7 @@ NCCABinMesh::NCCABinMesh(const std::string& _fname,const std::string& _texName  
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void NCCABinMesh::save( const std::string& _fname )
+void NCCABinMesh::save( const std::string& _fname) noexcept
 {
   AbstractMesh::saveNCCABinaryMesh(_fname);
 }
