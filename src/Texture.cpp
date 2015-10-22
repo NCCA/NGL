@@ -21,13 +21,14 @@
 #include "NGLassert.h"
 #include "Texture.h"
 #include <iostream>
+#include "Util.h"
 
 namespace ngl
 {
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Texture::Texture()
+Texture::Texture() noexcept
 {
 	m_width=0;
 	m_height=0;
@@ -51,6 +52,12 @@ Texture::Texture( const std::string &_fname  )
 
 bool Texture::loadImage( const std::string  &_fname )
 {
+	m_width=m_image.width();
+	m_height=m_image.height();
+	m_channels=m_image.channels();
+	m_format=m_image.format();
+	m_multiTextureID=0;
+
 	return m_image.load(_fname);
 }
 
@@ -68,7 +75,7 @@ Texture::~Texture()
 /// Could actually be worth creating a texture manager class at some stage along the lines of the
 /// Shader manager class, or even a generic manager framework which we could then add items to
 
-GLuint Texture::setTextureGL() const
+GLuint Texture::setTextureGL() const noexcept
 {
   GLuint textureName;
   glGenTextures(1,&textureName);
@@ -77,13 +84,15 @@ GLuint Texture::setTextureGL() const
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
   glTexImage2D(GL_TEXTURE_2D,0,m_format,m_width,m_height,0,m_format,GL_UNSIGNED_BYTE,m_image.getPixels());
+  NGLCheckGLError("In texture just called TexIm2D",__LINE__);
+
   std::cout<<"texture GL set "<<textureName<<" Active Texture "<<m_multiTextureID<<"\n";
   glGenerateMipmap(GL_TEXTURE_2D);
   return textureName;
 }
 //----------------------------------------------------------------------------------------------------------------------
 
-void Texture::setMultiTexture( const GLint _id  )
+void Texture::setMultiTexture( const GLint _id  ) noexcept
 {
  m_multiTextureID=_id;
 }

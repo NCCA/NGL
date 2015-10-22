@@ -100,25 +100,31 @@ NGL_DLLEXPORT Real degrees( const Real _rad   )
 
 NGL_DLLEXPORT  void NGLCheckGLError( const std::string  &_file, const int _line )
 {
+ std::cout<<"NGLCheckGLError Called ______________________\n";
  int errNum = glGetError();
-
   while (errNum != GL_NO_ERROR)
   {
+    std::cout<<errNum<<"\n";
     std::string str;
-    errNum = glGetError();
     switch(errNum)
     {
       case GL_INVALID_ENUM : str="GL_INVALID_ENUM error"; break;
       case GL_INVALID_VALUE : str="GL_INVALID_VALUE error"; break;
       case GL_INVALID_OPERATION : str="GL_INVALID_OPERATION error"; break;
       case GL_OUT_OF_MEMORY : str="GL_OUT_OF_MEMORY error"; break;
+      case GL_INVALID_FRAMEBUFFER_OPERATION : str="GL_INVALID_FRAMEBUFFER_OPERATION error";  break;
+      case GL_STACK_UNDERFLOW : str= "GL_STACK_UNDERFLOW error"; break;
+      case GL_STACK_OVERFLOW : str= "GL_STACK_OVERFLOW error"; break;
+
       // this should be in the spec but it's not on the mac! will check linux
       default : break;
     }
     if(errNum !=GL_NO_ERROR)
     {
-      std::cerr<<"GL error"<< str<<" line : "<<_line<<" file : "<<_file<<"\n";
+      std::cerr<<"GL error "<< str<<" line : "<<_line<<" file : "<<_file<<"\n";
     }
+    errNum = glGetError();
+
    }
 }
 

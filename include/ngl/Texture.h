@@ -21,7 +21,6 @@
 #include "Image.h"
 #include "Types.h"
 #include <string>
-#include <boost/scoped_array.hpp>
 
 namespace ngl
 {
@@ -46,7 +45,7 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Constructor using no parameters
   //----------------------------------------------------------------------------------------------------------------------
-  Texture();
+  Texture() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  destructor will free m_data
   //----------------------------------------------------------------------------------------------------------------------
@@ -72,27 +71,27 @@ public :
   /// @brief set the image as an OpenGL texture object
   /// @returns the texture object id
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint setTextureGL() const;
+  GLuint setTextureGL() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the texture object to be different texture in multitexture
   /// @param _id the texture id
   //----------------------------------------------------------------------------------------------------------------------
-  void setMultiTexture(const GLint _id );
+  void setMultiTexture(const GLint _id ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Get the width of the texture
   /// @return width of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getWidth()const {return m_width;}
+  GLuint getWidth()const noexcept{return m_width;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Get the height of the texture
   /// @return height of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getHeight()const {return m_height;}
+  GLuint getHeight()const noexcept{return m_height;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Get the pixel format
   /// @return pixel format of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getFormat()const {return m_format;}
+  GLuint getFormat()const noexcept{return m_format;}
 
 protected :
 		//----------------------------------------------------------------------------------------------------------------------

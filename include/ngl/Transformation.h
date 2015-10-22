@@ -31,8 +31,7 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 /// @enum decide which matrix is the current active matrix
 //----------------------------------------------------------------------------------------------------------------------
-// in c++11 was an enum class removed as lab build doesn't support
-enum  ACTIVEMATRIX{NORMAL,TRANSPOSE,INVERSE};
+enum  class ActiveMatrix : char{NORMAL,TRANSPOSE,INVERSE};
 //----------------------------------------------------------------------------------------------------------------------
 /// @class Transformation "include/ngl/Transformation.h"
 /// @brief Transformation describes a transformation (translate, scale, rotation)
@@ -49,21 +48,21 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Constructor
   //----------------------------------------------------------------------------------------------------------------------
-  Transformation();
+  Transformation() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Copy Constructor
   //----------------------------------------------------------------------------------------------------------------------
-  Transformation(const Transformation &_t);
+  Transformation(const Transformation &_t) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief assignment operator
   //----------------------------------------------------------------------------------------------------------------------
-  Transformation & operator =(const Transformation &_t);
+  Transformation & operator =(const Transformation &_t) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to set the scale value in the transform
   /// @param[in] _scale the scale value to set for the transform
   //----------------------------------------------------------------------------------------------------------------------
-  void setScale( const Vec3& _scale );
-  void setScale( const Vec4& _scale );
+  void setScale( const Vec3& _scale ) noexcept;
+  void setScale( const Vec4& _scale ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to set the scale value in the transform
@@ -71,67 +70,67 @@ public:
   /// @param[in] _y y scale value
   /// @param[in] _z z scale value
   //----------------------------------------------------------------------------------------------------------------------
-  void setScale(  Real _x,  Real _y,  Real _z  );
+  void setScale(  Real _x,  Real _y,  Real _z  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to add to the existing the scale value in the transform
   /// @param[in] _scale the scale value to set for the transform
   //----------------------------------------------------------------------------------------------------------------------
-  void addScale( const Vec3& _scale );
+  void addScale( const Vec3& _scale ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to add to the existing the scale value in the transform
   /// @param[in] _x x scale value
   /// @param[in] _y y scale value
   /// @param[in] _z z scale value
   //----------------------------------------------------------------------------------------------------------------------
-  void addScale(  Real _x,  Real _y, Real _z );
+  void addScale(  Real _x,  Real _y, Real _z ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to set the position
   /// @param[in] _position position
   //----------------------------------------------------------------------------------------------------------------------
-  void setPosition( const Vec4& _position );
+  void setPosition( const Vec4& _position ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to set the position
   /// @param[in] _position position
   //----------------------------------------------------------------------------------------------------------------------
-  void setPosition( const Vec3& _position );
+  void setPosition( const Vec3& _position ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to set the position value in the transform
   /// @param[in] _x x position value
   /// @param[in] _y y position value
   /// @param[in] _z z position value
   //----------------------------------------------------------------------------------------------------------------------
-  void setPosition( Real _x, Real _y, Real _z  );
+  void setPosition( Real _x, Real _y, Real _z  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method add to the existing set the position
   /// @param[in] _position position
   //----------------------------------------------------------------------------------------------------------------------
-  void addPosition( const Vec4& _position  );
+  void addPosition( const Vec4& _position  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method add to the existing set the position
   /// @param[in] _position position
   //----------------------------------------------------------------------------------------------------------------------
-  void addPosition( const Vec3& _position );
+  void addPosition( const Vec3& _position ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to add to the existing position value in the transform
   /// @param[in] _x x position value
   /// @param[in] _y y position value
   /// @param[in] _z z position value
   //----------------------------------------------------------------------------------------------------------------------
-  void addPosition( Real _x, Real _y,  Real _z  );
+  void addPosition( Real _x, Real _y,  Real _z  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @breif method to set the matrix directly
   /// @param[in] _m the matrix to set the m_transform to
   /// need to also re-compute the others
   //----------------------------------------------------------------------------------------------------------------------
-  void setMatrix( const Mat4 &_m );
+  void setMatrix( const Mat4 &_m ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to set the rotation
   /// @param[in] _rotation rotation
   /// @note each value is an axis rotation as the values are calculated
   /// mRotationX * mRotationY * mRotationZ;
   //----------------------------------------------------------------------------------------------------------------------
-  void setRotation( const Vec3& _rotation );
-  void setRotation( const Vec4& _rotation );
+  void setRotation( const Vec3& _rotation ) noexcept;
+  void setRotation( const Vec4& _rotation ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to set the rotation value in the transform
   /// @note each value is an axis rotation as the values are calculated
@@ -140,14 +139,14 @@ public:
   /// @param[in] _y y rotation value
   /// @param[in] _z z rotation value
   //----------------------------------------------------------------------------------------------------------------------
-  void setRotation( Real _x, Real _y, Real _z );
+  void setRotation( Real _x, Real _y, Real _z ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to add to the existing  rotation
   /// @param[in] _rotation rotation
   /// @note each value is an axis rotation as the values are calculated
   /// mRotationX * mRotationY * mRotationZ;
   //----------------------------------------------------------------------------------------------------------------------
-  void addRotation( const Vec3& _rotation   );
+  void addRotation( const Vec3& _rotation   ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to add to the existing rotation value in the transform
   /// @note each value is an axis rotation as the values are calculated
@@ -156,46 +155,46 @@ public:
   /// @param[in] _y y rotation value
   /// @param[in] _z z rotation value
   //----------------------------------------------------------------------------------------------------------------------
-  void addRotation( Real _x, Real _y, Real _z  );
+  void addRotation( Real _x, Real _y, Real _z  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a method to set all the transforms to the identity
   //----------------------------------------------------------------------------------------------------------------------
-  void reset();
+  void reset() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief function to get the scale
   /// @returns the scale
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getScale()  const      { return m_scale;  }
+  Vec3 getScale()  const  noexcept    { return m_scale;  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief function to get the position
   /// @returns the position
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getPosition() const    { return m_position;  }
+  Vec3 getPosition() const  noexcept  { return m_position;  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief function to get the rotation
   /// @returns the rotation
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getRotation() const    { return m_rotation;  }
+  Vec3 getRotation() const  noexcept  { return m_rotation;  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief function to get the matrix. It computes the matrix if it's dirty
   /// @returns the matrix
   //----------------------------------------------------------------------------------------------------------------------
-  Mat4 getMatrix() { computeMatrices();  return m_matrix;  }
+  Mat4 getMatrix() noexcept{ computeMatrices();  return m_matrix;  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief function to get the transpose matrix. It computes the transpose matrix if it's dirty
   /// @returns the transpose matrix
   //----------------------------------------------------------------------------------------------------------------------
-  Mat4 getTransposeMatrix() {  computeMatrices(); return m_transposeMatrix; }
+  Mat4 getTransposeMatrix() noexcept{  computeMatrices(); return m_transposeMatrix; }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief function to get the inverse matrix. It computes the inverse matrix if it's dirty
   /// @returns the inverse matrix
   //----------------------------------------------------------------------------------------------------------------------
-  Mat4 getInverseMatrix()  {  computeMatrices(); return m_inverseMatrix; }
+  Mat4 getInverseMatrix() noexcept {  computeMatrices(); return m_inverseMatrix; }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief *= operator
   /// @param _m the transformation to combine
   //----------------------------------------------------------------------------------------------------------------------
-  void operator*=( const Transformation &_m  );
+  void operator*=( const Transformation &_m  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief operator for Transform multiplication will do a matrix
   /// multiplication on each of the matrices
@@ -204,19 +203,19 @@ public:
   /// @param[in] _m the Transform to multiply the current one by
   /// @returns all the transform matrix members * my _m members
   //----------------------------------------------------------------------------------------------------------------------
-  Transformation operator*( const Transformation &_m  ) ;
+  Transformation operator*( const Transformation &_m  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief load the current transform matrix to the shader
   /// @param[in] _param the name of the parameter to set (varying mat4)
   /// @param[in] _which which matrix mode to use
   //----------------------------------------------------------------------------------------------------------------------
-  void loadMatrixToShader(const std::string &_param,  const ACTIVEMATRIX &_which=NORMAL   );
+  void loadMatrixToShader(const std::string &_param,  const ActiveMatrix &_which=ActiveMatrix::NORMAL   ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief load the current * global transform matrix to the shader
   /// @param[in] _param the name of the parameter to set (varying mat4)
   /// @param[in] _which which matrix mode to use
   //----------------------------------------------------------------------------------------------------------------------
-  void loadGlobalAndCurrentMatrixToShader( const std::string &_param, Transformation &_global,  const ACTIVEMATRIX &_which=NORMAL  );
+  void loadGlobalAndCurrentMatrixToShader( const std::string &_param, Transformation &_global,  const ActiveMatrix &_which=ActiveMatrix::NORMAL  )noexcept;
 
 protected :
 
@@ -251,7 +250,7 @@ protected :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to compute the matrix, transpose and inverse matrix. set the m_bIsMatrixComputed variable to true.
   //----------------------------------------------------------------------------------------------------------------------
-  void computeMatrices();
+  void computeMatrices() noexcept;
 
 };
 
