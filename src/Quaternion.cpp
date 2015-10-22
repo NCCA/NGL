@@ -28,7 +28,7 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-Quaternion::Quaternion(const Mat4 &_m)
+Quaternion::Quaternion(const Mat4 &_m) noexcept
 {
   Real T = 1 + _m.m_openGL[0] + _m.m_openGL[5] + _m.m_openGL[10];
   if ( T > 0.00000001f ) //to avoid large distortions!
@@ -68,7 +68,7 @@ Quaternion::Quaternion(const Mat4 &_m)
   }
 }
 
-Quaternion::Quaternion(const Vec3 &_rot)
+Quaternion::Quaternion(const Vec3 &_rot) noexcept
 {
 
   Real sx = sin(radians(_rot.m_x/2.0f));
@@ -86,7 +86,7 @@ Quaternion::Quaternion(const Vec3 &_rot)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Quaternion Quaternion::operator *(const Quaternion& _q)const
+Quaternion Quaternion::operator *(const Quaternion& _q)const noexcept
 {
   Quaternion ret(0.0,0.0,0.0,0.0);
   // if we have two Quaternions Qa Qb we get the following
@@ -108,14 +108,14 @@ Quaternion Quaternion::operator *(const Quaternion& _q)const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Quaternion::operator *=(const Quaternion& _q)
+void Quaternion::operator *=(const Quaternion& _q) noexcept
 {
 		// as we have already written the code to do the mult above re-use
 		*this=*this*_q;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Quaternion Quaternion::operator +(const Quaternion& _q) const
+Quaternion Quaternion::operator +(const Quaternion& _q) const noexcept
 {
 	Quaternion ret;
 	ret.m_s=m_s+_q.m_s;
@@ -126,7 +126,7 @@ Quaternion Quaternion::operator +(const Quaternion& _q) const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Quaternion Quaternion::operator -(const Quaternion& _q) const
+Quaternion Quaternion::operator -(const Quaternion& _q) const noexcept
 {
 	Quaternion ret;
 	ret.m_s=m_s-_q.m_s;
@@ -138,27 +138,27 @@ Quaternion Quaternion::operator -(const Quaternion& _q) const
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void Quaternion::operator +=(const Quaternion& _q)
+void Quaternion::operator +=(const Quaternion& _q) noexcept
 {
 	// re-call the code from above
 	*this=*this+_q;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Quaternion::operator -=(const Quaternion& _q)
+void Quaternion::operator -=(const Quaternion& _q) noexcept
 {
 	// re-call the code from above
 	*this=*this-_q;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Quaternion Quaternion::operator *(Real _s) const
+Quaternion Quaternion::operator *(Real _s) const noexcept
 {
 	return Quaternion(m_s*_s,m_x*_s,m_y*_s,m_z*_s);
 
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Quaternion::operator *=(Real _s)
+void Quaternion::operator *=(Real _s) noexcept
 {
 	m_s*=_s;
 	m_x*=_s;
@@ -169,7 +169,7 @@ void Quaternion::operator *=(Real _s)
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void Quaternion::normalise()
+void Quaternion::normalise() noexcept
 {
 	Real inverseOverOne = 1.0f/magnitude();
 	m_s*=inverseOverOne;
@@ -180,13 +180,13 @@ void Quaternion::normalise()
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Real Quaternion::magnitude()const
+Real Quaternion::magnitude()const noexcept
 {
 	return static_cast<Real>( sqrt(m_s*m_s + m_x*m_x + m_y*m_y + m_z*m_z) );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-bool Quaternion::operator == (const Quaternion& _q)const
+bool Quaternion::operator == (const Quaternion& _q)const noexcept
 {
 	return (
 					FCompare(_q.m_s,m_s) &&
@@ -198,7 +198,7 @@ bool Quaternion::operator == (const Quaternion& _q)const
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 Quaternion::operator* (const Vec4 &_vec) const
+Vec4 Quaternion::operator* (const Vec4 &_vec) const noexcept
 {
 	Quaternion temp=-*this;
 	Quaternion point(0.0,_vec.m_x,_vec.m_y,_vec.m_z);
@@ -209,7 +209,7 @@ Vec4 Quaternion::operator* (const Vec4 &_vec) const
 
 
 
-void Quaternion::rotateX(Real _angle)
+void Quaternion::rotateX(Real _angle) noexcept
 {
 _angle/=2.0;
 // q=[cos 1/2 theta, sin 1/2 theta V]
@@ -219,7 +219,7 @@ m_y=0;
 m_z=0;
 }
 
-void Quaternion::rotateY(Real _angle)
+void Quaternion::rotateY(Real _angle) noexcept
 {
 	_angle/=2.0;
 	// q=[cos 1/2 theta, sin 1/2 theta V]
@@ -230,7 +230,7 @@ void Quaternion::rotateY(Real _angle)
 	m_z=0;
 }
 
-void Quaternion::rotateZ(Real _angle)
+void Quaternion::rotateZ(Real _angle) noexcept
 {
 
 	_angle/=2.0;
@@ -243,7 +243,7 @@ void Quaternion::rotateZ(Real _angle)
 }
 
 
-void Quaternion::fromAxisAngle(const Vec3& _axis, Real _angle)
+void Quaternion::fromAxisAngle(const Vec3& _axis, Real _angle) noexcept
 {
   Vec3 axis = _axis;
   axis.normalize();
@@ -257,7 +257,7 @@ void Quaternion::fromAxisAngle(const Vec3& _axis, Real _angle)
 }
 
 
-void Quaternion::fromEulerAngles(const Real _x,const Real _y,const Real _z)
+void Quaternion::fromEulerAngles(const Real _x,const Real _y,const Real _z) noexcept
 {
   Real sx = sin(radians(_x/2.0f));
   Real sy = sin(radians(_y/2.0f));
@@ -272,7 +272,7 @@ void Quaternion::fromEulerAngles(const Real _x,const Real _y,const Real _z)
   m_z=cx*cy*sz - sx*sy*cz;
 }
 
-void Quaternion::rotatePoint(const Quaternion& _r,Vec3 & io_p)
+void Quaternion::rotatePoint(const Quaternion& _r,Vec3 & io_p) noexcept
 {
 Quaternion temp = -_r;
 Quaternion point(0.0,io_p.m_x, io_p.m_y, io_p.m_z);
@@ -280,7 +280,7 @@ point = temp * point * _r;
 io_p.set(point.m_x, point.m_y, point.m_z);
 }
 
-void Quaternion::toAxisAngle(Vec3& o_axis,Real &o_angle)
+void Quaternion::toAxisAngle(Vec3& o_axis,Real &o_angle) noexcept
 {
   o_angle = degrees(static_cast<Real>(acos( m_s ) * 2.0f));
   Real sinA = static_cast<Real>(sqrt( 1.0f - m_s * m_s ));
@@ -293,7 +293,7 @@ void Quaternion::toAxisAngle(Vec3& o_axis,Real &o_angle)
   o_axis.m_z = m_z / sinA;
 }
 
-Quaternion Quaternion::slerp(const Quaternion &_q1, const Quaternion &_q2, const Real &_t)
+Quaternion Quaternion::slerp(const Quaternion &_q1, const Quaternion &_q2, const Real &_t) noexcept
 {
   // based on the http://ggt.sourceforge.net/ gmtl version from assimp
   Quaternion out;
@@ -338,7 +338,7 @@ Quaternion Quaternion::slerp(const Quaternion &_q1, const Quaternion &_q2, const
 
 
 
-Mat4 Quaternion::toMat4() const
+Mat4 Quaternion::toMat4() const noexcept
 {
   // written by Rob Bateman
   // sacrafice a few bytes to pre-calculate some values
@@ -377,7 +377,7 @@ Mat4 Quaternion::toMat4() const
   return o;
 }
 
-Mat4 Quaternion::toMat4Transpose() const
+Mat4 Quaternion::toMat4Transpose() const noexcept
 {
   // written by Rob Bateman
   // sacrafice a few bytes to pre-calculate some values

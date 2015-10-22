@@ -39,7 +39,7 @@ typedef spt::rule<spt::phrase_scanner_t> srule;
 
 //----------------------------------------------------------------------------------------------------------------------
 // parse a vertex
-void Obj::parseVertex( const char *_begin )
+void Obj::parseVertex( const char *_begin )  noexcept
 {
   std::vector<Real> values;
   // here is the parse rule to load the data into a vector (above)
@@ -57,7 +57,7 @@ void Obj::parseVertex( const char *_begin )
 
 //----------------------------------------------------------------------------------------------------------------------
 // parse a texture coordinate
-void Obj::parseTextureCoordinate(const char * _begin )
+void Obj::parseTextureCoordinate(const char * _begin ) noexcept
 {
   std::vector<Real> values;
   // generate our parse rule for a tex cord,
@@ -77,7 +77,7 @@ void Obj::parseTextureCoordinate(const char * _begin )
 
 //----------------------------------------------------------------------------------------------------------------------
 // parse a normal
-void Obj::parseNormal( const char *_begin )
+void Obj::parseNormal( const char *_begin )  noexcept
 {
   std::vector<Real> values;
   // here is our rule for normals
@@ -93,7 +93,7 @@ void Obj::parseNormal( const char *_begin )
 
 //----------------------------------------------------------------------------------------------------------------------
 // parse face
-void Obj::parseFace(const char * _begin   )
+void Obj::parseFace(const char * _begin   )  noexcept
 {
   // ok this one is quite complex first create some lists for our face data
   // list to hold the vertex data indices
@@ -127,7 +127,7 @@ void Obj::parseFace(const char * _begin   )
   f.m_normals=false;
   // copy the vertex indices into our face data structure index in obj start from 1
   // so we need to do -1 for our array index
-  BOOST_FOREACH(int i, vec)
+  for(int i : vec)
   {
     f.m_vert.push_back(i-1);
   }
@@ -144,7 +144,7 @@ void Obj::parseFace(const char * _begin   )
     }
 
     // copy in these references to normal vectors to the mesh's normal vector
-    BOOST_FOREACH(int i, nvec)
+    for(int i : nvec)
     {
       f.m_norm.push_back(i-1);
     }
@@ -163,7 +163,7 @@ void Obj::parseFace(const char * _begin   )
     }
 
     // copy in these references to normal vectors to the mesh's normal vector
-    BOOST_FOREACH(int i, tvec)
+    for(int i : tvec)
     {
       f.m_tex.push_back(i-1);
     }
@@ -176,7 +176,7 @@ void Obj::parseFace(const char * _begin   )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-bool Obj::load(const std::string &_fname,bool _calcBB ) noexcept
+bool Obj::load(const std::string &_fname,bool _calcBB )  noexcept
 {
  // here we build up our ebnf rules for parsing
   // so first we have a comment
@@ -207,7 +207,7 @@ bool Obj::load(const std::string &_fname,bool _calcBB ) noexcept
   }
   std::string str;
   // loop grabbing a line and then pass it to our parsing framework
-  while(getline(in, str))
+  while(std::getline(in, str))
   {
     spt::parse(str.c_str(), vertex_type  | face | comment, spt::space_p);
   }
@@ -232,7 +232,7 @@ bool Obj::load(const std::string &_fname,bool _calcBB ) noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Obj::Obj( const std::string& _fname  ) :AbstractMesh()
+Obj::Obj( const std::string& _fname  )  noexcept :AbstractMesh()
 {
     m_vbo=false;
     m_ext=0;
@@ -250,7 +250,7 @@ Obj::Obj( const std::string& _fname  ) :AbstractMesh()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Obj::Obj( const std::string& _fname,const std::string& _texName   ):AbstractMesh()
+Obj::Obj( const std::string& _fname,const std::string& _texName   )  noexcept:AbstractMesh()
 {
     m_vbo=false;
     m_vao=false;
@@ -270,7 +270,7 @@ Obj::Obj( const std::string& _fname,const std::string& _texName   ):AbstractMesh
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Obj::save(const std::string& _fname)const
+void Obj::save(const std::string& _fname)const noexcept
 {
   // Open the stream and parse
   std::fstream fileOut;
@@ -284,25 +284,25 @@ void Obj::save(const std::string& _fname)const
   fileOut<<"# This file was created by ngl Obj exporter "<<_fname.c_str()<<std::endl;
   // was c++ 11  for(Vec3 v : m_norm) for all of these
   // write out the verts
-  BOOST_FOREACH(Vec3 v , m_verts)
+  for(Vec3 v : m_verts)
   {
     fileOut<<"v "<<v.m_x<<" "<<v.m_y<<" "<<v.m_z<<std::endl;
   }
 
   // write out the tex cords
-  BOOST_FOREACH(Vec3 v , m_tex)
+  for(Vec3 v : m_tex)
   {
     fileOut<<"vt "<<v.m_x<<" "<<v.m_y<<std::endl;
   }
   // write out the normals
 
-  BOOST_FOREACH(Vec3 v , m_norm)
+  for(Vec3 v : m_norm)
   {
     fileOut<<"vn "<<v.m_x<<" "<<v.m_y<<" "<<v.m_z<<std::endl;
   }
 
   // finally the faces
-  BOOST_FOREACH(Face f , m_face)
+  for(Face f : m_face)
   {
   fileOut<<"f ";
   // we now have V/T/N for each to write out

@@ -24,23 +24,23 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-Plane::Plane()
+Plane::Plane() noexcept
 {
-  m_d=0.0;
+
 }
 //----------------------------------------------------------------------------------------------------------------------
-Plane::Plane( const Vec3 &_v1, const Vec3 &_v2,  const Vec3 &_v3	 )
+Plane::Plane( const Vec3 &_v1, const Vec3 &_v2,  const Vec3 &_v3) noexcept
 {
   setPoints(_v1,_v2,_v3);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Plane::~Plane()
+Plane::~Plane() noexcept
 {
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Plane::setPoints(const Vec3 &_v1, const Vec3 &_v2, const Vec3 &_v3	)
+void Plane::setPoints(const Vec3 &_v1, const Vec3 &_v2, const Vec3 &_v3) noexcept
 {
 	Vec3 aux1, aux2;
 
@@ -52,7 +52,7 @@ void Plane::setPoints(const Vec3 &_v1, const Vec3 &_v2, const Vec3 &_v3	)
 	m_d = -(m_normal.inner(m_point));
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Plane::setNormalPoint( const Vec3 &_normal, const Vec3 &_point	)
+void Plane::setNormalPoint( const Vec3 &_normal, const Vec3 &_point) noexcept
 {
 	m_point=_point;
 	m_normal=_normal;
@@ -60,7 +60,7 @@ void Plane::setNormalPoint( const Vec3 &_normal, const Vec3 &_point	)
 	m_d = -(m_normal.inner(m_point));
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Plane::setFloats(Real _a,Real _b,	Real _c,	Real _d	 )
+void Plane::setFloats(Real _a,Real _b,	Real _c,	Real _d) noexcept
 {
 	// set the normal vector
 	m_normal.set(_a,_b,_c);
@@ -73,27 +73,9 @@ void Plane::setFloats(Real _a,Real _b,	Real _c,	Real _d	 )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Real Plane::distance( const Vec3 &_p) const
+Real Plane::distance( const Vec3 &_p) const noexcept
 {
 	return (m_d + m_normal.inner(_p));
-
 }
-
-//void Plane::writeXML(rapidxml::xml_document<> &_doc, std::string _tag) const
-//{
-//  char *nodeName = _doc.allocate_string(_tag.c_str());        // Allocate string and copy name into it
-
-//  rapidxml::xml_node<>* root = _doc.allocate_node(rapidxml::node_element,nodeName);
-//  _doc.append_node(root);
-
-//  m_normal.writeXML(_doc,root,"normal");
-//  m_point.writeXML(_doc,root,"point");
-
-//  char *value = _doc.allocate_string(boost::str( boost::format(" %f") % m_d).c_str());
-//  rapidxml::xml_node<>* child  = _doc.allocate_node(rapidxml::node_element, "d",value);
-//  _doc.append_node(child);
-
-//}
-
 
 } // end of ngl namespace

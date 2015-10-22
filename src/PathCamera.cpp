@@ -26,7 +26,7 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-PathCamera::PathCamera( const Vec3 &_up, const BezierCurve &_eyePath,const BezierCurve &_lookPath, Real _step)
+PathCamera::PathCamera( const Vec3 &_up, const BezierCurve &_eyePath,const BezierCurve &_lookPath, Real _step) noexcept
 {
 	m_dir=CAMFWD;
 	m_eyeCurvePoint=0.0;
@@ -38,7 +38,7 @@ PathCamera::PathCamera( const Vec3 &_up, const BezierCurve &_eyePath,const Bezie
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-PathCamera::PathCamera(const Vec3 &_up, const Vec3 *_eyePoints,int _nEyePoints, const Vec3 *_lookPoints, int _nLookPoints,Real _step)
+PathCamera::PathCamera(const Vec3 &_up, const Vec3 *_eyePoints,int _nEyePoints, const Vec3 *_lookPoints, int _nLookPoints,Real _step) noexcept
 {
 	m_dir=CAMFWD;
 	m_eyeCurvePoint=0.0;
@@ -61,7 +61,7 @@ PathCamera::PathCamera(const Vec3 &_up, const Vec3 *_eyePoints,int _nEyePoints, 
 
 
 //----------------------------------------------------------------------------------------------------------------------
-PathCamera::PathCamera(const Vec4 &_up, const std::string &_fName, Real _step)
+PathCamera::PathCamera(const Vec4 &_up, const std::string &_fName, Real _step) noexcept
 {
 	m_dir=CAMFWD;
 
@@ -109,7 +109,7 @@ PathCamera::PathCamera(const Vec4 &_up, const std::string &_fName, Real _step)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void PathCamera::loadPath( const std::string &_fName  )
+void PathCamera::loadPath( const std::string &_fName) noexcept
 {
 	m_dir=CAMFWD;
 	m_eyeCurvePoint=0.0;
@@ -146,13 +146,13 @@ void PathCamera::loadPath( const std::string &_fName  )
 
 
 //----------------------------------------------------------------------------------------------------------------------
-PathCamera::~PathCamera()
+PathCamera::~PathCamera() noexcept
 {
 
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void PathCamera::update()
+void PathCamera::update() noexcept
 {
   Vec3 ept=m_eyePath.getPointOnCurve(m_eyeCurvePoint);
   Vec3 lpt=m_lookPath.getPointOnCurve(m_lookCurvePoint);
@@ -179,7 +179,7 @@ void PathCamera::update()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void PathCamera::updateLooped()
+void PathCamera::updateLooped() noexcept
 {
   Vec3 ept=m_eyePath.getPointOnCurve(m_eyeCurvePoint);
   Vec3 lpt=m_lookPath.getPointOnCurve(m_lookCurvePoint);
@@ -224,14 +224,12 @@ void PathCamera::updateLooped()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void PathCamera::drawPaths()const
+void PathCamera::drawPaths()const noexcept
 {
 /// @todo write code to do the drawing
 }
 
-void PathCamera::createCurvesForDrawing(
-																				int _lod
-																			 )
+void PathCamera::createCurvesForDrawing(int _lod ) noexcept
 {
 	// now we set the level of detail for the curve
 	m_eyePath.setLOD(_lod);

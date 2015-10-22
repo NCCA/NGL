@@ -44,7 +44,7 @@ public :
   /// @param [in] _step the amount of step for the update
   /// @param [in] _proj the type of projection for the camera to use
   //----------------------------------------------------------------------------------------------------------------------
-  PathCamera( const Vec3 &_up, const BezierCurve &_eyePath, const BezierCurve &_lookPath, const Real _step );
+  PathCamera( const Vec3 &_up, const BezierCurve &_eyePath, const BezierCurve &_lookPath, const Real _step ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor using two arrays of points for the eye and look values these will be converted
   /// into BezierCurves for the actual camera paths
@@ -55,7 +55,7 @@ public :
   /// @param[in] _nLookPoints the number of points in the _lookPoints array
   /// @param[in] _step the amount of steps for the update
   //----------------------------------------------------------------------------------------------------------------------
-  PathCamera( const Vec3 &_up,Vec3 const *_eyePoints, int _nEyePoints,Vec3 const  *_lookPoints, int _nLookPoints,Real _step);
+  PathCamera( const Vec3 &_up,Vec3 const *_eyePoints, int _nEyePoints,Vec3 const  *_lookPoints, int _nLookPoints,Real _step) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor to load the camera data in from a file
@@ -64,35 +64,35 @@ public :
   /// @param[in] _step the amount of steps for the Update
   /// @param[in] _proj the type of projection for the camera to use.
   //----------------------------------------------------------------------------------------------------------------------
-  PathCamera(  const Vec4 &_up, const std::string &_fName, Real _step );
+  PathCamera(  const Vec4 &_up, const std::string &_fName, Real _step ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor
   //----------------------------------------------------------------------------------------------------------------------
-  ~PathCamera();
+  ~PathCamera() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief update the camera by incrementing the step value and re-calculating the tx matrix
   //----------------------------------------------------------------------------------------------------------------------
-  void update();
+  void update() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief update the camera by incrementing the step value and re-calculating the tx matrix
   /// if the camera is at the end of one of the paths it will return the other way
   //----------------------------------------------------------------------------------------------------------------------
-  void updateLooped();
+  void updateLooped() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a method to draw the camera paths for debugging etc (note uses immediate mode GL)
   //----------------------------------------------------------------------------------------------------------------------
-  void drawPaths() const;
+  void drawPaths() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief load a path from a file
   /// @param[in] _fName the name of the file to load
   //----------------------------------------------------------------------------------------------------------------------
-  void loadPath( const std::string &_fName);
+  void loadPath( const std::string &_fName) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create the display lists for the paths so we can see them
   /// @param[in] _lod the level of detail for the paths display list
   //----------------------------------------------------------------------------------------------------------------------
-  void createCurvesForDrawing( int _lod );
+  void createCurvesForDrawing( int _lod ) noexcept;
 
 protected:
   //----------------------------------------------------------------------------------------------------------------------

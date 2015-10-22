@@ -53,29 +53,29 @@ public :
 	/// @param[in] _v2 the second Point
 	/// @param[in] _v3 the third Point
 	//----------------------------------------------------------------------------------------------------------------------
-	Plane(	const Vec3 &_v1,const Vec3 &_v2,const Vec3 &_v3 );
+	Plane(	const Vec3 &_v1,const Vec3 &_v2,const Vec3 &_v3 ) noexcept;
 
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief default ctor
 	//----------------------------------------------------------------------------------------------------------------------
-	Plane();
+	Plane() noexcept;
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief dtor (not used)
 	//----------------------------------------------------------------------------------------------------------------------
-	~Plane();
+	~Plane() noexcept;
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief set the plane from 3 points
 	/// @param[in] _v1 the first point
 	/// @param[in] _v2 the second point
 	/// @param[in] _v3 the third point
 	//----------------------------------------------------------------------------------------------------------------------
-	void setPoints(const Vec3 &_v1,const Vec3 &_v2,const Vec3 &_v3	 );
+	void setPoints(const Vec3 &_v1,const Vec3 &_v2,const Vec3 &_v3) noexcept;
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief set the plane from a normal and a point
 	/// @param[in] _normal the normal
 	/// @param[in] _point the point
 	//----------------------------------------------------------------------------------------------------------------------
-	void setNormalPoint(const Vec3 &_normal,const Vec3 &_point);
+	void setNormalPoint(const Vec3 &_normal,const Vec3 &_point) noexcept;
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief set the plane from the co-efficients
 	/// @param[in] _a the first co-efficient
@@ -84,30 +84,30 @@ public :
 	/// @param[in] _d the fourth co-efficient
 
 	//----------------------------------------------------------------------------------------------------------------------
-	void setFloats(	Real _a,	Real _b,	Real _c,	Real _d );
+	void setFloats(	Real _a,	Real _b,	Real _c,	Real _d ) noexcept;
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief get the distance from the point _p to the plane
 	/// @param[in] _p the position to check agains
 	/// @returns the distance from point to plane
 	//----------------------------------------------------------------------------------------------------------------------
-	Real distance(const Vec3 &_p) const;
+	Real distance(const Vec3 &_p) const noexcept;
 
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief accesor to get the normal
 	/// @returns the normal
 	//----------------------------------------------------------------------------------------------------------------------
-	inline Vec3 getNormal()const {return m_normal;}
+	inline Vec3 getNormal()const noexcept{return m_normal;}
 
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief accesor to get the point
 	/// @returns the point
 	//----------------------------------------------------------------------------------------------------------------------
-	inline Vec3 getPoint()const {return m_point;}
+	inline Vec3 getPoint()const  noexcept{return m_point;}
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief accesor to get D
 	/// @returns the m_d
 	//----------------------------------------------------------------------------------------------------------------------
-	inline Real getD()const {return m_d;}
+	inline Real getD()const  noexcept{return m_d;}
 
 
 private :
