@@ -25,15 +25,14 @@ namespace ngl
     std::string m_logfileName;
     TeeStream m_output;
     std::ofstream m_file;
-//    pthread_mutex_t m_mutex;
     std::string m_timeString;
 
-    Impl(const std::string &_fname);
-    void write(const std::string &_text);
-    void writeLineNumber();
-    void writeTimeStamp();
-    std::string currentTime();
-    void setColour(enum Colours c);
+    Impl(const std::string &_fname) noexcept;
+    void write(const std::string &_text) noexcept;
+    void writeLineNumber() noexcept;
+    void writeTimeStamp() noexcept;
+    std::string currentTime() noexcept;
+    void setColour(enum Colours c) noexcept;
 
 
   };
@@ -42,7 +41,7 @@ namespace ngl
 
 
 
-  Logger::Impl::Impl(const std::string &_fname):
+  Logger::Impl::Impl(const std::string &_fname)  noexcept:
                             m_logFileAndConsole(false),
                             m_logFile(true),
                             m_logConsole(false),
@@ -51,7 +50,7 @@ namespace ngl
                             m_disableColours(false),
                             m_lineNumberCount(0),
                             m_pad(4),
-                            m_colour(RESET),
+                            m_colour(Colours::RESET),
                             m_logfileName(_fname)
   {
 
@@ -73,7 +72,7 @@ namespace ngl
     }
     m_timeString="%I:%M%p";
   }
-  std::string Logger::Impl::currentTime()
+  std::string Logger::Impl::currentTime() noexcept
   {
   std::string timeStr;
   time_t rawTime;
@@ -88,7 +87,7 @@ namespace ngl
   }
 
 
-  void Logger::Impl::writeLineNumber()
+  void Logger::Impl::writeLineNumber() noexcept
   {
     setColour(m_colour);
     if(m_lineNumber == true)
@@ -98,7 +97,7 @@ namespace ngl
       m_output<<t<<" ";
     }
   }
-  void Logger::Impl::writeTimeStamp()
+  void Logger::Impl::writeTimeStamp() noexcept
   {
     setColour(m_colour);
 
@@ -108,28 +107,28 @@ namespace ngl
     }
   }
 
-  void Logger::Impl::write(const std::string &_text)
+  void Logger::Impl::write(const std::string &_text) noexcept
   {
     setColour(m_colour);
     m_output<<_text;
   }
 
   // from http://stackoverflow.com/questions/3585846/color-text-in-terminal-aplications-in-unix
-  void Logger::Impl::setColour(enum Colours c)
+  void Logger::Impl::setColour(enum Colours c) noexcept
   {
     if(m_disableColours) return;
 
     switch(c)
     {
-      case CNORMAL : m_output<<"\x1B[0m"; break;
-      case RED : m_output<<"\x1B[31m"; break;
-      case GREEN : m_output<<"\x1B[32m"; break;
-      case YELLOW : m_output<<"\x1B[33m"; break;
-      case BLUE : m_output<<"\x1B[34m"; break;
-      case MAGENTA : m_output<<"\x1B[35m"; break;
-      case CYAN : m_output<<"\x1B[36m"; break;
-      case WHITE : m_output<<"\x1B[37m"; break;
-      case RESET : m_output<<"\033[0m"; break;
+      case Colours::CNORMAL : m_output<<"\x1B[0m"; break;
+      case Colours::RED : m_output<<"\x1B[31m"; break;
+      case Colours::GREEN : m_output<<"\x1B[32m"; break;
+      case Colours::YELLOW : m_output<<"\x1B[33m"; break;
+      case Colours::BLUE : m_output<<"\x1B[34m"; break;
+      case Colours::MAGENTA : m_output<<"\x1B[35m"; break;
+      case Colours::CYAN : m_output<<"\x1B[36m"; break;
+      case Colours::WHITE : m_output<<"\x1B[37m"; break;
+      case Colours::RESET : m_output<<"\033[0m"; break;
       default : m_output<<"\033[0m"; break;
     }
 
@@ -139,38 +138,38 @@ namespace ngl
 
 
 
-  Logger::Logger() : m_impl(new Logger::Impl("output.log"))
+  Logger::Logger()  noexcept: m_impl(new Logger::Impl("output.log"))
   {
-    m_impl->setColour(BLUE);
+    m_impl->setColour(Colours::BLUE);
     m_impl->m_output<<"Logger started "<<m_impl->currentTime()<<"\n";
-    m_impl->setColour(RESET);
+    m_impl->setColour(Colours::RESET);
   }
 
-  Logger::Logger(const std::string &_fname) : m_impl(new Logger::Impl(_fname))
+  Logger::Logger(const std::string &_fname) noexcept : m_impl(new Logger::Impl(_fname))
   {
-    m_impl->setColour(BLUE);
+    m_impl->setColour(Colours::BLUE);
     m_impl->m_output<<"Logger started "<<m_impl->currentTime()<<"\n";
-    m_impl->setColour(RESET);
+    m_impl->setColour(Colours::RESET);
   }
 
   Logger::~Logger()
   {
-    m_impl->setColour(RESET);
+    m_impl->setColour(Colours::RESET);
     m_impl->m_output<<"\n";
     m_impl->m_output.flush();
     m_impl->m_output.close();
   }
 
-void Logger::close()
+void Logger::close() noexcept
 {
-  m_impl->setColour(RESET);
+  m_impl->setColour(Colours::RESET);
   m_impl->m_output<<"\n";
   m_impl->m_output.flush();
   m_impl->m_output.close();
 }
 
 
-  void Logger::logMessage(const char *fmt,...)
+  void Logger::logMessage(const char *fmt,...) noexcept
   {
     // create a mutux to stop other threads accessing
     QMutex m;
@@ -191,7 +190,7 @@ void Logger::close()
 //    pthread_mutex_unlock(&m_impl->m_mutex);
   }
 
-  void Logger::logError(const char* fmt,...)
+  void Logger::logError(const char* fmt,...) noexcept
   {
     // create a mutux to stop other threads accessing
     QMutex m;
@@ -205,7 +204,7 @@ void Logger::close()
     va_list args;
     va_start (args, fmt);
     vsprintf (buffer,fmt, args);
-    m_impl->setColour(RED);
+    m_impl->setColour(Colours::RED);
     m_impl->m_output<<"[ERROR] ";
     std::string text=buffer;
     va_end (args);
@@ -215,7 +214,7 @@ void Logger::close()
 
   }
 
-  void Logger::logWarning(const char* fmt...)
+  void Logger::logWarning(const char* fmt...) noexcept
   {
  //   pthread_mutex_lock (&m_impl->m_mutex);
     // create a mutux to stop other threads accessing
@@ -228,7 +227,7 @@ void Logger::close()
     va_list args;
     va_start (args, fmt);
     vsprintf (buffer,fmt, args);
-    m_impl->setColour(GREEN);
+    m_impl->setColour(Colours::GREEN);
     m_impl->m_output<<"[Warning] ";
     std::string text=buffer;
     va_end (args);
@@ -239,38 +238,38 @@ void Logger::close()
   }
 
 
-  void Logger::enableLogToFile()
+  void Logger::enableLogToFile() noexcept
   {
     m_impl->m_logFile=true;
 
   }
-  void Logger::disableLogToFile()
+  void Logger::disableLogToFile() noexcept
   {
     m_impl->m_logFile=false;
 
   }
-  void Logger::enableLogToConsole()
+  void Logger::enableLogToConsole() noexcept
   {
     m_impl->m_logConsole=true;
 
   }
-  void Logger::disableLogToConsole()
+  void Logger::disableLogToConsole() noexcept
   {
     m_impl->m_logConsole=false;
 
   }
-  void Logger::enableLogToFileAndConsole()
+  void Logger::enableLogToFileAndConsole() noexcept
   {
     m_impl->m_logConsole=true;
     m_impl->m_logFile=true;
   }
-  void Logger::disableLogToFileAndConsole()
+  void Logger::disableLogToFileAndConsole() noexcept
   {
     m_impl->m_logConsole=false;
     m_impl->m_logFile=false;
 
   }
-  void Logger::setLogFile(const std::string &_fname)
+  void Logger::setLogFile(const std::string &_fname) noexcept
   {
     // close the file
     m_impl->m_output.flush();
@@ -299,56 +298,56 @@ void Logger::close()
 
 
   }
-  void Logger::setColour(Colours _c)
+  void Logger::setColour(Colours _c) noexcept
   {
     m_impl->m_colour=_c;
   }
-  void Logger::enableLineNumbers()
+  void Logger::enableLineNumbers() noexcept
   {
     m_impl->m_lineNumber=true;
   }
-  void Logger::disableLineNumbers()
+  void Logger::disableLineNumbers() noexcept
   {
     m_impl->m_lineNumber=false;
 
   }
-  void Logger::enableTimeStamp()
+  void Logger::enableTimeStamp() noexcept
   {
     m_impl->m_timeStamp=true;
   }
-  void Logger::disableTimeStamp()
+  void Logger::disableTimeStamp() noexcept
   {
     m_impl->m_timeStamp=false;
   }
 
-  void Logger::disableColours()
+  void Logger::disableColours() noexcept
   {
     m_impl->m_disableColours=true;
   }
 
-  void Logger::enableColours()
+  void Logger::enableColours() noexcept
   {
     m_impl->m_disableColours=false;
   }
 
-  void Logger::setLineNumberPad(unsigned int _i)
+  void Logger::setLineNumberPad(unsigned int _i) noexcept
   {
     m_impl->m_pad=_i;
   }
 
-  boost::iostreams::stream<Logger::Tee> &Logger::cout()
+  boost::iostreams::stream<Logger::Tee> &Logger::cout() noexcept
   {
     return m_impl->m_output;
   }
 
 //Fri Nov 21 12:20:09 2014
-  void Logger::setTimeFormat(TimeFormat _f)
+  void Logger::setTimeFormat(TimeFormat _f) noexcept
   {
     switch(_f)
     {
-      case TIME : m_impl->m_timeString="%I:%M%p"; break;
-      case TIMEDATE : m_impl->m_timeString="%R %D"; break;
-      case TIMEDATEDAY :m_impl->m_timeString="%c"; break;
+      case TimeFormat::TIME : m_impl->m_timeString="%I:%M%p"; break;
+      case TimeFormat::TIMEDATE : m_impl->m_timeString="%R %D"; break;
+      case TimeFormat::TIMEDATEDAY :m_impl->m_timeString="%c"; break;
     }
   }
 }
