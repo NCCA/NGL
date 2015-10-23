@@ -418,6 +418,7 @@ void VAOPrimitives::createCylinder(const std::string &_name, const Real _radius,
 
   double *sint,*cost;
 
+
   fghCircleTable(&sint,&cost,-_slices);
 
   /* Do the stacks */

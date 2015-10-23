@@ -100,11 +100,11 @@ NGL_DLLEXPORT Real degrees( const Real _rad   )
 
 NGL_DLLEXPORT  void NGLCheckGLError( const std::string  &_file, const int _line )
 {
- std::cout<<"NGLCheckGLError Called ______________________\n";
+ //std::cout<<"NGLCheckGLError Called ______________________\n";
  int errNum = glGetError();
   while (errNum != GL_NO_ERROR)
   {
-    std::cout<<errNum<<"\n";
+   // std::cout<<errNum<<"\n";
     std::string str;
     switch(errNum)
     {
