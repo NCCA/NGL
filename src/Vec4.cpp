@@ -32,13 +32,13 @@ namespace ngl
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Real Vec4::dot(const Vec4& _v )const
+Real Vec4::dot(const Vec4& _v )const noexcept
 {
 	return m_x * _v.m_x + m_y * _v.m_y + m_z * _v.m_z;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::set( Real _x, Real _y, Real _z, Real _w  )
+void Vec4::set( Real _x, Real _y, Real _z, Real _w) noexcept
 {
 	m_x=_x;
 	m_y=_y;
@@ -47,7 +47,7 @@ void Vec4::set( Real _x, Real _y, Real _z, Real _w  )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::set( const Vec4& _v)
+void Vec4::set( const Vec4& _v) noexcept
 {
    m_x=_v.m_x;
    m_y=_v.m_y;
@@ -55,7 +55,7 @@ void Vec4::set( const Vec4& _v)
    m_w=_v.m_w;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::set( const Vec3 &_v )
+void Vec4::set( const Vec3 &_v ) noexcept
 {
   m_x=_v.m_x;
   m_y=_v.m_y;
@@ -64,7 +64,7 @@ void Vec4::set( const Vec3 &_v )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::null()
+void Vec4::null() noexcept
 {
 	m_x=0.0f;
 	m_y=0.0f;
@@ -73,29 +73,21 @@ void Vec4::null()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Real& Vec4::operator[]( int _i )
+Real& Vec4::operator[]( int _i ) noexcept
 {
 	NGL_ASSERT(_i >=0 && _i<=3);
 	return (&m_x)[_i];
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Real Vec4::length() const
+Real Vec4::length() const noexcept
 {
 	return (Real)sqrt((m_x*m_x)+(m_y*m_y)+(m_z*m_z));
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-Vec4 &Vec4::negate()
-{
-	m_x=-m_x;
-	m_y=-m_y;
-	m_z=-m_z;
-	return *this;
-}
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 &Vec4::operator-()
+Vec4 &Vec4::operator-() noexcept
 {
   m_x=-m_x;
   m_y=-m_y;
@@ -104,7 +96,7 @@ Vec4 &Vec4::operator-()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 &Vec4::normalize()
+Vec4 &Vec4::normalize() noexcept
 {
 	Real len=(Real)sqrt(m_x*m_x+m_y*m_y+m_z*m_z);
 	NGL_ASSERT(len!=0.0f);
@@ -115,7 +107,7 @@ Vec4 &Vec4::normalize()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::cross( const Vec4& _v1, const Vec4& _v2  )
+void Vec4::cross( const Vec4& _v1, const Vec4& _v2) noexcept
 {
 	m_x=_v1.m_y*_v2.m_z-_v1.m_z*_v2.m_y;
 	m_y=_v1.m_z*_v2.m_x-_v1.m_x*_v2.m_z;
@@ -123,7 +115,7 @@ void Vec4::cross( const Vec4& _v1, const Vec4& _v2  )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 Vec4::cross(const Vec4& _v )const
+Vec4 Vec4::cross(const Vec4& _v )const noexcept
 {
 	return Vec4(
 								m_y*_v.m_z - m_z*_v.m_y,
@@ -135,7 +127,7 @@ Vec4 Vec4::cross(const Vec4& _v )const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::operator+=( const Vec4& _v  )
+void Vec4::operator+=( const Vec4& _v) noexcept
 {
 	m_x+=_v.m_x;
 	m_y+=_v.m_y;
@@ -143,7 +135,7 @@ void Vec4::operator+=( const Vec4& _v  )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::operator/=(Real _v  )
+void Vec4::operator/=(Real _v) noexcept
 {
 	NGL_ASSERT(_v !=0.0f);
 	m_x/=_v;
@@ -151,14 +143,14 @@ void Vec4::operator/=(Real _v  )
 	m_z/=_v;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::operator*=(Real _v )
+void Vec4::operator*=(Real _v) noexcept
 {
 	m_x*=_v;
 	m_y*=_v;
 	m_z*=_v;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::operator-=( const Vec4& _v  )
+void Vec4::operator-=( const Vec4& _v) noexcept
 {
 	m_x-=_v.m_x;
 	m_y-=_v.m_y;
@@ -166,18 +158,13 @@ void Vec4::operator-=( const Vec4& _v  )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 Vec4::operator/(Real _v )const
+Vec4 Vec4::operator/(Real _v )const noexcept
 {
-	return Vec4(
-								m_x/_v,
-								m_y/_v,
-								m_z/_v,
-								m_w
-								);
+	return Vec4(m_x/_v,m_y/_v,m_z/_v,m_w);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 Vec4::operator+(const Vec4& _v )const
+Vec4 Vec4::operator+(const Vec4& _v )const noexcept
 {
 	return Vec4(
 								m_x+_v.m_x,
@@ -188,7 +175,7 @@ Vec4 Vec4::operator+(const Vec4& _v )const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 Vec4::operator-(const Vec4& _v )const
+Vec4 Vec4::operator-(const Vec4& _v )const noexcept
 {
 	return Vec4(
 								m_x-_v.m_x,
@@ -199,7 +186,7 @@ Vec4 Vec4::operator-(const Vec4& _v )const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-bool Vec4::operator==(const Vec4& _v   )const
+bool Vec4::operator==(const Vec4& _v   )const noexcept
 {
 	return (
 					FCompare(_v.m_x,m_x)  &&
@@ -208,7 +195,7 @@ bool Vec4::operator==(const Vec4& _v   )const
 				 );
 }
 //----------------------------------------------------------------------------------------------------------------------
-bool Vec4::operator!=( const Vec4& _v  )const
+bool Vec4::operator!=( const Vec4& _v  )const noexcept
 {
 	return (
 					!FCompare(_v.m_x,m_x) ||
@@ -217,7 +204,7 @@ bool Vec4::operator!=( const Vec4& _v  )const
 				 );
 }
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 Vec4::operator*( const Vec4& _v )const
+Vec4 Vec4::operator*( const Vec4& _v )const noexcept
 {
 	return Vec4(
 								m_x*_v.m_x,
@@ -228,7 +215,7 @@ Vec4 Vec4::operator*( const Vec4& _v )const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 Vec4::operator/(const Vec4& _v )const
+Vec4 Vec4::operator/(const Vec4& _v )const noexcept
 {
 	return Vec4(
 								m_x/_v.m_x,
@@ -239,7 +226,7 @@ Vec4 Vec4::operator/(const Vec4& _v )const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 Vec4::operator *( Real _i )const
+Vec4 Vec4::operator *( Real _i )const noexcept
 {
 	return Vec4(
 								m_x*_i,
@@ -250,7 +237,7 @@ Vec4 Vec4::operator *( Real _i )const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Real Vec4::angleBetween( const Vec4& _v  )const
+Real Vec4::angleBetween( const Vec4& _v  )const noexcept
 {
  // uses cos(t) = |a| . |b|
 // create tmp Vec3s so we don't have to
@@ -263,7 +250,7 @@ Real Vec4::angleBetween( const Vec4& _v  )const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Real Vec4::inner(const Vec4& _v  )const
+Real Vec4::inner(const Vec4& _v  )const noexcept
 {
 	return (
 					(m_x * _v.m_x) +
@@ -273,7 +260,7 @@ Real Vec4::inner(const Vec4& _v  )const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 Vec4::outer(const Vec4& _v  )  const
+Vec4 Vec4::outer(const Vec4& _v  )  const noexcept
 {
 	Real x = (m_y * _v.m_z) - (m_z * _v.m_y);
 	Real y = (m_z * _v.m_x) - (m_x * _v.m_z);
@@ -284,7 +271,7 @@ Vec4 Vec4::outer(const Vec4& _v  )  const
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 & Vec4::operator=( const Vec4& _v )
+Vec4 & Vec4::operator=( const Vec4& _v) noexcept
 {
 	m_x = _v.m_x;
 	m_y = _v.m_y;
@@ -294,7 +281,7 @@ Vec4 & Vec4::operator=( const Vec4& _v )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 & Vec4::operator=( const Vec3& _v  )
+Vec4 & Vec4::operator=( const Vec3& _v) noexcept
 {
   m_x = _v.m_x;
   m_y = _v.m_y;
@@ -304,7 +291,7 @@ Vec4 & Vec4::operator=( const Vec3& _v  )
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 & Vec4::operator=( Real _v)
+Vec4 & Vec4::operator=( Real _v) noexcept
 {
   m_x = _v;
   m_y = _v;
@@ -315,13 +302,13 @@ Vec4 & Vec4::operator=( Real _v)
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Real Vec4::lengthSquared() const
+Real Vec4::lengthSquared() const noexcept
 {
   return m_x * m_x+m_y * m_y+ m_z*m_z;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 Vec4::operator*(const Mat4 &_m ) const
+Vec4 Vec4::operator*(const Mat4 &_m ) const noexcept
 {
 
 	 Vec4 v(

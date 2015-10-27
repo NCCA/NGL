@@ -27,34 +27,34 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::set(Real _x, Real _y)
+void Vec2::set(Real _x, Real _y) noexcept
 {
 	m_x=_x;
 	m_y=_y;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::set(const Vec2& _v  )
+void Vec2::set(const Vec2& _v  ) noexcept
 {
    m_x=_v.m_x;
    m_y=_v.m_y;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::set(const Vec2* _v	)
+void Vec2::set(const Vec2* _v	) noexcept
 {
 	m_x=_v->m_x;
 	m_y=_v->m_y;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::null()
+void Vec2::null() noexcept
 {
 	m_x=0.0f;
 	m_y=0.0f;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Real& Vec2::operator[]( int _i)
+Real& Vec2::operator[]( int _i) noexcept
 {
 	NGL_ASSERT(_i >=0 || _i<=2);
 	return (&m_x)[_i];
@@ -63,65 +63,59 @@ Real& Vec2::operator[]( int _i)
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator-() const
+Vec2 Vec2::operator-() const noexcept
 {
 	return Vec2(-m_x,-m_y);
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::operator+=(const Vec2& _v  )
+void Vec2::operator+=(const Vec2& _v  ) noexcept
 {
 	m_x+=_v.m_x;
 	m_y+=_v.m_y;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::operator/=(Real _v  )
+void Vec2::operator/=(Real _v  ) noexcept
 {
 	NGL_ASSERT(_v !=0);
 	m_x/=_v;
 	m_y/=_v;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::operator*=(Real _v)
+void Vec2::operator*=(Real _v) noexcept
 {
 	m_x*=_v;
 	m_y*=_v;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::operator-=(const Vec2& _v )
+void Vec2::operator-=(const Vec2& _v ) noexcept
 {
 	m_x-=_v.m_x;
 	m_y-=_v.m_y;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator/( Real _v )const
+Vec2 Vec2::operator/( Real _v )const noexcept
 {
-	return Vec2(
-								m_x/_v,
-								m_y/_v
-								);
+	return Vec2(m_x/_v,m_y/_v);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator+(const Vec2& _v )const
+Vec2 Vec2::operator+(const Vec2& _v )const noexcept
 {
-	return Vec2(
-								m_x+_v.m_x,
-								m_y+_v.m_y
-							);
+	return Vec2(m_x+_v.m_x,m_y+_v.m_y);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator-( const Vec2& _v  )const
+Vec2 Vec2::operator-( const Vec2& _v  )const noexcept
 {
 	return Vec2(m_x-_v.m_x,	m_y-_v.m_y );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-bool Vec2::operator==(const Vec2& _v )const
+bool Vec2::operator==(const Vec2& _v )const noexcept
 {
 	return (
 					FCompare(_v.m_x,m_x)  &&
@@ -129,7 +123,7 @@ bool Vec2::operator==(const Vec2& _v )const
 				 );
 }
 //----------------------------------------------------------------------------------------------------------------------
-bool Vec2::operator!=(const Vec2& _v  )const
+bool Vec2::operator!=(const Vec2& _v  )const noexcept
 {
 	return (
 					!FCompare(_v.m_x,m_x) ||
@@ -137,7 +131,7 @@ bool Vec2::operator!=(const Vec2& _v  )const
 				 );
 }
 //----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator*(const Vec2& _v  )const
+Vec2 Vec2::operator*(const Vec2& _v  )const noexcept
 {
 	return Vec2(
 								m_x*_v.m_x,
@@ -146,27 +140,21 @@ Vec2 Vec2::operator*(const Vec2& _v  )const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator/( const Vec2& _v )const
+Vec2 Vec2::operator/( const Vec2& _v )const noexcept
 {
-	return Vec2(
-								m_x/_v.m_x,
-								m_y/_v.m_y
-							);
+	return Vec2(m_x/_v.m_x,	m_y/_v.m_y	);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator *(Real _i )const
+Vec2 Vec2::operator *(Real _i )const noexcept
 {
-	return Vec2(
-								m_x*_i,
-								m_y*_i
-							 );
+	return Vec2(m_x*_i,m_y*_i );
 }
 
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec2 & Vec2::operator=(const Vec2& _v)
+Vec2 & Vec2::operator=(const Vec2& _v) noexcept
 {
 	m_x = _v.m_x;
 	m_y = _v.m_y;
@@ -174,7 +162,7 @@ Vec2 & Vec2::operator=(const Vec2& _v)
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::normalize()
+void Vec2::normalize() noexcept
 {
   Real len=(Real)sqrt(m_x*m_x+m_y*m_y);
   NGL_ASSERT(len!=0);
@@ -187,14 +175,14 @@ void Vec2::normalize()
 
 
 
-Real Vec2::dot(const Vec2& _v )const
+Real Vec2::dot(const Vec2& _v )const noexcept
 {
   return m_x * _v.m_x + m_y * _v.m_y;
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Real Vec2::lengthSquared() const
+Real Vec2::lengthSquared() const noexcept
 {
   return (Real)(m_x*m_x)+(m_y*m_y);
 }
@@ -205,7 +193,7 @@ Real Vec2::lengthSquared() const
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Real Vec2::length() const
+Real Vec2::length() const noexcept
 {
 	return (Real)sqrt((m_x*m_x)+(m_y*m_y));
 }

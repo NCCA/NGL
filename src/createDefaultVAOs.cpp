@@ -11,7 +11,7 @@
 namespace ngl
 {
 
-void VAOPrimitives::createDefaultVAOs()
+void VAOPrimitives::createDefaultVAOs() noexcept
 {
   // load into the vbo list some basic primitives (these are created in .h file arrays from Obj2VBO)
   // Obj2VBO and the original models may be found in the Models directory

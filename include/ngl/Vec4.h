@@ -74,7 +74,7 @@ public:
   /// @brief copy ctor
   /// @param[in] _v the value to set
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4(  const Vec4& _v ) :
+  Vec4(const Vec4& _v)  noexcept:
   m_x(_v.m_x),
   m_y(_v.m_y),
   m_z(_v.m_z),
@@ -83,7 +83,7 @@ public:
   /// @brief copy ctor
   /// @param[in] _v the value to set
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4(  const Vec3& _v  ) :
+  Vec4(const Vec3& _v)  noexcept:
   m_x(_v.m_x),
   m_y(_v.m_y),
   m_z(_v.m_z),
@@ -96,7 +96,7 @@ public:
   /// @param[in]  _z z value
   /// @param[in]  _w 1.0f default so acts as a points
   //----------------------------------------------------------------------------------------------------------------------
-   Vec4( Real _x=0.0, Real _y=0.0, Real _z=0.0,  Real _w=1.0f ):
+   Vec4( Real _x=0.0, Real _y=0.0, Real _z=0.0,  Real _w=1.0f ) noexcept:
    m_x(_x),
    m_y(_y),
    m_z(_z),
@@ -107,7 +107,7 @@ public:
   /// @param[in]  _b vector to dot current vector with
   /// @returns  the dot product
   //----------------------------------------------------------------------------------------------------------------------
-  Real dot( const Vec4 &_b )const;
+  Real dot( const Vec4 &_b )const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief sets the vector component from 3 values
   /// @param[in]  _x the x component
@@ -115,201 +115,195 @@ public:
   /// @param[in]  _z the z component
   /// @param[in]  _w the w component default to 1 for a point
   //----------------------------------------------------------------------------------------------------------------------
-  void set(Real _x, Real _y,  Real _z, Real _w=1.0  );
+  void set(Real _x, Real _y,  Real _z, Real _w=1.0) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set from another  vector
   /// @param[in]  _v the vector to set from
   //----------------------------------------------------------------------------------------------------------------------
-  void set( const Vec4& _v );
+  void set(const Vec4& _v ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set from another  vector
   /// @param[in]  _v the vector to set from
   //----------------------------------------------------------------------------------------------------------------------
-  void set( const Vec3 &_v );
+  void set( const Vec3 &_v ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief clears the vector to 0,0,0,1
   //----------------------------------------------------------------------------------------------------------------------
-  void null();
+  void null() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get as a Vec3 for glsl etc
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec3 toVec3() const { return Vec3(m_x,m_y,m_z);}
+  inline Vec3 toVec3() const  noexcept{ return Vec3(m_x,m_y,m_z);}
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get as a Vec2 for glsl etc
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec2 toVec2() const { return Vec2(m_x,m_y);}
+  inline Vec2 toVec2() const  noexcept{ return Vec2(m_x,m_y);}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief [] index operator to access the index component of the vector
   /// @returns  this[x] as a Real
   //----------------------------------------------------------------------------------------------------------------------
-  Real& operator[](  int _i  ) ;
-  const Real& operator[](  int _i ) const { return m_openGL[_i]; }
+  Real& operator[](  int _i  )  noexcept;
+  const Real& operator[](  int _i ) const  noexcept{ return m_openGL[_i]; }
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief returns the length of the vector
   /// @returns  \f$\sqrt{x^2+y^2+z^2} \f$
   //----------------------------------------------------------------------------------------------------------------------
-  Real length() const;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief  negate the vector (make all components the negative)
-  //----------------------------------------------------------------------------------------------------------------------
-  Vec4 &negate();
+  Real length() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Normalize the vector using
   /// \n \f$x=x/\sqrt{x^2+y^2+z^2} \f$
   /// \n \f$y=y/\sqrt{x^2+y^2+z^2} \f$
   /// \n \f$z=z/\sqrt{x^2+y^2+z^2} \f$
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 &normalize();
+  Vec4 &normalize() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the vector as the cross product from 2 other vectors
   /// @param[in]  _v1 the first vector
   /// @param[in]  _v2 the second vector
   //----------------------------------------------------------------------------------------------------------------------
-  void cross(const Vec4& _v1, const Vec4& _v2  );
+  void cross(const Vec4& _v1, const Vec4& _v2) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief return the cross product of this cross with b
   /// @param[in]  _b the vector cross this with
   /// @returns  the result of this cross b
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 cross(const Vec4& _b   )const;
+  Vec4 cross(const Vec4& _b)const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief += operator add vector v to current vector
   /// @param[in]  &_v vector to add
   //----------------------------------------------------------------------------------------------------------------------
-  void operator+=( const Vec4& _v );
+  void operator+=( const Vec4& _v) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief -= operator this-=v
   /// @param[in]  &_v vector to subtract
   //----------------------------------------------------------------------------------------------------------------------
-  void operator-=(const Vec4& _v );
+  void operator-=(const Vec4& _v ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief this * i for each element
   /// @param[in]  _i the scalar to mult by
   /// @returns Vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 operator *(  Real _i )const;
+  Vec4 operator *(Real _i)const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief + operator add vector+vector
   /// @param[in]  &_v the value to add
   /// @returns the vector + v
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 operator +(const Vec4 &_v  )const;
+  Vec4 operator +(const Vec4 &_v)const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief divide vector components by a scalar
   /// @param[in] _v the scalar to divide by
   /// @returns a vector V(x/v,y/v,z/v,w)
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 operator/(Real _v )const;
+  Vec4 operator/(Real _v)const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief divide this vector components by a scalar
   /// @param[in] _v the scalar to divide by
   /// sets the vector to vector V(x/v,y/v,z/v,w)
   //----------------------------------------------------------------------------------------------------------------------
-  void operator/=(Real _v  );
+  void operator/=(Real _v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief multiply this vector components by a scalar
   /// @param[in] _v the scalar to multiply by
   /// sets the vector to vector V(x*v,y*v,z*v,w)
   //----------------------------------------------------------------------------------------------------------------------
-  void operator*=( Real _v );
+  void operator*=( Real _v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief subtraction operator subtract vevtor-vector
   /// @param[in]  &_v the value to sub
   /// @returns this - v
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 operator-(const Vec4& _v )const;
+  Vec4 operator-(const Vec4& _v)const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief * operator mult vevtor*vector
   /// @param[in]  _v the value to mult
   /// @returns new vector this*v
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 operator*( const Vec4 &_v  )const;
+  Vec4 operator*( const Vec4 &_v)const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief assignment operator set the current vector to rhs
   /// @param[in] _v the vector to set
   /// @returns a new vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 &operator =( const Vec4 &_v   );
+  Vec4 &operator =( const Vec4 &_v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief assignment operator set the current vector to rhs
   /// @param[in] _v the vector to set
   /// @returns a new vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 &operator =(
-                     const Vec3 &_v
-                    );
+  Vec4 &operator =(const Vec3 &_v) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief assignment operator set the current vector to rhs
   /// @param[in] _v the vector to set
   /// @returns a new vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 &operator =( Real _v  );
+  Vec4 &operator =( Real _v) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief negate the vector components
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 &operator-();
+  Vec4 &operator-() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief check for equality uses FCompare (from Util.h) as float values
   /// @param[in] _v the vector to check against
   /// @returns true or false
   //----------------------------------------------------------------------------------------------------------------------
-  bool operator==( const Vec4 &_v )const;
+  bool operator==( const Vec4 &_v)const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief not equal check
   /// @param[in] _v the vector to check against
   /// @returns true of false
   //----------------------------------------------------------------------------------------------------------------------
-  bool operator!=(  const Vec4 &_v  )const;
+  bool operator!=(  const Vec4 &_v)const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief \ operator div vector/vector
   /// @param[in]  _v the value to div by
   /// @returns Vector / Vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 operator/( const Vec4& _v   )const;
+  Vec4 operator/( const Vec4& _v)const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief calculate the angle between current vector and _v
   /// @param[in] _v the vector to check
   /// @returns the angle between the two vectors in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  Real angleBetween( const Vec4 &_v  )const;
+  Real angleBetween( const Vec4 &_v)const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief calculate the inner product of this vector and vector passed in
   /// @param[in] _v the vector to calculate inner product with
   /// @returns the inner product
   //----------------------------------------------------------------------------------------------------------------------
-  Real inner( const Vec4& _v  )const;
+  Real inner( const Vec4& _v)const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief compute the outer product of this vector and vector
   /// @param[in] _v the vector to calc against
   /// @returns a new vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 outer(const Vec4& _v  )const;
+  Vec4 outer(const Vec4& _v)const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief calculate the length squared of the vector
   /// @returns length squared
   //----------------------------------------------------------------------------------------------------------------------
-  Real lengthSquared() const;
+  Real lengthSquared() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief operator to multiply a vector by a matrix
   /// @param[in] _m the matrix to multiply
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 operator*( const Mat4 &_m  )const;
+  Vec4 operator*( const Mat4 &_m)const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to the m_openGL matrix returns the address of the 0th element
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real* openGL(){return &m_openGL[0];}
+  inline Real* openGL() noexcept{return &m_openGL[0];}
 /// @note I've made this public as some compilers automatically make the
 /// anonymous unions public whereas clang++ complains see this post
 /// http://jonmacey.blogspot.com/2011/03/anonymous-union-struct-weirdness.html
@@ -376,7 +370,7 @@ public :
 /// @param _v the vector value
 /// @returns a vector _k*v
 //----------------------------------------------------------------------------------------------------------------------
-inline Vec4 operator *(Real _k, const Vec4 &_v)
+inline Vec4 operator *(Real _k, const Vec4 &_v) noexcept
 {
   return Vec4(_k*_v.m_x, _k*_v.m_y, _k*_v.m_z,_v.m_w);
 }

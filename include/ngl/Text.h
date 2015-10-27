@@ -78,7 +78,7 @@ public:
   /// need a new Text class for each different type of text / font
   /// @param[in] _f the font to use for drawing the text
   //----------------------------------------------------------------------------------------------------------------------
-  Text( const QFont &_f );
+  Text( const QFont &_f ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor will clean / remove textures and VAO's for the class
@@ -95,7 +95,7 @@ public:
   /// @param[in] _y the y position of the text in screen space
   /// @param[in] _text the text to draw (this is limited to ASCII chars ' '->'~' at present but unicode will be done soon
   //----------------------------------------------------------------------------------------------------------------------
-  void renderText(float _x, float _y, const QString &_text ) const;
+  void renderText(float _x, float _y, const QString &_text ) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the size of the screen to scale our font to fit correctly
   /// this basically creates the orthographic projection needed for x/y assuming that the
@@ -104,21 +104,21 @@ public:
   /// @param[in] _w the current width of the screen
   /// @param[in] _h the current height of the screen
   //----------------------------------------------------------------------------------------------------------------------
-  void setScreenSize( int _w, int _h  );
+  void setScreenSize( int _w, int _h  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the colour of the font from an Colour
   /// @param[in] _c the colour to set for the font (alpha is overridden by the texture)
   //----------------------------------------------------------------------------------------------------------------------
-  void setColour( const Colour &_c  );
+  void setColour( const Colour &_c  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the colour of the font from three floats as a convenience method
   /// @param[in] _r the red component of the colour for the font
   /// @param[in] _g the green component of the colour for the font
   /// @param[in] _b the blue component of the colour for the font
   //----------------------------------------------------------------------------------------------------------------------
-  void setColour( Real _r, Real _g,  Real _b  );
+  void setColour( Real _r, Real _g,  Real _b  ) noexcept;
 
-  void setTransform(float _x, float _y);
+  void setTransform(float _x, float _y) noexcept;
 private:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a hash to store our FontChar data looked up by the char we want
