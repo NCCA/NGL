@@ -96,18 +96,18 @@ public :
 	/// @brief accesor to get the normal
 	/// @returns the normal
 	//----------------------------------------------------------------------------------------------------------------------
-	inline Vec3 getNormal()const noexcept{return m_normal;}
+	Vec3 getNormal()const noexcept{return m_normal;}
 
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief accesor to get the point
 	/// @returns the point
 	//----------------------------------------------------------------------------------------------------------------------
-	inline Vec3 getPoint()const  noexcept{return m_point;}
+	Vec3 getPoint()const  noexcept{return m_point;}
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief accesor to get D
 	/// @returns the m_d
 	//----------------------------------------------------------------------------------------------------------------------
-	inline Real getD()const  noexcept{return m_d;}
+	Real getD()const  noexcept{return m_d;}
 
 
 private :

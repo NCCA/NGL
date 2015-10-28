@@ -128,7 +128,7 @@ private :
   /// for boost::python I can figure out needs to be investigated at some stage, however we will for
   /// now trust the user not to construct a default shader object otherwise we would need to create a
   /// new method just for the python version which makes porting a bit of a pain
-   inline Shader(){;}
+  Shader(){;}
 #endif
 };
 } // end NGL namespace

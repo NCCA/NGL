@@ -110,18 +110,17 @@ public :
   /// @brief  return the number of Frames loaded from the PointBake file
   /// @returns the number of frames
   //----------------------------------------------------------------------------------------------------------------------
-  inline unsigned int getNumFrames() const  noexcept{return m_numFrames-1;}
+  unsigned int getNumFrames() const  noexcept{return m_numFrames-1;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  return the number of verts loaded from the PointBake file
   /// @returns the number of verts
   //----------------------------------------------------------------------------------------------------------------------
-  inline unsigned int getNumVerts() const  noexcept{return m_nVerts;}
-
+  unsigned int getNumVerts() const  noexcept{return m_nVerts;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  get a Raw data pointer to the un-sorted PointBake data
   /// @returns a pointer to the data
   //----------------------------------------------------------------------------------------------------------------------
-  inline  std::vector < std::vector<Vec3> > & getRawDataPointer()   noexcept{return m_data;}
+  std::vector < std::vector<Vec3> > & getRawDataPointer()   noexcept{return m_data;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  get a Raw data pointer to the un-sorted PointBake for a particular frame
   /// @param[in] _f the frame to access

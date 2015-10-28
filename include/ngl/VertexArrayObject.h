@@ -60,7 +60,7 @@ public:
 	/// @brief method to return a newVOA object
 	/// @returns a new VOA object
 	//----------------------------------------------------------------------------------------------------------------------
-	inline static VertexArrayObject * createVOA(	GLenum _mode	)
+	static VertexArrayObject * createVOA(	GLenum _mode	)
 	{
 		return new VertexArrayObject(_mode);
 	}
@@ -80,17 +80,17 @@ public:
 	/// @brief accesor for the VOA id
 	/// @brief returns the VOA id
 	//----------------------------------------------------------------------------------------------------------------------
-	inline GLuint getID()const {return m_id;}
+	GLuint getID()const {return m_id;}
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief accesor to see if VOA is bound
 	/// @brief returns the bind state (true for bound)
 	//----------------------------------------------------------------------------------------------------------------------
-	inline bool isBound()const {return m_bound;}
+	bool isBound()const {return m_bound;}
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief accesor to see if VOA has allocated data
 	/// @brief returns the allocated state (true for allocated)
 	//----------------------------------------------------------------------------------------------------------------------
-	inline bool isAllocated()const {return m_allocated;}
+	bool isAllocated()const {return m_allocated;}
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief allocate our data using raw face values (for example tri's) data, attributes must be bound to match at
 	/// a different level of code (usually in the client as part of the shader loading, see VAO examples for more details
@@ -195,7 +195,7 @@ public:
   /// @brief set the number of faces to draw
   /// @param _n the number of indices to draw in glDrawArray (param 3 count)
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setNumIndices(GLuint _n){m_indicesCount=_n;}
+  void setNumIndices(GLuint _n){m_indicesCount=_n;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the number of indices in the vao
   /// @returns the nunmber of indices

@@ -73,34 +73,34 @@ public:
   /// @brief  set the light position
   /// @param[in]  _p the new light position
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setPosition( const Vec3& _p ) noexcept
-              {
-                m_position.set(_p.m_x,_p.m_y,_p.m_z,static_cast<Real>(m_lightMode));
-              }
+  void setPosition( const Vec3& _p ) noexcept
+  {
+    m_position.set(_p.m_x,_p.m_y,_p.m_z,static_cast<Real>(m_lightMode));
+  }
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the light colour
   /// @param[in] _c the colour to set
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setColour(const Colour& _c) noexcept
-              {
-                m_diffuse.set(_c);
-              }
+  void setColour(const Colour& _c) noexcept
+  {
+    m_diffuse.set(_c);
+  }
 
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief set the specular colour
   /// @param[in] _c the colour to set for the specular
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setSpecColour(const Colour& _c ) noexcept
-              {
-                m_specular.set(_c);
-              }
+  void setSpecColour(const Colour& _c ) noexcept
+  {
+    m_specular.set(_c);
+  }
 
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief default constructor
   ///  this set nothing so the light will not illuminate
   //----------------------------------------------------------------------------------------------------------------------
-  inline Light() noexcept{;}
+  Light() noexcept{;}
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief copy ctor
   ///  this set nothing so the light will not illuminate
@@ -113,7 +113,6 @@ public:
   /// @param[in] _lightmode the mode to set the light to either local or remote
   //----------------------------------------------------------------------------------------------------------------------
   Light( const Vec3& _pos, const Colour& _col, LightModes _lightmode ) noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor to create the light
   /// @param[in] _pos the light position
@@ -126,7 +125,7 @@ public:
   ///  @brief destructor when light is destroyed we turn it off
   ///
   //----------------------------------------------------------------------------------------------------------------------
-  virtual inline ~Light() noexcept{;}
+  virtual  ~Light() noexcept{;}
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief Disable the light by calling glDisable(GL_LIGHT0+LightNo);
   //----------------------------------------------------------------------------------------------------------------------
@@ -146,7 +145,6 @@ public:
   /// @returns Colour colour
   //----------------------------------------------------------------------------------------------------------------------
   Colour getColour()const  noexcept{ return m_diffuse; }
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief returns the current light Specular colour
   /// @returns Colour Spec colour

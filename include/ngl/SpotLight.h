@@ -108,7 +108,7 @@ public:
   /// @brief  sets the exponent
   /// @param[in] _exponent the spot exponent vlaue
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setExponent(const Real &_exp ) noexcept{ m_spotExponent=_exp;}
+  void setExponent(const Real &_exp ) noexcept{ m_spotExponent=_exp;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  This function sets the light to aim at the specified point
   /// @param[in]  _pos  -  the aim position

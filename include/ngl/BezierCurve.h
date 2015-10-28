@@ -134,7 +134,7 @@ public :
   /// @param[in] _lod the level of detail to use when creating the display list for drawing the higher the number
   /// the finer the drawing
   //----------------------------------------------------------------------------------------------------------------------
-  void inline setLOD(int _lod) noexcept{m_lod=_lod;}
+  void setLOD(int _lod) noexcept{m_lod=_lod;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the Level of Detail for Drawing
   //----------------------------------------------------------------------------------------------------------------------

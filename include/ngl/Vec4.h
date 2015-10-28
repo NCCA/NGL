@@ -134,12 +134,12 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get as a Vec3 for glsl etc
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec3 toVec3() const  noexcept{ return Vec3(m_x,m_y,m_z);}
+  Vec3 toVec3() const  noexcept{ return Vec3(m_x,m_y,m_z);}
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get as a Vec2 for glsl etc
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec2 toVec2() const  noexcept{ return Vec2(m_x,m_y);}
+  Vec2 toVec2() const  noexcept{ return Vec2(m_x,m_y);}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief [] index operator to access the index component of the vector
   /// @returns  this[x] as a Real
@@ -303,7 +303,7 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to the m_openGL matrix returns the address of the 0th element
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real* openGL() noexcept{return &m_openGL[0];}
+  Real* openGL() noexcept{return &m_openGL[0];}
 /// @note I've made this public as some compilers automatically make the
 /// anonymous unions public whereas clang++ complains see this post
 /// http://jonmacey.blogspot.com/2011/03/anonymous-union-struct-weirdness.html
@@ -370,7 +370,7 @@ public :
 /// @param _v the vector value
 /// @returns a vector _k*v
 //----------------------------------------------------------------------------------------------------------------------
-inline Vec4 operator *(Real _k, const Vec4 &_v) noexcept
+Vec4 operator *(Real _k, const Vec4 &_v) noexcept
 {
   return Vec4(_k*_v.m_x, _k*_v.m_y, _k*_v.m_z,_v.m_w);
 }

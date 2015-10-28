@@ -52,7 +52,7 @@ public :
   /// @param[in]  _b blue component
   /// @param[in]  _a the alpha component
   //----------------------------------------------------------------------------------------------------------------------
-  inline Colour( Real _r=0.0, Real _g=0.0,  Real _b=0.0, Real _a=1.0 )  noexcept:
+  Colour( Real _r=0.0, Real _g=0.0,  Real _b=0.0, Real _a=1.0 )  noexcept:
                  m_r(_r),
                  m_g(_g),
                  m_b(_b),
@@ -62,7 +62,7 @@ public :
   /// @brief copy constructor passing in a Colour
   /// @param[in] _c the colour to use
   //----------------------------------------------------------------------------------------------------------------------
-  inline Colour( const Colour  &_c )  noexcept:
+  Colour( const Colour  &_c )  noexcept:
                  m_r(_c.m_r),
                  m_g(_c.m_g),
                  m_b(_c.m_b),
@@ -76,24 +76,18 @@ public :
   /// @param[in]  _b blue component to be set
   /// @param[in]  _a alpha transparency value
   //----------------------------------------------------------------------------------------------------------------------
-  inline void set( Real _r,Real _g, Real _b, Real _a=1.0) noexcept
-              {
-                 m_r=_r;
-                 m_g=_g;
-                 m_b=_b;
-                 m_a=_a;
-              }
+  void set( Real _r,Real _g, Real _b, Real _a=1.0) noexcept
+  {
+     m_r=_r; m_g=_g; m_b=_b; m_a=_a;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set method to set from another Colour
   /// @param[in] _c the colour
   //----------------------------------------------------------------------------------------------------------------------
-  inline void set( const Colour& _c ) noexcept
-              {
-                m_r = _c.m_r;
-                m_g = _c.m_g;
-                m_b= _c.m_b;
-                m_a=_c.m_a;
-              }
+  void set( const Colour& _c ) noexcept
+  {
+    m_r = _c.m_r; m_g = _c.m_g; m_b= _c.m_b; m_a=_c.m_a;
+  }
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief + operator to add two colours
@@ -153,12 +147,12 @@ public :
   /// @brief accesor method to return a pointer to the colour array
   /// @returns m_openGL[0] the first element of the array
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real * openGL() noexcept{return &m_openGL[0];}
+  Real * openGL() noexcept{return &m_openGL[0];}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor method for the Red colour component
   /// @returns the red colour component
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real r() const  noexcept{return m_r;}
+  Real r() const  noexcept{return m_r;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the red colour component
   /// @param[in] _r the red colour value to set
@@ -168,7 +162,7 @@ public :
   /// @brief accesor method for the Green colour component
   /// @returns the green colour component
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real g() const  noexcept{return m_g;}
+  Real g() const  noexcept{return m_g;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the Green colour component
   /// @param[in] _g the green colour value to set
@@ -178,7 +172,7 @@ public :
   /// @brief accesor method for the blue colour component
   /// @returns the blue colour component
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real b() const  noexcept{return m_b;}
+  Real b() const  noexcept{return m_b;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the Blue colour component
   /// @param[in] _b the green colour value to set
@@ -188,7 +182,7 @@ public :
   /// @brief accesor method for the alpha  component
   /// @returns the alpha  component
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real a() const  noexcept{return m_a;}
+  Real a() const  noexcept{return m_a;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the alpha  component
   /// @param[in] _a the alpha  value to set

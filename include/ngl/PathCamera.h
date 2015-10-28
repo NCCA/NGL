@@ -131,7 +131,7 @@ protected:
 
 #ifdef NO_PYTHON_LIB
   public :
-      inline PathCamera(){Camera::Camera();}
+      PathCamera(){Camera::Camera();}
 #endif
 
 };

@@ -190,82 +190,76 @@ public :
   /// @brief accesor to get the view matrix
   /// @returns the current view matrix
   //----------------------------------------------------------------------------------------------------------------------
-  inline const Mat4 & getViewMatrix() noexcept{return m_viewMatrix;}
+  const Mat4 & getViewMatrix() noexcept{return m_viewMatrix;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to get the projection matrix
   /// @returns the current projection matrix
   //----------------------------------------------------------------------------------------------------------------------
-  inline const Mat4 & getProjectionMatrix() noexcept{return m_projectionMatrix;}
+  const Mat4 & getProjectionMatrix() noexcept{return m_projectionMatrix;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the View * Projection matrix used as part of the MVP calculations
   /// @returns the m_projectionMatrix*m_viewMatrix
   //----------------------------------------------------------------------------------------------------------------------
-  inline Mat4  getVPMatrix()const  noexcept{return m_viewMatrix*m_projectionMatrix;}
-
+  Mat4  getVPMatrix()const  noexcept{return m_viewMatrix*m_projectionMatrix;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the eye position
   /// @returns the current eye pos
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec4  getEye() const noexcept{return m_eye;}
+  Vec4  getEye() const noexcept{return m_eye;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the eye position and re-calculate the matrices
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setEye(Vec4 _e) noexcept{m_eye=_e; update();}
+  void setEye(Vec4 _e) noexcept{m_eye=_e; update();}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the look position and re-calculate the matrices
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setLook(Vec4 _e) noexcept{m_look=_e; update();}
+  void setLook(Vec4 _e) noexcept{m_look=_e; update();}
   //----------------------------------------------------------------------------------------------------------------------
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the look position
   /// @returns the current look pos
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec4  getLook() const noexcept{return m_look;}
+  Vec4  getLook() const noexcept{return m_look;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the up vector
   /// @returns the current up vector
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec4  getUp() const noexcept{return m_up;}
-
+  Vec4  getUp() const noexcept{return m_up;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the u vector
   /// @returns the current u vector
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec4  getU() const noexcept{return m_u;}
+  Vec4  getU() const noexcept{return m_u;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the v vector
   /// @returns the current v vector
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec4  getV()const  noexcept{return m_v;}
+  Vec4  getV()const  noexcept{return m_v;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the n vector
   /// @returns the current n vector
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec4  getN() const  noexcept{return m_n;}
+  Vec4  getN() const  noexcept{return m_n;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the fov value
   /// @returns the current fov value
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real getFOV() const  noexcept{return m_fov;}
-
+  Real getFOV() const  noexcept{return m_fov;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the aspect value
   /// @returns the current aspect value
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real getAspect() const  noexcept{return m_aspect;}
-
+  Real getAspect() const  noexcept{return m_aspect;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the near clip value
   /// @returns the current near clip value
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real getNear() const  noexcept{return m_zNear;}
+  Real getNear() const  noexcept{return m_zNear;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the far clip value
   /// @returns the current far clip value
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real getFar() const  noexcept{return m_zFar;}
-
-
+  Real getFar() const  noexcept{return m_zFar;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief calculate the frustum for clipping etc
   //----------------------------------------------------------------------------------------------------------------------

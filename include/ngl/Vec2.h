@@ -240,7 +240,7 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to the m_openGL matrix returns the address of the 0th element
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real* openGL() noexcept{return &m_openGL[0];}
+  Real* openGL() noexcept{return &m_openGL[0];}
 
   /// @note I've made this public as some compilers automatically make the
   /// anonymous unions public whereas clang++ complains see this post
@@ -297,7 +297,7 @@ public :
 /// @param _v the vector value
 /// @returns a vector _k*v
 //----------------------------------------------------------------------------------------------------------------------
-inline Vec2 operator *(Real _k, const Vec2 &_v) noexcept
+Vec2 operator *(Real _k, const Vec2 &_v) noexcept
 {
   return Vec2(_k*_v.m_x, _k*_v.m_y);
 }

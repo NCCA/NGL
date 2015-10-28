@@ -51,7 +51,7 @@ class NGL_DLLEXPORT Quaternion
   /// @param [in]  _y  -  the y component of the quaternion
   /// @param [in]  _z  -  the z component of the quaternion
   //----------------------------------------------------------------------------------------------------------------------
-  inline Quaternion(const Real _s=0.0f,const Real _x=0.0f,const Real _y=0.0f,const Real _z=0.0f) noexcept:
+  Quaternion(const Real _s=0.0f,const Real _x=0.0f,const Real _y=0.0f,const Real _z=0.0f) noexcept:
           m_s(_s),
           m_x(_x),
           m_y(_y),
@@ -75,7 +75,7 @@ class NGL_DLLEXPORT Quaternion
   /// @brief copy constructor
   /// @param [in]  _q  -  the quaternion to copy
   //----------------------------------------------------------------------------------------------------------------------
-  inline Quaternion(const Quaternion& _q ) noexcept:
+  Quaternion(const Quaternion& _q ) noexcept:
           m_s(_q.m_s),
           m_x(_q.m_x),
           m_y(_q.m_y),
@@ -87,7 +87,7 @@ class NGL_DLLEXPORT Quaternion
   /// @param[in] _z the z value
   /// @param[in] _w the w value
   //----------------------------------------------------------------------------------------------------------------------
-  inline void set( Real _s,Real _x,Real _y,Real _z) noexcept
+  void set( Real _s,Real _x,Real _y,Real _z) noexcept
   {
     m_s=_s;
     m_x=_x;
@@ -98,32 +98,32 @@ class NGL_DLLEXPORT Quaternion
   /// @brief accesor for the scalar part
   /// @returns m_s the scalar part of the quaternion
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real getS() const  noexcept{return m_s;}
+  Real getS() const  noexcept{return m_s;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor for the x vector components
   /// @returns m_x the scalar part of the quaternion
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real getX() const  noexcept{return m_x;}
+  Real getX() const  noexcept{return m_x;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor for the y vector components
   /// @returns m_y the scalar part of the quaternion
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real getY() const  noexcept{return m_y;}
+  Real getY() const  noexcept{return m_y;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor for the z vector components
   /// @returns m_z the scalar part of the quaternion
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real getZ() const  noexcept{return m_z;}
+  Real getZ() const  noexcept{return m_z;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor for the  vector components as an Vec4
   /// @returns a vector
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec4 getVector() const  noexcept{return Vec4(m_x,m_y,m_z,0);}
+  Vec4 getVector() const  noexcept{return Vec4(m_x,m_y,m_z,0);}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief mutator for the  vector components as an Vec4
   /// @param[in] _v the vector to set the quat vector components from
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setVector( const Vec4 &_v) noexcept
+  void setVector( const Vec4 &_v) noexcept
   {
     m_x=_v.m_x;
     m_y=_v.m_y;
@@ -133,22 +133,22 @@ class NGL_DLLEXPORT Quaternion
   /// @brief mutator for the scalar part
   /// @param[in] _s the scalar part of the quaternion to set
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setS(Real &_s) noexcept {m_s=_s;}
+  void setS(Real &_s) noexcept {m_s=_s;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief mutator for the x vector part
   /// @param[in] _x the x vector part of the quaternion to set
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setX(Real &_x) noexcept {m_x=_x;}
+  void setX(Real &_x) noexcept {m_x=_x;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief mutator for the y vector part
   /// @param[in] _x the x vector part of the quaternion to set
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setY(Real &_y) noexcept {m_y=_y;}
+  void setY(Real &_y) noexcept {m_y=_y;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief mutator for the z vector part
   /// @param[in] _z the z vector part of the quaternion to set
   //----------------------------------------------------------------------------------------------------------------------
-  inline void setZ(Real &_z) noexcept  {m_z=_z;}
+  void setZ(Real &_z) noexcept  {m_z=_z;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  Perform a multiplication between 2 quaternions
   /// @param[in] _q the rhs quaternion argument
@@ -210,23 +210,23 @@ class NGL_DLLEXPORT Quaternion
   /// @brief  conjugate negate the vector part can also be done by the -() operator
   /// @returns the conjugate of the current quaternion
   //----------------------------------------------------------------------------------------------------------------------
-  inline Quaternion  conjugate() const  noexcept{return Quaternion(m_s,-m_x,-m_y,-m_z);}
+  Quaternion  conjugate() const  noexcept{return Quaternion(m_s,-m_x,-m_y,-m_z);}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  conjugate negate the vector part can also be done by the -() operator
   /// @returns the conjugate of the current quaternion
   //----------------------------------------------------------------------------------------------------------------------
-  inline Quaternion inverse()const  noexcept{return Quaternion(m_s,-m_x,-m_y,-m_z);}
+  Quaternion inverse()const  noexcept{return Quaternion(m_s,-m_x,-m_y,-m_z);}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  conjugate negate the vector part but for the current vector -
   /// @returns the conjugate of the current quaternion
   //----------------------------------------------------------------------------------------------------------------------
-  inline void operator -() noexcept{m_x=-m_x; m_y=-m_y; m_z=-m_z;}
+  void operator -() noexcept{m_x=-m_x; m_y=-m_y; m_z=-m_z;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  returns the inverse of the quaternion (aka conjugate)
   /// the scalar part remains the same and we reverse the vector part
   /// @return  the conjugate of the quaternion
   //----------------------------------------------------------------------------------------------------------------------
-  inline Quaternion operator-() const noexcept {return Quaternion(m_s,-m_x,-m_y,-m_z ); }
+  Quaternion operator-() const noexcept {return Quaternion(m_s,-m_x,-m_y,-m_z ); }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief test for equality
   /// @param [in] _q the quaternion to test against

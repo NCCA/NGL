@@ -95,7 +95,7 @@ public :
   /// @param[in] _n the normal index
   /// @param[in] _t the texture index
   //----------------------------------------------------------------------------------------------------------------------
-  inline IndexRef(uint32_t _v, uint32_t _n, uint32_t _t ) noexcept :m_v(_v),m_n(_n),m_t(_t) {;}
+  IndexRef(uint32_t _v, uint32_t _n, uint32_t _t ) noexcept :m_v(_v),m_n(_n),m_t(_t) {;}
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -184,7 +184,7 @@ public :
   /// class when re-ordering the clip data values
   /// @returns the array of indices
   //----------------------------------------------------------------------------------------------------------------------
-  inline const std::vector<IndexRef> & getIndices()  noexcept{ return m_indices; }
+  const std::vector<IndexRef> & getIndices()  noexcept{ return m_indices; }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief save the mesh as NCCA Binary VBO format
   /// basically this format is the processed binary vbo mesh data as
@@ -196,7 +196,7 @@ public :
   /// @returns the bounding box for the loaded mesh;
   //----------------------------------------------------------------------------------------------------------------------
 
-  inline BBox &getBBox() noexcept{ return *m_ext;  }
+  BBox &getBBox() noexcept{ return *m_ext;  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor for the vertex data
   /// @returns a std::vector containing the vert data
@@ -206,7 +206,7 @@ public :
   /// @brief accessor for the vertex data
   /// @returns a std::vector containing the vert data
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec3 getVertexAtIndex( uint32_t _i ) const noexcept
+  Vec3 getVertexAtIndex( uint32_t _i ) const noexcept
   {
     //NGL_ASSERT(_i>0 && _i<m_nVerts);
     return m_verts[_i];
@@ -230,32 +230,32 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of vertices in the object
   //----------------------------------------------------------------------------------------------------------------------
-  inline unsigned int getNumVerts() const  noexcept{return m_nVerts;}
+  unsigned int getNumVerts() const  noexcept{return m_nVerts;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of normals in the object
   //----------------------------------------------------------------------------------------------------------------------
-  inline unsigned int getNumNormals()const  noexcept{return m_nNorm;}
+  unsigned int getNumNormals()const  noexcept{return m_nNorm;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of texture co-ordinates in the object
   //----------------------------------------------------------------------------------------------------------------------
-  inline unsigned int getNumTexCords()const  noexcept{return m_nTex;}
+  unsigned int getNumTexCords()const  noexcept{return m_nTex;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of faces in the object
   //----------------------------------------------------------------------------------------------------------------------
-  inline unsigned int getNumFaces()const  noexcept{return m_nFaces;}
-  inline unsigned int getMeshSize()const  noexcept{return m_meshSize;}
+  unsigned int getNumFaces()const  noexcept{return m_nFaces;}
+  unsigned int getMeshSize()const  noexcept{return m_meshSize;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to get the bounding sphere center
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec3 getSphereCenter() const  noexcept{return m_sphereCenter;}
+  Vec3 getSphereCenter() const  noexcept{return m_sphereCenter;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to get the bounding sphere center
   //----------------------------------------------------------------------------------------------------------------------
-  inline Real getSphereRadius() const  noexcept{return m_sphereRadius;}
+  Real getSphereRadius() const  noexcept{return m_sphereRadius;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to get the center
   //----------------------------------------------------------------------------------------------------------------------
-  inline Vec3 getCenter() const  noexcept{return m_center;}
+  Vec3 getCenter() const  noexcept{return m_center;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief check to see if obj is triangulated as we only support tri or quad objs at the moment
   /// @returns true or false
