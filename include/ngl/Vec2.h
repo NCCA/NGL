@@ -297,7 +297,7 @@ public :
 /// @param _v the vector value
 /// @returns a vector _k*v
 //----------------------------------------------------------------------------------------------------------------------
-Vec2 operator *(Real _k, const Vec2 &_v) noexcept
+inline Vec2 operator *(Real _k, const Vec2 &_v) noexcept
 {
   return Vec2(_k*_v.m_x, _k*_v.m_y);
 }

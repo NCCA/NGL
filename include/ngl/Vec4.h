@@ -370,7 +370,7 @@ public :
 /// @param _v the vector value
 /// @returns a vector _k*v
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 operator *(Real _k, const Vec4 &_v) noexcept
+inline Vec4 operator *(Real _k, const Vec4 &_v) noexcept
 {
   return Vec4(_k*_v.m_x, _k*_v.m_y, _k*_v.m_z,_v.m_w);
 }
