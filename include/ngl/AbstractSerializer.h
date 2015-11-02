@@ -242,9 +242,9 @@ public :
 
 private :
   /// @brief make sure we can't copy this class;
-  AbstractSerializer(const AbstractSerializer &){;}
+  AbstractSerializer(const AbstractSerializer &)=delete;
   /// @brief make sure we can't copy this class;
-  AbstractSerializer &operator=(const AbstractSerializer &);
+  AbstractSerializer &operator=(const AbstractSerializer &)=delete;
 };
 
 

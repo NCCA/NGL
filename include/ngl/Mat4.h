@@ -89,7 +89,7 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor with reference object
   //----------------------------------------------------------------------------------------------------------------------
-  Mat4( const Mat4& _m) noexcept;
+  Mat4(const Mat4& _m) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor with Real useful for Mat4 m=1; for identity or Matrix m=3.5 for uniform scale
   //----------------------------------------------------------------------------------------------------------------------
@@ -104,7 +104,7 @@ public:
   /// @param[in]  _y the y index into the array
   /// @param[in]  _equals the value to set to
   //----------------------------------------------------------------------------------------------------------------------
-  void setAtXY(GLint _x, GLint _y, Real _equals ) noexcept;
+  void setAtXY(GLint _x, GLint _y, Real _equals) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief clear the matrix to all 0
@@ -154,7 +154,7 @@ public:
   /// @param[in] _i the scalar to multiply by
   /// @returns the matrix*i
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat4& operator*=( const Real _i ) noexcept;
+  const Mat4& operator*=(const Real _i) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief method to transpose the matrix
   //----------------------------------------------------------------------------------------------------------------------
@@ -165,20 +165,20 @@ public:
   /// note the matrix should be set to identity before doing this
   /// @param[in] _deg the value to be rotated by in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void rotateX( const Real _deg ) noexcept;
+  void rotateX(const Real _deg) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set this matrix to a rotation matrix in the Y axis for value _deg
   /// note the matrix should be set to identity before doing this
   /// @param[in] _deg the value to be rotated by in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void rotateY(const Real _deg ) noexcept;
+  void rotateY(const Real _deg) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set this matrix to a rotation matrix in the Z axis for value _deg
   /// note the matrix should be set to identity before doing this
   /// @param[in] _deg the value to be rotated by in degrees
   //----------------------------------------------------------------------------------------------------------------------
-   void rotateZ( const Real _deg ) noexcept;
+   void rotateZ(const Real _deg) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the matrix scale values
   /// @param[in] _x the scale value in the _x
@@ -192,7 +192,7 @@ public:
   /// @param[in] _y the _y translation value
   /// @param[in] _z the _z translation value
   //----------------------------------------------------------------------------------------------------------------------
-  void translate(const Real _x, const Real _y, const Real _z ) noexcept;
+  void translate(const Real _x, const Real _y, const Real _z) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the determinant of the matrix
   /// @returns the determinat
@@ -205,7 +205,7 @@ public:
   /// @param[in] _j index value
   /// @param[in] o_mat the 3x3 matrix
   //----------------------------------------------------------------------------------------------------------------------
-  void subMatrix3x3( const int _i,const int _j,Real o_mat[]   ) const noexcept;
+  void subMatrix3x3(const int _i,const int _j,Real o_mat[]) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief return the data as a 3x3 matrix
@@ -228,7 +228,7 @@ public:
   /// @param[in] _v the vector to multiply
   /// @returns Vector M*V
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 operator * ( const Vec4 &_v  ) const noexcept;
+  Vec4 operator * (const Vec4 &_v) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief axis / angle rotation using the Euler method
@@ -237,7 +237,7 @@ public:
   /// @param[in] _y part of the axis should be normalised before call
   /// @param[in] _z part of the axis  should be normalised before call
   //----------------------------------------------------------------------------------------------------------------------
-  void euler( const Real _angle, const Real _x, const Real _y, const Real _z ) noexcept;
+  void euler(const Real _angle, const Real _x, const Real _y, const Real _z) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to the openGL matrix
   /// @returns a pointer to m_openGL[0]
@@ -247,7 +247,7 @@ public:
   /// @brief returns a matrix adjacent to the matrix passed in
   /// @returns the adjacent matrix
   //----------------------------------------------------------------------------------------------------------------------
-  Mat4 Adjacent( const Mat4 &_mat ) noexcept;
+  Mat4 Adjacent(const Mat4 &_mat) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief returns the  ajacent matrix to this
   /// @returns the adjacent matrix

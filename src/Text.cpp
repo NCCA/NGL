@@ -338,7 +338,7 @@ void Text::setColour(const Colour &_c ) noexcept
   // make current shader active
   (*shader)["nglTextShader"]->use();
   // set the values
-  shader->setRegisteredUniform3f("textColour",_c.r(),_c.g(),_c.b());
+  shader->setRegisteredUniform3f("textColour",_c.m_r,_c.m_g,_c.m_b);
 }
 
 

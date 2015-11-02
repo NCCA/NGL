@@ -92,13 +92,13 @@ public :
   /// @param[in] _value the point to evaluate between 0 and 1
   /// @returns the value of the point at t
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getPointOnCurve(  Real _value) const noexcept;
+  Vec3 getPointOnCurve(Real _value) const noexcept;
 
 	 //----------------------------------------------------------------------------------------------------------------------
 	/// @brief add a control point to the Curve
 	/// @param[in] &_p the point to add
 	//----------------------------------------------------------------------------------------------------------------------
-	void addPoint( const Vec3 &_p ) noexcept;
+	void addPoint(const Vec3 &_p) noexcept;
 
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief add a point to the curve using x,y,z values
@@ -106,12 +106,12 @@ public :
 	/// @param[in] _y y value of point
 	/// @param[in] _z z value of point
 	//----------------------------------------------------------------------------------------------------------------------
-	void addPoint(Real _x, Real _y, Real _z ) noexcept;
+	void addPoint(Real _x, Real _y, Real _z) noexcept;
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief add a knot value to the curve
 	/// @param[in] _k the value of the knot (note this is added to the end of the curve
 	//----------------------------------------------------------------------------------------------------------------------
-	void addKnot( Real _k	) noexcept;
+	void addKnot(Real _k) noexcept;
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief create a knot vector array based as an Open Vector (half 0.0 half 1.0)
 	//----------------------------------------------------------------------------------------------------------------------
@@ -181,8 +181,6 @@ protected :
   /// @brief a vertex array object for our point drawing
   //----------------------------------------------------------------------------------------------------------------------
   VertexArrayObject *m_vaoPoints;
-
-
 }; // end class BezierCurve
 } // end NGL Lib namespace
 #endif // end header file

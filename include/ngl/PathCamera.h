@@ -35,7 +35,7 @@ class NGL_DLLEXPORT PathCamera : public Camera
 
 public :
 
-
+  PathCamera(){;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor using two curves
   /// @param [in] _up the up direction of the camera

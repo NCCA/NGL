@@ -67,23 +67,23 @@ public :
   /// @param[in] _look where the camera is  looking
   /// @param[in] _up the notion of upwardness for the  camers (get re-calculated from the other vectors)
   //----------------------------------------------------------------------------------------------------------------------
-  Camera( const Vec3& _eye, const Vec3& _look,const Vec3& _up) noexcept;
+  Camera(const Vec3& _eye, const Vec3& _look,const Vec3& _up) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief roll the cameara around the  Z axis
   /// @param[in] _angle the angle to roll in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void roll( Real _angle ) noexcept;
+  void roll(Real _angle) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief roll the cameara around the  x axis
   /// @param[in] _angle the angle to roll in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void pitch( Real _angle) noexcept;
+  void pitch(Real _angle) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief roll the cameara around the  y axis
   /// @param[in] _angle the angle to roll in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void yaw( Real _angle ) noexcept;
+  void yaw(Real _angle) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief slide the camera around  the U V and N axis
@@ -91,7 +91,7 @@ public :
   /// @param[in] _dv ammount to slide in the V
   /// @param[in] _dn ammount to slide in the N
   //----------------------------------------------------------------------------------------------------------------------
-  void slide(Real _du, Real _dv, Real _dn ) noexcept;
+  void slide(Real _du,Real _dv,Real _dn) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the Camera position using eye look and up vectors
@@ -99,7 +99,7 @@ public :
   /// @param[in] _look the new look position
   /// @param[in] _up the notional up direction of the Camera
   //----------------------------------------------------------------------------------------------------------------------
-  void set( const Vec3 &_eye, const Vec3 &_look, const Vec3 &_up ) noexcept;
+  void set(const Vec3 &_eye, const Vec3 &_look, const Vec3 &_up) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the shape of the Camera
   /// @param[in] _viewAngle the view angle  of the camera from the eye
@@ -112,7 +112,7 @@ public :
   /// @brief re-set the aspect ratio of the camera
   /// @param[in] _asp the new aspect ratio
   //----------------------------------------------------------------------------------------------------------------------
-  void setAspect( Real _asp  ) noexcept;
+  void setAspect(Real _asp) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief sets some nice default camera values
@@ -125,7 +125,7 @@ public :
   /// @param[in] _dy the translation in the y
   /// @param[in] _dz the translation in the z
   //----------------------------------------------------------------------------------------------------------------------
-  void move( Real _dx, Real _dy,  Real _dz ) noexcept;
+  void move(Real _dx,Real _dy,Real _dz) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief move both the eye and the look at the same time
@@ -133,7 +133,7 @@ public :
   /// @param[in] _dy ammount to move in the y
   /// @param[in] _dz ammount to move in the z
   //----------------------------------------------------------------------------------------------------------------------
-  void moveBoth( Real _dx, Real _dy, Real _dz ) noexcept;
+  void moveBoth( Real _dx, Real _dy, Real _dz) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief move the eye position
@@ -141,22 +141,19 @@ public :
   /// @param[in] _dy ammount to move the eye in the y
   /// @param[in] _dz ammount to move the eye in the z
   //----------------------------------------------------------------------------------------------------------------------
-  void moveEye( Real _dx,  Real _dy, Real _dz ) noexcept;
-
+  void moveEye(Real _dx,  Real _dy, Real _dz) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief move the look position
   /// @param[in] _dx ammount to move the look in the x
   /// @param[in] _dy ammount to move the look in the y
   /// @param[in] _dz ammount to move the look in the z
   //----------------------------------------------------------------------------------------------------------------------
-  void moveLook( Real _dx, Real _dy, Real _dz  ) noexcept;
-
+  void moveLook(Real _dx, Real _dy, Real _dz) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the viewangle for the Camera
   /// @param[in] _angle new angle
   //----------------------------------------------------------------------------------------------------------------------
-  void setViewAngle( Real _angle ) noexcept;
-
+  void setViewAngle(Real _angle) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Use is called to make this the current camera and set the MODELVIEW and PROJECTION matrices in OpenGL
   //----------------------------------------------------------------------------------------------------------------------
@@ -165,19 +162,19 @@ public :
   /// @brief used to do a Yaw based on Euler rotation with normalised values
   /// @param[in] _angle the angle to rotate in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void normalisedYaw( Real _angle ) noexcept;
+  void normalisedYaw(Real _angle) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief used to do a Pitch based on Euler rotation with normalised values
   /// @param[in] _angle the angle to rotate in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void normalisedPitch( Real _angle ) noexcept;
+  void normalisedPitch(Real _angle) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief used to do a Roll based on Euler rotation with normalised values
   /// @param[in] _angle the angle to rotate in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void normalisedRoll( Real _angle ) noexcept;
+  void normalisedRoll(Real _angle) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief write out the Camera so it may be used in Renderman, this writes a transform command in rib format  so the
@@ -219,27 +216,27 @@ public :
   /// @brief get the look position
   /// @returns the current look pos
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4  getLook() const noexcept{return m_look;}
+  Vec4 getLook() const noexcept{return m_look;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the up vector
   /// @returns the current up vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4  getUp() const noexcept{return m_up;}
+  Vec4 getUp() const noexcept{return m_up;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the u vector
   /// @returns the current u vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4  getU() const noexcept{return m_u;}
+  Vec4 getU() const noexcept{return m_u;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the v vector
   /// @returns the current v vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4  getV()const  noexcept{return m_v;}
+  Vec4 getV()const  noexcept{return m_v;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the n vector
   /// @returns the current n vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4  getN() const  noexcept{return m_n;}
+  Vec4 getN() const  noexcept{return m_n;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the fov value
   /// @returns the current fov value
@@ -264,22 +261,28 @@ public :
   /// @brief calculate the frustum for clipping etc
   //----------------------------------------------------------------------------------------------------------------------
   void calculateFrustum() noexcept;
-
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief draw the frustum for clipping etc
+  //----------------------------------------------------------------------------------------------------------------------
   void drawFrustum() noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief check to see if the point passed in is within the frustum
   /// @param _p the point to check
   /// @returns the result of the test (inside outside intercept)
   //----------------------------------------------------------------------------------------------------------------------
-  CameraIntercept isPointInFrustum(const Vec3 &_p ) const noexcept;
+  CameraIntercept isPointInFrustum(const Vec3 &_p) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief check to see if the sphere passed in is within the frustum
   /// @param[in] _p the center of the sphere
   /// @param[in] _radius the radius of the sphere
   /// @returns the result of the test (inside outside intercept)
   //----------------------------------------------------------------------------------------------------------------------
-  CameraIntercept isSphereInFrustum(const Vec3 &_p, Real _radius  ) const noexcept;
+  CameraIntercept isSphereInFrustum(const Vec3 &_p, Real _radius) const noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief check to see if the AABB passed in is within the frustum
+  /// @param[in] AABB to test
+  /// @returns the result of the test (inside outside intercept)
+  //----------------------------------------------------------------------------------------------------------------------
   CameraIntercept boxInFrustum(const AABB &b) const noexcept;
 
 protected :
@@ -294,8 +297,7 @@ protected :
   /// @param[in,out] io_b the second vector to be rotated
   /// @param[in] _angle the angle to rotate
   //----------------------------------------------------------------------------------------------------------------------
-  void rotAxes(Vec4& io_a, Vec4& io_b, const Real _angle ) noexcept;
-
+  void rotAxes(Vec4& io_a, Vec4& io_b, const Real _angle) noexcept;
 
 protected :
 
@@ -359,6 +361,9 @@ protected :
   ///  @brief index values for the planes array
   //----------------------------------------------------------------------------------------------------------------------
   enum class ProjPlane : char { TOP = 0,BOTTOM,LEFT,RIGHT,NEARP,FARP};
+  //----------------------------------------------------------------------------------------------------------------------
+  ///  @brief points for the fustrum drawing
+  //----------------------------------------------------------------------------------------------------------------------
   Vec3 m_ntl,m_ntr,m_nbl,m_nbr,m_ftl,m_ftr,m_fbl,m_fbr;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Projection a Matrix to hold the perspective transfomatio matrix for the camera
@@ -368,7 +373,6 @@ protected :
   /// @brief method to set the modelview matrix values for the current  camera, this method load the matrix Modelview into OpenGL
   //----------------------------------------------------------------------------------------------------------------------
   void setViewMatrix() noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the projection matrix
   //----------------------------------------------------------------------------------------------------------------------

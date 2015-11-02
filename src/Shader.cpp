@@ -25,7 +25,6 @@
 /// @brief implementation files for Shader class
 //----------------------------------------------------------------------------------------------------------------------
 
-
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
@@ -83,15 +82,7 @@ void Shader::compile() noexcept
     std::cerr<<"Warning no shader source loaded\n";
     return;
   }
-  // uncomment for source debug
-  /*
-  std::cout<<"doing compile with "<<m_shaderHandle<<"\n";
-  char data[1500];
-  GLsizei len;
-  glGetShaderSource(m_shaderHandle,1500,&len,data);
 
-  std::cout<<"debug output from comp\n"<<len<<" \n"<<data<<"\n";
-  */
   glCompileShader(m_shaderHandle);
   if(m_debugState==true)
   {
@@ -104,7 +95,6 @@ void Shader::compile() noexcept
       printInfoLog(m_shaderHandle);
       exit(EXIT_FAILURE);
     }
-
   }
   m_compiled=true;
 }
@@ -135,15 +125,9 @@ void Shader::load( std::string _name ) noexcept
 
   if (m_debugState == true)
   {
-    //std::cerr<<"Shader Loaded and source attached\n";
     printInfoLog(m_shaderHandle);
   }
 }
-
-
-
-
-
 
 void Shader::loadFromString(const std::string &_string ) noexcept
 {
@@ -162,11 +146,8 @@ void Shader::loadFromString(const std::string &_string ) noexcept
   m_compiled=false;
  if (m_debugState == true)
   {
-    //std::cerr<<"Shader Loaded and source attached\n";
     printInfoLog(m_shaderHandle);
   }
 }
-
-
 
 } // end ngl namespace

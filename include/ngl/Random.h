@@ -25,7 +25,7 @@
 #include "Singleton.h"
 #include "Vec4.h"
 
-#include <map>
+#include <unordered_map>
 #include <boost/random.hpp>
 #include <boost/function.hpp>
 
@@ -179,7 +179,7 @@ protected :
   /// a name / function pair, and this function will be called returning a Real
   /// value
   //----------------------------------------------------------------------------------------------------------------------
-  std::map<std::string, boost::function <Real (void)> > m_floatGenerators;
+  std::unordered_map<std::string, boost::function <Real (void)> > m_floatGenerators;
 
 };
 

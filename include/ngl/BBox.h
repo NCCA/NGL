@@ -47,7 +47,7 @@ public :
   ///  @param[in]  _height the height of the BBox (== Y coord).
   ///  @param[in]  _depth the Depth of the BBox (== Z coord).
   //----------------------------------------------------------------------------------------------------------------------
-  BBox(const Vec3 &_center, Real _width,Real _height, Real _depth ) noexcept;
+  BBox(const Vec3 &_center, Real _width,Real _height, Real _depth) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor using +/- x,y,z dimensions
@@ -125,7 +125,7 @@ public :
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief Height of the BBox
    //----------------------------------------------------------------------------------------------------------------------
-   Real height()const noexcept{ return m_height;}
+   Real height()const noexcept{return m_height;}
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief set the height
    /// @param[in] _h the height to set will re-calculate bbox and VAO
@@ -135,7 +135,7 @@ public :
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief Depth of the BBox
    //----------------------------------------------------------------------------------------------------------------------
-   Real depth()const noexcept{ return m_depth;}
+   Real depth()const noexcept{return m_depth;}
    //----------------------------------------------------------------------------------------------------------------------
    /// @brief set the depth
    /// @param[in] _d the depth to set will re-calculate bbox and VAO

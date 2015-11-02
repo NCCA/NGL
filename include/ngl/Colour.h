@@ -52,21 +52,15 @@ public :
   /// @param[in]  _b blue component
   /// @param[in]  _a the alpha component
   //----------------------------------------------------------------------------------------------------------------------
-  Colour( Real _r=0.0, Real _g=0.0,  Real _b=0.0, Real _a=1.0 )  noexcept:
-                 m_r(_r),
-                 m_g(_g),
-                 m_b(_b),
-                 m_a(_a){;}
+  Colour(Real _r=0.0, Real _g=0.0,  Real _b=0.0, Real _a=1.0)  noexcept:
+         m_r(_r), m_g(_g), m_b(_b), m_a(_a){;}
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy constructor passing in a Colour
   /// @param[in] _c the colour to use
   //----------------------------------------------------------------------------------------------------------------------
-  Colour( const Colour  &_c )  noexcept:
-                 m_r(_c.m_r),
-                 m_g(_c.m_g),
-                 m_b(_c.m_b),
-                 m_a(_c.m_a){;}
+  Colour(const Colour  &_c)  noexcept:
+          m_r(_c.m_r),m_g(_c.m_g), m_b(_c.m_b),m_a(_c.m_a){;}
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set method to change the current values of the colour
@@ -76,7 +70,7 @@ public :
   /// @param[in]  _b blue component to be set
   /// @param[in]  _a alpha transparency value
   //----------------------------------------------------------------------------------------------------------------------
-  void set( Real _r,Real _g, Real _b, Real _a=1.0) noexcept
+  void set( Real _r,Real _g, Real _b, Real _a=1.0f) noexcept
   {
      m_r=_r; m_g=_g; m_b=_b; m_a=_a;
   }
@@ -84,7 +78,7 @@ public :
   /// @brief set method to set from another Colour
   /// @param[in] _c the colour
   //----------------------------------------------------------------------------------------------------------------------
-  void set( const Colour& _c ) noexcept
+  void set(const Colour& _c) noexcept
   {
     m_r = _c.m_r; m_g = _c.m_g; m_b= _c.m_b; m_a=_c.m_a;
   }
@@ -94,107 +88,61 @@ public :
   /// @param[in] _c the Colour to add
   /// @returns this+_c
   //----------------------------------------------------------------------------------------------------------------------
-  Colour operator +( const Colour &_c ) const noexcept;
+  Colour operator +(const Colour &_c) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief - operator to subtract colours
   /// @param[in] _c the Colour to add
   /// @return this-_c
   //----------------------------------------------------------------------------------------------------------------------
-  Colour operator -( const Colour &_c ) const noexcept;
-
+  Colour operator -(const Colour &_c) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief - operator to add rhs to current colour
   /// @param[in] _c the Colour to add
   /// @return this+_c
   //----------------------------------------------------------------------------------------------------------------------
-  const Colour& operator +=( const Colour &_c ) noexcept;
-
+  const Colour& operator +=(const Colour &_c) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief - operator to multiply colours
   /// @param[in] _c the Colour to mult
   /// @return this*_c
   //----------------------------------------------------------------------------------------------------------------------
-  Colour operator *( const Colour &_c ) const noexcept;
-
+  Colour operator *(const Colour &_c) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief * operator to multiply by a scalar
   /// @param[in] _c the scalar to multiply colour by
   /// @return this*_c
   //----------------------------------------------------------------------------------------------------------------------
-  Colour operator *( const Real _c ) const noexcept;
-
+  Colour operator *(const Real _c) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief * operator to multiply = by a colour
   /// @param[in] _c the scalar to multiply colour by
   /// @return this*=_c
   //----------------------------------------------------------------------------------------------------------------------
-  const Colour& operator *=( const Colour &_c ) noexcept;
-
+  const Colour& operator *=(const Colour &_c) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief * operator to multiply by a scalar
   /// @param[in] _c the scalar to multiply colour by
   /// @return this*_c
   //----------------------------------------------------------------------------------------------------------------------
-  const Colour& operator *=( Real _c  ) noexcept;
-
+  const Colour& operator *=(Real _c) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// add the product of source color and reflection coefficient
   /// @param[in] _src the source colour
   /// @param[in] _refl the reflected colour
   //----------------------------------------------------------------------------------------------------------------------
-  void add( const Colour& _src, const Colour& _refl ) noexcept;
+  void add(const Colour& _src, const Colour& _refl) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor method to return a pointer to the colour array
   /// @returns m_openGL[0] the first element of the array
   //----------------------------------------------------------------------------------------------------------------------
   Real * openGL() noexcept{return &m_openGL[0];}
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief accesor method for the Red colour component
-  /// @returns the red colour component
-  //----------------------------------------------------------------------------------------------------------------------
-  Real r() const  noexcept{return m_r;}
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the red colour component
-  /// @param[in] _r the red colour value to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void r(Real _r) noexcept{m_r=_r;}
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief accesor method for the Green colour component
-  /// @returns the green colour component
-  //----------------------------------------------------------------------------------------------------------------------
-  Real g() const  noexcept{return m_g;}
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the Green colour component
-  /// @param[in] _g the green colour value to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void g(Real _g) noexcept{m_g=_g;}
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief accesor method for the blue colour component
-  /// @returns the blue colour component
-  //----------------------------------------------------------------------------------------------------------------------
-  Real b() const  noexcept{return m_b;}
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the Blue colour component
-  /// @param[in] _b the green colour value to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void b(Real _b) noexcept{m_b=_b;}
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief accesor method for the alpha  component
-  /// @returns the alpha  component
-  //----------------------------------------------------------------------------------------------------------------------
-  Real a() const  noexcept{return m_a;}
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the alpha  component
-  /// @param[in] _a the alpha  value to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void a(Real _a) noexcept{m_a=_a;}
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief clamp the colour to the given range from Eduard Zell MSc 2010
   /// the input values >0 < 1.0 and _min <= _max
   /// @param _min[in] the minimum colour clamp value
   /// @param _max[in] the maximum colour clamp value
   //----------------------------------------------------------------------------------------------------------------------
-  void clamp( Real _min, Real _max ) noexcept;
+  void clamp( Real _min, Real _max) noexcept;
 
 /// @note I've made this public as some compilers automatically make the
 /// anonymous unions public whereas clang++ complains see this post
