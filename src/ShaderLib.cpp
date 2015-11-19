@@ -512,22 +512,6 @@ GLuint ShaderLib::getProgramID(const std::string &_name ) noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::registerUniform( const std::string &_shaderName, const std::string &_uniformName  ) noexcept
-{
-  auto program=m_shaderPrograms.find(_shaderName);
-  // make sure we have a valid  program
-  if(program!=m_shaderPrograms.end() )
-  {
-     program->second->registerUniform(_uniformName);
-  }
-  else
-  {
-    std::cerr<<"Warning Program not know in registerUniform "<<_shaderName<<" "<<_uniformName<<"\n";
-  }
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::autoRegisterUniforms(const std::string &_shaderName   ) noexcept
 {
   auto program=m_shaderPrograms.find(_shaderName);

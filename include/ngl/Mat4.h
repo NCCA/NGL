@@ -293,6 +293,7 @@ public :
  //----------------------------------------------------------------------------------------------------------------------
 
 #ifndef BUILDING_DOCS
+#pragma pack(push,1)
 
   union
   {
@@ -380,6 +381,7 @@ public :
     };
 
    };
+#pragma pack(pop)
 #endif
 #ifdef NO_PYTHON_LIB
   public :

@@ -103,32 +103,35 @@ void ShaderProgram::bindFragDataLocation(GLuint _index, const std::string &_attr
 void ShaderProgram::link() noexcept
 {
   glLinkProgram(m_programID);
-if(m_debugState==true)
+  if(m_debugState==true)
   {
     std::cerr <<"linking Shader "<< m_programName.c_str()<<"\n";
   }
   GLint infologLength = 0;
 
   glGetProgramiv(m_programID,GL_INFO_LOG_LENGTH,&infologLength);
-  //std::cerr<<"Link Log Length "<<infologLength<<"\n";
 
-	if(infologLength > 0)
-	{
-		char *infoLog = new char[infologLength];
-		GLint charsWritten  = 0;
+  if(infologLength > 0)
+  {
+    char *infoLog = new char[infologLength];
+    GLint charsWritten  = 0;
 
-		glGetProgramInfoLog(m_programID, infologLength, &charsWritten, infoLog);
+    glGetProgramInfoLog(m_programID, infologLength, &charsWritten, infoLog);
 
-		std::cerr<<infoLog<<std::endl;
-		delete [] infoLog;
-		glGetProgramiv(m_programID, GL_LINK_STATUS,&infologLength);
-		if( infologLength == GL_FALSE)
-		{
-			std::cerr<<"Program link failed exiting \n";
-			exit(EXIT_FAILURE);
-		}
-	}
-	m_linked=true;
+    std::cerr<<infoLog<<std::endl;
+    delete [] infoLog;
+    glGetProgramiv(m_programID, GL_LINK_STATUS,&infologLength);
+    if( infologLength == GL_FALSE)
+    {
+      std::cerr<<"Program link failed exiting \n";
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  m_linked=true;
+  glUseProgram(m_programID);
+  autoRegisterUniforms();
+
 }
 
 
@@ -214,7 +217,7 @@ void ShaderProgram::setRegisteredUniform1f( const std::string &_varname, float _
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform1f(uniform->second,_v0);
+    glUniform1f(uniform->second.id,_v0);
   }
 
 }
@@ -232,7 +235,7 @@ void ShaderProgram::setRegisteredUniform2f(const std::string &_varname, float _v
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform2f(uniform->second,_v0,_v1);
+    glUniform2f(uniform->second.id,_v0,_v1);
   }
 
 }
@@ -249,7 +252,7 @@ void ShaderProgram::setRegisteredUniform3f( const std::string &_varname, float _
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform3f(uniform->second,_v0,_v1,_v2);
+    glUniform3f(uniform->second.id,_v0,_v1,_v2);
   }
 
 }
@@ -266,7 +269,7 @@ void ShaderProgram::setRegisteredUniform4f( const std::string &_varname, float _
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform4f(uniform->second,_v0,_v1,_v2,_v3);
+    glUniform4f(uniform->second.id,_v0,_v1,_v2,_v3);
   }
 
 }
@@ -311,7 +314,7 @@ void ShaderProgram::setRegisteredUniform1i( const std::string &_varname, int _v0
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform1i(uniform->second,_v0);
+    glUniform1i(uniform->second.id,_v0);
   }
 
 }
@@ -323,7 +326,7 @@ void ShaderProgram::setRegisteredUniform2i( const std::string &_varname, int _v0
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform2i(uniform->second,_v0,_v1);
+    glUniform2i(uniform->second.id,_v0,_v1);
   }
 
 }
@@ -336,7 +339,7 @@ void ShaderProgram::setRegisteredUniform3i(const std::string &_varname,  int _v0
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform3i(uniform->second,_v0,_v1,_v2);
+    glUniform3i(uniform->second.id,_v0,_v1,_v2);
   }
 }
 
@@ -347,7 +350,7 @@ void ShaderProgram::setRegisteredUniform4i( const std::string &_varname,  int _v
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform4i(uniform->second,_v0,_v1,_v2,_v3);
+    glUniform4i(uniform->second.id,_v0,_v1,_v2,_v3);
   }
 
 }
@@ -414,7 +417,7 @@ void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string &_varname,s
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniformMatrix3fv(uniform->second,_count,_transpose,_value);
+    glUniformMatrix3fv(uniform->second.id,_count,_transpose,_value);
   }
 
 }
@@ -432,7 +435,7 @@ void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string &_varname, s
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniformMatrix4fv(uniform->second,_count,_transpose,_value);
+    glUniformMatrix4fv(uniform->second.id,_count,_transpose,_value);
   }
 
 }
@@ -526,162 +529,38 @@ GLuint ShaderProgram::getUniformBlockIndex( const std::string &_uniformBlockName
 }
 
 
-void ShaderProgram::registerUniform(std::string _uniformName ) noexcept
-{
-
-  m_registeredUniforms[_uniformName]=getUniformLocation(_uniformName.c_str());
-
-}
-
-bool ShaderProgram::parseHashDefine(const std::string &_s,std::string &o_name,int &o_value ) const noexcept
-{
-  // typedef our tokenizer for speed and clarity
-  typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-  // these are the separators we are looking for (not droids ;-)
-  boost::char_separator<char> sep(" \t\r\n");
-  // generate our tokens based on the seperators above
-  tokenizer tokens(_s, sep);
-  // now we will copy them into a std::vector to process
-  std::vector <std::string> data;
-  // we do this as the tokenizer just does that so we can't get size etc
-  data.assign(tokens.begin(),tokens.end());
-  // we are parsing #define name value so check we have this format
-  // we should as the glsl compiler will fail if we don't but best to be sure
-  if(data.size() !=3)
-  {
-    return false;
-  }
-  else
-  {
-    //            data [0]     [1]   [2]
-    // we are parsing #define name value
-    o_name=data[1];
-    o_value=boost::lexical_cast<int> (data[2]);
-    // all was good so return true
-    return true;
-  }
-}
-
-// the uniform can be in two formats either
-// uniform type name
-// or
-// uniform type name[ value ]
-// where [ value ] can be either
-// [ number(s)]
-// [ a define ]
-// we can't process these ones so will just put error message not harmful tho
-
-void ShaderProgram::parseUniform(const std::string &_s, const std::unordered_map <std::string,int> &_defines  ) noexcept
-{
- typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-
- // first lets see what we need to parse
- if(_s.find("[") ==std::string::npos)
- {
-   boost::char_separator<char> sep(" \t\r\n;");
-   // generate our tokens based on the seperators above
-   tokenizer tokens(_s, sep);
-   // now we will copy them into a std::vector to process
-   std::vector <std::string> data;
-   // we do this as the tokenizer just does that so we can't get size etc
-   data.assign(tokens.begin(),tokens.end());
-   // uniform type name
-   // we should as the glsl compiler will fail if we don't but best to be sure
-   if(data.size() >=3)
-   {
-     registerUniform(data[2]);
-   }
- }
- else
- {
-   boost::char_separator<char> sep(" []\t\r\n;");
-   // generate our tokens based on the seperators above
-   tokenizer tokens(_s, sep);
-   // now we will copy them into a std::vector to process
-   std::vector <std::string> data;
-   // we do this as the tokenizer just does that so we can't get size etc
-   data.assign(tokens.begin(),tokens.end());
-   // uniform type name
-   // we should as the glsl compiler will fail if we don't but best to be sure
-   if(data.size() >=3)
-   {
-     // so in this case data[3] is either a number or a constant
-     int arraySize=0;
-     // so we try and convert it if it's not a number
-     try
-     {
-       arraySize=boost::lexical_cast<int> (data[3]);
-     }
-     // catch and lookup in the uniform array
-     catch(boost::bad_lexical_cast)
-     {
-       auto def=_defines.find(data[3]);
-       if(def !=_defines.end())
-       {
-         arraySize=def->second;
-       }
-     } // end catch
-    // now loop and register each of the uniforms
-     for(int i=0; i<arraySize; ++i)
-     {
-       // convert our uniform and register
-       std::string uniform=boost::str(boost::format("%s[%d]") %data[2] %i);
-       registerUniform(uniform);
-     }
-   }
-
- }
-}
-
-
 void ShaderProgram::autoRegisterUniforms() noexcept
 {
 
-  std::string source;
-  std::vector<std::string> lines;
 
-  for(auto shader : m_shaders)
+  GLint nUniforms;
+  glGetProgramiv(m_programID, GL_ACTIVE_UNIFORMS, &nUniforms);
+  // could use this with better OpenGL version
+  // glGetProgramInterfaceiv(i, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numUniforms);
+
+
+  char name[256];
+  uniformData data;
+  GLint nameLen,num;
+  for (GLint i=0; i<nUniforms; ++i)
   {
-    /// first grab all of the shader source for this program
-    source=shader->getShaderSource();
-    // and split on new lines
-    boost::split(lines, source, boost::is_any_of("\n\r"));
-
-    // now we loop for the strings and tokenize looking for the uniform keyword
-    // or the #define keyword
-    auto start=lines.begin();
-    auto end=lines.end();
-    std::unordered_map<std::string,int> defines;
-
-    while(start!=end)
-    {
-      // have we got #define
-      if(start->find("#define") !=std::string::npos)
-      {
-        int value;
-        std::string define;
-        if( parseHashDefine(*start,define,value) )
-         {
-          defines[define]=value;
-        }
-      }
-      // see if we have uniform in the string
-      else if (start->find("uniform") !=std::string::npos)
-      {
-        parseUniform(*start,defines);
-      }
-      // got to the next line
-      ++start;
-     }
+    GLenum type = GL_ZERO;
+    glGetActiveUniform( m_programID, i, sizeof(name)-1, &nameLen, &num, &type, name );
+    data.name=name;
+    data.id=glGetUniformLocation(m_programID,name);
+    data.type=type;
+    m_registeredUniforms[name]=data;
   }
+
 }
 
 void ShaderProgram::printRegisteredUniforms() const noexcept
 {
   std::cout<<"Registered Uniforms for shader "<< m_programName<<"\n";
-  for(auto uniform : m_registeredUniforms)
+  for(auto d : m_registeredUniforms)
   {
-    std::cout<<"Uniform "<<uniform.first<<std::endl;
+    std::cout<<"Unoiform "<<d.first<<" ->"<<d.second.name<<" "<<d.second.id<<" "<<d.second.type<<"\n";
+
   }
 }
 

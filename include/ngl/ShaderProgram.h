@@ -453,17 +453,9 @@ public :
   void disableAttribArray(const char* _name) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief  register a uniform for faster lookup can only then be used with the registered classes in shader
-  /// lib
-  /// @param  _uniformName - the name of the uniform to register
-  //----------------------------------------------------------------------------------------------------------------------
-  void registerUniform( std::string _uniformName ) noexcept;
-
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief  scan the shader source and find any uniforms and register them
   //----------------------------------------------------------------------------------------------------------------------
   void autoRegisterUniforms() noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  debug print the registered uniforms
   //----------------------------------------------------------------------------------------------------------------------
@@ -509,25 +501,26 @@ private :
   //----------------------------------------------------------------------------------------------------------------------
   std::unordered_map <std::string, GLuint > m_attribs;
   //----------------------------------------------------------------------------------------------------------------------
+  /// @brief this structure holds information about the registered uniforms in the program
+  /// id is the uniform location, name is the uniform name, type is the GLenum type
+  //----------------------------------------------------------------------------------------------------------------------
+
+  struct uniformData
+  {
+    GLuint id;
+    std::string name;
+    GLenum type;
+  };
+
+  //----------------------------------------------------------------------------------------------------------------------
   /// @brief a list of uniforms for this object, mapping name to ID number must be added by the user
   /// using the registerUniform method
   //----------------------------------------------------------------------------------------------------------------------
-  std::unordered_map <std::string, GLuint> m_registeredUniforms;
+  std::unordered_map <std::string, uniformData> m_registeredUniforms;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief indicate if this program is the current active program
   //----------------------------------------------------------------------------------------------------------------------
   bool m_active;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief parse a string to get the #define value
-  /// @param[in] _str the string to parse
-  /// @param[out] o_name the name of the define found
-  /// @param[out] o_value the integer value of the define
-  bool parseHashDefine( const std::string &_s,std::string &o_name, int &o_value ) const noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief parse a string to get the #define value
-  /// @param[in] _str the string to parse
-  /// @param[in] _defines any pre found defines
-  void parseUniform(const std::string &_s,  const std::unordered_map<std::string, int> &_defines  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
 
   #ifdef NO_PYTHON_LIB

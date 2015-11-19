@@ -232,6 +232,7 @@ public :
  //----------------------------------------------------------------------------------------------------------------------
 
 #ifndef BUILDING_DOCS
+#pragma pack(push,1)
 
   union
   {
@@ -289,6 +290,7 @@ public :
       Real m_22;
       #ifndef BUILDING_DOCS
     };
+#pragma pack(pop)
 
    };
 #endif
