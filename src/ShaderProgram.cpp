@@ -538,20 +538,40 @@ void ShaderProgram::autoRegisterUniforms() noexcept
   // could use this with better OpenGL version
   // glGetProgramInterfaceiv(i, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numUniforms);
 
-
   char name[256];
   uniformData data;
-  GLint nameLen,num;
   for (GLint i=0; i<nUniforms; ++i)
   {
     GLenum type = GL_ZERO;
+    GLsizei nameLen=0;
+    GLint num=0;
     glGetActiveUniform( m_programID, i, sizeof(name)-1, &nameLen, &num, &type, name );
-    data.name=name;
-    data.id=glGetUniformLocation(m_programID,name);
-    data.type=type;
-    m_registeredUniforms[name]=data;
-  }
+    // two options we either have an array or single value
+    // if not array
+    if(num == 1)
+    {
+      data.name=name;
+      data.id=glGetUniformLocation(m_programID,name);
+      data.type=type;
+      m_registeredUniforms[name]=data;
+      std::cout<<name<<" Name Size "<<nameLen<<" "<<num<<"\n";
+    }
+    else
+    {
+      std::string uniform(name);
+      std::string baseName=uniform.substr(0, uniform.find("["));
+      // nvidia returns uniform[0], ATI uniform, best was is to split on [
+      for(int i=0; i<num; ++i)
+      {
+        std::string name=boost::str(boost::format("%s[%d]") %baseName % i );
 
+        data.name=name;
+        data.id=glGetUniformLocation(m_programID,name.c_str());
+        data.type=type;
+        m_registeredUniforms[name]=data;
+      }
+    }
+  }
 }
 
 void ShaderProgram::printRegisteredUniforms() const noexcept
