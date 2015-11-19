@@ -556,7 +556,7 @@ void ShaderProgram::autoRegisterUniforms() noexcept
 
 void ShaderProgram::printRegisteredUniforms() const noexcept
 {
-  const static std::unordered_map<GLenum,std::string> types=
+  const static std::unordered_map<GLenum,const char *> types=
   {
     {GL_FLOAT,"float"},
     {GL_FLOAT_VEC2,"vec2"},
@@ -664,9 +664,6 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY,"uimage2DMSArray"},
     {GL_UNSIGNED_INT_ATOMIC_COUNTER,"atomic_uint"}
   };
-
-
-
   std::cout<<"Registered Uniforms for shader "<< m_programName<<"\n";
   for(auto d : m_registeredUniforms)
   {
