@@ -507,7 +507,7 @@ private :
 
   struct uniformData
   {
-    GLuint id;
+    GLuint loc;
     std::string name;
     GLenum type;
   };

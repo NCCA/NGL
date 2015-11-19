@@ -217,7 +217,7 @@ void ShaderProgram::setRegisteredUniform1f( const std::string &_varname, float _
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform1f(uniform->second.id,_v0);
+    glUniform1f(uniform->second.loc,_v0);
   }
 
 }
@@ -235,7 +235,7 @@ void ShaderProgram::setRegisteredUniform2f(const std::string &_varname, float _v
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform2f(uniform->second.id,_v0,_v1);
+    glUniform2f(uniform->second.loc,_v0,_v1);
   }
 
 }
@@ -252,7 +252,7 @@ void ShaderProgram::setRegisteredUniform3f( const std::string &_varname, float _
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform3f(uniform->second.id,_v0,_v1,_v2);
+    glUniform3f(uniform->second.loc,_v0,_v1,_v2);
   }
 
 }
@@ -269,7 +269,7 @@ void ShaderProgram::setRegisteredUniform4f( const std::string &_varname, float _
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform4f(uniform->second.id,_v0,_v1,_v2,_v3);
+    glUniform4f(uniform->second.loc,_v0,_v1,_v2,_v3);
   }
 
 }
@@ -314,7 +314,7 @@ void ShaderProgram::setRegisteredUniform1i( const std::string &_varname, int _v0
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform1i(uniform->second.id,_v0);
+    glUniform1i(uniform->second.loc,_v0);
   }
 
 }
@@ -326,7 +326,7 @@ void ShaderProgram::setRegisteredUniform2i( const std::string &_varname, int _v0
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform2i(uniform->second.id,_v0,_v1);
+    glUniform2i(uniform->second.loc,_v0,_v1);
   }
 
 }
@@ -339,7 +339,7 @@ void ShaderProgram::setRegisteredUniform3i(const std::string &_varname,  int _v0
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform3i(uniform->second.id,_v0,_v1,_v2);
+    glUniform3i(uniform->second.loc,_v0,_v1,_v2);
   }
 }
 
@@ -350,7 +350,7 @@ void ShaderProgram::setRegisteredUniform4i( const std::string &_varname,  int _v
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniform4i(uniform->second.id,_v0,_v1,_v2,_v3);
+    glUniform4i(uniform->second.loc,_v0,_v1,_v2,_v3);
   }
 
 }
@@ -417,7 +417,7 @@ void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string &_varname,s
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniformMatrix3fv(uniform->second.id,_count,_transpose,_value);
+    glUniformMatrix3fv(uniform->second.loc,_count,_transpose,_value);
   }
 
 }
@@ -435,7 +435,7 @@ void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string &_varname, s
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glUniformMatrix4fv(uniform->second.id,_count,_transpose,_value);
+    glUniformMatrix4fv(uniform->second.loc,_count,_transpose,_value);
   }
 
 }
@@ -551,22 +551,21 @@ void ShaderProgram::autoRegisterUniforms() noexcept
     if(num == 1)
     {
       data.name=name;
-      data.id=glGetUniformLocation(m_programID,name);
+      data.loc=glGetUniformLocation(m_programID,name);
       data.type=type;
       m_registeredUniforms[name]=data;
-      std::cout<<name<<" Name Size "<<nameLen<<" "<<num<<"\n";
     }
     else
     {
       std::string uniform(name);
       std::string baseName=uniform.substr(0, uniform.find("["));
-      // nvidia returns uniform[0], ATI uniform, best was is to split on [
+      // nvidia returns uniform[0], ATI uniform, best way is to split on [
       for(int i=0; i<num; ++i)
       {
         std::string name=boost::str(boost::format("%s[%d]") %baseName % i );
 
         data.name=name;
-        data.id=glGetUniformLocation(m_programID,name.c_str());
+        data.loc=glGetUniformLocation(m_programID,name.c_str());
         data.type=type;
         m_registeredUniforms[name]=data;
       }
@@ -697,7 +696,7 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {
       type="unknown type";
     }
-    std::cout<<"Uniform "<<d.first<<" ->"<<d.second.name<<" "<<d.second.id<<" "<<type<<"\n";
+    std::cout<<"Uniform "<<d.first<<"-> "<<" location "<<d.second.loc<<" glsl type "<<type<<"\n";
 
   }
 }
