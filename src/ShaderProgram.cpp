@@ -556,10 +556,43 @@ void ShaderProgram::autoRegisterUniforms() noexcept
 
 void ShaderProgram::printRegisteredUniforms() const noexcept
 {
+  const static std::unordered_map<GLenum,std::string> types=
+  {
+    {GL_FLOAT,"GLfloat"},
+    {GL_FLOAT_VEC2,"vec2"},
+    {GL_FLOAT_VEC3,"vec3"},
+    {GL_FLOAT_VEC4,"vec4"},
+    {GL_INT,"int"},
+    {GL_INT_VEC2,"ivec2"},
+    {GL_INT_VEC3,"ivec3"},
+    {GL_INT_VEC4,"ivec4"},
+    {GL_BOOL,"bool"},
+    {GL_BOOL_VEC2,"bvec2"},
+    {GL_BOOL_VEC3,"bvec3"},
+    {GL_BOOL_VEC4,"bvec4"},
+    {GL_FLOAT_MAT2,"mat2"},
+    {GL_FLOAT_MAT3,"mat3"},
+    {GL_FLOAT_MAT4,"mat4"},
+    {GL_SAMPLER_2D,"sampler2d"},
+    {GL_SAMPLER_CUBE,"samplerCube"}
+  };
+
+
+
   std::cout<<"Registered Uniforms for shader "<< m_programName<<"\n";
   for(auto d : m_registeredUniforms)
   {
-    std::cout<<"Uniform "<<d.first<<" ->"<<d.second.name<<" "<<d.second.id<<" "<<d.second.type<<"\n";
+    std::string type;
+    auto value=types.find(d.second.type);
+    if(value !=types.end())
+    {
+      type=value->second;
+    }
+    else
+    {
+      type="unknown type";
+    }
+    std::cout<<"Uniform "<<d.first<<" ->"<<d.second.name<<" "<<d.second.id<<" "<<type<<"\n";
 
   }
 }
