@@ -559,7 +559,7 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
   std::cout<<"Registered Uniforms for shader "<< m_programName<<"\n";
   for(auto d : m_registeredUniforms)
   {
-    std::cout<<"Unoiform "<<d.first<<" ->"<<d.second.name<<" "<<d.second.id<<" "<<d.second.type<<"\n";
+    std::cout<<"Uniform "<<d.first<<" ->"<<d.second.name<<" "<<d.second.id<<" "<<d.second.type<<"\n";
 
   }
 }
