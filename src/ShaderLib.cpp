@@ -433,7 +433,7 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
     {
       std::cout<<"Linking and registering Uniforms to ShaderLib\n";
     }
-    //linkProgramObject(progName);
+    linkProgramObject(progName);
     //autoRegisterUniforms(progName);
     std::cout<<"**********************DONE********************\n";
   }
