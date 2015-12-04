@@ -76,7 +76,7 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
 
 
   child=rootNode->first_node("NumVerts");
-  m_nVerts=boost::lexical_cast< int>(child->value());
+  m_nVerts=boost::lexical_cast<int>(child->value());
   std::cerr<<"NumVerts "<<m_nVerts<<"\n";
   child=rootNode->first_node("StartFrame");
   m_startFrame=boost::lexical_cast< int>(child->value());
