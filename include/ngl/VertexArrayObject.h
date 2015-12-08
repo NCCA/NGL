@@ -209,7 +209,11 @@ public:
   /// just reading the values or GL_WRITE for just writing values etc.
   /// @returns a pointer to the data
   //----------------------------------------------------------------------------------------------------------------------
-  Real *getDataPointer(unsigned int _vbo,GLenum _accessMode=GL_READ_WRITE);
+  #ifdef USINGIOS_
+    Real *getDataPointer(unsigned int _vbo,GLenum _accessMode);
+  #else
+    Real *getDataPointer(unsigned int _vbo,GLenum _accessMode=GL_READ_WRITE);
+  #endif
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief unmap the data pointer
   //----------------------------------------------------------------------------------------------------------------------

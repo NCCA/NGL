@@ -373,7 +373,11 @@ Real * AbstractMesh::mapVAOVerts() noexcept
   //NGLCheckGLError("Abstract Mesh",__LINE__);
   glBindBuffer(GL_ARRAY_BUFFER, m_vaoMesh->getVBOid(0));
   //NGLCheckGLError("Abstract Mesh",__LINE__);
+#ifndef USINGIOS_
   ptr = (float*)glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE);
+#else
+  //ptr = (float*)glMapBufferOES(GL_ARRAY_BUFFER,GL_READ_WRITE_OES);
+#endif
   //NGLCheckGLError("Abstract Mesh",__LINE__);
   m_vboMapped=true;
   return ptr;

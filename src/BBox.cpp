@@ -71,7 +71,11 @@ BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  ) noex
 	m_width=_width;
 	m_height=_height;
 	m_depth=_depth;
-	m_drawMode=GL_LINE;
+	#ifdef USINGIOS_
+		m_drawMode=GL_LINE_LOOP;
+	#else
+		m_drawMode=GL_LINE;
+	#endif
 	m_vao=0;
 	setVAO();
 }
@@ -82,7 +86,11 @@ BBox::BBox() noexcept
 {
   //default constructor creates a unit BBox
   m_center.m_x=m_center.m_y=m_center.m_z=0.0f;
-  m_drawMode=GL_LINE;
+  #ifdef USINGIOS_
+    m_drawMode=GL_LINE_LOOP;
+  #else
+    m_drawMode=GL_LINE;
+  #endif
   m_width=2.0;
   m_height=2.0;
   m_depth=2.0;
@@ -131,7 +139,11 @@ BBox::BBox( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _minZ, Real _m
 	m_vert[5].m_x=_maxX; m_vert[5].m_y=_minY; m_vert[5].m_z=_minZ;
 	m_vert[6].m_x=_maxX; m_vert[6].m_y=_minY; m_vert[6].m_z=_maxZ;
 	m_vert[7].m_x=_minX; m_vert[7].m_y=_minY; m_vert[7].m_z=_maxZ;
-	m_drawMode=GL_LINE;
+	#ifdef USINGIOS_
+		m_drawMode=GL_LINE_LOOP;
+	#else
+		m_drawMode=GL_LINE;
+	#endif
 	m_width=m_maxX-m_minX;
 	m_height=m_maxY-m_minY;
 	m_depth=m_maxZ-m_minZ;
@@ -157,7 +169,11 @@ void BBox::setVAO()
 		glDeleteVertexArrays(1,&id);
 	}
 	// if were not doing line drawing then use tris
-	if(m_drawMode !=GL_LINE)
+	#ifdef USINGIOS_
+		if(m_drawMode !=GL_LINE_LOOP)
+	#else
+		if(m_drawMode !=GL_LINE)
+	#endif
 	{
 		m_vao=VertexArrayObject::createVOA(GL_TRIANGLES);
 
@@ -200,11 +216,17 @@ void BBox::setVAO()
 //----------------------------------------------------------------------------------------------------------------------
 void BBox::draw() const noexcept
 {
+#ifndef USINGIOS_
   glPolygonMode(GL_FRONT_AND_BACK,m_drawMode);
   m_vao->bind();
   m_vao->draw();
   m_vao->unbind();
   glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+#else
+  m_vao->bind();
+  m_vao->draw();
+  m_vao->unbind();
+#endif
 }
 //----------------------------------------------------------------------------------------------------------------------
 

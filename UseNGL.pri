@@ -62,4 +62,13 @@ win32: {
         DEFINES+=NO_DLL
 }
 
+ios {
+        message("IOS BUILD")
+        DEFINES+=USINGIOS_
+        INCLUDEPATH+=/usr/local/include
+        LIBS +=  -L$${NGLBASE}/lib -lNGLIOS
+
+}
+
+
 

@@ -7,8 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F9CB2DB61C11064900E66616 /* iNGL.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F9CB2DB51C11064900E66616 /* iNGL.h */; };
-		F9CB2DB81C11064900E66616 /* iNGL.m in Sources */ = {isa = PBXBuildFile; fileRef = F9CB2DB71C11064900E66616 /* iNGL.m */; };
+		F97C66571C117A9900C074AF /* AABB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C662D1C117A9900C074AF /* AABB.cpp */; };
+		F97C66581C117A9900C074AF /* AbstractMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C662E1C117A9900C074AF /* AbstractMesh.cpp */; };
+		F97C66591C117A9900C074AF /* AbstractSerializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C662F1C117A9900C074AF /* AbstractSerializer.cpp */; };
+		F97C665A1C117A9900C074AF /* BBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66301C117A9900C074AF /* BBox.cpp */; };
+		F97C665B1C117A9900C074AF /* BezierCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66311C117A9900C074AF /* BezierCurve.cpp */; };
+		F97C665C1C117A9900C074AF /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66321C117A9900C074AF /* Camera.cpp */; };
+		F97C665D1C117A9900C074AF /* Colour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66331C117A9900C074AF /* Colour.cpp */; };
+		F97C665E1C117A9900C074AF /* createDefaultVAOs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66341C117A9900C074AF /* createDefaultVAOs.cpp */; };
+		F97C66601C117A9900C074AF /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66361C117A9900C074AF /* Image.cpp */; };
+		F97C66611C117A9900C074AF /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66371C117A9900C074AF /* Light.cpp */; };
+		F97C66621C117A9900C074AF /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66381C117A9900C074AF /* Logger.cpp */; };
+		F97C66631C117A9900C074AF /* Mat3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66391C117A9900C074AF /* Mat3.cpp */; };
+		F97C66641C117A9900C074AF /* Mat4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C663A1C117A9900C074AF /* Mat4.cpp */; };
+		F97C66651C117A9900C074AF /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C663B1C117A9900C074AF /* Material.cpp */; };
+		F97C66661C117A9900C074AF /* NCCABinMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C663C1C117A9900C074AF /* NCCABinMesh.cpp */; };
+		F97C66671C117A9900C074AF /* NCCAPointBake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C663D1C117A9900C074AF /* NCCAPointBake.cpp */; };
+		F97C66681C117A9900C074AF /* NGLInit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C663F1C117A9900C074AF /* NGLInit.cpp */; };
+		F97C66691C117A9900C074AF /* NGLStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66401C117A9900C074AF /* NGLStream.cpp */; };
+		F97C666A1C117A9900C074AF /* Obj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66411C117A9900C074AF /* Obj.cpp */; };
+		F97C666B1C117A9900C074AF /* Obj.orig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66421C117A9900C074AF /* Obj.orig.cpp */; };
+		F97C666C1C117A9900C074AF /* PathCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66431C117A9900C074AF /* PathCamera.cpp */; };
+		F97C666D1C117A9900C074AF /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66441C117A9900C074AF /* Plane.cpp */; };
+		F97C666E1C117A9900C074AF /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66451C117A9900C074AF /* Quaternion.cpp */; };
+		F97C666F1C117A9900C074AF /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66461C117A9900C074AF /* Random.cpp */; };
+		F97C66701C117A9900C074AF /* RibExport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66471C117A9900C074AF /* RibExport.cpp */; };
+		F97C66711C117A9900C074AF /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66481C117A9900C074AF /* Shader.cpp */; };
+		F97C66721C117A9900C074AF /* ShaderLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66491C117A9900C074AF /* ShaderLib.cpp */; };
+		F97C66731C117A9900C074AF /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C664A1C117A9900C074AF /* ShaderProgram.cpp */; };
+		F97C66741C117A9900C074AF /* SpotLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C664C1C117A9900C074AF /* SpotLight.cpp */; };
+		F97C66761C117A9900C074AF /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C664E1C117A9900C074AF /* Texture.cpp */; };
+		F97C66771C117A9900C074AF /* Transformation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C664F1C117A9900C074AF /* Transformation.cpp */; };
+		F97C66781C117A9900C074AF /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66501C117A9900C074AF /* Util.cpp */; };
+		F97C66791C117A9900C074AF /* VAOPrimitives.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66511C117A9900C074AF /* VAOPrimitives.cpp */; };
+		F97C667A1C117A9900C074AF /* Vec2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66521C117A9900C074AF /* Vec2.cpp */; };
+		F97C667B1C117A9900C074AF /* Vec3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66531C117A9900C074AF /* Vec3.cpp */; };
+		F97C667C1C117A9900C074AF /* Vec4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66541C117A9900C074AF /* Vec4.cpp */; };
+		F97C667D1C117A9900C074AF /* VertexArrayObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66551C117A9900C074AF /* VertexArrayObject.cpp */; };
+		F97C667E1C117A9900C074AF /* XMLSerializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F97C66561C117A9900C074AF /* XMLSerializer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -18,16 +54,136 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				F9CB2DB61C11064900E66616 /* iNGL.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F97C662D1C117A9900C074AF /* AABB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AABB.cpp; path = ../src/AABB.cpp; sourceTree = "<group>"; };
+		F97C662E1C117A9900C074AF /* AbstractMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AbstractMesh.cpp; path = ../src/AbstractMesh.cpp; sourceTree = "<group>"; };
+		F97C662F1C117A9900C074AF /* AbstractSerializer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AbstractSerializer.cpp; path = ../src/AbstractSerializer.cpp; sourceTree = "<group>"; };
+		F97C66301C117A9900C074AF /* BBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BBox.cpp; path = ../src/BBox.cpp; sourceTree = "<group>"; };
+		F97C66311C117A9900C074AF /* BezierCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BezierCurve.cpp; path = ../src/BezierCurve.cpp; sourceTree = "<group>"; };
+		F97C66321C117A9900C074AF /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera.cpp; path = ../src/Camera.cpp; sourceTree = "<group>"; };
+		F97C66331C117A9900C074AF /* Colour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Colour.cpp; path = ../src/Colour.cpp; sourceTree = "<group>"; };
+		F97C66341C117A9900C074AF /* createDefaultVAOs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = createDefaultVAOs.cpp; path = ../src/createDefaultVAOs.cpp; sourceTree = "<group>"; };
+		F97C66361C117A9900C074AF /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Image.cpp; path = ../src/Image.cpp; sourceTree = "<group>"; };
+		F97C66371C117A9900C074AF /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Light.cpp; path = ../src/Light.cpp; sourceTree = "<group>"; };
+		F97C66381C117A9900C074AF /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Logger.cpp; path = ../src/Logger.cpp; sourceTree = "<group>"; };
+		F97C66391C117A9900C074AF /* Mat3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mat3.cpp; path = ../src/Mat3.cpp; sourceTree = "<group>"; };
+		F97C663A1C117A9900C074AF /* Mat4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mat4.cpp; path = ../src/Mat4.cpp; sourceTree = "<group>"; };
+		F97C663B1C117A9900C074AF /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Material.cpp; path = ../src/Material.cpp; sourceTree = "<group>"; };
+		F97C663C1C117A9900C074AF /* NCCABinMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NCCABinMesh.cpp; path = ../src/NCCABinMesh.cpp; sourceTree = "<group>"; };
+		F97C663D1C117A9900C074AF /* NCCAPointBake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NCCAPointBake.cpp; path = ../src/NCCAPointBake.cpp; sourceTree = "<group>"; };
+		F97C663E1C117A9900C074AF /* ngl */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ngl; path = ../src/ngl; sourceTree = "<group>"; };
+		F97C663F1C117A9900C074AF /* NGLInit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NGLInit.cpp; path = ../src/NGLInit.cpp; sourceTree = "<group>"; };
+		F97C66401C117A9900C074AF /* NGLStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NGLStream.cpp; path = ../src/NGLStream.cpp; sourceTree = "<group>"; };
+		F97C66411C117A9900C074AF /* Obj.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Obj.cpp; path = ../src/Obj.cpp; sourceTree = "<group>"; };
+		F97C66421C117A9900C074AF /* Obj.orig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Obj.orig.cpp; path = ../src/Obj.orig.cpp; sourceTree = "<group>"; };
+		F97C66431C117A9900C074AF /* PathCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PathCamera.cpp; path = ../src/PathCamera.cpp; sourceTree = "<group>"; };
+		F97C66441C117A9900C074AF /* Plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Plane.cpp; path = ../src/Plane.cpp; sourceTree = "<group>"; };
+		F97C66451C117A9900C074AF /* Quaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Quaternion.cpp; path = ../src/Quaternion.cpp; sourceTree = "<group>"; };
+		F97C66461C117A9900C074AF /* Random.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Random.cpp; path = ../src/Random.cpp; sourceTree = "<group>"; };
+		F97C66471C117A9900C074AF /* RibExport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RibExport.cpp; path = ../src/RibExport.cpp; sourceTree = "<group>"; };
+		F97C66481C117A9900C074AF /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Shader.cpp; path = ../src/Shader.cpp; sourceTree = "<group>"; };
+		F97C66491C117A9900C074AF /* ShaderLib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderLib.cpp; path = ../src/ShaderLib.cpp; sourceTree = "<group>"; };
+		F97C664A1C117A9900C074AF /* ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderProgram.cpp; path = ../src/ShaderProgram.cpp; sourceTree = "<group>"; };
+		F97C664B1C117A9900C074AF /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../src/shaders; sourceTree = "<group>"; };
+		F97C664C1C117A9900C074AF /* SpotLight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpotLight.cpp; path = ../src/SpotLight.cpp; sourceTree = "<group>"; };
+		F97C664E1C117A9900C074AF /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Texture.cpp; path = ../src/Texture.cpp; sourceTree = "<group>"; };
+		F97C664F1C117A9900C074AF /* Transformation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Transformation.cpp; path = ../src/Transformation.cpp; sourceTree = "<group>"; };
+		F97C66501C117A9900C074AF /* Util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Util.cpp; path = ../src/Util.cpp; sourceTree = "<group>"; };
+		F97C66511C117A9900C074AF /* VAOPrimitives.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VAOPrimitives.cpp; path = ../src/VAOPrimitives.cpp; sourceTree = "<group>"; };
+		F97C66521C117A9900C074AF /* Vec2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vec2.cpp; path = ../src/Vec2.cpp; sourceTree = "<group>"; };
+		F97C66531C117A9900C074AF /* Vec3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vec3.cpp; path = ../src/Vec3.cpp; sourceTree = "<group>"; };
+		F97C66541C117A9900C074AF /* Vec4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vec4.cpp; path = ../src/Vec4.cpp; sourceTree = "<group>"; };
+		F97C66551C117A9900C074AF /* VertexArrayObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexArrayObject.cpp; path = ../src/VertexArrayObject.cpp; sourceTree = "<group>"; };
+		F97C66561C117A9900C074AF /* XMLSerializer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XMLSerializer.cpp; path = ../src/XMLSerializer.cpp; sourceTree = "<group>"; };
+		F97C66801C117BA300C074AF /* AABB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AABB.h; path = ../include/ngl/AABB.h; sourceTree = "<group>"; };
+		F97C66811C117BA300C074AF /* AbstractMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractMesh.h; path = ../include/ngl/AbstractMesh.h; sourceTree = "<group>"; };
+		F97C66821C117BA300C074AF /* AbstractSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractSerializer.h; path = ../include/ngl/AbstractSerializer.h; sourceTree = "<group>"; };
+		F97C66831C117BA300C074AF /* BBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBox.h; path = ../include/ngl/BBox.h; sourceTree = "<group>"; };
+		F97C66841C117BA300C074AF /* BezierCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BezierCurve.h; path = ../include/ngl/BezierCurve.h; sourceTree = "<group>"; };
+		F97C66851C117BA300C074AF /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = ../include/ngl/Camera.h; sourceTree = "<group>"; };
+		F97C66861C117BA300C074AF /* Colour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Colour.h; path = ../include/ngl/Colour.h; sourceTree = "<group>"; };
+		F97C66871C117BA300C074AF /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glew.h; path = ../include/ngl/glew.h; sourceTree = "<group>"; };
+		F97C66881C117BA300C074AF /* glxew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glxew.h; path = ../include/ngl/glxew.h; sourceTree = "<group>"; };
+		F97C66891C117BA300C074AF /* HoudiniGeo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HoudiniGeo.h; path = ../include/ngl/HoudiniGeo.h; sourceTree = "<group>"; };
+		F97C668A1C117BA300C074AF /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Image.h; path = ../include/ngl/Image.h; sourceTree = "<group>"; };
+		F97C668B1C117BA300C074AF /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Light.h; path = ../include/ngl/Light.h; sourceTree = "<group>"; };
+		F97C668C1C117BA300C074AF /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Logger.h; path = ../include/ngl/Logger.h; sourceTree = "<group>"; };
+		F97C668D1C117BA300C074AF /* Mat3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mat3.h; path = ../include/ngl/Mat3.h; sourceTree = "<group>"; };
+		F97C668E1C117BA300C074AF /* Mat4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mat4.h; path = ../include/ngl/Mat4.h; sourceTree = "<group>"; };
+		F97C668F1C117BA300C074AF /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Material.h; path = ../include/ngl/Material.h; sourceTree = "<group>"; };
+		F97C66901C117BA300C074AF /* NCCABinMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NCCABinMesh.h; path = ../include/ngl/NCCABinMesh.h; sourceTree = "<group>"; };
+		F97C66911C117BA300C074AF /* NCCAPointBake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NCCAPointBake.h; path = ../include/ngl/NCCAPointBake.h; sourceTree = "<group>"; };
+		F97C66921C117BA300C074AF /* NGLassert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NGLassert.h; path = ../include/ngl/NGLassert.h; sourceTree = "<group>"; };
+		F97C66931C117BA300C074AF /* NGLInit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NGLInit.h; path = ../include/ngl/NGLInit.h; sourceTree = "<group>"; };
+		F97C66941C117BA300C074AF /* NGLStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NGLStream.h; path = ../include/ngl/NGLStream.h; sourceTree = "<group>"; };
+		F97C66951C117BA300C074AF /* Obj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Obj.h; path = ../include/ngl/Obj.h; sourceTree = "<group>"; };
+		F97C66961C117BA300C074AF /* PathCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PathCamera.h; path = ../include/ngl/PathCamera.h; sourceTree = "<group>"; };
+		F97C66971C117BA300C074AF /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane.h; path = ../include/ngl/Plane.h; sourceTree = "<group>"; };
+		F97C66981C117BA300C074AF /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Quaternion.h; path = ../include/ngl/Quaternion.h; sourceTree = "<group>"; };
+		F97C66991C117BA300C074AF /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Random.h; path = ../include/ngl/Random.h; sourceTree = "<group>"; };
+		F97C669A1C117BA300C074AF /* rapidjson */ = {isa = PBXFileReference; lastKnownFileType = folder; name = rapidjson; path = ../include/ngl/rapidjson; sourceTree = "<group>"; };
+		F97C669B1C117BA300C074AF /* rapidxml */ = {isa = PBXFileReference; lastKnownFileType = folder; name = rapidxml; path = ../include/ngl/rapidxml; sourceTree = "<group>"; };
+		F97C669C1C117BA300C074AF /* RibExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RibExport.h; path = ../include/ngl/RibExport.h; sourceTree = "<group>"; };
+		F97C669D1C117BA300C074AF /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shader.h; path = ../include/ngl/Shader.h; sourceTree = "<group>"; };
+		F97C669E1C117BA300C074AF /* ShaderLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderLib.h; path = ../include/ngl/ShaderLib.h; sourceTree = "<group>"; };
+		F97C669F1C117BA300C074AF /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderProgram.h; path = ../include/ngl/ShaderProgram.h; sourceTree = "<group>"; };
+		F97C66A01C117BA300C074AF /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Singleton.h; path = ../include/ngl/Singleton.h; sourceTree = "<group>"; };
+		F97C66A11C117BA300C074AF /* SpotLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpotLight.h; path = ../include/ngl/SpotLight.h; sourceTree = "<group>"; };
+		F97C66A21C117BA300C074AF /* Text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Text.h; path = ../include/ngl/Text.h; sourceTree = "<group>"; };
+		F97C66A31C117BA300C074AF /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = ../include/ngl/Texture.h; sourceTree = "<group>"; };
+		F97C66A41C117BA300C074AF /* Transformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transformation.h; path = ../include/ngl/Transformation.h; sourceTree = "<group>"; };
+		F97C66A51C117BA300C074AF /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = ../include/ngl/Types.h; sourceTree = "<group>"; };
+		F97C66A61C117BA300C074AF /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Util.h; path = ../include/ngl/Util.h; sourceTree = "<group>"; };
+		F97C66A71C117BA300C074AF /* VAOPrimitives.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VAOPrimitives.h; path = ../include/ngl/VAOPrimitives.h; sourceTree = "<group>"; };
+		F97C66A81C117BA300C074AF /* Vec2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vec2.h; path = ../include/ngl/Vec2.h; sourceTree = "<group>"; };
+		F97C66A91C117BA300C074AF /* Vec3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vec3.h; path = ../include/ngl/Vec3.h; sourceTree = "<group>"; };
+		F97C66AA1C117BA300C074AF /* Vec4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vec4.h; path = ../include/ngl/Vec4.h; sourceTree = "<group>"; };
+		F97C66AB1C117BA300C074AF /* VertexArrayObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexArrayObject.h; path = ../include/ngl/VertexArrayObject.h; sourceTree = "<group>"; };
+		F97C66AC1C117BA300C074AF /* wglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wglew.h; path = ../include/ngl/wglew.h; sourceTree = "<group>"; };
+		F97C66AD1C117BA300C074AF /* XMLSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLSerializer.h; path = ../include/ngl/XMLSerializer.h; sourceTree = "<group>"; };
+		F97C66AE1C117C9600C074AF /* Buddah.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Buddah.h; path = ../src/ngl/Buddah.h; sourceTree = "<group>"; };
+		F97C66AF1C117C9600C074AF /* Bunny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bunny.h; path = ../src/ngl/Bunny.h; sourceTree = "<group>"; };
+		F97C66B01C117C9600C074AF /* Cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cube.h; path = ../src/ngl/Cube.h; sourceTree = "<group>"; };
+		F97C66B11C117C9600C074AF /* Dodecahedron.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dodecahedron.h; path = ../src/ngl/Dodecahedron.h; sourceTree = "<group>"; };
+		F97C66B21C117C9600C074AF /* Dragon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Dragon.h; path = ../src/ngl/Dragon.h; sourceTree = "<group>"; };
+		F97C66B31C117C9600C074AF /* Football.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Football.h; path = ../src/ngl/Football.h; sourceTree = "<group>"; };
+		F97C66B41C117C9600C074AF /* Icosahedron.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Icosahedron.h; path = ../src/ngl/Icosahedron.h; sourceTree = "<group>"; };
+		F97C66B51C117C9600C074AF /* Meshes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Meshes.h; path = ../src/ngl/Meshes.h; sourceTree = "<group>"; };
+		F97C66B61C117C9600C074AF /* Octahedron.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Octahedron.h; path = ../src/ngl/Octahedron.h; sourceTree = "<group>"; };
+		F97C66B71C117C9600C074AF /* Teapot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Teapot.h; path = ../src/ngl/Teapot.h; sourceTree = "<group>"; };
+		F97C66B81C117C9600C074AF /* Tetrahedron.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tetrahedron.h; path = ../src/ngl/Tetrahedron.h; sourceTree = "<group>"; };
+		F97C66B91C117C9600C074AF /* Troll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Troll.h; path = ../src/ngl/Troll.h; sourceTree = "<group>"; };
+		F97C66BA1C117CC900C074AF /* ColourShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColourShaders.h; path = ../src/shaders/ColourShaders.h; sourceTree = "<group>"; };
+		F97C66BB1C117CC900C074AF /* DiffuseShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiffuseShaders.h; path = ../src/shaders/DiffuseShaders.h; sourceTree = "<group>"; };
+		F97C66BC1C117CC900C074AF /* TextShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextShaders.h; path = ../src/shaders/TextShaders.h; sourceTree = "<group>"; };
+		F97C66BD1C117CC900C074AF /* ToonShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ToonShaders.h; path = ../src/shaders/ToonShaders.h; sourceTree = "<group>"; };
+		F97C66BE1C117D8E00C074AF /* rapidxml_iterators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = rapidxml_iterators.hpp; path = ../include/ngl/rapidxml/rapidxml_iterators.hpp; sourceTree = "<group>"; };
+		F97C66BF1C117D8E00C074AF /* rapidxml_print.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = rapidxml_print.hpp; path = ../include/ngl/rapidxml/rapidxml_print.hpp; sourceTree = "<group>"; };
+		F97C66C01C117D8E00C074AF /* rapidxml_utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = rapidxml_utils.hpp; path = ../include/ngl/rapidxml/rapidxml_utils.hpp; sourceTree = "<group>"; };
+		F97C66C11C117D8E00C074AF /* rapidxml.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = rapidxml.hpp; path = ../include/ngl/rapidxml/rapidxml.hpp; sourceTree = "<group>"; };
+		F97C66C21C117DA400C074AF /* allocators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = allocators.h; path = ../include/ngl/rapidjson/allocators.h; sourceTree = "<group>"; };
+		F97C66C31C117DA400C074AF /* document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = document.h; path = ../include/ngl/rapidjson/document.h; sourceTree = "<group>"; };
+		F97C66C41C117DA400C074AF /* encodedstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = encodedstream.h; path = ../include/ngl/rapidjson/encodedstream.h; sourceTree = "<group>"; };
+		F97C66C51C117DA400C074AF /* encodings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = encodings.h; path = ../include/ngl/rapidjson/encodings.h; sourceTree = "<group>"; };
+		F97C66C61C117DA400C074AF /* error */ = {isa = PBXFileReference; lastKnownFileType = folder; name = error; path = ../include/ngl/rapidjson/error; sourceTree = "<group>"; };
+		F97C66C71C117DA400C074AF /* filereadstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filereadstream.h; path = ../include/ngl/rapidjson/filereadstream.h; sourceTree = "<group>"; };
+		F97C66C81C117DA400C074AF /* filewritestream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filewritestream.h; path = ../include/ngl/rapidjson/filewritestream.h; sourceTree = "<group>"; };
+		F97C66C91C117DA400C074AF /* internal */ = {isa = PBXFileReference; lastKnownFileType = folder; name = internal; path = ../include/ngl/rapidjson/internal; sourceTree = "<group>"; };
+		F97C66CA1C117DA400C074AF /* memorybuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = memorybuffer.h; path = ../include/ngl/rapidjson/memorybuffer.h; sourceTree = "<group>"; };
+		F97C66CB1C117DA400C074AF /* memorystream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = memorystream.h; path = ../include/ngl/rapidjson/memorystream.h; sourceTree = "<group>"; };
+		F97C66CC1C117DA400C074AF /* msinttypes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = msinttypes; path = ../include/ngl/rapidjson/msinttypes; sourceTree = "<group>"; };
+		F97C66CD1C117DA400C074AF /* pointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pointer.h; path = ../include/ngl/rapidjson/pointer.h; sourceTree = "<group>"; };
+		F97C66CE1C117DA400C074AF /* prettywriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prettywriter.h; path = ../include/ngl/rapidjson/prettywriter.h; sourceTree = "<group>"; };
+		F97C66CF1C117DA400C074AF /* rapidjson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rapidjson.h; path = ../include/ngl/rapidjson/rapidjson.h; sourceTree = "<group>"; };
+		F97C66D01C117DA400C074AF /* reader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = reader.h; path = ../include/ngl/rapidjson/reader.h; sourceTree = "<group>"; };
+		F97C66D11C117DA400C074AF /* stringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stringbuffer.h; path = ../include/ngl/rapidjson/stringbuffer.h; sourceTree = "<group>"; };
+		F97C66D21C117DA400C074AF /* writer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = writer.h; path = ../include/ngl/rapidjson/writer.h; sourceTree = "<group>"; };
 		F9CB2DB21C11064900E66616 /* libiNGL.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libiNGL.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		F9CB2DB51C11064900E66616 /* iNGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iNGL.h; sourceTree = "<group>"; };
-		F9CB2DB71C11064900E66616 /* iNGL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iNGL.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +200,129 @@
 		F9CB2DA91C11064900E66616 = {
 			isa = PBXGroup;
 			children = (
+				F97C66C21C117DA400C074AF /* allocators.h */,
+				F97C66C31C117DA400C074AF /* document.h */,
+				F97C66C41C117DA400C074AF /* encodedstream.h */,
+				F97C66C51C117DA400C074AF /* encodings.h */,
+				F97C66C61C117DA400C074AF /* error */,
+				F97C66C71C117DA400C074AF /* filereadstream.h */,
+				F97C66C81C117DA400C074AF /* filewritestream.h */,
+				F97C66C91C117DA400C074AF /* internal */,
+				F97C66CA1C117DA400C074AF /* memorybuffer.h */,
+				F97C66CB1C117DA400C074AF /* memorystream.h */,
+				F97C66CC1C117DA400C074AF /* msinttypes */,
+				F97C66CD1C117DA400C074AF /* pointer.h */,
+				F97C66CE1C117DA400C074AF /* prettywriter.h */,
+				F97C66CF1C117DA400C074AF /* rapidjson.h */,
+				F97C66D01C117DA400C074AF /* reader.h */,
+				F97C66D11C117DA400C074AF /* stringbuffer.h */,
+				F97C66D21C117DA400C074AF /* writer.h */,
+				F97C66BE1C117D8E00C074AF /* rapidxml_iterators.hpp */,
+				F97C66BF1C117D8E00C074AF /* rapidxml_print.hpp */,
+				F97C66C01C117D8E00C074AF /* rapidxml_utils.hpp */,
+				F97C66C11C117D8E00C074AF /* rapidxml.hpp */,
+				F97C66BA1C117CC900C074AF /* ColourShaders.h */,
+				F97C66BB1C117CC900C074AF /* DiffuseShaders.h */,
+				F97C66BC1C117CC900C074AF /* TextShaders.h */,
+				F97C66BD1C117CC900C074AF /* ToonShaders.h */,
+				F97C66AE1C117C9600C074AF /* Buddah.h */,
+				F97C66AF1C117C9600C074AF /* Bunny.h */,
+				F97C66B01C117C9600C074AF /* Cube.h */,
+				F97C66B11C117C9600C074AF /* Dodecahedron.h */,
+				F97C66B21C117C9600C074AF /* Dragon.h */,
+				F97C66B31C117C9600C074AF /* Football.h */,
+				F97C66B41C117C9600C074AF /* Icosahedron.h */,
+				F97C66B51C117C9600C074AF /* Meshes.h */,
+				F97C66B61C117C9600C074AF /* Octahedron.h */,
+				F97C66B71C117C9600C074AF /* Teapot.h */,
+				F97C66B81C117C9600C074AF /* Tetrahedron.h */,
+				F97C66B91C117C9600C074AF /* Troll.h */,
+				F97C66801C117BA300C074AF /* AABB.h */,
+				F97C66811C117BA300C074AF /* AbstractMesh.h */,
+				F97C66821C117BA300C074AF /* AbstractSerializer.h */,
+				F97C66831C117BA300C074AF /* BBox.h */,
+				F97C66841C117BA300C074AF /* BezierCurve.h */,
+				F97C66851C117BA300C074AF /* Camera.h */,
+				F97C66861C117BA300C074AF /* Colour.h */,
+				F97C66871C117BA300C074AF /* glew.h */,
+				F97C66881C117BA300C074AF /* glxew.h */,
+				F97C66891C117BA300C074AF /* HoudiniGeo.h */,
+				F97C668A1C117BA300C074AF /* Image.h */,
+				F97C668B1C117BA300C074AF /* Light.h */,
+				F97C668C1C117BA300C074AF /* Logger.h */,
+				F97C668D1C117BA300C074AF /* Mat3.h */,
+				F97C668E1C117BA300C074AF /* Mat4.h */,
+				F97C668F1C117BA300C074AF /* Material.h */,
+				F97C66901C117BA300C074AF /* NCCABinMesh.h */,
+				F97C66911C117BA300C074AF /* NCCAPointBake.h */,
+				F97C66921C117BA300C074AF /* NGLassert.h */,
+				F97C66931C117BA300C074AF /* NGLInit.h */,
+				F97C66941C117BA300C074AF /* NGLStream.h */,
+				F97C66951C117BA300C074AF /* Obj.h */,
+				F97C66961C117BA300C074AF /* PathCamera.h */,
+				F97C66971C117BA300C074AF /* Plane.h */,
+				F97C66981C117BA300C074AF /* Quaternion.h */,
+				F97C66991C117BA300C074AF /* Random.h */,
+				F97C669A1C117BA300C074AF /* rapidjson */,
+				F97C669B1C117BA300C074AF /* rapidxml */,
+				F97C669C1C117BA300C074AF /* RibExport.h */,
+				F97C669D1C117BA300C074AF /* Shader.h */,
+				F97C669E1C117BA300C074AF /* ShaderLib.h */,
+				F97C669F1C117BA300C074AF /* ShaderProgram.h */,
+				F97C66A01C117BA300C074AF /* Singleton.h */,
+				F97C66A11C117BA300C074AF /* SpotLight.h */,
+				F97C66A21C117BA300C074AF /* Text.h */,
+				F97C66A31C117BA300C074AF /* Texture.h */,
+				F97C66A41C117BA300C074AF /* Transformation.h */,
+				F97C66A51C117BA300C074AF /* Types.h */,
+				F97C66A61C117BA300C074AF /* Util.h */,
+				F97C66A71C117BA300C074AF /* VAOPrimitives.h */,
+				F97C66A81C117BA300C074AF /* Vec2.h */,
+				F97C66A91C117BA300C074AF /* Vec3.h */,
+				F97C66AA1C117BA300C074AF /* Vec4.h */,
+				F97C66AB1C117BA300C074AF /* VertexArrayObject.h */,
+				F97C66AC1C117BA300C074AF /* wglew.h */,
+				F97C66AD1C117BA300C074AF /* XMLSerializer.h */,
+				F97C662D1C117A9900C074AF /* AABB.cpp */,
+				F97C662E1C117A9900C074AF /* AbstractMesh.cpp */,
+				F97C662F1C117A9900C074AF /* AbstractSerializer.cpp */,
+				F97C66301C117A9900C074AF /* BBox.cpp */,
+				F97C66311C117A9900C074AF /* BezierCurve.cpp */,
+				F97C66321C117A9900C074AF /* Camera.cpp */,
+				F97C66331C117A9900C074AF /* Colour.cpp */,
+				F97C66341C117A9900C074AF /* createDefaultVAOs.cpp */,
+				F97C66361C117A9900C074AF /* Image.cpp */,
+				F97C66371C117A9900C074AF /* Light.cpp */,
+				F97C66381C117A9900C074AF /* Logger.cpp */,
+				F97C66391C117A9900C074AF /* Mat3.cpp */,
+				F97C663A1C117A9900C074AF /* Mat4.cpp */,
+				F97C663B1C117A9900C074AF /* Material.cpp */,
+				F97C663C1C117A9900C074AF /* NCCABinMesh.cpp */,
+				F97C663D1C117A9900C074AF /* NCCAPointBake.cpp */,
+				F97C663E1C117A9900C074AF /* ngl */,
+				F97C663F1C117A9900C074AF /* NGLInit.cpp */,
+				F97C66401C117A9900C074AF /* NGLStream.cpp */,
+				F97C66411C117A9900C074AF /* Obj.cpp */,
+				F97C66421C117A9900C074AF /* Obj.orig.cpp */,
+				F97C66431C117A9900C074AF /* PathCamera.cpp */,
+				F97C66441C117A9900C074AF /* Plane.cpp */,
+				F97C66451C117A9900C074AF /* Quaternion.cpp */,
+				F97C66461C117A9900C074AF /* Random.cpp */,
+				F97C66471C117A9900C074AF /* RibExport.cpp */,
+				F97C66481C117A9900C074AF /* Shader.cpp */,
+				F97C66491C117A9900C074AF /* ShaderLib.cpp */,
+				F97C664A1C117A9900C074AF /* ShaderProgram.cpp */,
+				F97C664B1C117A9900C074AF /* shaders */,
+				F97C664C1C117A9900C074AF /* SpotLight.cpp */,
+				F97C664E1C117A9900C074AF /* Texture.cpp */,
+				F97C664F1C117A9900C074AF /* Transformation.cpp */,
+				F97C66501C117A9900C074AF /* Util.cpp */,
+				F97C66511C117A9900C074AF /* VAOPrimitives.cpp */,
+				F97C66521C117A9900C074AF /* Vec2.cpp */,
+				F97C66531C117A9900C074AF /* Vec3.cpp */,
+				F97C66541C117A9900C074AF /* Vec4.cpp */,
+				F97C66551C117A9900C074AF /* VertexArrayObject.cpp */,
+				F97C66561C117A9900C074AF /* XMLSerializer.cpp */,
 				F9CB2DB41C11064900E66616 /* iNGL */,
 				F9CB2DB31C11064900E66616 /* Products */,
 			);
@@ -60,8 +339,6 @@
 		F9CB2DB41C11064900E66616 /* iNGL */ = {
 			isa = PBXGroup;
 			children = (
-				F9CB2DB51C11064900E66616 /* iNGL.h */,
-				F9CB2DB71C11064900E66616 /* iNGL.m */,
 			);
 			path = iNGL;
 			sourceTree = "<group>";
@@ -122,7 +399,44 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9CB2DB81C11064900E66616 /* iNGL.m in Sources */,
+				F97C66741C117A9900C074AF /* SpotLight.cpp in Sources */,
+				F97C66611C117A9900C074AF /* Light.cpp in Sources */,
+				F97C66791C117A9900C074AF /* VAOPrimitives.cpp in Sources */,
+				F97C66731C117A9900C074AF /* ShaderProgram.cpp in Sources */,
+				F97C665E1C117A9900C074AF /* createDefaultVAOs.cpp in Sources */,
+				F97C665B1C117A9900C074AF /* BezierCurve.cpp in Sources */,
+				F97C66681C117A9900C074AF /* NGLInit.cpp in Sources */,
+				F97C666B1C117A9900C074AF /* Obj.orig.cpp in Sources */,
+				F97C666E1C117A9900C074AF /* Quaternion.cpp in Sources */,
+				F97C667A1C117A9900C074AF /* Vec2.cpp in Sources */,
+				F97C666C1C117A9900C074AF /* PathCamera.cpp in Sources */,
+				F97C667C1C117A9900C074AF /* Vec4.cpp in Sources */,
+				F97C66701C117A9900C074AF /* RibExport.cpp in Sources */,
+				F97C66641C117A9900C074AF /* Mat4.cpp in Sources */,
+				F97C665D1C117A9900C074AF /* Colour.cpp in Sources */,
+				F97C665A1C117A9900C074AF /* BBox.cpp in Sources */,
+				F97C66761C117A9900C074AF /* Texture.cpp in Sources */,
+				F97C666A1C117A9900C074AF /* Obj.cpp in Sources */,
+				F97C66591C117A9900C074AF /* AbstractSerializer.cpp in Sources */,
+				F97C66691C117A9900C074AF /* NGLStream.cpp in Sources */,
+				F97C666F1C117A9900C074AF /* Random.cpp in Sources */,
+				F97C667D1C117A9900C074AF /* VertexArrayObject.cpp in Sources */,
+				F97C666D1C117A9900C074AF /* Plane.cpp in Sources */,
+				F97C66781C117A9900C074AF /* Util.cpp in Sources */,
+				F97C66581C117A9900C074AF /* AbstractMesh.cpp in Sources */,
+				F97C66651C117A9900C074AF /* Material.cpp in Sources */,
+				F97C66621C117A9900C074AF /* Logger.cpp in Sources */,
+				F97C66711C117A9900C074AF /* Shader.cpp in Sources */,
+				F97C66721C117A9900C074AF /* ShaderLib.cpp in Sources */,
+				F97C667E1C117A9900C074AF /* XMLSerializer.cpp in Sources */,
+				F97C665C1C117A9900C074AF /* Camera.cpp in Sources */,
+				F97C66661C117A9900C074AF /* NCCABinMesh.cpp in Sources */,
+				F97C66571C117A9900C074AF /* AABB.cpp in Sources */,
+				F97C667B1C117A9900C074AF /* Vec3.cpp in Sources */,
+				F97C66601C117A9900C074AF /* Image.cpp in Sources */,
+				F97C66671C117A9900C074AF /* NCCAPointBake.cpp in Sources */,
+				F97C66631C117A9900C074AF /* Mat3.cpp in Sources */,
+				F97C66771C117A9900C074AF /* Transformation.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +471,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
+					QT5BUILD,
 					"$(inherited)",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -165,6 +480,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"<Multiple",
+					"values>",
+					"../include/ngl/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -202,6 +522,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"<Multiple",
+					"values>",
+					"../include/ngl/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -212,6 +537,10 @@
 		F9CB2DBC1C11064900E66616 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					/usr/local/include,
+					"$HOME/jmace/NGL/include/ngl/**",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -246,6 +575,7 @@
 				F9CB2DBD1C11064900E66616 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

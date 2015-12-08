@@ -24,8 +24,14 @@
 
 #ifdef __APPLE__
   #include <unistd.h>
-  #include "glew.h"
-#include <TargetConditionals.h>
+  #ifndef USINGIOS_
+    #include "glew.h"
+  #else
+    #include <OpenGLES/ES3/gl.h>
+    #include <OpenGLES/ES3/glext.h>
+  #endif
+
+  #include <TargetConditionals.h>
   #ifndef TARGET_OS_IPHONE
     #include <OpenGL/glext.h>
 #endif

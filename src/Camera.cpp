@@ -17,7 +17,7 @@
 #include "Camera.h"
 #include "Util.h"
 #include "NGLassert.h"
-#include <VertexArrayObject.h>
+#include "VertexArrayObject.h"	
 #include <iostream>
 #include <vector>
 #include <boost/format.hpp>

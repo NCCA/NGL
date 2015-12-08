@@ -62,7 +62,6 @@ DEFINES += NGL_DEBUG
 # location cp -R boost_1_49_0/boost /usr/local/include under linux use apt-get install
 unix:INCLUDEPATH+=/usr/local/include
 #set some flags for sse etc
-unix:QMAKE_CXXFLAGS+=  -msse -msse2 -msse3 -fms-extensions -O3
 QMAKE_CFLAGS+= -DGLEW_NO_GLU -DGLEW_STATIC
 unix:QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
 macx:DEFINES +=GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
@@ -90,7 +89,6 @@ macx:{
 	LIBS+= -L/System/Library/Frameworks/OpenGL.framework/Libraries -framework OpenGL
 	LIBS+=  -Wl,-framework,Cocoa
 	#DEFINES += DARWIN
-
 }
 
 
@@ -158,9 +156,15 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/XMLSerializer.cpp \
 		$$SRC_DIR/NGLStream.cpp \
 		$$SRC_DIR/Logger.cpp \
-		$$SRC_DIR/Image.cpp \
-		glew/glew.c
-
+		$$SRC_DIR/Image.cpp
+#exclude this from iOS
+win32|unix:macx{
+	SOURCES+=glew/glew.c
+}
+ios {
+	message("IOS BUILD")
+	DEFINES+=USINGIOS_
+}
 
 
 

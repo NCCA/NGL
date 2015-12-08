@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QFile>
+//#include <QFile>
 #include <fstream>
 #include "Shader.h"
 
@@ -60,10 +60,12 @@ Shader::Shader( std::string _name,  ShaderType _type ) noexcept
   {
     case ShaderType::VERTEX : { m_shaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
     case ShaderType::FRAGMENT : { m_shaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
-    case ShaderType::GEOMETRY : { m_shaderHandle = glCreateShader(GL_GEOMETRY_SHADER); break; }
-    case ShaderType::TESSCONTROL : { m_shaderHandle =glCreateShader(GL_TESS_CONTROL_SHADER); break; }
-    case ShaderType::TESSEVAL : { m_shaderHandle =glCreateShader(GL_TESS_EVALUATION_SHADER); break; }
-    case ShaderType::COMPUTE : { m_shaderHandle =glCreateShader(GL_COMPUTE_SHADER); break; }
+    #ifndef USINGIOS_
+      case ShaderType::GEOMETRY : { m_shaderHandle = glCreateShader(GL_GEOMETRY_SHADER); break; }
+      case ShaderType::TESSCONTROL : { m_shaderHandle =glCreateShader(GL_TESS_CONTROL_SHADER); break; }
+      case ShaderType::TESSEVAL : { m_shaderHandle =glCreateShader(GL_TESS_EVALUATION_SHADER); break; }
+      case ShaderType::COMPUTE : { m_shaderHandle =glCreateShader(GL_COMPUTE_SHADER); break; }
+    #endif
     case ShaderType::NONE :{;}
   }
   m_compiled = false;

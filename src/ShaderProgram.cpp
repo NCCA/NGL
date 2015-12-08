@@ -94,7 +94,9 @@ void ShaderProgram::bindFragDataLocation(GLuint _index, const std::string &_attr
     std::cerr<<"Warning binding attribute after link\n";
   }
   m_attribs[_attribName]=_index;
-  glBindFragDataLocation(m_programID,_index,_attribName.c_str());
+  #ifndef USINGIOS_
+    glBindFragDataLocation(m_programID,_index,_attribName.c_str());
+  #endif
   //std::cerr<<"bindAttribLoc "<<m_programID<<" index "<<_index<<" name "<<_attribName<<"\n";
   NGLCheckGLError(__FILE__,__LINE__);
 }
@@ -156,19 +158,22 @@ void ShaderProgram::printProperties() const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::printActiveUniforms() const noexcept
 {
-  if(m_active !=true)
-  {
-    std::cerr<<"calling printActiveUniforms on unbound shader program\n";
-  }
-  GLint nUniforms;
-  glGetProgramiv(m_programID, GL_ACTIVE_UNIFORMS, &nUniforms);
-  char name[256];
-  GLsizei l;
-  for (GLint i=0; i<nUniforms; ++i)
-  {
-     glGetActiveUniformName(m_programID, i, 256, &l, name);
-     std::cerr << "Uniform: "<<name<<"\n";
-  }
+#ifndef USINGIOS_
+    if(m_active !=true)
+    {
+      std::cerr<<"calling printActiveUniforms on unbound shader program\n";
+    }
+    GLint nUniforms;
+    glGetProgramiv(m_programID, GL_ACTIVE_UNIFORMS, &nUniforms);
+    char name[256];
+    GLsizei l;
+    for (GLint i=0; i<nUniforms; ++i)
+    {
+       glGetActiveUniformName(m_programID, i, 256, &l, name);
+       std::cerr << "Uniform: "<<name<<"\n";
+    }
+#endif
+
 }
 
 void ShaderProgram::printActiveAttributes() const noexcept
@@ -520,7 +525,9 @@ void ShaderProgram::disableAttribArray(const char* _name) const noexcept
 
 void ShaderProgram::bindFragDataLocation(GLuint _colourNumber, const char *_name) noexcept
 {
+  #ifndef USINGIOS_
     glBindFragDataLocation(m_programID , _colourNumber, _name);
+  #endif
 }
 
 GLuint ShaderProgram::getUniformBlockIndex( const std::string &_uniformBlockName )const noexcept
@@ -581,10 +588,12 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {GL_FLOAT_VEC2,"vec2"},
     {GL_FLOAT_VEC3,"vec3"},
     {GL_FLOAT_VEC4,"vec4"},
+  #ifndef USINGIOS_
     {GL_DOUBLE,"double"},
     {GL_DOUBLE_VEC2,"dvec2"},
     {GL_DOUBLE_VEC3,"dvec3"},
     {GL_DOUBLE_VEC4,"dvec4"},
+  #endif
     {GL_INT,"int"},
     {GL_INT_VEC2,"ivec2"},
     {GL_INT_VEC3,"ivec3"},
@@ -606,6 +615,7 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {GL_FLOAT_MAT3x4,"mat3x4"},
     {GL_FLOAT_MAT4x2,"mat4x2"},
     {GL_FLOAT_MAT4x3,"mat4x3"},
+  #ifndef USINGIOS_
     {GL_DOUBLE_MAT2,"dmat2"},
     {GL_DOUBLE_MAT3,"dmat3"},
     {GL_DOUBLE_MAT4,"dmat4"},
@@ -616,37 +626,22 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {GL_DOUBLE_MAT4x2,"dmat4x2"},
     {GL_DOUBLE_MAT4x3,"dmat4x3"},
     {GL_SAMPLER_1D,"sampler1D"},
-    {GL_SAMPLER_2D,"sampler2D"},
-    {GL_SAMPLER_3D,"sampler3D"},
-    {GL_SAMPLER_CUBE,"samplerCube"},
     {GL_SAMPLER_1D_SHADOW,"sampler1DShadow"},
-    {GL_SAMPLER_2D_SHADOW,"sampler2DShadow"},
     {GL_SAMPLER_1D_ARRAY,"sampler1DArray"},
-    {GL_SAMPLER_2D_ARRAY,"sampler2DArray"},
     {GL_SAMPLER_1D_ARRAY_SHADOW,"sampler1DArrayShadow"},
-    {GL_SAMPLER_2D_ARRAY_SHADOW,"sampler2DArrayShadow"},
     {GL_SAMPLER_2D_MULTISAMPLE,"sampler2DMS"},
     {GL_SAMPLER_2D_MULTISAMPLE_ARRAY,"sampler2DMSArray"},
-    {GL_SAMPLER_CUBE_SHADOW,"samplerCubeShadow"},
     {GL_SAMPLER_BUFFER,"samplerBuffer"},
     {GL_SAMPLER_2D_RECT,"sampler2DRect"},
     {GL_SAMPLER_2D_RECT_SHADOW,"sampler2DRectShadow"},
     {GL_INT_SAMPLER_1D,"isampler1D"},
-    {GL_INT_SAMPLER_2D,"isampler2D"},
-    {GL_INT_SAMPLER_3D,"isampler3D"},
-    {GL_INT_SAMPLER_CUBE,"isamplerCube"},
     {GL_INT_SAMPLER_1D_ARRAY,"isampler1DArray"},
-    {GL_INT_SAMPLER_2D_ARRAY,"isampler2DArray"},
     {GL_INT_SAMPLER_2D_MULTISAMPLE,"isampler2DMS"},
     {GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY,"isampler2DMSArray"},
     {GL_INT_SAMPLER_BUFFER,"isamplerBuffer"},
     {GL_INT_SAMPLER_2D_RECT,"isampler2DRect"},
     {GL_UNSIGNED_INT_SAMPLER_1D,"usampler1D"},
-    {GL_UNSIGNED_INT_SAMPLER_2D,"usampler2D"},
-    {GL_UNSIGNED_INT_SAMPLER_3D,"usampler3D"},
-    {GL_UNSIGNED_INT_SAMPLER_CUBE,"usamplerCube"},
     {GL_UNSIGNED_INT_SAMPLER_1D_ARRAY,"usampler2DArray"},
-    {GL_UNSIGNED_INT_SAMPLER_2D_ARRAY,"usampler2DArray"},
     {GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE,"usampler2DMS"},
     {GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY,"usampler2DMSArray"},
     {GL_UNSIGNED_INT_SAMPLER_BUFFER,"usamplerBuffer"},
@@ -681,7 +676,24 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {GL_UNSIGNED_INT_IMAGE_2D_ARRAY,"uimage2DArray"},
     {GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE,"uimage2DMS"},
     {GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY,"uimage2DMSArray"},
-    {GL_UNSIGNED_INT_ATOMIC_COUNTER,"atomic_uint"}
+    {GL_UNSIGNED_INT_ATOMIC_COUNTER,"atomic_uint"},
+
+  #endif
+    {GL_SAMPLER_2D,"sampler2D"},
+    {GL_SAMPLER_3D,"sampler3D"},
+    {GL_SAMPLER_CUBE,"samplerCube"},
+    {GL_SAMPLER_2D_SHADOW,"sampler2DShadow"},
+    {GL_SAMPLER_2D_ARRAY,"sampler2DArray"},
+    {GL_SAMPLER_2D_ARRAY_SHADOW,"sampler2DArrayShadow"},
+    {GL_SAMPLER_CUBE_SHADOW,"samplerCubeShadow"},
+    {GL_INT_SAMPLER_2D,"isampler2D"},
+    {GL_INT_SAMPLER_3D,"isampler3D"},
+    {GL_INT_SAMPLER_CUBE,"isamplerCube"},
+    {GL_INT_SAMPLER_2D_ARRAY,"isampler2DArray"},
+    {GL_UNSIGNED_INT_SAMPLER_2D,"usampler2D"},
+    {GL_UNSIGNED_INT_SAMPLER_3D,"usampler3D"},
+    {GL_UNSIGNED_INT_SAMPLER_CUBE,"usamplerCube"},
+    {GL_UNSIGNED_INT_SAMPLER_2D_ARRAY,"usampler2DArray"}
   };
   std::cout<<"Registered Uniforms for shader "<< m_programName<<"\n";
   for(auto d : m_registeredUniforms)

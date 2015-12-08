@@ -20,7 +20,7 @@
 #include "Types.h"
 #include <cstdlib>
 #include <boost/noncopyable.hpp>
-#include <QtCore/QMutexLocker>
+//#include <QtCore/QMutexLocker>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Singleton.h
 /// @brief a simple singleton template inherited by other classes
@@ -94,12 +94,12 @@ template<class T> T* Singleton<T>::instance()
 {
   // using the Double Check locking pattern to make thread safe
   // http://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf
-  if (s_instance == 0)
+  //if (s_instance == 0)
   {
     // create a mutux to stop other threads accessing
-    QMutex m;
+    //QMutex m;
     // the locker will auto unlock when out of scope
-    QMutexLocker locker(&m);
+    //QMutexLocker locker(&m);
     if (s_instance == 0)
     {
       s_instance = new T();

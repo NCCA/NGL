@@ -356,7 +356,9 @@ Real *VertexArrayObject::getDataPointer(unsigned int _vbo, GLenum _accessMode)
   {
     bind();
     glBindBuffer(GL_ARRAY_BUFFER, m_vboIDs[_vbo]);
-    ptr = (Real*)glMapBuffer(GL_ARRAY_BUFFER, _accessMode);
+    #ifndef USINGIOS_
+      ptr = (Real*)glMapBuffer(GL_ARRAY_BUFFER, _accessMode);
+    #endif
   }
   return ptr;
 }

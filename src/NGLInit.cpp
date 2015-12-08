@@ -34,6 +34,7 @@ namespace ngl
 
 NGLInit::NGLInit()
 {
+#ifndef USINGIOS_
   // set this first so that new driver features are included.
   glewExperimental = true;
   // now init glew
@@ -61,7 +62,7 @@ NGLInit::NGLInit()
 		std::cerr <<"ngl:: configured with GL version "<<majorVersion<<"."<<minorVersion<<"\n";
 	#endif
 
-
+#endif
 }
 
 //----------------------------------------------------------------------------------------------------------------------

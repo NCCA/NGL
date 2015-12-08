@@ -346,17 +346,18 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
       std::cerr<<"error opening json file\n";
       exit(EXIT_FAILURE);
   }
-  std::string *source = new std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+  std::unique_ptr<std::string> source( new std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>()) );
   file.close();
   // we need a mutable string for parsing so copy to a char * buffer
-  char *buffer = new char[source->size()];
-  memcpy(buffer, source->c_str(), source->size());
+
+  std::unique_ptr<char> buffer(new char[source->size()]);
+  memcpy(buffer.get(), source->c_str(), source->size());
   // null terminate the string!
-  buffer[source->size()]='\0';
+  buffer.get()[source->size()]='\0';
 
   rj::Document doc;
 
-  if (doc.ParseInsitu<0>(buffer).HasParseError())
+  if (doc.ParseInsitu<0>(buffer.get()).HasParseError())
   {
     std::cerr<<"Parse Error for file "<<_fname<<"\n";
     return false;
@@ -409,7 +410,7 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
             std::cerr<<"error opening shader file\n";
             exit(EXIT_FAILURE);
         }
-        std::string *f = new std::string((std::istreambuf_iterator<char>(source)), std::istreambuf_iterator<char>());
+        std::unique_ptr<std::string> f( new std::string((std::istreambuf_iterator<char>(source)), std::istreambuf_iterator<char>()));
         if(debug)
         {
           std::cout<<"loaded data string \n"<< const_cast<char *>(f->c_str())<<"\n";
@@ -417,14 +418,12 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
         source.close();
         shaderSource+=*f;
         shaderSource+="\n";
-        delete f;
       }
-      const char *d=shaderSource.c_str();
-      loadShaderSourceFromString(name,shaderSource);//&d);
+      loadShaderSourceFromString(name,shaderSource);
       if(debug)
       {
         std::cout<<"********* Final Shader String ***************\n";
-        std::cout<<d<<"\n";
+        std::cout<<shaderSource<<"\n";
       }
       compileShader(name);
       attachShaderToProgram(progName,name);
@@ -437,8 +436,6 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
     //autoRegisterUniforms(progName);
     std::cout<<"**********************DONE********************\n";
   }
-  delete source;
-  delete buffer;
   return true;
 }
 

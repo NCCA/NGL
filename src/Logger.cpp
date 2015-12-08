@@ -2,7 +2,7 @@
 #include <cstdarg>
 #include <vector>
 //#include <pthread.h>
-#include <QtCore/QMutexLocker>
+//#include <QtCore/QMutexLocker>
 #include <boost/format.hpp>
 
 
@@ -172,9 +172,9 @@ void Logger::close() noexcept
   void Logger::logMessage(const char *fmt,...) noexcept
   {
     // create a mutux to stop other threads accessing
-    QMutex m;
+   // QMutex m;
     // the locker will auto unlock when out of scope
-    QMutexLocker locker(&m);
+    //QMutexLocker locker(&m);
 
 //    pthread_mutex_lock (&m_impl->m_mutex);
     m_impl->writeLineNumber();
@@ -193,9 +193,9 @@ void Logger::close() noexcept
   void Logger::logError(const char* fmt,...) noexcept
   {
     // create a mutux to stop other threads accessing
-    QMutex m;
+  //  QMutex m;
     // the locker will auto unlock when out of scope
-    QMutexLocker locker(&m);
+  //  QMutexLocker locker(&m);
 
     //    pthread_mutex_lock (&m_impl->m_mutex);
     m_impl->writeLineNumber();
@@ -218,9 +218,9 @@ void Logger::close() noexcept
   {
  //   pthread_mutex_lock (&m_impl->m_mutex);
     // create a mutux to stop other threads accessing
-    QMutex m;
+ //   QMutex m;
     // the locker will auto unlock when out of scope
-    QMutexLocker locker(&m);
+ //   QMutexLocker locker(&m);
     m_impl->writeLineNumber();
     m_impl->writeTimeStamp();
     char buffer[1024];
