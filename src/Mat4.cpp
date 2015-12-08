@@ -556,7 +556,7 @@ Quaternion Mat4::asQuaternion() const noexcept
   if( m_openGL[10] > BigF )
   {
     check = 2;
-    BigF = m_openGL[10];
+    //BigF = m_openGL[10];
   }
   switch(check)
   {

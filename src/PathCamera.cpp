@@ -16,6 +16,7 @@
 */
 #include "PathCamera.h"
 #include "NGLStream.h"
+#include <memory>
 //--------------------------------------------------------------------------------------------------------------------
 /// @file PathCamera.cpp
 /// @brief implementation files for PathCamera class
@@ -76,8 +77,8 @@ PathCamera::PathCamera(const Vec4 &_up, const std::string &_fName, Real _step) n
 	int nEye,nLook;
 	FileIn >> nEye>>nLook;
 
-  Vec4 *eyePoints= new Vec4[nEye];
-  Vec4 *lookPoints= new Vec4[nLook];
+  std::unique_ptr<Vec4 []> eyePoints( new Vec4[nEye]);
+  std::unique_ptr<Vec4 []> lookPoints( new Vec4[nLook]);
 
 	for(int i=0; i<nEye; ++i)
 	{

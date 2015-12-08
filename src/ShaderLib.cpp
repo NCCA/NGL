@@ -350,10 +350,10 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
   file.close();
   // we need a mutable string for parsing so copy to a char * buffer
 
-  std::unique_ptr<char> buffer(new char[source->size()]);
+  std::unique_ptr<char []> buffer(new char[source->size()]);
   memcpy(buffer.get(), source->c_str(), source->size());
   // null terminate the string!
-  buffer.get()[source->size()]='\0';
+  buffer[source->size()]='\0';
 
   rj::Document doc;
 
