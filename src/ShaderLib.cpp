@@ -16,6 +16,8 @@
 */
 #include <cstdlib>
 #include <fstream>
+#include <memory>
+#include <algorithm>
 #include "ShaderLib.h"
 #include "TextShaders.h"
 #include "ColourShaders.h"

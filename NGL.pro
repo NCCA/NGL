@@ -158,7 +158,7 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/Logger.cpp \
 		$$SRC_DIR/Image.cpp
 #exclude this from iOS
-win32|unix:macx{
+win32|unix|macx:{
 	SOURCES+=glew/glew.c
 }
 ios {

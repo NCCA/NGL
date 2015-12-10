@@ -127,8 +127,10 @@ Text::Text( const QFont &_f)  noexcept
     // now we create the OpenGL texture ID and bind to make it active
     glGenTextures(1, &fc.textureID);
     glBindTexture(GL_TEXTURE_2D, fc.textureID);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+
     // QImage has a method to convert itself to a format suitable for OpenGL
     finalImage=finalImage.convertToFormat(QImage::Format_ARGB32_Premultiplied);
     // set rgba image data
@@ -153,6 +155,8 @@ Text::Text( const QFont &_f)  noexcept
 
     // the image in in RGBA format and unsigned byte load it ready for later
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthTexture, heightTexture,0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+
     delete [] data;
     // see if we have a Billboard of this width already
     if (!widthVAO.contains(width))
