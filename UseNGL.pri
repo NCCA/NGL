@@ -70,5 +70,5 @@ ios {
 
 }
 
-
+QMAKE_RPATHDIR+=$${NGLBASE}/lib
 

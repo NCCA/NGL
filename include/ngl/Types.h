@@ -141,7 +141,7 @@ typedef PRECISION Real;
 /// @brief FCompare macro used for floating point comparision functions
 //----------------------------------------------------------------------------------------------------------------------
   #define FCompare(a,b) \
-      ( ((a)-EPSILON)<(b) && ((a)+EPSILON)>(b) )
+      ( ((a)-ngl::EPSILON)<(b) && ((a)+ngl::EPSILON)>(b) )
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief define unused to quiet Warnings

@@ -231,5 +231,8 @@ OTHER_FILES+= Doxyfile \
               README.md \
               CMakeLists.txt
 
+DISTFILES += \
+    NGLUML.qmodel
+
 
 
