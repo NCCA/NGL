@@ -127,8 +127,8 @@ Text::Text( const QFont &_f)  noexcept
     // now we create the OpenGL texture ID and bind to make it active
     glGenTextures(1, &fc.textureID);
     glBindTexture(GL_TEXTURE_2D, fc.textureID);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+   // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+   // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 
     // QImage has a method to convert itself to a format suitable for OpenGL
