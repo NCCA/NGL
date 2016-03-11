@@ -161,6 +161,27 @@ public:
   const Mat4& transpose() noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
+  /// @brief Rotate around an arbitrary axis
+  /// @param[in] _i component of the axis
+  /// @param[in] _j component of the axis
+  /// @param[in] _k component of the axis
+  /// @param[in] _deg the value to be rotated by in degrees
+  //----------------------------------------------------------------------------------------------------------------------
+  void rotate(const Real &_i, const Real &_j, const Real &_k, const Real &_deg) noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief Rotate around an arbitrary axis
+  /// @param[in] _axis Axis that the rotation happens around
+  /// @param[in] _deg the value to be rotated by in degrees
+  //----------------------------------------------------------------------------------------------------------------------
+  void rotate(const ngl::Vec3 &_axis, const Real &_deg) noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief Rotate around an arbitrary axis
+  /// @param[in] _axis Axis that the rotation happens around
+  /// @param[in] _sp Starting point of the rotation axis
+  /// @param[in] _deg the value to be rotated by in degrees
+  //----------------------------------------------------------------------------------------------------------------------
+  void rotate(const ngl::Vec3 &_axis, const Vec3 &_sp, const Real &_deg) noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
   /// @brief set this matrix to a rotation matrix in the X axis for value _deg
   /// note the matrix should be set to identity before doing this
   /// @param[in] _deg the value to be rotated by in degrees

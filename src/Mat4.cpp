@@ -389,7 +389,52 @@ const Mat4& Mat4::transpose() noexcept
 	return *this;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+void Mat4::rotate(const Real &_i, const Real &_j, const Real &_k, const Real &_deg) noexcept
+{
+  Vec3 tmp(_i, _j, _k);
+  rotate(tmp, Vec3(0.f, 0.f, 0.f), _deg);
+}
 
+//----------------------------------------------------------------------------------------------------------------------
+void Mat4::rotate(const Vec3 &_axis, const Real &_deg ) noexcept
+{
+  rotate(_axis, Vec3(0.f, 0.f, 0.f), _deg);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+void Mat4::rotate(const Vec3 &_axis, const Vec3 &_sp, const Real &_deg ) noexcept
+{
+  Vec3 tmp = _axis;
+  tmp.normalize();
+
+  Real beta = radians(_deg);
+  Real sr = sin(beta);
+  Real cr = cos(beta);
+
+  m_00  =  tmp.m_x*tmp.m_x + (tmp.m_y*tmp.m_y + tmp.m_z*tmp.m_z) * cr;
+  m_01  =  tmp.m_x*tmp.m_y * (1 - cr) - tmp.m_z*sr;
+  m_02  =  tmp.m_x*tmp.m_z * (1 - cr) + tmp.m_y*sr;
+  m_03  =  (_sp.m_x * (tmp.m_y*tmp.m_y + tmp.m_z*tmp.m_z) - tmp.m_x * (_sp.m_y*tmp.m_y + _sp.m_z*tmp.m_z)) * (1 - cr) + (_sp.m_y*tmp.m_z - _sp.m_z*tmp.m_y) * sr;
+
+  //  row 1
+  m_10  =  tmp.m_x*tmp.m_y * (1 - cr) + tmp.m_z*sr;
+  m_11  =  tmp.m_y*tmp.m_y + (tmp.m_x*tmp.m_x + tmp.m_z*tmp.m_z) * cr;
+  m_12  =  tmp.m_y*tmp.m_z * (1 - cr) - tmp.m_x*sr;
+  m_13  =  (_sp.m_y * (tmp.m_x*tmp.m_x + tmp.m_z*tmp.m_z) - tmp.m_y * (_sp.m_x*tmp.m_x + _sp.m_z*tmp.m_z)) * (1 - cr) + (_sp.m_z*tmp.m_x - _sp.m_x*tmp.m_z) * sr;
+
+  //  row 2
+  m_20  =  tmp.m_x*tmp.m_z * (1 - cr) - tmp.m_y*sr;
+  m_21  =  tmp.m_y*tmp.m_z * (1 - cr) + tmp.m_x*sr;
+  m_22  =  tmp.m_z*tmp.m_z + (tmp.m_x*tmp.m_x + tmp.m_y*tmp.m_y) * cr;
+  m_23  =  (_sp.m_z * (tmp.m_x*tmp.m_x + tmp.m_y*tmp.m_y) - tmp.m_z*(_sp.m_x*tmp.m_x + _sp.m_y*tmp.m_y)) * (1 - cr) + (_sp.m_x*tmp.m_y - _sp.m_y*tmp.m_x) * sr;
+
+  //  row 3
+  m_30  =  0;
+  m_31  =  0;
+  m_32  =  0;
+  m_33  =  1;
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 void Mat4::rotateX( const Real _deg) noexcept
