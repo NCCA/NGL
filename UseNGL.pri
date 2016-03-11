@@ -2,7 +2,6 @@
 #in the default $(HOME)/NGL/  directory if this can't be found the environment variable $NGLDIR will be searched for and this will be used.
 CONFIG+=c++11
 
-
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
 # mainly in the types.h file for the setMacVisual which is native in Qt5
 isEqual(QT_MAJOR_VERSION, 5) {
@@ -23,7 +22,7 @@ message($${NGLBASE})
 # use this to suppress some warning from boost
 unix*:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
 # basic compiler flags (not all appropriate for all platforms)
-QMAKE_CXXFLAGS+= -msse -msse2 -msse3
+QMAKE_CXXFLAGS+= -msse -msse2 -msse3 -fopenmp
 macx:QMAKE_CXXFLAGS+= -arch x86_64
 macx:INCLUDEPATH+=/usr/local/include/
 linux-g++:QMAKE_CXXFLAGS +=  -march=native
@@ -70,5 +69,6 @@ ios {
 
 }
 
+QMAKE_RPATHDIR+=/Users/v0q/clang-omp/build/lib
 QMAKE_RPATHDIR+=$${NGLBASE}/lib
 

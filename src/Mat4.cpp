@@ -413,27 +413,28 @@ void Mat4::rotate(const Vec3 &_axis, const Vec3 &_sp, const Real &_deg ) noexcep
   Real cr = cos(beta);
 
   m_00  =  tmp.m_x*tmp.m_x + (tmp.m_y*tmp.m_y + tmp.m_z*tmp.m_z) * cr;
-  m_01  =  tmp.m_x*tmp.m_y * (1 - cr) - tmp.m_z*sr;
-  m_02  =  tmp.m_x*tmp.m_z * (1 - cr) + tmp.m_y*sr;
-  m_03  =  (_sp.m_x * (tmp.m_y*tmp.m_y + tmp.m_z*tmp.m_z) - tmp.m_x * (_sp.m_y*tmp.m_y + _sp.m_z*tmp.m_z)) * (1 - cr) + (_sp.m_y*tmp.m_z - _sp.m_z*tmp.m_y) * sr;
+  m_10  =  tmp.m_x*tmp.m_y * (1 - cr) - tmp.m_z*sr;
+  m_20  =  tmp.m_x*tmp.m_z * (1 - cr) + tmp.m_y*sr;
+  m_30  =  (_sp.m_x * (tmp.m_y*tmp.m_y + tmp.m_z*tmp.m_z) - tmp.m_x * (_sp.m_y*tmp.m_y + _sp.m_z*tmp.m_z)) * (1 - cr) + (_sp.m_y*tmp.m_z - _sp.m_z*tmp.m_y) * sr;
 
   //  row 1
-  m_10  =  tmp.m_x*tmp.m_y * (1 - cr) + tmp.m_z*sr;
+  m_01  =  tmp.m_x*tmp.m_y * (1 - cr) + tmp.m_z*sr;
   m_11  =  tmp.m_y*tmp.m_y + (tmp.m_x*tmp.m_x + tmp.m_z*tmp.m_z) * cr;
-  m_12  =  tmp.m_y*tmp.m_z * (1 - cr) - tmp.m_x*sr;
-  m_13  =  (_sp.m_y * (tmp.m_x*tmp.m_x + tmp.m_z*tmp.m_z) - tmp.m_y * (_sp.m_x*tmp.m_x + _sp.m_z*tmp.m_z)) * (1 - cr) + (_sp.m_z*tmp.m_x - _sp.m_x*tmp.m_z) * sr;
+  m_21  =  tmp.m_y*tmp.m_z * (1 - cr) - tmp.m_x*sr;
+  m_31  =  (_sp.m_y * (tmp.m_x*tmp.m_x + tmp.m_z*tmp.m_z) - tmp.m_y * (_sp.m_x*tmp.m_x + _sp.m_z*tmp.m_z)) * (1 - cr) + (_sp.m_z*tmp.m_x - _sp.m_x*tmp.m_z) * sr;
 
   //  row 2
-  m_20  =  tmp.m_x*tmp.m_z * (1 - cr) - tmp.m_y*sr;
-  m_21  =  tmp.m_y*tmp.m_z * (1 - cr) + tmp.m_x*sr;
+  m_02  =  tmp.m_x*tmp.m_z * (1 - cr) - tmp.m_y*sr;
+  m_12  =  tmp.m_y*tmp.m_z * (1 - cr) + tmp.m_x*sr;
   m_22  =  tmp.m_z*tmp.m_z + (tmp.m_x*tmp.m_x + tmp.m_y*tmp.m_y) * cr;
-  m_23  =  (_sp.m_z * (tmp.m_x*tmp.m_x + tmp.m_y*tmp.m_y) - tmp.m_z*(_sp.m_x*tmp.m_x + _sp.m_y*tmp.m_y)) * (1 - cr) + (_sp.m_x*tmp.m_y - _sp.m_y*tmp.m_x) * sr;
+  m_32  =  (_sp.m_z * (tmp.m_x*tmp.m_x + tmp.m_y*tmp.m_y) - tmp.m_z * (_sp.m_x*tmp.m_x + _sp.m_y*tmp.m_y)) * (1 - cr) + (_sp.m_x*tmp.m_y - _sp.m_y*tmp.m_x) * sr;
 
   //  row 3
-  m_30  =  0;
-  m_31  =  0;
-  m_32  =  0;
+  m_03  =  0;
+  m_13  =  0;
+  m_23  =  0;
   m_33  =  1;
+//  this->transpose();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
