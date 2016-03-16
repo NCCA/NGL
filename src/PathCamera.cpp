@@ -74,17 +74,17 @@ PathCamera::PathCamera(const Vec4 &_up, const std::string &_fName, Real _step) n
 		std::cout <<"File : "<<_fName<<" Not found Exiting "<<std::endl;
 		exit(EXIT_FAILURE);
 	}
-	int nEye,nLook;
+  unsigned int nEye,nLook;
 	FileIn >> nEye>>nLook;
 
   std::unique_ptr<Vec4 []> eyePoints( new Vec4[nEye]);
   std::unique_ptr<Vec4 []> lookPoints( new Vec4[nLook]);
 
-	for(int i=0; i<nEye; ++i)
+  for(unsigned int i=0; i<nEye; ++i)
 	{
 		FileIn >> eyePoints[i];
 	}
-	for(int i=0; i<nLook; ++i)
+  for(unsigned int i=0; i<nLook; ++i)
 	{
 		FileIn>> lookPoints[i];
 	}
@@ -92,13 +92,13 @@ PathCamera::PathCamera(const Vec4 &_up, const std::string &_fName, Real _step) n
 
 	m_eyeCurvePoint=0.0;
 	m_lookCurvePoint=0.0;
-	for(int i=0; i<nEye; ++i)
+  for(unsigned int i=0; i<nEye; ++i)
 	{
 		m_eyePath.addPoint(eyePoints[i].toVec3());
 	}
 	m_eyePath.createKnots();
 
-	for(int i=0; i<nLook; ++i)
+  for(unsigned int i=0; i<nLook; ++i)
 	{
 		m_lookPath.addPoint(lookPoints[i].toVec3());
 	}

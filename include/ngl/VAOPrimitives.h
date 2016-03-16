@@ -199,7 +199,7 @@ private :
   /// @param[in,out] io_cost a pointer to the cos element of the table
   /// @param[in] _n the number of points to calculate.
   //----------------------------------------------------------------------------------------------------------------------
-  void fghCircleTable( double **io_sint, double **io_cost, const int _n ) noexcept;
+  void fghCircleTable(Real **io_sint, Real **io_cost, const int _n ) noexcept;
 
 };
 

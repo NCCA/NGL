@@ -93,7 +93,7 @@ public :
   /// @brief  returns the ID of the uniform attribute called 'name'.
   /// @return the uniform variable id
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getUniformLocation( const char* _name) const noexcept;
+  GLint getUniformLocation( const char* _name) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief   lists the available uniforms for the shader (this was a pain because the compiler quietly gets rid of unused uniforms).

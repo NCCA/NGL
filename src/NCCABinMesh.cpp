@@ -17,6 +17,7 @@
 #include <cstring>
 #include <iostream>
 #include "NCCABinMesh.h"
+#include <memory>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file NCCABinMesh.cpp
 /// @brief implementation files for NCCABinMesh class
@@ -78,18 +79,18 @@ bool NCCABinMesh::load(const std::string &_fname,bool _calcBB) noexcept
   file.read(reinterpret_cast <char *>(&  m_indexSize),sizeof(unsigned int));
   file.read(reinterpret_cast <char *>(&  m_bufferPackSize),sizeof(unsigned int));
   /// now we read how big the actual vbo data is
-  int size;
+  unsigned int size;
   file.read(reinterpret_cast <char *>(&size),sizeof(unsigned int));
   // allocate some memory to read into
-  Real *vboMem = new Real[size];
+  std::unique_ptr <Real>vboMem( new Real[size]);
   // then read into this buffer
-  file.read(reinterpret_cast<char *>(vboMem),size);
+  file.read(reinterpret_cast<char *>(vboMem.get()),size);
   // now we need the index arrays so first find how big
   file.read(reinterpret_cast <char *>(&size),sizeof(unsigned int));
   // now re-size our std::vector so add the data
   m_outIndices.resize(size);
   // then loop and copy the values in from the file.
-  for( int i=0; i<size; ++i)
+  for( unsigned int i=0; i<size; ++i)
   {
     file.read(reinterpret_cast <char *>(&m_outIndices[i]),sizeof(unsigned int));
   }
@@ -102,16 +103,13 @@ bool NCCABinMesh::load(const std::string &_fname,bool _calcBB) noexcept
   glBindBuffer(GL_ARRAY_BUFFER, m_vboBuffers);
 
   // resize buffer
-  glBufferData(GL_ARRAY_BUFFER, m_indexSize*m_bufferPackSize*sizeof(GLfloat), vboMem, GL_DYNAMIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr> (m_indexSize*m_bufferPackSize*sizeof(GLfloat)), vboMem.get(), GL_DYNAMIC_DRAW);
   // create the BBox for the obj
   if(_calcBB)
   {
     m_ext=new BBox(m_minX,m_maxX,m_minY,m_maxY,m_minZ,m_maxZ);
   }
   m_vbo=true;
-  // delete the vboData
-  delete [] vboMem;
-  // now return true to indicate success.
   return true;
 }
 

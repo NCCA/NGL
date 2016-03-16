@@ -82,7 +82,7 @@ Real& Vec4::operator[]( int _i ) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Real Vec4::length() const noexcept
 {
-	return (Real)sqrt((m_x*m_x)+(m_y*m_y)+(m_z*m_z));
+  return sqrtf((m_x*m_x)+(m_y*m_y)+(m_z*m_z));
 }
 
 
@@ -98,7 +98,7 @@ Vec4 &Vec4::operator-() noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Vec4 &Vec4::normalize() noexcept
 {
-	Real len=(Real)sqrt(m_x*m_x+m_y*m_y+m_z*m_z);
+  Real len=sqrtf(m_x*m_x+m_y*m_y+m_z*m_z);
 	NGL_ASSERT(len!=0.0f);
 	m_x/=len;
 	m_y/=len;
@@ -246,7 +246,7 @@ Real Vec4::angleBetween( const Vec4& _v  )const noexcept
   Vec4 v2 = *this;
   v1.normalize();
   v2.normalize();
-  return acos(v1.dot(v2));
+  return acosf(v1.dot(v2));
 }
 
 //----------------------------------------------------------------------------------------------------------------------

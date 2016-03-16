@@ -55,7 +55,7 @@ public :
 	///  @param[in] _k and array of knot values
 	///  @param[in] _nKnots the size of the knot array
 	//----------------------------------------------------------------------------------------------------------------------
-	BezierCurve(const Vec3 *_p,int _nPoints,const Real  *_k,int _nKnots ) noexcept;
+  BezierCurve(const Vec3 *_p,unsigned int _nPoints,const Real  *_k,unsigned int _nKnots ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor passing in an array of points, note the knot vector will be automatically
@@ -125,7 +125,7 @@ public :
 	/// @param[in] _k
 	/// @param[in] _knots the array of knots for the curve
 	//----------------------------------------------------------------------------------------------------------------------
-	Real coxDeBoor(Real _u,int _i,int _k,const std::vector <Real> &_knots) const noexcept;
+  Real coxDeBoor(Real _u,unsigned int _i,unsigned int _k,const std::vector <Real> &_knots) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the Level of Detail for Drawing
@@ -152,15 +152,15 @@ protected :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief The level of detail used to calculate how much detail to draw
   //----------------------------------------------------------------------------------------------------------------------
-  int m_lod;
+  unsigned int m_lod;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief The ammount of Control Points in the Curve
   //----------------------------------------------------------------------------------------------------------------------
-  int m_numCP;
+  unsigned int m_numCP;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief The degree of the curve, Calculated from the Number of Control Points
   //----------------------------------------------------------------------------------------------------------------------
-  int m_degree;
+  unsigned int m_degree;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief The knot vector always has as many values as the numer of verts (cp) + the degree
   //----------------------------------------------------------------------------------------------------------------------

@@ -76,16 +76,16 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
 
 
   child=rootNode->first_node("NumVerts");
-  m_nVerts=boost::lexical_cast<int>(child->value());
+  m_nVerts=boost::lexical_cast<unsigned int>(child->value());
   std::cerr<<"NumVerts "<<m_nVerts<<"\n";
   child=rootNode->first_node("StartFrame");
-  m_startFrame=boost::lexical_cast< int>(child->value());
+  m_startFrame=boost::lexical_cast<unsigned int>(child->value());
   std::cerr<<"StartFrame"<<m_startFrame<<"\n";
   child=rootNode->first_node("EndFrame");
-  m_endFrame=boost::lexical_cast< int>(child->value());
+  m_endFrame=boost::lexical_cast<unsigned int>(child->value());
   std::cerr<<"EndFrame"<<m_endFrame<<"\n";
   child=rootNode->first_node("NumFrames");
-  m_numFrames=boost::lexical_cast< int>(child->value());
+  m_numFrames=boost::lexical_cast< unsigned int>(child->value());
   std::cerr<<"EndFrame  "<<m_numFrames<<"\n";
   //first allocate base pointer [vertex]
   m_data.resize(m_numFrames);
@@ -106,13 +106,13 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
   for(child=rootNode->first_node("Frame"); child; child=child->next_sibling())
   {
     std::cerr<<"doing frame "<<child->first_attribute("number")->value()<<"\n";
-    CurrentFrame=boost::lexical_cast< int>(child->first_attribute("number")->value());
+    CurrentFrame=boost::lexical_cast<unsigned int>(child->first_attribute("number")->value());
     CurrentFrame-=m_startFrame;
     std::flush(std::cerr);
 
     for(rapidxml::xml_node<> * vertex=child->first_node("Vertex"); vertex; vertex=vertex->next_sibling())
     {
-      int index=boost::lexical_cast< int>(vertex->first_attribute("number")->value());
+      unsigned int index=boost::lexical_cast<unsigned int>(vertex->first_attribute("number")->value());
       lineBuffer=vertex->value();
       tokenizer tokens(lineBuffer, sep);
       tokenizer::iterator  firstWord = tokens.begin();
@@ -215,7 +215,7 @@ bool NCCAPointBake::saveBinaryPointBake( const std::string &_fileName) noexcept
 
     // lets write out our own Magic Number file ID
     const std::string header("ngl::binpb");
-    file.write(header.c_str(),header.length());
+    file.write(header.c_str(),static_cast<long>(header.length()));
     m_binFile=true;
     file.write(reinterpret_cast <char *>(&m_numFrames),sizeof(unsigned int));
     file.write(reinterpret_cast <char *>(&m_currFrame),sizeof(unsigned int));
@@ -244,7 +244,7 @@ bool NCCAPointBake::saveBinaryPointBake( const std::string &_fileName) noexcept
 }
 
 void NCCAPointBake::setMeshToFrame(  const unsigned int _frame) noexcept
-  {
+{
     // map the m_obj's vbo dat
     Real *ptr=m_mesh->mapVAOVerts();
     std::vector <Face> faces=m_mesh->getFaceList();
@@ -259,7 +259,7 @@ void NCCAPointBake::setMeshToFrame(  const unsigned int _frame) noexcept
       // as we only want to change x,y,z, we need to skip over
       // stuff
 
-      for(int j=0;j<3;++j)
+      for(unsigned int j=0;j<3;++j)
       {
         ptr[step+5]=m_data[_frame][face.m_vert[j]].m_x;
         ptr[step+6]=m_data[_frame][face.m_vert[j]].m_y;

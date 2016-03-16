@@ -79,7 +79,7 @@ void Vec2::operator+=(const Vec2& _v  ) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void Vec2::operator/=(Real _v  ) noexcept
 {
-	NGL_ASSERT(_v !=0);
+  NGL_ASSERT(_v !=0.0);
 	m_x/=_v;
 	m_y/=_v;
 }
@@ -164,8 +164,8 @@ Vec2 & Vec2::operator=(const Vec2& _v) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void Vec2::normalize() noexcept
 {
-  Real len=(Real)sqrt(m_x*m_x+m_y*m_y);
-  NGL_ASSERT(len!=0);
+  Real len=sqrtf(m_x*m_x+m_y*m_y);
+  NGL_ASSERT(len!=0.0);
   m_x/=len;
   m_y/=len;
 }
@@ -184,7 +184,7 @@ Real Vec2::dot(const Vec2& _v )const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Real Vec2::lengthSquared() const noexcept
 {
-  return (Real)(m_x*m_x)+(m_y*m_y);
+  return (m_x*m_x)+(m_y*m_y);
 }
 
 
@@ -195,7 +195,7 @@ Real Vec2::lengthSquared() const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Real Vec2::length() const noexcept
 {
-	return (Real)sqrt((m_x*m_x)+(m_y*m_y));
+  return sqrtf((m_x*m_x)+(m_y*m_y));
 }
 
 

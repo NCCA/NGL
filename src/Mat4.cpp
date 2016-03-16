@@ -395,8 +395,8 @@ const Mat4& Mat4::transpose() noexcept
 void Mat4::rotateX( const Real _deg) noexcept
 {
   Real beta=radians(_deg);
-  Real sr = sin( beta );
-  Real cr = cos( beta );
+  Real sr = sinf( beta );
+  Real cr = cosf( beta );
   m_11 =  cr;
   m_21 = -sr;
   m_12 =  sr;
@@ -407,8 +407,8 @@ void Mat4::rotateX( const Real _deg) noexcept
 void Mat4::rotateY( const Real _deg ) noexcept
 {
   Real beta=radians(_deg);
-  Real sr = sin( beta );
-  Real cr = cos( beta );
+  Real sr = sinf( beta );
+  Real cr = cosf( beta );
   m_00 =  cr;
   m_20 =  sr;
   m_02 = -sr;
@@ -419,8 +419,8 @@ void Mat4::rotateY( const Real _deg ) noexcept
 void Mat4::rotateZ(const Real _deg ) noexcept
 {
   Real beta=radians(_deg);
-  Real sr = sin( beta );
-  Real cr = cos( beta );
+  Real sr = sinf( beta );
+  Real cr = cosf( beta );
   m_00 =  cr;
   m_10 = -sr;
   m_01 =  sr;
@@ -503,8 +503,8 @@ void Mat4::euler(const Real _angle, const Real _x, const Real _y, const Real _z)
   // Axis and Angle matrix rotation see
   // http://en.wikipedia.org/wiki/Rotation_matrix for more details
   Real beta=radians(_angle);
-  Real c = cos((beta));
-  Real s = sin((beta));
+  Real c = cosf((beta));
+  Real s = sinf((beta));
   Real C=1-c;
   Real xs  = _x*s;  Real  ys = _y*s;  Real  zs = _z*s;
   Real xC  = _x*C;  Real  yC = _y*C;  Real  zC = _z*C;
@@ -675,7 +675,7 @@ Mat4 Mat4::inverse() noexcept
   t.m_33 = m_00*m_11*m_22 + m_01*m_12*m_20 + m_02*m_10*m_21 - m_00*m_12*m_21 - m_01*m_10*m_22 - m_02*m_11*m_20;
 
 
-  double det = determinant();
+  auto det = determinant();
   det = 1/det;
   return  t*det;
 

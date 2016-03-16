@@ -30,9 +30,9 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 void Material :: setDefault() noexcept
 {
-	m_transparency = 0.0;
-	m_specularExponent = 1.0;
-	m_surfaceRoughness = 0.0;
+  m_transparency = 0.0f;
+  m_specularExponent = 1.0f;
+  m_surfaceRoughness = 0.0f;
 	m_ambient.set(0.1f,0.1f,0.1f);
 	m_diffuse.set(0.8f,0.8f,0.8f);
 	m_specular.set(0,0,0);

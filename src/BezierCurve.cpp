@@ -77,18 +77,18 @@ BezierCurve::BezierCurve( Real const *_p,  unsigned int _nPoints  ) noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-BezierCurve::BezierCurve(const Vec3 *_p, int _nPoints, Real const *_k, int _nKnots  ) noexcept
+BezierCurve::BezierCurve(const Vec3 *_p, unsigned int _nPoints, Real const *_k, unsigned int _nKnots  ) noexcept
 {
 	m_numCP=_nPoints;
 	m_degree=_nPoints;
 	m_order=m_degree+1;
 	m_numKnots=_nKnots; //m_numCP+m_order;
 	m_lod=20;
-	for(int i=0; i<m_numCP; ++i)
+  for(unsigned int i=0; i<m_numCP; ++i)
 	{
 		m_cp.push_back(Vec3(_p[i]));
 	}
-	for( int i=0; i<_nKnots; ++i)
+  for(unsigned int i=0; i<_nKnots; ++i)
 	{
 		m_knots.push_back(_k[i]);
 	}
@@ -113,7 +113,7 @@ BezierCurve::~BezierCurve() noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Real BezierCurve::coxDeBoor( Real _u,int _i, int _k, const std::vector <Real> &_knots ) const noexcept
+Real BezierCurve::coxDeBoor( Real _u,unsigned int _i, unsigned int _k, const std::vector <Real> &_knots ) const noexcept
 {
 	if(_k==1)
 	{
@@ -172,7 +172,7 @@ Vec3 BezierCurve::getPointOnCurve( Real _value  ) const noexcept
 	// sum the effect of all CV's on the curve at this point to
 	// get the evaluated curve point
 	//
-	for(int i=0;i!=m_numCP;++i)
+  for(unsigned int i=0;i!=m_numCP;++i)
 	{
 		// calculate the effect of this point on the curve
 		Real val = coxDeBoor(_value,i,m_degree /*was m_order */,m_knots);
@@ -253,9 +253,9 @@ void BezierCurve::createVAO() noexcept
   m_vaoCurve->bind();
 
   std::vector <Vec3> lines(m_lod);
-  for(int i=0;i!=m_lod;++i)
+  for(unsigned int i=0;i!=m_lod;++i)
   {
-    Real t  = m_knots[m_numKnots-1] * i / (Real)(m_lod-1);
+    Real t  = m_knots[m_numKnots-1] * i / static_cast<Real>(m_lod-1);
 
     if(i==m_lod-1)
     {

@@ -71,12 +71,12 @@ Quaternion::Quaternion(const Mat4 &_m) noexcept
 Quaternion::Quaternion(const Vec3 &_rot) noexcept
 {
 
-  Real sx = sin(radians(_rot.m_x/2.0f));
-  Real sy = sin(radians(_rot.m_y/2.0f));
-  Real sz = sin(radians(_rot.m_z/2.0f));
-  Real cx = cos(radians(_rot.m_x/2.0f));
-  Real cy = cos(radians(_rot.m_y/2.0f));
-  Real cz = cos(radians(_rot.m_z/2.0f));
+  Real sx = sinf(radians(_rot.m_x/2.0f));
+  Real sy = sinf(radians(_rot.m_y/2.0f));
+  Real sz = sinf(radians(_rot.m_z/2.0f));
+  Real cx = cosf(radians(_rot.m_x/2.0f));
+  Real cy = cosf(radians(_rot.m_y/2.0f));
+  Real cz = cosf(radians(_rot.m_z/2.0f));
 
   m_s=cx*cy*cz + sx*sy*sz,
   m_x=sx*cy*cz - cx*sy*sz,
@@ -213,8 +213,8 @@ void Quaternion::rotateX(Real _angle) noexcept
 {
 _angle/=2.0;
 // q=[cos 1/2 theta, sin 1/2 theta V]
-m_s=cos(radians(_angle));
-m_x=sin(radians(_angle));
+m_s=cosf(radians(_angle));
+m_x=sinf(radians(_angle));
 m_y=0;
 m_z=0;
 }
@@ -223,10 +223,10 @@ void Quaternion::rotateY(Real _angle) noexcept
 {
 	_angle/=2.0;
 	// q=[cos 1/2 theta, sin 1/2 theta V]
-	m_s=cos(radians(_angle));
+  m_s=cosf(radians(_angle));
 	m_x=0;
 
-	m_y=sin(radians(_angle));
+  m_y=sinf(radians(_angle));
 	m_z=0;
 }
 
@@ -235,10 +235,10 @@ void Quaternion::rotateZ(Real _angle) noexcept
 
 	_angle/=2.0;
 	// q=[cos 1/2 theta, sin 1/2 theta V]
-	m_s=cos(radians(_angle));
+  m_s=cosf(radians(_angle));
 	m_x=0;
 	m_y=0;
-	m_z=sin(radians(_angle));
+  m_z=sinf(radians(_angle));
 
 }
 
@@ -259,12 +259,12 @@ void Quaternion::fromAxisAngle(const Vec3& _axis, Real _angle) noexcept
 
 void Quaternion::fromEulerAngles(const Real _x,const Real _y,const Real _z) noexcept
 {
-  Real sx = sin(radians(_x/2.0f));
-  Real sy = sin(radians(_y/2.0f));
-  Real sz = sin(radians(_z/2.0f));
-  Real cx = cos(radians(_x/2.0f));
-  Real cy = cos(radians(_y/2.0f));
-  Real cz = cos(radians(_z/2.0f));
+  Real sx = sinf(radians(_x/2.0f));
+  Real sy = sinf(radians(_y/2.0f));
+  Real sz = sinf(radians(_z/2.0f));
+  Real cx = cosf(radians(_x/2.0f));
+  Real cy = cosf(radians(_y/2.0f));
+  Real cz = cosf(radians(_z/2.0f));
 
   m_s=cx*cy*cz + sx*sy*sz,
   m_x=sx*cy*cz - cx*sy*sz,
@@ -302,7 +302,7 @@ Quaternion Quaternion::slerp(const Quaternion &_q1, const Quaternion &_q2, const
 
   // adjust signs (if necessary)
   Quaternion end = _q2;
-  if( cosom < static_cast<Real>(0.0))
+  if( cosom < 0.0f)
   {
     cosom = -cosom;
     end.m_x = -end.m_x;   // Reverse all signs
@@ -313,19 +313,19 @@ Quaternion Quaternion::slerp(const Quaternion &_q1, const Quaternion &_q2, const
 
   // Calculate coefficients
   Real sclp, sclq;
-  if( (static_cast<Real>(1.0) - cosom) > static_cast<Real>(0.0001)) // 0.0001 -> some epsillon
+  if( (1.0f - cosom) > 0.0001f) // 0.0001 -> some epsillon
   {
     // Standard case (slerp)
     Real omega, sinom;
-    omega = acos( cosom); // extract theta from dot product's cos theta
-    sinom = sin( omega);
-    sclp  = sin( (static_cast<Real>(1.0) - _t) * omega) / sinom;
-    sclq  = sin( _t * omega) / sinom;
+    omega = acosf( cosom); // extract theta from dot product's cos theta
+    sinom = sinf( omega);
+    sclp  = sinf( (1.0f - _t) * omega) / sinom;
+    sclq  = sinf( _t * omega) / sinom;
   }
   else
   {
     // Very close, do linear interp (because it's faster)
-    sclp = static_cast<Real>(1.0) - _t;
+    sclp = 1.0f - _t;
     sclq = _t;
   }
 

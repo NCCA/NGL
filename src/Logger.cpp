@@ -129,10 +129,7 @@ namespace ngl
       case Colours::CYAN : m_output<<"\x1B[36m"; break;
       case Colours::WHITE : m_output<<"\x1B[37m"; break;
       case Colours::RESET : m_output<<"\033[0m"; break;
-      default : m_output<<"\033[0m"; break;
     }
-
-
 
   }
 

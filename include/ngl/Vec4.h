@@ -304,6 +304,19 @@ public:
   /// @brief accesor to the m_openGL matrix returns the address of the 0th element
   //----------------------------------------------------------------------------------------------------------------------
   Real* openGL() noexcept{return &m_openGL[0];}
+
+  static Vec4 up()  {return Vec4(0.0f,1.0f,0.0f,0.0f); }
+  static Vec4 down()  {return Vec4(0.0f,-1.0f,0.0f,0.0f); }
+
+  static Vec4 left()  {return Vec4(-1.0f,0.0f,0.0f,0.0f); }
+  static Vec4 right()  {return Vec4(1.0f,0.0f,0.0f,0.0f); }
+
+  static Vec4 in()  {return Vec4(0.0f,0.0f,1.0f,0.0f); }
+  static Vec4 out()  {return Vec4(0.0f,0.0f,-1.0f,0.0f); }
+
+  static Vec4 zero()  {return Vec4(0.0f,0.0f,0.0f,0.0f); }
+
+
 /// @note I've made this public as some compilers automatically make the
 /// anonymous unions public whereas clang++ complains see this post
 /// http://jonmacey.blogspot.com/2011/03/anonymous-union-struct-weirdness.html

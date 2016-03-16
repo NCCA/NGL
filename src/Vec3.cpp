@@ -92,7 +92,7 @@ void Vec3::operator+=(const Vec3& _v) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void Vec3::operator/=(Real _v) noexcept
 {
-	NGL_ASSERT(_v !=0);
+  NGL_ASSERT(_v !=0.0f);
 	m_x/=_v;
 	m_y/=_v;
 	m_z/=_v;
@@ -215,8 +215,8 @@ Vec3 Vec3::cross( const Vec3& _v )const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void Vec3::normalize() noexcept
 {
-  Real len=(Real)sqrt(m_x*m_x+m_y*m_y+m_z*m_z);
-  NGL_ASSERT(len!=0);
+  Real len=sqrtf(m_x*m_x+m_y*m_y+m_z*m_z);
+  NGL_ASSERT(len!=0.0f);
   m_x/=len;
   m_y/=len;
   m_z/=len;
@@ -242,7 +242,7 @@ Mat3 Vec3::outer(const Vec3 &_v  )  const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Real Vec3::length() const noexcept
 {
-  return (Real)sqrt((m_x*m_x)+(m_y*m_y)+(m_z*m_z));
+  return sqrtf((m_x*m_x)+(m_y*m_y)+(m_z*m_z));
 }
 
 
@@ -271,7 +271,7 @@ Vec3 Vec3::reflect(const Vec3 & _n) const noexcept
 {
  float d=this->dot(_n);
  //  I - 2.0 * dot(N, I) * N
- return Vec3( m_x-2.0*d*_n.m_x, m_y-2.0*d*_n.m_y, m_z-2.0*d*_n.m_z);
+ return Vec3( m_x-2.0f*d*_n.m_x, m_y-2.0f*d*_n.m_y, m_z-2.0f*d*_n.m_z);
 }
 
 void Vec3::clamp(float _min, float _max ) noexcept

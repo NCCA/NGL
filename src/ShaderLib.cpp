@@ -214,7 +214,7 @@ GLint ShaderLib::getAttribLocation( const std::string &_shaderName,   const std:
   if(shader!=m_shaderPrograms.end())
   {
     // grab the pointer to the shader and call compile
-    attrib=glGetAttribLocation((long) shader->second->getID(),_paramName.c_str());
+    attrib=glGetAttribLocation(shader->second->getID(),_paramName.c_str());
   }
   else
   {
@@ -505,7 +505,7 @@ GLuint ShaderLib::getProgramID(const std::string &_name ) noexcept
   else
   {
     std::cerr<<"Warning Program not know in use "<<_name.c_str();
-    return -1;
+    return 0;
   }
 }
 
@@ -608,7 +608,7 @@ void ShaderLib::useNullProgram() noexcept
 GLuint ShaderLib::getUniformBlockIndex( const std::string &_uniformBlockName  ) const  noexcept
 {
 
-  GLint id=0;
+  GLuint id=0;
 
   // get an iterator to the shaders
   auto shader=m_shaderPrograms.find(m_currentShader);

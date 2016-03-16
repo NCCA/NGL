@@ -129,12 +129,12 @@ void AbstractMesh::writeToRibSubdiv(RibExport& _ribFile )const noexcept
 		for (unsigned long int i = 0; i < m_face[I].m_numVerts; ++i)
 		{
 			// Set the verts vector size and testing variables
-			int iVecSize = vVerts.size();
+      size_t iVecSize = vVerts.size();
 			bool bTest = false;
 			int counter = 0;
 			// Loop through the expanding vector checking whether
 			// the current vertice exists
-			for (int j = 0; j < iVecSize; j = j + 3)
+      for (unsigned int j = 0; j < iVecSize; j = j + 3)
 			{
 				// If the vertice if found in the vector, set the test
 				// flag and exit the loop. Else keep going.
@@ -246,14 +246,13 @@ void AbstractMesh::createVAO() noexcept
   // now we are going to process and pack the mesh into an ngl::VertexArrayObject
   std::vector <VertData> vboMesh;
   VertData d;
-  int loopFaceCount=3;
 
 
 	// loop for each of the faces
 	for(unsigned int i=0;i<m_nFaces;++i)
 	{
 		// now for each triangle in the face (remember we ensured tri above)
-		for(int j=0;j<loopFaceCount;++j)
+    for(unsigned int j=0;j<3;++j)
 		{
 
 			// pack in the vertex data first
@@ -263,14 +262,12 @@ void AbstractMesh::createVAO() noexcept
 			// now if we have norms of tex (possibly could not) pack them as well
 			if(m_nNorm >0 && m_nTex > 0)
 			{
-
         d.nx=m_norm[m_face[i].m_norm[j]].m_x;
         d.ny=m_norm[m_face[i].m_norm[j]].m_y;
         d.nz=m_norm[m_face[i].m_norm[j]].m_z;
 
 				d.u=m_tex[m_face[i].m_tex[j]].m_x;
 				d.v=m_tex[m_face[i].m_tex[j]].m_y;
-
       }
       // now if neither are present (only verts like Zbrush models)
       else if(m_nNorm ==0 && m_nTex==0)
@@ -365,7 +362,7 @@ void AbstractMesh::draw() const noexcept
 Real * AbstractMesh::mapVAOVerts() noexcept
 {
 
-	Real* ptr=0;
+  Real* ptr=nullptr;
 
 	// bind our VBO data
 //
@@ -374,7 +371,7 @@ Real * AbstractMesh::mapVAOVerts() noexcept
   glBindBuffer(GL_ARRAY_BUFFER, m_vaoMesh->getVBOid(0));
   //NGLCheckGLError("Abstract Mesh",__LINE__);
 #ifndef USINGIOS_
-  ptr = (float*)glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE);
+  ptr = static_cast<Real *>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
 #else
   //ptr = (float*)glMapBufferOES(GL_ARRAY_BUFFER,GL_READ_WRITE_OES);
 #endif

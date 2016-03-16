@@ -58,16 +58,16 @@ void VertexArrayObject::removeVOA()
   }
   if( m_allocated ==true)
   {
-    int size=m_vboIDs.size();
-    for(int i=0; i<size; ++i)
-    glDeleteBuffers(1,&m_vboIDs[i]);
-
+    for(auto b : m_vboIDs)
+    {
+      glDeleteBuffers(1,&b);
+    }
     glDeleteVertexArrays(1,&m_id);
     m_allocated=false;
   }
 }
 //----------------------------------------------------------------------------------------------------------------------
-void VertexArrayObject::setData(unsigned int _size,const GLfloat &_data,GLenum _mode)
+void VertexArrayObject::setData(size_t _size,const GLfloat &_data,GLenum _mode)
 {
   if(m_bound == false)
   {
@@ -78,13 +78,13 @@ void VertexArrayObject::setData(unsigned int _size,const GLfloat &_data,GLenum _
   m_vboIDs.push_back(vboID);
   // now we will bind an array buffer to the first one and load the data for the verts
   glBindBuffer(GL_ARRAY_BUFFER, vboID);
-  glBufferData(GL_ARRAY_BUFFER, _size, &_data, _mode);
+  glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>( _size), &_data, _mode);
   m_allocated=true;
 
 }
 
 
-void VertexArrayObject::setIndexedData(unsigned int _size,const GLfloat &_data, unsigned int _indexSize, const GLvoid *_indexData,GLenum _indexType,GLenum _mode  )
+void VertexArrayObject::setIndexedData(size_t _size, const GLfloat &_data, unsigned int _indexSize, const GLvoid *_indexData, GLenum _indexType, GLenum _mode  )
 {
 
   if(m_bound == false)
@@ -102,7 +102,7 @@ void VertexArrayObject::setIndexedData(unsigned int _size,const GLfloat &_data, 
   //glEnableVertexAttribArray(0);
   // now we will bind an array buffer to the first one and load the data for the verts
   glBindBuffer(GL_ARRAY_BUFFER, vboID);
-  glBufferData(GL_ARRAY_BUFFER, _size, &_data, _mode);
+  glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(_size), &_data, _mode);
   // we need to determine the size of the data type before we set it
   // in default to a ushort
   int size=sizeof(GLushort);
@@ -115,7 +115,7 @@ void VertexArrayObject::setIndexedData(unsigned int _size,const GLfloat &_data, 
   }
   // now for the indices
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexSize * size, _indexData, _mode);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexSize * static_cast<GLsizeiptr>(size), const_cast<GLvoid *>(_indexData), _mode);
 
   m_allocated=true;
   m_indexed=true;
@@ -123,7 +123,7 @@ void VertexArrayObject::setIndexedData(unsigned int _size,const GLfloat &_data, 
 }
 
 
-void VertexArrayObject::setRawIndexedData(unsigned int _size, const GLvoid *_data, unsigned int _indexSize,const GLvoid *_indexData, GLenum _indexType,GLenum _mode)
+void VertexArrayObject::setRawIndexedData(size_t _size, const GLvoid *_data, unsigned int _indexSize,const GLvoid *_indexData, GLenum _indexType,GLenum _mode)
 {
 
   if(m_bound == false)
@@ -141,7 +141,7 @@ void VertexArrayObject::setRawIndexedData(unsigned int _size, const GLvoid *_dat
   //glEnableVertexAttribArray(0);
   // now we will bind an array buffer to the first one and load the data for the verts
   glBindBuffer(GL_ARRAY_BUFFER, vboID);
-  glBufferData(GL_ARRAY_BUFFER, _size, _data, _mode);
+  glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(_size), _data, _mode);
   // we need to determine the size of the data type before we set it
   // in default to a ushort
   int size=sizeof(GLushort);
@@ -154,7 +154,7 @@ void VertexArrayObject::setRawIndexedData(unsigned int _size, const GLvoid *_dat
   }
   // now for the indices
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexSize*size , _indexData, _mode);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(_indexSize)*size , _indexData, _mode);
 
   m_allocated=true;
   m_indexed=true;
@@ -164,7 +164,7 @@ void VertexArrayObject::setRawIndexedData(unsigned int _size, const GLvoid *_dat
 
 
 
-void VertexArrayObject::updateIndexedData( unsigned int _size, const GLfloat &_data,GLenum _mode )
+void VertexArrayObject::updateIndexedData( size_t _size, const GLfloat &_data,GLenum _mode )
 {
 
   if(m_bound == false)
@@ -175,12 +175,12 @@ void VertexArrayObject::updateIndexedData( unsigned int _size, const GLfloat &_d
   if(m_allocated && m_indexed)
   {
     glBindBuffer(GL_ARRAY_BUFFER, getVBOid(0));
-    glBufferData(GL_ARRAY_BUFFER, _size, &_data, _mode);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(_size), &_data, _mode);
   }
 }
 
 
-void VertexArrayObject::updateIndexedData(GLuint vboidx, unsigned int _size,const GLfloat &_data,GLenum _mode)
+void VertexArrayObject::updateIndexedData(GLuint vboidx, size_t _size,const GLfloat &_data,GLenum _mode)
 {
     if(m_bound == false)
     {
@@ -190,7 +190,7 @@ void VertexArrayObject::updateIndexedData(GLuint vboidx, unsigned int _size,cons
     if(m_allocated && m_indexed)
     {
       glBindBuffer(GL_ARRAY_BUFFER, getVBOid(vboidx));
-      glBufferData(GL_ARRAY_BUFFER, _size, &_data, _mode);
+      glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(_size), &_data, _mode);
     }
 }
 
@@ -247,7 +247,7 @@ void VertexArrayObject::setVertexAttributePointer(GLuint _id, GLint _size, GLenu
     std::cerr<<"Warning trying to set attribute on Unbound VOA\n";
   }
 
-  glVertexAttribPointer(_id,_size,_type,_normalise,_stride,((Real *)NULL + (_dataOffset)));
+  glVertexAttribPointer(_id,_size,_type,_normalise,_stride,static_cast<Real *>(NULL)  + _dataOffset);//   ((Real *)NULL + (_dataOffset)));
   glEnableVertexAttribArray(_id);
 }
 
@@ -259,7 +259,7 @@ void VertexArrayObject::setVertexAttributeIPointer( GLuint _id,  GLint _size, GL
     std::cerr<<"Warning trying to set attribute on Unbound VOA\n";
   }
 
-  glVertexAttribIPointer(_id,_size,_type,_stride,((Real *)NULL + (_dataOffset)));
+  glVertexAttribIPointer(_id,_size,_type,_stride,static_cast<Real *>(NULL) +_dataOffset) ;//((Real *)NULL + (_dataOffset)));
   glEnableVertexAttribArray(_id);
 }
 
@@ -279,11 +279,11 @@ void VertexArrayObject::draw() const
 
   if(m_indexed == false)
   {
-    glDrawArrays(m_drawMode, 0, m_indicesCount);	// draw first object
+    glDrawArrays(m_drawMode, 0, static_cast<GLsizei>(m_indicesCount));	// draw first object
   }
   else
   {
-    glDrawElements(m_drawMode,m_indicesCount,m_indexType,(GLvoid*)((char*)NULL));
+    glDrawElements(m_drawMode,static_cast<GLsizei>(m_indicesCount),m_indexType,static_cast<GLvoid *>(nullptr));
   }
 }
 
@@ -298,7 +298,7 @@ void VertexArrayObject::draw(unsigned int _startIndex, unsigned int _numVerts, G
   {
     std::cerr<<"Warning trying to draw an unbound VOA\n";
   }
-  glDrawArrays(_mode, _startIndex, _numVerts);	// draw first object
+  glDrawArrays(_mode, static_cast<GLsizei>(_startIndex), static_cast<GLsizei>(_numVerts));	// draw first object
 }
 
 void VertexArrayObject::draw(GLenum _mode) const
@@ -314,11 +314,11 @@ void VertexArrayObject::draw(GLenum _mode) const
 
   if(m_indexed == false)
   {
-    glDrawArrays(_mode, 0, m_indicesCount);	// draw first object
+    glDrawArrays(_mode, 0, static_cast<GLsizei>(m_indicesCount));	// draw first object
   }
   else
   {
-    glDrawElements(_mode,m_indicesCount,m_indexType,(GLvoid*)((char*)NULL));
+    glDrawElements(_mode,static_cast<GLsizei>(m_indicesCount),m_indexType,static_cast<GLvoid *>(nullptr));//(GLvoid*)((char*)NULL));
   }
 }
 
@@ -335,19 +335,19 @@ void VertexArrayObject::drawInstanced(unsigned int _n) const
 
   if(m_indexed == false)
   {
-    glDrawArraysInstanced(m_drawMode, 0, m_indicesCount,_n);	// draw first object
+    glDrawArraysInstanced(m_drawMode, 0, static_cast<GLsizei>(m_indicesCount),static_cast<GLsizei>(_n));	// draw first object
   }
   else
   {
 
-    glDrawElementsInstanced(m_drawMode,m_indicesCount,m_indexType,(GLvoid*)((char*)NULL),_n);
+    glDrawElementsInstanced(m_drawMode,static_cast<GLsizei>(m_indicesCount),m_indexType,nullptr,static_cast<GLsizei>(_n));
   }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 Real *VertexArrayObject::getDataPointer(unsigned int _vbo, GLenum _accessMode)
 {
-  Real *ptr=0;
+  Real *ptr=nullptr;
 //  code was this but g++ 4.2 gives warning about it always being true
 // removed the first test as change to uint so should be ok
 //  if(_vbo >=0 && _vbo<m_vboIDs.size())
@@ -357,7 +357,7 @@ Real *VertexArrayObject::getDataPointer(unsigned int _vbo, GLenum _accessMode)
     bind();
     glBindBuffer(GL_ARRAY_BUFFER, m_vboIDs[_vbo]);
     #ifndef USINGIOS_
-      ptr = (Real*)glMapBuffer(GL_ARRAY_BUFFER, _accessMode);
+      ptr = static_cast<Real *>(glMapBuffer(GL_ARRAY_BUFFER, _accessMode));
     #endif
   }
   return ptr;

@@ -259,8 +259,8 @@ const Mat3& Mat3::transpose() noexcept
 void Mat3::rotateX( Real _deg) noexcept
 {
 	Real beta=radians(_deg);
-	Real sr = sin( beta );
-	Real cr = cos( beta );
+  Real sr = sinf( beta );
+  Real cr = cosf( beta );
 	m_11 =  cr;
 	m_21 = -sr;
 	m_12 =  sr;
@@ -271,8 +271,8 @@ void Mat3::rotateX( Real _deg) noexcept
 void Mat3::rotateY(Real _deg) noexcept
 {
 	Real beta=radians(_deg);
-	Real sr = sin( beta );
-	Real cr = cos( beta );
+  Real sr = sinf( beta );
+  Real cr = cosf( beta );
 	m_00 =  cr;
 	m_20 =  sr;
 	m_02 = -sr;
@@ -283,8 +283,8 @@ void Mat3::rotateY(Real _deg) noexcept
 void Mat3::rotateZ( Real _deg) noexcept
 {
 	Real beta=radians(_deg);
-	Real sr = sin( beta );
-	Real cr = cos( beta );
+  Real sr = sinf( beta );
+  Real cr = cosf( beta );
 	m_00 =  cr;
 	m_10 = -sr;
 	m_01 =  sr;
@@ -323,8 +323,8 @@ void Mat3::euler( Real _angle,Real _x,  Real _y, Real _z) noexcept
   // Axis and Angle Mat3x3 rotation see
   // http://en.wikipedia.org/wiki/Rotation_Mat3x3 for more details
   Real beta=radians(_angle);
-  Real c = cos(radians(beta));
-  Real s = sin(radians(beta));
+  Real c = cosf(radians(beta));
+  Real s = sinf(radians(beta));
   Real C=1-c;
   Real xs  = _x*s;  Real  ys = _y*s;  Real  zs = _z*s;
   Real xC  = _x*C;  Real  yC = _y*C;  Real  zC = _z*C;

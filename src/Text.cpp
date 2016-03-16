@@ -144,10 +144,10 @@ Text::Text( const QFont &_f)  noexcept
       for(int x=0; x<widthTexture; ++x)
       {
         colour=finalImage.pixel(x,y);
-        data[index++]=qRed(colour);
-        data[index++]=qGreen(colour);
-        data[index++]=qBlue(colour);
-        data[index++]=qAlpha(colour);
+        data[index++]=static_cast<unsigned char>(qRed(colour));
+        data[index++]=static_cast<unsigned char>(qGreen(colour));
+        data[index++]=static_cast<unsigned char>(qBlue(colour));
+        data[index++]=static_cast<unsigned char>(qAlpha(colour));
         }
     }
 
@@ -278,9 +278,9 @@ void Text::renderText( float _x, float _y,  const QString &text ) const noexcept
   glDisable(GL_DEPTH_TEST);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   // now loop for each of the char and draw our billboard
-  unsigned int textLength=text.length();
+  int textLength=text.length();
 
-  for (unsigned int i = 0; i < textLength; ++i)
+  for ( int i = 0; i < textLength; ++i)
   {
     // set the shader x position this will change each time
     // we render a glyph by the width of the char
@@ -312,8 +312,8 @@ void Text::renderText( float _x, float _y,  const QString &text ) const noexcept
 void Text::setScreenSize(int _w, int _h ) noexcept
 {
 
-  float scaleX=2.0/_w;
-  float scaleY=-2.0/_h;
+  float scaleX=2.0f/_w;
+  float scaleY=-2.0f/_h;
   // in shader we do the following code to transform from
   // x,y to NDC
   // gl_Position=vec4( ((xpos+inVert.x)*scaleX)-1,((ypos+inVert.y)*scaleY)+1.0,0.0,1.0); "

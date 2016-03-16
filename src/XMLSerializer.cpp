@@ -335,7 +335,6 @@ namespace ngl
   }
 
 
-
   void XMLSerializer::write(const Vec4 &_s, rapidxml::xml_node<> *_parent, std::string _tag)
   {
    writeToXML(boost::str( boost::format(" %f %f %f %f") % _s.m_x % _s.m_y % _s.m_z % _s.m_w),_parent,_tag);

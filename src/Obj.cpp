@@ -97,11 +97,11 @@ void Obj::parseFace(const char * _begin   )  noexcept
 {
   // ok this one is quite complex first create some lists for our face data
   // list to hold the vertex data indices
-  std::vector<int> vec;
+  std::vector<unsigned int> vec;
   // list to hold the tex cord indices
-  std::vector<int> tvec;
+  std::vector<unsigned int> tvec;
   // list to hold the normal indices
-  std::vector<int> nvec;
+  std::vector<unsigned int> nvec;
 
   // create the parse rule for a face entry V/T/N
   // so our entry can be always a vert, followed by optional t and norm seperated by /
@@ -118,7 +118,7 @@ void Obj::parseFace(const char * _begin   )  noexcept
   // now we've done this we can parse
  spt::parse(_begin, face, spt::space_p);
 
-  int numVerts=vec.size();
+ unsigned int numVerts=static_cast<unsigned int>(vec.size());
   // so now build a face structure.
   Face f;
   // verts are -1 the size
@@ -127,7 +127,7 @@ void Obj::parseFace(const char * _begin   )  noexcept
   f.m_normals=false;
   // copy the vertex indices into our face data structure index in obj start from 1
   // so we need to do -1 for our array index
-  for(int i : vec)
+  for(auto i : vec)
   {
     f.m_vert.push_back(i-1);
   }
@@ -144,7 +144,7 @@ void Obj::parseFace(const char * _begin   )  noexcept
     }
 
     // copy in these references to normal vectors to the mesh's normal vector
-    for(int i : nvec)
+    for(auto i : nvec)
     {
       f.m_norm.push_back(i-1);
     }
@@ -163,7 +163,7 @@ void Obj::parseFace(const char * _begin   )  noexcept
     }
 
     // copy in these references to normal vectors to the mesh's normal vector
-    for(int i : tvec)
+    for(auto i : tvec)
     {
       f.m_tex.push_back(i-1);
     }
@@ -215,10 +215,10 @@ bool Obj::load(const std::string &_fname,bool _calcBB )  noexcept
   in.close();
 
   // grab the sizes used for drawing later
-  m_nVerts=m_verts.size();
-  m_nNorm=m_norm.size();
-  m_nTex=m_tex.size();
-  m_nFaces=m_face.size();
+  m_nVerts=static_cast<unsigned int>(m_verts.size());
+  m_nNorm=static_cast<unsigned int>(m_norm.size());
+  m_nTex=static_cast<unsigned int>(m_tex.size());
+  m_nFaces=static_cast<unsigned int>(m_face.size());
 
 
   // Calculate the center of the object.

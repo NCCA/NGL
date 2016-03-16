@@ -98,7 +98,7 @@ public:
 	/// @param _data the actual data to set for the VOA
 	/// @param _mode the draw mode hint used by GL
 	//----------------------------------------------------------------------------------------------------------------------
-	void setData(unsigned int _size,const GLfloat &_data,GLenum _mode=GL_STATIC_DRAW	);
+  void setData(size_t _size, const GLfloat &_data, GLenum _mode=GL_STATIC_DRAW	);
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief allocate our data using raw face values (for example tri's) data, attributes must be bound to match at
 	/// a different level of code (usually in the client as part of the shader loading, see VAO examples for more details
@@ -111,7 +111,7 @@ public:
 	/// @param _indexType the type of the values in the indices buffer. Must be one of GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, or GL_UNSIGNED_INT.
 	/// @param _mode the draw mode hint used by GL
 	//----------------------------------------------------------------------------------------------------------------------
-	void setIndexedData(unsigned int _size,const GLfloat &_data,unsigned int _indexSize,const GLvoid *_indexData,GLenum _indexType,GLenum _mode=GL_STATIC_DRAW);
+  void setIndexedData(size_t _size,const GLfloat &_data,unsigned int _indexSize,const GLvoid *_indexData,GLenum _indexType,GLenum _mode=GL_STATIC_DRAW);
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief allocate our data using raw face values (for example tri's) data, attributes must be bound to match at
 	/// a different level of code (usually in the client as part of the shader loading, see VAO examples for more details
@@ -124,15 +124,15 @@ public:
 	/// @param _indexType the type of the values in the indices buffer. Must be one of GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, or GL_UNSIGNED_INT.
 	/// @param _mode the draw mode hint used by GL
 	//----------------------------------------------------------------------------------------------------------------------
-	void setRawIndexedData(unsigned int _size,const GLvoid *_data,unsigned int _indexSize,const GLvoid *_indexData,GLenum _indexType,	GLenum _mode=GL_STATIC_DRAW	);
+  void setRawIndexedData(size_t _size, const GLvoid *_data, unsigned int _indexSize, const GLvoid *_indexData, GLenum _indexType,	GLenum _mode=GL_STATIC_DRAW	);
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief allow to update the vertex data of the VBO when declared as dynamic (with GL_STREAM_DRAW)
 	/// @param _size the size of the raw data passed
 	/// @param _data the actual data to set for the VOA
 	/// @param _mode the draw mode hint used by GL (choose GL_STREAM_DRAW by default, recommended mode for dynamic VBO's)
 	//----------------------------------------------------------------------------------------------------------------------
-	void updateIndexedData(unsigned int _size,const GLfloat &_data,GLenum _mode=GL_STREAM_DRAW);
-	void updateIndexedData(GLuint _vboidx, unsigned int _size, const GLfloat &_data, GLenum _mode=GL_STREAM_DRAW);
+  void updateIndexedData(size_t _size, const GLfloat &_data, GLenum _mode=GL_STREAM_DRAW);
+  void updateIndexedData(GLuint _vboidx, size_t _size, const GLfloat &_data, GLenum _mode=GL_STREAM_DRAW);
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief allow to update the vertex data of the VBO when declared as dynamic (with GL_STREAM_DRAW)
 	/// @param _size the size of the raw data passed
@@ -160,7 +160,7 @@ public:
 	/// @param _stride the step between data values (need *sizeof _type) e.g. 10*sizeof(GLfloat)
 	/// @param _dataOffset Specifies a pointer to the first component of the first generic vertex attribute in the array. The initial value is 0. and is calculated as ((float *)NULL + (_dataOffset))
 	//----------------------------------------------------------------------------------------------------------------------
-	void setVertexAttributeIPointer(	GLuint _id,GLint _size,GLenum _type,GLsizei _stride,unsigned int _dataOffset);
+  void setVertexAttributeIPointer(GLuint _id, GLint _size, GLenum _type, GLsizei _stride, unsigned int _dataOffset);
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief get the VBO id for the data mapped at index _index
 	/// basically this will be the vbo for the setData called, so if it has been called
@@ -195,7 +195,7 @@ public:
   /// @brief set the number of faces to draw
   /// @param _n the number of indices to draw in glDrawArray (param 3 count)
   //----------------------------------------------------------------------------------------------------------------------
-  void setNumIndices(GLuint _n){m_indicesCount=_n;}
+  void setNumIndices(size_t _n){m_indicesCount=_n;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the number of indices in the vao
   /// @returns the nunmber of indices

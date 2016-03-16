@@ -61,10 +61,10 @@ Colour Image::getColour(const GLuint _x,const GLuint _y ) const noexcept
 	NGL_ASSERT(_x<=m_width && _y<=m_height);
 	if (m_data !=0)
 	{
-		int offset=_x*m_channels+((_y)*m_width*m_channels);
-		if(m_channels == 3)
-		{
-		return Colour(m_data[offset],m_data[offset+1],m_data[offset+2]);
+    auto offset=_x*m_channels+((_y)*m_width*m_channels);
+    if(m_channels == 3)
+    {
+      return Colour(m_data[offset],m_data[offset+1],m_data[offset+2]);
 		}
 		else
 		{
@@ -81,14 +81,14 @@ Colour Image::getColour(const GLuint _x,const GLuint _y ) const noexcept
 Colour Image::getColour(const Real _uvX, const Real _uvY ) const noexcept
 {
 
-  GLuint xx = _uvX * (m_width-1);
-  GLuint yy = _uvY * (m_height-1);
+  GLuint xx = static_cast<GLuint> (_uvX * (m_width-1));
+  GLuint yy = static_cast<GLuint> (_uvY * (m_height-1));
 
   NGL_ASSERT(xx<m_width && yy<m_height);
 
   if(m_data!=0)
   {
-    int offset = xx * m_channels + (yy * m_width * m_channels );
+    auto offset = xx * m_channels + (yy * m_width * m_channels );
     if(m_channels == 4)
     {
       return Colour(m_data[offset],m_data[offset+1],m_data[offset+2],m_data[offset+3]);
@@ -124,8 +124,8 @@ bool Image::load( const std::string &_fName  ) noexcept
   if(loaded == true)
   {
     image=image.mirrored();
-    m_width=image.width();
-    m_height=image.height();
+    m_width=static_cast<GLuint> (image.width());
+    m_height=static_cast<GLuint> (image.height());
     m_hasAlpha=image.hasAlphaChannel();
     if(m_hasAlpha == true)
     {
@@ -147,12 +147,12 @@ bool Image::load( const std::string &_fName  ) noexcept
       {
         colour=image.pixel(x,y);
 
-        m_data[index++]=qRed(colour);
-        m_data[index++]=qGreen(colour);
-        m_data[index++]=qBlue(colour);
+        m_data[index++]=static_cast<unsigned char> (qRed(colour));
+        m_data[index++]=static_cast<unsigned char> (qGreen(colour));
+        m_data[index++]=static_cast<unsigned char> (qBlue(colour));
         if(m_hasAlpha)
         {
-          m_data[index++]=qAlpha(colour);
+          m_data[index++]=static_cast<unsigned char> (qAlpha(colour));
         }
       }
     }

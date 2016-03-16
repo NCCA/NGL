@@ -113,14 +113,14 @@ void VAOPrimitives::createLineGrid( const std::string &_name, Real _width,  Real
   std::vector <vertData> data;
   vertData vert;
     // claculate the step size for each grid value
-  Real wstep=_width/(Real)_steps;
+  Real wstep=_width/static_cast<Real>(_steps);
   // pre-calc the offset for speed
   Real ws2=_width/2.0f;
   // assign v as our value to change each vertex pair
   Real v1=-ws2;
 
     // claculate the step size for each grid value
-  Real dstep=_depth/(Real)_steps;
+  Real dstep=_depth/static_cast<Real>(_steps);
   // pre-calc the offset for speed
   Real ds2=_depth/2.0f;
   // assign v as our value to change each vertex pair
@@ -165,15 +165,15 @@ void VAOPrimitives::createSphere( const std::string &_name, Real _radius, int _p
     //  http://astronomy.swin.edu.au/~pbourke/opengl/sphere/
     // the next part of the code calculates the P,N,UV of the sphere for tri_strips
 
-    Real theta1 = 0.0;
-    Real theta2 = 0.0;
-    Real theta3 = 0.0;
+    Real theta1 = 0.0f;
+    Real theta2 = 0.0f;
+    Real theta3 = 0.0f;
 
     // a std::vector to store our verts, remember vector packs contiguously so we can use it
     std::vector <vertData> data;
         // Disallow a negative number for radius.
 
-  if( _radius < 0 )
+  if( _radius < 0.0f )
     {
         _radius = -_radius;
     }
@@ -200,8 +200,8 @@ void VAOPrimitives::createSphere( const std::string &_name, Real _radius, int _p
         d.y = _radius * d.ny;
         d.z = _radius * d.nz;
 
-        d.u  = (j/(Real)_precision);
-        d.v  = 2*(i+1)/(Real)_precision;
+        d.u  = (j/static_cast<Real>(_precision));
+        d.v  = 2*(i+1)/static_cast<Real>(_precision);
 
         data.push_back(d);
 
@@ -212,8 +212,8 @@ void VAOPrimitives::createSphere( const std::string &_name, Real _radius, int _p
         d.y = _radius * d.ny;
         d.z = _radius * d.nz;
 
-        d.u  = (j/(Real)_precision);
-        d.v  = 2*i/(Real)_precision;
+        d.u  = (j/static_cast<Real>(_precision));
+        d.v  = 2*i/static_cast<Real>(_precision);
         data.push_back(d);
       } // end inner loop
   }// end outer loop
@@ -234,14 +234,14 @@ void VAOPrimitives::createCapsule( const std::string &_name,  const Real _radius
    Real h = _height / 2;
    Real s, c, s1, c1, o;
    Real sb, cb, sb1, cb1;
-   Real ang = (1.0 / _precision) * (M_PI);
+   Real ang = (1.0f / _precision) * static_cast<Real>(M_PI);
    for (int i = 0; i < 2 * _precision; ++i)
    {
 
-     c = _radius * cos(ang * i);
-     c1= _radius * cos(ang * (i + 1));
-     s = _radius * sin(ang * i);
-     s1 =_radius * sin(ang * (i + 1));
+     c = _radius * cosf(ang * i);
+     c1= _radius * cosf(ang * (i + 1));
+     s = _radius * sinf(ang * i);
+     s1 =_radius * sinf(ang * (i + 1));
      //side top
      d.x = c1;
      d.y = h;
@@ -284,15 +284,15 @@ void VAOPrimitives::createCapsule( const std::string &_name,  const Real _radius
          o = -h;
        }
        //longitude
-       s = -sin(ang * i);
-       s1 = -sin(ang * (i + 1));
-       c = cos(ang * i);
-       c1 = cos(ang * (i + 1));
+       s = -sinf(ang * i);
+       s1 = -sinf(ang * (i + 1));
+       c = cosf(ang * i);
+       c1 = cosf(ang * (i + 1));
        //latitude
-       sb = _radius * sin(ang * j);
-       sb1 = _radius * sin(ang * (j + 1));
-       cb = _radius * cos(ang * j);
-       cb1 = _radius * cos(ang * (j + 1));
+       sb = _radius * sinf(ang * j);
+       sb1 = _radius * sinf(ang * (j + 1));
+       cb = _radius * cosf(ang * j);
+       cb1 = _radius * cosf(ang * (j + 1));
        if (j != _precision - 1)
        {
          d.nx=d.x = sb * c;
@@ -379,17 +379,17 @@ void VAOPrimitives::createVAO(const std::string &_name,const std::vector<vertDat
  */
 //----------------------------------------------------------------------------------------------------------------------
 
-void VAOPrimitives::fghCircleTable(double **io_sint, double **io_cost, const int _n  ) noexcept
+void VAOPrimitives::fghCircleTable(Real **io_sint, Real **io_cost, const int _n  ) noexcept
 {
   int i;
   /* Table size, the sign of n flips the circle direction */
   const int size = abs(_n);
   /* Determine the angle between samples */
-  const double angle = 2*M_PI/(double)( ( _n == 0 ) ? 1 : _n );
+  const Real angle = 2*M_PI/( ( _n == 0 ) ? 1 : _n );
 
   /* Allocate memory for n samples, plus duplicate of first entry at the end */
-  *io_sint = new double[size+1];
-  *io_cost = new double[size+1];
+  *io_sint = new Real[size+1];
+  *io_cost = new Real[size+1];
 
   /* Compute cos and sin around the circle */
   (*io_sint)[0] = 0.0;
@@ -397,8 +397,8 @@ void VAOPrimitives::fghCircleTable(double **io_sint, double **io_cost, const int
 
   for (i=1; i<size; ++i)
   {
-    (*io_sint)[i] = sin(angle*i);
-    (*io_cost)[i] = cos(angle*i);
+    (*io_sint)[i] = sinf(angle*i);
+    (*io_cost)[i] = cosf(angle*i);
   }
   /* Last sample is duplicate of the first */
   (*io_sint)[size] = (*io_sint)[0];
@@ -415,8 +415,8 @@ void VAOPrimitives::createCylinder(const std::string &_name, const Real _radius,
   const double zStep = _height / ( ( _stacks > 0 ) ? _stacks : 1 );
 
   /* Pre-computed circle */
-
-  double *sint,*cost;
+  // should really re-write this using smart pointers
+  Real *sint,*cost;
 
 
   fghCircleTable(&sint,&cost,-_slices);
@@ -429,8 +429,8 @@ void VAOPrimitives::createCylinder(const std::string &_name, const Real _radius,
   z1 = zStep;
   // texture co-ords start at 0,0
   // texture steps
-  Real du=1.0/_stacks;
-  Real dv=1.0/_slices;
+  Real du=1.0f/_stacks;
+  Real dv=1.0f/_slices;
   /* Cover each stack with a quad strip, except the top stack */
   Real u=0.0;
   Real v=0.0;
@@ -451,12 +451,12 @@ void VAOPrimitives::createCylinder(const std::string &_name, const Real _radius,
       d.nz=0;
       d.x=sint[j]*_radius;
       d.y=cost[j]*_radius;
-      d.z=-z0/2.0;
+      d.z=-z0/2.0f;
       data.push_back(d);
       // vert 2
       d.u=u;
       d.v=v+dv;
-      d.z=-z1/2.0;
+      d.z=-z1/2.0f;
       data.push_back(d);
       // vert 3
       d.u=u+du;
@@ -465,7 +465,7 @@ void VAOPrimitives::createCylinder(const std::string &_name, const Real _radius,
       d.ny=cost[j+1];
       d.x=sint[j+1]*_radius;
       d.y=cost[j+1]*_radius;
-      d.z=-z0/2.0;
+      d.z=-z0/2.0f;
       data.push_back(d);
 
 
@@ -477,7 +477,7 @@ void VAOPrimitives::createCylinder(const std::string &_name, const Real _radius,
       d.nz=0;
       d.x=sint[j+1]*_radius;
       d.y=cost[j+1]*_radius;
-      d.z=-z0/2.0;
+      d.z=-z0/2.0f;
       data.push_back(d);
 
       // vert 1;
@@ -488,7 +488,7 @@ void VAOPrimitives::createCylinder(const std::string &_name, const Real _radius,
       d.nz=0;
       d.x=sint[j]*_radius;
       d.y=cost[j]*_radius;
-      d.z=-z1/2.0;
+      d.z=-z1/2.0f;
       data.push_back(d);
 
       // vert 1;
@@ -499,13 +499,13 @@ void VAOPrimitives::createCylinder(const std::string &_name, const Real _radius,
       d.nz=0;
       d.x=sint[j+1]*_radius;
       d.y=cost[j+1]*_radius;
-      d.z=-z1/2.0;
+      d.z=-z1/2.0f;
       data.push_back(d);
 
       u+=du;
     }
     v+=dv;
-    u=0.0;
+    u=0.0f;
     z0 = z1; z1 += zStep;
    }
     // create VAO
@@ -521,11 +521,11 @@ void VAOPrimitives::createCylinder(const std::string &_name, const Real _radius,
 void VAOPrimitives::createCone(const std::string &_name,const Real _base,const Real _height, const int _slices,const int _stacks  ) noexcept
 {
     /* Step in z and radius as stacks are drawn. */
-    double z0,z1;
-    double r0,r1;
+    Real z0,z1;
+    Real r0,r1;
 
-    const double zStep = _height / ( ( _stacks > 0 ) ? _stacks : 1 );
-    const double rStep = _base / ( ( _stacks > 0 ) ? _stacks : 1 );
+    const Real zStep = _height / ( ( _stacks > 0 ) ? _stacks : 1 );
+    const Real rStep = _base / ( ( _stacks > 0 ) ? _stacks : 1 );
 
     /* Scaling factors for vertex normals */
 
@@ -534,26 +534,26 @@ void VAOPrimitives::createCone(const std::string &_name,const Real _base,const R
 
     /* Pre-computed circle */
 
-    double *sint,*cost;
+    Real *sint,*cost;
     fghCircleTable(&sint,&cost,-_slices);
-    z0 = 0.0;
+    z0 = 0.0f;
     z1 = zStep;
 
     r0 = _base;
     r1 = r0 - rStep;
     // texture co-ords start at 0,0
     // texture steps
-    Real du=1.0/_stacks;
-    Real dv=1.0/_slices;
+    Real du=1.0f/_stacks;
+    Real dv=1.0f/_slices;
     /* Cover each stack with a quad strip, except the top stack */
-    Real u=1.0;
-    Real v=1.0;
+    Real u=1.0f;
+    Real v=1.0f;
     // a std::vector to store our verts, remember vector packs contiguously so we can use it
     std::vector <vertData> data;
     vertData d;
 
-  Real phi = (Real)atan(_base/_height);
-  Real sphi= (Real)sin(phi);
+  Real phi = atanf(_base/_height);
+  Real sphi= sinf(phi);
 
 
   for(int i=0; i<_stacks; i++ )
@@ -563,9 +563,9 @@ void VAOPrimitives::createCone(const std::string &_name,const Real _base,const R
       d.u=u;
       d.v=v;
 
-      Real theta = j == _slices ? 0.f : (Real) j / _slices * TWO_PI;
-      Real ctheta = (Real)cos(theta);
-      Real stheta = (Real)sin(theta);
+      Real theta = j == _slices ? 0.f :  j / _slices * TWO_PI;
+      Real ctheta = cosf(theta);
+      Real stheta = sinf(theta);
 
       d.nx = ctheta;
       d.ny = -stheta;
@@ -604,7 +604,7 @@ void VAOPrimitives::createCone(const std::string &_name,const Real _base,const R
 void VAOPrimitives::createDisk(const std::string &_name, const Real _radius, const int _slices ) noexcept
 {
     /* Pre-computed circle */
-    double *sint,*cost;
+    Real *sint,*cost;
 
     fghCircleTable(&sint,&cost,-_slices);
     // as were using a triangle fan its  vert at the centere then
@@ -612,9 +612,9 @@ void VAOPrimitives::createDisk(const std::string &_name, const Real _radius, con
 
     // texture co-ords start at 0,0
     // texture steps
-    Real du=1.0/_slices;
+    Real du=1.0f/_slices;
 
-    Real u=0.0;
+    Real u=0.0f;
     Real v=0.0;
     // a std::vector to store our verts, remember vector packs contiguously so we can use it
     std::vector <vertData> data;
@@ -668,24 +668,24 @@ void VAOPrimitives::createTorus(const std::string &_name,const Real _minorRadius
     Real *normal= new Real[3 * _nSides * _nRings];
     Real *uv= new Real[2*_nSides*_nRings*2];
 
-    dpsi =  2.0 * M_PI / (double)(_nRings - 1) ;
-    dphi = -2.0 * M_PI / (double)(_nSides - 1) ;
-    psi  = 0.0;
-    Real uStep=1.0/_nRings;
-    Real vStep=1.0/_nSides;
-    Real tu=0.0;
-    Real tv=0.0;
+    dpsi =  2.0f * static_cast<Real>(M_PI) / (_nRings - 1) ;
+    dphi = -2.0f * static_cast<Real>(M_PI) / (_nSides - 1) ;
+    psi  = 0.0f;
+    Real uStep=1.0f/_nRings;
+    Real vStep=1.0f/_nSides;
+    Real tu=0.0f;
+    Real tv=0.0f;
     // pre compute the values for the torus
     for(int j=0; j<_nRings; ++j )
     {
-      cpsi = cos ( psi ) ;
-      spsi = sin ( psi ) ;
+      cpsi = cosf ( psi ) ;
+      spsi = sinf ( psi ) ;
       phi = 0.0;
       for(int i=0; i<_nSides; ++i )
       {
         int offset = 3 * ( j * _nSides + i ) ;
-        cphi = cos ( phi ) ;
-        sphi = sin ( phi ) ;
+        cphi = cosf( phi ) ;
+        sphi = sinf( phi ) ;
         *(vertex + offset + 0) = cpsi * ( oradius + cphi * iradius ) ;
         *(vertex + offset + 1) = spsi * ( oradius + cphi * iradius ) ;
         *(vertex + offset + 2) =                    sphi * iradius  ;
@@ -705,7 +705,7 @@ void VAOPrimitives::createTorus(const std::string &_name,const Real _minorRadius
         tu+=uStep;
         phi += dphi;
         } // end of _nSides loop
-        tu=0.0;
+        tu=0.0f;
         tv+=vStep;
         psi += dpsi;
       }  // end of _nRings loop
@@ -825,18 +825,18 @@ void VAOPrimitives::createTrianglePlane(const std::string &_name,const Real _wid
     // _precision.
 
     // as our plane is centered on 0.0 we range from Width/2.0 and Depth/2.0
-    Real w2=_width/2.0;
-    Real d2=_depth/2.0;
+    Real w2=_width/2.0f;
+    Real d2=_depth/2.0f;
     // calculate the steps for each quad / tri
     Real wStep=_width/_wP;
     Real dStep=_depth/_dP;
     // texture co-ords start at 0,0
     // texture steps
-  Real du=0.9/_wP;
-  Real dv=0.9/_dP;
+  Real du=0.9f/_wP;
+  Real dv=0.9f/_dP;
 
-    Real u=0.0;
-    Real v=0.0;
+    Real u=0.0f;
+    Real v=0.0f;
 
     // a std::vector to store our verts, remember vector packs contiguously so we can use it
     std::vector <vertData> data;

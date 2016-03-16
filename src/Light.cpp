@@ -34,15 +34,15 @@ Light::Light(const Vec3 &_pos,const Colour& _col, LightModes _lightMode ) noexce
   m_diffuse.set(_col);
   m_specular.set(_col);
   m_lightMode = _lightMode;
-  m_constantAtten=1.0;
-  m_linearAtten=0.0;
-  m_quadraticAtten=0.0;
+  m_constantAtten=1.0f;
+  m_linearAtten=0.0f;
+  m_quadraticAtten=0.0f;
   m_active=true;
   // set the w for our light modes
   m_position.m_w=static_cast<Real>(m_lightMode);
   // as per the orange book we use this value along with pos.m_w to determine the light
   // type.
-  m_cutoffAngle=180;
+  m_cutoffAngle=180.0f;
 }
 
 Light::Light(const Light &_l) noexcept
@@ -70,13 +70,13 @@ Light::Light(const Vec3 &_pos,const Colour& _col, const Colour& _specColour,Ligh
   m_diffuse.set(_col);
   m_specular.set(_specColour);
   m_lightMode=_lightMode;
-  m_constantAtten=1.0;
-  m_linearAtten=0.0;
-  m_quadraticAtten=0.0;
+  m_constantAtten=1.0f;
+  m_linearAtten=0.0f;
+  m_quadraticAtten=0.0f;
   m_active=true;
   // set the w for our light modes
   m_position.m_w=static_cast<Real>(m_lightMode);
-  m_cutoffAngle=180;
+  m_cutoffAngle=180.0f;
 
 
 }

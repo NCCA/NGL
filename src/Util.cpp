@@ -88,20 +88,20 @@ NGL_DLLEXPORT Vec3 calcNormal (const Vec3 &_p1,  const Vec3 &_p2, const Vec3 &_p
 
 NGL_DLLEXPORT Real radians(const Real _deg )
 {
-  return (_deg/180.0f) * M_PI;
+  return (_deg/180.0f) * static_cast<Real>(M_PI);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 NGL_DLLEXPORT Real degrees( const Real _rad   ) noexcept
 {
-  return (_rad / M_PI) * 180.0f;
+  return (_rad / static_cast<Real>(M_PI)) * 180.0f;
 }
 
 
 NGL_DLLEXPORT  void NGLCheckGLError( const std::string  &_file, const int _line ) noexcept
 {
  //std::cout<<"NGLCheckGLError Called ______________________\n";
- int errNum = glGetError();
+ auto errNum = glGetError();
   while (errNum != GL_NO_ERROR)
   {
    // std::cout<<errNum<<"\n";
@@ -142,7 +142,7 @@ NGL_DLLEXPORT Mat4 perspective(Real _fovy,Real _aspect, Real _zNear, Real _zFar)
 //  result.m_23   = - 1.0;
 //  result.m_32  = - (2.0f * _zFar * _zNear) / (_zFar - _zNear);
 
-    Real range = tan(radians(_fovy / 2.0)) * _zNear;
+    Real range = tanf(radians(_fovy / 2.0f)) * _zNear;
     Real left = -range * _aspect;
     Real right = range * _aspect;
     Real bottom = -range;
@@ -159,7 +159,7 @@ NGL_DLLEXPORT Mat4 perspective(Real _fovy,Real _aspect, Real _zNear, Real _zFar)
 NGL_DLLEXPORT Mat4 perspectiveFov(Real const & _fov, Real const & _width, Real const & _height, Real const & _zNear, Real const & _zFar) noexcept
 {
     Real rad = radians(_fov);
-    Real h = cos(0.5f * rad) / sin(0.5f * rad);
+    Real h = cosf(0.5f * rad) / sinf(0.5f * rad);
     Real w = h * _height / _width;
     Mat4 result;
     result.m_00 = w;
@@ -173,7 +173,7 @@ NGL_DLLEXPORT Mat4 perspectiveFov(Real const & _fov, Real const & _width, Real c
 
 NGL_DLLEXPORT Mat4 infinitePerspective(Real _fovy, Real _aspect, Real _zNear) noexcept
 {
-  Real const range = tan(radians(_fovy / 2.0f)) * _zNear;
+  Real const range = tanf(radians(_fovy / 2.0f)) * _zNear;
   Real left = -range * _aspect;
   Real right = range * _aspect;
   Real bottom = -range;
@@ -218,7 +218,7 @@ NGL_DLLEXPORT Mat4 lookAt(const Vec3  & _eye,const Vec3  & _center,const Vec3  &
 
 NGL_DLLEXPORT Mat4 ortho(Real _left, Real _right, Real _bottom, Real _top, Real _zNear, Real _zFar) noexcept
 {
-  Mat4 result(1);
+  Mat4 result(1.0f);
   result.m_00= 2.0f / (_right - _left);
   result.m_11= 2.0f / (_top - _bottom);
   result.m_22= - 2.0f / (_zFar - _zNear);

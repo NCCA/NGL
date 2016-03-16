@@ -23,7 +23,7 @@
 
 namespace ngl
 {
-const static GLubyte indices[]=  {
+constexpr GLubyte indices[]=  {
                                     0,1,5,0,4,5, // back
                                     3,2,6,7,6,3, // front
                                     0,1,2,3,2,0, // top
@@ -33,7 +33,7 @@ const static GLubyte indices[]=  {
 
                                  };
 // indices for line loop
-const static GLubyte lindices[]=  {
+constexpr GLubyte lindices[]=  {
                                     0,3,7,4,0, /// Left
                                     0,1,5,4,0, /// back quad
                                     1,2,6,5,1, // right

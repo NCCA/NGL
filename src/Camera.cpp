@@ -19,8 +19,7 @@
 #include "NGLassert.h"
 #include "VertexArrayObject.h"	
 #include <iostream>
-#include <vector>
-#include <boost/format.hpp>
+#include <cmath>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Camera.cpp
 /// @brief implementation files for Camera class
@@ -29,7 +28,7 @@ namespace ngl
 {
 // a lot of this stuff is from the HILL book Computer Graphics with OpenGL 2nd Ed Prentice Hall
 // a very good book
-const static Real CAMERANEARLIMIT=0.00001f;
+constexpr Real CAMERANEARLIMIT=0.00001f;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -52,7 +51,7 @@ void Camera :: setDefaultCamera() noexcept
   // make default camera
   m_eye=1.0f;
   m_look=0.0f;
-  m_up.set(0,1,0);
+  m_up.set(ngl::Vec4::up());
   m_fov=45.0;
   m_zNear=0.0001f;
   m_zFar=350.0f;
@@ -64,7 +63,7 @@ void Camera :: setDefaultCamera() noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Camera :: set(const Vec3 &_eye, const Vec3 &_look,  const Vec3 &_up  ) noexcept
+void Camera::set(const Vec3 &_eye, const Vec3 &_look,  const Vec3 &_up  ) noexcept
 {
 	// make U, V, N vectors
 	m_eye=_eye;
@@ -92,7 +91,7 @@ Camera::Camera(const Vec3 &_eye, const Vec3 &_look, const Vec3 &_up ) noexcept
 void Camera::setViewMatrix() noexcept
 {
     // grab a pointer to the matrix so we can index is quickly
-    Real *M=(Real *)&m_viewMatrix.m_m;
+    auto M = &m_viewMatrix.m_m[0][0];
     M[0] =  m_u.m_x;         M[1] =  m_v.m_x;        M[2] =  m_n.m_x;        M[3] = 0.0;
     M[4] =  m_u.m_y;         M[5] =  m_v.m_y;        M[6] =  m_n.m_y;        M[7] = 0.0;
     M[8]  = m_u.m_z;         M[9] =  m_v.m_z;        M[10]=  m_n.m_z;        M[11] =0.0;
@@ -105,7 +104,7 @@ void Camera::setViewMatrix() noexcept
 void Camera::setPerspProjection() noexcept
 {
   // note 1/tan == cotangent
-  Real f= 1.0/tan(radians(m_fov)/2.0);
+  Real f= 1.0f/tanf(radians(m_fov)/2.0f);
   m_projectionMatrix.identity();
 
   m_projectionMatrix.m_m[0][0]=f/m_aspect;
@@ -114,8 +113,8 @@ void Camera::setPerspProjection() noexcept
   m_projectionMatrix.m_m[2][2]=(m_zFar+m_zNear)/(m_zNear-m_zFar);
   m_projectionMatrix.m_m[3][2]=(2*m_zFar*m_zNear)/(m_zNear-m_zFar);
 
-  m_projectionMatrix.m_m[2][3]=-1;
-  m_projectionMatrix.m_m[3][3]=1.0;
+  m_projectionMatrix.m_m[2][3]=-1.0f;
+  m_projectionMatrix.m_m[3][3]=1.0f;
 
 }
 
@@ -131,9 +130,9 @@ void Camera::setProjectionMatrix() noexcept
 void Camera::setShape(Real _viewAngle, Real _aspect, Real _near, Real _far  ) noexcept
 
 { // load projection matrix and camera values
-	if(_viewAngle >180.0)
+  if(_viewAngle >180.0f)
 	{
-		_viewAngle=180.0;
+    _viewAngle=180.0f;
 	}
 	NGL_ASSERT(_far>_near);
 	NGL_ASSERT(_near>CAMERANEARLIMIT);
@@ -209,8 +208,8 @@ void Camera::rotAxes( Vec4& io_a, Vec4& io_b,  const Real _angle  ) noexcept
 	// convert to radians
 	Real ang = radians(_angle);
 	// pre-calc cos and sine
-	Real c = cos(ang);
-	Real s = sin(ang);
+  Real c = cosf(ang);
+  Real s = sinf(ang);
 	// tmp for io_a vector
 	Vec4 t( c * io_a.m_x + s * io_b.m_x,  c * io_a.m_y + s * io_b.m_y,  c * io_a.m_z + s * io_b.m_z);
 	// now set to new rot value
@@ -331,7 +330,7 @@ void Camera::writeRib( RibExport &_rib ) const noexcept
 {
 	if(_rib.isOpen()!=0)
 	{
-		Real *M=(Real *)&m_viewMatrix.m_m;
+
 		_rib.writeTabs();
 		_rib.getStream() <<"# Camera transform from GraphicsLib Camera\n"  ;
 		_rib.getStream() <<"# now we need to flip the Z axis\n";
@@ -340,7 +339,7 @@ void Camera::writeRib( RibExport &_rib ) const noexcept
 		_rib.getStream() <<"ConcatTransform [ ";
 		for (int i=0; i<16; i++)
 		{
-			_rib.getStream() <<M[i]<<" ";
+      _rib.getStream() <<m_viewMatrix.m_openGL[i]<<" ";
 		}
 		_rib.getStream() <<"]\n";
 		_rib.getStream() <<"# now we Set the clipping \n";
@@ -355,7 +354,7 @@ void Camera::writeRib( RibExport &_rib ) const noexcept
 void Camera::calculateFrustum() noexcept
 {
 
-    Real tang = (Real)tan(radians(m_fov) * 0.5) ;
+    Real tang = tanf(radians(m_fov) * 0.5f) ;
     Real nh = m_zNear * tang;
     Real nw = nh * m_aspect;
     Real fh = m_zFar  * tang;

@@ -138,13 +138,15 @@ void ShaderProgram::link() noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-GLuint ShaderProgram::getUniformLocation(const char* _name   ) const noexcept
+GLint ShaderProgram::getUniformLocation(const char* _name   ) const noexcept
 {
+  // nasty C lib uses -1 return value for error
   GLint loc = glGetUniformLocation( m_programID ,_name);
   if (loc == -1)
   {
     std::cerr<<"Uniform \""<<_name<<"\" not found in Program \""<<m_programName<<"\"\n";
   }
+  // so we cast to correct value when returning!
   return loc;
 }
 
@@ -169,7 +171,7 @@ void ShaderProgram::printActiveUniforms() const noexcept
     GLsizei l;
     for (GLint i=0; i<nUniforms; ++i)
     {
-       glGetActiveUniformName(m_programID, i, 256, &l, name);
+       glGetActiveUniformName(m_programID, static_cast<GLuint>(i), 256, &l, name);
        std::cerr << "Uniform: "<<name<<"\n";
     }
 #endif
@@ -184,9 +186,9 @@ void ShaderProgram::printActiveAttributes() const noexcept
   GLint size; GLenum type;
   GLsizei l;
   char name[256];
-  for (int i=0; i < nAttribs; ++i)
+  for (GLint i=0; i < nAttribs; ++i)
   {
-    glGetActiveAttrib(m_programID, i, 256, &l, &size, &type, name);
+    glGetActiveAttrib(m_programID, static_cast<GLuint>(i), 256, &l, &size, &type, name);
     std::cerr << "Attribute"<<i<<":\""<<name<<"\" Size:"<<size<<" Type:";
     switch(type)
     {
