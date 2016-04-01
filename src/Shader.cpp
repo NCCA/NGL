@@ -18,7 +18,7 @@
 //#include <QFile>
 #include <fstream>
 #include "Shader.h"
-
+#include <string> // needed for windows build as get error otherwise
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Shader.cpp
