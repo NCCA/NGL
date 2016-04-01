@@ -32,7 +32,7 @@ namespace ngl
     void writeLineNumber() noexcept;
     void writeTimeStamp() noexcept;
     std::string currentTime() noexcept;
-    void setColour(enum Colours c) noexcept;
+    void setColour( Colours c) noexcept;
 
 
   };
@@ -114,7 +114,7 @@ namespace ngl
   }
 
   // from http://stackoverflow.com/questions/3585846/color-text-in-terminal-aplications-in-unix
-  void Logger::Impl::setColour(enum Colours c) noexcept
+  void Logger::Impl::setColour( Colours c) noexcept
   {
     if(m_disableColours) return;
 
