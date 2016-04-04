@@ -18,8 +18,6 @@
 
 #include "boost/spirit.hpp"
 /// @todo re-write this at some stage to use boost::spirit::qi
-
-#include <boost/foreach.hpp>
 #include "Obj.h"
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Obj.cpp

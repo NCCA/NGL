@@ -379,47 +379,46 @@ void VAOPrimitives::createVAO(const std::string &_name,const std::vector<vertDat
  */
 //----------------------------------------------------------------------------------------------------------------------
 
-void VAOPrimitives::fghCircleTable(Real **io_sint, Real **io_cost, const int _n  ) noexcept
+
+void VAOPrimitives::fghCircleTable(std::unique_ptr<Real []> &io_sint, std::unique_ptr<Real []> &io_cost,  int _n  ) noexcept
 {
-  int i;
-  /* Table size, the sign of n flips the circle direction */
-  const int size = abs(_n);
+  unsigned int i;
   /* Determine the angle between samples */
-  const Real angle = 2*M_PI/( ( _n == 0 ) ? 1 : _n );
+  const Real angle = 2*PI/( ( _n == 0 ) ? 1 : _n );
+  /* Table size, the sign of n flips the circle direction */
+  int size = abs(_n);
 
   /* Allocate memory for n samples, plus duplicate of first entry at the end */
-  *io_sint = new Real[size+1];
-  *io_cost = new Real[size+1];
-
+  io_sint.reset( new Real[size+1]);
+  io_cost.reset( new Real[size+1]);
   /* Compute cos and sin around the circle */
-  (*io_sint)[0] = 0.0;
-  (*io_cost)[0] = 1.0;
+  io_sint[0] = 0.0;
+  io_cost[0] = 1.0;
 
-  for (i=1; i<size; ++i)
+  for (i=1; i<static_cast<unsigned int>(size); ++i)
   {
-    (*io_sint)[i] = sinf(angle*i);
-    (*io_cost)[i] = cosf(angle*i);
+    io_sint[i] = sinf(angle*i);
+    io_cost[i] = cosf(angle*i);
   }
   /* Last sample is duplicate of the first */
-  (*io_sint)[size] = (*io_sint)[0];
-  (*io_cost)[size] = (*io_cost)[0];
+  io_sint[static_cast<unsigned int>(size)] = io_sint[0];
+  io_cost[static_cast<unsigned int>(size)] = io_cost[0];
 }
 
-
 //----------------------------------------------------------------------------------------------------------------------
-void VAOPrimitives::createCylinder(const std::string &_name, const Real _radius,const Real _height,const int _slices,const int _stacks ) noexcept
+void VAOPrimitives::createCylinder(const std::string &_name,  Real _radius,const Real _height,unsigned int _slices,unsigned int _stacks ) noexcept
 {
   /* Step in z and radius as stacks are drawn. */
 
-  double z0,z1;
-  const double zStep = _height / ( ( _stacks > 0 ) ? _stacks : 1 );
+  Real z0,z1;
+  const Real zStep = _height / ( ( _stacks > 0 ) ? _stacks : 1 );
 
   /* Pre-computed circle */
-  // should really re-write this using smart pointers
-  Real *sint,*cost;
+  std::unique_ptr<Real []> sint;
+  std::unique_ptr<Real []> cost;
 
 
-  fghCircleTable(&sint,&cost,-_slices);
+  fghCircleTable(sint,cost,static_cast<int>(-_slices));
 
   /* Do the stacks */
   // a std::vector to store our verts, remember vector packs contiguously so we can use it
@@ -435,13 +434,13 @@ void VAOPrimitives::createCylinder(const std::string &_name, const Real _radius,
   Real u=0.0;
   Real v=0.0;
 
-  for(int i=1; i<=_stacks+1; ++i )
+  for(unsigned int i=1; i<=_stacks+1; ++i )
   {
     if(i==_stacks)
     {
         z1 = _height;
     }
-    for(int j=0; j<=_slices-1; ++j)
+    for(unsigned int j=0; j<=_slices-1; ++j)
     {
       // vert 1;
       d.u=u;
@@ -511,65 +510,52 @@ void VAOPrimitives::createCylinder(const std::string &_name, const Real _radius,
     // create VAO
   createVAO(_name,data,GL_TRIANGLES);
 
-    /* Release sin and cos tables */
-
-    delete [] sint;
-    delete [] cost;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void VAOPrimitives::createCone(const std::string &_name,const Real _base,const Real _height, const int _slices,const int _stacks  ) noexcept
+void VAOPrimitives::createCone(const std::string &_name, Real _base, Real _height, unsigned int _slices,unsigned int _stacks  ) noexcept
 {
-    /* Step in z and radius as stacks are drawn. */
-    Real z0,z1;
-    Real r0,r1;
+  /* Step in z and radius as stacks are drawn. */
+  Real z0,z1;
+  Real r0,r1;
 
-    const Real zStep = _height / ( ( _stacks > 0 ) ? _stacks : 1 );
-    const Real rStep = _base / ( ( _stacks > 0 ) ? _stacks : 1 );
+  const Real zStep = _height / ( ( _stacks > 0 ) ? _stacks : 1 );
+  const Real rStep = _base / ( ( _stacks > 0 ) ? _stacks : 1 );
 
-    /* Scaling factors for vertex normals */
+  /* Scaling factors for vertex normals */
 
-  //	const double cosn = ( _height / sqrt ( _height * _height + _base * _base ));
-  //	const double sinn = ( _base   / sqrt ( _height * _height + _base * _base ));
+  const Real cosn = ( _height / sqrtf ( _height * _height + _base * _base ));
+  const Real sinn = ( _base   / sqrtf ( _height * _height + _base * _base ));
 
-    /* Pre-computed circle */
+  /* Pre-computed circle */
+  std::unique_ptr<Real []> sint;
+  std::unique_ptr<Real []> cost;
+  fghCircleTable(sint,cost,static_cast<int>(-_slices));
 
-    Real *sint,*cost;
-    fghCircleTable(&sint,&cost,-_slices);
-    z0 = 0.0f;
-    z1 = zStep;
+  z0 = 0.0f;
+  z1 = zStep;
 
-    r0 = _base;
-    r1 = r0 - rStep;
-    // texture co-ords start at 0,0
-    // texture steps
-    Real du=1.0f/_stacks;
-    Real dv=1.0f/_slices;
-    /* Cover each stack with a quad strip, except the top stack */
-    Real u=1.0f;
-    Real v=1.0f;
-    // a std::vector to store our verts, remember vector packs contiguously so we can use it
-    std::vector <vertData> data;
-    vertData d;
-
-  Real phi = atanf(_base/_height);
-  Real sphi= sinf(phi);
-
-
-  for(int i=0; i<_stacks; i++ )
+  r0 = _base;
+  r1 = r0 - rStep;
+  // texture co-ords start at 0,0
+  // texture steps
+  Real du=1.0f/_stacks;
+  Real dv=1.0f/_slices;
+  /* Cover each stack with a quad strip, except the top stack */
+  Real u=1.0f;
+  Real v=1.0f;
+  // a std::vector to store our verts, remember vector packs contiguously so we can use it
+  std::vector <vertData> data;
+  vertData d;
+  for(unsigned int i=0; i<_stacks; i++ )
   {
-    for(int j=0; j<=_slices; j++)
+    for(unsigned int j=0; j<=_slices; j++)
     {
       d.u=u;
       d.v=v;
-
-      Real theta = j == _slices ? 0.f :  j / _slices * TWO_PI;
-      Real ctheta = cosf(theta);
-      Real stheta = sinf(theta);
-
-      d.nx = ctheta;
-      d.ny = -stheta;
-      d.nz = sphi;
+      d.nx = cost[j]*cosn; //ctheta;
+      d.ny = sint[j] * sinn ;//-stheta;
+      d.nz = sinn;// sphi;
 
       d.x=cost[j]*r0;
       d.y=sint[j]*r0;
@@ -592,67 +578,58 @@ void VAOPrimitives::createCone(const std::string &_name,const Real _base,const R
 
   }
   // create VAO
-
   createVAO(_name,data,GL_TRIANGLE_STRIP);
-  /* Release sin and cos tables */
-
-  delete [] sint;
-  delete [] cost;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void VAOPrimitives::createDisk(const std::string &_name, const Real _radius, const int _slices ) noexcept
+void VAOPrimitives::createDisk(const std::string &_name, const Real _radius, unsigned int _slices ) noexcept
 {
-    /* Pre-computed circle */
-    Real *sint,*cost;
+  /* Pre-computed circle */
+  std::unique_ptr<Real []> sint;
+  std::unique_ptr<Real []> cost;
+  fghCircleTable(sint,cost,static_cast<int>(-_slices));
+  // as were using a triangle fan its  vert at the centere then
+  //
 
-    fghCircleTable(&sint,&cost,-_slices);
-    // as were using a triangle fan its  vert at the centere then
-    //
+  // texture co-ords start at 0,0
+  // texture steps
+  Real du=1.0f/_slices;
 
-    // texture co-ords start at 0,0
-    // texture steps
-    Real du=1.0f/_slices;
+  Real u=0.0f;
+  Real v=0.0f;
+  // a std::vector to store our verts, remember vector packs contiguously so we can use it
+  std::vector <vertData> data;
+  vertData d;
+  // as we are doing a tri fan this is the center
+  d.u=u;
+  d.v=v;
+  d.nx=0.0f;
+  d.ny=0.0f;
+  d.nz=-1.0f;
+  d.x=0;
+  d.y=0;
+  d.z=0;
+  data.push_back(d);
+  v=1.0;
 
-    Real u=0.0f;
-    Real v=0.0;
-    // a std::vector to store our verts, remember vector packs contiguously so we can use it
-    std::vector <vertData> data;
-    vertData d;
-    // as we are doing a tri fan this is the center
+  for (unsigned int j=0; j<=_slices; ++j)
+  {
     d.u=u;
     d.v=v;
-    d.nx=0.0;
-    d.ny=0.0;
-    d.nz=-1.0;
-    d.x=0;
-    d.y=0;
-    d.z=0;
+    // normals set above
+    d.x=cost[j]*_radius;
+    d.y=sint[j]*_radius;
+    // z set above
     data.push_back(d);
-    v=1.0;
-
-    for (int j=0; j<=_slices; ++j)
-    {
-        d.u=u;
-        d.v=v;
-        // normals set above
-        d.x=cost[j]*_radius;
-        d.y=sint[j]*_radius;
-        // z set above
-        data.push_back(d);
-        u+=du;
-    }
-    // create VBO
-    createVAO(_name,data,GL_TRIANGLE_FAN);
-
-    /* Release sin and cos tables */
-    delete [] sint;
-    delete [] cost;
+    u+=du;
+  }
+  // create VBO
+  createVAO(_name,data,GL_TRIANGLE_FAN);
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void VAOPrimitives::createTorus(const std::string &_name,const Real _minorRadius,const Real _majorRadius,int _nSides, int _nRings,const bool _flipTX ) noexcept
+void VAOPrimitives::createTorus(const std::string &_name, Real _minorRadius, Real _majorRadius,unsigned int _nSides, unsigned int _nRings, bool _flipTX ) noexcept
 {
     Real  iradius = _minorRadius, oradius = _majorRadius, phi, psi, dpsi, dphi;
 
@@ -664,9 +641,10 @@ void VAOPrimitives::createTorus(const std::string &_name,const Real _minorRadius
     /* Increment the number of sides and rings to allow for one more point than surface */
     _nSides ++ ;
     _nRings ++ ;
-    Real *vertex= new Real[3 * _nSides * _nRings];
-    Real *normal= new Real[3 * _nSides * _nRings];
-    Real *uv= new Real[2*_nSides*_nRings*2];
+    // should use vec3 / 2 for these at some stage
+    std::unique_ptr<Real []>vertex( new Real[3 * _nSides * _nRings]);
+    std::unique_ptr<Real []>normal( new Real[3 * _nSides * _nRings]);
+    std::unique_ptr<Real []>uv( new Real[2*_nSides*_nRings*2]);
 
     dpsi =  2.0f * static_cast<Real>(M_PI) / (_nRings - 1) ;
     dphi = -2.0f * static_cast<Real>(M_PI) / (_nSides - 1) ;
@@ -676,31 +654,31 @@ void VAOPrimitives::createTorus(const std::string &_name,const Real _minorRadius
     Real tu=0.0f;
     Real tv=0.0f;
     // pre compute the values for the torus
-    for(int j=0; j<_nRings; ++j )
+    for(unsigned int j=0; j<_nRings; ++j )
     {
       cpsi = cosf ( psi ) ;
       spsi = sinf ( psi ) ;
       phi = 0.0;
-      for(int i=0; i<_nSides; ++i )
+      for(unsigned int i=0; i<_nSides; ++i )
       {
-        int offset = 3 * ( j * _nSides + i ) ;
+        unsigned int offset = 3 * ( j * _nSides + i ) ;
         cphi = cosf( phi ) ;
         sphi = sinf( phi ) ;
-        *(vertex + offset + 0) = cpsi * ( oradius + cphi * iradius ) ;
-        *(vertex + offset + 1) = spsi * ( oradius + cphi * iradius ) ;
-        *(vertex + offset + 2) =                    sphi * iradius  ;
-        *(normal + offset + 0) = cpsi * cphi ;
-        *(normal + offset + 1) = spsi * cphi ;
-        *(normal + offset + 2) =        sphi ;
+        vertex[offset] = cpsi * ( oradius + cphi * iradius ) ;
+        vertex[offset+1] = spsi * ( oradius + cphi * iradius ) ;
+        vertex[offset+2] = sphi * iradius  ;
+        normal[offset] = cpsi * cphi ;
+        normal[offset+1] = spsi * cphi ;
+        normal[offset+2] =        sphi ;
         if (_flipTX)
         {
-          *(uv+offset)=tv;
-          *(uv+offset+1)=tu;
+          uv[offset]=tv;
+          uv[offset+1]=tu;
         }
         else
         {
-          *(uv+offset)=tu;
-          *(uv+offset+1)=tv;
+          uv[offset]=tu;
+          uv[offset+1]=tv;
         }
         tu+=uStep;
         phi += dphi;
@@ -710,108 +688,104 @@ void VAOPrimitives::createTorus(const std::string &_name,const Real _minorRadius
         psi += dpsi;
       }  // end of _nRings loop
 
-    Real *n,*v,*t;
     // a std::vector to store our verts, remember vector packs contiguously so we can use it
     std::vector <vertData> data;
     vertData d;
-    for(int i=0; i<_nSides-1; ++i )
+    for(unsigned int i=0; i<_nSides-1; ++i )
     {
-        for(int j=0; j<_nRings-1; ++j )
+        for(unsigned int j=0; j<_nRings-1; ++j )
         {
-            int offset = 3 * ( j * _nSides + i ) ;
-            n=normal+offset;
-            v=vertex+offset;
-            t=uv+offset;
-            d.u=*t;
-            d.v=*(t+1);
-            d.nx=*n;
-            d.ny=*(n+1);
-            d.nz=*(n+2);
-            d.x=*v;
-            d.y=*(v+1);
-            d.z=*(v+2);
+            unsigned int offset = 3 * ( j * _nSides + i ) ;
+           // n=normal[offset];
+           // v=vertex[offset];
+           // t=uv[offset];
+            d.u=uv[offset];
+            d.v=uv[offset+1];
+            d.nx=normal[offset];
+            d.ny=normal[offset+1];
+            d.nz=normal[offset+2];
+            d.x=vertex[offset];
+            d.y=vertex[offset+1];
+            d.z=vertex[offset+2];
       //V1
             data.push_back(d);
             // vert
-            n=normal+offset+3;
-            v=vertex+offset+3;
-            t=uv+offset+3;
-            d.u=*t;
-            d.v=*(t+1);
-            d.nx=*n;
-            d.ny=*(n+1);
-            d.nz=*(n+2);
-            d.x=*v;
-            d.y=*(v+1);
-            d.z=*(v+2);
+            //n=normal+offset+3;
+            //v=vertex+offset+3;
+            //t=uv+offset+3;
+            d.u=uv[offset+3];
+            d.v=uv[offset+4];
+            d.nx=normal[offset+3];
+            d.ny=normal[offset+4];
+            d.nz=normal[offset+5];
+            d.x=vertex[offset+3];
+            d.y=vertex[offset+4];
+            d.z=vertex[offset+5];
       //V2
             data.push_back(d);
 
-            n=normal + offset + 3 * _nSides + 3;
-            v=vertex + offset + 3 * _nSides + 3;
-            t=uv+ offset+3*_nSides+3;
+            //n=normal + offset + 3 * _nSides + 3;
+            //v=vertex + offset + 3 * _nSides + 3;
+            //t=uv+ offset+3*_nSides+3;
             // next vert
-            d.u=*t;
-            d.v=*(t+1);
-            d.nx=*n;
-            d.ny=*(n+1);
-            d.nz=*(n+2);
-            d.x=*v;
-            d.y=*(v+1);
-            d.z=*(v+2);
+            d.u=uv[(offset+3*_nSides+3)];
+            d.v=uv[(offset+3*_nSides+3)+1];
+            d.nx=normal[(offset + 3 * _nSides + 3)];
+            d.ny=normal[(offset + 3 * _nSides + 3)+1];
+            d.nz=normal[(offset + 3 * _nSides + 3)+2];
+            d.x=vertex[(offset + 3 * _nSides + 3)];
+            d.y=vertex[(offset + 3 * _nSides + 3)+1];
+            d.z=vertex[(offset + 3 * _nSides + 3)+2];
       //V3
             data.push_back(d);
 
 
-      n=normal+offset;
-      v=vertex+offset;
-      t=uv+offset;
-      d.u=*t;
-      d.v=*(t+1);
-      d.nx=*n;
-      d.ny=*(n+1);
-      d.nz=*(n+2);
-      d.x=*v;
-      d.y=*(v+1);
-      d.z=*(v+2);
+//      n=normal+offset;
+//      v=vertex+offset;
+//      t=uv+offset;
+      d.u=uv[offset];
+      d.v=uv[offset+1];
+      d.nx=normal[offset];
+      d.ny=normal[offset+1];
+      d.nz=normal[offset+2];
+      d.x=vertex[offset];
+      d.y=vertex[offset+1];
+      d.z=vertex[offset+2];
       //V1
       data.push_back(d);
 
 
-      n=normal + offset + 3 * _nSides + 3;
-      v=vertex + offset + 3 * _nSides + 3;
-      t=uv+ offset+3*_nSides+3;
+      //n=normal[(offset + 3 * _nSides + 3)];
+      //v=vertex[(offset + 3 * _nSides + 3)];
+      //t=uv[(offset+3*_nSides+3)];
       // next vert
-      d.u=*t;
-      d.v=*(t+1);
-      d.nx=*n;
-      d.ny=*(n+1);
-      d.nz=*(n+2);
-      d.x=*v;
-      d.y=*(v+1);
-      d.z=*(v+2);
+      d.u=uv[(offset+3*_nSides+3)];
+      d.v=uv[(offset+3*_nSides+3)+1];
+      d.nx=normal[(offset + 3 * _nSides + 3)];
+      d.ny=normal[(offset + 3 * _nSides + 3)+1];
+      d.nz=normal[(offset + 3 * _nSides + 3)+2];
+      d.x=vertex[(offset + 3 * _nSides + 3)];
+      d.y=vertex[(offset + 3 * _nSides + 3)+1];
+      d.z=vertex[(offset + 3 * _nSides + 3)+2];
       //V3
       data.push_back(d);
 
-      n=normal + offset + 3 * _nSides;
-      v= vertex + offset + 3 * _nSides;
-      t= uv+offset+3*_nSides;
+     // n=normal[ (offset + 3 * _nSides)];
+     // v= vertex[(offset + 3 * _nSides)];
+     // t= uv[(offset+3*_nSides)];
       // next vert
-      d.u=*t;
-      d.v=*(t+1);
-      d.nx=*n;
-      d.ny=*(n+1);
-      d.nz=*(n+2);
-      d.x=*v;
-      d.y=*(v+1);
-      d.z=*(v+2);
+      d.u=uv[(offset+3*_nSides)];
+      d.v=uv[(offset+3*_nSides)+1];
+      d.nx=normal[ (offset + 3 * _nSides)];
+      d.ny=normal[ (offset + 3 * _nSides)+1];
+      d.nz=normal[ (offset + 3 * _nSides)+2];
+      d.x=vertex[(offset + 3 * _nSides)];
+      d.y=vertex[(offset + 3 * _nSides)+1];
+      d.z=vertex[(offset + 3 * _nSides)+2];
       data.push_back(d);
 
         } // end _nRings
     } // end _nSides
-    delete [] vertex;
-    delete [] normal;
-    delete [] uv;
 
     // now create the VBO
 
@@ -821,81 +795,81 @@ void VAOPrimitives::createTorus(const std::string &_name,const Real _minorRadius
 //----------------------------------------------------------------------------------------------------------------------
 void VAOPrimitives::createTrianglePlane(const std::string &_name,const Real _width,const Real _depth,const int _wP,const int _dP,const Vec3 &_vN) noexcept
 {
-    // calculate the VBO size basically we have 2 tris per quad based on the width and depth
-    // _precision.
+  // calculate the VBO size basically we have 2 tris per quad based on the width and depth
+  // _precision.
 
-    // as our plane is centered on 0.0 we range from Width/2.0 and Depth/2.0
-    Real w2=_width/2.0f;
-    Real d2=_depth/2.0f;
-    // calculate the steps for each quad / tri
-    Real wStep=_width/_wP;
-    Real dStep=_depth/_dP;
-    // texture co-ords start at 0,0
-    // texture steps
+  // as our plane is centered on 0.0 we range from Width/2.0 and Depth/2.0
+  Real w2=_width/2.0f;
+  Real d2=_depth/2.0f;
+  // calculate the steps for each quad / tri
+  Real wStep=_width/_wP;
+  Real dStep=_depth/_dP;
+  // texture co-ords start at 0,0
+  // texture steps
   Real du=0.9f/_wP;
   Real dv=0.9f/_dP;
 
-    Real u=0.0f;
-    Real v=0.0f;
+  Real u=0.0f;
+  Real v=0.0f;
 
-    // a std::vector to store our verts, remember vector packs contiguously so we can use it
-    std::vector <vertData> data;
-    vertData vert;
+  // a std::vector to store our verts, remember vector packs contiguously so we can use it
+  std::vector <vertData> data;
+  vertData vert;
 
   for(Real d=-d2; d<d2; d+=dStep)
-    {
+  {
     for(Real w=-w2; w<w2; w+=wStep)
-        {
-        /* tri 1
-            // counter clock wise
-            3
-            | \
-            |  \
-            |   \
-            1____2
-            */
-            // the normals are always the same so set them for d first
-            vert.nx=_vN.m_x;
-            vert.ny=_vN.m_y;
-            vert.nz=_vN.m_z;
-            // y is always 0 as in a plane
-            vert.y=0.0;
-            // now for the per vert stuff
-            vert.u=u; vert.v=v+dv;  vert.x=w;  vert.z=d+dStep;
-            data.push_back(vert);
-            // 2
-            vert.u=u+du; vert.v=v+dv; vert.x=w+wStep;  vert.z=d+dStep;
-            data.push_back(vert);
-            // 3
-            vert.u=u; vert.v=v; vert.x=w;  vert.z=d;
-            data.push_back(vert);
-
-
-        /* tri 2 w,0,d
+    {
+      /* tri 1
       // counter clock wise
-       3_____2
-        \    |
-          \  |
-           \ |
-            \|
-            1
+      3
+      | \
+      |  \
+      |   \
+      1____2
+      */
+      // the normals are always the same so set them for d first
+      vert.nx=_vN.m_x;
+      vert.ny=_vN.m_y;
+      vert.nz=_vN.m_z;
+      // y is always 0 as in a plane
+      vert.y=0.0f;
+      // now for the per vert stuff
+      vert.u=u; vert.v=v+dv;  vert.x=w;  vert.z=d+dStep;
+      data.push_back(vert);
+      // 2
+      vert.u=u+du; vert.v=v+dv; vert.x=w+wStep;  vert.z=d+dStep;
+      data.push_back(vert);
+      // 3
+      vert.u=u; vert.v=v; vert.x=w;  vert.z=d;
+      data.push_back(vert);
 
-            */
+
+      /* tri 2 w,0,d
+      // counter clock wise
+      3_____2
+      \    |
+      \  |
+      \ |
+      \|
+      1
+
+      */
       vert.u=u+du; vert.v=v+dv;  vert.x=w+wStep;  vert.z=d+dStep;
       data.push_back(vert);
       // 2
-            vert.u=u+du; vert.v=v;   vert.x=w+wStep;  vert.z=d;
-            data.push_back(vert);
-            // 3
-            vert.u=u; vert.v=v;  vert.x=w;   vert.z=d;
-            data.push_back(vert);
+      vert.u=u+du; vert.v=v;   vert.x=w+wStep;  vert.z=d;
+      data.push_back(vert);
+      // 3
+      vert.u=u; vert.v=v;  vert.x=w;   vert.z=d;
+      data.push_back(vert);
       u+=du;
-        } // end w loop
-        u=0.0;
-        v+=du;
-    } // end d loop
-    // now create the VBO
-    createVAO(_name,data,GL_TRIANGLES);
+    } // end w loop
+  u=0.0f;
+  v+=du;
+  } // end d loop
+  // now create the VBO
+  createVAO(_name,data,GL_TRIANGLES);
 }
 
 

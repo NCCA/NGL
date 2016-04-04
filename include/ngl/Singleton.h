@@ -19,8 +19,6 @@
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
 #include <cstdlib>
-#include <boost/noncopyable.hpp>
-//#include <QtCore/QMutexLocker>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Singleton.h
 /// @brief a simple singleton template inherited by other classes
@@ -28,18 +26,18 @@
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
-/// \class Singleton "include/ngl/Singleton.h"
+/// @class Singleton "include/ngl/Singleton.h"
 /// @brief Singleton template
 /// added to NGL framework 20/04/10 by jmacey
-/// \author Vincent Bonnet
-/// \version 1.0
-/// \date 14/03/10 Last Revision 14/03/10
+/// @author Vincent Bonnet
+/// @version 1.0
+/// @date 14/03/10 Last Revision 14/03/10
 //----------------------------------------------------------------------------------------------------------------------
 
 template <class T>
 
 
-class NGL_DLLEXPORT Singleton : private boost::noncopyable
+class NGL_DLLEXPORT Singleton
 {
 public:
 
@@ -49,7 +47,8 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
 
   static T* instance();
-
+  Singleton(const Singleton&) = delete;
+  Singleton& operator=(const Singleton&) = delete;
 protected:
 
   //----------------------------------------------------------------------------------------------------------------------
@@ -82,31 +81,18 @@ template<class T> Singleton<T>::Singleton()
 
 template<class T> Singleton<T>::~Singleton()
 {
-//    if (s_instance)
-//    {
-//        delete s_instance;
-//    }
 }
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief Get instance --------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
 template<class T> T* Singleton<T>::instance()
 {
-  // using the Double Check locking pattern to make thread safe
-  // http://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf
-  //if (s_instance == 0)
-  {
-    // create a mutux to stop other threads accessing
-    //QMutex m;
-    // the locker will auto unlock when out of scope
-    //QMutexLocker locker(&m);
     if (s_instance == 0)
     {
       s_instance = new T();
       std::atexit(killSingleton);
     }
 
-   }
    return static_cast<T*>(s_instance);
 
 }

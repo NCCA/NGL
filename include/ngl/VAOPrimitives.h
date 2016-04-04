@@ -25,6 +25,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 namespace ngl
 {
@@ -93,7 +94,7 @@ public :
   /// @param[in] _slices the number of quad elements around the Cylinder
   /// @param[in] _stacks the number of quad elements along the centeral axis
   //----------------------------------------------------------------------------------------------------------------------
-  void createCylinder( const std::string &_name,const Real _radius, const Real _height, const int _slices, const int _stacks) noexcept;
+  void createCylinder( const std::string &_name,const Real _radius,  Real _height, unsigned int _slices, unsigned int _stacks) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create a Quad Cone as a vao with auto generated texture cords
   /// @param[in] _name the name of the object created used when drawing
@@ -102,14 +103,14 @@ public :
   /// @param[in] _slices the number of quad elements around the cone
   /// @param[in] _stacks the number of quad elements along the centeral axis
   //----------------------------------------------------------------------------------------------------------------------
-  void createCone(const std::string &_name, const Real _base, const Real _height,  const int _slices, const int _stacks ) noexcept;
+  void createCone(const std::string &_name,  Real _base,  Real _height,  unsigned int _slices, unsigned int _stacks ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create a trinagle fan disk (use as end caps for Cylinder etc)
   /// @param[in] _name the name of the object created used when drawing
   /// @param[in] _radius the disk radius
   /// @param[in] _slices the number of triangles to form the disk
   //----------------------------------------------------------------------------------------------------------------------
-  void createDisk( const std::string &_name, const Real _radius, const int _slices ) noexcept;
+  void createDisk( const std::string &_name,  Real _radius, unsigned int _slices ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create a VBO based torus from rings of quads.
   /// @param[in] _name the name of the VBO created for calling with the draw method
@@ -119,7 +120,7 @@ public :
   /// @param[in] _nRings the precision (number of quads) for the minor Radius
   /// @param[in] _flipTX flip the texture co-ord generation default false.
   //----------------------------------------------------------------------------------------------------------------------
-  void createTorus(const std::string &_name, const Real _minorRadius,const Real _majorRadius,int _nSides, int _nRings,const bool _flipTX=false ) noexcept;
+  void createTorus(const std::string &_name,  Real _minorRadius, Real _majorRadius,unsigned int _nSides, unsigned int _nRings, bool _flipTX=false ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create a triangulated plane as a vbo with auto generated texture cords
   /// @param[in] _name the name of the object created used when drawing
@@ -199,7 +200,7 @@ private :
   /// @param[in,out] io_cost a pointer to the cos element of the table
   /// @param[in] _n the number of points to calculate.
   //----------------------------------------------------------------------------------------------------------------------
-  void fghCircleTable(Real **io_sint, Real **io_cost, const int _n ) noexcept;
+  void fghCircleTable(std::unique_ptr<Real[]> &io_sint, std::unique_ptr<Real[]> &io_cost,  int _n ) noexcept;
 
 };
 
