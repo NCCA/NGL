@@ -20,6 +20,8 @@
 #include <QtGui/QImage>
 #include <QFontMetrics>
 #include <QPainter>
+#include <array>
+#include <memory>
 #include "Text.h"
 #include "VertexArrayObject.h"
 #include "ShaderLib.h"
@@ -54,7 +56,7 @@ Text::Text( const QFont &_f)  noexcept
   QFontMetrics metric(_f);
   // this allows us to get the height which should be the same for all
   // fonts of the same class as this is the total glyph height
-  float fontHeight=metric.height();
+  int fontHeight=metric.height();
 
   // loop for all basic keyboard chars we will use space to ~
   // should really change this to unicode at some stage
@@ -63,7 +65,7 @@ Text::Text( const QFont &_f)  noexcept
   // Most OpenGL cards need textures to be in powers of 2 (128x512 1024X1024 etc etc) so
   // to be safe we will conform to this and calculate the nearest power of 2 for the glyph height
   // we will do the same for each width of the font below
-  int heightPow2=nearestPowerOfTwo(fontHeight);
+  unsigned int heightPow2=nearestPowerOfTwo(fontHeight);
 
   // we are now going to create a texture / billboard for each font
   // they will be the same height but will possibly have different widths
@@ -77,7 +79,7 @@ Text::Text( const QFont &_f)  noexcept
     FontChar fc;
     // get the width of the font and calculate the ^2 size
     int width=metric.width(c);
-    int widthPow2=nearestPowerOfTwo(width);
+    unsigned int widthPow2=nearestPowerOfTwo(width);
     // now we set the texture co-ords for our quad it is a simple
     // triangle billboard with tex-cords as shown
     //  s0/t0  ---- s1,t0
@@ -89,11 +91,11 @@ Text::Text( const QFont &_f)  noexcept
     // we now need to scale the tex cord to it ranges from 0-1 based on the coverage
     // of the glyph and not the power of 2 texture size. This will ensure that kerns
     // / ligatures match
-    Real s1=width*1.0/widthPow2;
+    Real s1=width*1.0f/widthPow2;
     // t0 will always be the same
-    Real t0=0.0;
+    Real t0=0.0f;
     // this will scale the height so we only get coverage of the glyph as above
-    Real t1=metric.height()*-1.0/heightPow2;
+    Real t1=metric.height()*-1.0f/heightPow2;
     // we need to store the font width for later drawing
     fc.width=width;
     // now we will create a QImage to store the texture, basically we are going to draw
@@ -136,7 +138,7 @@ Text::Text( const QFont &_f)  noexcept
     // set rgba image data
     int widthTexture=finalImage.width();
     int heightTexture=finalImage.height();
-    unsigned char *data = new unsigned char[ widthTexture*heightTexture * 4];
+    std::unique_ptr<unsigned char []> data(new unsigned char[ widthTexture*heightTexture * 4]);
     unsigned int index=0;
     QRgb colour;
     for(int y=heightTexture-1; y>0; --y)
@@ -154,10 +156,9 @@ Text::Text( const QFont &_f)  noexcept
 
 
     // the image in in RGBA format and unsigned byte load it ready for later
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthTexture, heightTexture,0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthTexture, heightTexture,0, GL_RGBA, GL_UNSIGNED_BYTE, data.get());
     glGenerateMipmap(GL_TEXTURE_2D);
 
-    delete [] data;
     // see if we have a Billboard of this width already
     if (!widthVAO.contains(width))
     {
@@ -173,7 +174,7 @@ Text::Text( const QFont &_f)  noexcept
         // we are creating a billboard with two triangles so we only need the
         // 6 verts, (could use index and save some space but shouldn't be too much of an
         // issue
-        textVertData d[6];
+        std::array<textVertData,6> d;
         // load values for triangle 1
         d[0].x=0;
         d[0].y=0;
