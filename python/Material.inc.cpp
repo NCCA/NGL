@@ -1,5 +1,0 @@
-namespace ngl
-{
-
-
-}; // end namespace
