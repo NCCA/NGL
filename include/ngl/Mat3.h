@@ -22,13 +22,6 @@
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
-// part of the python bindings
-#ifdef NO_PYTHON_LIB
-  #include <boost/python.hpp>
-  #include <boost/format.hpp>
-#endif
-// must include types.h first for Real and GLEW if required
-#include "Types.h"
 #include <ostream>
 
 namespace ngl
@@ -293,15 +286,6 @@ public :
 #pragma pack(pop)
 
    };
-#endif
-#ifdef NO_PYTHON_LIB
-  public :
-    std::string pyPrint();
-    boost::python::tuple getOpenGL();
-    Real getItem(int index);
-    void setItem(int _index,Real _value);
-    bool inversePossible() const;
-    Mat4 getInverse();
 #endif
   }; // end of class
 }// end of namespace

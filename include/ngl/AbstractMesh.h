@@ -30,11 +30,6 @@
 #include <vector>
 #include <string>
 #include <cstdint>
-// part of the python bindings
-#ifdef NO_PYTHON_LIB
-  #include <boost/python.hpp>
-  #include <boost/format.hpp>
-#endif
 
 namespace ngl
 {
@@ -394,13 +389,6 @@ protected :
   /// @brief  the radius of the bounding sphere
   //----------------------------------------------------------------------------------------------------------------------
   Real m_sphereRadius;
-#ifdef NO_PYTHON_LIB
-  public :
-    boost::python::list getVertexListPY();
-    boost::python::list getNormalListPY();
-    boost::python::list getTextureCordListPY();
-
-#endif
 
 };
 

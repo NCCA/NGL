@@ -19,6 +19,7 @@
 // must include types.h first for Real and GLEW if required
 #include "Colour.h"
 #include "Types.h"
+#include <string>
 
 /// @file Material.h
 /// @brief a simple Ambient Diffuse, Specular type GL material this will fill in the

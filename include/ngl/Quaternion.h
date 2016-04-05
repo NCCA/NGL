@@ -314,19 +314,6 @@ class NGL_DLLEXPORT Quaternion
   /// @brief  the quaternion data for z
   Real m_z;
 
-  /// extra glue for python lib bindings nothing to see here (unless ....)
-  #ifdef NO_PYTHON_LIB
-    public :
-    std::string pyPrint();
-    boost::python::tuple getOpenGL();
-    Real getItem(int index );
-    void setItem( int _index,Real _value);
-    bool equals(const Quaternion& _x,const Quaternion& _y ) const;
-
-    void negate();
-    boost::python::tuple toAxisAngleT();
-
-  #endif
 }; // end of class
 
 

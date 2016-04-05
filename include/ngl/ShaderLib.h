@@ -33,11 +33,6 @@
 #include <unordered_map>
 
 //----------------------------------------------------------------------------------------------------------------------
-// part of the python bindings
-#ifdef NO_PYTHON_LIB
-  #include <boost/python.hpp>
-  #include <boost/format.hpp>
-#endif
 
 namespace ngl
 {
@@ -675,14 +670,6 @@ protected:
   /// @brief  copy ctor private as singleton
   //----------------------------------------------------------------------------------------------------------------------
   ShaderLib( const ShaderLib& )=delete;
-
-	/// extra glue for python lib bindings nothing to see here (unless ....)
-	#ifdef NO_PYTHON_LIB
-		public :
-			ShaderProgram *getShaderProgram(
-																			const std::string &_programName
-																		 );
-	#endif
 
 
 }; // end of class

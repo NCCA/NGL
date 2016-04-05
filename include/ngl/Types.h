@@ -46,11 +46,6 @@
 #ifndef QT5BUILD
   #include <QtOpenGL/QGLContext>
 #endif
-// part of the python bindings
-#ifdef NO_PYTHON_LIB
-  #include <boost/python.hpp>
-  #include <boost/format.hpp>
-#endif
 
 //----------------------------------------------------------------------------------------------------------------------
 // DLL Glue for windows build / apps
@@ -133,9 +128,7 @@ typedef PRECISION Real;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief define EPSILON for floating point comparison
 //----------------------------------------------------------------------------------------------------------------------
-#ifndef EPSILON
-  const static float  EPSILON = 0.001f;
-#endif
+constexpr float  EPSILON = 0.001f;
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief FCompare macro used for floating point comparision functions

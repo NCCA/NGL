@@ -20,11 +20,6 @@
 /// @file VertexArrayObject.h
 /// @brief a class to store an OpenGL VAO
 //----------------------------------------------------------------------------------------------------------------------
-// part of the python bindings
-#ifdef NO_PYTHON_LIB
-  #include <boost/python.hpp>
-  #include <boost/format.hpp>
-#endif
 #include <vector>
 #define BUFFER_OFFSET(i) (reinterpret_cast<void*>(i))
 

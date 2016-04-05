@@ -20,12 +20,6 @@
 /// @file AABB.h
 /// @brief an Axis Aligned Bounding Box
 //----------------------------------------------------------------------------------------------------------------------
-// part of the python bindings
-#ifdef NO_PYTHON_LIB
-  #include <boost/python.hpp>
-  #include <boost/format.hpp>
-#endif
-
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
 #include "Vec4.h"

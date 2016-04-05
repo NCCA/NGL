@@ -20,12 +20,6 @@
 /// @file Vec3.h
 /// @brief a simple 3 tuple container for compatibility with glsl
 //----------------------------------------------------------------------------------------------------------------------
-// part of the python bindings
-#ifdef NO_PYTHON_LIB
-  #include <boost/python.hpp>
-  #include <boost/format.hpp>
-#endif
-
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
 
@@ -329,15 +323,6 @@ public :
   Real m_openGL[3];
 #ifndef BUILDING_DOCS
   };
-#endif
-/// extra glue for python lib bindings nothing to see here (unless ....)
-#ifdef NO_PYTHON_LIB
-  public :
-    std::string pyPrint();
-    boost::python::tuple getOpenGL();
-    bool equals( const Vec3& _x, const Vec3& _y )const ;
-    Real getItem(int index);
-    void setItem(int _index,Real _value);
 #endif
 
 

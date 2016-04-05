@@ -45,14 +45,6 @@
 #include <QFont>
 #include "Mat4.h"
 
-// part of the python bindings
-#ifdef NO_PYTHON_LIB
-  #include <boost/python.hpp>
-  #include <boost/format.hpp>
-#endif
-
-
-
 namespace ngl
 {
 
@@ -126,17 +118,6 @@ private:
   /// so using this
   //----------------------------------------------------------------------------------------------------------------------
   QHash <char,FontChar> m_characters;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// extra glue for python lib bindings nothing to see here (unless ....)
-  //----------------------------------------------------------------------------------------------------------------------
-  #ifdef NO_PYTHON_LIB
-    public :
-      //Text(){;}
-  #endif
-
-
-
-
 };
 
 }

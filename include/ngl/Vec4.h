@@ -20,11 +20,6 @@
 /// @file Vector.h
 /// @brief a simple 4D vector class
 //----------------------------------------------------------------------------------------------------------------------
-// part of the python bindings
-#ifdef NO_PYTHON_LIB
-  #include <boost/python.hpp>
-  #include <boost/format.hpp>
-#endif
 
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
@@ -362,16 +357,6 @@ public :
 #ifndef BUILDING_DOCS
   };
 #endif
-/// extra glue for python lib bindings nothing to see here (unless ....)
-#ifdef NO_PYTHON_LIB
-  public :
-    std::string pyPrint();
-    boost::python::tuple getOpenGL();
-    bool equals( const Vec4& _x, const Vec4& _y )const ;
-    Real getItem(int index);
-    void setItem(int _index,Real _value);
-#endif
-
 
 };
 
