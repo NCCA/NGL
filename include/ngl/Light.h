@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LIGHT_H__
-#define LIGHT_H__
+#ifndef LIGHT_H_
+#define LIGHT_H_
 /// @file Light.h
 /// @brief an encapsulation of an OpenGL Light
 // must include types.h first for Real and GLEW if required

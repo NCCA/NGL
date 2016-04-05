@@ -14,6 +14,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef QUATERNION_H_
+#define QUATERNION_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file  Quaternion.h
 /// @author  Jon Macey with thanks to John Vince and Rob Bateman
@@ -24,11 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
-
-
-#ifndef QUATERNION_H__
-#define QUATERNION_H__
-
 #include "Vec4.h"
 
 namespace ngl

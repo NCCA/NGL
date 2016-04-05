@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef COLOUR_H__
-#define COLOUR_H__
+#ifndef COLOUR_H_
+#define COLOUR_H_
 /// @file Colour.h
 /// @brief a simple colour class for RGBA colour
 

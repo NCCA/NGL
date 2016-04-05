@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef VEC3_H__
-#define VEC3_H__
+#ifndef VEC3_H_
+#define VEC3_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vec3.h
 /// @brief a simple 3 tuple container for compatibility with glsl

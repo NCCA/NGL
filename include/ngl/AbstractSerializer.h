@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ABSTRACT_SERIALIZER_H__
-#define ABSTRACT_SERIALIZER_H__
+#ifndef ABSTRACT_SERIALIZER_H_
+#define ABSTRACT_SERIALIZER_H_
 /// @file AbstractSerializer.h
 /// @brief this class is the base class for all NGL serialisation code
 #include "Types.h"

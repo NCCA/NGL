@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef XML_SERIALIZER_H__
-#define XML_SERIALIZER_H__
+#ifndef XML_SERIALIZER_H_
+#define XML_SERIALIZER_H_
 /// @file XMLSerializer.h
 /// @brief XML Serialization for NGL
 #include "AbstractSerializer.h"
@@ -44,7 +44,7 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor will close the file
   //----------------------------------------------------------------------------------------------------------------------
-  ~XMLSerializer();
+  virtual ~XMLSerializer();
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief read from an AABB must be overriden in child

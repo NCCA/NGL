@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef VAOPRIMITIVES_H__
-#define VAOPRIMITIVES_H__
+#ifndef VAOPRIMITIVES_H_
+#define VAOPRIMITIVES_H_
 
 // must include types.h first for Real
 #include "Singleton.h"

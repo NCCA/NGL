@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef VERTEXARRAYOBJECT_H__
-#define VERTEXARRAYOBJECT_H__
+#ifndef VERTEXARRAYOBJECT_H_
+#define VERTEXARRAYOBJECT_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file VertexArrayObject.h
 /// @brief a class to store an OpenGL VAO

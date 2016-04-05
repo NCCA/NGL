@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef MATERIAL_H__
-#define MATERIAL_H__
+#ifndef MATERIAL_H_
+#define MATERIAL_H_
 // must include types.h first for Real and GLEW if required
 #include "Colour.h"
 #include "Types.h"

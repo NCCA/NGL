@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef SINGLETON_H__
-#define SINGLETON_H__
+#ifndef SINGLETON_H_
+#define SINGLETON_H_
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
 #include <cstdlib>

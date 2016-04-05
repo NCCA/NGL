@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef PLANE_H__
-#define PLANE_H__
+#ifndef PLANE_H_
+#define PLANE_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Plane.h
 /// @brief a simple mathmatical representation of a plane

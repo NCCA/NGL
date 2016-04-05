@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef SHADERLIB__
-#define SHADERLIB__
+#ifndef SHADERLIB_
+#define SHADERLIB_
 /// @file ShaderLib.h
 /// @brief main shader loader / manager class for GLSL shaders
 // must include types.h first for Real and GLEW if required

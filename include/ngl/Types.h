@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TYPES_H__
-#define TYPES_H__
+#ifndef TYPES_H_
+#define TYPES_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Types.h
 /// @brief main definition of types and namespace

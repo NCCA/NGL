@@ -16,7 +16,8 @@
  */
 /// @file NGLStream.h
 /// @brief stream helpers for ngl data types
-
+#ifndef NGLSTREAM_H_
+#define NGLSTREAM_H_
 #include <iostream>
 #include "Types.h"
 namespace ngl
@@ -129,3 +130,4 @@ namespace ngl
 
 
 } // end of namespace ngl
+#endif

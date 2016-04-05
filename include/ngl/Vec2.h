@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef VEC2_H__
-#define VEC2_H__
+#ifndef VEC2_H_
+#define VEC2_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vec2.h
 /// @brief a simple 2 tuple container for compatibility with glsl

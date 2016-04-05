@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef VECTOR_H__
-#define VECTOR_H__
+#ifndef VEC4_H_
+#define VEC4_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vector.h
 /// @brief a simple 4D vector class

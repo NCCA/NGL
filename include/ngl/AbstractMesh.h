@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ABSTRACT_MESH_H__
-#define ABSTRACT_MESH_H__
+#ifndef ABSTRACT_MESH_H_
+#define ABSTRACT_MESH_H_
 /// @file AbstractMesh.h
 /// @brief a series of classes used to define an abstract 3D mesh of Faces, Vertex Normals and TexCords
 // must include types.h first for Real and GLEW if required

@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef NGLINIT_H__
-#define NGLINIT_H__
+#ifndef NGLINIT_H_
+#define NGLINIT_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file NGLInit.h
 /// @brief basic class to initialise the NGL library

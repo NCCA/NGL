@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef NCCAPOINTBAKE_H__
-#define NCCAPOINTBAKE_H__
+#ifndef NCCAPOINTBAKE_H_
+#define NCCAPOINTBAKE_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file NCCAPointBake.h
 /// @brief simple point baked animation data for animation data export

@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef RIBEXPORT_H__
-#define RIBEXPORT_H__
+#ifndef RIBEXPORT_H_
+#define RIBEXPORT_H_
 /// @file RibExport.h
 /// @brief a simple rib exporter function
 // must include types.h first for Real and GLEW if required

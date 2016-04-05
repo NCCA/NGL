@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef SHADER_H__
-#define SHADER_H__
+#ifndef SHADER_H_
+#define SHADER_H_
 
 #include "Types.h"
 

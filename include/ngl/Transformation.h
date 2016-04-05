@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TRANSFORM_H__
-#define TRANSFORM_H__
+#ifndef TRANSFORM_H_
+#define TRANSFORM_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Transformation.h
 /// @brief a simple transformation object containing rot / tx / scale and final matrix

@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  **/
-#ifndef RANDOM_H__
-#define RANDOM_H__
+#ifndef RANDOM_H_
+#define RANDOM_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Random.h
 /// @brief an encapsulation of the boost::random classes
@@ -26,9 +26,7 @@
 #include "Vec4.h"
 
 #include <unordered_map>
-#include <boost/random.hpp>
-#include <boost/function.hpp>
-
+#include <random>
 namespace ngl
 {
 
@@ -36,7 +34,7 @@ namespace ngl
   /// @brief enumerated list of the different distributions we can
   /// add to the generator,
   //----------------------------------------------------------------------------------------------------------------------
-  enum  RANDDIST{ uniform_smallint,uniform_int,uniform_real
+  enum  class RANDDIST{ uniform_smallint,uniform_int,uniform_real
                 ,bernoulli_distribution,binomial_distribution,cauchy_distribution
                 ,gamma_distribution,poisson_distribution,geometric_distribution
                 ,triangle_distribution,exponential_distribution,normal_distribution
@@ -87,7 +85,7 @@ public :
   /// @brief set the seed using a param value
   /// @param _value the seed value
   //----------------------------------------------------------------------------------------------------------------------
-  void setSeed( int _value );
+  void setSeed( unsigned int _value );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief gets a pre-generated Real value for a genetator
   /// @param _name the name of the generator to use for the number
@@ -150,6 +148,7 @@ public :
   /// @returns (uniform_random(0-1) * _mult)
   //----------------------------------------------------------------------------------------------------------------------
   Real randomPositiveNumber(  Real _mult=1  );
+  /*
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to add a new generator, we must choose which distribution
   /// as well as a range for the distribution (if appropriate)
@@ -159,15 +158,15 @@ public :
   /// @param _prob, the triangle dist uses this (see http://www.boost.org/doc/libs/1_43_0/doc/html/boost/triangle_distribution.html)
   //----------------------------------------------------------------------------------------------------------------------
   void addGenerator( const std::string &_name, RANDDIST _distribution, Real _min=0.0, Real _max=1.0,Real _prob=0.5);
-
+  */
 protected :
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the generator for rng class where all funcs and distribs are added.
   /// all we need to do is replace this one define to use any of the other boost rng
   /// engines.
-  #define ENGINE boost::mt19937
-  ENGINE m_generator;
+
+  std::mt19937 m_generator;
   //----------------------------------------------------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------------------------------------------------
@@ -179,7 +178,7 @@ protected :
   /// a name / function pair, and this function will be called returning a Real
   /// value
   //----------------------------------------------------------------------------------------------------------------------
-  std::unordered_map<std::string, boost::function <Real (void)> > m_floatGenerators;
+  std::unordered_map<std::string, std::uniform_real_distribution<Real> > m_floatGenerators;
 
 };
 

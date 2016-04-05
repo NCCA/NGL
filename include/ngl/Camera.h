@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef CAMERA_H__
-#define CAMERA_H__
+#ifndef CAMERA_H_
+#define CAMERA_H_
 /// @file Camera.h
 /// @brief a simple camera class based on the Hill Book
 // must include types.h first for Real and GLEW if required

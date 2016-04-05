@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef BEZIER_CURVE_H__
-#define BEZIER_CURVE_H__
+#ifndef BEZIER_CURVE_H_
+#define BEZIER_CURVE_H_
 /// @file BezierCurve.h
 /// @brief basic BezierCurve using CoxDeBoor algorithm
 // must include types.h first for Real and GLEW if required

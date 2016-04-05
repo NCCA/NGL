@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef UTIL_H__
-#define UTIL_H__
+#ifndef UTIL_H_
+#define UTIL_H_
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
 #include "Vec4.h"
@@ -201,14 +201,14 @@ template <typename T> T lerp(T _a, T _b, Real _t) noexcept
 
 template <typename T> T trigInterp(T _a, T _b, Real _t ) noexcept
 {
-  Real angle=radians(90*_t);
+  Real angle=radians(90.0f*_t);
   return _a*cos(angle)*cos(angle)+_b*sin(angle)*sin(angle);
 }
 
 template <typename T> T cubic( T _a, T _b,Real _t) noexcept
 {
-  Real v1=(2.0*_t*_t*_t)-3.0*(_t*_t)+1.0;
-  Real v2=-(2.0*_t*_t*_t)+3*(_t*_t);
+  Real v1=(2.0f*_t*_t*_t)-3.0f*(_t*_t)+1.0f;
+  Real v2=-(2.0f*_t*_t*_t)+3.0f*(_t*_t);
   return (_a*v1)+(_b*v2);
 }
 

@@ -1,5 +1,5 @@
-#ifndef LOGGER_H__
-#define LOGGER_H__
+#ifndef LOGGER_H_
+#define LOGGER_H_
 #include "Types.h"
 #include "Singleton.h"
 #include <memory>

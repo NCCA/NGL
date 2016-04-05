@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef PATHCAMERA_H__
-#define PATHCAMERA_H__
+#ifndef PATHCAMERA_H_
+#define PATHCAMERA_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file PathCamera.h
 /// @brief a simple camera attached to a path inherits from Camera

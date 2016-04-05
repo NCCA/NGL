@@ -14,8 +14,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef IMAGE_H__
-#define IMAGE_H__
+#ifndef IMAGE_H_
+#define IMAGE_H_
 /// @file Image.h
 /// @brief A generic Image loader / wrapper for different Image libs
 /// this allows us to load an image to be used (for example) in the Texture class

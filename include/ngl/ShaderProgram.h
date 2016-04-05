@@ -15,8 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SHADER_PROGRAM_H__
-#define SHADER_PROGRAM_H__
+#ifndef SHADER_PROGRAM_H_
+#define SHADER_PROGRAM_H_
 #include "Shader.h"
 #include "Types.h"
 #include "Util.h"
