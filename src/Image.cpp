@@ -20,7 +20,6 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include "Image.h"
 #include "NGLassert.h"
-
 #if defined(USEQIMAGE)
   #include <QtGui/QImage>
 #endif
@@ -102,6 +101,33 @@ Colour Image::getColour(const Real _uvX, const Real _uvY ) const noexcept
   {
     return Colour(0,0,0,0);
   }
+}
+
+void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int _width, int _height,ImageModes _mode)
+{
+  GLenum format=GL_RGB;
+  int size=3;
+  if(_mode == ImageModes::RGBA)
+  {
+    size=4;
+    format=GL_RGBA;
+  }
+  int realWidth=_width-_x;
+  int realHeight=_height-_y;
+  NGL_ASSERT(_x<_width && _y<_height);
+  std::unique_ptr<unsigned char []> data( new unsigned char [realWidth * realHeight *size]);
+  glReadPixels(_x,_y,realWidth,realHeight,format,GL_UNSIGNED_BYTE,data.get());
+  #if defined(USEQIMAGE)
+  QImage::Format qformat=QImage::Format::Format_RGB888;
+  if(_mode == ImageModes::RGBA)
+  {
+    qformat=QImage::Format::Format_RGBA8888;
+  }
+  QImage image(data.get(),realWidth,realHeight,qformat);
+  image=image.mirrored(false,true);
+  image.save(_fname.c_str());
+
+  #endif
 }
 
 

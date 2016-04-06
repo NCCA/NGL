@@ -63,6 +63,17 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   unsigned char *getPixels() const noexcept {return m_data.get();}
   //----------------------------------------------------------------------------------------------------------------------
+  /// @brief save the FrameBuffer to file using current built in I/O
+  /// @param _fname the name / path of the file to save
+  /// @brief _x the x position into the framebuffer This location is the lower left corner of a rectangular block of pixels
+  /// @brief _y the y position into the framebuffer This location is the lower left corner of a rectangular block of pixels
+  /// @brief _width of the rectangle
+  /// @brief _height the height of the rectangle
+  /// @brief _mode RGB or RGBA image
+  //----------------------------------------------------------------------------------------------------------------------
+  enum class ImageModes : char {RGB,RGBA};
+  static void saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int _width, int _height,ImageModes _mode=ImageModes::RGB);
+  //----------------------------------------------------------------------------------------------------------------------
   /// @brief Get the width of the texture
   /// @return width of the texture
   //----------------------------------------------------------------------------------------------------------------------
