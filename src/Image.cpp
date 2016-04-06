@@ -134,11 +134,24 @@ void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int
     OpenImageIO::ImageSpec spec (realWidth, realHeight, size, OpenImageIO::TypeDesc::UINT8);
     int scanlinesize = realWidth * size;
     out->open (_fname.c_str(), spec);
+    // note this flips the image vertically on writing
+    // (see http://www.openimageio.org/openimageio.pdf pg 20 for details)
     out->write_image (OpenImageIO::TypeDesc::UINT8,
                       data.get() + (realHeight-1)*scanlinesize,
                       OpenImageIO::AutoStride,
                       -scanlinesize,OpenImageIO::AutoStride);
     out->close ();
+  #endif
+  #if defined(USEIMAGEMAGIC)
+    Magick::Image output(realWidth,realHeight,
+                           size==3 ? "RGB" : "RGBA",
+                           Magick::CharPixel,data.get()
+                           );
+
+      // set the output image depth to 16 bit
+      output.depth(16);
+      // write the file
+      output.write(_fname.c_str());
   #endif
 }
 
