@@ -118,15 +118,27 @@ void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int
   std::unique_ptr<unsigned char []> data( new unsigned char [realWidth * realHeight *size]);
   glReadPixels(_x,_y,realWidth,realHeight,format,GL_UNSIGNED_BYTE,data.get());
   #if defined(USEQIMAGE)
-  QImage::Format qformat=QImage::Format::Format_RGB888;
-  if(_mode == ImageModes::RGBA)
-  {
-    qformat=QImage::Format::Format_RGBA8888;
-  }
-  QImage image(data.get(),realWidth,realHeight,qformat);
-  image=image.mirrored(false,true);
-  image.save(_fname.c_str());
+    QImage::Format qformat=QImage::Format::Format_RGB888;
+    if(_mode == ImageModes::RGBA)
+    {
+      qformat=QImage::Format::Format_RGBA8888;
+    }
+    QImage image(data.get(),realWidth,realHeight,qformat);
+    image=image.mirrored(false,true);
+    image.save(_fname.c_str());
 
+  #endif
+  #if defined(USEOIIO)
+
+    OpenImageIO::ImageOutput *out = OpenImageIO::ImageOutput::create (_fname.c_str());
+    OpenImageIO::ImageSpec spec (realWidth, realHeight, size, OpenImageIO::TypeDesc::UINT8);
+    int scanlinesize = realWidth * size;
+    out->open (_fname.c_str(), spec);
+    out->write_image (OpenImageIO::TypeDesc::UINT8,
+                      data.get() + (realHeight-1)*scanlinesize,
+                      OpenImageIO::AutoStride,
+                      -scanlinesize,OpenImageIO::AutoStride);
+    out->close ();
   #endif
 }
 
