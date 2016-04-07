@@ -17,6 +17,8 @@
 #include "NGLInit.h"
 #include "ShaderLib.h"
 #include "VAOPrimitives.h"
+#include "VAOFactory.h"
+#include "SimpleVAO.h"
 
 #if defined(LINUX) || defined(WIN32)
   #include <cstdlib>
@@ -61,7 +63,7 @@ NGLInit::NGLInit()
 	#ifdef NGL_DEBUG
 		std::cerr <<"ngl:: configured with GL version "<<majorVersion<<"."<<minorVersion<<"\n";
 	#endif
-
+  VAOFactory::registerVAOCreator("simpleVAO",SimpleVAO::create);
 #endif
 }
 

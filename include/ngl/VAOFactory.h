@@ -39,9 +39,16 @@ namespace ngl
 class NGL_DLLEXPORT VAOFactory
 {
     public :
+    /// Add a new vao creator to our system
+    static void registerVAOCreator(const std::string &_type, std::function<AbstractVAO *(GLenum _mode)> _cb);
+    /// Remove an existing vao creator
+    static void unregisterVAOCreator(const std::string &_type);
+
+    /// Create an instance of a named VAO
+    static AbstractVAO *createVAO(const std::string &_type, GLenum _mode=GL_TRIANGLES);
 
     private :
-    static std::unordered_map<std::string, std::function<AbstractVAO *(GLenum _mode)>> m_renderers;
+    static std::unordered_map<std::string, std::function<AbstractVAO *(GLenum _mode)>> m_vaoCreators;
 
 };
 
