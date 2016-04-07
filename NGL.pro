@@ -156,7 +156,11 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/XMLSerializer.cpp \
 		$$SRC_DIR/NGLStream.cpp \
 		$$SRC_DIR/Logger.cpp \
-		$$SRC_DIR/Image.cpp
+    $$SRC_DIR/Image.cpp \
+    $$SRC_DIR/VAOFactory.cpp \
+    $$SRC_DIR/AbstractVAO.cpp \
+    $$SRC_DIR/SimpleVAO.cpp
+
 #exclude this from iOS
 win32|unix|macx:{
 	SOURCES+=glew/glew.c
@@ -209,7 +213,10 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/Mat3.h \
 		$$INC_DIR/Logger.h \
 		$$INC_DIR/Image.h \
-		$$INC_DIR/AbstractSerializer.h \
+    $$INC_DIR/VAOFactory.h \
+    $$INC_DIR/AbstractVAO.h \
+    $$INC_DIR/SimpleVAO.h \
+    $$INC_DIR/AbstractSerializer.h \
 		$$INC_DIR/XMLSerializer.h \
 		$$INC_DIR/NGLStream.h \
 		$$SRC_DIR/shaders/TextShaders.h \
