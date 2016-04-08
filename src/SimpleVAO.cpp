@@ -12,7 +12,7 @@ namespace ngl
     {
       std::cerr<<"Warning trying to draw an unbound VOA\n";
     }
-    glDrawArrays(m_mode, 0, m_indicesCount);
+    glDrawArrays(m_mode, 0, static_cast<GLsizei>(m_indicesCount));
   }
 
   void SimpleVAO::removeVAO()
@@ -35,6 +35,11 @@ namespace ngl
     {
       std::cerr<<"trying to set VOA data when unbound\n";
     }
+    if( m_allocated ==true)
+    {
+        glDeleteBuffers(1,&m_buffer);
+    }
+
     glGenBuffers(1, &m_buffer);
     // now we will bind an array buffer to the first one and load the data for the verts
     glBindBuffer(GL_ARRAY_BUFFER, m_buffer);

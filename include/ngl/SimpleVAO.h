@@ -23,7 +23,9 @@ namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
 /// @class SimpleVAO "include/SimpleVAO.h"
-/// @brief Simple non index vao using one buffer
+/// @brief Simple non index vao using one buffer and float data
+/// see https://github.com/NCCA/VertexArrayObject/tree/master/VAOFactory
+/// for examples of use
 /// @author Jonathan Macey
 /// @version 1.0
 /// @date 6/4/16
@@ -32,21 +34,43 @@ namespace ngl
 class NGL_DLLEXPORT SimpleVAO : public AbstractVAO
 {
   public :
-
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief creator method for the factory
+    /// @param _mode the mode to draw with.
+    /// @returns a new AbstractVAO * object
+    //----------------------------------------------------------------------------------------------------------------------
     static AbstractVAO *create(GLenum _mode=GL_TRIANGLES) { return new SimpleVAO(_mode); }
-
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief draw the VAO using glDrawArrays
+    //----------------------------------------------------------------------------------------------------------------------
     virtual void draw() const;
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief dtor don't do anything as the remove clears things
+    //----------------------------------------------------------------------------------------------------------------------
     virtual ~SimpleVAO()=default;
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief remove the VAO and buffers created
+    //----------------------------------------------------------------------------------------------------------------------
     virtual void removeVAO();
-    void setData(size_t _size,const GLfloat &_data,GLenum _mode=GL_STATIC_DRAW);
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief, this method sets the data for the VAO if data has already been set it will remove the existing data
+    /// and then re-set with the new data.
+    //----------------------------------------------------------------------------------------------------------------------
+    void setData(size_t _size,const GLfloat &_data,GLenum _mode=GL_STATIC_DRAW) ;
 
   protected :
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief ctor calles parent ctor to allocate vao;
+    //----------------------------------------------------------------------------------------------------------------------
     SimpleVAO(GLenum _mode)  : AbstractVAO(_mode)
     {
 
     }
 
   private :
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief the id of the buffer for the VAO
+    //----------------------------------------------------------------------------------------------------------------------
     GLuint m_buffer=0;
 
 };

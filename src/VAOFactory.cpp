@@ -1,5 +1,5 @@
 #include "VAOFactory.h"
-
+#include <iostream>
 
 
 namespace ngl
@@ -29,6 +29,16 @@ namespace ngl
   }
 
 
-
+  void VAOFactory::listCreators()
+  {
+    std::cout<<"******************************\n";
+    std::cout<<"VAOFactory Creators List \n";
+    std::cout<<"******************************\n";
+    for(auto c : m_vaoCreators)
+    {
+      std::cout<<"Creator "<<c.first<<" registered \n";
+    }
+    std::cout<<"******************************\n";
+  }
 
 }

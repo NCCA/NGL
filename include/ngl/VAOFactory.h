@@ -38,17 +38,33 @@ namespace ngl
 
 class NGL_DLLEXPORT VAOFactory
 {
-    public :
-    /// Add a new vao creator to our system
+  public :
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief Add a new vao creator to our factory
+    /// @param _type the name of the creator function registered
+    /// @param _cb the creator function must pass in a GLenum for the type to create and return an AbstractVAO
+    //----------------------------------------------------------------------------------------------------------------------
     static void registerVAOCreator(const std::string &_type, std::function<AbstractVAO *(GLenum _mode)> _cb);
-    /// Remove an existing vao creator
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief Remove an existing vao creator from the map
+    /// @param _type the name of the creator to remove
+    //----------------------------------------------------------------------------------------------------------------------
     static void unregisterVAOCreator(const std::string &_type);
-
-    /// Create an instance of a named VAO
+    //----------------------------------------------------------------------------------------------------------------------
+    /// Create an instance of a named VAO from a creator
+    /// @param _type the name of the creator to use from our factory
+    /// @param _mode the initial mode to create (i.e. GL_TRIANGLES etc)
+    /// @returns AbstractAVO *
+    //----------------------------------------------------------------------------------------------------------------------
     static AbstractVAO *createVAO(const std::string &_type, GLenum _mode=GL_TRIANGLES);
-
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief debug function to list all creators
+    //----------------------------------------------------------------------------------------------------------------------
+    static void listCreators();
     private :
-    static std::unordered_map<std::string, std::function<AbstractVAO *(GLenum _mode)>> m_vaoCreators;
+    //----------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------
+      static std::unordered_map<std::string, std::function<AbstractVAO *(GLenum _mode)>> m_vaoCreators;
 
 };
 

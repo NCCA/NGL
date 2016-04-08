@@ -138,7 +138,7 @@ public:
 	void updateData(GLuint _vboidx, unsigned int _size, const GLfloat &_data, GLenum _mode=GL_STREAM_DRAW);
 
 	//----------------------------------------------------------------------------------------------------------------------
-	/// @brief allocate our data
+  /// @brief set the generic vertex attribute pointer data
 	/// @param _size the size of the raw data passed (not counting sizeof(GL_FLOAT))
 	/// @param _type the data type of the Pointer (eg GL_FLOAT)
 	/// @param _stride the step between data values (need *sizeof _type) e.g. 10*sizeof(GLfloat)

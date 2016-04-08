@@ -29,7 +29,7 @@ namespace ngl
     {
       std::cerr<<"Warning trying to set attribute on Unbound VOA\n";
     }
-
+    // set and enable the generic vertex attribute
     glVertexAttribPointer(_id,_size,_type,_normalise,_stride,static_cast<Real *>(NULL)  + _dataOffset);//   ((Real *)NULL + (_dataOffset)));
     glEnableVertexAttribArray(_id);
   }
