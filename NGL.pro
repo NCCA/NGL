@@ -160,7 +160,8 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
     $$SRC_DIR/VAOFactory.cpp \
     $$SRC_DIR/AbstractVAO.cpp \
     $$SRC_DIR/MultiBufferVAO.cpp \
-    $$SRC_DIR/SimpleVAO.cpp
+    $$SRC_DIR/SimpleVAO.cpp \
+    $$SRC_DIR/SimpleIndexVAO.cpp
 
 #exclude this from iOS
 win32|unix|macx:{
@@ -217,6 +218,7 @@ HEADERS += $$INC_DIR/Vec4.h \
     $$INC_DIR/VAOFactory.h \
     $$INC_DIR/AbstractVAO.h \
     $$INC_DIR/SimpleVAO.h \
+    $$INC_DIR/SimpleIndexVAO.h \
     $$INC_DIR/MultiBufferVAO.h \
     $$INC_DIR/AbstractSerializer.h \
 		$$INC_DIR/XMLSerializer.h \

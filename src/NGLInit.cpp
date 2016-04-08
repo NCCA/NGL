@@ -20,6 +20,7 @@
 #include "VAOFactory.h"
 #include "SimpleVAO.h"
 #include "MultiBufferVAO.h"
+#include "SimpleIndexVAO.h"
 
 #if defined(LINUX) || defined(WIN32)
   #include <cstdlib>
@@ -66,6 +67,7 @@ NGLInit::NGLInit()
 	#endif
   VAOFactory::registerVAOCreator("simpleVAO",SimpleVAO::create);
   VAOFactory::registerVAOCreator("multiBufferVAO",MultiBufferVAO::create);
+  VAOFactory::registerVAOCreator("simpleIndexVAO",SimpleIndexVAO::create);
 #endif
 }
 
