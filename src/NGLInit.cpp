@@ -19,6 +19,7 @@
 #include "VAOPrimitives.h"
 #include "VAOFactory.h"
 #include "SimpleVAO.h"
+#include "MultiBufferVAO.h"
 
 #if defined(LINUX) || defined(WIN32)
   #include <cstdlib>
@@ -64,6 +65,7 @@ NGLInit::NGLInit()
 		std::cerr <<"ngl:: configured with GL version "<<majorVersion<<"."<<minorVersion<<"\n";
 	#endif
   VAOFactory::registerVAOCreator("simpleVAO",SimpleVAO::create);
+  VAOFactory::registerVAOCreator("multiBufferVAO",MultiBufferVAO::create);
 #endif
 }
 
