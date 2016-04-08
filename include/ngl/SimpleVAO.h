@@ -24,7 +24,7 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 /// @class SimpleVAO "include/SimpleVAO.h"
 /// @brief Simple non index vao using one buffer and float data
-/// see https://github.com/NCCA/VertexArrayObject/tree/master/VAOFactory
+/// see https://github.com/NCCA/VertexArrayObject/tree/master/SimpleVAOFactory
 /// for examples of use
 /// @author Jonathan Macey
 /// @version 1.0
