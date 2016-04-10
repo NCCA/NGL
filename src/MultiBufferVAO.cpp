@@ -1,5 +1,6 @@
 #include "MultiBufferVAO.h"
 #include <iostream>
+#include <NGLassert.h>
 namespace ngl
 {
   void MultiBufferVAO::draw() const
@@ -47,5 +48,13 @@ namespace ngl
     m_allocated=true;
 
   }
+
+  GLuint MultiBufferVAO::getBufferID(unsigned int _id )
+  {
+    NGL_ASSERT(_id<m_vboIDs.size());
+    return m_vboIDs[_id];
+  }
+
+
 
 }

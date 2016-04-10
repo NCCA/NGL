@@ -21,6 +21,8 @@
 #include <boost/tokenizer.hpp>
 #include <list>
 #include "NGLStream.h"
+#include "VAOFactory.h"
+#include "SimpleVAO.h"
 //----------------------------------------------------------------------------------------------------------------------
 /// @file AbstractMesh.cpp
 /// @brief a series of classes used to define an abstract 3D mesh of Faces, Vertex Normals and TexCords
@@ -73,14 +75,6 @@ AbstractMesh::~AbstractMesh() noexcept
     if(m_vbo)
     {
       glDeleteBuffers(1,&m_vboBuffers);
-      if(m_vaoMesh!=0)
-      {
-        delete m_vaoMesh;
-      }
-    }
-    if(m_ext !=0)
-    {
-      delete m_ext;
     }
   }
 }
@@ -301,7 +295,7 @@ void AbstractMesh::createVAO() noexcept
   }
 
   // first we grab an instance of our VOA
-  m_vaoMesh = VertexArrayObject::createVOA(m_dataPackType);
+  m_vaoMesh.reset( ngl::VAOFactory::createVAO("simpleVAO",m_dataPackType));
   // next we bind it so it's active for setting data
   m_vaoMesh->bind();
   m_meshSize=vboMesh.size();
@@ -310,8 +304,9 @@ void AbstractMesh::createVAO() noexcept
 	// how much (in bytes) data we are copying
 	// a pointer to the first element of data (in this case the address of the first element of the
 	// std::vector
-	m_vaoMesh->setData(m_meshSize*sizeof(VertData),vboMesh[0].u);
-	// in this case we have packed our data in interleaved format as follows
+  //m_vaoMesh->setData(m_meshSize*sizeof(VertData),vboMesh[0].u);
+  reinterpret_cast<SimpleVAO *>( m_vaoMesh.get())->setData(m_meshSize*sizeof(VertData),vboMesh[0].u);
+  // in this case we have packed our data in interleaved format as follows
 	// u,v,nx,ny,nz,x,y,z
 	// If you look at the shader we have the following attributes being used
 	// attribute vec3 inVert; attribute 0
@@ -368,7 +363,7 @@ Real * AbstractMesh::mapVAOVerts() noexcept
 //
   m_vaoMesh->bind();
   //NGLCheckGLError("Abstract Mesh",__LINE__);
-  glBindBuffer(GL_ARRAY_BUFFER, m_vaoMesh->getVBOid(0));
+  glBindBuffer(GL_ARRAY_BUFFER, m_vaoMesh->getBufferID(0));
   //NGLCheckGLError("Abstract Mesh",__LINE__);
 #ifndef USINGIOS_
   ptr = static_cast<Real *>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
@@ -431,14 +426,9 @@ void AbstractMesh::calcDimensions() noexcept
   }
 
 
-  // destroy the previous bounding box
-  if(m_ext !=0)
-  {
-    delete m_ext;
 
-  }
   // create a new bbox based on the new object size
-  m_ext=new BBox(m_minX,m_maxX,m_minY,m_maxY,m_minZ,m_maxZ);
+  m_ext.reset(new BBox(m_minX,m_maxX,m_minY,m_maxY,m_minZ,m_maxZ));
 
 }
 

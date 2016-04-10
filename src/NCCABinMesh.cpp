@@ -107,7 +107,7 @@ bool NCCABinMesh::load(const std::string &_fname,bool _calcBB) noexcept
   // create the BBox for the obj
   if(_calcBB)
   {
-    m_ext=new BBox(m_minX,m_maxX,m_minY,m_maxY,m_minZ,m_maxZ);
+    m_ext.reset(new BBox(m_minX,m_maxX,m_minY,m_maxY,m_minZ,m_maxZ) );
   }
   m_vbo=true;
   return true;

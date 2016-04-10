@@ -57,7 +57,12 @@ class NGL_DLLEXPORT MultiBufferVAO : public AbstractVAO
     /// and then re-set with the new data.
     //----------------------------------------------------------------------------------------------------------------------
     void setData(size_t _size,const GLfloat &_data,GLenum _mode=GL_STATIC_DRAW) ;
-
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief return the id of the buffer, if there is only 1 buffer just return this
+    /// if we have the more than one buffer the sub class manages the id's
+    /// @param _buffer index (default to 0 for single buffer VAO's)
+    //----------------------------------------------------------------------------------------------------------------------
+    virtual GLuint getBufferID(unsigned int _id);
   protected :
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief ctor calles parent ctor to allocate vao;

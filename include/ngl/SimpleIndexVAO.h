@@ -65,6 +65,12 @@ class NGL_DLLEXPORT SimpleIndexVAO : public AbstractVAO
 
     //----------------------------------------------------------------------------------------------------------------------
     void setData(size_t _size,const GLfloat &_data,unsigned int _indexSize,const GLvoid *_indexData,GLenum _indexType,GLenum _mode=GL_STATIC_DRAW);
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief return the id of the buffer, if there is only 1 buffer just return this
+    /// if we have the more than one buffer the sub class manages the id's
+    /// @param _buffer index (default to 0 for single buffer VAO's)
+    //----------------------------------------------------------------------------------------------------------------------
+     GLuint getBufferID(unsigned int ){return m_id;}
 
   protected :
     //----------------------------------------------------------------------------------------------------------------------
