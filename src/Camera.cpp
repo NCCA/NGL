@@ -17,9 +17,13 @@
 #include "Camera.h"
 #include "Util.h"
 #include "NGLassert.h"
-#include "VertexArrayObject.h"	
+#include "VAOFactory.h"
+#include "SimpleVAO.h"
+#include <vector>
+#include "Vec3.h"
 #include <iostream>
 #include <cmath>
+#include <memory>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Camera.cpp
 /// @brief implementation files for Camera class
@@ -417,11 +421,11 @@ void Camera::drawFrustum() noexcept
 
 
   // now we create a VAO to store the data
- VertexArrayObject *vao=VertexArrayObject::createVOA(GL_LINES);
+ std::unique_ptr<AbstractVAO> vao( VAOFactory::createVAO("simpleVAO",GL_LINES));
   // bind it so we can set values
   vao->bind();
   // set the vertex data (4 for x,y,z)
-  vao->setData(points.size()*sizeof(Vec3),points[0].m_x);
+  reinterpret_cast<SimpleVAO *>(vao.get())->setData(points.size()*sizeof(Vec3),points[0].m_x);
   // now we set the attribute pointer to be 0 (as this matches vertIn in our shader)
   vao->setVertexAttributePointer(0,3,GL_FLOAT,sizeof(Vec3),0);
   // say how many indecis to be rendered
@@ -429,7 +433,7 @@ void Camera::drawFrustum() noexcept
   vao->draw();
   // now unbind
   vao->unbind();
-  vao->removeVOA();
+  vao->removeVAO();
 
 }
 
