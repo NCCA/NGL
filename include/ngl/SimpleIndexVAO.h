@@ -91,7 +91,6 @@ class NGL_DLLEXPORT SimpleIndexVAO : public AbstractVAO
     //----------------------------------------------------------------------------------------------------------------------
     GLenum m_indexType;
 
-
 };
 
 

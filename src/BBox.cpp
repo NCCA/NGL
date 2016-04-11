@@ -82,6 +82,8 @@ BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  ) noex
 }
 
 
+
+
 //----------------------------------------------------------------------------------------------------------------------
 BBox::BBox() noexcept
 {
@@ -114,6 +116,24 @@ BBox::BBox(const BBox &_b) noexcept
   m_maxZ=_b.m_maxZ;
   m_vao=0;
   recalculate();
+}
+
+BBox& BBox::operator=(const BBox &_b)
+{
+
+  m_center=_b.m_center;
+  m_width=_b.m_width;
+  m_height=_b.m_height;
+  m_depth=_b.m_depth;
+  m_drawMode=_b.m_drawMode;
+  m_minX=_b.m_minX;
+  m_maxX=_b.m_maxX;
+  m_minY=_b.m_minY;
+  m_maxY=_b.m_maxY;
+  m_minZ=_b.m_minZ;
+  m_maxZ=_b.m_maxZ;
+  m_vao.reset(_b.m_vao.get());
+  return *this;
 }
 
 
