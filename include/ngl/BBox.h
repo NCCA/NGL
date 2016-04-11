@@ -22,7 +22,8 @@
 #include "Types.h"
 #include "Vec3.h"
 #include "Vec4.h"
-#include "VertexArrayObject.h"
+#include "AbstractVAO.h"
+#include <memory>
 
 
 namespace ngl
@@ -221,7 +222,7 @@ protected :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a pointer to the VAO buffer used for drawing the bbox
   //----------------------------------------------------------------------------------------------------------------------
-  VertexArrayObject *m_vao;
+  std::unique_ptr< AbstractVAO >m_vao;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief sets the draw mode for the BBox Faces,  set to GL_LINE for
   ///  line faces and GL_FILL for filled

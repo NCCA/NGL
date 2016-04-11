@@ -19,8 +19,9 @@
 /// @brief a simple bounding box class
 //----------------------------------------------------------------------------------------------------------------------
 #include "BBox.h"
+#include "VAOFactory.h"
+#include "SimpleIndexVAO.h"
 #include <iostream>
-
 namespace ngl
 {
 constexpr GLubyte indices[]=  {
@@ -161,13 +162,11 @@ void BBox::setDrawMode( GLenum _mode) noexcept
 
 void BBox::setVAO()
 {
-	// if we change the size we re-do the VAO
-	if( m_vao != 0 )
+  // if we change the size we re-do the VAO
+  if( m_vao.get() != nullptr )
 	{
-		//std::cout<<"VAO already exists so delete and re-create\n";
-		GLuint id=m_vao->getID();
-		glDeleteVertexArrays(1,&id);
-	}
+    m_vao->removeVAO();
+  }
 	// if were not doing line drawing then use tris
 	#ifdef USINGIOS_
 		if(m_drawMode !=GL_LINE_LOOP)
@@ -175,14 +174,14 @@ void BBox::setVAO()
 		if(m_drawMode !=GL_LINE)
 	#endif
 	{
-		m_vao=VertexArrayObject::createVOA(GL_TRIANGLES);
+    m_vao.reset( VAOFactory::createVAO("simpleIndexVAO",GL_TRIANGLES) );
 
     // now we have our data add it to the VAO, we need to tell the VAO the following
     // how much (in bytes) data we are copying
     // a pointer to the first element of data (in this case the address of the first element of the
     // std::vector
     m_vao->bind();
-    m_vao->setIndexedData(8*sizeof(Vec3),m_vert[0].m_x,sizeof(indices),&indices[0],GL_UNSIGNED_BYTE,GL_STATIC_DRAW);
+    reinterpret_cast<SimpleIndexVAO *>( m_vao.get())->setData(8*sizeof(Vec3),m_vert[0].m_x,sizeof(indices),&indices[0],GL_UNSIGNED_BYTE,GL_STATIC_DRAW);
 
     m_vao->setVertexAttributePointer(0,3,GL_FLOAT,sizeof(Vec3),0);
 
@@ -192,7 +191,7 @@ void BBox::setVAO()
   }
   else // we just need to draw the lines
   {
-    m_vao=VertexArrayObject::createVOA(GL_LINE_LOOP);
+    m_vao.reset( VAOFactory::createVAO("simpleIndexVAO",GL_LINE_LOOP));
 
     // now we have our data add it to the VAO, we need to tell the VAO the following
     // how much (in bytes) data we are copying
@@ -200,7 +199,7 @@ void BBox::setVAO()
 
 
     m_vao->bind();
-    m_vao->setIndexedData(8*sizeof(Vec3),m_vert[0].m_x,sizeof(lindices),&lindices[0],GL_UNSIGNED_BYTE,GL_STATIC_DRAW);
+    reinterpret_cast<SimpleIndexVAO *>( m_vao.get())->setData(8*sizeof(Vec3),m_vert[0].m_x,sizeof(lindices),&lindices[0],GL_UNSIGNED_BYTE,GL_STATIC_DRAW);
 
     m_vao->setVertexAttributePointer(0,3,GL_FLOAT,sizeof(Vec3),0);
 
@@ -299,8 +298,7 @@ void BBox::recalculate() noexcept
 
 BBox::~BBox() noexcept
 {
-  m_vao->removeVOA();
-  delete m_vao;
+  m_vao->removeVAO();
 }
 //----------------------------------------------------------------------------------------------------------------------
 

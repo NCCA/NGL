@@ -9,6 +9,16 @@ namespace ngl
     m_mode=_mode;
   }
 
+  GLenum AbstractVAO::getMode() const
+  {
+    return m_mode;
+  }
+
+  void AbstractVAO::setMode(const GLenum &_mode)
+  {
+    m_mode = _mode;
+  }
+
   //----------------------------------------------------------------------------------------------------------------------
   void AbstractVAO::bind()
   {
