@@ -70,7 +70,7 @@ class NGL_DLLEXPORT SimpleIndexVAO : public AbstractVAO
     /// if we have the more than one buffer the sub class manages the id's
     /// @param _buffer index (default to 0 for single buffer VAO's)
     //----------------------------------------------------------------------------------------------------------------------
-     GLuint getBufferID(unsigned int ){return m_id;}
+     GLuint getBufferID(unsigned int ){return m_buffer;}
 
   protected :
     //----------------------------------------------------------------------------------------------------------------------
