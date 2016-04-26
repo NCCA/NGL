@@ -230,7 +230,7 @@ bool Obj::load(const std::string &_fname,bool _calcBB )  noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Obj::Obj( const std::string& _fname  )  noexcept :AbstractMesh()
+Obj::Obj(const std::string& _fname  , bool _calcBB)  noexcept :AbstractMesh()
 {
     m_vbo=false;
     m_ext=0;
@@ -242,13 +242,13 @@ Obj::Obj( const std::string& _fname  )  noexcept :AbstractMesh()
     m_nNorm=m_nTex=0;
 
     // load the file in
-    m_loaded=load(_fname);
+    m_loaded=load(_fname,_calcBB);
 
     m_texture = false;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Obj::Obj( const std::string& _fname,const std::string& _texName   )  noexcept:AbstractMesh()
+Obj::Obj( const std::string& _fname,const std::string& _texName, bool _calcBB   )  noexcept:AbstractMesh()
 {
     m_vbo=false;
     m_vao=false;
@@ -260,7 +260,7 @@ Obj::Obj( const std::string& _fname,const std::string& _texName   )  noexcept:Ab
     m_minX=0.0f; m_minY=0.0f; m_minZ=0.0f;
     m_nNorm=m_nTex=0;
     // load the file in
-    m_loaded=load(_fname);
+    m_loaded=load(_fname,_calcBB);
 
     // load texture
     loadTexture(_texName);

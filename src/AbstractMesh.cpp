@@ -504,7 +504,7 @@ void AbstractMesh::saveNCCABinaryMesh( const std::string &_fname  ) noexcept
 /// Morgan Korfman Appendix B
 void AbstractMesh::calcBoundingSphere() noexcept
 {
-unsigned int size=m_verts.size();
+auto size=m_verts.size();
 if( size <=0 )
 {
 	std::cerr<<"now vertices loaded \n";

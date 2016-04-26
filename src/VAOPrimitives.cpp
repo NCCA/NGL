@@ -891,6 +891,16 @@ void VAOPrimitives::clear() noexcept
     m_createdVAOs.erase(m_createdVAOs.begin(),m_createdVAOs.end());
 }
 
-
+VertexArrayObject * VAOPrimitives::getVAOFromName(const std::string &_name)
+{
+  // get an iterator to the VertexArrayObjects
+  auto VAO=m_createdVAOs.find(_name);
+  // make sure we have a valid shader
+  if(VAO!=m_createdVAOs.end())
+  {
+    return VAO->second;
+  }
+  else return nullptr;
+}
 
 } // end ngl namespace

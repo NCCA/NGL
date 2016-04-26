@@ -156,7 +156,8 @@ public :
   /// don't want the default primitives
   //----------------------------------------------------------------------------------------------------------------------
   void clear() noexcept;
-
+  /// @brief get the raw VAO so we can map it etc
+  VertexArrayObject * getVAOFromName(const std::string &_name);
 
 private :
 	//----------------------------------------------------------------------------------------------------------------------

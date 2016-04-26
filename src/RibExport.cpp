@@ -25,7 +25,7 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-RibExport::RibExport(const std::string &_fileName)
+RibExport::RibExport(const std::string &_fileName, bool _oneShot)
 {
 	m_attribCount=0;
 	m_transformCount=0;
@@ -34,6 +34,7 @@ RibExport::RibExport(const std::string &_fileName)
 	m_frameNumber=0;
 	m_tabs=0;
 	m_isOpen=false;
+  m_oneShot=_oneShot;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -74,8 +75,10 @@ void RibExport::comment(const std::string &_sText  )
 void RibExport::open()
 {
 	std::string fName;
-	fName=(boost::str(boost::format("%s.%03d.rib") % m_ribFileName.c_str() % m_frameNumber));
-
+  if(m_oneShot)
+    fName=(boost::str(boost::format("%s.%03d.rib") % m_ribFileName.c_str() % m_frameNumber));
+  else
+    fName=m_ribFileName;
 	m_ribFile.open(fName.c_str(),std::ios::out);
 	if (!m_ribFile.is_open())
 	{

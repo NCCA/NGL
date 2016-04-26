@@ -347,8 +347,8 @@ void Camera::writeRib( RibExport &_rib ) const noexcept
 		}
 		_rib.getStream() <<"]\n";
 		_rib.getStream() <<"# now we Set the clipping \n";
-		_rib.getStream() <<"Clipping "<<m_zNear<<" "<<m_zFar<<"\n";
-		_rib.getStream() <<"Projection \"perspective\" \"fov\" ["<<m_fov<<"]\n";
+//		_rib.getStream() <<"Clipping "<<m_zNear<<" "<<m_zFar<<"\n";
+//		_rib.getStream() <<"Projection \"perspective\" \"fov\" ["<<m_fov<<"]\n";
 		_rib.getStream() <<"#End of Camera from GraphicsLib\n";
 	}
 }
