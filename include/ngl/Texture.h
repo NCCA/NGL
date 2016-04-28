@@ -93,6 +93,8 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   GLuint getFormat()const noexcept{return m_format;}
 
+  const Image & getImage() const {return m_image;}
+
 protected :
 		//----------------------------------------------------------------------------------------------------------------------
 		/// @brief the actual image data loaded packed in r,g,b,a format in contiguous memory
