@@ -248,6 +248,26 @@ Obj::Obj(const std::string& _fname  , bool _calcBB)  noexcept :AbstractMesh()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+Obj::Obj( const char *_fname,const char *_texName, bool _calcBB   )  noexcept:AbstractMesh()
+{
+  m_vbo=false;
+  m_vao=false;
+  m_ext=0;
+  // set default values
+  m_nVerts=m_nNorm=m_nTex=m_nFaces=0;
+  //set the default extents to 0
+  m_maxX=0.0f; m_maxY=0.0f; m_maxZ=0.0f;
+  m_minX=0.0f; m_minY=0.0f; m_minZ=0.0f;
+  m_nNorm=m_nTex=0;
+  // load the file in
+  m_loaded=load(_fname,_calcBB);
+
+  // load texture
+  loadTexture(_texName);
+  m_texture = true;
+
+}
+
 Obj::Obj( const std::string& _fname,const std::string& _texName, bool _calcBB   )  noexcept:AbstractMesh()
 {
     m_vbo=false;
