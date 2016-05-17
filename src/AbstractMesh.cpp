@@ -305,7 +305,7 @@ void AbstractMesh::createVAO() noexcept
 	// a pointer to the first element of data (in this case the address of the first element of the
 	// std::vector
   //m_vaoMesh->setData(m_meshSize*sizeof(VertData),vboMesh[0].u);
-  reinterpret_cast<SimpleVAO *>( m_vaoMesh.get())->setData(m_meshSize*sizeof(VertData),vboMesh[0].u);
+  m_vaoMesh->setData(SimpleVAO::VertexData(m_meshSize*sizeof(VertData),vboMesh[0].u));
   // in this case we have packed our data in interleaved format as follows
 	// u,v,nx,ny,nz,x,y,z
 	// If you look at the shader we have the following attributes being used

@@ -201,8 +201,7 @@ void BBox::setVAO()
     // a pointer to the first element of data (in this case the address of the first element of the
     // std::vector
     m_vao->bind();
-    reinterpret_cast<SimpleIndexVAO *>( m_vao.get())->setData(8*sizeof(Vec3),m_vert[0].m_x,sizeof(indices),&indices[0],GL_UNSIGNED_BYTE,GL_STATIC_DRAW);
-
+    m_vao->setData(SimpleIndexVAO::VertexData(8*sizeof(Vec3),m_vert[0].m_x,sizeof(indices),&indices[0],GL_UNSIGNED_BYTE,GL_STATIC_DRAW));
     m_vao->setVertexAttributePointer(0,3,GL_FLOAT,sizeof(Vec3),0);
 
     m_vao->setNumIndices(sizeof(indices));
@@ -219,8 +218,7 @@ void BBox::setVAO()
 
 
     m_vao->bind();
-    reinterpret_cast<SimpleIndexVAO *>( m_vao.get())->setData(8*sizeof(Vec3),m_vert[0].m_x,sizeof(lindices),&lindices[0],GL_UNSIGNED_BYTE,GL_STATIC_DRAW);
-
+    m_vao->setData( SimpleIndexVAO::VertexData(8*sizeof(Vec3),m_vert[0].m_x,sizeof(lindices),&lindices[0],GL_UNSIGNED_BYTE,GL_STATIC_DRAW));
     m_vao->setVertexAttributePointer(0,3,GL_FLOAT,sizeof(Vec3),0);
 
     m_vao->setNumIndices(sizeof(lindices));

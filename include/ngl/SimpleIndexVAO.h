@@ -34,6 +34,19 @@ namespace ngl
 class NGL_DLLEXPORT SimpleIndexVAO : public AbstractVAO
 {
   public :
+
+    class VertexData : public AbstractVAO::VertexData
+    {
+        public :
+          VertexData(size_t _size,const GLfloat &_data, unsigned int _indexSize,const GLvoid *_indexData,GLenum _indexType, GLenum _mode=GL_STATIC_DRAW ) :
+            AbstractVAO::VertexData(_size,_data,_mode),
+            m_indexSize(_indexSize), m_indexData(_indexData), m_indexType(_indexType){}
+
+        unsigned int m_indexSize;
+        const GLvoid *m_indexData;
+        GLenum m_indexType;
+
+    };
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief creator method for the factory
     /// @param _mode the mode to draw with.
@@ -64,7 +77,8 @@ class NGL_DLLEXPORT SimpleIndexVAO : public AbstractVAO
     /// @param _mode the draw mode hint used by GL
 
     //----------------------------------------------------------------------------------------------------------------------
-    void setData(size_t _size,const GLfloat &_data,unsigned int _indexSize,const GLvoid *_indexData,GLenum _indexType,GLenum _mode=GL_STATIC_DRAW);
+    //void setData(size_t _size,const GLfloat &_data,unsigned int _indexSize,const GLvoid *_indexData,GLenum _indexType,GLenum _mode=GL_STATIC_DRAW);
+    virtual void setData(const AbstractVAO::VertexData &_data);
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief return the id of the buffer, if there is only 1 buffer just return this
     /// if we have the more than one buffer the sub class manages the id's

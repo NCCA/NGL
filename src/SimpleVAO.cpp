@@ -29,7 +29,7 @@ namespace ngl
     m_allocated=false;
     }
 
-  void SimpleVAO::setData(size_t _size,const GLfloat &_data,GLenum _mode)
+  void SimpleVAO::setData(const VertexData &_data)
   {
     if(m_bound == false)
     {
@@ -43,7 +43,7 @@ namespace ngl
     glGenBuffers(1, &m_buffer);
     // now we will bind an array buffer to the first one and load the data for the verts
     glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-    glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>( _size), &_data, _mode);
+    glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>( _data.m_size), &_data.m_data, _data.m_mode);
     m_allocated=true;
 
   }

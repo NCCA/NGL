@@ -34,6 +34,17 @@ namespace ngl
 class NGL_DLLEXPORT AbstractVAO
 {
   public :
+    class VertexData
+    {
+        public :
+          VertexData(size_t _size,const GLfloat &_data, GLenum _mode=GL_STATIC_DRAW ) :
+           m_size(_size), m_data(_data), m_mode(_mode){}
+
+        size_t m_size;
+        const GLfloat &m_data;
+        GLenum m_mode=GL_STATIC_DRAW;
+    };
+
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief dtor usually this will not be called
     //----------------------------------------------------------------------------------------------------------------------
@@ -51,6 +62,11 @@ class NGL_DLLEXPORT AbstractVAO
     /// will be a call to glDrawArrays type function, VAO must be bound before calling this
     //----------------------------------------------------------------------------------------------------------------------
     virtual void draw()const =0;
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief this method is used to set the data in the VAO, we have a base data type of
+    /// VertexData above, but the user can extend this to create custom data types
+    //----------------------------------------------------------------------------------------------------------------------
+    virtual void setData(const VertexData &_data)=0;
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief this will clean up the VAO and associated data, it is the users responsibility to do this
     /// usually this will be a call to the various delete buffers gl routines
