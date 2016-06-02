@@ -37,7 +37,6 @@ namespace ngl
 
 #define IMAGE_DEBUG_ON 1
 
-Image::Image() : m_width(0),m_height(0),m_channels(0),m_format(GL_RGBA),m_loaded(false),m_hasAlpha(true){;}
 
 Image::Image(const std::string &_fname)
 {
