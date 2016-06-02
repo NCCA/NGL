@@ -49,7 +49,7 @@ macx:message("Modify UseNGL.pri and modify QMAKE_MACK_SDK to macosx10.10")
 macx:QMAKE_MAC_SDK = macosx10.11
 # this is where to look for includes
 INCLUDEPATH += $${NGLBASE}/include/
-
+INCLUDEPATH += $${NGLBASE}/glew/
 win32: {
         PRE_TARGETDEPS+=C:/NGL/lib/NGL.lib
         INCLUDEPATH+=-I c:/boost

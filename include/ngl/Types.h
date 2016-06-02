@@ -37,7 +37,7 @@
 #endif
 
 #else
-  #include "glew.h"
+  #include "nglglew.h"
   #include <GL/gl.h>
 #endif
 
