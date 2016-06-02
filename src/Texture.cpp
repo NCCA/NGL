@@ -40,14 +40,14 @@ Texture::Texture( const std::string &_fname  )
 
 bool Texture::loadImage( const std::string  &_fname )
 {
-  m_image.load(_fname);
+  bool status=m_image.load(_fname);
 	m_width=m_image.width();
 	m_height=m_image.height();
 	m_channels=m_image.channels();
 	m_format=m_image.format();
   m_multiTextureID=0;
 
-	return m_image.load(_fname);
+  return status;
 }
 
 
