@@ -31,6 +31,8 @@ linux-g++-64:QMAKE_CXXFLAGS +=  -march=native
 # define the _DEBUG flag for the graphics lib
 DEFINES +=NGL_DEBUG
 OTHER_FILES+=sceneSetup.vrscene
+QMAKE_RPATHDIR+=$${NGLBASE}/lib
+
 unix:LIBS += -L/usr/local/lib
 # add the ngl lib note the { } for the environment variable QMake variable's value at time qmake is run 
 unix:LIBS +=  -L$${NGLBASE}/lib -l NGL
@@ -39,7 +41,6 @@ unix:LIBS +=  -L$${NGLBASE}/lib -l NGL
 linux-*{
 		linux-*:QMAKE_CXXFLAGS +=  -march=native
 		LIBS+=-ltiff
-		#DEFINES += LINUX
 }
 DEPENDPATH+=include
 # if we are on a mac define DARWIN
@@ -47,6 +48,7 @@ macx:message("Building for Mac El-Capitain using sdk 10.11 if this is not found"
 macx:message("Modify UseNGL.pri and modify QMAKE_MACK_SDK to macosx10.10")
 
 macx:QMAKE_MAC_SDK = macosx10.11
+
 # this is where to look for includes
 INCLUDEPATH += $${NGLBASE}/include/
 

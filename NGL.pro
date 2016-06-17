@@ -54,7 +54,7 @@ QMAKE_LFLAGS_COMPAT_VERSION=
 QMAKE_LFLAGS_SONAME=
 # use this to suppress some warning from boost
 unix:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
-macx:QMAKE_MAC_SDK = macosx10.11
+macx:QMAKE_MAC_SDK=macosx10.11
 # define the NGL_DEBUG flag for the graphics lib
 DEFINES += NGL_DEBUG
 # if you install boost to /usr/local/include/ we can find it from this line
@@ -65,6 +65,10 @@ unix:INCLUDEPATH+=/usr/local/include
 QMAKE_CFLAGS+= -DGLEW_NO_GLU -DGLEW_STATIC
 unix:QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
 macx:DEFINES +=GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
+macx {
+QMAKE_POST_LINK = \
+    install_name_tool -id @rpath/$$PWD/lib/libNGL.dylib $$PWD/lib/libNGL.dylib
+}
 
 # this is where to look for includes
 INCLUDEPATH += $$BASE_DIR/include/ngl
