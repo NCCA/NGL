@@ -66,8 +66,7 @@ QMAKE_CFLAGS+= -DGLEW_NO_GLU -DGLEW_STATIC
 unix:QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
 macx:DEFINES +=GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 macx {
-QMAKE_POST_LINK = \
-    install_name_tool -id @rpath/$$PWD/lib/libNGL.dylib $$PWD/lib/libNGL.dylib
+QMAKE_POST_LINK = install_name_tool -id @rpath/$$PWD/lib/libNGL.1.0.0.dylib $$PWD/lib/libNGL.1.0.0.dylib
 }
 
 # this is where to look for includes
