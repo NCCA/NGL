@@ -1,10 +1,26 @@
 #include <gtest/gtest.h>
 #include <ngl/Mat4.h>
+#include <ngl/Vec4.h>
+#include <string>
+#include <sstream>
+
+
 int main(int argc, char **argv)
 {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
+
+std::string print(const ngl::Mat4 &_m)
+{
+  std::stringstream ret;
+  ret<<'(';
+  for(size_t i=0; i<16; ++i)
+    ret<<_m.m_openGL[i]<<',';
+  ret<<"\b)\n";
+  return ret.str();
+}
+
 
 
 TEST(NGLMat4,DefaultCtor)
@@ -65,6 +81,7 @@ TEST(NGLMat4,setAtXY)
   EXPECT_TRUE(test == result);
 }
 
+
 TEST(NGLMat4,translate)
 {
   ngl::Mat4 test;
@@ -114,6 +131,40 @@ TEST(NGLMat4,rotateZ)
   EXPECT_TRUE(test == result);
 }
 
+TEST(NGLMat4,Mat4xMat4)
+{
+  ngl::Mat4 t1;
+  ngl::Mat4 t2;
+  t1.rotateX(45.0f);
+  t2.rotateY(35.0f);
+  ngl::Mat4 test=t1*t2;
+  ngl::Mat4 result(0.819152f,0,-0.573577f,0,0.40558f,0.707107f,0.579228f,0,0.40558f,-0.707107f,0.579228f,0,0,0,0,1);
+  EXPECT_TRUE(test == result);
+}
+
+TEST(NGLMat4,Mat4xeuqals)
+{
+  ngl::Mat4 test;
+  ngl::Mat4 t2;
+  test.rotateX(45.0f);
+  t2.rotateY(35.0f);
+  test*=t2;
+  ngl::Mat4 result(0.819152f,0.40558f,-0.40558f,0,0,0.707107f,0.707107f,0,0.573577f,-0.579228f,0.579228f,0,0,0,0,1);
+  EXPECT_TRUE(test == result);
+}
+
+TEST(NGLMat4,Mat4xeuqals2)
+{
+  ngl::Mat4 test;
+  ngl::Mat4 t2;
+  test.rotateX(45.0f);
+  t2.rotateY(35.0f);
+  test*=t2;
+  ngl::Mat4 r;
+  r.rotateX(45.0f);
+  EXPECT_TRUE(test == (t2*r));
+}
+
 TEST(NGLMat4,determinant)
 {
   // note value 5.0 is verified by wolfram alpha
@@ -133,5 +184,78 @@ TEST(NGLMat4,inverse)
   EXPECT_TRUE(test == result);
 }
 
+TEST(NGLMat4,adjacent)
+{
+  ngl::Mat4 test(1,0,0,0,0,2,2,0,0,-0.5,2,0,0,0,0,1);
+  test=test.Adjacent();
+  ngl::Mat4 result(5,0,0,0,0,2,0.5,0,0,-2,2,0,0,0,0,5);
+
+  EXPECT_TRUE(test == result);
+}
+
+TEST(NGLMat4,adjacentWithMat4)
+{
+  ngl::Mat4 t1;
+  ngl::Mat4 t2;
+  t1.rotateX(45.0f);
+  t2.rotateY(35.0f);
+  ngl::Mat4 test=t1.Adjacent(t2);
+  ngl::Mat4 result(0.819152f,0,-0.573577f,0,0,1,0,0,0.573577f,0,0.819152f,0,0,0,0,1);
+
+  EXPECT_TRUE(test == result);
+}
+
+TEST(NGLMat4,Vec4xMat4)
+{
+  ngl::Mat4 t1;
+  ngl::Vec4 test(2,1,2,1);
+  t1.rotateX(45.0f);
+  test=test*t1;
+  ngl::Vec4 result(2,-0.707107f,2.12132f,1);
+  EXPECT_TRUE(test == result);
+}
+
+TEST(NGLMat4,Mat4xVec4)
+{
+  ngl::Mat4 t1;
+  ngl::Vec4 test(2,1,2,1);
+  t1.rotateX(45.0f);
+  test=t1*test;
+  ngl::Vec4 result(2,2.12132f,0.707107f,1);
+  EXPECT_TRUE(test == result);
+}
+
+
+class EulerTestRot : public ::testing::TestWithParam<ngl::Real> {
+  // You can implement all the usual fixture class members here.
+  // To access the test parameter, call GetParam() from class
+  // TestWithParam<T>.
+};
+
+
+TEST_P(EulerTestRot,EulerRot)
+{
+  ngl::Mat4 euler;
+  ngl::Mat4 rot;
+  auto degrees=GetParam();
+  euler.euler(degrees,1,0,0);
+  rot.rotateX(degrees);
+  EXPECT_TRUE(euler == rot)<<"Euler gives\n"<<print(euler)<<"rotateX gives\n"<<print(rot)<<'\n';
+
+  euler.euler(degrees,0,1,0);
+  rot.rotateY(degrees);
+  EXPECT_TRUE(euler == rot)<<"Euler gives\n"<<print(euler)<<"rotateY gives\n"<<print(rot)<<'\n';
+
+
+  euler.euler(degrees,0,0,1);
+  rot.rotateZ(degrees);
+  EXPECT_TRUE(euler == rot)<<"Euler gives\n"<<print(euler)<<"rotateZ gives\n"<<print(rot)<<'\n';
+
+
+}
+
+INSTANTIATE_TEST_CASE_P(Mat4EulerRot,
+                        EulerTestRot,
+                        ::testing::Values(0.0f,45.0f,90.0f,180.0f,270.0f,360.0f));
 
 

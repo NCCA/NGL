@@ -1,4 +1,5 @@
 #include <ngl/Mat4.h>
+#include <ngl/Vec4.h>
 #include <ngl/NGLStream.h>
 #include <fstream>
 
@@ -144,6 +145,68 @@ int main(int argc, char **argv)
     writeCtor("result",result);
   }
 
+  {
+    // test verified from wolfram alpha
+    // 1,0,0,0,0,0.4, -0.4, 0 ,0 , 0.1 , 0.4 0 ,0,0,0,1
+    ngl::Mat4 test(1,0,0,0,0,2,2,0,0,-0.5,2,0,0,0,0,1);
+    writeTest("test adjacent");
+    ngl::Mat4 result=test.Adjacent();
+    writeCtor("result",result);
+  }
+
+  {
+    ngl::Mat4 t1;
+    ngl::Mat4 t2;
+    t1.rotateX(45.0f);
+    t2.rotateY(35.0f);
+    writeTest("test adjacent()");
+    ngl::Mat4 result=t1.Adjacent(t2);
+    writeCtor("result",result);
+  }
 
 
+  {
+    ngl::Mat4 t1;
+    ngl::Vec4 v(2,1,2,1);
+    t1.rotateX(45.0f);
+    v=v*t1;
+    writeTest("test Vec4*Mat4");
+    gstream<<v<<'\n';
+  }
+  {
+    ngl::Mat4 t1;
+    ngl::Vec4 v(2,1,2,1);
+    t1.rotateX(45.0f);
+    v=t1*v;
+    writeTest("test Mat4*Vec4");
+    gstream<<v<<'\n';
+  }
+  {
+    ngl::Mat4 t1;
+    t1.euler(45.0f,0,-1,0);
+    ngl::Mat4 t2;
+    t2.rotateY(45.0f);
+    writeTest("test euler");
+    writeCtor("t1",t1);
+    writeCtor("t2",t2);
+
+  }
+  {
+    ngl::Mat4 t1;
+    ngl::Mat4 t2;
+    t1.rotateX(45.0f);
+    t2.rotateY(35.0f);
+    ngl::Mat4 test=t1*t2;
+    writeTest("test Mat4*Mat4");
+    writeCtor("result",test);
+  }
+  {
+    ngl::Mat4 t1;
+    ngl::Mat4 t2;
+    t1.rotateX(45.0f);
+    t2.rotateY(35.0f);
+    t1*=t2;
+    writeTest("test Mat4*equal");
+    writeCtor("result",t1);
+  }
 }
