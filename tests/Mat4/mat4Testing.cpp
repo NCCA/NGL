@@ -165,6 +165,33 @@ TEST(NGLMat4,Mat4xeuqals2)
   EXPECT_TRUE(test == (t2*r));
 }
 
+TEST(NGLMat4,Mat4pluEqual)
+{
+  ngl::Mat4 t1;
+  ngl::Mat4 t2;
+  t1.rotateX(45.0f);
+  t2.rotateY(35.0f);
+  t1+=t2;
+  ngl::Mat4 result(1.81915f,0,-0.573577f,0,0,1.70711f,0.707107f,0,0.573577f,-0.707107f,1.52626f,0,0,0,0,2);
+
+  EXPECT_TRUE(t1 == result);
+}
+
+TEST(NGLMat4,Mat4xReal)
+{
+  ngl::Mat4 test;
+  int value=0.0f;
+  for(int y=0; y<4; ++y)
+    for(int x=0; x<4; ++x)
+        test.setAtXY(x,y,value++);
+  test=test*4.2f;
+  ngl::Mat4 result(0,16.8f,33.6f,50.4f,4.2f,21,37.8f,54.6f,8.4f,25.2f,42,58.8f,12.6f,29.4f,46.2f,63);
+
+  EXPECT_TRUE(test == result);
+}
+
+
+
 TEST(NGLMat4,determinant)
 {
   // note value 5.0 is verified by wolfram alpha

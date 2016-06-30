@@ -209,4 +209,25 @@ int main(int argc, char **argv)
     writeTest("test Mat4*equal");
     writeCtor("result",t1);
   }
+
+  {
+    ngl::Mat4 t1;
+    ngl::Mat4 t2;
+    t1.rotateX(45.0f);
+    t2.rotateY(35.0f);
+    ngl::Mat4 test=t1+t2;
+    writeTest("test Mat4+Mat4");
+    writeCtor("result",test);
+  }
+  {
+    ngl::Mat4 t1;
+    int value=0.0f;
+    for(int y=0; y<4; ++y)
+      for(int x=0; x<4; ++x)
+          t1.setAtXY(x,y,value++);
+    t1=t1*4.2f;
+    writeTest("test Mat4xReal");
+    writeCtor("result",t1);
+  }
+
 }
