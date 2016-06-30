@@ -14,7 +14,7 @@ void removeCharFromStream(long _amount=1)
 }
 
 
-void printCtor(const std::string &_name,const ngl::Mat4 &_m)
+void writeCtor(const std::string &_name,const ngl::Mat4 &_m)
 {
   gstream<<"ngl::Mat4 "<<_name<<"(";
   for(int i=0; i<16; ++i)
@@ -42,31 +42,107 @@ int main(int argc, char **argv)
   gstream<<"Testing Output for Mat4";
 
   {
-    ngl::Mat4 m1;
+    ngl::Mat4 test;
     writeTest("Test Ctor");
-    printCtor("result",m1);
+    writeCtor("result",test);
     writeTest("Calling NULL");
-    m1.null();
-    printCtor("result",m1);
+    test.null();
+    writeCtor("result",test);
     writeTest("Calling identity");
-    m1.identity();
-    printCtor("result",m1);
+    test.identity();
+    writeCtor("result",test);
 
   }
   {
-    ngl::Mat4 m1(2.0f);
+    ngl::Mat4 test(2.0f);
     writeTest("Testing float ident ctor m(2.0f)");
-    printCtor("result",m1);
-    ngl::Mat4 m2(m1);
+    writeCtor("result",test);
+    ngl::Mat4 m2(test);
     writeTest("Testing copy ctor");
-    printCtor("result",m2);
-    ngl::Mat4 m3=m1;
+    writeCtor("result",m2);
+    ngl::Mat4 m3=test;
     writeTest("Testing assignment operator");
-    printCtor("result",m3);
+    writeCtor("result",m3);
 
 
   }
 
+  {
+    ngl::Mat4 test;
+    writeTest("test setAt");
+    int value=0.0f;
+    for(int y=0; y<4; ++y)
+      for(int x=0; x<4; ++x)
+          test.setAtXY(x,y,value++);
+    writeCtor("result",test);
+
+
+  }
+  {
+    ngl::Mat4 test;
+    test.translate(1.0f,2.0f,3.0f);
+    writeTest("test translate");
+    writeCtor("result",test);
+  }
+
+  {
+    ngl::Mat4 test;
+    test.translate(1.0f,2.0f,3.0f);
+    test.transpose();
+    writeTest("test transpose");
+    writeCtor("result",test);
+  }
+
+  {
+    ngl::Mat4 test;
+    test.scale(1.0f,2.0f,3.0f);
+    test.transpose();
+    writeTest("test scale");
+    writeCtor("result",test);
+  }
+  {
+    ngl::Mat4 test;
+    test.rotateX(45.0f);
+    writeTest("test roateX");
+    writeCtor("result",test);
+  }
+  {
+    ngl::Mat4 test;
+    test.rotateY(25.0f);
+    writeTest("test roateY");
+    writeCtor("result",test);
+  }
+
+  {
+    ngl::Mat4 test;
+    test.rotateZ(-36.0f);
+    writeTest("test roateZ");
+    writeCtor("result",test);
+  }
+  {
+    // test verified as 5 from wolfram alpha
+    ngl::Mat4 test(1,0,0,0,0,2,2,0,0,-0.5,2,0,0,0,0,1);
+    writeTest("test determinant");
+    float det=test.determinant();
+    gstream<<"float result="<<det<<";\n";
+  }
+
+  {
+    // test verified as 5 from wolfram alpha
+    ngl::Mat4 test(1,0,0,0,0,2,2,0,0,-0.5,2,0,0,0,0,1);
+    writeTest("test determinant");
+    float det=test.determinant();
+    gstream<<"float result="<<det<<";\n";
+  }
+
+  {
+    // test verified from wolfram alpha
+    // 1,0,0,0,0,0.4, -0.4, 0 ,0 , 0.1 , 0.4 0 ,0,0,0,1
+    ngl::Mat4 test(1,0,0,0,0,2,2,0,0,-0.5,2,0,0,0,0,1);
+    writeTest("test inverse");
+    ngl::Mat4 result=test.inverse();
+    writeCtor("result",result);
+  }
 
 
 
