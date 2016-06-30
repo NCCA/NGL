@@ -17,7 +17,6 @@
 #include "Vec2.h"
 #include "Vec4.h"
 #include "NGLassert.h"
-#include <boost/format.hpp>
 #include <cmath>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vec2.cpp

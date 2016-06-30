@@ -21,7 +21,7 @@
 #include "NGLassert.h"
 #include "Mat4.h"
 #include <cmath>
-#include <boost/format.hpp>
+
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vec3.cpp
 /// @brief implementation files for Vec3 class

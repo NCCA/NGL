@@ -23,6 +23,7 @@
 
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
+#include <array>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vec2.h
 /// @brief encapsulates a 2 float object like glsl Vec2 but not maths
@@ -269,7 +270,7 @@ public :
   /// m_y == m_openGL[1] \n
   //----------------------------------------------------------------------------------------------------------------------
 
-  Real m_openGL[2];
+  std::array <Real,2> m_openGL={{0.0f,0.0f}};
 #ifndef BUILDING_DOCS
   };
 #endif

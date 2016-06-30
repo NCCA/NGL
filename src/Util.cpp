@@ -133,7 +133,10 @@ NGL_DLLEXPORT  void NGLCheckGLError( const std::string  &_file, const int _line 
 NGL_DLLEXPORT Mat4 perspective(Real _fovy,Real _aspect, Real _zNear, Real _zFar) noexcept
 {
   Mat4 result;
-//  result.null();
+  //glm usues a zero matrix and we are copying their funcs (see my unit tests here
+  // https://github.com/NCCA/VectorGLM)
+
+  result.null();
 //  Real tanHalfFovy = tan(radians(_fovy) / 2.0f);
 
 //  result.m_00  = 1.0f / (_aspect * tanHalfFovy);
@@ -162,6 +165,9 @@ NGL_DLLEXPORT Mat4 perspectiveFov(Real const & _fov, Real const & _width, Real c
     Real h = cosf(0.5f * rad) / sinf(0.5f * rad);
     Real w = h * _height / _width;
     Mat4 result;
+    //glm usues a zero matrix and we are copying their funcs (see my unit tests here
+    // https://github.com/NCCA/VectorGLM)
+    result.null();
     result.m_00 = w;
     result.m_11 = h;
     result.m_22 = - (_zFar + _zNear) / (_zFar - _zNear);
@@ -180,6 +186,9 @@ NGL_DLLEXPORT Mat4 infinitePerspective(Real _fovy, Real _aspect, Real _zNear) no
   Real top = range;
 
   Mat4 result;
+  //glm usues a zero matrix and we are copying their funcs (see my unit tests here
+  // https://github.com/NCCA/VectorGLM)
+  result.null();
   result.m_00 = (2.0f * _zNear) / (right - left);
   result.m_11 = (2.0f * _zNear) / (top - bottom);
   result.m_22 = - 1.0f;
@@ -241,7 +250,8 @@ NGL_DLLEXPORT Mat4 ortho(Real _left, Real _right, Real _bottom, Real _top) noexc
 
 NGL_DLLEXPORT Mat4 frustum(Real _left, Real _right, Real _bottom, Real _top, Real _nearVal, Real _farVal) noexcept
 {
-  Mat4 result=0.0f;
+  Mat4 result;
+  result.null();
   result.m_00 = (2.0f * _nearVal) / (_right - _left);
   result.m_11 = (2.0f * _nearVal) / (_top - _bottom);
   result.m_20 = (_right + _left) / (_right - _left);
@@ -271,6 +281,20 @@ NGL_DLLEXPORT Vec3 unProject(const Vec3 &_win, const Mat4 &_model, const Mat4 &_
   return obj.toVec3();
 }
 
+NGL_DLLEXPORT Vec3 project(const Vec3 &_pos, const Mat4 &_model, const Mat4 &_project, const Vec4 &_viewport ) noexcept
+{
+  Vec4 tmp(_pos, 1.0);
+//  tmp =   tmp*_model;
+//  tmp =   tmp * _project;
+  tmp = _model*_project*tmp;
+  tmp /= tmp.m_w;
+  tmp = tmp * float(0.5);// + float(0.5);
+  tmp+=ngl::Vec3(0.5,0.5,0.5);
+  tmp[0] = tmp[0] * float(_viewport[2]) + float(_viewport[0]);
+  tmp[1] = tmp[1] * float(_viewport[3]) + float(_viewport[1]);
+
+  return tmp.toVec3();
+}
 
 // for more details see this site some greate stuff here (this code was modified from it)
 // http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/
@@ -295,10 +319,6 @@ NGL_DLLEXPORT unsigned int nextPow2(unsigned int _x) noexcept
 	_x |= _x >> 16;
 	return _x + 1;
 }
-
-
-
-
 
 
 } // end of namespace

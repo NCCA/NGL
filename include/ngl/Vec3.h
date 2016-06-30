@@ -22,6 +22,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
+#include <array>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vec3.h
 /// @brief encapsulates a 3 float object like glsl vec3 but not maths
@@ -328,7 +329,7 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   // we have to set the values here rather than above due to C++ spec
   // see section implicitly declared as defaulted (8.4).
-  Real m_openGL[3]={0.0f,0.0f,0.0f};
+  std::array<Real,3> m_openGL={{0.0f,0.0f,0.0f}};
   };
 };
 //----------------------------------------------------------------------------------------------------------------------

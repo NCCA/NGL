@@ -111,7 +111,7 @@ public:
   void setColour( Real _r, Real _g,  Real _b  ) noexcept;
 
   void setTransform(float _x, float _y) noexcept;
-private:
+protected:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a hash to store our FontChar data looked up by the char we want
   /// to render according to the Qt Docs a hash has faster lookups than QMap

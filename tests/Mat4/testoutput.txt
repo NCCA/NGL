@@ -1,0 +1,6 @@
+Testing Output for Mat4Test 0 Test Ctor
+ngl::Mat4 result(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
+Test 1 Calling NULL
+ngl::Mat4 result(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+Test 2 Calling identity
+ngl::Mat4 result(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);

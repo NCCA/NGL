@@ -25,7 +25,7 @@
 #include "Types.h"
 #include "Vec2.h"
 #include "Vec3.h"
-
+#include <array>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vec4.h
 /// @brief encapsulates a 4d Homogenous Point / Vector object
@@ -74,11 +74,11 @@ public:
   /// @brief copy ctor
   /// @param[in] _v the value to set
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4(const Vec3& _v)  noexcept:
+  Vec4(const Vec3& _v, float _w=1.0f)  noexcept:
   m_x(_v.m_x),
   m_y(_v.m_y),
   m_z(_v.m_z),
-  m_w(1.0f){;}
+  m_w(_w){;}
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief initialise the constructor from 3 or 4 Real
@@ -339,7 +339,7 @@ public :
   /// m_z == m_openGL[2] \n
   /// m_w == m_openGL[3] \n
   //----------------------------------------------------------------------------------------------------------------------
-  Real m_openGL[4]={0.0f,0.0f,0.0f,1.0f};
+  std::array <Real,4> m_openGL={{0.0f,0.0f,0.0f,1.0f}};
   };
 
 };

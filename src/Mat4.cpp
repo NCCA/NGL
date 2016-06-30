@@ -21,7 +21,7 @@
 #include "Vec3.h"
 #include <iostream>
 #include <cstring> // for memset
-#include <boost/format.hpp>
+
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Mat4.cpp
@@ -308,10 +308,10 @@ const Mat4& Mat4::operator*= ( const Mat4 &_m ) noexcept
 Mat4 Mat4::operator+(const Mat4 &_m ) const noexcept
 {
 	Mat4 Ret;
-	const Real* iterA = m_openGL;
-	const Real* iterB = _m.m_openGL;
-	Real* iterR = Ret.m_openGL;
-	const Real* end   = m_openGL+16;
+  const Real* iterA = m_openGL;
+  const Real* iterB = _m.m_openGL;
+  Real* iterR = Ret.m_openGL;
+  const Real* end   = m_openGL+16;
 
 	for( ; iterA != end; ++iterA, ++iterB, ++iterR)
 	{

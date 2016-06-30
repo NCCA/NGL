@@ -149,6 +149,7 @@ NGL_DLLEXPORT Mat4 frustum(Real _left, Real _right, Real _bottom, Real _top, Rea
 //----------------------------------------------------------------------------------------------------------------------
 NGL_DLLEXPORT Vec3 unProject(const Vec3 &_win, const Mat4 &_model, const Mat4 &_project, const Vec4 &_viewport ) noexcept;
 
+NGL_DLLEXPORT Vec3 project(const Vec3 &_pos, const Mat4 &_model, const Mat4 &_project, const Vec4 &_viewport ) noexcept;
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief converts Degrees to Radians
