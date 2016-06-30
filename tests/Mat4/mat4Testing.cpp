@@ -29,3 +29,29 @@ TEST(NGLMat4,TestIdentity)
   ngl::Mat4 result(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
   EXPECT_TRUE(test == result);
 }
+
+TEST(NGLMat4,TestFloatCtor)
+{
+  ngl::Mat4 test(2.0);
+  ngl::Mat4 result(2,0,0,0,0,2,0,0,0,0,2,0,0,0,0,1);
+  EXPECT_TRUE(test == result);
+}
+
+
+TEST(NGLMat4,TestCopyCtor)
+{
+  ngl::Mat4 test(2.0);
+  ngl::Mat4 copy(test);
+  ngl::Mat4 result(2,0,0,0,0,2,0,0,0,0,2,0,0,0,0,1);
+  EXPECT_TRUE(copy == result);
+}
+
+TEST(NGLMat4,TestAssignOperator)
+{
+  ngl::Mat4 test(2.0);
+  ngl::Mat4 copy=test;
+  ngl::Mat4 result(2,0,0,0,0,2,0,0,0,0,2,0,0,0,0,1);
+  EXPECT_TRUE(copy == result);
+}
+
+

@@ -41,15 +41,31 @@ int main(int argc, char **argv)
   }
   gstream<<"Testing Output for Mat4";
 
-  ngl::Mat4 m1;
-  writeTest("Test Ctor");
-  printCtor("result",m1);
-  writeTest("Calling NULL");
-  m1.null();
-  printCtor("result",m1);
-  writeTest("Calling identity");
-  m1.identity();
-  printCtor("result",m1);
+  {
+    ngl::Mat4 m1;
+    writeTest("Test Ctor");
+    printCtor("result",m1);
+    writeTest("Calling NULL");
+    m1.null();
+    printCtor("result",m1);
+    writeTest("Calling identity");
+    m1.identity();
+    printCtor("result",m1);
+
+  }
+  {
+    ngl::Mat4 m1(2.0f);
+    writeTest("Testing float ident ctor m(2.0f)");
+    printCtor("result",m1);
+    ngl::Mat4 m2(m1);
+    writeTest("Testing copy ctor");
+    printCtor("result",m2);
+    ngl::Mat4 m3=m1;
+    writeTest("Testing assignment operator");
+    printCtor("result",m3);
+
+
+  }
 
 
 
