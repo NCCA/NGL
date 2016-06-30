@@ -266,7 +266,7 @@ TEST(NGLMat4,Mat4xVec4)
   EXPECT_TRUE(test == result);
 }
 
-
+/* after thinking about it this is not a valid test!
 class EulerTestRot : public ::testing::TestWithParam<ngl::Real> {
   // You can implement all the usual fixture class members here.
   // To access the test parameter, call GetParam() from class
@@ -298,5 +298,6 @@ TEST_P(EulerTestRot,EulerRot)
 INSTANTIATE_TEST_CASE_P(Mat4EulerRot,
                         EulerTestRot,
                         ::testing::Values(0.0f,45.0f,90.0f,180.0f,270.0f,360.0f));
+                        */
 
 

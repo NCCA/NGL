@@ -35,11 +35,11 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 Mat4::Mat4() noexcept
 {
-	memset(&m_m,0,sizeof(m_m));
-	m_00=1.0f;
-	m_11=1.0f;
-	m_22=1.0f;
-	m_33=1.0f;
+  memset(&m_m,0,sizeof(m_m));
+  m_00=1.0f;
+  m_11=1.0f;
+  m_22=1.0f;
+  m_33=1.0f;
 }
 
 Mat4::Mat4(Real _m[4][4]) noexcept
@@ -60,65 +60,65 @@ Mat4::Mat4(
             Real _20,Real _21,Real _22,Real _23,
             Real _30, Real _31, Real _32, Real _33 ) noexcept
 {
-	m_00=_00;
-	m_01=_01;
-	m_02=_02;
-	m_03=_03;
+  m_00=_00;
+  m_01=_01;
+  m_02=_02;
+  m_03=_03;
 
-	m_10=_10;
-	m_11=_11;
-	m_12=_12;
-	m_13=_13;
-	m_20=_20;
-	m_21=_21;
-	m_22=_22;
-	m_23=_23;
-	m_30=_30;
-	m_31=_31;
-	m_32=_32;
-	m_33=_33;
+  m_10=_10;
+  m_11=_11;
+  m_12=_12;
+  m_13=_13;
+  m_20=_20;
+  m_21=_21;
+  m_22=_22;
+  m_23=_23;
+  m_30=_30;
+  m_31=_31;
+  m_32=_32;
+  m_33=_33;
 }
 //----------------------------------------------------------------------------------------------------------------------
 Mat4::Mat4(const Mat4& _m ) noexcept
 {
-	memcpy(m_m,&_m.m_m,sizeof(m_m));
+  memcpy(m_m,&_m.m_m,sizeof(m_m));
 }
 //----------------------------------------------------------------------------------------------------------------------
 Mat4& Mat4::operator=(const Mat4& _m ) noexcept
 {
-	memcpy(m_m,&_m.m_m,sizeof(m_m));
-	return *this;
+  memcpy(m_m,&_m.m_m,sizeof(m_m));
+  return *this;
 }
 //----------------------------------------------------------------------------------------------------------------------
 Mat4::Mat4(Real _m) noexcept
 {
-	memset(m_m,0,sizeof(m_m));
-	m_00=_m;
-	m_11=_m;
-	m_22=_m;
-	m_33=1.0f;
+  memset(m_m,0,sizeof(m_m));
+  m_00=_m;
+  m_11=_m;
+  m_22=_m;
+  m_33=1.0f;
 }
 //----------------------------------------------------------------------------------------------------------------------
 /// @todo replace this with function operator overload ()
 void Mat4::setAtXY(GLint _x,GLint _y, Real _equals  ) noexcept
 {
-	m_m[_x][_y]=_equals;
+  m_m[_x][_y]=_equals;
 }
 //----------------------------------------------------------------------------------------------------------------------
 const Mat4& Mat4::null() noexcept
 {
-	memset(&m_m,0,sizeof(m_m));
-	return *this;
+  memset(&m_m,0,sizeof(m_m));
+  return *this;
 }
 //----------------------------------------------------------------------------------------------------------------------
 const Mat4&  Mat4::identity() noexcept
 {
-	memset(m_m,0,sizeof(m_m));
-	m_00=1.0f;
-	m_11=1.0f;
-	m_22=1.0f;
-	m_33=1.0f;
-	return *this;
+  memset(m_m,0,sizeof(m_m));
+  m_00=1.0f;
+  m_11=1.0f;
+  m_22=1.0f;
+  m_33=1.0f;
+  return *this;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -212,152 +212,152 @@ Mat4 Mat4::operator*(const Mat4& _m ) const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 const Mat4& Mat4::operator*= ( const Mat4 &_m ) noexcept
 {
-	Mat4 temp(*this);
-	//  row 0
-	m_00  =  temp.m_00 * _m.m_00;
-	m_01  =  temp.m_01 * _m.m_00;
-	m_02  =  temp.m_02 * _m.m_00;
-	m_03  =  temp.m_03 * _m.m_00;
+  Mat4 temp(*this);
+  //  row 0
+  m_00  =  temp.m_00 * _m.m_00;
+  m_01  =  temp.m_01 * _m.m_00;
+  m_02  =  temp.m_02 * _m.m_00;
+  m_03  =  temp.m_03 * _m.m_00;
 
-	m_00 +=  temp.m_10 * _m.m_01;
-	m_01 +=  temp.m_11 * _m.m_01;
-	m_02 +=  temp.m_12 * _m.m_01;
-	m_03 +=  temp.m_13 * _m.m_01;
+  m_00 +=  temp.m_10 * _m.m_01;
+  m_01 +=  temp.m_11 * _m.m_01;
+  m_02 +=  temp.m_12 * _m.m_01;
+  m_03 +=  temp.m_13 * _m.m_01;
 
-	m_00 +=  temp.m_20 * _m.m_02;
-	m_01 +=  temp.m_21 * _m.m_02;
-	m_02 +=  temp.m_22 * _m.m_02;
-	m_03 +=  temp.m_23 * _m.m_02;
+  m_00 +=  temp.m_20 * _m.m_02;
+  m_01 +=  temp.m_21 * _m.m_02;
+  m_02 +=  temp.m_22 * _m.m_02;
+  m_03 +=  temp.m_23 * _m.m_02;
 
-	m_00 +=  temp.m_30 * _m.m_03;
-	m_01 +=  temp.m_31 * _m.m_03;
-	m_02 +=  temp.m_32 * _m.m_03;
-	m_03 +=  temp.m_33 * _m.m_03;
-
-
-	//  row 1
-	m_10  =  temp.m_00 * _m.m_10;
-	m_11  =  temp.m_01 * _m.m_10;
-	m_12  =  temp.m_02 * _m.m_10;
-	m_13  =  temp.m_03 * _m.m_10;
-
-	m_10 +=  temp.m_10 * _m.m_11;
-	m_11 +=  temp.m_11 * _m.m_11;
-	m_12 +=  temp.m_12 * _m.m_11;
-	m_13 +=  temp.m_13 * _m.m_11;
-
-	m_10 +=  temp.m_20 * _m.m_12;
-	m_11 +=  temp.m_21 * _m.m_12;
-	m_12 +=  temp.m_22 * _m.m_12;
-	m_13 +=  temp.m_23 * _m.m_12;
-
-	m_10 +=  temp.m_30 * _m.m_13;
-	m_11 +=  temp.m_31 * _m.m_13;
-	m_12 +=  temp.m_32 * _m.m_13;
-	m_13 +=  temp.m_33 * _m.m_13;
+  m_00 +=  temp.m_30 * _m.m_03;
+  m_01 +=  temp.m_31 * _m.m_03;
+  m_02 +=  temp.m_32 * _m.m_03;
+  m_03 +=  temp.m_33 * _m.m_03;
 
 
-	//  row 2
-	m_20  =  temp.m_00 * _m.m_20;
-	m_21  =  temp.m_01 * _m.m_20;
-	m_22  =  temp.m_02 * _m.m_20;
-	m_23  =  temp.m_03 * _m.m_20;
+  //  row 1
+  m_10  =  temp.m_00 * _m.m_10;
+  m_11  =  temp.m_01 * _m.m_10;
+  m_12  =  temp.m_02 * _m.m_10;
+  m_13  =  temp.m_03 * _m.m_10;
 
-	m_20 +=  temp.m_10 * _m.m_21;
-	m_21 +=  temp.m_11 * _m.m_21;
-	m_22 +=  temp.m_12 * _m.m_21;
-	m_23 +=  temp.m_13 * _m.m_21;
+  m_10 +=  temp.m_10 * _m.m_11;
+  m_11 +=  temp.m_11 * _m.m_11;
+  m_12 +=  temp.m_12 * _m.m_11;
+  m_13 +=  temp.m_13 * _m.m_11;
 
-	m_20 +=  temp.m_20 * _m.m_22;
-	m_21 +=  temp.m_21 * _m.m_22;
-	m_22 +=  temp.m_22 * _m.m_22;
-	m_23 +=  temp.m_23 * _m.m_22;
+  m_10 +=  temp.m_20 * _m.m_12;
+  m_11 +=  temp.m_21 * _m.m_12;
+  m_12 +=  temp.m_22 * _m.m_12;
+  m_13 +=  temp.m_23 * _m.m_12;
 
-	m_20 +=  temp.m_30 * _m.m_23;
-	m_21 +=  temp.m_31 * _m.m_23;
-	m_22 +=  temp.m_32 * _m.m_23;
-	m_23 +=  temp.m_33 * _m.m_23;
+  m_10 +=  temp.m_30 * _m.m_13;
+  m_11 +=  temp.m_31 * _m.m_13;
+  m_12 +=  temp.m_32 * _m.m_13;
+  m_13 +=  temp.m_33 * _m.m_13;
 
 
-	//  row 3
-	m_30  =  temp.m_00 * _m.m_30;
-	m_31  =  temp.m_01 * _m.m_30;
-	m_32  =  temp.m_02 * _m.m_30;
-	m_33  =  temp.m_03 * _m.m_30;
+  //  row 2
+  m_20  =  temp.m_00 * _m.m_20;
+  m_21  =  temp.m_01 * _m.m_20;
+  m_22  =  temp.m_02 * _m.m_20;
+  m_23  =  temp.m_03 * _m.m_20;
 
-	m_30 +=  temp.m_10 * _m.m_31;
-	m_31 +=  temp.m_11 * _m.m_31;
-	m_32 +=  temp.m_12 * _m.m_31;
-	m_33 +=  temp.m_13 * _m.m_31;
+  m_20 +=  temp.m_10 * _m.m_21;
+  m_21 +=  temp.m_11 * _m.m_21;
+  m_22 +=  temp.m_12 * _m.m_21;
+  m_23 +=  temp.m_13 * _m.m_21;
 
-	m_30 +=  temp.m_20 * _m.m_32;
-	m_31 +=  temp.m_21 * _m.m_32;
-	m_32 +=  temp.m_22 * _m.m_32;
-	m_33 +=  temp.m_23 * _m.m_32;
+  m_20 +=  temp.m_20 * _m.m_22;
+  m_21 +=  temp.m_21 * _m.m_22;
+  m_22 +=  temp.m_22 * _m.m_22;
+  m_23 +=  temp.m_23 * _m.m_22;
 
-	m_30 +=  temp.m_30 * _m.m_33;
-	m_31 +=  temp.m_31 * _m.m_33;
-	m_32 +=  temp.m_32 * _m.m_33;
-	m_33 +=  temp.m_33 * _m.m_33;
+  m_20 +=  temp.m_30 * _m.m_23;
+  m_21 +=  temp.m_31 * _m.m_23;
+  m_22 +=  temp.m_32 * _m.m_23;
+  m_23 +=  temp.m_33 * _m.m_23;
 
-	return *this;
+
+  //  row 3
+  m_30  =  temp.m_00 * _m.m_30;
+  m_31  =  temp.m_01 * _m.m_30;
+  m_32  =  temp.m_02 * _m.m_30;
+  m_33  =  temp.m_03 * _m.m_30;
+
+  m_30 +=  temp.m_10 * _m.m_31;
+  m_31 +=  temp.m_11 * _m.m_31;
+  m_32 +=  temp.m_12 * _m.m_31;
+  m_33 +=  temp.m_13 * _m.m_31;
+
+  m_30 +=  temp.m_20 * _m.m_32;
+  m_31 +=  temp.m_21 * _m.m_32;
+  m_32 +=  temp.m_22 * _m.m_32;
+  m_33 +=  temp.m_23 * _m.m_32;
+
+  m_30 +=  temp.m_30 * _m.m_33;
+  m_31 +=  temp.m_31 * _m.m_33;
+  m_32 +=  temp.m_32 * _m.m_33;
+  m_33 +=  temp.m_33 * _m.m_33;
+
+  return *this;
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
 Mat4 Mat4::operator+(const Mat4 &_m ) const noexcept
 {
-	Mat4 Ret;
+  Mat4 Ret;
   const Real* iterA = m_openGL;
   const Real* iterB = _m.m_openGL;
   Real* iterR = Ret.m_openGL;
   const Real* end   = m_openGL+16;
 
-	for( ; iterA != end; ++iterA, ++iterB, ++iterR)
-	{
-		*iterR = *iterA + *iterB;
-	}
-	return Ret;
+  for( ; iterA != end; ++iterA, ++iterB, ++iterR)
+  {
+    *iterR = *iterA + *iterB;
+  }
+  return Ret;
 }
 //----------------------------------------------------------------------------------------------------------------------
 const Mat4& Mat4::operator+=(const Mat4 &_m) noexcept
 {
-	Real* iterA =m_openGL;
-	const Real* iterB = _m.m_openGL;
-	const Real* end   = m_openGL+16;
+  Real* iterA =m_openGL;
+  const Real* iterB = _m.m_openGL;
+  const Real* end   = m_openGL+16;
 
-	for( ; iterA != end; ++iterA, ++iterB)
-	{
-		*iterA += *iterB;
-	}
-	return *this;
+  for( ; iterA != end; ++iterA, ++iterB)
+  {
+    *iterA += *iterB;
+  }
+  return *this;
 }
 //----------------------------------------------------------------------------------------------------------------------
 Mat4 Mat4::operator*( const Real _i) const noexcept
 {
-	Mat4 ret;
-	const Real* iterA = m_openGL;
-	Real* iterB = ret.m_openGL;
-	const Real* end   = m_openGL+16;
+  Mat4 ret;
+  const Real* iterA = m_openGL;
+  Real* iterB = ret.m_openGL;
+  const Real* end   = m_openGL+16;
 
-	for( ; iterA != end; ++iterA, ++iterB)
-	{
-		*iterB = (*iterA) * _i;
-	}
-	return ret;
+  for( ; iterA != end; ++iterA, ++iterB)
+  {
+    *iterB = (*iterA) * _i;
+  }
+  return ret;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 const Mat4& Mat4::operator*=(const Real _i) noexcept
 {
-	for(int y=0; y<4; y++)
-	{
-		for(int x=0; x<4; x++)
-		{
-			m_m[y][x]*=_i;
-		}
-	}
-	return *this;
+  for(int y=0; y<4; y++)
+  {
+    for(int x=0; x<4; x++)
+    {
+      m_m[y][x]*=_i;
+    }
+  }
+  return *this;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -377,16 +377,16 @@ return temp;
 //----------------------------------------------------------------------------------------------------------------------
 const Mat4& Mat4::transpose() noexcept
 {
-	Mat4 tmp(*this);
+  Mat4 tmp(*this);
 
-	for(int row=0; row<4; row++)
-	{
-		for(int col=0; col<4; col++)
-		{
-			m_m[row][col]=tmp.m_m[col][row];
-		}
-	}
-	return *this;
+  for(int row=0; row<4; row++)
+  {
+    for(int col=0; col<4; col++)
+    {
+      m_m[row][col]=tmp.m_m[col][row];
+    }
+  }
+  return *this;
 }
 
 
@@ -430,17 +430,17 @@ void Mat4::rotateZ(const Real _deg ) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void Mat4::translate( const Real _x,const Real _y,  const Real _z ) noexcept
 {
-	m_30 = _x;
-	m_31 = _y;
-	m_32 = _z;
+  m_30 = _x;
+  m_31 = _y;
+  m_32 = _z;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void Mat4::scale(const Real _x, const Real _y,  const Real _z ) noexcept
 {
-	m_00 = _x;
-	m_11 = _y;
-	m_22 = _z;
+  m_00 = _x;
+  m_11 = _y;
+  m_22 = _z;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -502,17 +502,35 @@ void Mat4::euler(const Real _angle, const Real _x, const Real _y, const Real _z)
 {
   // Axis and Angle matrix rotation see
   // http://en.wikipedia.org/wiki/Rotation_matrix for more details
-  Real beta=radians(_angle);
-  Real c = cosf((beta));
-  Real s = sinf((beta));
-  Real C=1-c;
-  Real xs  = _x*s;  Real  ys = _y*s;  Real  zs = _z*s;
-  Real xC  = _x*C;  Real  yC = _y*C;  Real  zC = _z*C;
-  Real xyC = _x*yC; Real yzC = _y*zC; Real zxC = _z*xC;
+  Real beta=radians(-_angle);
+  Real cosTheta = cosf((beta));
+  Real sinTheta = sinf((beta));
+  Real OneMinusCosTheta=1.0f-cosTheta;
+  ngl::Vec3 norm(_x,_y,_z);
+  norm.normalize();
+  Real x=norm.m_x;
+  Real y=norm.m_y;
+  Real z=norm.m_z;
 
-  m_m[0][0]=_x*xC+c;  m_m[0][1]= xyC-zs;  m_m[0][2]= zxC+ys;
-  m_m[1][0]=xyC+zs;   m_m[1][1]=_y*yC+c;  m_m[1][2]= yzC-xs;
-  m_m[2][0]=zxC-ys;   m_m[2][1]=yzC+xs;  m_m[2][2]=_z*zC+c;
+
+  m_m[0][0]=OneMinusCosTheta*(x*x)+cosTheta;
+  m_m[0][1]=OneMinusCosTheta*(x*y)-(z*sinTheta);
+  m_m[0][2]=OneMinusCosTheta*(x*z)+(y*sinTheta);
+//  m_m[1][0]=xyC+zs;
+//  m_m[1][1]=_y*yC+cosTheta;
+//  m_m[1][2]= yzC-xs;
+  m_m[1][0]=OneMinusCosTheta*(x*y)+(z*sinTheta);
+  m_m[1][1]=OneMinusCosTheta*(y*y)+cosTheta;
+  m_m[1][2]=OneMinusCosTheta*(y*z)-(x*sinTheta);
+
+
+//  m_m[2][0]=zxC-ys;
+//  m_m[2][1]=yzC+xs;
+//  m_m[2][2]=_z*zC+cosTheta;
+
+  m_m[2][0]=OneMinusCosTheta*(x*z)-(y*sinTheta);
+  m_m[2][1]=OneMinusCosTheta*(y*z)+(x*sinTheta);
+  m_m[2][2]=OneMinusCosTheta*(z*z)+cosTheta;
 }
 
 void Mat4::as3x3Array(Real _d[9]) const noexcept
