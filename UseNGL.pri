@@ -1,6 +1,6 @@
 #This file is included in any project that requires NGL it will be searched for 
 #in the default $(HOME)/NGL/  directory if this can't be found the environment variable $NGLDIR will be searched for and this will be used.
-CONFIG+=c++11
+CONFIG+=c++14
 macx:CONFIG-=app_bundle
 
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff

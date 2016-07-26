@@ -13,11 +13,31 @@ void testAdd()
   t1=t2+t3;
 }
 
+void testCtor()
+{
+  ngl::Mat4(2.0);
+}
+
 
 BENCHMARK(Mat4Tests, Mat4Add, 10, 100)
 {
-    testAdd();
+  testAdd();
 }
+
+BENCHMARK(Mat4Tests, Mat4Ctor, 10, 100)
+{
+    testCtor();
+}
+
+BENCHMARK(Mat4Tests, TestAssign, 10, 100)
+{
+    t1=t3;
+}
+BENCHMARK(Mat4Tests, TestCopyCtor, 10, 100)
+{
+    ngl::Mat4 t(t3);
+}
+
 
 int main(int argc, char **argv)
 {
