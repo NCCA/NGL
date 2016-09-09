@@ -1,5 +1,6 @@
-#ifndef TEXTSHADERS_H__
-#define TEXTSHADERS_H__
+#ifndef TEXTSHADERS_H_
+#define TEXTSHADERS_H_
+#include <string>
 
 const std::string textVertexShader =
 R"DELIM(

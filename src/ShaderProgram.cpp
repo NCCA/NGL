@@ -20,10 +20,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 #include "ShaderProgram.h"
-#include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/tokenizer.hpp>
 
 namespace ngl
 {

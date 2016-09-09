@@ -22,7 +22,6 @@
 
 #include "Quaternion.h"
 #include "Util.h"
-#include <boost/format.hpp>
 
 namespace ngl
 {

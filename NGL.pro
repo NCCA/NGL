@@ -31,6 +31,7 @@ equals(IMAGELIB,"USEIMAGEMAGIC"){
 equals(IMAGELIB,"USEOIIO"){
 	LIBS+=-L/usr/local/lib/ -lOpenImageIO
 }
+
 # to ensure we don't get any ABI issues use c++ and correct libs on mac
 
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
@@ -75,6 +76,10 @@ INCLUDEPATH += $$BASE_DIR/glew/
 INCLUDEPATH += $$BASE_DIR/src/ngl
 INCLUDEPATH +=$$BASE_DIR/src/shaders
 INCLUDEPATH +=$$BASE_DIR/include/rapidjson
+# using the fmt library https://github.com/fmtlib/fmt but header only.
+DEFINES+=FMT_HEADER_ONLY
+INCLUDEPATH +=$$BASE_DIR/include/fmt
+
 unix:LIBS += -L/usr/local/lib
 LIBS+= -lboost_system
 # set the SRC_DIR so we can find the project files
@@ -94,7 +99,6 @@ macx:{
 	#DEFINES += DARWIN
 }
 
-
 # in this case unix is also mac so we need to exclude mac from the unix build
 win32|unix:!macx{
 	# now define some linux specific flags
@@ -113,6 +117,7 @@ win32{
 				message("Using Windows check to see what needs to be installed")
 				CONFIG+=staticlib
 				INCLUDEPATH +=C:/boost/
+        INCLUDEPATH += C:/SDKs/ #for university STEM build
 				DEFINES+=_USE_MATH_DEFINES
 				# Silence some boost warnings
 				DEFINES+= _SCL_SECURE_NO_WARNINGS

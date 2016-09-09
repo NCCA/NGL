@@ -15,7 +15,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Colour.h"
-#include <boost/format.hpp>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Colour.cpp
 /// @brief implementation files for Colour class

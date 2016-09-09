@@ -19,13 +19,13 @@ namespace ngl
     bool m_timeStamp;
     bool m_lineNumber;
     bool m_disableColours;
-    unsigned int m_lineNumberCount;
-    unsigned int m_pad;
     Colours m_colour;
-    std::string m_logfileName;
-    TeeStream m_output;
     std::ofstream m_file;
     std::string m_timeString;
+    std::string m_logfileName;
+    unsigned int m_lineNumberCount;
+    unsigned int m_pad;
+    TeeStream m_output;
 
     Impl(const std::string &_fname) noexcept;
     void write(const std::string &_text) noexcept;

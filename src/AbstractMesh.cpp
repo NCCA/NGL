@@ -17,8 +17,6 @@
 
 #include "AbstractMesh.h"
 #include "Util.h"
-#include <boost/foreach.hpp>
-#include <boost/tokenizer.hpp>
 #include <list>
 #include "NGLStream.h"
 #include "VAOFactory.h"
@@ -31,8 +29,6 @@
 namespace ngl
 {
   //----------------------------------------------------------------------------------------------------------------------
-  /// pre-define the boost tokenizer so we don't have to use the full dec
-  typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
 
 //----------------------------------------------------------------------------------------------------------------------
 

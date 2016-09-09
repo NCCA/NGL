@@ -23,7 +23,6 @@
 #include "Vec2.h"
 #include <iostream>
 #include <cstring> // for memset
-#include <boost/format.hpp>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Mat3x3.cpp
 /// @brief implementation files for Mat3x3 class

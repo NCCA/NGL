@@ -18,7 +18,6 @@
 #include "NGLStream.h"
 #include "Material.h"
 #include "ShaderLib.h"
-#include <boost/format.hpp>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Material.cpp
 /// @brief implementation files for Material class

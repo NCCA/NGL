@@ -17,7 +17,6 @@
 //---------------------------------------------------------------------------
 #include "SpotLight.h"
 #include "ShaderLib.h"
-#include <boost/format.hpp>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file SpotLight.cpp
 /// @brief implementation files for SpotLight class

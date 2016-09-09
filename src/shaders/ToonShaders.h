@@ -1,5 +1,6 @@
-#ifndef TOONSHADERS_H__
-#define TOONSHADERS_H__
+#ifndef TOONSHADERS_H_
+#define TOONSHADERS_H_
+#include <string>
 
 const std::string toonVertexShader =
 R"DELIM(

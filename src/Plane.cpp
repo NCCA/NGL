@@ -15,7 +15,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Plane.h"
-#include <boost/format.hpp>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Plane.cpp
 /// @brief implementation files for Plane class

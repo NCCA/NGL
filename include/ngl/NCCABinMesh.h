@@ -29,7 +29,6 @@
 #include "Vec4.h"
 #include <string>
 #include <vector>
-//#include <boost/tokenizer.hpp>
 
 namespace ngl
 {

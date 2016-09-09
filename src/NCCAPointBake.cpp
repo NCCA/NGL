@@ -27,7 +27,7 @@
 
 namespace ngl
 {
-	typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
+  typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
 
 //----------------------------------------------------------------------------------------------------------------------
 NCCAPointBake::NCCAPointBake() noexcept

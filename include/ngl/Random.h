@@ -18,7 +18,7 @@
 #define RANDOM_H_
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Random.h
-/// @brief an encapsulation of the boost::random classes
+/// @brief an encapsulation of the std::random classes
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
 #include "Colour.h"
@@ -43,21 +43,18 @@ namespace ngl
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @class Random
-/// @brief wrapper for boost random and distribution functions, it will
+/// @brief wrapper for std random and distribution functions, it will
 /// generate two basic random functions for RandPositiveFloat (0-1) and
 /// RandFloat() +/- 1 these are also overloaded to have a param for range
 /// added to this are functions for Random Colours and Vectors and Points
-/// and also the ability to add other distributions based on the boost
+/// and also the ability to add other distributions
 /// random library.
 /// @author Jonathan Macey
 /// @version 1.0
 /// @date 17/05/10 Initial version
 
-/// @note by default we use the boost::mt19937 mersenne twister but this can
+/// @note by default we use the mt19937 mersenne twister but this can
 /// be changed in the library by modifying the define ENGINE to any of the following
-/// http://www.boost.org/doc/libs/1_43_0/doc/html/boost_random/reference.html#boost_random.reference.generators
-/// generators the define for ENGINE is hidden in the protected section where it is first
-/// used for the m_generator attribute
 
 /// @note as each call to the random generator function accesses the ENGINE m_generator no
 /// callable method that invokes any of the generators can be constant as the internal

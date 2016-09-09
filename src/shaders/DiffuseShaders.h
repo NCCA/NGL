@@ -1,6 +1,8 @@
-#ifndef DIFFUSESHADERS_H__
-#define DIFFUSESHADERS_H__
+#ifndef DIFFUSESHADERS_H_
+#define DIFFUSESHADERS_H_
 // see below for the really cool c++ 11 version of this
+#include <string>
+
 const std::string diffuseVertexShader =
 R"DELIM(
   #version 150

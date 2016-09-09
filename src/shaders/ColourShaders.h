@@ -1,6 +1,6 @@
-#ifndef COLOURSHADERS_H__
-#define COLOURSHADERS_H__
-
+#ifndef COLOURSHADERS_H_
+#define COLOURSHADERS_H_
+#include <string>
 
 const std::string colourVertexShader =
 R"DELIM(
