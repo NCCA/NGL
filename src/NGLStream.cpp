@@ -69,7 +69,6 @@ NGL_DLLEXPORT  std::istream& operator>>( std::istream &_input, Colour &_s )
 //----------------------------------------------------------------------------------------------------------------------
 NGL_DLLEXPORT std::ostream& operator<<(std::ostream &_output,const Mat3 &_m )
 {
-  /// @todo use boost::format to change this
   std::cout.setf(std::ios::fixed|std::ios::adjustfield|std::ios::showpos);
   std::cout.precision(12);
   return _output
@@ -81,7 +80,6 @@ NGL_DLLEXPORT std::ostream& operator<<(std::ostream &_output,const Mat3 &_m )
 //----------------------------------------------------------------------------------------------------------------------
 NGL_DLLEXPORT std::ostream& operator<<(std::ostream &_output,const Mat4 &_m)
 {
-  /// @todo use boost::format to change this
   std::cout.setf(std::ios::fixed|std::ios::adjustfield|std::ios::showpos);
  // std::cout.precision(std::numeric_limits<double>::digits10 + 1);
   return _output

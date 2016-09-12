@@ -2,13 +2,13 @@
 #include "rapidxml/rapidxml_print.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 #include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 #include "Camera.h"
 #include "Light.h"
 #include "Material.h"
 #include "Plane.h"
 #include "Transformation.h"
+#include "fmt/format.h"
 namespace ngl
 {
 
@@ -113,10 +113,10 @@ namespace ngl
     char *nodeName = m_doc.allocate_string(_tag.c_str());        // Allocate string and copy name into it
     rapidxml::xml_node<>* root = m_doc.allocate_node(rapidxml::node_element,nodeName);
     m_doc.append_node(root);
-    writeToXML(boost::str( boost::format(" %f") % _s.getFOV() ),root,"fov");
-    writeToXML(boost::str( boost::format(" %f") % _s.getAspect() ),root,"aspect");
-    writeToXML(boost::str( boost::format(" %f") % _s.getNear() ),root,"near");
-    writeToXML(boost::str( boost::format(" %f") % _s.getFar() ),root,"far");
+    writeToXML(fmt::format(" {}", _s.getFOV() ),root,"fov");
+    writeToXML(fmt::format(" {}" , _s.getAspect() ),root,"aspect");
+    writeToXML(fmt::format(" {}", _s.getNear() ),root,"near");
+    writeToXML(fmt::format(" {}", _s.getFar() ),root,"far");
     write(_s.getEye(),root,"eye");
     write(_s.getLook(),root,"look");
     write(_s.getUp(),root,"up");
@@ -130,13 +130,13 @@ namespace ngl
 
   void XMLSerializer::write(const Colour &_s,std::string _tag)
   {
-    writeToXML(boost::str( boost::format(" %f %f %f %f") % _s.m_r % _s.m_g % _s.m_b % _s.m_a ),_tag);
+    writeToXML(fmt::format(" {} {} {} {}" , _s.m_r , _s.m_g , _s.m_b , _s.m_a ),_tag);
   }
 
 
   void XMLSerializer::write(const Colour &_s,rapidxml::xml_node<> *_parent, std::string _tag)
   {
-    writeToXML(boost::str( boost::format(" %f %f %f %f") % _s.m_r % _s.m_g % _s.m_b % _s.m_a ),_parent,_tag);
+    writeToXML(fmt::format(" {} {} {} {}" , _s.m_r , _s.m_g , _s.m_b , _s.m_a ),_parent,_tag);
   }
 
   void XMLSerializer::read(Light &_s)
@@ -153,19 +153,19 @@ namespace ngl
     write(_s.getPos(),root,"position");
     write(_s.getColour(),root,"colour");
     write(_s.getSpecColour(),root,"specColour");
-    //writeToXML(boost::str( boost::format(" %f") % _s.));
+    //writeToXML(boost::str( boost::format(" {}") % _s.));
     //  m_position.writeXML(_doc,root,"position");
     //  m_diffuse.writeXML(_doc,root,"colour");
     //  m_specular.writeXML(_doc,root,"specColour");
-    //  char *value = _doc.allocate_string(boost::str( boost::format(" %f") % m_constantAtten).c_str());
+    //  char *value = _doc.allocate_string(boost::str( boost::format(" {}") % m_constantAtten).c_str());
     //  rapidxml::xml_node<>* child = _doc.allocate_node(rapidxml::node_element, "constantAtten",value);
     //  root->append_node(child);
 
-    //  value = _doc.allocate_string(boost::str( boost::format(" %f") % m_linearAtten).c_str());
+    //  value = _doc.allocate_string(boost::str( boost::format(" {}") % m_linearAtten).c_str());
     //  child = _doc.allocate_node(rapidxml::node_element, "linearAtten",value);
     //  root->append_node(child);
 
-    //  value = _doc.allocate_string(boost::str( boost::format(" %f") % m_quadraticAtten).c_str());
+    //  value = _doc.allocate_string(boost::str( boost::format(" {}") % m_quadraticAtten).c_str());
     //  child = _doc.allocate_node(rapidxml::node_element, "quadraticAtten",value);
     //  root->append_node(child);
   }
@@ -177,10 +177,10 @@ namespace ngl
 
   void XMLSerializer::write( Mat3 &_s, std::string _tag)
   {
-        writeToXML(boost::str(  boost::format(" %f %f %f %f %f %f %f %f %f")
-                            % _s.m_openGL[0] %_s.m_openGL[1] % _s.m_openGL[2]
-                            % _s.m_openGL[3] % _s.m_openGL[4] % _s.m_openGL[5]
-                            % _s.m_openGL[6] % _s.m_openGL[7] % _s.m_openGL[8] ),_tag);
+        writeToXML(fmt::format(" {0} {1} {2} {3} {4} {5} {6} {7} {8}"
+                            , _s.m_openGL[0] ,_s.m_openGL[1] , _s.m_openGL[2]
+                            , _s.m_openGL[3] , _s.m_openGL[4] , _s.m_openGL[5]
+                            , _s.m_openGL[6] , _s.m_openGL[7] , _s.m_openGL[8] ),_tag);
 
   }
 
@@ -193,11 +193,11 @@ namespace ngl
   {
     Real *openGL= _s.openGL();
 
-    writeToXML(boost::str( boost::format(" %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f")
-                                         % openGL[0] % openGL[1] % openGL[2] % openGL[3]
-                                         % openGL[4] % openGL[5] % openGL[6] % openGL[7]
-                                         % openGL[8] % openGL[9] % openGL[10] % openGL[11]
-                                         % openGL[12] % openGL[13] % openGL[14] % openGL[15]),_tag);
+    writeToXML(fmt::format(" {0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12} {13} {14} {15}"
+                                         , openGL[0] , openGL[1] , openGL[2] , openGL[3]
+                                         , openGL[4] , openGL[5] , openGL[6] , openGL[7]
+                                         , openGL[8] , openGL[9] , openGL[10] , openGL[11]
+                                         , openGL[12] , openGL[13] , openGL[14] , openGL[15]),_tag);
 
   }
 
@@ -215,9 +215,9 @@ namespace ngl
     write(_s.getDiffuse(),root,"diffuse");
     write(_s.getSpecular(),root,"specular");
     write(_s.getAmbient(),root,"ambient");
-    writeToXML(boost::str( boost::format(" %f") % _s.getSpecularExponent()),root,"specularExponent");
-    writeToXML(boost::str( boost::format(" %f") % _s.getTransparency()),root,"transparency");
-    writeToXML(boost::str( boost::format(" %f") % _s.getRoughness() ),root,"roughness");
+    writeToXML(fmt::format(" {0}" , _s.getSpecularExponent()),root,"specularExponent");
+    writeToXML(fmt::format(" {0}" , _s.getTransparency()),root,"transparency");
+    writeToXML(fmt::format(" {0}" , _s.getRoughness() ),root,"roughness");
   }
 
   void XMLSerializer::read(PathCamera &_s)
@@ -248,7 +248,7 @@ namespace ngl
 
   void XMLSerializer::write(const Quaternion &_s, const std::string &_tag)
   {
-    writeToXML(boost::str( boost::format(" %f %f %f %f") % _s.getS() % _s.getX() % _s.getY() % _s.getZ() ),_tag);
+    writeToXML(fmt::format(" {0} {1} {2} {3}"  , _s.getS() , _s.getX() , _s.getY() , _s.getZ() ),_tag);
 
   }
 
@@ -291,14 +291,14 @@ namespace ngl
 
   void XMLSerializer::write(const Vec2 &_s,std::string _tag)
   {
-    writeToXML(boost::str( boost::format(" %f %f ") % _s.m_x % _s.m_y  ),_tag);
+    writeToXML(fmt::format(" {0} {1} " , _s.m_x , _s.m_y  ),_tag);
 
 
   }
 
   void XMLSerializer::write(const Vec2 &_s,rapidxml::xml_node<> *_parent, std::string _tag)
   {
-    writeToXML(boost::str( boost::format(" %f %f  ") % _s.m_x % _s.m_y ),_parent,_tag);
+    writeToXML(fmt::format(" {0} {1}  " , _s.m_x , _s.m_y ),_parent,_tag);
   }
 
 
@@ -310,12 +310,12 @@ namespace ngl
 
   void XMLSerializer::write(const Vec3 &_s, std::string _tag)
   {
-    writeToXML(boost::str( boost::format(" %f %f %f ") % _s.m_x % _s.m_y % _s.m_z ),_tag);
+    writeToXML(fmt::format(" {0} {1} {2} "  , _s.m_x , _s.m_y , _s.m_z ),_tag);
   }
   void XMLSerializer::write(const Vec3 &_s,rapidxml::xml_node<> *_parent, std::string _tag)
   {
 
-    writeToXML(boost::str( boost::format(" %f %f %f ") % _s.m_x % _s.m_y % _s.m_z  ),_parent,_tag);
+    writeToXML(fmt::format(" {0} {1} {2} " , _s.m_x , _s.m_y , _s.m_z  ),_parent,_tag);
 
   }
   void XMLSerializer::read(Vec4 &_s)
@@ -331,13 +331,13 @@ namespace ngl
 
   void XMLSerializer::write(const Vec4 &_s, std::string _tag)
   {
-    writeToXML(boost::str( boost::format(" %f %f %f %f") % _s.m_x % _s.m_y % _s.m_z % _s.m_w),_tag);
+    writeToXML(fmt::format(" {0} {1} {2} {3}" , _s.m_x , _s.m_y , _s.m_z , _s.m_w),_tag);
   }
 
 
   void XMLSerializer::write(const Vec4 &_s, rapidxml::xml_node<> *_parent, std::string _tag)
   {
-   writeToXML(boost::str( boost::format(" %f %f %f %f") % _s.m_x % _s.m_y % _s.m_z % _s.m_w),_parent,_tag);
+   writeToXML(fmt::format(" {0} {1} {2} {3}"  , _s.m_x , _s.m_y , _s.m_z , _s.m_w),_parent,_tag);
   }
 
 

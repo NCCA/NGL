@@ -20,7 +20,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 #include "ShaderProgram.h"
-#include <boost/format.hpp>
+#include "fmt/format.h"
 
 namespace ngl
 {
@@ -568,7 +568,7 @@ void ShaderProgram::autoRegisterUniforms() noexcept
       // nvidia returns uniform[0], ATI uniform, best way is to split on [
       for(int i=0; i<num; ++i)
       {
-        std::string name=boost::str(boost::format("%s[%d]") %baseName % i );
+        std::string name=fmt::format("{0}[{1}]", baseName , i) ;
 
         data.name=name;
         data.loc=glGetUniformLocation(m_programID,name.c_str());
