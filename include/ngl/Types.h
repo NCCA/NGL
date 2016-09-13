@@ -118,13 +118,13 @@ namespace ngl
 ///  Set PRECISION to be a GLfloat so we only have to change one value to set the data type
 //----------------------------------------------------------------------------------------------------------------------
 
-  typedef GLfloat PRECISION;
+using PRECISION=GLfloat;
 
 //----------------------------------------------------------------------------------------------------------------------
 /// create a variable called Real which is the main data type we use (GLfloat for most  cases)
 //----------------------------------------------------------------------------------------------------------------------
 
-typedef PRECISION Real;
+using Real=PRECISION;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief define EPSILON for floating point comparison
 //----------------------------------------------------------------------------------------------------------------------

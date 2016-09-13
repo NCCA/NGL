@@ -48,10 +48,10 @@ namespace ngl
                             m_timeStamp(true),
                             m_lineNumber(true),
                             m_disableColours(false),
-                            m_lineNumberCount(0),
-                            m_pad(4),
                             m_colour(Colours::RESET),
-                            m_logfileName(_fname)
+                            m_logfileName(_fname),
+                            m_lineNumberCount(0),
+                            m_pad(4)
   {
 
     m_file.open(m_logfileName.c_str() );
