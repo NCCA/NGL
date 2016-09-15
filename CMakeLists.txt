@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.1)
 project(NGL)
 #Bring the headers into the project (local ones)
 include_directories(${PROJECT_SOURCE_DIR}/include/ngl)
+include_directories(${PROJECT_SOURCE_DIR}/glew)
 include_directories(${PROJECT_SOURCE_DIR}/src/ngl)
 include_directories(${PROJECT_SOURCE_DIR}/src/shaders)
 # Set to C++ 11
@@ -21,6 +22,11 @@ add_definitions(-DUSEQIMAGE)
 set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Vec4.cpp
     ${PROJECT_SOURCE_DIR}/src/VAOPrimitives.cpp
+    ${PROJECT_SOURCE_DIR}/src/VAOFactory.cpp
+    ${PROJECT_SOURCE_DIR}/src/SimpleIndexVAO.cpp
+    ${PROJECT_SOURCE_DIR}/src/SimpleVAO.cpp
+    ${PROJECT_SOURCE_DIR}/src/AbstractVAO.cpp
+    ${PROJECT_SOURCE_DIR}/src/MultiBufferVAO.cpp
     ${PROJECT_SOURCE_DIR}/src/Util.cpp
     ${PROJECT_SOURCE_DIR}/src/Texture.cpp
     ${PROJECT_SOURCE_DIR}/src/SpotLight.cpp
