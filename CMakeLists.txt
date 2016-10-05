@@ -5,6 +5,9 @@ project(NGL)
 include_directories(${PROJECT_SOURCE_DIR}/include/ngl)
 include_directories(${PROJECT_SOURCE_DIR}/src/ngl)
 include_directories(${PROJECT_SOURCE_DIR}/src/shaders)
+include_directories(${PROJECT_SOURCE_DIR}/include/fmt)
+
+include_directories(/usr/local/include/)
 # Set to C++ 11
 set(CMAKE_CXX_STANDARD 11)
 # use this to remove any marked as deprecated classes from NGL
@@ -17,10 +20,20 @@ add_definitions(-DQT5BUILD)
 add_definitions(-DADDLARGEMODELS)
 #This defines the image lib to use by default use QIMAGE, I need to fix this for the others
 add_definitions(-DUSEQIMAGE)
+#This defines that we are using the header only version of the fmt lib
+add_definitions(-DFMT_HEADER_ONLY)
+
+
+
 
 set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Vec4.cpp
     ${PROJECT_SOURCE_DIR}/src/VAOPrimitives.cpp
+    ${PROJECT_SOURCE_DIR}/src/VAOFactory.cpp
+    ${PROJECT_SOURCE_DIR}/src/SimpleIndexVAO.cpp
+    ${PROJECT_SOURCE_DIR}/src/SimpleVAO.cpp
+    ${PROJECT_SOURCE_DIR}/src/AbstractVAO.cpp
+    ${PROJECT_SOURCE_DIR}/src/MultiBufferVAO.cpp
     ${PROJECT_SOURCE_DIR}/src/Util.cpp
     ${PROJECT_SOURCE_DIR}/src/Texture.cpp
     ${PROJECT_SOURCE_DIR}/src/SpotLight.cpp
@@ -60,6 +73,11 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/glew/glew.c
     ${PROJECT_SOURCE_DIR}/include/ngl/Vec4.h
     ${PROJECT_SOURCE_DIR}/include/ngl/VAOPrimitives.h
+    ${PROJECT_SOURCE_DIR}/include/ngl/VAOFactory.h
+    ${PROJECT_SOURCE_DIR}/include/ngl/SimpleIndexVAO.h
+    ${PROJECT_SOURCE_DIR}/include/ngl/SimpleVAO.h
+    ${PROJECT_SOURCE_DIR}/include/ngl/AbstractVAO.h
+    ${PROJECT_SOURCE_DIR}/include/ngl/MultiBufferVAO.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Singleton.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Util.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Types.h
@@ -117,6 +135,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	add_definitions(-DDARWIN)
     find_library(MACGL OpenGL)
     set(PROJECT_LINK_LIBS -lboost_system)
+    link_directories(/usr/local/lib/)
+
     set(EXTRALIBS  ${MACGL})
 
 
