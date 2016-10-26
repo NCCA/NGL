@@ -22,6 +22,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
+#include <array>
 #include <ostream>
 
 namespace ngl
@@ -238,8 +239,12 @@ public :
     /// @brief  The matrix in m_openGL 16 Real array format usefull for OpenGL fv formats
     /// mapped to m_m[][] elements and m_xx elements
     //----------------------------------------------------------------------------------------------------------------------
-    Real m_openGL[9];
-
+    //Real m_openGL[9];
+    std::array<Real,9> m_openGL={{
+                                 1.0f,0.0f,0.0f,
+                                 0.0f,1.0f,0.0f,
+                                 0.0f,0.0f,1.0f
+                                 }};
 #ifndef BUILDING_DOCS
 
     struct

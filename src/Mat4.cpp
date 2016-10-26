@@ -21,7 +21,7 @@
 #include "Vec3.h"
 #include <iostream>
 #include <cstring> // for memset
-
+#include <algorithm>
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Mat4.cpp
@@ -307,24 +307,35 @@ const Mat4& Mat4::operator*= ( const Mat4 &_m ) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Mat4 Mat4::operator+(const Mat4 &_m ) const noexcept
 {
-  Mat4 Ret;
-  const Real* iterA = m_openGL;
-  const Real* iterB = _m.m_openGL;
-  Real* iterR = Ret.m_openGL;
-  const Real* end   = m_openGL+16;
+  Mat4 ret;
+  const Real* iterA = &m_openGL[0];
+  const Real* iterB = &_m.m_openGL[0];
+  Real* iterR = &ret.m_openGL[0];
+  const Real* end   = &m_openGL[16];
+
 
   for( ; iterA != end; ++iterA, ++iterB, ++iterR)
   {
     *iterR = *iterA + *iterB;
   }
-  return Ret;
+  return ret;
+
+/* this is one way of doing things with STL however speed is Average time: 15.457 us as
+ apposed to Average time: 6.847 us using the above version
+Mat4 ret;
+std::transform(std::begin(m_openGL), std::end(m_openGL),
+               std::begin(_m.m_openGL), std::begin(ret.m_openGL),
+               std::plus<Real>());
+
+return ret;
+*/
 }
 //----------------------------------------------------------------------------------------------------------------------
 const Mat4& Mat4::operator+=(const Mat4 &_m) noexcept
 {
-  Real* iterA =m_openGL;
-  const Real* iterB = _m.m_openGL;
-  const Real* end   = m_openGL+16;
+  Real* iterA =&m_openGL[0];
+  const Real* iterB = &_m.m_openGL[0];
+  const Real* end   = &m_openGL[16];
 
   for( ; iterA != end; ++iterA, ++iterB)
   {
@@ -336,9 +347,9 @@ const Mat4& Mat4::operator+=(const Mat4 &_m) noexcept
 Mat4 Mat4::operator*( const Real _i) const noexcept
 {
   Mat4 ret;
-  const Real* iterA = m_openGL;
-  Real* iterB = ret.m_openGL;
-  const Real* end   = m_openGL+16;
+  const Real* iterA = &m_openGL[0];
+  Real* iterB = &ret.m_openGL[0];
+  const Real* end   = &m_openGL[16];
 
   for( ; iterA != end; ++iterA, ++iterB)
   {
@@ -557,7 +568,7 @@ Quaternion Mat4::asQuaternion() const noexcept
   // if trace is greater than 0, calculate an instant calculation
   if( T > 0 )
   {
-    Real S = static_cast<Real>( 0.5f / sqrt(T) );
+    Real S = static_cast<Real>( 0.5f / sqrtf(T) );
     return Quaternion(  static_cast<Real>( ( m_openGL[6] - m_openGL[9] ) * S),
         static_cast<Real>( ( m_openGL[8] - m_openGL[2] ) * S),
         static_cast<Real>( ( m_openGL[1] - m_openGL[4] ) * S),
@@ -580,7 +591,7 @@ Quaternion Mat4::asQuaternion() const noexcept
   {
   case 0:
   {
-    Real S  = static_cast<Real>( sqrt( 1.0f + m_openGL[0] - m_openGL[5] - m_openGL[10] ) * 2.0f );
+    Real S  = static_cast<Real>( sqrtf( 1.0f + m_openGL[0] - m_openGL[5] - m_openGL[10] ) * 2.0f );
 
     return Quaternion( 0.5f / S,
     (m_openGL[1] + m_openGL[4] ) / S,
@@ -589,7 +600,7 @@ Quaternion Mat4::asQuaternion() const noexcept
   }
   case 1:
   {
-    Real S  = static_cast<Real>( sqrt( 1.0f + m_openGL[5] - m_openGL[0] - m_openGL[10] ) * 2.0f );
+    Real S  = static_cast<Real>( sqrtf( 1.0f + m_openGL[5] - m_openGL[0] - m_openGL[10] ) * 2.0f );
 
     return Quaternion((m_openGL[1] + m_openGL[4] ) / S,
     0.5f / S,
@@ -598,7 +609,7 @@ Quaternion Mat4::asQuaternion() const noexcept
   }
   case 2:
   {
-    Real S  = static_cast<Real>( sqrt( 1.0f + m_openGL[10] - m_openGL[0] - m_openGL[5] ) * 2.0f );
+    Real S  = static_cast<Real>( sqrtf( 1.0f + m_openGL[10] - m_openGL[0] - m_openGL[5] ) * 2.0f );
 
     return Quaternion((m_openGL[2] + m_openGL[8] ) / S,
     (m_openGL[6] + m_openGL[9] ) / S,
@@ -694,7 +705,7 @@ Mat4 Mat4::inverse() noexcept
 
 
   auto det = determinant();
-  det = 1/det;
+  det = 1.0f/det;
   return  t*det;
 
 

@@ -177,6 +177,19 @@ TEST(NGLMat4,Mat4pluEqual)
   EXPECT_TRUE(t1 == result);
 }
 
+TEST(NGLMat4,Mat4plus)
+{
+  ngl::Mat4 t1;
+  ngl::Mat4 t2;
+  ngl::Mat4 res;
+  t1.rotateX(45.0f);
+  t2.rotateY(35.0f);
+  res=t1+t2;
+  ngl::Mat4 result(1.81915f,0,-0.573577f,0,0,1.70711f,0.707107f,0,0.573577f,-0.707107f,1.52626f,0,0,0,0,2);
+
+  EXPECT_TRUE(res == result);
+}
+
 TEST(NGLMat4,Mat4xReal)
 {
   ngl::Mat4 test;

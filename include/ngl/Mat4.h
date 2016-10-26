@@ -297,8 +297,12 @@ public :
     /// @brief  The matrix in m_openGL 16 Real array format usefull for OpenGL fv formats
     /// mapped to m_m[][] elements and m_xx elements
     //----------------------------------------------------------------------------------------------------------------------
-    Real m_openGL[16];
-
+    std::array<Real,16> m_openGL={{
+                                    1.0f,0.0f,0.0f,0.0f,
+                                    0.0f,1.0f,0.0f,0.0f,
+                                    0.0f,0.0f,1.0f,0.0f,
+                                    0.0f,0.0f,0.0f,1.0f
+                                  }};
 
     struct
     {
@@ -329,7 +333,7 @@ public :
 // free function for matrix comparison use in unit tests etc
 inline bool operator==(const ngl::Mat4 &_m1 , const ngl::Mat4 &_m2)
 {
-  for(int i=0; i<16; ++i)
+  for(size_t i=0; i<16; ++i)
   {
     if(!( FCompare(_m1.m_openGL[i] , _m2.m_openGL[i] )))
     {

@@ -181,24 +181,24 @@ const Mat3& Mat3::operator*= ( const Mat3 &_m ) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Mat3 Mat3::operator+(const Mat3 &_m ) const noexcept
 {
-  Mat3 Ret;
-        const Real* iterA = m_openGL;
-        const Real* iterB = _m.m_openGL;
-        Real* iterR = Ret.m_openGL;
-  const Real* end   = m_openGL+9;
+  Mat3 ret;
+  const Real* iterA = &m_openGL[0];
+  const Real* iterB = &_m.m_openGL[0];
+  Real* iterR = &ret.m_openGL[0];
+  const Real* end   = &m_openGL[9];
 
 	for( ; iterA != end; ++iterA, ++iterB, ++iterR)
 	{
 		*iterR = *iterA + *iterB;
 	}
-	return Ret;
+  return ret;
 }
 //----------------------------------------------------------------------------------------------------------------------
 const Mat3& Mat3::operator+=( const Mat3 &_m  ) noexcept
 {
-	Real* iterA =m_openGL;
-	const Real* iterB = _m.m_openGL;
-	const Real* end   = m_openGL+9;
+  Real* iterA =&m_openGL[0];
+  const Real* iterB = &_m.m_openGL[0];
+  const Real* end   = &m_openGL[9];
 
 	for( ; iterA != end; ++iterA, ++iterB)
 	{
@@ -210,9 +210,9 @@ const Mat3& Mat3::operator+=( const Mat3 &_m  ) noexcept
 Mat3 Mat3::operator*( Real _i  ) const noexcept
 {
   Mat3 ret;
-        const Real* iterA = m_openGL;
-        Real* iterB = ret.m_openGL;
-  const Real* end   = m_openGL+9;
+  const Real* iterA = &m_openGL[0];
+  Real* iterB = &ret.m_openGL[0];
+  const Real* end   = &m_openGL[9];
 
 	for( ; iterA != end; ++iterA, ++iterB)
 	{
