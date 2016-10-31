@@ -18,8 +18,9 @@ void removeCharFromStream(long _amount=1)
 void writeCtor(const std::string &_name,const ngl::Mat4 &_m)
 {
   gstream<<"ngl::Mat4 "<<_name<<"(";
-  for(int i=0; i<16; ++i)
-    gstream<<_m.m_openGL[i]<<',';
+  //for(int i=0; i<16; ++i)
+  for(auto m : _m.m_openGL)
+    gstream<<m<<',';
   removeCharFromStream();
   gstream<<");\n";
 }

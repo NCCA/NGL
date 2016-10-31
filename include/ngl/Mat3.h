@@ -171,7 +171,7 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the matrix to be the inverse
   //----------------------------------------------------------------------------------------------------------------------
-  void inverse() noexcept;
+  Mat3 inverse() noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief axis / angle rotation using the Euler method
@@ -293,6 +293,18 @@ public :
    };
 #endif
   }; // end of class
+// free function for matrix comparison use in unit tests etc
+inline bool operator==(const ngl::Mat3 &_m1 , const ngl::Mat3 &_m2)
+{
+  for(size_t i=0; i<_m1.m_openGL.size(); ++i)
+  {
+    if(!( FCompare(_m1.m_openGL[i] , _m2.m_openGL[i] )))
+    {
+      return false;
+    }
+  }
+  return true;
+}
 }// end of namespace
 
 #endif

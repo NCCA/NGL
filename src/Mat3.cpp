@@ -224,9 +224,9 @@ Mat3 Mat3::operator*( Real _i  ) const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 const Mat3& Mat3::operator*=(Real _i) noexcept
 {
-	for(int y=0; y<3; y++)
+  for(int y=0; y<3; ++y)
 	{
-		for(int x=0; x<3; x++)
+    for(int x=0; x<3; ++x)
 		{
 			m_m[y][x]*=_i;
 		}
@@ -242,9 +242,9 @@ const Mat3& Mat3::transpose() noexcept
 {
 	Mat3 tmp(*this);
 
-	for(int row=0; row<3; row++)
+  for(int row=0; row<3; ++row)
 	{
-		for(int col=0; col<3; col++)
+    for(int col=0; col<3; ++col)
 		{
 			m_m[row][col]=tmp.m_m[col][row];
 		}
@@ -343,13 +343,13 @@ Real Mat3::determinant() const noexcept
 }
 
 
-void Mat3::inverse() noexcept
+Mat3 Mat3::inverse() noexcept
 {
   Real det = determinant();
   if(det==0.0f)
   {
     std::cerr<<"ngl 0 determinant \n";
-    return;
+    return Mat3();
 
   }
   Real invdet = 1/det;
@@ -367,6 +367,7 @@ void Mat3::inverse() noexcept
   tmp.m_21 = -(m_00*m_12-m_10*m_02)*invdet;
   tmp.m_22 =  (m_00*m_11-m_10*m_01)*invdet;
   *this=tmp;
+  return *this;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

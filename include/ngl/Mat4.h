@@ -330,10 +330,11 @@ public :
 #pragma pack(pop)
   }; // end of class
 
+
 // free function for matrix comparison use in unit tests etc
 inline bool operator==(const ngl::Mat4 &_m1 , const ngl::Mat4 &_m2)
 {
-  for(size_t i=0; i<16; ++i)
+  for(size_t i=0; i<_m1.m_openGL.size(); ++i)
   {
     if(!( FCompare(_m1.m_openGL[i] , _m2.m_openGL[i] )))
     {
@@ -343,18 +344,6 @@ inline bool operator==(const ngl::Mat4 &_m1 , const ngl::Mat4 &_m2)
   return true;
 }
 
-// free function for matrix comparison use in unit tests etc
-inline bool operator!=(const ngl::Mat4 &_m1 , const ngl::Mat4 &_m2)
-{
-  for(int i=0; i<16; ++i)
-  {
-    if(( FCompare(_m1.m_openGL[i] , _m2.m_openGL[i] )))
-    {
-      return false;
-    }
-  }
-  return true;
-}
 
 
 }// end of namespace

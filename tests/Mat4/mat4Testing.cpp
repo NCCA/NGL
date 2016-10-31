@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <ngl/Types.h>
 #include <ngl/Mat4.h>
 #include <ngl/Vec4.h>
 #include <string>

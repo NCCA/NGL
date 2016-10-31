@@ -20,6 +20,7 @@ public:
   bool          m_lineNumber;
   bool          m_disableColours;
   Colours       m_colour;
+  char x;
   std::ofstream m_file;
   std::string   m_timeString;
   std::string   m_logfileName;

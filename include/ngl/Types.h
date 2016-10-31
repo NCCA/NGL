@@ -142,6 +142,10 @@ constexpr float  EPSILON = 0.001f;
 
  #define NGL_UNUSED(arg) (void)arg;
 
+
+
+
+
 }
 
 #endif
