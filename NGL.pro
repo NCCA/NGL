@@ -10,7 +10,7 @@ QT += opengl
 QT += core
 QT += gui
 QT -=xml
-CONFIG+=c++14
+CONFIG+=c++11x
 
 # use this to remove any marked as deprecated classes from NGL
 DEFINES += REMOVEDDEPRECATED
@@ -91,7 +91,7 @@ INC_DIR = $$BASE_DIR/include/ngl
 DEPENDPATH= $$INC_DIR
 DEPENDPATH +=$$SRC_DIR/ngl/
 DEPENDPATH +=$$SRC_DIR/shaders/
-
+QMAKE_CXXFLAGS+=-Wall
 macx:{
 	QMAKE_CXXFLAGS+=  -fPIC
 	LIBS+= -L/System/Library/Frameworks/OpenGL.framework/Libraries -framework OpenGL

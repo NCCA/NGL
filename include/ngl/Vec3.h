@@ -100,12 +100,12 @@ public:
   /// @brief [] index operator to access the index component of the Vec3
   /// @returns  this[x] as a Real
   //----------------------------------------------------------------------------------------------------------------------
-  Real& operator[]( const int& _i )  noexcept;
+  Real& operator[]( size_t & _i )  noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief [] index operator to access the index component of the Vec3
   /// @returns  this[x] as a Real
   //----------------------------------------------------------------------------------------------------------------------
-  const Real& operator[]( const int& _i ) const  noexcept{ return m_openGL[_i]; }
+  const Real& operator[]( size_t & _i ) const  noexcept{ return m_openGL[_i]; }
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Normalize the vector using
