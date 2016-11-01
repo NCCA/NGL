@@ -270,7 +270,7 @@ public :
   /// m_y == m_openGL[1] \n
   //----------------------------------------------------------------------------------------------------------------------
 
-  std::array <Real,2> m_openGL={{0.0f,0.0f}};
+  std::array <Real,2> m_openGL;
 #ifndef BUILDING_DOCS
   };
 #endif
