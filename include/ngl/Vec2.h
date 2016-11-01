@@ -120,7 +120,7 @@ public:
   /// @brief += operator add Vec2 v to current Vec2
   /// @param[in]  &_v Vec2 to add
   //----------------------------------------------------------------------------------------------------------------------
-  void operator+=(const Vec2& _v ) noexcept;
+  void operator+=(const Vec2 &_v ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief -= operator this-=v
