@@ -89,22 +89,22 @@ protected :
   /// @brief parser function to parse the vertex used by boost::spirit parser
   /// @param[in] _begin the start of the string to parse
   //----------------------------------------------------------------------------------------------------------------------
-  void parseVertex( const char *_begin ) noexcept;
+  virtual void parseVertex( const char *_begin ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief parser function to parse the Norma used by boost::spirit parser
   /// @param[in] _begin the start of the string to parse
   //----------------------------------------------------------------------------------------------------------------------
-  void parseNormal( const char *_begin  ) noexcept;
+  virtual void parseNormal( const char *_begin  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief parser function to parse the text cord used by boost::spirit parser
   /// @param[in] _begin the start of the string to parse
   //----------------------------------------------------------------------------------------------------------------------
-  void parseTextureCoordinate( const char * _begin ) noexcept;
+  virtual void parseTextureCoordinate( const char * _begin ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief parser function to parse the Face data used by boost::spirit parser
   /// @param[in] _begin the start of the string to parse
   //----------------------------------------------------------------------------------------------------------------------
-  void parseFace( const char * _begin ) noexcept;
+  virtual void parseFace( const char * _begin ) noexcept;
 
 };
 
