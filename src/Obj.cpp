@@ -226,7 +226,6 @@ bool Obj::load(const std::string &_fname,bool _calcBB )  noexcept
   }
   return true;
 
-//	fileIn.close(); // close the file.
 }
 
 //----------------------------------------------------------------------------------------------------------------------
