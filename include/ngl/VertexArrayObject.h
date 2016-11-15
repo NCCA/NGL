@@ -46,7 +46,7 @@ namespace ngl
 /// @brief a class to encapsulate an OpenGL VAO
 //----------------------------------------------------------------------------------------------------------------------
 
-
+#warning This Class is deprecated and should not be used. [[deprecated("use factories instead")]]
 class NGL_DLLEXPORT VertexArrayObject
 {
 

@@ -23,7 +23,6 @@
 #include <array>
 #include <memory>
 #include "Text.h"
-#include "VertexArrayObject.h"
 #include "ShaderLib.h"
 
 namespace ngl
@@ -71,7 +70,7 @@ Text::Text( const QFont &_f)  noexcept
   // they will be the same height but will possibly have different widths
   // as some of the fonts will be the same width, to save VAO space we will only create
   // a vao if we don't have one of the set width. To do this we use the has below
-  QHash <int,VertexArrayObject *> widthVAO;
+  QHash <int,AbstractVAO *> widthVAO;
 
   for(char c=startChar; c<=endChar; ++c)
   {
@@ -212,11 +211,11 @@ Text::Text( const QFont &_f)  noexcept
 
 
         // now we create a VAO to store the data
-        VertexArrayObject *vao=VertexArrayObject::createVOA(GL_TRIANGLES);
+        AbstractVAO *vao=VAOFactory::createVAO("simpleVAO",GL_TRIANGLES);
         // bind it so we can set values
         vao->bind();
         // set the vertex data (2 for x,y 2 for u,v)
-        vao->setData(6*sizeof(textVertData),d[0].x);
+        vao->setData(SimpleVAO::VertexData(6*sizeof(textVertData),d[0].x));
         // now we set the attribute pointer to be 0 (as this matches vertIn in our shader)
         vao->setVertexAttributePointer(0,2,GL_FLOAT,sizeof(textVertData),0);
         // We can now create another set of data (which will be added to the VAO)
@@ -229,7 +228,7 @@ Text::Text( const QFont &_f)  noexcept
         // now unbind
         vao->unbind();
         // store the vao pointer for later use in the draw method
-        fc.vao=vao;
+        fc.vao =vao;
         widthVAO[width]=vao;
     }
     else
@@ -238,7 +237,7 @@ Text::Text( const QFont &_f)  noexcept
     }
     // finally add the element to the map, this must be the last
     // thing we do
-    m_characters[c]=fc;
+    m_characters[c]=std::move(fc);
   }
   std::cout<<"created "<<widthVAO.size()<<" unique billboards\n";
   // set a default colour (black) incase user forgets
@@ -251,10 +250,10 @@ Text::Text( const QFont &_f)  noexcept
 Text::~Text()
 {
   // our dtor should clear out the textures and remove the VAO's
-  foreach( FontChar m, m_characters)
+  for( auto &m : m_characters)
   {
     glDeleteTextures(1,&m.textureID);
-    m.vao->removeVOA();
+    m.vao->removeVAO();
   }
 
 }

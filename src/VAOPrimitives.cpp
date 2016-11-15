@@ -20,8 +20,8 @@
 #include "VAOPrimitives.h"
 #include "Util.h"
 #include <iostream>
-
-
+#include "VAOFactory.h"
+#include "SimpleVAO.h"
 //----------------------------------------------------------------------------------------------------------------------
 /// @file VAOPrimitives.cpp
 /// @brief implementation files for VAOPrimitives class
@@ -58,14 +58,15 @@ void VAOPrimitives::draw( const std::string &_name ) noexcept
 void VAOPrimitives::draw( const std::string &_name, GLenum _mode ) noexcept
 {
   // get an iterator to the VertexArrayObjects
-  auto VAO=m_createdVAOs.find(_name);
+  auto vao=m_createdVAOs.find(_name);
   // make sure we have a valid shader
-  if(VAO!=m_createdVAOs.end())
+  if(vao!=m_createdVAOs.end())
   {
     // grab the pointer to the shader and call compile
-    VAO->second->bind();
-    VAO->second->draw(_mode);
-    VAO->second->unbind();
+    vao->second->bind();
+    vao->second->setMode(_mode);
+    vao->second->draw();
+    vao->second->unbind();
   }
   else {std::cerr<<"Warning VAO not know in Primitive list "<<_name.c_str()<<"\n";}
 
@@ -73,14 +74,15 @@ void VAOPrimitives::draw( const std::string &_name, GLenum _mode ) noexcept
 
 void VAOPrimitives::createVAOFromHeader(const std::string &_name, const Real *_data,  unsigned int _size ) noexcept
 {
-    VertexArrayObject *vao = VertexArrayObject::createVOA(GL_TRIANGLES);
+    AbstractVAO *vao = VAOFactory::createVAO("simpleVAO",GL_TRIANGLES);
+;
     // next we bind it so it's active for setting data
     vao->bind();
     // now we have our data add it to the VAO, we need to tell the VAO the following
     // how much (in bytes) data we are copying
     // a pointer to the first element of data (in this case the address of the first element of the
     // std::vector
-    vao->setData( _size*sizeof(Real),_data[0]);
+    vao->setData( SimpleVAO::VertexData(_size*sizeof(Real),_data[0]));
     // in this case we have packed our data in interleaved format as follows
     // u,v,nx,ny,nz,x,y,z
     // If you look at the shader we have the following attributes being used
@@ -170,7 +172,7 @@ void VAOPrimitives::createSphere( const std::string &_name, Real _radius, int _p
     Real theta3 = 0.0f;
 
     // a std::vector to store our verts, remember vector packs contiguously so we can use it
-    std::vector <vertData> data;
+  std::vector <vertData> data;
         // Disallow a negative number for radius.
 
   if( _radius < 0.0f )
@@ -333,7 +335,7 @@ void VAOPrimitives::createCapsule( const std::string &_name,  const Real _radius
 void VAOPrimitives::createVAO(const std::string &_name,const std::vector<vertData> &_data,	const GLenum _mode) noexcept
 {
 
-  VertexArrayObject *vao = VertexArrayObject::createVOA(_mode);
+  AbstractVAO *vao = VAOFactory::createVAO("simpleVAO",_mode);
   // next we bind it so it's active for setting data
   vao->bind();
 
@@ -341,7 +343,7 @@ void VAOPrimitives::createVAO(const std::string &_name,const std::vector<vertDat
   // how much (in bytes) data we are copying
   // a pointer to the first element of data (in this case the address of the first element of the
   // std::vector
-  vao->setData(_data.size()*sizeof(vertData),_data[0].u);
+  vao->setData(SimpleVAO::VertexData(_data.size()*sizeof(vertData),_data[0].u));
   // in this case we have packed our data in interleaved format as follows
   // u,v,nx,ny,nz,x,y,z
   // If you look at the shader we have the following attributes being used
@@ -881,17 +883,17 @@ void VAOPrimitives::clear() noexcept
 
   // loop through the map and delete the VBO's allocated
   // note glDeleteBuffers needs a const GLUint * so we need to de-reference the map object
-  for(auto v : m_createdVAOs)
+  for(auto &v : m_createdVAOs)
   {
-    GLuint address=v.second->getID();
-    glDeleteVertexArrays(1,&address);
-
+    //GLuint address=v.second->getID();
+    //glDeleteVertexArrays(1,&address);
+    v.second->removeVAO();
   }
 
     m_createdVAOs.erase(m_createdVAOs.begin(),m_createdVAOs.end());
 }
 
-VertexArrayObject * VAOPrimitives::getVAOFromName(const std::string &_name)
+AbstractVAO * VAOPrimitives::getVAOFromName(const std::string &_name)
 {
   // get an iterator to the VertexArrayObjects
   auto VAO=m_createdVAOs.find(_name);

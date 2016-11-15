@@ -21,7 +21,7 @@
 #include "Singleton.h"
 #include "Types.h"
 #include "Vec3.h"
-#include "VertexArrayObject.h"
+#include "AbstractVAO.h"
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -157,13 +157,13 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   void clear() noexcept;
   /// @brief get the raw VAO so we can map it etc
-  VertexArrayObject * getVAOFromName(const std::string &_name);
+  AbstractVAO * getVAOFromName(const std::string &_name);
 
 private :
 	//----------------------------------------------------------------------------------------------------------------------
 	///  a map to store the VAO by name
 	//----------------------------------------------------------------------------------------------------------------------
-  std::unordered_map <std::string,VertexArrayObject *> m_createdVAOs;
+  std::unordered_map <std::string,AbstractVAO *> m_createdVAOs;
 
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief default constructor

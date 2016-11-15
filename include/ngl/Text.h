@@ -40,8 +40,11 @@
 #include "Colour.h"
 #include "Types.h"
 #include "Vec2.h"
-#include "VertexArrayObject.h"
+#include "VAOFactory.h"
+#include "SimpleVAO.h"
+
 #include <QtCore/QHash>
+#include <memory>
 #include <QFont>
 #include "Mat4.h"
 
@@ -58,7 +61,7 @@ namespace ngl
   {
     int width; /// @brief the width of the font
     GLuint textureID; /// @brief the texture id of the font billboard
-    VertexArrayObject *vao; /// a vao for the font
+    AbstractVAO *vao; /// a vao for the font
   };
 
 class NGL_DLLEXPORT Text

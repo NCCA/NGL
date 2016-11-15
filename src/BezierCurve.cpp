@@ -104,11 +104,9 @@ BezierCurve::~BezierCurve() noexcept
 	if(m_vaoCurve!=0 && m_vaoPoints!=0)
 	{
 		m_vaoCurve->unbind();
-		m_vaoCurve->removeVOA();
-		delete m_vaoCurve;
+    m_vaoCurve->removeVAO();
 		m_vaoPoints->unbind();
-		m_vaoPoints->removeVOA();
-		delete m_vaoPoints;
+    m_vaoPoints->removeVAO();
 	}
 }
 
@@ -143,7 +141,8 @@ void BezierCurve::drawControlPoints()const noexcept
 {
 
   m_vaoPoints->bind();
-  m_vaoPoints->draw(GL_POINTS);
+  m_vaoPoints->setMode(GL_POINTS);
+  m_vaoPoints->draw();
   m_vaoPoints->unbind();
 
 }
@@ -152,7 +151,8 @@ void BezierCurve::drawControlPoints()const noexcept
 void BezierCurve::drawHull()const noexcept
 {
   m_vaoPoints->bind();
-  m_vaoPoints->draw(GL_LINE_STRIP);
+  m_vaoPoints->setMode(GL_LINE_STRIP);
+  m_vaoPoints->draw();
   m_vaoPoints->unbind();
  }
 
@@ -228,14 +228,14 @@ void BezierCurve::createVAO() noexcept
   if(m_vaoCurve!=0 && m_vaoPoints!=0)
   {
     m_vaoCurve->unbind();
-    m_vaoCurve->removeVOA();
-    delete m_vaoCurve;
+    m_vaoCurve->removeVAO();
+    //delete m_vaoCurve;
     m_vaoPoints->unbind();
-    m_vaoPoints->removeVOA();
-    delete m_vaoPoints;
+    m_vaoPoints->removeVAO();
+    //delete m_vaoPoints;
   }
 
-  m_vaoPoints=VertexArrayObject::createVOA(GL_POINTS);
+  m_vaoPoints=ngl::VAOFactory::createVAO("simpleVAO",GL_POINTS);
   m_vaoPoints->bind();
   size_t size=m_cp.size();
   std::vector <Vec3> points(size);
@@ -243,13 +243,13 @@ void BezierCurve::createVAO() noexcept
   {
     points[i].set(m_cp[i]);
   }
-  m_vaoPoints->setData(m_numCP*sizeof(Vec3),points[0].m_x);
+  m_vaoPoints->setData(SimpleVAO::VertexData(m_numCP*sizeof(Vec3),points[0].m_x));
   m_vaoPoints->setNumIndices(m_numCP);
   m_vaoPoints->setVertexAttributePointer(0,3,GL_FLOAT,0,0);
   m_vaoPoints->unbind();
 
 
-  m_vaoCurve=VertexArrayObject::createVOA(GL_LINE_STRIP);
+  m_vaoCurve=ngl::VAOFactory::createVAO("simpleVAO",GL_LINE_STRIP);
   m_vaoCurve->bind();
 
   std::vector <Vec3> lines(m_lod);
@@ -263,7 +263,7 @@ void BezierCurve::createVAO() noexcept
     }
     lines[i].set(getPointOnCurve(t));
   }
-  m_vaoCurve->setData(m_lod*sizeof(Vec3),lines[0].m_x);
+  m_vaoCurve->setData(SimpleVAO::VertexData(m_lod*sizeof(Vec3),lines[0].m_x));
   m_vaoCurve->setNumIndices(m_lod);
   m_vaoCurve->setVertexAttributePointer(0,3,GL_FLOAT,0,0);
   m_vaoCurve->unbind();

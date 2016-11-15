@@ -22,7 +22,8 @@
 #include "Types.h"
 #include "Vec3.h"
 #include <vector>
-#include "VertexArrayObject.h"
+#include "VAOFactory.h"
+#include "SimpleVAO.h"
 
 namespace ngl
 {
@@ -176,11 +177,11 @@ protected :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a vertex array object for our curve drawing
   //----------------------------------------------------------------------------------------------------------------------
-  VertexArrayObject *m_vaoCurve;
+  AbstractVAO *m_vaoCurve;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a vertex array object for our point drawing
   //----------------------------------------------------------------------------------------------------------------------
-  VertexArrayObject *m_vaoPoints;
+  AbstractVAO  *m_vaoPoints;
 }; // end class BezierCurve
 } // end NGL Lib namespace
 #endif // end header file
