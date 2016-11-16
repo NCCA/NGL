@@ -2,6 +2,11 @@
 #include <iostream>
 namespace ngl
 {
+  SimpleIndexVAO::~SimpleIndexVAO()
+  {
+    removeVAO();
+  }
+
   void SimpleIndexVAO::draw() const
   {
     if(m_allocated == false)

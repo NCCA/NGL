@@ -3,6 +3,11 @@
 #include <NGLassert.h>
 namespace ngl
 {
+  MultiBufferVAO::~MultiBufferVAO()
+  {
+    removeVAO();
+  }
+
   void MultiBufferVAO::draw() const
   {
     if(m_allocated == false)

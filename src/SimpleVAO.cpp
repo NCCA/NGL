@@ -2,6 +2,11 @@
 #include <iostream>
 namespace ngl
 {
+  SimpleVAO::~SimpleVAO()
+  {
+    removeVAO();
+  }
+
   void SimpleVAO::draw() const
   {
     if(m_allocated == false)
