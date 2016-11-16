@@ -97,7 +97,7 @@ BBox::BBox() noexcept
   m_width=2.0;
   m_height=2.0;
   m_depth=2.0;
-  m_vao=0;
+  m_vao=nullptr;
   setVAO();
 }
 
@@ -182,11 +182,6 @@ void BBox::setDrawMode( GLenum _mode) noexcept
 
 void BBox::setVAO()
 {
-  // if we change the size we re-do the VAO
-  if( m_vao.get() != nullptr )
-	{
-    m_vao->removeVAO();
-  }
 	// if were not doing line drawing then use tris
 	#ifdef USINGIOS_
 		if(m_drawMode !=GL_LINE_LOOP)
