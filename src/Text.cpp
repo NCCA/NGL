@@ -19,6 +19,8 @@
 #include <iostream>
 #include <QtGui/QImage>
 #include <QFontMetrics>
+#include <unordered_map>
+
 #include <QPainter>
 #include <array>
 #include <memory>
@@ -70,7 +72,7 @@ Text::Text( const QFont &_f)  noexcept
   // they will be the same height but will possibly have different widths
   // as some of the fonts will be the same width, to save VAO space we will only create
   // a vao if we don't have one of the set width. To do this we use the has below
-  QHash <int,AbstractVAO *> widthVAO;
+  std::unordered_map <int,AbstractVAO *> widthVAO;
 
   for(char c=startChar; c<=endChar; ++c)
   {
@@ -161,7 +163,7 @@ Text::Text( const QFont &_f)  noexcept
     glGenerateMipmap(GL_TEXTURE_2D);
 
     // see if we have a Billboard of this width already
-    if (!widthVAO.contains(width))
+    if (widthVAO.find(width) ==widthVAO.end())
     {
         // this structure is used by the VAO to store the data to be uploaded
         // for drawing the quad

@@ -42,8 +42,6 @@
 #include "Vec2.h"
 #include "VAOFactory.h"
 #include "SimpleVAO.h"
-
-#include <QtCore/QHash>
 #include <memory>
 #include <QFont>
 #include "Mat4.h"
