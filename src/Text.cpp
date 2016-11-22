@@ -156,8 +156,6 @@ Text::Text( const QFont &_f)  noexcept
         }
     }
 
-
-
     // the image in in RGBA format and unsigned byte load it ready for later
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthTexture, heightTexture,0, GL_RGBA, GL_UNSIGNED_BYTE, data.get());
     glGenerateMipmap(GL_TEXTURE_2D);
