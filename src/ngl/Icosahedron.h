@@ -20,11 +20,11 @@
 // \brief data for a unit icosahedron stored in GL_T2_N3_V3 format
 /// @file Icosahedron.h
 /// @brief raw data for the Icosahedron vbo primitive
-#ifndef __icosahedron_H__
-#define __icosahedron_H__
+#ifndef ICOSAHEDRON_H_
+#define ICOSAHEDRON_H_
 namespace ngl{
-static const int icosahedronSIZE=480;
-static float icosahedron[480]={
+constexpr int icosahedronSIZE=480;
+static float icosahedron[icosahedronSIZE]={
 
   0.909091f,0.583333f,0.934172f,-0.356822f,0.0f,0.850651f,0.0f,0.525731f,
   0.818182f,0.75f,0.934172f,-0.356822f,0.0f,0.525731f,-0.850651f,0.0f,

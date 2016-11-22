@@ -20,11 +20,11 @@
 // \brief data for a unit football stored in GL_T2_N3_V3 format
 /// @file Football.h
 /// @brief the raw data for the football vbo primitive
-#ifndef __football_H__
-#define __football_H__
+#ifndef FOOTBALL_H_
+#define FOOTBALL_H_
 namespace ngl {
-static const int footballSIZE=2784;
-static float football[2784]={
+constexpr int footballSIZE=2784;
+static float football[footballSIZE]={
        0.41936f,0.41102f,0.18849f,0.91496f,-0.35682f,0.00000f,1.00000f,0.00000f,
 0.38710f,0.35515f,0.18849f,0.91496f,-0.35682f,0.39525f,0.91857f,0.00000f,
 0.48387f,0.41102f,0.18849f,0.91496f,-0.35682f,-0.22279f,0.91857f,-0.32648f,

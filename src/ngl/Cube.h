@@ -20,13 +20,13 @@
 // \brief data for a unit cube stored in GL_T2_N3_V3 format
 /// @file Cube.h
 /// @brief raw data for the cube vbo primitive
-#ifndef __cube_H__
-#define __cube_H__
+#ifndef CUBE_H_
+#define CUBE_H_
 namespace ngl
 {
-static const int cubeSIZE=288;
+constexpr int cubeSIZE=288;
 
-static const float cube[288]={
+static const float cube[cubeSIZE]={
 0.37500f,0.00000f,0.00000f,0.00000f,1.00000f,-0.50000f,-0.50000f,0.50000f,
 0.62500f,0.00000f,0.00000f,0.00000f,1.00000f,0.50000f,-0.50000f,0.50000f,
 0.37500f,0.25000f,0.00000f,0.00000f,1.00000f,-0.50000f,0.50000f,0.50000f,

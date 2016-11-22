@@ -21,10 +21,10 @@
 /// @file Tetrahedron.h
 /// @brief raw data for the tetrahedron in VBOPrimitives
 /// @brief implementation files for Clip class
-#ifndef __tetrahedron_H__
-#define __tetrahedron_H__
-static const unsigned int tetrahedronSIZE=96;
-static float tetrahedron[96]={
+#ifndef TETRAHEDRON_H_
+#define TETRAHEDRON_H_
+constexpr unsigned int tetrahedronSIZE=96;
+static float tetrahedron[tetrahedronSIZE]={
         //Triangle 0
          0.250000f,0.375000f,0.0f, -1.000000f, 0.0f,1.000000f,-1.0f,0.0f,
          0.500000f,0.0f,0.0f, -1.000000f, 0.0f,-1.0f,-1.0f,1.0f,

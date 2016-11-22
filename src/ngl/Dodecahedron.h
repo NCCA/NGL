@@ -20,11 +20,11 @@
 // \brief data for a unit dodecahedron stored in GL_T2_N3_V3 format
 /// @file Dodecahedron.h
 /// @brief the raw data for the dodecahedron vbo primitive
-#ifndef __dodecahedron_H__
-#define __dodecahedron_H__
+#ifndef DODECAHEDRON_H_
+#define DODECAHEDRON_H_
 namespace ngl {
-static const int dodecahedronSIZE=864;
-static float dodecahedron[864]={
+constexpr int dodecahedronSIZE=864;
+static float dodecahedron[dodecahedronSIZE]={
 
   0.198213f,0.559017f,0.850651f,0.0f,-0.525731f,0.934172f,-0.356822f,0.0f,
   0.099106f,0.631966f,0.850651f,0.0f,-0.525731f,0.57735f,-0.57735f,-0.57735f,

@@ -20,12 +20,12 @@
 // \brief data for a unit Octahedron stored in GL_T2_N3_V3 format
 /// @file Octahedron.h
 /// @brief raw data for VBO Octahedron
-#ifndef __Octahedron_H__
-#define __Octahedron_H__
+#ifndef OCTAHEDRON_H_
+#define OCTAHEDRON_H_
 namespace ngl
 {
 static const int OctahedronSIZE=192;
-static float Octahedron[192]={
+static float Octahedron[OctahedronSIZE]={
         //vn 0.577350 0.577350 -0.577350
 
         0.285714f,0.625f,0.577350f,0.577350f, -0.577350f,1.0f,0.0f,0.f,
