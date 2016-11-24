@@ -18,18 +18,22 @@
 #include "Random.h"
 #include <cstdlib> // for time
 #include <ctime>
+
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Random.cpp
 /// @brief implementation files for Random class
 //----------------------------------------------------------------------------------------------------------------------
 namespace ngl
 {
+  constexpr auto RandomFloat="RandomFloat";
+  constexpr auto RandomPositiveFloat="RandomPositiveFloat";
 
 //----------------------------------------------------------------------------------------------------------------------
 void Random::setSeed()
 {
   m_generator.seed(static_cast<unsigned int>(std::time(0)));
 }
+
 
 //----------------------------------------------------------------------------------------------------------------------
 void Random::setSeed(unsigned int _value)
@@ -45,10 +49,10 @@ Random::Random()
 
   // first create a simple uniform real distrib
   std::uniform_real_distribution<Real> MinusPlusOneFloatDistrib(-1.0f, 1.0f);
-  m_floatGenerators["RandomFloat"] =MinusPlusOneFloatDistrib;
+  m_floatGenerators[RandomFloat] =MinusPlusOneFloatDistrib;
   // same for below but using 0-1 for distrib
   std::uniform_real_distribution<Real> ZeroOneFloatDistrib(0.0, 1.0);
-  m_floatGenerators["RandomPositiveFloat"] =ZeroOneFloatDistrib;
+  m_floatGenerators[RandomPositiveFloat] =ZeroOneFloatDistrib;
 }
 
 
@@ -76,7 +80,7 @@ Real Random::getFloatFromGeneratorName(const std::string &_name  )
 Colour Random::getRandomColour()
 {
   // get our positive gen function and assign valus to a colour (alpha =1)
-  auto gen=m_floatGenerators["RandomPositiveFloat"];
+  auto gen=m_floatGenerators[RandomPositiveFloat];
   return Colour(gen(m_generator),gen(m_generator),gen(m_generator));
 }
 
@@ -85,21 +89,21 @@ Colour Random::getRandomColourAndAlpha()
 {
 	// get our positive gen function and assign valus to a colour with rand alpha
 
-  auto gen=m_floatGenerators["RandomPositiveFloat"];
+  auto gen=m_floatGenerators[RandomPositiveFloat];
   return Colour(gen(m_generator),gen(m_generator),gen(m_generator),gen(m_generator));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 Vec4 Random::getRandomVec4()
 {
-  auto gen=m_floatGenerators["RandomFloat"];
+  auto gen=m_floatGenerators[RandomFloat];
   return Vec4(gen(m_generator),gen(m_generator),gen(m_generator),0.0f);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 Vec4 Random::getRandomNormalizedVec4()
 {
-  auto gen=m_floatGenerators["RandomFloat"];
+  auto gen=m_floatGenerators[RandomFloat];
   Vec4 v(gen(m_generator),gen(m_generator),gen(m_generator),0.0f);
 	v.normalize();
 	return v;
@@ -109,14 +113,14 @@ Vec4 Random::getRandomNormalizedVec4()
 //----------------------------------------------------------------------------------------------------------------------
 Vec3 Random::getRandomVec3()
 {
-  auto gen=m_floatGenerators["RandomFloat"];
+  auto gen=m_floatGenerators[RandomFloat];
   return Vec3(gen(m_generator),gen(m_generator),gen(m_generator));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 Vec3 Random::getRandomNormalizedVec3()
 {
-  auto gen=m_floatGenerators["RandomFloat"];
+  auto gen=m_floatGenerators[RandomFloat];
   Vec3 v(gen(m_generator),gen(m_generator),gen(m_generator));
   v.normalize();
   return v;
@@ -125,14 +129,14 @@ Vec3 Random::getRandomNormalizedVec3()
 //----------------------------------------------------------------------------------------------------------------------
 Vec2 Random::getRandomVec2()
 {
-  auto gen=m_floatGenerators["RandomFloat"];
+  auto gen=m_floatGenerators[RandomFloat];
   return Vec2(gen(m_generator),gen(m_generator));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 Vec2 Random::getRandomNormalizedVec2()
 {
-  auto gen=m_floatGenerators["RandomFloat"];
+  auto gen=m_floatGenerators[RandomFloat];
   Vec2 v(gen(m_generator),gen(m_generator));
   v.normalize();
   return v;
@@ -143,7 +147,7 @@ Vec2 Random::getRandomNormalizedVec2()
 
 Vec3 Random::getRandomPoint( Real _xRange, Real _yRange,  Real _zRange )
 {
-  auto gen=m_floatGenerators["RandomFloat"];
+  auto gen=m_floatGenerators[RandomFloat];
   return Vec3(gen(m_generator)*_xRange,gen(m_generator)*_yRange,gen(m_generator)*_zRange);
 
 }
@@ -152,14 +156,14 @@ Vec3 Random::getRandomPoint( Real _xRange, Real _yRange,  Real _zRange )
 //----------------------------------------------------------------------------------------------------------------------
 Real Random::randomNumber(Real _mult)
 {
-  auto gen=m_floatGenerators["RandomFloat"];
+  auto gen=m_floatGenerators[RandomFloat];
   return gen(m_generator)*_mult;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 Real Random::randomPositiveNumber(Real _mult)
 {
-  auto gen=m_floatGenerators["RandomPositiveFloat"];
+  auto gen=m_floatGenerators[RandomPositiveFloat];
   return gen(m_generator)*_mult;
 }
 /*
