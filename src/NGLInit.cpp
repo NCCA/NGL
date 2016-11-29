@@ -65,9 +65,9 @@ NGLInit::NGLInit()
 	#ifdef NGL_DEBUG
 		std::cerr <<"ngl:: configured with GL version "<<majorVersion<<"."<<minorVersion<<"\n";
 	#endif
-  VAOFactory::registerVAOCreator("simpleVAO",SimpleVAO::create);
-  VAOFactory::registerVAOCreator("multiBufferVAO",MultiBufferVAO::create);
-  VAOFactory::registerVAOCreator("simpleIndexVAO",SimpleIndexVAO::create);
+  VAOFactory::registerVAOCreator(simpleVAO,SimpleVAO::create);
+  VAOFactory::registerVAOCreator(multiBufferVAO,MultiBufferVAO::create);
+  VAOFactory::registerVAOCreator(simpleIndexVAO,SimpleIndexVAO::create);
 #endif
 }
 

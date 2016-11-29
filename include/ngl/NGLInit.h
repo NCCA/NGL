@@ -38,6 +38,9 @@ namespace ngl
 ///	 29/09/09 Updated to meet NCCA Coding standard
 /// @example GraphicsLibInitExample/GraphicsLibInitExample.cpp
 //----------------------------------------------------------------------------------------------------------------------
+constexpr auto simpleVAO="simpleVAO";
+constexpr auto multiBufferVAO="multiBufferVAO";
+constexpr auto simpleIndexVAO="simpleIndexVAO";
 
 class   NGL_DLLEXPORT NGLInit : public  Singleton<NGLInit>
 {
