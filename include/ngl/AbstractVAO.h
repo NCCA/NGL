@@ -89,6 +89,7 @@ class NGL_DLLEXPORT AbstractVAO
     /// @param _s the number of indices to draw (from 0)
     //----------------------------------------------------------------------------------------------------------------------
     void setNumIndices(size_t _s){m_indicesCount=_s;}
+    size_t numIndices() const {return m_indicesCount;}
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief return the id of the buffer, if there is only 1 buffer just return this
     /// if we have the more than one buffer the sub class manages the id's
