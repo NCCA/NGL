@@ -137,14 +137,23 @@ void ShaderProgram::link() noexcept
 //----------------------------------------------------------------------------------------------------------------------
 GLint ShaderProgram::getUniformLocation(const char* _name   ) const noexcept
 {
-  // nasty C lib uses -1 return value for error
-  GLint loc = glGetUniformLocation( m_programID ,_name);
-  if (loc == -1)
+
+  auto uniform=m_registeredUniforms.find(_name);
+  // make sure we have a valid shader
+  if(uniform!=m_registeredUniforms.end())
   {
+    return uniform->second.loc;
+  }
+  else
+  {
+  // nasty C lib uses -1 return value for error
+  //GLint loc = glGetUniformLocation( m_programID ,_name);
+  //if (loc == -1)
+  //{
     std::cerr<<"Uniform \""<<_name<<"\" not found in Program \""<<m_programName<<"\"\n";
   }
   // so we cast to correct value when returning!
-  return loc;
+  return -1;
 }
 
 void ShaderProgram::printProperties() const noexcept
