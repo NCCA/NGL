@@ -182,7 +182,7 @@ void ShaderLib::loadShader( const std::string &_shaderName,const std::string &_v
   if( _geo !="")
   {
     attachShader(_shaderName+"Geo",ShaderType::GEOMETRY);
-    loadShaderSource(_shaderName+"Geo",_vert);
+    loadShaderSource(_shaderName+"Geo",_geo);
     compileShader(_shaderName+"Geo");
     attachShaderToProgram(_shaderName,_shaderName+"Geo");
   }
