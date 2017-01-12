@@ -122,10 +122,10 @@ void Light::loadToShader(std::string _uniformName )const noexcept
     shader->setShaderParam4f(_uniformName+".ambient",m_ambient.m_r,m_ambient.m_g,m_ambient.m_b,m_ambient.m_a);
     shader->setShaderParam4f(_uniformName+".diffuse",m_diffuse.m_r,m_diffuse.m_g,m_diffuse.m_b,m_diffuse.m_a);
     shader->setShaderParam4f(_uniformName+".specular",m_specular.m_r,m_specular.m_g,m_specular.m_b,m_specular.m_a);
-    shader->setShaderParam1f(_uniformName+".constantAttenuation",m_constantAtten);
-    shader->setShaderParam1f(_uniformName+".linearAttenuation",m_linearAtten);
-    shader->setShaderParam1f(_uniformName+".quadraticAttenuation",m_quadraticAtten);
-    shader->setShaderParam1f(_uniformName+".spotCosCutoff",m_cutoffAngle);
+   // shader->setShaderParam1f(_uniformName+".constantAttenuation",m_constantAtten);
+   // shader->setShaderParam1f(_uniformName+".linearAttenuation",m_linearAtten);
+   // shader->setShaderParam1f(_uniformName+".quadraticAttenuation",m_quadraticAtten);
+   // shader->setShaderParam1f(_uniformName+".spotCosCutoff",m_cutoffAngle);
 
   }
   else
