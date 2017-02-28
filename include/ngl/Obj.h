@@ -54,7 +54,6 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
 {
 
 public :
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief default constructor
   //----------------------------------------------------------------------------------------------------------------------
@@ -63,21 +62,21 @@ public :
   /// @brief  constructor to load an objfile as a parameter
   /// @param[in]  &_fname the name of the obj file to load
   //----------------------------------------------------------------------------------------------------------------------
-  explicit Obj( const std::string& _fname ,bool _calcBB=true) noexcept;
+  explicit Obj( const std::string& _fname , CalcBB _clacBB=CalcBB::True) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief constructor to load an objfile as a parameter
   /// @param[in]  &_fname the name of the obj file to load
   /// @param[in]  &_texName the name of the texture file
   //----------------------------------------------------------------------------------------------------------------------
-  explicit Obj( const std::string& _fname,  const std::string& _texName,bool _calcBB=true ) noexcept;
+  explicit Obj( const std::string& _fname,  const std::string& _texName,CalcBB _clacBB=CalcBB::True ) noexcept;
   // avoid _texName being converted to bool via explicit conversion
-  explicit Obj( const char *_fname,  const char *_texName,bool _calcBB=true ) noexcept;
+  explicit Obj( const char *_fname,  const char *_texName,CalcBB _clacBB=CalcBB::True ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  Method to load the file in
   /// @param[in]  _fname the name of the obj file to load
   /// @param[in] _calcBB if we only want to load data and not use GL then set this to false
   //----------------------------------------------------------------------------------------------------------------------
-  bool load(const std::string& _fname, bool _calcBB=true ) noexcept;
+  virtual bool load(const std::string& _fname, CalcBB _calcBB=CalcBB::True ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to save the obj
   /// @param[in] _fname the name of the file to save

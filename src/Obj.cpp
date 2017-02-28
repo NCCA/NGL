@@ -174,7 +174,7 @@ void Obj::parseFace(const char * _begin   )  noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-bool Obj::load(const std::string &_fname,bool _calcBB )  noexcept
+bool Obj::load(const std::string &_fname,CalcBB _calcBB )  noexcept
 {
  // here we build up our ebnf rules for parsing
   // so first we have a comment
@@ -220,7 +220,7 @@ bool Obj::load(const std::string &_fname,bool _calcBB )  noexcept
 
 
   // Calculate the center of the object.
-  if(_calcBB == true)
+  if(_calcBB == CalcBB::True)
   {
     this->calcDimensions();
   }
@@ -229,7 +229,7 @@ bool Obj::load(const std::string &_fname,bool _calcBB )  noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Obj::Obj(const std::string& _fname  , bool _calcBB)  noexcept :AbstractMesh()
+Obj::Obj(const std::string& _fname  , ngl::Obj::CalcBB _clacBB)  noexcept :AbstractMesh()
 {
     m_vbo=false;
     m_ext=0;
@@ -241,13 +241,13 @@ Obj::Obj(const std::string& _fname  , bool _calcBB)  noexcept :AbstractMesh()
     m_nNorm=m_nTex=0;
 
     // load the file in
-    m_loaded=load(_fname,_calcBB);
+    m_loaded=load(_fname,_clacBB);
 
     m_texture = false;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Obj::Obj( const char *_fname,const char *_texName, bool _calcBB   )  noexcept:AbstractMesh()
+Obj::Obj( const char *_fname,const char *_texName, CalcBB _calcBB  )  noexcept:AbstractMesh()
 {
   m_vbo=false;
   m_vao=false;
@@ -267,7 +267,7 @@ Obj::Obj( const char *_fname,const char *_texName, bool _calcBB   )  noexcept:Ab
 
 }
 
-Obj::Obj( const std::string& _fname,const std::string& _texName, bool _calcBB   )  noexcept:AbstractMesh()
+Obj::Obj( const std::string& _fname,const std::string& _texName, CalcBB _calcBB  )  noexcept:AbstractMesh()
 {
     m_vbo=false;
     m_vao=false;

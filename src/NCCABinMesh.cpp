@@ -27,7 +27,7 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-bool NCCABinMesh::load(const std::string &_fname,bool _calcBB) noexcept
+bool NCCABinMesh::load(const std::string &_fname, CalcBB _calcBB) noexcept
 {
 
   // open a file stream for ip in binary mode
@@ -105,7 +105,7 @@ bool NCCABinMesh::load(const std::string &_fname,bool _calcBB) noexcept
   // resize buffer
   glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr> (m_indexSize*m_bufferPackSize*sizeof(GLfloat)), vboMem.get(), GL_DYNAMIC_DRAW);
   // create the BBox for the obj
-  if(_calcBB)
+  if(_calcBB==CalcBB::True)
   {
     m_ext.reset(new BBox(m_minX,m_maxX,m_minY,m_maxY,m_minZ,m_maxZ) );
   }
