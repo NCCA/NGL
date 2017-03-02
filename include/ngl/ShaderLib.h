@@ -51,13 +51,15 @@ namespace ngl
 ///  @date Last Revision 20/04/10 used templated singleton
 //----------------------------------------------------------------------------------------------------------------------
 
+constexpr static char nglColourShader[]="nglColourShader";
+constexpr static char nglDiffuseShader[]="nglDiffuseShader";
+constexpr static char nglToonShader[]="nglToonShader";
 
 class NGL_DLLEXPORT ShaderLib : public  Singleton<ShaderLib>
 {
   friend class Singleton<ShaderLib>;
 
 public :
-
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create an empty ShaderProgram for us to attach shaders etc to
