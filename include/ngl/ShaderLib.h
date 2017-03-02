@@ -51,9 +51,9 @@ namespace ngl
 ///  @date Last Revision 20/04/10 used templated singleton
 //----------------------------------------------------------------------------------------------------------------------
 
-constexpr static char nglColourShader[]="nglColourShader";
-constexpr static char nglDiffuseShader[]="nglDiffuseShader";
-constexpr static char nglToonShader[]="nglToonShader";
+constexpr auto nglColourShader="nglColourShader";
+constexpr auto nglDiffuseShader="nglDiffuseShader";
+constexpr auto nglToonShader="nglToonShader";
 
 class NGL_DLLEXPORT ShaderLib : public  Singleton<ShaderLib>
 {
