@@ -30,6 +30,17 @@ TEST(NGLVec3,DefaultCtor)
   EXPECT_TRUE(test == result);
 }
 
+TEST(NGLVec3,SubScript)
+{
+  ngl::Vec3 test(1.0f,2.0f,3.0f);
+
+  EXPECT_FLOAT_EQ(test[0], 1.0f);
+  EXPECT_FLOAT_EQ(test[1],2.0f);
+  EXPECT_FLOAT_EQ(test[2], 3.0f);
+
+}
+
+
 
 TEST(NGLVec3,FloatCtor)
 {

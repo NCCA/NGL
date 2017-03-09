@@ -135,8 +135,8 @@ public:
   /// @brief [] index operator to access the index component of the vector
   /// @returns  this[x] as a Real
   //----------------------------------------------------------------------------------------------------------------------
-  Real& operator[](  int _i  )  noexcept;
-  const Real& operator[](  int _i ) const  noexcept{ return m_openGL[_i]; }
+  Real& operator[](const size_t   &_i  )  noexcept;
+  const Real& operator[]( const size_t  &_i ) const  noexcept{ return m_openGL[_i]; }
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief returns the length of the vector

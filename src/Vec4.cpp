@@ -73,7 +73,7 @@ void Vec4::null() noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Real& Vec4::operator[]( int _i ) noexcept
+Real& Vec4::operator[](const size_t  &_i ) noexcept
 {
 	NGL_ASSERT(_i >=0 && _i<=3);
 	return (&m_x)[_i];
