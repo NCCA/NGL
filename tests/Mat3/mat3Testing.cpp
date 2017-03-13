@@ -195,11 +195,11 @@ TEST(NGLMat3,Mat3xReal)
 {
   ngl::Mat3 test;
   int value=0.0f;
-  for(int y=0; y<4; ++y)
-    for(int x=0; x<4; ++x)
+  for(int y=0; y<3; ++y)
+    for(int x=0; x<3; ++x)
         test.setAtXY(x,y,value++);
   test=test*4.2f;
-  ngl::Mat3 result(0,16.8,33.6,50.4,21,37.8,54.6,25.2,42);
+  ngl::Mat3 result(0,12.599999427795,25.199998855591,4.199999809265,16.799999237061,29.399997711182,8.399999618530,21.000000000000,33.599998474121);
 
   EXPECT_TRUE(test == result);
 }
