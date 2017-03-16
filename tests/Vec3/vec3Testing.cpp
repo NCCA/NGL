@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <ngl/Types.h>
 #include <ngl/Vec3.h>
+#include <ngl/Mat3.h>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -51,6 +52,77 @@ TEST(NGLVec3,VectorTest)
     ASSERT_TRUE(a[i]==b[i]);
   }
 
+}
+
+TEST(NGLVec3,DotProduct)
+{
+  ngl::Vec3 a(1.0f,2.0f,3.0f);
+  ngl::Vec3 b(4.0f,5.0f,6.0f);
+  ASSERT_FLOAT_EQ(a.dot(b),32.0f);
+}
+
+TEST(NGLVec3,NULL)
+{
+  ngl::Vec3 test(1,2,4);
+  test.null();
+  ASSERT_TRUE(test==ngl::Vec3::zero());
+}
+
+TEST(NGLVec3,normalize)
+{
+  ngl::Vec3 test(22.3f,0.5f,10.0f);
+  test.normalize();
+  ngl::Vec3 result(0.912266f,0.0204544f,0.409088f);
+  ASSERT_TRUE(test==result);
+
+}
+
+
+TEST(NGLVec3,Inner)
+{
+  ngl::Vec3 a(1.0,2.0,3.0);
+  ngl::Vec3 b(3.0,4.0,5.0);
+  ASSERT_FLOAT_EQ(a.inner(b),26.0f);
+}
+
+TEST(NGLVec3,Outer)
+{
+  ngl::Vec3 a(1.0,2.0,3.0);
+  ngl::Vec3 b(3.0,4.0,5.0);
+  ngl::Mat3 outer=a.outer(b);
+  ngl::Mat3 result(3,4,5,6,8,10,9,12,15);
+  ASSERT_TRUE(outer==result);
+}
+
+TEST(NGLVec3,Length)
+{
+  ngl::Vec3 a(22,1,32);
+
+  ASSERT_NEAR(a.length(),38.845f,0.001f);
+}
+
+TEST(NGLVec3,LengthSquared)
+{
+  ngl::Vec3 a(22,1,32);
+
+  ASSERT_NEAR(a.lengthSquared(),1509.0f,0.001f);
+}
+
+TEST(NGLVec3,Cross2)
+{
+  ngl::Vec3 a=ngl::Vec3::up();
+  ngl::Vec3 b=ngl::Vec3::left();
+  ngl::Vec3 c;
+  c.cross(a,b);
+  ASSERT_TRUE(c==ngl::Vec3::in());
+}
+
+TEST(NGLVec3,Cross1)
+{
+  ngl::Vec3 a=ngl::Vec3::up();
+  ngl::Vec3 b=ngl::Vec3::left();
+  ngl::Vec3 c=a.cross(b);
+  ASSERT_TRUE(c==ngl::Vec3::in());
 }
 
 TEST(NGLVec3,SubScript)
