@@ -280,7 +280,7 @@ public:
   /// @param[in] _v the vector to calc against
   /// @returns a new vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 outer(const Vec4& _v)const noexcept;
+  Mat4 outer(const Vec4& _v)const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief calculate the length squared of the vector
   /// @returns length squared

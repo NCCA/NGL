@@ -260,13 +260,15 @@ Real Vec4::inner(const Vec4& _v  )const noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec4 Vec4::outer(const Vec4& _v  )  const noexcept
+Mat4 Vec4::outer(const Vec4& _v  )  const noexcept
 {
-	Real x = (m_y * _v.m_z) - (m_z * _v.m_y);
-	Real y = (m_z * _v.m_x) - (m_x * _v.m_z);
-	Real z = (m_x * _v.m_y) - (m_y * _v.m_x);
+  return Mat4(
+              m_x * _v.m_x, m_x * _v.m_y, m_x * _v.m_z, m_x * _v.m_w,
+              m_y * _v.m_x, m_y * _v.m_y, m_y * _v.m_z, m_y * _v.m_w,
+              m_z * _v.m_x, m_z * _v.m_y, m_z * _v.m_z, m_z * _v.m_w,
+              m_w * _v.m_x, m_w * _v.m_y, m_w * _v.m_z, m_w * _v.m_w
+            );
 
-	return Vec4(x,y,z,m_w);
 }
 
 
