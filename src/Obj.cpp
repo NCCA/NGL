@@ -15,7 +15,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "boost/bind.hpp"
-
 #include "boost/spirit.hpp"
 /// @todo re-write this at some stage to use boost::spirit::qi
 #include "Obj.h"

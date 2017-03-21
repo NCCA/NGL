@@ -330,8 +330,16 @@ void AbstractMesh::createVAO() noexcept
 
 }
 
+void AbstractMesh::bindVAO() const noexcept
+{
+  m_vaoMesh->bind();
 
+}
 
+void AbstractMesh::unbindVAO() const noexcept
+{
+  m_vaoMesh->unbind();
+}
 //----------------------------------------------------------------------------------------------------------------------
 void AbstractMesh::draw() const noexcept
 {
