@@ -174,98 +174,98 @@ Simple particle system demos, need to update these and add some more at some sta
 
 This demo demonstrates the use of the [factory pattern](http://en.wikipedia.org/wiki/Factory_method_pattern) and [runtime polymorphism](http://en.wikipedia.org/wiki/Polymorphism_(computer_science))
 
-##[ColourSelection](https://github.com/NCCA/ColourSelection)
+## [ColourSelection](https://github.com/NCCA/ColourSelection)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/ColourSelect.png)
 
 Picking of objects using Colour values based on this [post](http://content.gpwiki.org/index.php/OpenGL_Selection_Using_Unique_Color_IDs)
 
-##[Point Bake Demos](https://github.com/NCCA/PointBake)
+## [Point Bake Demos](https://github.com/NCCA/PointBake)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/PointBake.png)
 
 The NCCA PointBake format is a simple xml format for storing per vertex animation data, presented in these demos are maya scripts to export in the format and some demos to show how to load and visualise this data.
 
-##[Morph Objects](https://github.com/NCCA/MorphObj)
+## [Morph Objects](https://github.com/NCCA/MorphObj)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Morph.png)
 
 Morphing meshes using shaders. based on the paper [here](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch03.html)
 
-##[Morph Objects (Texture Buffer Objects)](https://github.com/NCCA/MorphObjTBO)
+## [Morph Objects (Texture Buffer Objects)](https://github.com/NCCA/MorphObjTBO)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Morph.png)
 
 Morphing meshes using shaders and texture buffer objects. based on the paper [here](http://http.developer.nvidia.com/GPUGems3/gpugems3_ch03.html)
 
-##[Facial Animation](https://github.com/NCCA/FacialAnimation)
+## [Facial Animation](https://github.com/NCCA/FacialAnimation)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Face.png)
 
 Simple Facial animation using blen shape meshes and texture buffer objects
 
-##[Using libassimp to load meshes](https://github.com/NCCA/AssetImportDemos)
+## [Using libassimp to load meshes](https://github.com/NCCA/AssetImportDemos)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Assimp.png)
 
 How to load and animate meshes using assimp
 
-##[Embeded Python](https://github.com/NCCA/EmbedPython)
+## [Embeded Python](https://github.com/NCCA/EmbedPython)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/EmbedPy.png)
 
 This demo show how to embed the pyhton C interpretor into your own code and run python scripts
 
-##[QtNGL](https://github.com/NCCA/QtNGL)
+## [QtNGL](https://github.com/NCCA/QtNGL)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/QtNGL.png)
 
 How to use the Qt GUI with NGL
 
-##[Mass Spring System using RK 4 integration](https://github.com/NCCA/MassSpring)
+## [Mass Spring System using RK 4 integration](https://github.com/NCCA/MassSpring)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/MassSpring.png)
 
 This demonstrates a simple spring using RK4 integration as shown [here](http://gafferongames.com/game-physics/)
 
-##[Affine Transforms](https://github.com/NCCA/AffineTransforms)
+## [Affine Transforms](https://github.com/NCCA/AffineTransforms)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Affine.png)
 
 A demonstration of affine transforms using matrices (mainly used for teaching maths)
 
-##[FrustumCull](https://github.com/NCCA/FrustumCull)
+## [FrustumCull](https://github.com/NCCA/FrustumCull)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Frustrum.png)
 
 Added frustum culling to the ngl::Camera class, this demo shows how to use it, most of the code is based on the article [here](http://www.lighthouse3d.com/tutorials/view-frustum-culling/)
 
-##[Geometry Shaders](https://github.com/NCCA/GeometryShaders)
+## [Geometry Shaders](https://github.com/NCCA/GeometryShaders)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/GeoShader.png)
 
 Simple Geometry shader demo
 
-##[Tesselation shader](https://github.com/NCCA/TessellationShader)
+## [Tesselation shader](https://github.com/NCCA/TessellationShader)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Tessellation.png)
 
 This demo is the one written for [this](http://jonmacey.blogspot.co.uk/2013/05/glsl-tessellation-shaders-under-mac-osx.html) blog post and implements [this](http://prideout.net/blog/?p=48) code
 
-##[Animated Textures](https://github.com/NCCA/AnimatedTextures)
+## [Animated Textures](https://github.com/NCCA/AnimatedTextures)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Fire.png)
 
 This demo uses several sprite sheets of fire to generate an animated fire using billboards. The billboards are generated on the GPU using a geometry shader and the data for the frames / animation is passes using attributes.
 
-##[Instancing](https://github.com/NCCA/Instancing) 
+## [Instancing](https://github.com/NCCA/Instancing) 
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Instancing.png)
 
 A number of demos showing how instancing in OpenGL works
 
-##[Normal Mapping](https://github.com/NCCA/NormalMapping)
+## [Normal Mapping](https://github.com/NCCA/NormalMapping)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/NormalMapping.png)
 
 This demo uses the ngl::Obj and ngl::VertexArrayObject classes to read in a mesh then construct an extended VAO passing in Tangents and Bi-Tangents (BiNormals) to glsl as attributes. This is then used to do normal mapping along the lines of [this](http://www.ozone3d.net/tutorials/bump_mapping.php)
 
-##[Using Framebuffer Objects](https://github.com/NCCA/FBODemos)
+## [Using Framebuffer Objects](https://github.com/NCCA/FBODemos)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/FBO.png)
 
 A number of demos showing how to use Frame buffer objects, including real time shadows and render to FBO demos
 
-##[Bullet Physics and NGL](https://github.com/NCCA/BulletNGL)
+## [Bullet Physics and NGL](https://github.com/NCCA/BulletNGL)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Bullet.png)
 
 Using the Bullet Physics with NGL, the demo has basic wrappers for the Physics world and rigid bodies, it also uses the ngl::Obj to load low-res collision meshes and uses higher detail ones for the drawing.
 
 For more details read the user [guide](http://bulletphysics.org/wordpress/) of Bullet.
-##[Bullet Physics and NGL](https://github.com/NCCA/BulletTower)
+## [Bullet Physics and NGL](https://github.com/NCCA/BulletTower)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/BulletTower.png)
 
 Using the Bullet Physics with NGL, the demo has basic wrappers for the Physics world and rigid bodies It then procedurally generates a tower which the user can demolish.
@@ -274,26 +274,26 @@ An interactive WebGL demo is [here](http://nccastaff.bournemouth.ac.uk/jmacey/We
 For more details read the user [guide](http://bulletphysics.org/wordpress/) of Bullet.
 
 
-##[ODE NGL](https://github.com/NCCA/ODENGL)
+## [ODE NGL](https://github.com/NCCA/ODENGL)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/ODENGL.png)
 
 Using the ODE Physics engine 
 
 
-##[Using the Kinect with NGL](https://github.com/NCCA/KinectMDI)
+## [Using the Kinect with NGL](https://github.com/NCCA/KinectMDI)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Kinect.png)
 
 This demo shows how to use the kinect with the OpenKinect drivers and Qt / ngl. The code base is a modified version of my Qt Kinect Reference design which can be seen here. You will need to install the libfreenect drivers
 
 
-##[Using the Kinect with NGL and OpenCV](https://github.com/NCCA/OpenCVKinect)
+## [Using the Kinect with NGL and OpenCV](https://github.com/NCCA/OpenCVKinect)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/OpenCV.png)
 
 This demo shows how to use the kinect with the OpenKinect drivers and Qt / ngl. The code base is a modified version of my Qt Kinect Reference design which can be seen here. You will need to install the libfreenect drivers
 
 This has issues on the mac due to the C++ compiler and OpenCV
 
-##[Sponza Demo](https://github.com/NCCA/Sponza)
+## [Sponza Demo](https://github.com/NCCA/Sponza)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Sponza.png)
 
 A basic framework to load a Wavefront OBJ file with groups and an MTL file with textures and draw the scene as efficiently as possible. The source contains the models and textures from here and is quite large
@@ -307,7 +307,7 @@ For a detailed look at how this work see the following blog posts
 
 [GroupedObj class](http://jonmacey.blogspot.co.uk/2012/11/sponza-demo-pt-3-groupedobj-class.html)
 
-##[Sponza Oculus Rift Demo](https://github.com/NCCA/SponzaRift)
+## [Sponza Oculus Rift Demo](https://github.com/NCCA/SponzaRift)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Oculus.png)
 
 This builds on the original sponza demo and adds oculus rift support, this is very much 
@@ -317,12 +317,12 @@ You will need to install the oculus SDK and adjust the path in the .pro file to 
 
 This version also loads the binary Model and Material file, you may have to re-create this using the save and load methods as the binary file may not transfer to different operating systems.
 
-##[Box2D Demo](https://github.com/NCCA/Box2D)
+## [Box2D Demo](https://github.com/NCCA/Box2D)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Box2D.png)
 
 A simple demo to show Box2D being used with ngl
 
-##[Export from Maya to Box2D](https://github.com/NCCA/Box2DExport)
+## [Export from Maya to Box2D](https://github.com/NCCA/Box2DExport)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Box2D.png)
 
 A simple example of an exported then using it in box 2D see the python files for more details
