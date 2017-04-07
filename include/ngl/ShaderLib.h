@@ -600,8 +600,8 @@ public :
   void setRegisteredUniform(const std::string &_paramName,Mat4 _v0) noexcept;
 
   // compatability functions to make it easier to use GLM
-  void setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value) noexcept;
-  void setUniformMatrix3fv(const std::string &_paramName,const GLfloat *_value) noexcept;
+  void setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value, bool _transpose=GL_FALSE) noexcept;
+  void setUniformMatrix3fv(const std::string &_paramName,const GLfloat *_value, bool _transpose=GL_FALSE) noexcept;
 
 
   //----------------------------------------------------------------------------------------------------------------------

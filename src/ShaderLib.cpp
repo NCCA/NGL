@@ -188,6 +188,7 @@ void ShaderLib::loadShader( const std::string &_shaderName,const std::string &_v
   }
 
   linkProgramObject(_shaderName);
+  autoRegisterUniforms(_shaderName);
 }
 
 
@@ -914,14 +915,14 @@ void ShaderLib::setUniform(const std::string &_paramName,Mat3 _v0) noexcept
 }
 
 
-void ShaderLib::setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value) noexcept
+void ShaderLib::setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value,bool _transpose) noexcept
 {
-  (*this)[m_currentShader]->setUniformMatrix4fv(_paramName.c_str(),1,GL_FALSE,_value);
+  (*this)[m_currentShader]->setRegisteredUniformMatrix4fv(_paramName.c_str(),1,_transpose,_value);
 
 }
-void ShaderLib::setUniformMatrix3fv(const std::string &_paramName,const GLfloat *_value) noexcept
+void ShaderLib::setUniformMatrix3fv(const std::string &_paramName, const GLfloat *_value, bool _transpose) noexcept
 {
-  (*this)[m_currentShader]->setUniformMatrix3fv(_paramName.c_str(),1,GL_FALSE,_value);
+  (*this)[m_currentShader]->setRegisteredUniformMatrix3fv(_paramName.c_str(),1,_transpose,_value);
 
 }
 
