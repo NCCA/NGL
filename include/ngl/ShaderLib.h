@@ -598,6 +598,12 @@ public :
   /// @param[in] _v0 the Mat4 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setRegisteredUniform(const std::string &_paramName,Mat4 _v0) noexcept;
+
+  // compatability functions to make it easier to use GLM
+  void setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value) noexcept;
+  void setUniformMatrix3fv(const std::string &_paramName,const GLfloat *_value) noexcept;
+
+
   //----------------------------------------------------------------------------------------------------------------------
     /// @brief method to return a shader ID
     /// @param _shaderName the name of the shader who's ID to return

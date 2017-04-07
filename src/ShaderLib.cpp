@@ -912,6 +912,21 @@ void ShaderLib::setUniform(const std::string &_paramName,Mat3 _v0) noexcept
   (*this)[m_currentShader]->setUniformMatrix3fv(_paramName.c_str(),1,GL_FALSE,_v0.openGL());
 
 }
+
+
+void ShaderLib::setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value) noexcept
+{
+  (*this)[m_currentShader]->setUniformMatrix4fv(_paramName.c_str(),1,GL_FALSE,_value);
+
+}
+void ShaderLib::setUniformMatrix3fv(const std::string &_paramName,const GLfloat *_value) noexcept
+{
+  (*this)[m_currentShader]->setUniformMatrix3fv(_paramName.c_str(),1,GL_FALSE,_value);
+
+}
+
+
+
 void ShaderLib::setRegisteredUniform(const std::string &_paramName,Mat3 _v0) noexcept
 {
   (*this)[m_currentShader]->setRegisteredUniformMatrix3fv(_paramName,1,GL_FALSE,_v0.openGL());
