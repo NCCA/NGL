@@ -38,11 +38,11 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 // for c++ 11 use enum class LIGHTMODES : int
 enum class  LightModes : char
-  {
-   DIRECTIONALLIGHT, /// @brief directional light from old OPenGL
-  POINTLIGHT,  /// @brief point light
-  SPOTLIGHT=1
-  };
+{
+ DIRECTIONALLIGHT, /// @brief directional light from old OpenGL
+ POINTLIGHT,  /// @brief point light
+ SPOTLIGHT=1
+};
 
 
 //----------------------------------------------------------------------------------------------------------------------
