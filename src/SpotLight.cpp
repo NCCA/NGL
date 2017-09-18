@@ -138,25 +138,25 @@ void SpotLight::loadToShader( std::string _uniformName)const noexcept
   {
     Vec4 pos=m_transform*m_position;
     Vec4 dir=m_transform*m_dir;
-    shader->setShaderParam4f(_uniformName+".position",pos.m_x,pos.m_y,pos.m_z,float(m_lightMode));
-    shader->setShaderParam3f(_uniformName+".direction",dir.m_x,dir.m_y,dir.m_z);
-    shader->setShaderParam4f(_uniformName+".ambient",m_ambient.m_r,m_ambient.m_g,m_ambient.m_b,m_ambient.m_a);
-    shader->setShaderParam4f(_uniformName+".diffuse",m_diffuse.m_r,m_diffuse.m_g,m_diffuse.m_b,m_diffuse.m_a);
-    shader->setShaderParam4f(_uniformName+".specular",m_specular.m_r,m_specular.m_g,m_specular.m_b,m_specular.m_a);
-    shader->setShaderParam1f(_uniformName+".spotCosCutoff",m_cutoffAngle);
-    shader->setShaderParam1f(_uniformName+".spotCosInnerCutoff",m_innerCutoffAngle);
-    shader->setShaderParam1f(_uniformName+".spotExponent",m_spotExponent);
-    shader->setShaderParam1f(_uniformName+".constantAttenuation",m_constantAtten);
-    shader->setShaderParam1f(_uniformName+".linearAttenuation",m_linearAtten);
-    shader->setShaderParam1f(_uniformName+".quadraticAttenuation",m_quadraticAtten);
+    shader->setUniform(_uniformName+".position",pos.m_x,pos.m_y,pos.m_z,float(m_lightMode));
+    shader->setUniform(_uniformName+".direction",dir.m_x,dir.m_y,dir.m_z);
+    shader->setUniform(_uniformName+".ambient",m_ambient.m_r,m_ambient.m_g,m_ambient.m_b,m_ambient.m_a);
+    shader->setUniform(_uniformName+".diffuse",m_diffuse.m_r,m_diffuse.m_g,m_diffuse.m_b,m_diffuse.m_a);
+    shader->setUniform(_uniformName+".specular",m_specular.m_r,m_specular.m_g,m_specular.m_b,m_specular.m_a);
+    shader->setUniform(_uniformName+".spotCosCutoff",m_cutoffAngle);
+    shader->setUniform(_uniformName+".spotCosInnerCutoff",m_innerCutoffAngle);
+    shader->setUniform(_uniformName+".spotExponent",m_spotExponent);
+    shader->setUniform(_uniformName+".constantAttenuation",m_constantAtten);
+    shader->setUniform(_uniformName+".linearAttenuation",m_linearAtten);
+    shader->setUniform(_uniformName+".quadraticAttenuation",m_quadraticAtten);
   }
   else
   {
     // turn light off by setting 0 values
-    shader->setShaderParam4f(_uniformName+".position",0,0,0,Real(m_lightMode));
-    shader->setShaderParam4f(_uniformName+".ambient",0,0,0,0);
-    shader->setShaderParam4f(_uniformName+".diffuse",0,0,0,0);
-    shader->setShaderParam4f(_uniformName+".specular",0,0,0,0);
+    shader->setUniform(_uniformName+".position",0.0f,0.0f,0.0f,Real(m_lightMode));
+    shader->setUniform(_uniformName+".ambient",0.0f,0.0f,0.0f,0.0f);
+    shader->setUniform(_uniformName+".diffuse",0.0f,0.0f,0.0f,0.0f);
+    shader->setUniform(_uniformName+".specular",0.0f,0.0f,0.0f,0.0f);
   }
 }
 void SpotLight::setTransform(Mat4 &_t) noexcept

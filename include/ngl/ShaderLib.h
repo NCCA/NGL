@@ -28,7 +28,9 @@
 #include "Mat3.h"
 #include "Mat4.h"
 #include "Vec4.h"
-
+#ifdef USEGLM
+  #include <glm/glm.hpp>
+#endif
 #include <string>
 #include <unordered_map>
 
@@ -162,152 +164,6 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   size_t getNumShaders() const noexcept{ return m_shaders.size();}
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set a shader param by name for 1 int param note that the shader
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the matrix to set from (float 16) value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setShaderParamFromMat4(const std::string &_paramName, Mat4 _p1 )  noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set a shader param by name for 1 int param note that the shader
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _registeredUniformName the name of the registered uniform in the shader to set
-  /// @param[in] _p1 the matrix to set from (float 16) value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformFromMat4(const std::string &_registeredUniformName, Mat4 _p1  ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set a shader param by name for 1 int param note that the shader
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the matrix to set from (float 16) value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setShaderParamFromMat3( const std::string &_paramName, Mat3 _p1 ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the registered uniform from Max3x3
-  /// @param[in] _uniformName the name of the uniform in the shader to set
-  /// @param[in] _p1 the matrix to set from (float 16) value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformFromMat3( const std::string &_paramName,  Mat3 _p1 ) noexcept;
-
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set a shader param by name for 1 int param note that the shader
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the vector to set from (float 4) value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setShaderParamFromVec4( const std::string &_paramName,  Vec4 _p1) noexcept;
-
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the pre-registered uniform from an Vec4
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the vector to set from
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformVec4( const std::string &_paramName, Vec4 _p1) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set a shader param by name for 1 int param note that the shader
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the vector to set from (float 4) value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setShaderParamFromColour( const std::string &_paramName, Colour _p1 ) noexcept;
-
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the pre-registered uniform from an Colour
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the vector to set from
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformFromColour(  const std::string &_paramName, Colour _p1 ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the pre-registered uniform from an Vector
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the vector to set from
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformVec3( const std::string &_paramName, Vec3 _p1 ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the pre-registered uniform from a Vector
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the vector to set from
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformVec2( const std::string &_paramName, Vec2 _p1 ) noexcept;
-
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set a shader param by name for 1 int param note that the shader
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setShaderParam1i(const std::string &_paramName,  int _p1  ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the pre-registered uniform
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform1i(const std::string &_paramName, int _p1 ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set a shader param by name for 1 float param note that the shader
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setShaderParam1f(const std::string &_paramName,float _p1 ) noexcept;
-
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the pre-registered uniform
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform1f(const std::string &_paramName,  float _p1 ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set a shader param by name for 2 float params note that the shader
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the float value of the parameter to set
-  /// @param[in] _p2 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setShaderParam2f(const std::string &_paramName, float _p1, float _p2 ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the pre-registered uniform
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the float value of the parameter to set
-  /// @param[in] _p2 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform2f( const std::string &_paramName, float _p1, float _p2 ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set a shader param by name for 3 float params note that the shader
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the float value of the parameter to set
-  /// @param[in] _p2 the float value of the parameter to set
-  /// @param[in] _p3 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setShaderParam3f(const std::string &_paramName, float _p1, float _p2, float _p3 ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the pre-registered uniform
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the float value of the parameter to set
-  /// @param[in] _p2 the float value of the parameter to set
-  /// @param[in] _p3 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform3f(const std::string &_paramName, float _p1,float _p2, float _p3  ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set a shader param by name for 4 float params note that the shader
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the parameter in the shader to set
-  /// @param[in] _p1 the float value of the parameter to set
-  /// @param[in] _p2 the float value of the parameter to set
-  /// @param[in] _p3 the float value of the parameter to set
-  /// @param[in] _p4 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setShaderParam4f(const std::string &_paramName,float _p1, float _p2, float _p3,float _p4 ) noexcept;
-    //----------------------------------------------------------------------------------------------------------------------
-    /// @brief set the pre-registered uniform
-    /// @param[in] _paramName the name of the parameter in the shader to set
-    /// @param[in] _p1 the float value of the parameter to set
-    /// @param[in] _p2 the float value of the parameter to set
-    /// @param[in] _p3 the float value of the parameter to set
-    //----------------------------------------------------------------------------------------------------------------------
-    void setRegisteredUniform4f(const std::string &_paramName,float _p1,float _p2,float _p3,float _p4) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief print the properties of the currently active shader
   //----------------------------------------------------------------------------------------------------------------------
   void printProperties() const noexcept;
@@ -372,14 +228,6 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,Real _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,Real _v0) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
@@ -387,15 +235,6 @@ public :
   /// @param[in] _v1 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,Real _v0,Real _v1) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the float value of the parameter to set
-  /// @param[in] _v1 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,Real _v0,Real _v1) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -405,16 +244,6 @@ public :
   /// @param[in] _v2 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,Real _v0,Real _v1,Real _v2) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the float value of the parameter to set
-  /// @param[in] _v1 the float value of the parameter to set
-  /// @param[in] _v2 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,Real _v0,Real _v1,Real _v2) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -426,31 +255,12 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,Real _v0,Real _v1,Real _v2,Real _v3) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the float value of the parameter to set
-  /// @param[in] _v1 the float value of the parameter to set
-  /// @param[in] _v2 the float value of the parameter to set
-  /// @param[in] _v3 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,Real _v0,Real _v1,Real _v2,Real _v3) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the int value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,GLint _v0) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the int value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,GLint _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -460,15 +270,6 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,GLint _v0,GLint _v1) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the int value of the parameter to set
-  /// @param[in] _v1 the int value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,GLint _v0,GLint _v1) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
@@ -477,16 +278,6 @@ public :
   /// @param[in] _v2 the int value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,GLint _v0,GLint _v1,GLint _v2) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the int value of the parameter to set
-  /// @param[in] _v1 the int value of the parameter to set
-  /// @param[in] _v2 the int value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,GLint _v0,GLint _v1,GLint _v2) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -498,31 +289,12 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,GLint _v0,GLint _v1,GLint _v2,GLint _v3) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the int value of the parameter to set
-  /// @param[in] _v1 the int value of the parameter to set
-  /// @param[in] _v2 the int value of the parameter to set
-  /// @param[in] _v3 the int value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,GLint _v0,GLint _v1,GLint _v2,GLint _v3) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the colour value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,Colour _v0) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the Colour value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,Colour _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -531,28 +303,12 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,Vec2 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the Vec2 value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,Vec2 _v0) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,Vec3 _v0) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the Vec3 value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,Vec3 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -561,14 +317,6 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,Vec4 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the Vec4 value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,Vec4 _v0) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
@@ -576,45 +324,67 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,Mat3 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the Mat3 value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,Mat3 _v0) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat4 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,Mat4 _v0) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms that have been pre-registered
-  /// using auto-register uniforms method
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the Mat4 value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform(const std::string &_paramName,Mat4 _v0) noexcept;
 
   // compatability functions to make it easier to use GLM
   void setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::False) noexcept;
   void setUniformMatrix3fv(const std::string &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::False) noexcept;
 
+#ifdef USEGLM
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief overloaded method to set shader Uniforms the shader
+  /// must be the currently active shader of else this will fail
+  /// @param[in] _paramName the name of the Uniform to set
+  /// @param[in] _v0 the Vec3 value of the parameter to set
+  //----------------------------------------------------------------------------------------------------------------------
+  void setUniform(const std::string &_paramName,glm::vec2 _v0) noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief overloaded method to set shader Uniforms the shader
+  /// must be the currently active shader of else this will fail
+  /// @param[in] _paramName the name of the Uniform to set
+  /// @param[in] _v0 the Vec3 value of the parameter to set
+  //----------------------------------------------------------------------------------------------------------------------
+  void setUniform(const std::string &_paramName,glm::vec3 _v0) noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief overloaded method to set shader Uniforms the shader
+  /// must be the currently active shader of else this will fail
+  /// @param[in] _paramName the name of the Uniform to set
+  /// @param[in] _v0 the Vec4 value of the parameter to set
+  //----------------------------------------------------------------------------------------------------------------------
+  void setUniform(const std::string &_paramName,glm::vec4 _v0) noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief overloaded method to set shader Uniforms the shader
+  /// must be the currently active shader of else this will fail
+  /// @param[in] _paramName the name of the Uniform to set
+  /// @param[in] _v0 the Mat3 value of the parameter to set
+  //----------------------------------------------------------------------------------------------------------------------
+  void setUniform(const std::string &_paramName,glm::mat3 _v0) noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief overloaded method to set shader Uniforms the shader
+  /// must be the currently active shader of else this will fail
+  /// @param[in] _paramName the name of the Uniform to set
+  /// @param[in] _v0 the Mat4 value of the parameter to set
+  //----------------------------------------------------------------------------------------------------------------------
+  void setUniform(const std::string &_paramName,glm::mat4 _v0) noexcept;
+
+#endif
 
   //----------------------------------------------------------------------------------------------------------------------
-    /// @brief method to return a shader ID
-    /// @param _shaderName the name of the shader who's ID to return
-    //----------------------------------------------------------------------------------------------------------------------
-    GLuint getShaderID(const std::string &_shaderName) noexcept;
+  /// @brief method to return a shader ID
+  /// @param _shaderName the name of the shader who's ID to return
+  //----------------------------------------------------------------------------------------------------------------------
+  GLuint getShaderID(const std::string &_shaderName) noexcept;
 
-    //----------------------------------------------------------------------------------------------------------------------
-    /// @brief method to return the specified shader object
-    /// @param _shaderName the name of the shader to return
-    //----------------------------------------------------------------------------------------------------------------------
-    ngl::Shader* getShader(const std::string &_shaderName) noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief method to return the specified shader object
+  /// @param _shaderName the name of the shader to return
+  //----------------------------------------------------------------------------------------------------------------------
+  ngl::Shader* getShader(const std::string &_shaderName) noexcept;
 
 protected:
 

@@ -272,17 +272,17 @@ void Transformation::loadMatrixToShader(const std::string &_param, const ActiveM
   {
     case ActiveMatrix::NORMAL :
     {
-      shader->setShaderParamFromMat4(_param,m_matrix);
+      shader->setUniform(_param,m_matrix);
     }
     break;
     case ActiveMatrix::TRANSPOSE :
     {
-      shader->setShaderParamFromMat4(_param,m_transposeMatrix);
+      shader->setUniform(_param,m_transposeMatrix);
     }
     break;
     case ActiveMatrix::INVERSE :
     {
-      shader->setShaderParamFromMat4(_param,m_inverseMatrix);
+      shader->setUniform(_param,m_inverseMatrix);
     }
     break;
 
@@ -300,20 +300,20 @@ void Transformation::loadGlobalAndCurrentMatrixToShader(const std::string &_para
     case ActiveMatrix::NORMAL :
     {
       Mat4 tx=_global.getMatrix()*this->getMatrix();
-      shader->setShaderParamFromMat4(_param,tx);
+      shader->setUniform(_param,tx);
     }
     break;
     case ActiveMatrix::TRANSPOSE :
     {
       Mat4 tx=_global.getTransposeMatrix()*this->getTransposeMatrix();
 
-      shader->setShaderParamFromMat4(_param,tx);
+      shader->setUniform(_param,tx);
     }
     break;
     case ActiveMatrix::INVERSE :
     {
       Mat4 tx=_global.getInverseMatrix()*this->getInverseMatrix();
-      shader->setShaderParamFromMat4(_param,tx);
+      shader->setUniform(_param,tx);
     }
     break;
 
