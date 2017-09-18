@@ -12,7 +12,7 @@ isEqual(QT_MAJOR_VERSION, 5) {
 NGLPATH=$$(NGLDIR)
 
 isEmpty(NGLPATH){ # note brace must be here
-	NGLBASE=$$(HOME)/NGL
+  NGLBASE=$$(HOME)/NGL
 }
 else{ # note brace must be here
 	NGLBASE=$$(NGLDIR)

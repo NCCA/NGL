@@ -915,14 +915,14 @@ void ShaderLib::setUniform(const std::string &_paramName,Mat3 _v0) noexcept
 }
 
 
-void ShaderLib::setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value,bool _transpose) noexcept
+void ShaderLib::setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value,MatrixTranspose _transpose) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniformMatrix4fv(_paramName.c_str(),1,_transpose,_value);
+  (*this)[m_currentShader]->setRegisteredUniformMatrix4fv(_paramName.c_str(),1,static_cast<bool>(_transpose),_value);
 
 }
-void ShaderLib::setUniformMatrix3fv(const std::string &_paramName, const GLfloat *_value, bool _transpose) noexcept
+void ShaderLib::setUniformMatrix3fv(const std::string &_paramName, const GLfloat *_value, MatrixTranspose _transpose) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniformMatrix3fv(_paramName.c_str(),1,_transpose,_value);
+  (*this)[m_currentShader]->setRegisteredUniformMatrix3fv(_paramName.c_str(),1,static_cast<bool>(_transpose),_value);
 
 }
 

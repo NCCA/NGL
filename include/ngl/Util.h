@@ -50,6 +50,20 @@ constexpr Real PI2=Real(M_PI/2.0); //1.57079632679489661923      //90
 /// @brief  pre-compute the value for value for PI/4.0
 //----------------------------------------------------------------------------------------------------------------------
 constexpr Real PI4=Real(M_PI/4.0); //0.785398163397448309615     //45
+
+//----------------------------------------------------------------------------------------------------------------------
+/// @brief  convert to degrees as a literal
+//----------------------------------------------------------------------------------------------------------------------
+constexpr long double operator"" _deg(long double _d)
+{
+    return (_d * M_PI / 180.0);
+}
+
+constexpr long double operator"" _rad(long double _d)
+{
+    return (_d /  180.0f) * M_PI;
+}
+
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief calculates the normal from 3 points and return the new normal as a Vector
 /// @param[in]  _p1 the first point
