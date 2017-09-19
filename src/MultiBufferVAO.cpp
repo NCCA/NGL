@@ -60,6 +60,18 @@ namespace ngl
     return m_vboIDs[_id];
   }
 
+  Real *MultiBufferVAO::mapBuffer(unsigned int _index, GLenum _accessMode)
+  {
+    Real *ptr=nullptr;
+    if(_index<m_vboIDs.size())
+    {
+      bind();
+      glBindBuffer(GL_ARRAY_BUFFER, m_vboIDs[_index]);
+      ptr = static_cast<Real *>(glMapBuffer(GL_ARRAY_BUFFER, _accessMode));
+    }
+    return ptr;
+  }
+
 
 
 }

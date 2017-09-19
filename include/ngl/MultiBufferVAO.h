@@ -63,6 +63,13 @@ class NGL_DLLEXPORT MultiBufferVAO : public AbstractVAO
     /// @param _buffer index (default to 0 for single buffer VAO's)
     //----------------------------------------------------------------------------------------------------------------------
     virtual GLuint getBufferID(unsigned int _id);
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief grab a raw pointer to the data
+    /// @param _index the index to the buffer (0) default for simple
+    /// @param _mode the access more
+    //----------------------------------------------------------------------------------------------------------------------
+    Real * mapBuffer(unsigned int _index=0, GLenum _accessMode=GL_READ_WRITE);
+
   protected :
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief ctor calles parent ctor to allocate vao;

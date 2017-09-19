@@ -70,4 +70,13 @@ namespace ngl
     m_indexType=data.m_indexType;
   }
 
+  Real * SimpleIndexVAO::mapBuffer(unsigned int _index, GLenum _accessMode)
+  {
+    Real *ptr=nullptr;
+    bind();
+    glBindBuffer(GL_ARRAY_BUFFER, m_id);
+    ptr = static_cast<Real *>(glMapBuffer(GL_ARRAY_BUFFER, _accessMode));
+    return ptr;
+  }
+
 }

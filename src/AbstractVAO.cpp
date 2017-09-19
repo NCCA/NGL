@@ -44,4 +44,10 @@ namespace ngl
     glEnableVertexAttribArray(_id);
   }
 
+  void AbstractVAO::unmapBuffer() const
+  {
+    glUnmapBuffer(GL_ARRAY_BUFFER); // unmap it after use
+  }
+
+
 }
