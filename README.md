@@ -1,8 +1,15 @@
 # NGL the NCCA Graphics Library
 This is the main source branch for the NCCA Graphics Library ngl.
+## News
+
+NGL has been updated for 2017, The deprecated VertexArrayObject class has been removed and you should now use the VAOFactory and associated classes.
+
+ShaderLib now has one method to set uniforms (setUniform) these are overloaded and use the internally registered shader locations once the shaders have been loaded.
+
+## Building
 
 It needs to be built using QtCreator or CMake and you will also need to install
-boost (pathed in /usr/local/include as default)
+boost (path is /usr/local/include as default)
 
 Note this is now being built using C++ 11 and will use many C++ 11 features so make sure you 
 have a modern compiler such as clang++ or g++ >4.8
