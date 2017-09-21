@@ -197,7 +197,7 @@ public :
   /// @brief get the View * Projection matrix used as part of the MVP calculations
   /// @returns the m_projectionMatrix*m_viewMatrix
   //----------------------------------------------------------------------------------------------------------------------
-  Mat4  getVPMatrix()const  noexcept{return m_viewMatrix*m_projectionMatrix;}
+  Mat4  getVPMatrix()const  noexcept{return m_projectionMatrix*m_viewMatrix;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the eye position
   /// @returns the current eye pos

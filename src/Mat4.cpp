@@ -122,92 +122,92 @@ const Mat4&  Mat4::identity() noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Mat4 Mat4::operator*(const Mat4& _m ) const noexcept
-{
-  Mat4 temp;
-  // according to this http://www.research.scea.com/research/pdfs/GDC2003_Memory_Optimization_18Mar03.pdf
-  // we get better cache performance and less in the way of
-  // cache misses by prefectching the data using the consume / process pardigm
-  // not really tested this yet so will be interesting to do so
-/*
-  ngl::Real  m00=m_m[0][0];
-  ngl::Real  m01=m_m[0][1];
-  ngl::Real  m02=m_m[0][2];
-  ngl::Real  m03=m_m[0][3];
+//Mat4 Mat4::operator*(const Mat4& _m ) const noexcept
+//{
+//  Mat4 temp;
+//  // according to this http://www.research.scea.com/research/pdfs/GDC2003_Memory_Optimization_18Mar03.pdf
+//  // we get better cache performance and less in the way of
+//  // cache misses by prefectching the data using the consume / process pardigm
+//  // not really tested this yet so will be interesting to do so
+///*
+//  ngl::Real  m00=m_m[0][0];
+//  ngl::Real  m01=m_m[0][1];
+//  ngl::Real  m02=m_m[0][2];
+//  ngl::Real  m03=m_m[0][3];
 
-  ngl::Real  m10=m_m[1][0];
-  ngl::Real  m11=m_m[1][1];
-  ngl::Real  m12=m_m[1][2];
-  ngl::Real  m13=m_m[1][3];
+//  ngl::Real  m10=m_m[1][0];
+//  ngl::Real  m11=m_m[1][1];
+//  ngl::Real  m12=m_m[1][2];
+//  ngl::Real  m13=m_m[1][3];
 
-  ngl::Real  m20=m_m[2][0];
-  ngl::Real  m21=m_m[2][1];
-  ngl::Real  m22=m_m[2][2];
-  ngl::Real  m23=m_m[2][3];
+//  ngl::Real  m20=m_m[2][0];
+//  ngl::Real  m21=m_m[2][1];
+//  ngl::Real  m22=m_m[2][2];
+//  ngl::Real  m23=m_m[2][3];
 
-  ngl::Real  m30=m_m[3][0];
-  ngl::Real  m31=m_m[3][1];
-  ngl::Real  m32=m_m[3][2];
-  ngl::Real  m33=m_m[3][3];
+//  ngl::Real  m30=m_m[3][0];
+//  ngl::Real  m31=m_m[3][1];
+//  ngl::Real  m32=m_m[3][2];
+//  ngl::Real  m33=m_m[3][3];
 
-  ngl::Real  b00=_m.m_m[0][0];
-  ngl::Real  b01=_m.m_m[0][1];
-  ngl::Real  b02=_m.m_m[0][2];
-  ngl::Real  b03=_m.m_m[0][3];
+//  ngl::Real  b00=_m.m_m[0][0];
+//  ngl::Real  b01=_m.m_m[0][1];
+//  ngl::Real  b02=_m.m_m[0][2];
+//  ngl::Real  b03=_m.m_m[0][3];
 
-  ngl::Real  b10=_m.m_m[1][0];
-  ngl::Real  b11=_m.m_m[1][1];
-  ngl::Real  b12=_m.m_m[1][2];
-  ngl::Real  b13=_m.m_m[1][3];
+//  ngl::Real  b10=_m.m_m[1][0];
+//  ngl::Real  b11=_m.m_m[1][1];
+//  ngl::Real  b12=_m.m_m[1][2];
+//  ngl::Real  b13=_m.m_m[1][3];
 
-  ngl::Real  b20=_m.m_m[2][0];
-  ngl::Real  b21=_m.m_m[2][1];
-  ngl::Real  b22=_m.m_m[2][2];
-  ngl::Real  b23=_m.m_m[2][3];
+//  ngl::Real  b20=_m.m_m[2][0];
+//  ngl::Real  b21=_m.m_m[2][1];
+//  ngl::Real  b22=_m.m_m[2][2];
+//  ngl::Real  b23=_m.m_m[2][3];
 
-  ngl::Real  b30=_m.m_m[3][0];
-  ngl::Real  b31=_m.m_m[3][1];
-  ngl::Real  b32=_m.m_m[3][2];
-  ngl::Real  b33=_m.m_m[3][3];
+//  ngl::Real  b30=_m.m_m[3][0];
+//  ngl::Real  b31=_m.m_m[3][1];
+//  ngl::Real  b32=_m.m_m[3][2];
+//  ngl::Real  b33=_m.m_m[3][3];
 
-  temp.m_m[0][0] = m00 * b00 + m01 * b10 + m02 * b20 + m03 * b30;
-  temp.m_m[0][1] = m00 * b01 + m01 * b11 + m02 * b21 + m03 * b31;
-  temp.m_m[0][2] = m00 * _m.m_m[0][2] + m01 * b12 + m02 * b22 + m03 * b32;
-  temp.m_m[0][3] = m00 * b03 + m01 * b13 + m02 * b23 + m03 * b33;
-  temp.m_m[1][0] = m10 * b00 + m11 * b10 + m12 * b20 + m13 * b30;
-  temp.m_m[1][1] = m10 * b01 + m11 * b11 + m12 * b21 + m13 * b31;
-  temp.m_m[1][2] = m10 * _m.m_m[0][2] + m11 * b12 + m12 * b22 + m13 * b32;
-  temp.m_m[1][3] = m10 * b03 + m11 * b13 + m12 * b23 + m13 * b33;
-  temp.m_m[2][0] = m20 * b00 + m21 * b10 + m22 * b20 + m23 * b30;
-  temp.m_m[2][1] = m20 * b01 + m21 * b11 + m22 * b21 + m23 * b31;
-  temp.m_m[2][2] = m20 * _m.m_m[0][2] + m21 * b12 + m22 * b22 + m23 * b32;
-  temp.m_m[2][3] = m20 * b03 + m21 * b13 + m22 * b23 + m23 * b33;
-  temp.m_m[3][0] = m30 * b00 + m31 * b10 + m32 * b20 + m33 * b30;
-  temp.m_m[3][1] = m30 * b01 + m31 * b11 + m32 * b21 + m33 * b31;
-  temp.m_m[3][2] = m30 * _m.m_m[0][2] + m31 * b12 + m32 * b22 + m33 * b32;
-  temp.m_m[3][3] = m30 * b03 + m31 * b13 + m32 * b23 + m33 * b33;
-*/
-// orignal
+//  temp.m_m[0][0] = m00 * b00 + m01 * b10 + m02 * b20 + m03 * b30;
+//  temp.m_m[0][1] = m00 * b01 + m01 * b11 + m02 * b21 + m03 * b31;
+//  temp.m_m[0][2] = m00 * _m.m_m[0][2] + m01 * b12 + m02 * b22 + m03 * b32;
+//  temp.m_m[0][3] = m00 * b03 + m01 * b13 + m02 * b23 + m03 * b33;
+//  temp.m_m[1][0] = m10 * b00 + m11 * b10 + m12 * b20 + m13 * b30;
+//  temp.m_m[1][1] = m10 * b01 + m11 * b11 + m12 * b21 + m13 * b31;
+//  temp.m_m[1][2] = m10 * _m.m_m[0][2] + m11 * b12 + m12 * b22 + m13 * b32;
+//  temp.m_m[1][3] = m10 * b03 + m11 * b13 + m12 * b23 + m13 * b33;
+//  temp.m_m[2][0] = m20 * b00 + m21 * b10 + m22 * b20 + m23 * b30;
+//  temp.m_m[2][1] = m20 * b01 + m21 * b11 + m22 * b21 + m23 * b31;
+//  temp.m_m[2][2] = m20 * _m.m_m[0][2] + m21 * b12 + m22 * b22 + m23 * b32;
+//  temp.m_m[2][3] = m20 * b03 + m21 * b13 + m22 * b23 + m23 * b33;
+//  temp.m_m[3][0] = m30 * b00 + m31 * b10 + m32 * b20 + m33 * b30;
+//  temp.m_m[3][1] = m30 * b01 + m31 * b11 + m32 * b21 + m33 * b31;
+//  temp.m_m[3][2] = m30 * _m.m_m[0][2] + m31 * b12 + m32 * b22 + m33 * b32;
+//  temp.m_m[3][3] = m30 * b03 + m31 * b13 + m32 * b23 + m33 * b33;
+//*/
+//// orignal
 
-  temp.m_m[0][0] = m_m[0][0] * _m.m_m[0][0] + m_m[0][1] * _m.m_m[1][0] + m_m[0][2] * _m.m_m[2][0] + m_m[0][3] * _m.m_m[3][0];
-  temp.m_m[0][1] = m_m[0][0] * _m.m_m[0][1] + m_m[0][1] * _m.m_m[1][1] + m_m[0][2] * _m.m_m[2][1] + m_m[0][3] * _m.m_m[3][1];
-  temp.m_m[0][2] = m_m[0][0] * _m.m_m[0][2] + m_m[0][1] * _m.m_m[1][2] + m_m[0][2] * _m.m_m[2][2] + m_m[0][3] * _m.m_m[3][2];
-  temp.m_m[0][3] = m_m[0][0] * _m.m_m[0][3] + m_m[0][1] * _m.m_m[1][3] + m_m[0][2] * _m.m_m[2][3] + m_m[0][3] * _m.m_m[3][3];
-  temp.m_m[1][0] = m_m[1][0] * _m.m_m[0][0] + m_m[1][1] * _m.m_m[1][0] + m_m[1][2] * _m.m_m[2][0] + m_m[1][3] * _m.m_m[3][0];
-  temp.m_m[1][1] = m_m[1][0] * _m.m_m[0][1] + m_m[1][1] * _m.m_m[1][1] + m_m[1][2] * _m.m_m[2][1] + m_m[1][3] * _m.m_m[3][1];
-  temp.m_m[1][2] = m_m[1][0] * _m.m_m[0][2] + m_m[1][1] * _m.m_m[1][2] + m_m[1][2] * _m.m_m[2][2] + m_m[1][3] * _m.m_m[3][2];
-  temp.m_m[1][3] = m_m[1][0] * _m.m_m[0][3] + m_m[1][1] * _m.m_m[1][3] + m_m[1][2] * _m.m_m[2][3] + m_m[1][3] * _m.m_m[3][3];
-  temp.m_m[2][0] = m_m[2][0] * _m.m_m[0][0] + m_m[2][1] * _m.m_m[1][0] + m_m[2][2] * _m.m_m[2][0] + m_m[2][3] * _m.m_m[3][0];
-  temp.m_m[2][1] = m_m[2][0] * _m.m_m[0][1] + m_m[2][1] * _m.m_m[1][1] + m_m[2][2] * _m.m_m[2][1] + m_m[2][3] * _m.m_m[3][1];
-  temp.m_m[2][2] = m_m[2][0] * _m.m_m[0][2] + m_m[2][1] * _m.m_m[1][2] + m_m[2][2] * _m.m_m[2][2] + m_m[2][3] * _m.m_m[3][2];
-  temp.m_m[2][3] = m_m[2][0] * _m.m_m[0][3] + m_m[2][1] * _m.m_m[1][3] + m_m[2][2] * _m.m_m[2][3] + m_m[2][3] * _m.m_m[3][3];
-  temp.m_m[3][0] = m_m[3][0] * _m.m_m[0][0] + m_m[3][1] * _m.m_m[1][0] + m_m[3][2] * _m.m_m[2][0] + m_m[3][3] * _m.m_m[3][0];
-  temp.m_m[3][1] = m_m[3][0] * _m.m_m[0][1] + m_m[3][1] * _m.m_m[1][1] + m_m[3][2] * _m.m_m[2][1] + m_m[3][3] * _m.m_m[3][1];
-  temp.m_m[3][2] = m_m[3][0] * _m.m_m[0][2] + m_m[3][1] * _m.m_m[1][2] + m_m[3][2] * _m.m_m[2][2] + m_m[3][3] * _m.m_m[3][2];
-  temp.m_m[3][3] = m_m[3][0] * _m.m_m[0][3] + m_m[3][1] * _m.m_m[1][3] + m_m[3][2] * _m.m_m[2][3] + m_m[3][3] * _m.m_m[3][3];
+//  temp.m_m[0][0] = m_m[0][0] * _m.m_m[0][0] + m_m[0][1] * _m.m_m[1][0] + m_m[0][2] * _m.m_m[2][0] + m_m[0][3] * _m.m_m[3][0];
+//  temp.m_m[0][1] = m_m[0][0] * _m.m_m[0][1] + m_m[0][1] * _m.m_m[1][1] + m_m[0][2] * _m.m_m[2][1] + m_m[0][3] * _m.m_m[3][1];
+//  temp.m_m[0][2] = m_m[0][0] * _m.m_m[0][2] + m_m[0][1] * _m.m_m[1][2] + m_m[0][2] * _m.m_m[2][2] + m_m[0][3] * _m.m_m[3][2];
+//  temp.m_m[0][3] = m_m[0][0] * _m.m_m[0][3] + m_m[0][1] * _m.m_m[1][3] + m_m[0][2] * _m.m_m[2][3] + m_m[0][3] * _m.m_m[3][3];
+//  temp.m_m[1][0] = m_m[1][0] * _m.m_m[0][0] + m_m[1][1] * _m.m_m[1][0] + m_m[1][2] * _m.m_m[2][0] + m_m[1][3] * _m.m_m[3][0];
+//  temp.m_m[1][1] = m_m[1][0] * _m.m_m[0][1] + m_m[1][1] * _m.m_m[1][1] + m_m[1][2] * _m.m_m[2][1] + m_m[1][3] * _m.m_m[3][1];
+//  temp.m_m[1][2] = m_m[1][0] * _m.m_m[0][2] + m_m[1][1] * _m.m_m[1][2] + m_m[1][2] * _m.m_m[2][2] + m_m[1][3] * _m.m_m[3][2];
+//  temp.m_m[1][3] = m_m[1][0] * _m.m_m[0][3] + m_m[1][1] * _m.m_m[1][3] + m_m[1][2] * _m.m_m[2][3] + m_m[1][3] * _m.m_m[3][3];
+//  temp.m_m[2][0] = m_m[2][0] * _m.m_m[0][0] + m_m[2][1] * _m.m_m[1][0] + m_m[2][2] * _m.m_m[2][0] + m_m[2][3] * _m.m_m[3][0];
+//  temp.m_m[2][1] = m_m[2][0] * _m.m_m[0][1] + m_m[2][1] * _m.m_m[1][1] + m_m[2][2] * _m.m_m[2][1] + m_m[2][3] * _m.m_m[3][1];
+//  temp.m_m[2][2] = m_m[2][0] * _m.m_m[0][2] + m_m[2][1] * _m.m_m[1][2] + m_m[2][2] * _m.m_m[2][2] + m_m[2][3] * _m.m_m[3][2];
+//  temp.m_m[2][3] = m_m[2][0] * _m.m_m[0][3] + m_m[2][1] * _m.m_m[1][3] + m_m[2][2] * _m.m_m[2][3] + m_m[2][3] * _m.m_m[3][3];
+//  temp.m_m[3][0] = m_m[3][0] * _m.m_m[0][0] + m_m[3][1] * _m.m_m[1][0] + m_m[3][2] * _m.m_m[2][0] + m_m[3][3] * _m.m_m[3][0];
+//  temp.m_m[3][1] = m_m[3][0] * _m.m_m[0][1] + m_m[3][1] * _m.m_m[1][1] + m_m[3][2] * _m.m_m[2][1] + m_m[3][3] * _m.m_m[3][1];
+//  temp.m_m[3][2] = m_m[3][0] * _m.m_m[0][2] + m_m[3][1] * _m.m_m[1][2] + m_m[3][2] * _m.m_m[2][2] + m_m[3][3] * _m.m_m[3][2];
+//  temp.m_m[3][3] = m_m[3][0] * _m.m_m[0][3] + m_m[3][1] * _m.m_m[1][3] + m_m[3][2] * _m.m_m[2][3] + m_m[3][3] * _m.m_m[3][3];
 
-  return temp;
-}
+//  return temp;
+//}
 
 //----------------------------------------------------------------------------------------------------------------------
 const Mat4& Mat4::operator*= ( const Mat4 &_m ) noexcept
@@ -748,7 +748,50 @@ Vec3 Mat4::getBackVector() const noexcept
 
 }
 
+Real &Mat4::operator[](size_t _i)  noexcept
+{
+  NGL_ASSERT(_i>=0 && _i<=15)
+  return m_openGL[_i];
+}
+Real Mat4::operator[](size_t _i)  const noexcept
+{
+  NGL_ASSERT(_i>=0 && _i<=15)
+  return m_openGL[_i];
+}
 
+ngl::Mat4 operator*(const ngl::Mat4 &lhs, const ngl::Mat4 &rhs) noexcept
+{
+   ngl::Mat4 dest;
+   // Cache the matrix values (makes for huge speed increases!)
+   ngl::Real
+   a00 = lhs[0 ], a01 = lhs[1 ], a02 = lhs[2 ], a03 = lhs[3 ],
+   a10 = lhs[4 ], a11 = lhs[5 ], a12 = lhs[6 ], a13 = lhs[7 ],
+   a20 = lhs[8 ], a21 = lhs[9 ], a22 = lhs[10], a23 = lhs[11],
+   a30 = lhs[12], a31 = lhs[13], a32 = lhs[14], a33 = lhs[15],
+
+   b00 = rhs[0 ], b01 = rhs[1 ], b02 = rhs[2 ], b03 = rhs[3 ],
+   b10 = rhs[4 ], b11 = rhs[5 ], b12 = rhs[6 ], b13 = rhs[7 ],
+   b20 = rhs[8 ], b21 = rhs[9 ], b22 = rhs[10], b23 = rhs[11],
+   b30 = rhs[12], b31 = rhs[13], b32 = rhs[14], b33 = rhs[15];
+
+   dest[0 ] = b00 * a00 + b01 * a10 + b02 * a20 + b03 * a30;
+   dest[1 ] = b00 * a01 + b01 * a11 + b02 * a21 + b03 * a31;
+   dest[2 ] = b00 * a02 + b01 * a12 + b02 * a22 + b03 * a32;
+   dest[3 ] = b00 * a03 + b01 * a13 + b02 * a23 + b03 * a33;
+   dest[4 ] = b10 * a00 + b11 * a10 + b12 * a20 + b13 * a30;
+   dest[5 ] = b10 * a01 + b11 * a11 + b12 * a21 + b13 * a31;
+   dest[6 ] = b10 * a02 + b11 * a12 + b12 * a22 + b13 * a32;
+   dest[7 ] = b10 * a03 + b11 * a13 + b12 * a23 + b13 * a33;
+   dest[8 ] = b20 * a00 + b21 * a10 + b22 * a20 + b23 * a30;
+   dest[9 ] = b20 * a01 + b21 * a11 + b22 * a21 + b23 * a31;
+   dest[10] = b20 * a02 + b21 * a12 + b22 * a22 + b23 * a32;
+   dest[11] = b20 * a03 + b21 * a13 + b22 * a23 + b23 * a33;
+   dest[12] = b30 * a00 + b31 * a10 + b32 * a20 + b33 * a30;
+   dest[13] = b30 * a01 + b31 * a11 + b32 * a21 + b33 * a31;
+   dest[14] = b30 * a02 + b31 * a12 + b32 * a22 + b33 * a32;
+   dest[15] = b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33;
+   return dest;
+}
 
 } // end namespace ngl
 
