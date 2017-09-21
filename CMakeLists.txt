@@ -59,7 +59,6 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/ShaderProgram.cpp
     ${PROJECT_SOURCE_DIR}/src/Plane.cpp
     ${PROJECT_SOURCE_DIR}/src/AABB.cpp
-    ${PROJECT_SOURCE_DIR}/src/VertexArrayObject.cpp
     ${PROJECT_SOURCE_DIR}/src/createDefaultVAOs.cpp
     ${PROJECT_SOURCE_DIR}/src/Vec3.cpp
     ${PROJECT_SOURCE_DIR}/src/Vec2.cpp
@@ -106,7 +105,6 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/include/ngl/ShaderProgram.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Plane.h
     ${PROJECT_SOURCE_DIR}/include/ngl/AABB.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/VertexArrayObject.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Vec3.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Vec2.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Text.h
