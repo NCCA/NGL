@@ -312,7 +312,7 @@ Real Vec4::lengthSquared() const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Vec4 Vec4::operator*(const Mat4 &_m ) const noexcept
 {
-
+/*
 	 Vec4 v(
 						m_x*_m.m_00 + m_y*_m.m_10 + m_z*_m.m_20+ m_w*_m.m_30,
 						m_x*_m.m_01 + m_y*_m.m_11 + m_z*_m.m_21+ m_w*_m.m_31,
@@ -321,7 +321,16 @@ Vec4 Vec4::operator*(const Mat4 &_m ) const noexcept
 				 );
 
    return v;
- }
+*/
+  Vec4 temp;
+
+  temp.m_x=m_x * _m.m_00 + m_y	* _m.m_01 + m_z * _m.m_02 + m_w * _m.m_03;
+  temp.m_y=m_x * _m.m_10 + m_y	* _m.m_11 + m_z * _m.m_12 + m_w * _m.m_13;
+  temp.m_z=m_x * _m.m_20 + m_y	* _m.m_21 + m_z * _m.m_22 + m_w * _m.m_23;
+  temp.m_w=m_x * _m.m_30 + m_y	* _m.m_31 + m_z * _m.m_32 + m_w * _m.m_33;
+
+return temp;
+}
 
 
 } // end namspace ngl

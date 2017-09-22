@@ -374,6 +374,13 @@ const Mat4& Mat4::operator*=(const Real _i) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Vec4 Mat4::operator * (const Vec4 &_v ) const noexcept
 {
+  return Vec4(
+           _v.m_x*m_00 + _v.m_y*m_10 + _v.m_z*m_20+ _v.m_w*m_30,
+           _v.m_x*m_01 + _v.m_y*m_11 + _v.m_z*m_21+ _v.m_w*m_31,
+           _v.m_x*m_02 + _v.m_y*m_12 + _v.m_z*m_22+ _v.m_w*m_32,
+           _v.m_x*m_03 + _v.m_y*m_13 + _v.m_z*m_23+ _v.m_w*m_33
+        );
+  /*
   Vec4 temp;
 
   temp.m_x=_v.m_x * m_00 + _v.m_y	* m_01 + _v.m_z * m_02 + _v.m_w * m_03;
@@ -382,6 +389,7 @@ Vec4 Mat4::operator * (const Vec4 &_v ) const noexcept
   temp.m_w=_v.m_x * m_30 + _v.m_y	* m_31 + _v.m_z * m_32 + _v.m_w * m_33;
 
 return temp;
+*/
 }
 
 

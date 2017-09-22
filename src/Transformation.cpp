@@ -208,7 +208,7 @@ void Transformation::computeMatrices() noexcept
     rX.rotateX(m_rotation.m_x);
     rY.rotateY(m_rotation.m_y);
     rZ.rotateZ(m_rotation.m_z);
-    rotationScale = scale * rX * rY * rZ;
+    rotationScale =  rZ * rY * rX * scale;
 
     // transform matrix
     m_matrix = rotationScale;
