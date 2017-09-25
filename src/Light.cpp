@@ -117,7 +117,7 @@ void Light::loadToShader(std::string _uniformName )const noexcept
   */
   if(m_active==true)
   {
-    Vec4 pos=m_transform*m_position;
+    Vec4 pos=m_position*m_transform;
     shader->setUniform(_uniformName+".position",pos.m_x,pos.m_y,pos.m_z,Real(m_lightMode));
     shader->setUniform(_uniformName+".ambient",m_ambient.m_r,m_ambient.m_g,m_ambient.m_b,m_ambient.m_a);
     shader->setUniform(_uniformName+".diffuse",m_diffuse.m_r,m_diffuse.m_g,m_diffuse.m_b,m_diffuse.m_a);
