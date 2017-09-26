@@ -332,6 +332,7 @@ public :
   void setUniform(const std::string &_paramName,Mat4 _v0) noexcept;
 
   // compatability functions to make it easier to use GLM
+  void setUniformMatrix2fv(const std::string &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::False) noexcept;
   void setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::False) noexcept;
   void setUniformMatrix3fv(const std::string &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::False) noexcept;
 

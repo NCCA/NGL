@@ -268,7 +268,7 @@ NGL_DLLEXPORT Vec3 unProject(const Vec3 &_win, const Mat4 &_model, const Mat4 &_
   p=_project;
   m=_model;
 
-  Mat4 inverse=( p.transpose()*m.transpose()).inverse();
+  Mat4 inverse=(p* m).inverse();
 
   Vec4 tmp(0,0,_win.m_z,1.0f);
   // convert into NDC

@@ -215,7 +215,7 @@ void Transformation::computeMatrices() noexcept
     m_matrix.m_m[3][0] = m_position.m_x;
     m_matrix.m_m[3][1] = m_position.m_y;
     m_matrix.m_m[3][2] = m_position.m_z;
-    m_matrix.m_m[3][3] = 1;
+    m_matrix.m_m[3][3] = 1.0f;
 
 
 

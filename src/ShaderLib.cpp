@@ -784,12 +784,17 @@ void ShaderLib::setUniformMatrix3fv(const std::string &_paramName, const GLfloat
 
 }
 
+void ShaderLib::setUniformMatrix2fv(const std::string &_paramName, const GLfloat *_value, MatrixTranspose _transpose) noexcept
+{
+  (*this)[m_currentShader]->setRegisteredUniformMatrix2fv(_paramName.c_str(),1,static_cast<bool>(_transpose),_value);
+
+}
 
 
 
 void ShaderLib::setUniform(const std::string &_paramName,Mat4 _v0) noexcept
 {
-  (*this)[m_currentShader]->setUniformMatrix4fv(_paramName.c_str(),1,GL_FALSE,_v0.openGL());
+  (*this)[m_currentShader]->setRegisteredUniformMatrix4fv(_paramName.c_str(),1,GL_FALSE,_v0.openGL());
 }
 
 
