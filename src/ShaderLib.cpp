@@ -276,14 +276,14 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
 
   if (doc.ParseInsitu<0>(buffer.get()).HasParseError())
   {
-    std::cerr<<"Parse Error for file "<<_fname<<"\n";
+    std::cerr<<"Parse Error for file "<<_fname<<'\n';
     return false;
 
   }
 
   if(!doc.HasMember("ShaderProgram"))
   {
-    std::cerr<<"This does not seem to be a valid shader json file"<<std::endl;
+    std::cerr<<"This does not seem to be a valid shader json file\n";
     return false;
   }
   std::cout<<"***************Loading Shaders from JSON*****************\n";
