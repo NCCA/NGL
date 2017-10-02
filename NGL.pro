@@ -95,10 +95,11 @@ DEFINES+=FMT_HEADER_ONLY
 INCLUDEPATH +=$$BASE_DIR/include/fmt
 
 unix:LIBS += -L/usr/local/lib
-LIBS+= -lboost_system
 # set the SRC_DIR so we can find the project files
 SRC_DIR = $$BASE_DIR/src
 
+DEFINES+=BOOST_SYSTEM_NO_DEPRECATED
+DEFINES+=BOOST_ERROR_CODE_HEADER_ONLY
 
 # and the include files
 INC_DIR = $$BASE_DIR/include/ngl
