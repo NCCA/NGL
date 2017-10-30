@@ -44,11 +44,11 @@ linux-*{
 }
 DEPENDPATH+=include
 # if we are on a mac define DARWIN
-macx:message("Building for macOS Sierra using sdk 10.12 if this is not found")
-macx:message("Modify UseNGL.pri and modify QMAKE_MACK_SDK to macosx10.11 Mac El-Capitain")
+macx:message("Building for macOS High Sierra using sdk 10.13 if this is not found")
+macx:message("Modify UseNGL.pri and modify QMAKE_MACK_SDK to macosx10.12 or whatever you have installed")
 
 
-macx:QMAKE_MAC_SDK = macosx10.12
+#macx:QMAKE_MAC_SDK = macosx10.13
 
 # this is where to look for includes
 INCLUDEPATH += $${NGLBASE}/include/

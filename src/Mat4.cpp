@@ -766,7 +766,7 @@ Real Mat4::operator[](size_t _i)  const noexcept
   NGL_ASSERT(_i>=0 && _i<=15)
   return m_openGL[_i];
 }
-
+/*
 ngl::Mat4 operator*(const ngl::Mat4 &lhs, const ngl::Mat4 &rhs) noexcept
 {
    ngl::Mat4 dest;
@@ -800,7 +800,7 @@ ngl::Mat4 operator*(const ngl::Mat4 &lhs, const ngl::Mat4 &rhs) noexcept
    dest[15] = b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33;
    return dest;
 }
-
+*/
 } // end namespace ngl
 
 

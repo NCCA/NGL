@@ -10,7 +10,7 @@
 #ifndef FMT_OSTREAM_H_
 #define FMT_OSTREAM_H_
 
-#include "fmt/format.h"
+#include "format.h"
 #include <ostream>
 
 namespace fmt {
@@ -24,28 +24,27 @@ class FormatBuf : public std::basic_streambuf<Char> {
   typedef typename std::basic_streambuf<Char>::traits_type traits_type;
 
   Buffer<Char> &buffer_;
-  Char *start_;
 
  public:
-  FormatBuf(Buffer<Char> &buffer) : buffer_(buffer), start_(&buffer[0]) {
-    this->setp(start_, start_ + buffer_.capacity());
-  }
+  FormatBuf(Buffer<Char> &buffer) : buffer_(buffer) {}
 
-  int_type overflow(int_type ch = traits_type::eof()) {
-    if (!traits_type::eq_int_type(ch, traits_type::eof())) {
-      size_t buf_size = size();
-      buffer_.resize(buf_size);
-      buffer_.reserve(buf_size * 2);
+ protected:
+  // The put-area is actually always empty. This makes the implementation
+  // simpler and has the advantage that the streambuf and the buffer are always
+  // in sync and sputc never writes into uninitialized memory. The obvious
+  // disadvantage is that each call to sputc always results in a (virtual) call
+  // to overflow. There is no disadvantage here for sputn since this always
+  // results in a call to xsputn.
 
-      start_ = &buffer_[0];
-      start_[buf_size] = traits_type::to_char_type(ch);
-      this->setp(start_+ buf_size + 1, start_ + buf_size * 2);
-    }
+  int_type overflow(int_type ch = traits_type::eof()) FMT_OVERRIDE {
+    if (!traits_type::eq_int_type(ch, traits_type::eof()))
+      buffer_.push_back(static_cast<Char>(ch));
     return ch;
   }
 
-  size_t size() const {
-    return to_unsigned(this->pptr() - start_);
+  std::streamsize xsputn(const Char *s, std::streamsize count) FMT_OVERRIDE {
+    buffer_.append(s, s + count);
+    return count;
   }
 };
 
@@ -68,12 +67,12 @@ struct ConvertToIntImpl<T, true> {
 };
 
 // Write the content of w to os.
-void write(std::ostream &os, Writer &w);
+FMT_API void write(std::ostream &os, Writer &w);
 }  // namespace internal
 
 // Formats a value.
-template <typename Char, typename ArgFormatter, typename T>
-void format_arg(BasicFormatter<Char, ArgFormatter> &f,
+template <typename Char, typename ArgFormatter_, typename T>
+void format_arg(BasicFormatter<Char, ArgFormatter_> &f,
                 const Char *&format_str, const T &value) {
   internal::MemoryBuffer<Char, internal::INLINE_BUFFER_SIZE> buffer;
 
@@ -81,7 +80,7 @@ void format_arg(BasicFormatter<Char, ArgFormatter> &f,
   std::basic_ostream<Char> output(&format_buf);
   output << value;
 
-  BasicStringRef<Char> str(&buffer[0], format_buf.size());
+  BasicStringRef<Char> str(&buffer[0], buffer.size());
   typedef internal::MakeArg< BasicFormatter<Char> > MakeArg;
   format_str = f.format(format_str, MakeArg(str));
 }
