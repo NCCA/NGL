@@ -209,9 +209,12 @@ extern NGL_DLLEXPORT void NGLCheckGLError(const std::string  &_file, const int _
 //----------------------------------------------------------------------------------------------------------------------
 template <typename T> T lerp(T _a, T _b, Real _t) noexcept
 {
-	T p;
-	p=_a+(_b-_a)*_t;
-	return p;
+	//T p;
+	//p=_a+(_b-_a)*_t;
+  //return p;
+  // More cache efficient version as both _a's are loaded in the same cache line
+  // see Rob lecture.
+  return _a-(_a-_b)*_t;
 }
 
 template <typename T> T trigInterp(T _a, T _b, Real _t ) noexcept
