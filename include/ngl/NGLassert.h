@@ -44,7 +44,7 @@
 			 std::cerr << "Assertion failed :"<< #X \
 			 << "\nFailure occured on line " \
 			 << __LINE__ << " of source file :" \
-			 << "\n \""<<__FILE__<<"\"" << std::endl; \
+       << "\n \""<<__FILE__<<"\"\n"; \
 		 }
 
 

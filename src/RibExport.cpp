@@ -41,15 +41,15 @@ RibExport::~RibExport()
 {
   if (m_attribCount != 0)
   {
-    std::cerr << "Warning Mismatched AttributeBegin / AttributeEnd block" << std::endl;
+    std::cerr << "Warning Mismatched AttributeBegin / AttributeEnd block\n";
   }
   if (m_transformCount != 0)
   {
-    std::cerr << "Warning Mismatched TransformBegin / TransformEnd block" << std::endl;
+    std::cerr << "Warning Mismatched TransformBegin / TransformEnd block\n";
   }
   if (m_worldCount != 0)
   {
-    std::cerr << "Warning Mismatched WorldBegin / WorldEnd block" << std::endl;
+    std::cerr << "Warning Mismatched WorldBegin / WorldEnd block\n";
   }
   if (m_ribFile.is_open())
   {
@@ -85,9 +85,9 @@ void RibExport::open()
   m_ribFile.open(fName.c_str(), std::ios::out);
   if (!m_ribFile.is_open())
   {
-    std::cerr << "problems Opening File" << std::endl;
+    std::cerr << "problems Opening File\n";
   }
-  m_ribFile << "# Rib file generated using RibExporter" << std::endl;
+  m_ribFile << "# Rib file generated using RibExporter\n";
   m_isOpen = true;
 }
 
@@ -111,7 +111,7 @@ void RibExport::writeTabs()
 void RibExport::AttributeBegin()
 {
   writeTabs();
-  m_ribFile << "AttributeBegin " << std::endl;
+  m_ribFile << "AttributeBegin \n";
   ++m_tabs;
   ++m_attribCount;
 }
@@ -121,7 +121,7 @@ void RibExport::AttributeEnd()
 {
   --m_tabs;
   writeTabs();
-  m_ribFile << "AttributeEnd " << std::endl;
+  m_ribFile << "AttributeEnd \n";
   m_attribCount--;
 }
 
@@ -129,7 +129,7 @@ void RibExport::AttributeEnd()
 void RibExport::TransformBegin()
 {
   writeTabs();
-  m_ribFile << "TransformBegin " << std::endl;
+  m_ribFile << "TransformBegin \n";
   ++m_tabs;
   ++m_transformCount;
 }
@@ -139,7 +139,7 @@ void RibExport::TransformEnd()
 {
   --m_tabs;
   writeTabs();
-  m_ribFile << "TransformEnd " << std::endl;
+  m_ribFile << "TransformEnd \n";
   --m_transformCount;
 }
 
@@ -147,7 +147,7 @@ void RibExport::TransformEnd()
 void RibExport::WorldBegin()
 {
   writeTabs();
-  m_ribFile << "WorldBegin " << std::endl;
+  m_ribFile << "WorldBegin\n";
   ++m_tabs;
   ++m_worldCount;
 }
@@ -157,7 +157,7 @@ void RibExport::WorldEnd()
 {
   --m_tabs;
   writeTabs();
-  m_ribFile << "WorldEnd " << std::endl;
+  m_ribFile << "WorldEnd \n";
   --m_worldCount;
 }
 
@@ -165,7 +165,7 @@ void RibExport::WorldEnd()
 void RibExport::writeToFile(std::string _string)
 {
   writeTabs();
-  m_ribFile << _string << std::endl;
+  m_ribFile << _string << '\n';
 }
 
 
@@ -173,70 +173,70 @@ void RibExport::writeToFile(std::string _string)
 void RibExport::Translate(const Real _x, const Real _y, const Real _z)
 {
   writeTabs();
-  m_ribFile << "Translate " << _x << " " << _y << " " << _z << std::endl;
+  m_ribFile << "Translate " << _x << " " << _y << " " << _z << '\n';
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void RibExport::Rotate(const Real _angle, const Real _x, const Real _y, const Real _z)
 {
   writeTabs();
-  m_ribFile << "Rotate " << _angle << " " << _x << " " << _y << " " << _z << std::endl;
+  m_ribFile << "Rotate " << _angle << " " << _x << " " << _y << " " << _z << '\n';
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void RibExport::Scale(const Real _x, const Real _y, const Real _z)
 {
   writeTabs();
-  m_ribFile << "Scale " << _x << " " << _y << " " << _z << std::endl;
+  m_ribFile << "Scale " << _x << " " << _y << " " << _z << '\n';
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void RibExport::Sphere(const Real _radius, const Real _zMin, const Real _zMax, const Real _sweep)
 {
   writeTabs();
-  m_ribFile << "Sphere " << _radius << " " << _zMin << " " << _zMax << " " << _sweep << std::endl;
+  m_ribFile << "Sphere " << _radius << " " << _zMin << " " << _zMax << " " << _sweep << '\n';
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void RibExport::Cylinder(const Real _radius, const Real _zMin, const Real _zMax, const Real _sweep)
 {
   writeTabs();
-  m_ribFile << "Cylinder " << _radius << " " << _zMin << " " << _zMax << " " << _sweep << std::endl;
+  m_ribFile << "Cylinder " << _radius << " " << _zMin << " " << _zMax << " " << _sweep << '\n';
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void RibExport::Cone(const Real _height, const Real _radius, const Real _sweep)
 {
   writeTabs();
-  m_ribFile << "Cone " << _height << " " << _radius << " " << _sweep << std::endl;
+  m_ribFile << "Cone " << _height << " " << _radius << " " << _sweep << '\n';
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void RibExport::Paraboloid(const Real _topRad, const Real _zMin, const Real _zMax, const Real _sweep)
 {
   writeTabs();
-  m_ribFile << "Paraboloid " << _topRad << " " << _zMin << " " << _zMax << " " << _sweep << std::endl;
+  m_ribFile << "Paraboloid " << _topRad << " " << _zMin << " " << _zMax << " " << _sweep << '\n';
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void RibExport::Hyperboloid(const Real _p1, const Real _p2, const Real _sweep)
 {
   writeTabs();
-  m_ribFile << "Hyperboloid " << _p1 << " " << _p2 << " " << _sweep << std::endl;
+  m_ribFile << "Hyperboloid " << _p1 << " " << _p2 << " " << _sweep << '\n';
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void RibExport::Disk(const Real _height, const Real _radius, const Real _sweep)
 {
   writeTabs();
-  m_ribFile << "Disk " << _height << " " << _radius << " " << _sweep << std::endl;
+  m_ribFile << "Disk " << _height << " " << _radius << " " << _sweep << '\n';
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 void RibExport::Torus(const Real _major, const Real _minor, const Real _phiMin, const Real _phiMax, const Real _sweep)
 {
   writeTabs();
-  m_ribFile << "Torus " << _major << " " << _minor << " " << _phiMin << " " << _phiMax << " " << _sweep << std::endl;
+  m_ribFile << "Torus " << _major << " " << _minor << " " << _phiMin << " " << _phiMax << " " << _sweep << '\n';
 }
 
 } // end ngl namespace

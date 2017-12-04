@@ -163,13 +163,13 @@ void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int
 bool Image::load( const std::string &_fName  ) noexcept
 {
 #ifdef IMAGE_DEBUG_ON
-  std::cerr<<"loading with QImage"<<std::endl;
+  std::cerr<<"loading with QImage\n";
 #endif
   QImage image;
   bool loaded=image.load(_fName.c_str());
   if(loaded ==false)
   {
-    std::cerr<<"error loading image "<<_fName.c_str()<<"\n";
+    std::cerr<<"error loading image "<<_fName.c_str()<<'\n';
   }
   if(loaded == true)
   {
@@ -207,8 +207,8 @@ bool Image::load( const std::string &_fName  ) noexcept
       }
     }
 #ifdef IMAGE_DEBUG_ON
-  std::cerr<<"size "<<m_width<<" "<<m_height<<std::endl;
-  std::cerr<<"channels "<<m_channels<<std::endl;
+  std::cerr<<"size "<<m_width<<" "<<m_height<<'\n';
+  std::cerr<<"channels "<<m_channels<<'\n';
 #endif
 
    return true;
@@ -229,7 +229,7 @@ bool Image::load( const std::string &_fName  ) noexcept
 bool Image::load( const std::string &_fname  ) noexcept
 {
   #ifdef IMAGE_DEBUG_ON
-  std::cerr<<"loading with ImageMagick"<<std::endl;
+  std::cerr<<"loading with ImageMagick\n";
   #endif
   Magick::Image image;
   Magick::Blob blob;
@@ -243,7 +243,7 @@ bool Image::load( const std::string &_fname  ) noexcept
   }
   catch (Magick::Error& Error)
   {
-  std::cout << "Error loading texture '" << _fname << "': " << Error.what() << std::endl;
+  std::cout << "Error loading texture '" << _fname << "': " << Error.what() << '\n';
   return false;
   }
   m_width=image.columns();
@@ -266,7 +266,7 @@ bool Image::load( const std::string &_fname  ) noexcept
 bool Image::load( const std::string &_fname  ) noexcept
 {
 #ifdef IMAGE_DEBUG_ON
-  std::cerr<<"loading with OpenImageIO"<<std::endl;
+  std::cerr<<"loading with OpenImageIO\n";
 #endif
   OpenImageIO::ImageInput *in = OpenImageIO::ImageInput::open (_fname);
   if (! in)

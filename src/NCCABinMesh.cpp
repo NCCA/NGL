@@ -36,7 +36,7 @@ bool NCCABinMesh::load(const std::string &_fname, CalcBB _calcBB) noexcept
   // see if it worked
   if (!file.is_open())
   {
-    std::cerr<<"problems Opening File "<<_fname<<std::endl;
+    std::cerr<<"problems Opening File "<<_fname<<'\n';
     return false;
   }
   // lets read in the header and see if the file is valid
@@ -49,7 +49,7 @@ bool NCCABinMesh::load(const std::string &_fname, CalcBB _calcBB) noexcept
   {
     // best close the file and exit
     file.close();
-    std::cout<<"this is not an ngl::bin file "<<std::endl;
+    std::cout<<"this is not an ngl::bin file "<<'\n';
     return false;
   }
 

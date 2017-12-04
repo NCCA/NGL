@@ -89,7 +89,7 @@ Material::Material( const std::string &_fName) noexcept
 
 	if (!FileIn.is_open())
 	{
-		std::cout << "File : "<< _fName <<" Not found Exiting "<<std::endl;
+    std::cout << "File : "<< _fName <<" Not found Exiting \n";
 		exit(EXIT_FAILURE);
 	}
 

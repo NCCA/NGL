@@ -72,9 +72,9 @@ NGL_DLLEXPORT std::ostream& operator<<(std::ostream &_output,const Mat3 &_m )
   std::cout.setf(std::ios::fixed|std::ios::adjustfield|std::ios::showpos);
   std::cout.precision(12);
   return _output
-  <<"["<<_m.m_00<<","<<_m.m_01<<","<<_m.m_02<<","<<"]"<<std::endl
-  <<"["<<_m.m_10<<","<<_m.m_11<<","<<_m.m_12<<","<<"]"<<std::endl
-  <<"["<<_m.m_20<<","<<_m.m_21<<","<<_m.m_22<<","<<"]"<<std::endl;
+  <<"["<<_m.m_00<<","<<_m.m_01<<","<<_m.m_02<<","<<"]\n"
+  <<"["<<_m.m_10<<","<<_m.m_11<<","<<_m.m_12<<","<<"]\n"
+  <<"["<<_m.m_20<<","<<_m.m_21<<","<<_m.m_22<<","<<"]\n";
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -83,10 +83,10 @@ NGL_DLLEXPORT std::ostream& operator<<(std::ostream &_output,const Mat4 &_m)
   std::cout.setf(std::ios::fixed|std::ios::adjustfield|std::ios::showpos);
  // std::cout.precision(std::numeric_limits<double>::digits10 + 1);
   return _output
-        <<"["<<_m.m_00<<","<<_m.m_10<<","<<_m.m_20<<","<<_m.m_30<<"]"<<std::endl
-        <<"["<<_m.m_01<<","<<_m.m_11<<","<<_m.m_21<<","<<_m.m_31<<"]"<<std::endl
-        <<"["<<_m.m_02<<","<<_m.m_12<<","<<_m.m_22<<","<<_m.m_32<<"]"<<std::endl
-        <<"["<<_m.m_03<<","<<_m.m_13<<","<<_m.m_23<<","<<_m.m_33<<"]"<<std::endl;
+        <<"["<<_m.m_00<<","<<_m.m_10<<","<<_m.m_20<<","<<_m.m_30<<"]\n"
+        <<"["<<_m.m_01<<","<<_m.m_11<<","<<_m.m_21<<","<<_m.m_31<<"]\n"
+        <<"["<<_m.m_02<<","<<_m.m_12<<","<<_m.m_22<<","<<_m.m_32<<"]\n"
+        <<"["<<_m.m_03<<","<<_m.m_13<<","<<_m.m_23<<","<<_m.m_33<<"]\n";
 
 }
 

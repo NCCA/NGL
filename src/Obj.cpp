@@ -293,28 +293,28 @@ void Obj::save(const std::string& _fname)const noexcept
   fileOut.open(_fname.c_str(),std::ios::out);
   if (!fileOut.is_open())
   {
-    std::cout <<"File : "<<_fname<<" Not founds "<<std::endl;
+    std::cout <<"File : "<<_fname<<" Not found \n";
     return;
   }
   // write out some comments
-  fileOut<<"# This file was created by ngl Obj exporter "<<_fname.c_str()<<std::endl;
+  fileOut<<"# This file was created by ngl Obj exporter "<<_fname.c_str()<<'\n';
   // was c++ 11  for(Vec3 v : m_norm) for all of these
   // write out the verts
   for(Vec3 v : m_verts)
   {
-    fileOut<<"v "<<v.m_x<<" "<<v.m_y<<" "<<v.m_z<<std::endl;
+    fileOut<<"v "<<v.m_x<<" "<<v.m_y<<" "<<v.m_z<<'\n';
   }
 
   // write out the tex cords
   for(Vec3 v : m_tex)
   {
-    fileOut<<"vt "<<v.m_x<<" "<<v.m_y<<std::endl;
+    fileOut<<"vt "<<v.m_x<<" "<<v.m_y<<'\n';
   }
   // write out the normals
 
   for(Vec3 v : m_norm)
   {
-    fileOut<<"vn "<<v.m_x<<" "<<v.m_y<<" "<<v.m_z<<std::endl;
+    fileOut<<"vn "<<v.m_x<<" "<<v.m_y<<" "<<v.m_z<<'\n';
   }
 
   // finally the faces
@@ -333,7 +333,7 @@ void Obj::save(const std::string& _fname)const noexcept
     fileOut<<f.m_norm[i]+1;
     fileOut<<" ";
   }
-  fileOut<<std::endl;
+  fileOut<<'\n';
   }
 }
 

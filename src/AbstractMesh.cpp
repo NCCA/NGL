@@ -224,12 +224,12 @@ void AbstractMesh::createVAO() noexcept
 	if(isTriangular())
 	{
 		m_dataPackType=GL_TRIANGLES;
-		std::cout <<"Doing Tri Data"<<std::endl;
+    std::cout <<"Doing Tri Data\n";
 	}
 	// data is mixed of > quad so exit error
 	if(m_dataPackType == 0)
 	{
-		std::cerr<<"Can only create VBO from all Triangle or ALL Quad data at present"<<std::endl;
+    std::cerr<<"Can only create VBO from all Triangle or ALL Quad data at present\n";
 		exit(EXIT_FAILURE);
 	}
 
@@ -445,7 +445,7 @@ void AbstractMesh::saveNCCABinaryMesh( const std::string &_fname  ) noexcept
   file.open(_fname.c_str(),std::ios::out | std::ios::binary);
   if (!file.is_open())
   {
-    std::cerr<<"problems Opening File "<<_fname<<std::endl;
+    std::cerr<<"problems Opening File "<<_fname<<'\n';
     return;
   }
   // lets write out our own Magic Number file ID
@@ -479,7 +479,7 @@ void AbstractMesh::saveNCCABinaryMesh( const std::string &_fname  ) noexcept
   file.write(reinterpret_cast <char *>(&  m_bufferPackSize),sizeof(unsigned int));
   /// now we can dump the data from the vbo
   unsigned int size=m_indexSize*m_bufferPackSize*sizeof(GLfloat);
-  std::cout<<"size is"<<size<<std::endl;
+  std::cout<<"size is"<<size<<'\n';
   file.write(reinterpret_cast <char *>(&size),sizeof(unsigned int));
 
 
@@ -489,7 +489,7 @@ void AbstractMesh::saveNCCABinaryMesh( const std::string &_fname  ) noexcept
   // now write the indices
   // first the size
   size=m_outIndices.size();
-  std::cout<<"Size of out indices ="<<size<<std::endl;
+  std::cout<<"Size of out indices ="<<size<<'\n';
   file.write(reinterpret_cast <char *>(&size),sizeof(unsigned int));
 
 

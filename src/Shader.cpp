@@ -19,7 +19,7 @@
 #include <fstream>
 #include "Shader.h"
 #include <string> // needed for windows build as get error otherwise
-
+#include <memory>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Shader.cpp
 /// @brief implementation files for Shader class
@@ -32,24 +32,22 @@ void printInfoLog( const GLuint &_obj)
 {
 	GLint infologLength = 0;
 	GLint charsWritten  = 0;
-	char *infoLog;
-
+  std::unique_ptr<char []> infoLog;
   glGetShaderiv(_obj, GL_INFO_LOG_LENGTH,&infologLength);
   //std::cerr<<"info log length "<<infologLength<<"\n";
   if(infologLength > 0)
   {
-    infoLog = new char[infologLength];
-    glGetShaderInfoLog(_obj, infologLength, &charsWritten, infoLog);
+    infoLog.reset (new char[infologLength]);
+    glGetShaderInfoLog(_obj, infologLength, &charsWritten, infoLog.get());
 
-		std::cerr<<infoLog<<std::endl;
-		delete [] infoLog;
+    std::cerr<<infoLog.get()<<'\n';
 
 	}
 
 }
 
 
-Shader::Shader( std::string _name,  ShaderType _type ) noexcept
+Shader::Shader(const std::string &_name,  ShaderType _type ) noexcept
 {
   m_name=_name;
   m_shaderType = _type;
@@ -102,7 +100,7 @@ void Shader::compile() noexcept
 }
 
 
-void Shader::load( std::string _name ) noexcept
+void Shader::load(const std::string &_name ) noexcept
 {
   // see if we already have some source attached
   if(m_source.empty())

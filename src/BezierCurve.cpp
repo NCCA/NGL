@@ -199,7 +199,7 @@ void BezierCurve::addPoint( const Vec3 &_p    ) noexcept
 	m_order=m_degree+1;
 	m_numKnots=m_numCP+m_order;
 	#ifdef DEBUG
-		std::cout <<"Added "<<m_numCP<<" m_degree "<<m_degree<<" m_numKnots"<<m_numKnots<<" m_order "<<m_order<<std::endl;
+    std::cout <<"Added "<<m_numCP<<" m_degree "<<m_degree<<" m_numKnots"<<m_numKnots<<" m_order "<<m_order<<'\n';
 	#endif
 }
 
@@ -213,7 +213,7 @@ void BezierCurve::addPoint( Real _x,  Real _y, Real _z) noexcept
 
 	m_numKnots=m_numCP+m_degree;
 	#ifdef DEBUG
-		std::cout <<"Added "<<m_numCP<<" m_degree "<<m_degree<<" m_numKnots"<<m_numKnots<<" m_order "<<m_order<<std::endl;
+    std::cout <<"Added "<<m_numCP<<" m_degree "<<m_degree<<" m_numKnots"<<m_numKnots<<" m_order "<<m_order<<'\n';
 	#endif
 }
 //----------------------------------------------------------------------------------------------------------------------

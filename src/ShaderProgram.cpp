@@ -21,11 +21,11 @@
 
 #include "ShaderProgram.h"
 #include "fmt/format.h"
-
+#include <memory>
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
-ShaderProgram::ShaderProgram(std::string _name) noexcept
+ShaderProgram::ShaderProgram(const std::string &_name) noexcept
 {
   // we create a special NULL program so the shader manager can return
   // a NULL object.
@@ -112,13 +112,12 @@ void ShaderProgram::link() noexcept
 
   if(infologLength > 0)
   {
-    char *infoLog = new char[infologLength];
+    std::unique_ptr<char []> infoLog(new char [infologLength]);
     GLint charsWritten  = 0;
 
-    glGetProgramInfoLog(m_programID, infologLength, &charsWritten, infoLog);
+    glGetProgramInfoLog(m_programID, infologLength, &charsWritten, infoLog.get());
 
-    std::cerr<<infoLog<<std::endl;
-    delete [] infoLog;
+    std::cerr<<infoLog.get()<<'\n';
     glGetProgramiv(m_programID, GL_LINK_STATUS,&infologLength);
     if( infologLength == GL_FALSE)
     {

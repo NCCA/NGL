@@ -154,7 +154,7 @@ bool NCCAPointBake::loadBinaryPointBake( const std::string &_fileName) noexcept
   // see if it worked
   if (!file.is_open())
   {
-    std::cerr<<"problems Opening File "<<_fileName<<std::endl;
+    std::cerr<<"problems Opening File "<<_fileName<<'\n';
     return false;
   }
   // lets read in the header and see if the file is valid
@@ -167,7 +167,7 @@ bool NCCAPointBake::loadBinaryPointBake( const std::string &_fileName) noexcept
   {
     // best close the file and exit
     file.close();
-    std::cout<<"this is not an ngl::binpb file "<<std::endl;
+    std::cout<<"this is not an ngl::binpb file \n";
     return false;
   }
 
@@ -209,7 +209,7 @@ bool NCCAPointBake::saveBinaryPointBake( const std::string &_fileName) noexcept
     file.open(_fileName.c_str(),std::ios::out | std::ios::binary);
     if (!file.is_open())
     {
-      std::cerr<<"problems Opening File "<<_fileName<<std::endl;
+      std::cerr<<"problems Opening File "<<_fileName<<'\n';
       return false;
     }
 

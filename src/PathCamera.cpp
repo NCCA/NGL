@@ -71,7 +71,7 @@ PathCamera::PathCamera(const Vec4 &_up, const std::string &_fName, Real _step) n
 
 	if (!FileIn.is_open())
 	{
-		std::cout <<"File : "<<_fName<<" Not found Exiting "<<std::endl;
+    std::cout <<"File : "<<_fName<<" Not found Exiting \n";
 		exit(EXIT_FAILURE);
 	}
   unsigned int nEye,nLook;
@@ -121,7 +121,7 @@ void PathCamera::loadPath( const std::string &_fName) noexcept
 
 	if (!FileIn.is_open())
 	{
-		std::cout <<"File : "<<_fName<<" Not found Exiting "<<std::endl;
+    std::cout <<"File : "<<_fName<<" Not found Exiting \n";
 		exit(EXIT_FAILURE);
 	}
 	/// \todo get this working with loading from a Vector
@@ -157,7 +157,7 @@ void PathCamera::update() noexcept
 {
   Vec3 ept=m_eyePath.getPointOnCurve(m_eyeCurvePoint);
   Vec3 lpt=m_lookPath.getPointOnCurve(m_lookCurvePoint);
-  std::cout <<ept<<lpt<<std::endl;
+  std::cout <<ept<<lpt<<'\n';
   m_eye.set(ept);
   m_look.set(lpt);
   m_n=m_eye-m_look;
