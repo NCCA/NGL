@@ -51,7 +51,7 @@ Random::Random()
   std::uniform_real_distribution<Real> MinusPlusOneFloatDistrib(-1.0f, 1.0f);
   m_floatGenerators[RandomFloat] =MinusPlusOneFloatDistrib;
   // same for below but using 0-1 for distrib
-  std::uniform_real_distribution<Real> ZeroOneFloatDistrib(0.0, 1.0);
+  std::uniform_real_distribution<Real> ZeroOneFloatDistrib(0.0f, 1.0f);
   m_floatGenerators[RandomPositiveFloat] =ZeroOneFloatDistrib;
 }
 

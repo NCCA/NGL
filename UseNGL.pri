@@ -63,6 +63,7 @@ win32: {
         LIBS+= -lopengl32
         LIBS += -LC:/NGL/lib/ -lNGL
         DEFINES+=NO_DLL
+        DEFINES+=BOOST_ALL_NO_LIB
 }
 
 ios {

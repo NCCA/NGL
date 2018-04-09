@@ -138,7 +138,7 @@ TEST(NGLMat4,Mat4xMat4)
   ngl::Mat4 t2;
   t1.rotateX(45.0f);
   t2.rotateY(35.0f);
-  ngl::Mat4 test=t1*t2;
+  ngl::Mat4 test=t2*t1;
   ngl::Mat4 result(0.819152f,0,-0.573577f,0,0.40558f,0.707107f,0.579228f,0,0.40558f,-0.707107f,0.579228f,0,0,0,0,1);
   EXPECT_TRUE(test == result);
 }
