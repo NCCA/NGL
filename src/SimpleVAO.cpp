@@ -59,6 +59,8 @@ namespace ngl
     bind();
     glBindBuffer(GL_ARRAY_BUFFER, m_id);
     ptr = static_cast<Real *>(glMapBuffer(GL_ARRAY_BUFFER, _accessMode));
+    //ptr = static_cast<Real *>(glMapNamedBuffer(m_id, _accessMode));
+
     return ptr;
   }
 

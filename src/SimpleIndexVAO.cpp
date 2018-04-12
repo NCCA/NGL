@@ -29,6 +29,7 @@ namespace ngl
     if( m_allocated ==true)
     {
         glDeleteBuffers(1,&m_buffer);
+        glDeleteBuffers(1,&m_idxBuffer);
     }
     glDeleteVertexArrays(1,&m_id);
     m_allocated=false;
@@ -43,14 +44,19 @@ namespace ngl
     {
     std::cerr<<"trying to set VOA data when unbound\n";
     }
-    GLuint vboID;
-    glGenBuffers(1, &vboID);
+    if( m_allocated ==true)
+    {
+        glDeleteBuffers(1,&m_buffer);
+    }
 
-    GLuint iboID;
-    glGenBuffers(1, &iboID);
+//    GLuint vboID;
+    glGenBuffers(1, &m_buffer);
+
+//    GLuint iboID;
+    glGenBuffers(1, &m_idxBuffer);
 
     // now we will bind an array buffer to the first one and load the data for the verts
-    glBindBuffer(GL_ARRAY_BUFFER, vboID);
+    glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
     glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(data.m_size), &data.m_data, data.m_mode);
     // we need to determine the size of the data type before we set it
     // in default to a ushort
@@ -63,7 +69,7 @@ namespace ngl
       default : std::cerr<<"wrong data type send for index value\n"; break;
     }
     // now for the indices
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_idxBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.m_indexSize * static_cast<GLsizeiptr>(size), const_cast<GLvoid *>(data.m_indexData),data.m_mode);
 
     m_allocated=true;
@@ -74,7 +80,7 @@ namespace ngl
   {
     Real *ptr=nullptr;
     bind();
-    glBindBuffer(GL_ARRAY_BUFFER, m_id);
+    glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
     ptr = static_cast<Real *>(glMapBuffer(GL_ARRAY_BUFFER, _accessMode));
     return ptr;
   }
