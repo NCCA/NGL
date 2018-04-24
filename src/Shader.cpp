@@ -20,6 +20,8 @@
 #include "Shader.h"
 #include <string> // needed for windows build as get error otherwise
 #include <memory>
+#include <QString>
+#include <QCoreApplication>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Shader.cpp
 /// @brief implementation files for Shader class
@@ -30,8 +32,8 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 void printInfoLog( const GLuint &_obj)
 {
-	GLint infologLength = 0;
-	GLint charsWritten  = 0;
+    GLint infologLength = 0;
+    GLint charsWritten  = 0;
   std::unique_ptr<char []> infoLog;
   glGetShaderiv(_obj, GL_INFO_LOG_LENGTH,&infologLength);
   //std::cerr<<"info log length "<<infologLength<<"\n";
@@ -42,7 +44,7 @@ void printInfoLog( const GLuint &_obj)
 
     std::cerr<<infoLog.get()<<'\n';
 
-	}
+    }
 
 }
 
@@ -112,6 +114,9 @@ void Shader::load(const std::string &_name ) noexcept
   if (!shaderSource.is_open())
   {
    std::cerr<<"File not found "<<_name.c_str()<<"\n";
+   // grab absolute path to our executable directory
+      QString executablePath = QCoreApplication::applicationDirPath();
+      std::cerr<<"trying to load shader from absoulute path:\n"<<executablePath.toStdString()<<"/"<<_name.c_str()<<'\n';
    exit(EXIT_FAILURE);
   }
   // now read in the data
