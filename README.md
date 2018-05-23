@@ -1,27 +1,16 @@
 # NGL the NCCA Graphics Library
-This is the main source branch for the NCCA Graphics Library ngl.
-## News
 
-NGL has been updated for 2017, The deprecated VertexArrayObject class has been removed and you should now use the VAOFactory and associated classes.
+NGL 7 Alpha branch this is the cutting edge work in progress for the new master.
 
-ShaderLib now has one method to set uniforms (setUniform) these are overloaded and use the internally registered shader locations once the shaders have been loaded.
+## Planned Changes
 
-The Matrix Classes have been updated to be compatible with GLM this means that the order of operations for generating MVP is now the same as glm, before we used to do
-
-```
-M  = m_transform.getMatrix()*m_mouseGlobalTX;
-MV = M*m_cam.getViewMatrix();
-MVP= MV*m_cam.getProjectionMatrix();
-```
-
-This is now (as with most OpenGL literature and libraries)
-
-```
-M  = m_mouseGlobalTX*m_transform.getMatrix();
-MV = m_cam.getViewMatrix()*M;
-MVP= m_cam.getProjectionMatrix()*MV;
-```
-
+Remove all boost dependancies
+Remove all GLEW elements and replace with [gl3w](https://github.com/skaslev/gl3w)
+Remove Camera, Light, Material as classes and replace with simple structs.
+Autogenerate (from gl3w python style code) all bindings for shaderLib to make changes to code easier.
+New Obj Class to remove boost spirit (and make it copyable for Cos!)
+Better Python integration
+Better abstraction from Qt for certain types (and have SDL replacements as a compile switch (i.e. font text classes)
 
 ## Building
 
