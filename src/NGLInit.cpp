@@ -38,7 +38,7 @@ namespace ngl
 
 NGLInit::NGLInit()
 {
-#ifndef USINGIOS_
+#if defined(USINGIOS_) || !defined(__APPLE__)
 
   if (gl3wInit())
   {
@@ -54,6 +54,7 @@ NGLInit::NGLInit()
     std::cerr<<"for more info contact Jon\n";
     exit(EXIT_FAILURE);
   }
+#endif
   std::cerr<<"NGL configured with \n";
   std::cerr<<"OpenGL " << glGetString(GL_VERSION);
   std::cerr<<" GLSL version "<<glGetString(GL_SHADING_LANGUAGE_VERSION)<<'\n';
@@ -62,7 +63,6 @@ NGLInit::NGLInit()
   VAOFactory::registerVAOCreator(simpleVAO,SimpleVAO::create);
   VAOFactory::registerVAOCreator(multiBufferVAO,MultiBufferVAO::create);
   VAOFactory::registerVAOCreator(simpleIndexVAO,SimpleIndexVAO::create);
-#endif
 }
 
 //----------------------------------------------------------------------------------------------------------------------

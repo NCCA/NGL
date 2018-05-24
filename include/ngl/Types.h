@@ -25,10 +25,12 @@
 #ifdef __APPLE__
   #include <unistd.h>
   #ifndef USINGIOS_
-    #include "gl3w.h"
+    #include <OpenGL/gl.h>
+    #include <OpenGL/gl3.h>
+    #include <OpenGL/gl3ext.h>
   #else
-//    #include <OpenGLES/ES3/gl.h>
-//    #include <OpenGLES/ES3/glext.h>
+    #include <OpenGLES/ES3/gl.h>
+    #include <OpenGLES/ES3/glext.h>
   #endif
 
   #include <TargetConditionals.h>
@@ -38,7 +40,6 @@
 
 #else
   #include "gl3w.h"
-//  #include <GL/gl.h>
 #endif
 
 
