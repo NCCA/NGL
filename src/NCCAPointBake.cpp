@@ -281,10 +281,10 @@ void NCCAPointBake::setMeshToFrame(  const unsigned int _frame) noexcept
 bool NCCAPointBake::attachMesh(AbstractMesh *_mesh) noexcept
 {
   std::cout<<"doing attach mesh\n";
-  if(_mesh->m_nVerts != m_nVerts)
+  if(_mesh->m_verts.size() != m_nVerts)
   {
     std::cerr <<" Mesh can't be attached to this data as vert count does not match\n";
-    std::cerr<<"mesh verts "<<_mesh->m_nVerts<<" file verts "<<m_nVerts<<"\n";
+    std::cerr<<"mesh verts "<<_mesh->m_verts.size()<<" file verts "<<m_nVerts<<"\n";
     return false;
   }
 

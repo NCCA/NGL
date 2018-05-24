@@ -50,7 +50,7 @@ void AbstractMesh::scale(Real _sx, Real _sy, Real _sz ) noexcept
     m_center+=v;
   }
 // calculate the center
-  m_center/=m_nVerts;
+  m_center/=m_verts.size();
   calcDimensions();
 }
 
@@ -63,7 +63,7 @@ AbstractMesh::~AbstractMesh() noexcept
   {
     m_verts.erase(m_verts.begin(),m_verts.end());
     m_norm.erase(m_norm.begin(),m_norm.end());
-    m_tex.erase(m_tex.begin(),m_tex.end());
+    m_uv.erase(m_uv.begin(),m_uv.end());
     m_face.erase(m_face.begin(),m_face.end());
     m_indices.erase(m_indices.begin(),m_indices.end());
     m_outIndices.erase(m_outIndices.begin(),m_outIndices.end());
@@ -81,9 +81,9 @@ void AbstractMesh::loadTexture( const std::string& _fName  ) noexcept
 {
 	// load in the texture
 	Texture  *t=new Texture(_fName);
-	m_textureID=t->setTextureGL();
+  m_textureID=t->setTextureGL();
 	delete t;
-	m_texture=true;
+  m_texture=true;
 }
 
 /// @todo correct the rib exporter and  add Normal information to  the export
@@ -111,7 +111,7 @@ void AbstractMesh::writeToRibSubdiv(RibExport& _ribFile )const noexcept
     _ribFile.getStream() << "SubdivisionMesh \"catmull-clark\" [ ";
 
 		// Loop through all the Polygons
-		for (unsigned long  int I=0; I<m_nVerts; ++I)
+    for (unsigned long  int I=0; I<m_verts.size(); ++I)
 		{
 		// Print the count of vertices for the current polygon to the rib
 		_ribFile.getStream() << m_face[I].m_numVerts << " ";
@@ -239,7 +239,7 @@ void AbstractMesh::createVAO() noexcept
 
 
 	// loop for each of the faces
-	for(unsigned int i=0;i<m_nFaces;++i)
+  for(unsigned int i=0;i<m_face.size();++i)
 	{
 		// now for each triangle in the face (remember we ensured tri above)
     for(unsigned int j=0;j<3;++j)
@@ -250,17 +250,17 @@ void AbstractMesh::createVAO() noexcept
 			d.y=m_verts[m_face[i].m_vert[j]].m_y;
 			d.z=m_verts[m_face[i].m_vert[j]].m_z;
 			// now if we have norms of tex (possibly could not) pack them as well
-			if(m_nNorm >0 && m_nTex > 0)
+      if(m_norm.size() >0 && m_uv.size() > 0)
 			{
         d.nx=m_norm[m_face[i].m_norm[j]].m_x;
         d.ny=m_norm[m_face[i].m_norm[j]].m_y;
         d.nz=m_norm[m_face[i].m_norm[j]].m_z;
 
-				d.u=m_tex[m_face[i].m_tex[j]].m_x;
-				d.v=m_tex[m_face[i].m_tex[j]].m_y;
+        d.u=m_uv[m_face[i].m_uv[j]].m_x;
+        d.v=m_uv[m_face[i].m_uv[j]].m_y;
       }
       // now if neither are present (only verts like Zbrush models)
-      else if(m_nNorm ==0 && m_nTex==0)
+      else if(m_norm.size() ==0 && m_uv.size()==0)
       {
         d.nx=0;
         d.ny=0;
@@ -269,7 +269,7 @@ void AbstractMesh::createVAO() noexcept
         d.v=0;
       }
       // here we've got norms but not tex
-      else if(m_nNorm >0 && m_nTex==0)
+      else if(m_norm.size() >0 && m_uv.size()==0)
       {
         d.nx=m_norm[m_face[i].m_norm[j]].m_x;
         d.ny=m_norm[m_face[i].m_norm[j]].m_y;
@@ -278,13 +278,13 @@ void AbstractMesh::createVAO() noexcept
         d.v=0;
       }
       // here we've got tex but not norm least common
-      else if(m_nNorm ==0 && m_nTex>0)
+      else if(m_norm.size() ==0 && m_uv.size()>0)
       {
         d.nx=0;
         d.ny=0;
         d.nz=0;
-        d.u=m_tex[m_face[i].m_tex[j]].m_x;
-        d.v=m_tex[m_face[i].m_tex[j]].m_y;
+        d.u=m_uv[m_face[i].m_uv[j]].m_x;
+        d.v=m_uv[m_face[i].m_uv[j]].m_y;
       }
     vboMesh.push_back(d);
     }
@@ -400,7 +400,7 @@ void AbstractMesh::calcDimensions() noexcept
   {
     m_center+=v;
   }
-  m_center/=m_nVerts;
+  m_center/=m_verts.size();
   // calculate the extents
   m_maxX=m_minX=m_center.m_x;
   m_maxY=m_minY=m_center.m_y;
@@ -413,7 +413,7 @@ void AbstractMesh::calcDimensions() noexcept
   {
     m_center+=v;
   }
-  m_center/=m_nVerts;
+  m_center/=m_verts.size();
   // calculate the extents
   m_maxX=m_minX=m_center.m_x;
   m_maxY=m_minY=m_center.m_y;
@@ -452,15 +452,15 @@ void AbstractMesh::saveNCCABinaryMesh( const std::string &_fname  ) noexcept
   const std::string header("ngl::bin");
   file.write(header.c_str(),header.length());
   /// The number of vertices in the object
-  file.write(reinterpret_cast <char *>(&m_nVerts),sizeof(unsigned long int));
+  file.write(reinterpret_cast <char *>(m_verts.size()),sizeof(unsigned long int));
   /// The number of normals in the object
-  file.write(reinterpret_cast <char *>(&m_nNorm),sizeof(unsigned long int));
+  file.write(reinterpret_cast <char *>(m_norm.size()),sizeof(unsigned long int));
 
   /// the number of texture co-ordinates in the object
-  file.write(reinterpret_cast <char *>(&m_nTex),sizeof(unsigned long int));
+  file.write(reinterpret_cast <char *>(m_uv.size()),sizeof(unsigned long int));
 
   /// the number of faces in the object
-  file.write(reinterpret_cast <char *>(&m_nFaces),sizeof(unsigned long int));
+  file.write(reinterpret_cast <char *>(m_face.size()),sizeof(unsigned long int));
   file.write(reinterpret_cast <char *>(&m_center.m_x),sizeof(Real));
   file.write(reinterpret_cast <char *>(&m_center.m_y),sizeof(Real));
   file.write(reinterpret_cast <char *>(&m_center.m_z),sizeof(Real));

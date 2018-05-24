@@ -69,7 +69,7 @@ void Obj::parseTextureCoordinate(const char * _begin ) noexcept
   // build tex cord
   // if we have a value use it other wise set to 0
   Real vt3 = values.size() == 3 ? values[2] : 0.0f;
-  m_tex.push_back(Vec3(values[0],values[1],vt3));
+  m_uv.push_back(Vec3(values[0],values[1],vt3));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -162,7 +162,7 @@ void Obj::parseFace(const char * _begin   )  noexcept
     // copy in these references to normal vectors to the mesh's normal vector
     for(auto i : tvec)
     {
-      f.m_tex.push_back(i-1);
+      f.m_uv.push_back(i-1);
     }
 
     f.m_textureCoord=true;
@@ -173,7 +173,7 @@ void Obj::parseFace(const char * _begin   )  noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-bool Obj::load(const std::string &_fname,CalcBB _calcBB )  noexcept
+bool Obj::load(const std::string_view &_fname,CalcBB _calcBB )  noexcept
 {
  // here we build up our ebnf rules for parsing
   // so first we have a comment
@@ -195,10 +195,10 @@ bool Obj::load(const std::string &_fname,CalcBB _calcBB )  noexcept
   // the rule for the face and parser
   srule  face = (spt::ch_p('f') >> *(spt::anychar_p))[bind(&Obj::parseFace, boost::ref(*this), _1)];
   // open the file to parse
-  std::ifstream in(_fname.c_str());
+  std::ifstream in(_fname.data());
   if (in.is_open() != true)
   {
-    std::cout<<"FILE NOT FOUND !!!! "<<_fname.c_str()<<"\n";
+    std::cout<<"FILE NOT FOUND !!!! "<<_fname.data()<<"\n";
     return false;
 
   }
@@ -212,11 +212,11 @@ bool Obj::load(const std::string &_fname,CalcBB _calcBB )  noexcept
   in.close();
 
   // grab the sizes used for drawing later
-  m_nVerts=static_cast<unsigned int>(m_verts.size());
+/*  m_nVerts=static_cast<unsigned int>(m_verts.size());
   m_nNorm=static_cast<unsigned int>(m_norm.size());
-  m_nTex=static_cast<unsigned int>(m_tex.size());
+  m_nTex=static_cast<unsigned int>(m_uv.size());
   m_nFaces=static_cast<unsigned int>(m_face.size());
-
+*/
 
   // Calculate the center of the object.
   if(_calcBB == CalcBB::True)
@@ -231,13 +231,13 @@ bool Obj::load(const std::string &_fname,CalcBB _calcBB )  noexcept
 Obj::Obj(const std::string& _fname  , ngl::Obj::CalcBB _clacBB)  noexcept :AbstractMesh()
 {
     m_vbo=false;
-    m_ext=0;
+    m_ext=nullptr;
     // set default values
-    m_nVerts=m_nNorm=m_nTex=m_nFaces=0;
+ //   m_nVerts=m_nNorm=m_nTex=m_nFaces=0;
     //set the default extents to 0
     m_maxX=0.0f; m_maxY=0.0f; m_maxZ=0.0f;
     m_minX=0.0f; m_minY=0.0f; m_minZ=0.0f;
-    m_nNorm=m_nTex=0;
+   // m_nNorm=m_nTex=0;
 
     // load the file in
     m_loaded=load(_fname,_clacBB);
@@ -250,13 +250,13 @@ Obj::Obj( const char *_fname,const char *_texName, CalcBB _calcBB  )  noexcept:A
 {
   m_vbo=false;
   m_vao=false;
-  m_ext=0;
+  m_ext=nullptr;
   // set default values
-  m_nVerts=m_nNorm=m_nTex=m_nFaces=0;
+ // m_nVerts=m_nNorm=m_nTex=m_nFaces=0;
   //set the default extents to 0
   m_maxX=0.0f; m_maxY=0.0f; m_maxZ=0.0f;
   m_minX=0.0f; m_minY=0.0f; m_minZ=0.0f;
-  m_nNorm=m_nTex=0;
+ // m_nNorm=m_nTex=0;
   // load the file in
   m_loaded=load(_fname,_calcBB);
 
@@ -268,15 +268,15 @@ Obj::Obj( const char *_fname,const char *_texName, CalcBB _calcBB  )  noexcept:A
 
 Obj::Obj( const std::string& _fname,const std::string& _texName, CalcBB _calcBB  )  noexcept:AbstractMesh()
 {
-    m_vbo=false;
-    m_vao=false;
-    m_ext=0;
+    //m_vbo=false;
+    //m_vao=false;
+    //m_ext=0;
     // set default values
-    m_nVerts=m_nNorm=m_nTex=m_nFaces=0;
+    //m_nVerts=m_nNorm=m_nTex=m_nFaces=0;
     //set the default extents to 0
-    m_maxX=0.0f; m_maxY=0.0f; m_maxZ=0.0f;
-    m_minX=0.0f; m_minY=0.0f; m_minZ=0.0f;
-    m_nNorm=m_nTex=0;
+    //m_maxX=0.0f; m_maxY=0.0f; m_maxZ=0.0f;
+    //m_minX=0.0f; m_minY=0.0f; m_minZ=0.0f;
+    //m_nNorm=m_nTex=0;
     // load the file in
     m_loaded=load(_fname,_calcBB);
 
@@ -306,7 +306,7 @@ void Obj::save(const std::string& _fname)const noexcept
   }
 
   // write out the tex cords
-  for(Vec3 v : m_tex)
+  for(Vec3 v : m_uv)
   {
     fileOut<<"vt "<<v.m_x<<" "<<v.m_y<<'\n';
   }
@@ -327,7 +327,7 @@ void Obj::save(const std::string& _fname)const noexcept
     // don't forget that obj indices start from 1 not 0 (i did originally !)
     fileOut<<f.m_vert[i]+1;
     fileOut<<"/";
-    fileOut<<f.m_tex[i]+1;
+    fileOut<<f.m_uv[i]+1;
     fileOut<<"/";
 
     fileOut<<f.m_norm[i]+1;

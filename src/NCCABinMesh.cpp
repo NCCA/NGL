@@ -52,7 +52,7 @@ bool NCCABinMesh::load(const std::string &_fname, CalcBB _calcBB) noexcept
     std::cout<<"this is not an ngl::bin file "<<'\n';
     return false;
   }
-
+  Real m_nVerts,m_nNorm,m_nTex,m_nFaces;
   /// The number of vertices in the object
   file.read(reinterpret_cast <char *> (&m_nVerts),sizeof(unsigned long int));
   /// The number of normals in the object
