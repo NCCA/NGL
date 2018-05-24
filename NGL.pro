@@ -76,7 +76,6 @@ DEFINES += NGL_DEBUG
 # location cp -R boost_1_49_0/boost /usr/local/include under linux use apt-get install
 unix:INCLUDEPATH+=/usr/local/include
 #set some flags for sse etc
-QMAKE_CFLAGS+= -DGLEW_NO_GLU -DGLEW_STATIC
 unix:QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
 macx:DEFINES +=GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 macx {
@@ -85,10 +84,10 @@ QMAKE_POST_LINK = install_name_tool -id @rpath/$$PWD/lib/libNGL.1.0.0.dylib $$PW
 
 # this is where to look for includes
 INCLUDEPATH += $$BASE_DIR/include/ngl
-INCLUDEPATH += $$BASE_DIR/glew/
 INCLUDEPATH += $$BASE_DIR/src/ngl
 INCLUDEPATH +=$$BASE_DIR/src/shaders
 INCLUDEPATH +=$$BASE_DIR/include/rapidjson
+INCLUDEPATH +=$$BASE_DIR/gl3w/
 # using the fmt library https://github.com/fmtlib/fmt but header only.
 DEFINES+=FMT_HEADER_ONLY
 INCLUDEPATH +=$$BASE_DIR/include/fmt
@@ -139,7 +138,6 @@ win32{
 				DEFINES+= _SCL_SECURE_NO_WARNINGS
 				DESTDIR=c:/
 				DEFINES += NO_DLL
-				DEFINES += GLEW_STATIC
 }
 
 
@@ -184,12 +182,10 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
     $$SRC_DIR/AbstractVAO.cpp \
     $$SRC_DIR/MultiBufferVAO.cpp \
     $$SRC_DIR/SimpleVAO.cpp \
-    $$SRC_DIR/SimpleIndexVAO.cpp
+    $$SRC_DIR/SimpleIndexVAO.cpp \
+    $$PWD/gl3w/gl3w.c
 
-#exclude this from iOS
-win32|unix|macx:{
-	SOURCES+=glew/glew.c
-}
+
 ios {
 	message("IOS BUILD")
 	DEFINES+=USINGIOS_
@@ -197,9 +193,7 @@ ios {
 
 
 
-isEqual(QT_MAJOR_VERSION, 4) {
-			OBJECTIVE_SOURCES += $$SRC_DIR/setGL32VisualMac.mm
-}
+
 
 HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/VAOPrimitives.h \
@@ -252,7 +246,8 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/rapidxml/rapidxml.hpp \
 		$$INC_DIR/rapidxml/rapidxml_iterators.hpp \
 		$$INC_DIR/rapidxml/rapidxml_print.hpp \
-		$$INC_DIR/rapidxml/rapidxml_utils.hpp
+    $$INC_DIR/rapidxml/rapidxml_utils.hpp \
+    $$PWD/gl3w/gl3w.h
 
 
 

@@ -39,32 +39,26 @@ namespace ngl
 NGLInit::NGLInit()
 {
 #ifndef USINGIOS_
-  // set this first so that new driver features are included.
-  glewExperimental = true;
-  // now init glew
-  GLenum err = glewInit();
-  // error check
-  if (GLEW_OK != err)
+
+  if (gl3wInit())
   {
-    std::cerr<<"Error: "<<glewGetErrorString(err)<<"\n";
+     std::cerr<<"failed to initialize OpenGL\n";
+     exit(EXIT_FAILURE);
   }
-  // now see if NGL can run in this environment
-  std::cout<<"Using GLEW "<<glewGetString(GLEW_VERSION)<<"\n";
-  if(!glewIsSupported("GL_VERSION_3_2") )
+  if (!gl3wIsSupported(3, 2))
   {
     std::cerr<<"To run these demos you need a modern OpenGL Version\n";
     std::cerr<<"The lowest level OpenGL we support is 3.2\n";
     std::cerr<<"It could be you don't have the correct drivers installed\n";
     std::cerr<<"Or if linux on a laptop it could be using the intel driver and not the GPU\n";
     std::cerr<<"for more info contact Jon\n";
+    exit(EXIT_FAILURE);
+  }
+  std::cerr<<"NGL configured with \n";
+  std::cerr<<"OpenGL " << glGetString(GL_VERSION);
+  std::cerr<<" GLSL version "<<glGetString(GL_SHADING_LANGUAGE_VERSION)<<'\n';
 
-	}
-	int majorVersion,minorVersion;
-	glGetIntegerv(GL_MAJOR_VERSION, &majorVersion);
-	glGetIntegerv(GL_MINOR_VERSION, &minorVersion);
-	#ifdef NGL_DEBUG
-		std::cerr <<"ngl:: configured with GL version "<<majorVersion<<"."<<minorVersion<<"\n";
-	#endif
+
   VAOFactory::registerVAOCreator(simpleVAO,SimpleVAO::create);
   VAOFactory::registerVAOCreator(multiBufferVAO,MultiBufferVAO::create);
   VAOFactory::registerVAOCreator(simpleIndexVAO,SimpleIndexVAO::create);

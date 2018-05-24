@@ -25,27 +25,24 @@
 #ifdef __APPLE__
   #include <unistd.h>
   #ifndef USINGIOS_
-    #include "glew.h"
+    #include "gl3w.h"
   #else
-    #include <OpenGLES/ES3/gl.h>
-    #include <OpenGLES/ES3/glext.h>
+//    #include <OpenGLES/ES3/gl.h>
+//    #include <OpenGLES/ES3/glext.h>
   #endif
 
   #include <TargetConditionals.h>
   #ifndef TARGET_OS_IPHONE
-    #include <OpenGL/glext.h>
+//    #include <OpenGL/glext.h>
 #endif
 
 #else
-  #include "glew.h"
-  #include <GL/gl.h>
+  #include "gl3w.h"
+//  #include <GL/gl.h>
 #endif
 
 
 
-#ifndef QT5BUILD
-  #include <QtOpenGL/QGLContext>
-#endif
 
 //----------------------------------------------------------------------------------------------------------------------
 // DLL Glue for windows build / apps
@@ -65,38 +62,7 @@
     #define NGL_DLLEXPORT
 #endif
 
-// #ifdef DARWIN
-//     #ifndef GL_TESS_CONTROL_SHADER
-//         #define GL_TESS_CONTROL_SHADER 0x00008e88
-//     #endif
-//     #ifndef GL_TESS_EVALUATION_SHADER
-//         #define GL_TESS_EVALUATION_SHADER 0x00008e87
-//     #endif
-//     #ifndef GL_PATCHES
-//         #define GL_PATCHES 0x0000000e
-//     #endif
-// #endif
 
-
-  extern void* setGL32VisualMac(bool _multisample=true);
-#ifndef QT5BUILD
-#include <QGLContext>
-  class CreateCoreGLContext : public QGLContext
-  {
-   public :
-    CreateCoreGLContext(const QGLFormat& format, QPaintDevice* device) : QGLContext(format,device) {;}
-    CreateCoreGLContext(const QGLFormat& format) : QGLContext(format) {;}
-    // under mac this is called and we create the context for GL3.2
-    #ifdef DARWIN
-      #ifndef QT5BUILD
-        virtual void* chooseMacVisual()
-        {
-          return setGL32VisualMac();
-        }
-      #endif
-    #endif
-  };
-#endif
 //----------------------------------------------------------------------------------------------------------------------
 /// @file types.h
 /// @brief declare a variable called Real which sets the Global Precision for the other classes (GLfloat)
@@ -146,7 +112,6 @@ constexpr auto simpleVAO="simpleVAO";
 //constexpr auto SimpleVAO="simpleVAO";
 constexpr auto multiBufferVAO="multiBufferVAO";
 constexpr auto simpleIndexVAO="simpleIndexVAO";
-
 
 
 

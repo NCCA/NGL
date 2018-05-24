@@ -51,7 +51,8 @@ macx:message("Modify UseNGL.pri and modify QMAKE_MACK_SDK to macosx10.12 or what
 #macx:QMAKE_MAC_SDK = macosx10.13
 
 # this is where to look for includes
-INCLUDEPATH += $${NGLBASE}/include/
+INCLUDEPATH += $${NGLBASE}/include/ 
+INCLUDEPATH += $${NGLBASE}/gl3w/
 
 win32: {
         PRE_TARGETDEPS+=C:/NGL/lib/NGL.lib
