@@ -301,6 +301,14 @@ void Mat3::scale(Real _x,  Real _y,  Real _z) noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void Mat3::translate( const Real _x,const Real _y,  const Real _z ) noexcept
+{
+  m_30 = _x;
+  m_31 = _y;
+  m_32 = _z;
+}
+
+//----------------------------------------------------------------------------------------------------------------------
 Vec3 Mat3::operator * (const Vec3 &_v) const noexcept
 {
   Vec3 temp;

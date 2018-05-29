@@ -6,11 +6,7 @@
 #include <sstream>
 
 
-int main(int argc, char **argv)
-{
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
+
 
 std::string print(const ngl::Vec4 &_m)
 {
@@ -24,14 +20,14 @@ std::string print(const ngl::Vec4 &_m)
 
 
 
-TEST(NGLVec4,DefaultCtor)
+TEST(Vec4,DefaultCtor)
 {
   ngl::Vec4 test;
   ngl::Vec4 result(0.0f,0.0f,0.0f,1.0);
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLVec4,SubScript)
+TEST(Vec4,SubScript)
 {
   ngl::Vec4 test(1.0f,2.0f,3.0f,4.0f);
 
@@ -44,7 +40,7 @@ TEST(NGLVec4,SubScript)
 
 
 
-TEST(NGLVec4,FloatCtor)
+TEST(Vec4,FloatCtor)
 {
   ngl::Vec4 test(1.0f,2.0f,3.0f,4.0f);
   ngl::Vec4 result(1.0f,2.0f,3.0f,4.0f);
@@ -53,7 +49,7 @@ TEST(NGLVec4,FloatCtor)
 }
 
 
-TEST(NGLVec4,CopyCtor)
+TEST(Vec4,CopyCtor)
 {
   ngl::Vec4 test(1.0f,2.0f,3.0f,5.0f);
   ngl::Vec4 copy(test);
@@ -61,7 +57,7 @@ TEST(NGLVec4,CopyCtor)
   EXPECT_TRUE(copy == result);
 }
 
-TEST(NGLVec4,AssignOperator)
+TEST(Vec4,AssignOperator)
 {
   ngl::Vec4 test(1.0f,2.0f,3.0f);
   ngl::Vec4 copy=test;
@@ -70,7 +66,7 @@ TEST(NGLVec4,AssignOperator)
 }
 
 
-TEST(NGLVec4,VectorTest)
+TEST(Vec4,VectorTest)
 {
   std::vector<ngl::Vec4> a(10);
   std::vector<ngl::Vec4> b(10);
@@ -95,21 +91,21 @@ TEST(NGLVec4,VectorTest)
 
 }
 
-TEST(NGLVec4,DotProduct)
+TEST(Vec4,DotProduct)
 {
   ngl::Vec4 a(1.0f,2.0f,3.0f);
   ngl::Vec4 b(4.0f,5.0f,6.0f);
   ASSERT_FLOAT_EQ(a.dot(b),32.0f);
 }
 
-TEST(NGLVec4,NULL)
+TEST(Vec4,NULL)
 {
   ngl::Vec4 test(1,2,4);
   test.null();
   ASSERT_TRUE(test==ngl::Vec4::zero());
 }
 
-TEST(NGLVec4,normalize)
+TEST(Vec4,normalize)
 {
   ngl::Vec4 test(22.3f,0.5f,10.0f);
   test.normalize();
@@ -119,14 +115,14 @@ TEST(NGLVec4,normalize)
 }
 
 
-TEST(NGLVec4,Inner)
+TEST(Vec4,Inner)
 {
   ngl::Vec4 a(1.0,2.0,3.0);
   ngl::Vec4 b(3.0,4.0,5.0);
   ASSERT_FLOAT_EQ(a.inner(b),26.0f);
 }
 
-TEST(NGLVec4,Outer)
+TEST(Vec4,Outer)
 {
   ngl::Vec4 a(1.0f,2.0f,3.0f,4.0f);
   ngl::Vec4 b(5.0f,6.0f,7.0f,8.0f);
@@ -135,21 +131,21 @@ TEST(NGLVec4,Outer)
   ASSERT_TRUE(outer==result);
 }
 
-TEST(NGLVec4,Length)
+TEST(Vec4,Length)
 {
   ngl::Vec4 a(22,1,32);
 
   ASSERT_NEAR(a.length(),38.845f,0.001f);
 }
 
-TEST(NGLVec4,LengthSquared)
+TEST(Vec4,LengthSquared)
 {
   ngl::Vec4 a(22,1,32);
 
   ASSERT_NEAR(a.lengthSquared(),1509.0f,0.001f);
 }
 
-TEST(NGLVec4,Cross2)
+TEST(Vec4,Cross2)
 {
   ngl::Vec4 a=ngl::Vec4::up();
   ngl::Vec4 b=ngl::Vec4::left();
@@ -158,7 +154,7 @@ TEST(NGLVec4,Cross2)
   ASSERT_TRUE(c==ngl::Vec4::in());
 }
 
-TEST(NGLVec4,Cross1)
+TEST(Vec4,Cross1)
 {
   ngl::Vec4 a=ngl::Vec4::up();
   ngl::Vec4 b=ngl::Vec4::left();

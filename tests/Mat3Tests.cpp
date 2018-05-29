@@ -6,11 +6,6 @@
 #include <ngl/NGLStream.h>
 
 
-int main(int argc, char **argv)
-{
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
 
 std::string print(const ngl::Mat3 &_m)
 {
@@ -24,14 +19,14 @@ std::string print(const ngl::Mat3 &_m)
 
 
 
-TEST(NGLMat3,DefaultCtor)
+TEST(Mat3,DefaultCtor)
 {
   ngl::Mat3 test;
   ngl::Mat3 result(1,0,0,0,1,0,0,0,1);
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat3,null)
+TEST(Mat3,null)
 {
   ngl::Mat3 test;
   test.null();
@@ -39,7 +34,7 @@ TEST(NGLMat3,null)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat3,identity)
+TEST(Mat3,identity)
 {
   ngl::Mat3 test;
   test.identity();
@@ -47,7 +42,7 @@ TEST(NGLMat3,identity)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat3,FloatCtor)
+TEST(Mat3,FloatCtor)
 {
   ngl::Mat3 test(2.0);
   ngl::Mat3 result(2,0,0,0,2,0,0,0,2);
@@ -55,7 +50,7 @@ TEST(NGLMat3,FloatCtor)
 }
 
 
-TEST(NGLMat3,CopyCtor)
+TEST(Mat3,CopyCtor)
 {
   ngl::Mat3 test(2.0);
   ngl::Mat3 copy(test);
@@ -63,7 +58,7 @@ TEST(NGLMat3,CopyCtor)
   EXPECT_TRUE(copy == result);
 }
 
-TEST(NGLMat3,AssignOperator)
+TEST(Mat3,AssignOperator)
 {
   ngl::Mat3 test(2.0f);
   ngl::Mat3 copy=test;
@@ -71,7 +66,7 @@ TEST(NGLMat3,AssignOperator)
   EXPECT_TRUE(copy == result);
 }
 
-TEST(NGLMat3,setAtXY)
+TEST(Mat3,setAtXY)
 {
   ngl::Mat3 test;
   int value=0.0f;
@@ -83,24 +78,18 @@ TEST(NGLMat3,setAtXY)
 }
 
 
-//TEST(NGLMat3,translate)
-//{
-//  ngl::Mat3 test;
-//  test.translate(1.0f,2.0f,3.0f);
-//  ngl::Mat3 result(1,0,0,0,0,1,0,0,0,0,1,0,1,2,3,1);
-//  EXPECT_TRUE(test == result);
-//}
 
-//TEST(NGLMat3,transpose)
-//{
-//  ngl::Mat3 test;
-//  test.translate(1.0f,2.0f,3.0f);
-//  test.transpose();
-//  ngl::Mat3 result(1,0,0,1,0,1,0,2,0,0,1,3,0,0,0,1);
-//  EXPECT_TRUE(test == result);
-//}
 
-TEST(NGLMat3,scale)
+TEST(Mat3,transpose)
+{
+  ngl::Mat3 test(1,2,3,4,5,6,7,8,9);
+  test.transpose();
+  std::cerr<<print(test);
+  ngl::Mat3 result(1,4,7,2,5,8,3,6,9);
+  EXPECT_TRUE(test == result);
+}
+
+TEST(Mat3,scale)
 {
   ngl::Mat3 test;
   test.scale(1.0f,2.0f,3.0f);
@@ -108,7 +97,7 @@ TEST(NGLMat3,scale)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat3,rotateX)
+TEST(Mat3,rotateX)
 {
   ngl::Mat3 test;
   test.rotateX(45.0f);
@@ -116,7 +105,7 @@ TEST(NGLMat3,rotateX)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat3,rotateY)
+TEST(Mat3,rotateY)
 {
   ngl::Mat3 test;
   test.rotateY(25.0f);
@@ -124,7 +113,7 @@ TEST(NGLMat3,rotateY)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat3,rotateZ)
+TEST(Mat3,rotateZ)
 {
   ngl::Mat3 test;
   test.rotateZ(-36.0f);
@@ -132,7 +121,7 @@ TEST(NGLMat3,rotateZ)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat3,Mat3xMat3)
+TEST(Mat3,Mat3xMat3)
 {
   ngl::Mat3 t1;
   ngl::Mat3 t2;
@@ -143,7 +132,7 @@ TEST(NGLMat3,Mat3xMat3)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat3,Mat3xeuqals)
+TEST(Mat3,Mat3xeuqals)
 {
   ngl::Mat3 test;
   ngl::Mat3 t2;
@@ -154,7 +143,7 @@ TEST(NGLMat3,Mat3xeuqals)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat3,Mat3xeuqals2)
+TEST(Mat3,Mat3xeuqals2)
 {
   ngl::Mat3 test;
   ngl::Mat3 t2;
@@ -166,7 +155,7 @@ TEST(NGLMat3,Mat3xeuqals2)
   EXPECT_TRUE(test == (t2*r));
 }
 
-TEST(NGLMat3,Mat3pluEqual)
+TEST(Mat3,Mat3pluEqual)
 {
   ngl::Mat3 t1;
   ngl::Mat3 t2;
@@ -178,7 +167,7 @@ TEST(NGLMat3,Mat3pluEqual)
   EXPECT_TRUE(t1 == result);
 }
 
-TEST(NGLMat3,Mat3plus)
+TEST(Mat3,Mat3plus)
 {
   ngl::Mat3 t1;
   ngl::Mat3 t2;
@@ -191,7 +180,7 @@ TEST(NGLMat3,Mat3plus)
   EXPECT_TRUE(res == result);
 }
 
-TEST(NGLMat3,Mat3xReal)
+TEST(Mat3,Mat3xReal)
 {
   ngl::Mat3 test;
   int value=0.0f;
@@ -204,7 +193,7 @@ TEST(NGLMat3,Mat3xReal)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat3,Mat3xEqualReal)
+TEST(Mat3,Mat3xEqualReal)
 {
   ngl::Mat3 test;
   int value=0.0f;
@@ -220,7 +209,7 @@ TEST(NGLMat3,Mat3xEqualReal)
 
 
 
-TEST(NGLMat3,determinant)
+TEST(Mat3,determinant)
 {
   // note value 5.0 is verified by wolfram alpha
   ngl::Mat3 test(1,0,0,0,2,2,0,-0.5,2);
@@ -228,7 +217,7 @@ TEST(NGLMat3,determinant)
   EXPECT_FLOAT_EQ(det,5.0);
 }
 
-TEST(NGLMat3,inverse)
+TEST(Mat3,inverse)
 {
   // test verified with matlab
   // 1,0,0,0,0,0.4, -0.4, 0 ,0 , 0.1 , 0.4 0 ,0,0,0,1
@@ -241,28 +230,8 @@ TEST(NGLMat3,inverse)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat3,adjacent)
-{
-  ngl::Mat3 test(1,0,0,0,2,2,0,-0.5,2);
-  //test=test.Adjacent();
-  ngl::Mat3 result(5,0,0,0,2,0.5,0,-2,2);
 
-  EXPECT_TRUE(false);//test == result);
-}
-
-TEST(NGLMat3,adjacentWithMat3)
-{
-  ngl::Mat3 t1;
-  ngl::Mat3 t2;
-  t1.rotateX(45.0f);
-  t2.rotateY(35.0f);
-  //ngl::Mat3 test=t1.Adjacent(t2);
-  //ngl::Mat3 result(0.819152f,0,-0.573577f,0,0,1,0,0,0.573577f,0,0.819152f,0,0,0,0,1);
-
-  EXPECT_TRUE(false); //test == result);
-}
-
-TEST(NGLMat3,Vec4xMat3)
+TEST(Mat3,Vec4xMat3)
 {
   ngl::Mat3 t1;
   ngl::Vec3 test(2,1,2);
@@ -272,7 +241,7 @@ TEST(NGLMat3,Vec4xMat3)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat3,Mat3xVec4)
+TEST(Mat3,Mat3xVec4)
 {
   ngl::Mat3 t1;
   ngl::Vec3 test(2,1,2);

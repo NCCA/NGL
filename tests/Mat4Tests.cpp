@@ -6,12 +6,6 @@
 #include <sstream>
 
 
-int main(int argc, char **argv)
-{
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
-
 std::string print(const ngl::Mat4 &_m)
 {
   std::stringstream ret;
@@ -163,7 +157,7 @@ TEST(NGLMat4,Mat4xeuqals2)
   test*=t2;
   ngl::Mat4 r;
   r.rotateX(45.0f);
-  EXPECT_TRUE(test == (t2*r));
+  EXPECT_TRUE(test == (r*t2));
 }
 
 TEST(NGLMat4,Mat4pluEqual)
@@ -266,7 +260,8 @@ TEST(NGLMat4,Vec4xMat4)
   ngl::Vec4 test(2,1,2,1);
   t1.rotateX(45.0f);
   test=test*t1;
-  ngl::Vec4 result(2,-0.707107f,2.12132f,1);
+//  ngl::Vec4 result(2,-0.707107f,2.12132f,1);
+  ngl::Vec4 result(2,2.12132f,0.707107f,1);
   EXPECT_TRUE(test == result);
 }
 
@@ -276,7 +271,9 @@ TEST(NGLMat4,Mat4xVec4)
   ngl::Vec4 test(2,1,2,1);
   t1.rotateX(45.0f);
   test=t1*test;
-  ngl::Vec4 result(2,2.12132f,0.707107f,1);
+//  ngl::Vec4 result(2,2.12132f,0.707107f,1);
+  ngl::Vec4 result(2,-0.707107f,2.12132f,1);
+
   EXPECT_TRUE(test == result);
 }
 

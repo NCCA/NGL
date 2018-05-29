@@ -5,11 +5,6 @@
 #include <string>
 #include <sstream>
 #include <vector>
-int main(int argc, char **argv)
-{
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
 
 std::string print(const ngl::Vec3 &_m)
 {
@@ -23,14 +18,14 @@ std::string print(const ngl::Vec3 &_m)
 
 
 
-TEST(NGLVec3,DefaultCtor)
+TEST(Vec3,DefaultCtor)
 {
   ngl::Vec3 test;
   ngl::Vec3 result(0.0f,0.0f,0.0f);
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLVec3,VectorTest)
+TEST(Vec3,VectorTest)
 {
   std::vector<ngl::Vec3> a(10);
   std::vector<ngl::Vec3> b(10);
@@ -54,21 +49,21 @@ TEST(NGLVec3,VectorTest)
 
 }
 
-TEST(NGLVec3,DotProduct)
+TEST(Vec3,DotProduct)
 {
   ngl::Vec3 a(1.0f,2.0f,3.0f);
   ngl::Vec3 b(4.0f,5.0f,6.0f);
   ASSERT_FLOAT_EQ(a.dot(b),32.0f);
 }
 
-TEST(NGLVec3,NULL)
+TEST(Vec3,NULL)
 {
   ngl::Vec3 test(1,2,4);
   test.null();
   ASSERT_TRUE(test==ngl::Vec3::zero());
 }
 
-TEST(NGLVec3,normalize)
+TEST(Vec3,normalize)
 {
   ngl::Vec3 test(22.3f,0.5f,10.0f);
   test.normalize();
@@ -78,14 +73,14 @@ TEST(NGLVec3,normalize)
 }
 
 
-TEST(NGLVec3,Inner)
+TEST(Vec3,Inner)
 {
   ngl::Vec3 a(1.0,2.0,3.0);
   ngl::Vec3 b(3.0,4.0,5.0);
   ASSERT_FLOAT_EQ(a.inner(b),26.0f);
 }
 
-TEST(NGLVec3,Outer)
+TEST(Vec3,Outer)
 {
   ngl::Vec3 a(1.0,2.0,3.0);
   ngl::Vec3 b(3.0,4.0,5.0);
@@ -94,21 +89,21 @@ TEST(NGLVec3,Outer)
   ASSERT_TRUE(outer==result);
 }
 
-TEST(NGLVec3,Length)
+TEST(Vec3,Length)
 {
   ngl::Vec3 a(22,1,32);
 
   ASSERT_NEAR(a.length(),38.845f,0.001f);
 }
 
-TEST(NGLVec3,LengthSquared)
+TEST(Vec3,LengthSquared)
 {
   ngl::Vec3 a(22,1,32);
 
   ASSERT_NEAR(a.lengthSquared(),1509.0f,0.001f);
 }
 
-TEST(NGLVec3,Cross2)
+TEST(Vec3,Cross2)
 {
   ngl::Vec3 a=ngl::Vec3::up();
   ngl::Vec3 b=ngl::Vec3::left();
@@ -117,7 +112,7 @@ TEST(NGLVec3,Cross2)
   ASSERT_TRUE(c==ngl::Vec3::in());
 }
 
-TEST(NGLVec3,Cross1)
+TEST(Vec3,Cross1)
 {
   ngl::Vec3 a=ngl::Vec3::up();
   ngl::Vec3 b=ngl::Vec3::left();
@@ -125,7 +120,7 @@ TEST(NGLVec3,Cross1)
   ASSERT_TRUE(c==ngl::Vec3::in());
 }
 
-TEST(NGLVec3,SubScript)
+TEST(Vec3,SubScript)
 {
   ngl::Vec3 test(1.0f,2.0f,3.0f);
 
@@ -137,7 +132,7 @@ TEST(NGLVec3,SubScript)
 
 
 
-TEST(NGLVec3,FloatCtor)
+TEST(Vec3,FloatCtor)
 {
   ngl::Vec3 test(1.0f,2.0f,3.0f);
   ngl::Vec3 result(1.0f,2.0f,3.0f);
@@ -146,7 +141,7 @@ TEST(NGLVec3,FloatCtor)
 }
 
 
-TEST(NGLVec3,CopyCtor)
+TEST(Vec3,CopyCtor)
 {
   ngl::Vec3 test(1.0f,2.0f,3.0f);
   ngl::Vec3 copy(test);
@@ -154,7 +149,7 @@ TEST(NGLVec3,CopyCtor)
   EXPECT_TRUE(copy == result);
 }
 
-TEST(NGLVec3,AssignOperator)
+TEST(Vec3,AssignOperator)
 {
   ngl::Vec3 test(1.0f,2.0f,3.0f);
   ngl::Vec3 copy=test;
