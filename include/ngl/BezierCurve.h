@@ -177,11 +177,11 @@ protected :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a vertex array object for our curve drawing
   //----------------------------------------------------------------------------------------------------------------------
-  AbstractVAO *m_vaoCurve;
+  std::unique_ptr<AbstractVAO> m_vaoCurve;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a vertex array object for our point drawing
   //----------------------------------------------------------------------------------------------------------------------
-  AbstractVAO  *m_vaoPoints;
+  std::unique_ptr<AbstractVAO>  m_vaoPoints;
 }; // end class BezierCurve
 } // end NGL Lib namespace
 #endif // end header file

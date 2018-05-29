@@ -18,14 +18,14 @@ std::string print(const ngl::Mat4 &_m)
 
 
 
-TEST(NGLMat4,DefaultCtor)
+TEST(Mat4,DefaultCtor)
 {
   ngl::Mat4 test;
   ngl::Mat4 result(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,null)
+TEST(Mat4,null)
 {
   ngl::Mat4 test;
   test.null();
@@ -33,7 +33,7 @@ TEST(NGLMat4,null)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,identity)
+TEST(Mat4,identity)
 {
   ngl::Mat4 test;
   test.identity();
@@ -41,7 +41,7 @@ TEST(NGLMat4,identity)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,FloatCtor)
+TEST(Mat4,FloatCtor)
 {
   ngl::Mat4 test(2.0);
   ngl::Mat4 result(2,0,0,0,0,2,0,0,0,0,2,0,0,0,0,1);
@@ -49,7 +49,7 @@ TEST(NGLMat4,FloatCtor)
 }
 
 
-TEST(NGLMat4,CopyCtor)
+TEST(Mat4,CopyCtor)
 {
   ngl::Mat4 test(2.0);
   ngl::Mat4 copy(test);
@@ -57,7 +57,7 @@ TEST(NGLMat4,CopyCtor)
   EXPECT_TRUE(copy == result);
 }
 
-TEST(NGLMat4,AssignOperator)
+TEST(Mat4,AssignOperator)
 {
   ngl::Mat4 test(2.0);
   ngl::Mat4 copy=test;
@@ -65,7 +65,7 @@ TEST(NGLMat4,AssignOperator)
   EXPECT_TRUE(copy == result);
 }
 
-TEST(NGLMat4,setAtXY)
+TEST(Mat4,setAtXY)
 {
   ngl::Mat4 test;
   int value=0.0f;
@@ -77,7 +77,7 @@ TEST(NGLMat4,setAtXY)
 }
 
 
-TEST(NGLMat4,translate)
+TEST(Mat4,translate)
 {
   ngl::Mat4 test;
   test.translate(1.0f,2.0f,3.0f);
@@ -85,7 +85,7 @@ TEST(NGLMat4,translate)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,transpose)
+TEST(Mat4,transpose)
 {
   ngl::Mat4 test;
   test.translate(1.0f,2.0f,3.0f);
@@ -94,7 +94,7 @@ TEST(NGLMat4,transpose)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,scale)
+TEST(Mat4,scale)
 {
   ngl::Mat4 test;
   test.scale(1.0f,2.0f,3.0f);
@@ -102,7 +102,7 @@ TEST(NGLMat4,scale)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,rotateX)
+TEST(Mat4,rotateX)
 {
   ngl::Mat4 test;
   test.rotateX(45.0f);
@@ -110,7 +110,7 @@ TEST(NGLMat4,rotateX)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,rotateY)
+TEST(Mat4,rotateY)
 {
   ngl::Mat4 test;
   test.rotateY(25.0f);
@@ -118,7 +118,7 @@ TEST(NGLMat4,rotateY)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,rotateZ)
+TEST(Mat4,rotateZ)
 {
   ngl::Mat4 test;
   test.rotateZ(-36.0f);
@@ -126,7 +126,7 @@ TEST(NGLMat4,rotateZ)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,Mat4xMat4)
+TEST(Mat4,Mat4xMat4)
 {
   ngl::Mat4 t1;
   ngl::Mat4 t2;
@@ -137,7 +137,7 @@ TEST(NGLMat4,Mat4xMat4)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,Mat4xeuqals)
+TEST(Mat4,Mat4xeuqals)
 {
   ngl::Mat4 test;
   ngl::Mat4 t2;
@@ -148,7 +148,7 @@ TEST(NGLMat4,Mat4xeuqals)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,Mat4xeuqals2)
+TEST(Mat4,Mat4xeuqals2)
 {
   ngl::Mat4 test;
   ngl::Mat4 t2;
@@ -160,7 +160,7 @@ TEST(NGLMat4,Mat4xeuqals2)
   EXPECT_TRUE(test == (r*t2));
 }
 
-TEST(NGLMat4,Mat4pluEqual)
+TEST(Mat4,Mat4pluEqual)
 {
   ngl::Mat4 t1;
   ngl::Mat4 t2;
@@ -172,7 +172,7 @@ TEST(NGLMat4,Mat4pluEqual)
   EXPECT_TRUE(t1 == result);
 }
 
-TEST(NGLMat4,Mat4plus)
+TEST(Mat4,Mat4plus)
 {
   ngl::Mat4 t1;
   ngl::Mat4 t2;
@@ -185,7 +185,7 @@ TEST(NGLMat4,Mat4plus)
   EXPECT_TRUE(res == result);
 }
 
-TEST(NGLMat4,Mat4xReal)
+TEST(Mat4,Mat4xReal)
 {
   ngl::Mat4 test;
   int value=0.0f;
@@ -198,7 +198,7 @@ TEST(NGLMat4,Mat4xReal)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,Mat4xEqualReal)
+TEST(Mat4,Mat4xEqualReal)
 {
   ngl::Mat4 test;
   int value=0.0f;
@@ -214,7 +214,7 @@ TEST(NGLMat4,Mat4xEqualReal)
 
 
 
-TEST(NGLMat4,determinant)
+TEST(Mat4,determinant)
 {
   // note value 5.0 is verified by wolfram alpha
   ngl::Mat4 test(1,0,0,0,0,2,2,0,0,-0.5,2,0,0,0,0,1);
@@ -222,7 +222,7 @@ TEST(NGLMat4,determinant)
   EXPECT_FLOAT_EQ(det,5.0);
 }
 
-TEST(NGLMat4,inverse)
+TEST(Mat4,inverse)
 {
   // test verified from wolfram alpha
   // 1,0,0,0,0,0.4, -0.4, 0 ,0 , 0.1 , 0.4 0 ,0,0,0,1
@@ -233,7 +233,7 @@ TEST(NGLMat4,inverse)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,adjacent)
+TEST(Mat4,adjacent)
 {
   ngl::Mat4 test(1,0,0,0,0,2,2,0,0,-0.5,2,0,0,0,0,1);
   test=test.Adjacent();
@@ -242,7 +242,7 @@ TEST(NGLMat4,adjacent)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,adjacentWithMat4)
+TEST(Mat4,adjacentWithMat4)
 {
   ngl::Mat4 t1;
   ngl::Mat4 t2;
@@ -254,7 +254,7 @@ TEST(NGLMat4,adjacentWithMat4)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,Vec4xMat4)
+TEST(Mat4,Vec4xMat4)
 {
   ngl::Mat4 t1;
   ngl::Vec4 test(2,1,2,1);
@@ -265,7 +265,7 @@ TEST(NGLMat4,Vec4xMat4)
   EXPECT_TRUE(test == result);
 }
 
-TEST(NGLMat4,Mat4xVec4)
+TEST(Mat4,Mat4xVec4)
 {
   ngl::Mat4 t1;
   ngl::Vec4 test(2,1,2,1);

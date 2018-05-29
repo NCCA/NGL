@@ -84,8 +84,6 @@ public :
   /// @param[in] _steps the number of steps for the grid
   //----------------------------------------------------------------------------------------------------------------------
   void createLineGrid( const std::string &_name, Real _width, Real _depth,  int _steps ) noexcept;
-
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create a Quad Cylinder as a vbo with auto generated texture cords
   /// @param[in] _name the name of the object created used when drawing
@@ -133,7 +131,6 @@ public :
   /// @param[in] _vN The Vertex normal (used for each vertex)
   //----------------------------------------------------------------------------------------------------------------------
   void createTrianglePlane( const std::string &_name,const Real _width,const Real _depth,const int _wP, const int _dP,const Vec3 &_vN ) noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create a triangulated capsule (Cylinder with spherical ends)
   /// @param[in] _name the name of the object created used when drawing
@@ -141,9 +138,7 @@ public :
   /// @param[in] _height the height of the capsule
   /// @param[in] _precision the precision of the tri mesh created (number of steps)
   //----------------------------------------------------------------------------------------------------------------------
-
   void createCapsule(const std::string &_name,const Real _radius=1.0f, const Real _height=2.0f, const int _precision=20) noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief load a VBO from a binary file created from Obj2VBO program
   /// @param[in] _name the name of the VBO to be stored as ref to this object
@@ -158,12 +153,17 @@ public :
   void clear() noexcept;
   /// @brief get the raw VAO so we can map it etc
   AbstractVAO * getVAOFromName(const std::string &_name);
+  /// @brief add a VAO to the primitives library that we have created elsewhere
+  /// @param[in] _name the name of the primitive
+  /// @param[in] _id the VAO id
+  void addToPrimitives(const std::string &_name, std::unique_ptr<AbstractVAO> _vao) noexcept;
+
 
 private :
 	//----------------------------------------------------------------------------------------------------------------------
 	///  a map to store the VAO by name
 	//----------------------------------------------------------------------------------------------------------------------
-  std::unordered_map <std::string,AbstractVAO *> m_createdVAOs;
+  std::unordered_map <std::string,std::unique_ptr<AbstractVAO>> m_createdVAOs;
 
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief default constructor

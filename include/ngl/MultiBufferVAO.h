@@ -39,7 +39,7 @@ class NGL_DLLEXPORT MultiBufferVAO : public AbstractVAO
     /// @param _mode the mode to draw with.
     /// @returns a new AbstractVAO * object
     //----------------------------------------------------------------------------------------------------------------------
-    static AbstractVAO *create(GLenum _mode=GL_TRIANGLES) { return new MultiBufferVAO(_mode); }
+    static std::unique_ptr<AbstractVAO> create(GLenum _mode=GL_TRIANGLES) { return std::unique_ptr<AbstractVAO>(new MultiBufferVAO(_mode)); }
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief draw the VAO using glDrawArrays
     //----------------------------------------------------------------------------------------------------------------------

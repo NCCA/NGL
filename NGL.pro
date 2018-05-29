@@ -11,7 +11,7 @@ QT += core
 QT += gui
 QT -=xml
 
-CONFIG+=c++11
+CONFIG+=c++14
 
 # use this to remove any marked as deprecated classes from NGL
 DEFINES += REMOVEDDEPRECATED

@@ -6,7 +6,6 @@
 #include <ngl/NGLStream.h>
 
 
-
 std::string print(const ngl::Mat3 &_m)
 {
   std::stringstream ret;
@@ -16,7 +15,6 @@ std::string print(const ngl::Mat3 &_m)
   ret<<"\b)\n";
   return ret.str();
 }
-
 
 
 TEST(Mat3,DefaultCtor)
@@ -84,7 +82,6 @@ TEST(Mat3,transpose)
 {
   ngl::Mat3 test(1,2,3,4,5,6,7,8,9);
   test.transpose();
-  std::cerr<<print(test);
   ngl::Mat3 result(1,4,7,2,5,8,3,6,9);
   EXPECT_TRUE(test == result);
 }
@@ -250,39 +247,4 @@ TEST(Mat3,Mat3xVec4)
   ngl::Vec3 result(2,2.12132f,0.707107f);
   EXPECT_TRUE(test == result);
 }
-
-/* after thinking about it this is not a valid test!
-class EulerTestRot : public ::testing::TestWithParam<ngl::Real> {
-  // You can implement all the usual fixture class members here.
-  // To access the test parameter, call GetParam() from class
-  // TestWithParam<T>.
-};
-
-
-TEST_P(EulerTestRot,EulerRot)
-{
-  ngl::Mat3 euler;
-  ngl::Mat3 rot;
-  auto degrees=GetParam();
-  euler.euler(degrees,1,0,0);
-  rot.rotateX(degrees);
-  EXPECT_TRUE(euler == rot)<<"Euler gives\n"<<print(euler)<<"rotateX gives\n"<<print(rot)<<'\n';
-
-  euler.euler(degrees,0,1,0);
-  rot.rotateY(degrees);
-  EXPECT_TRUE(euler == rot)<<"Euler gives\n"<<print(euler)<<"rotateY gives\n"<<print(rot)<<'\n';
-
-
-  euler.euler(degrees,0,0,1);
-  rot.rotateZ(degrees);
-  EXPECT_TRUE(euler == rot)<<"Euler gives\n"<<print(euler)<<"rotateZ gives\n"<<print(rot)<<'\n';
-
-
-}
-
-INSTANTIATE_TEST_CASE_P(Mat3EulerRot,
-                        EulerTestRot,
-                        ::testing::Values(0.0f,45.0f,90.0f,180.0f,270.0f,360.0f));
-                        */
-
 

@@ -72,7 +72,7 @@ Text::Text( const QFont &_f)  noexcept
   // they will be the same height but will possibly have different widths
   // as some of the fonts will be the same width, to save VAO space we will only create
   // a vao if we don't have one of the set width. To do this we use the has below
-  std::unordered_map <int,AbstractVAO *> widthVAO;
+  std::unordered_map <int,std::unique_ptr<AbstractVAO>> widthVAO;
 
   for(char c=startChar; c<=endChar; ++c)
   {
@@ -211,7 +211,7 @@ Text::Text( const QFont &_f)  noexcept
 
 
         // now we create a VAO to store the data
-        AbstractVAO *vao=VAOFactory::createVAO("simpleVAO",GL_TRIANGLES);
+        std::unique_ptr<AbstractVAO> vao=VAOFactory::createVAO("simpleVAO",GL_TRIANGLES);
         // bind it so we can set values
         vao->bind();
         // set the vertex data (2 for x,y 2 for u,v)
@@ -228,12 +228,12 @@ Text::Text( const QFont &_f)  noexcept
         // now unbind
         vao->unbind();
         // store the vao pointer for later use in the draw method
-        fc.vao =vao;
-        widthVAO[width]=vao;
+        fc.vao =std::move(vao);
+        //widthVAO[width]=std::move(vao);
     }
     else
     {
-      fc.vao=widthVAO[width];
+      fc.vao=std::move(widthVAO[width]);
     }
     // finally add the element to the map, this must be the last
     // thing we do

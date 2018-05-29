@@ -32,8 +32,8 @@ PathCamera::PathCamera( const Vec3 &_up, const BezierCurve &_eyePath,const Bezie
 	m_dir=CAMFWD;
 	m_eyeCurvePoint=0.0;
 	m_lookCurvePoint=0.0;
-	m_eyePath=_eyePath;
-	m_lookPath=_lookPath;
+  //m_eyePath=_eyePath;
+  //m_lookPath=_lookPath;
 	m_step=_step;
 	m_up=_up;
 }

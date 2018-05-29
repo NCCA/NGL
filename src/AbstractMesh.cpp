@@ -289,7 +289,7 @@ void AbstractMesh::createVAO() noexcept
   }
 
   // first we grab an instance of our VOA
-  m_vaoMesh.reset( ngl::VAOFactory::createVAO("simpleVAO",m_dataPackType));
+  m_vaoMesh= ngl::VAOFactory::createVAO("simpleVAO",m_dataPackType);
   // next we bind it so it's active for setting data
   m_vaoMesh->bind();
   m_meshSize=vboMesh.size();

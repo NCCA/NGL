@@ -189,7 +189,7 @@ void BBox::setVAO()
 		if(m_drawMode !=GL_LINE)
 	#endif
 	{
-    m_vao.reset( VAOFactory::createVAO("simpleIndexVAO",GL_TRIANGLES) );
+    m_vao=VAOFactory::createVAO("simpleIndexVAO",GL_TRIANGLES) ;
 
     // now we have our data add it to the VAO, we need to tell the VAO the following
     // how much (in bytes) data we are copying
@@ -205,7 +205,7 @@ void BBox::setVAO()
   }
   else // we just need to draw the lines
   {
-    m_vao.reset( VAOFactory::createVAO("simpleIndexVAO",GL_LINE_LOOP));
+    m_vao=VAOFactory::createVAO("simpleIndexVAO",GL_LINE_LOOP);
 
     // now we have our data add it to the VAO, we need to tell the VAO the following
     // how much (in bytes) data we are copying

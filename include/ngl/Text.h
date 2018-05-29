@@ -59,7 +59,7 @@ namespace ngl
   {
     int width; /// @brief the width of the font
     GLuint textureID; /// @brief the texture id of the font billboard
-    AbstractVAO *vao; /// a vao for the font
+    std::shared_ptr<AbstractVAO> vao; /// a vao for the font
   };
 
 class NGL_DLLEXPORT Text
