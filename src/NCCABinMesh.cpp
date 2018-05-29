@@ -88,12 +88,6 @@ bool NCCABinMesh::load(const std::string &_fname, CalcBB _calcBB) noexcept
   // now we need the index arrays so first find how big
   file.read(reinterpret_cast <char *>(&size),sizeof(unsigned int));
   // now re-size our std::vector so add the data
-  m_outIndices.resize(size);
-  // then loop and copy the values in from the file.
-  for( unsigned int i=0; i<size; ++i)
-  {
-    file.read(reinterpret_cast <char *>(&m_outIndices[i]),sizeof(unsigned int));
-  }
 
   // now were done with the file lets close it
 

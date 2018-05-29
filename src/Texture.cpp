@@ -27,7 +27,7 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-Texture::Texture( const std::string &_fname  )
+Texture::Texture(const std::string_view &_fname  )
 {
 	m_image.load(_fname);
 	m_width=m_image.width();
@@ -38,7 +38,7 @@ Texture::Texture( const std::string &_fname  )
 }
 
 
-bool Texture::loadImage( const std::string  &_fname )
+bool Texture::loadImage(const std::string_view &_fname )
 {
   bool status=m_image.load(_fname);
   if(status)

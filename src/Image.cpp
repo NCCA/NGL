@@ -38,7 +38,7 @@ namespace ngl
 #define IMAGE_DEBUG_ON 1
 
 
-Image::Image(const std::string &_fname)
+Image::Image(const std::string_view &_fname)
 {
 	load(_fname);
 }
@@ -102,7 +102,7 @@ Colour Image::getColour(const Real _uvX, const Real _uvY ) const noexcept
   }
 }
 
-void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int _width, int _height,ImageModes _mode)
+void Image::saveFrameBufferToFile(const std::string_view &_fname, int _x, int _y, int _width, int _height, ImageModes _mode)
 {
   GLenum format=GL_RGB;
   int size=3;
@@ -124,7 +124,7 @@ void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int
     }
     QImage image(data.get(),realWidth,realHeight,qformat);
     image=image.mirrored(false,true);
-    image.save(_fname.c_str());
+    image.save(_fname.data());
 
   #endif
   #if defined(USEOIIO)
@@ -160,16 +160,16 @@ void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int
 //----------------------------------------------------------------------------------------------------------------------
 // Qt Image loading routines
 //----------------------------------------------------------------------------------------------------------------------
-bool Image::load( const std::string &_fName  ) noexcept
+bool Image::load(const std::string_view &_fName  ) noexcept
 {
 #ifdef IMAGE_DEBUG_ON
   std::cerr<<"loading with QImage\n";
 #endif
   QImage image;
-  bool loaded=image.load(_fName.c_str());
+  bool loaded=image.load(_fName.data());
   if(loaded ==false)
   {
-    std::cerr<<"error loading image "<<_fName.c_str()<<'\n';
+    std::cerr<<"error loading image "<<_fName.data()<<'\n';
   }
   if(loaded == true)
   {
@@ -226,7 +226,7 @@ bool Image::load( const std::string &_fName  ) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 // Image Magick Image loading routines
 //----------------------------------------------------------------------------------------------------------------------
-bool Image::load( const std::string &_fname  ) noexcept
+bool Image::load( const std::string_view &_fname  ) noexcept
 {
   #ifdef IMAGE_DEBUG_ON
   std::cerr<<"loading with ImageMagick\n";
@@ -236,14 +236,14 @@ bool Image::load( const std::string &_fname  ) noexcept
 
   try
   {
-    image.read(_fname);
+    image.read(_fname.data());
     // need to flip image as OpenGL uses textures starting the other way round.
     image.flip();
     image.write(&blob, "RGBA");
   }
   catch (Magick::Error& Error)
   {
-  std::cout << "Error loading texture '" << _fname << "': " << Error.what() << '\n';
+  std::cout << "Error loading texture '" << _fname.data() << "': " << Error.what() << '\n';
   return false;
   }
   m_width=image.columns();
@@ -263,12 +263,12 @@ bool Image::load( const std::string &_fname  ) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 // Open Image I/O loading routines
 //----------------------------------------------------------------------------------------------------------------------
-bool Image::load( const std::string &_fname  ) noexcept
+bool Image::load( const std::string_view &_fname  ) noexcept
 {
 #ifdef IMAGE_DEBUG_ON
   std::cerr<<"loading with OpenImageIO\n";
 #endif
-  OpenImageIO::ImageInput *in = OpenImageIO::ImageInput::open (_fname);
+  OpenImageIO::ImageInput *in = OpenImageIO::ImageInput::open (_fname.data());
   if (! in)
   {
     return false;

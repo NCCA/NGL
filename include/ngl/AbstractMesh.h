@@ -42,6 +42,16 @@ namespace ngl
 class Face
 {
 public :
+  Face()=default;
+  Face(const Face &_f)
+  {
+    m_vert=_f.m_vert;
+    m_uv=_f.m_uv;
+    m_norm=_f.m_norm;
+    m_numVerts=_f.m_numVerts;
+    m_textureCoord=_f.m_textureCoord;
+    m_normals=_f.m_normals;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the number of vertices in the face
   //----------------------------------------------------------------------------------------------------------------------
@@ -117,6 +127,7 @@ public :
   /// @brief default ctor must be called from the child class so our dtor is called
   //----------------------------------------------------------------------------------------------------------------------
   AbstractMesh() noexcept : m_vbo(false),  m_vao(false), m_ext(nullptr) {;}
+  //AbstractMesh(const AbstractMesh &) =default;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief destructor this will clear out all the vert data and the vbo if created
   //----------------------------------------------------------------------------------------------------------------------
@@ -145,7 +156,7 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief load int a texture and set it as the active texture of the Obj
   /// @param[in] &_fname the name of the file to load
-  void loadTexture(const std::string& _fname ) noexcept;
+  void loadTexture(const std::string_view &_fname ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief scale the obj by multiplying the actual vertex values by sx,sy and sz
@@ -189,12 +200,6 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   void unMapVAO() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief get a pointer to the indices used to represent the VBO data, this is used in the clip
-  /// class when re-ordering the clip data values
-  /// @returns the array of indices
-  //----------------------------------------------------------------------------------------------------------------------
-  const std::vector<IndexRef> & getIndices()  noexcept{ return m_indices; }
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief save the mesh as NCCA Binary VBO format
   /// basically this format is the processed binary vbo mesh data as
   /// as packed by the CreateVBO() method is called.
@@ -210,7 +215,7 @@ public :
   /// @brief accessor for the vertex data
   /// @returns a std::vector containing the vert data
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Vec3> getVertexList() noexcept{return m_verts;}
+  std::vector <Vec3> getVertexList() const noexcept{return m_verts;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor for the vertex data
   /// @returns a std::vector containing the vert data
@@ -225,17 +230,17 @@ public :
   /// @brief accessor for the normals data
   /// @returns a std::vector containing the normal data
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Vec3> getNormalList() noexcept{return m_norm;}
+  std::vector <Vec3> getNormalList() const noexcept{return m_norm;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor for the texture co-ordinates data
   /// @returns a std::vector containing the texture cord data
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Vec3> getTextureCordList() noexcept{return m_uv;}
+  std::vector <Vec3> getUVList() const noexcept{return m_uv;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor for the Face data
   /// @returns a std::vector containing the face data
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Face> getFaceList() noexcept{return m_face;}
+  std::vector <Face> getFaceList() const  noexcept{return m_face;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of vertices in the object
   //----------------------------------------------------------------------------------------------------------------------
@@ -293,14 +298,6 @@ protected :
   /// @brief Center of the object
   //----------------------------------------------------------------------------------------------------------------------
   Vec3 m_center;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief a vector of indices used to pass the index into the Data arrays to the VBO
-  //----------------------------------------------------------------------------------------------------------------------
-  std::vector<IndexRef> m_indices;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief a vectr of indices without duplicates which are actually passed to the VBO when creating
-  //----------------------------------------------------------------------------------------------------------------------
-  std::vector<GLuint> m_outIndices;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the size of the index array
   //----------------------------------------------------------------------------------------------------------------------

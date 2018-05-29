@@ -60,14 +60,14 @@ public :
   /// @brief Constructor passing the file to load
   /// @param[in] &_fName the name of the file to load
   //----------------------------------------------------------------------------------------------------------------------
-  Texture(const std::string  &_fname );
+  Texture(const std::string_view  &_fname );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to load the image file into the texture class
   /// @param[in] _fName the name of the file to load
   /// imageMagick will determine if it can load the file
   /// @returns true on success else false if load fails  
   //----------------------------------------------------------------------------------------------------------------------
-  bool loadImage(const std::string  &_fname );
+  bool loadImage(const std::string_view  &_fname );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to access the pixel data pointer
   /// @returns  reference to the pixel data

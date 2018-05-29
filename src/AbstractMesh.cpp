@@ -65,8 +65,6 @@ AbstractMesh::~AbstractMesh() noexcept
     m_norm.erase(m_norm.begin(),m_norm.end());
     m_uv.erase(m_uv.begin(),m_uv.end());
     m_face.erase(m_face.begin(),m_face.end());
-    m_indices.erase(m_indices.begin(),m_indices.end());
-    m_outIndices.erase(m_outIndices.begin(),m_outIndices.end());
 
     if(m_vbo)
     {
@@ -77,10 +75,10 @@ AbstractMesh::~AbstractMesh() noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void AbstractMesh::loadTexture( const std::string& _fName  ) noexcept
+void AbstractMesh::loadTexture( const std::string_view& _fName  ) noexcept
 {
 	// load in the texture
-	Texture  *t=new Texture(_fName);
+  Texture  *t=new Texture(_fName);
   m_textureID=t->setTextureGL();
 	delete t;
   m_texture=true;
@@ -327,6 +325,9 @@ void AbstractMesh::createVAO() noexcept
 
 	// indicate we have a vao now
 	m_vao=true;
+  // create a new bbox based on the new object size
+  m_ext.reset(new BBox(m_minX,m_maxX,m_minY,m_maxY,m_minZ,m_maxZ));
+
 
 }
 
@@ -406,19 +407,6 @@ void AbstractMesh::calcDimensions() noexcept
   m_maxY=m_minY=m_center.m_y;
   m_maxZ=m_minZ=m_center.m_z;
 
-
-  // Calculate the center of the object.
-  m_center=0.0;
-  for( auto  v :m_verts)
-  {
-    m_center+=v;
-  }
-  m_center/=m_verts.size();
-  // calculate the extents
-  m_maxX=m_minX=m_center.m_x;
-  m_maxY=m_minY=m_center.m_y;
-  m_maxZ=m_minZ=m_center.m_z;
-
   for(auto v : m_verts)
   {
     if     (v.m_x >m_maxX) { m_maxX=v.m_x; }
@@ -431,8 +419,6 @@ void AbstractMesh::calcDimensions() noexcept
 
 
 
-  // create a new bbox based on the new object size
-  m_ext.reset(new BBox(m_minX,m_maxX,m_minY,m_maxY,m_minZ,m_maxZ));
 
 }
 
@@ -486,17 +472,6 @@ void AbstractMesh::saveNCCABinaryMesh( const std::string &_fname  ) noexcept
   Real *vboMem=this->mapVAOVerts();
   file.write(reinterpret_cast<char *>(vboMem),size);
 
-  // now write the indices
-  // first the size
-  size=m_outIndices.size();
-  std::cout<<"Size of out indices ="<<size<<'\n';
-  file.write(reinterpret_cast <char *>(&size),sizeof(unsigned int));
-
-
-  for (auto d : m_outIndices)
-  {
-    file.write(reinterpret_cast <char *>(d),sizeof(unsigned int));
-  }
 
   file.close();
   this->unMapVAO();

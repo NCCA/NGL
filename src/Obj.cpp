@@ -14,328 +14,446 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "boost/bind.hpp"
-#include "boost/spirit.hpp"
-/// @todo re-write this at some stage to use boost::spirit::qi
-#include "Obj.h"
+
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Obj.cpp
 /// @brief implementation files for Obj class
 //----------------------------------------------------------------------------------------------------------------------
+#include "Obj.h"
+#include "pystring.h"
+#include <cmath>
 
 
 namespace ngl
 {
 
-// make a namespace for our parser to save writing boost::spirit:: all the time
-namespace spt=boost::spirit;
+namespace ps=pystring;
 
-// syntactic sugar for specifying our grammar
-typedef spt::rule<spt::phrase_scanner_t> srule;
-
-
-//----------------------------------------------------------------------------------------------------------------------
-// parse a vertex
-void Obj::parseVertex( const char *_begin )  noexcept
+Obj::Obj(const std::string_view &_fname  , CalcBB _calcBB)  noexcept :AbstractMesh()
 {
-  std::vector<Real> values;
-  // here is the parse rule to load the data into a vector (above)
-  srule vertex = "v" >> spt::real_p[spt::append(values)] >>
-                        spt::real_p[spt::append(values)] >>
-                        spt::real_p[spt::append(values)];
-  // now parse the data
-  spt::parse_info<> result = spt::parse(_begin, vertex, spt::space_p);
-  // should check this at some stage
-  NGL_UNUSED(result);
-  // and add it to our vert list in abstact mesh parent
-  m_verts.push_back(Vec3(values[0],values[1],values[2]));
+  load(_fname,_calcBB);
+}
+
+Obj::Obj( const std::string_view &_fname,  const std::string_view &_texName,CalcBB _calcBB) noexcept : AbstractMesh()
+{
+  load(_fname,_calcBB);
+  // load texture
+  loadTexture(_texName);
+  m_texture = true;
+}
+
+Obj::Obj(const Obj &_c)
+{
+  m_verts=_c.m_verts;
+  m_norm=_c.m_norm;
+  m_uv=_c.m_uv;
+  m_face=_c.m_face;
+  m_center=_c.m_center;
+  m_vbo=false;
+  m_vao=false;
+  m_vboMapped=false;
+  m_texture=_c.m_texture;
+  m_textureID=_c.m_textureID;
+  m_maxX=_c.m_maxX;
+  m_minX=_c.m_minX;
+  m_maxY=_c.m_maxY;
+  m_minY=_c.m_minY;
+  m_maxZ=_c.m_maxZ;
+  m_minZ=_c.m_minZ;
+  m_loaded=true;
+  m_sphereCenter=_c.m_sphereCenter;
+  m_sphereRadius=_c.m_sphereRadius;
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-// parse a texture coordinate
-void Obj::parseTextureCoordinate(const char * _begin ) noexcept
+void Obj::addVertex(const ngl::Vec3 &_v)
 {
-  std::vector<Real> values;
-  // generate our parse rule for a tex cord,
-  // this can be either a 2 or 3 d text so the *rule looks for an additional one
-  srule texcord = "vt" >> spt::real_p[spt::append(values)] >>
-                          spt::real_p[spt::append(values)] >>
-                          *(spt::real_p[spt::append(values)]);
-  spt::parse_info<> result = spt::parse(_begin, texcord, spt::space_p);
-  // should check the return values at some stage
-  NGL_UNUSED(result);
-
-  // build tex cord
-  // if we have a value use it other wise set to 0
-  Real vt3 = values.size() == 3 ? values[2] : 0.0f;
-  m_uv.push_back(Vec3(values[0],values[1],vt3));
+  m_verts.push_back(_v);
+}
+void Obj::addNormal(const ngl::Vec3 &_v)
+{
+  m_norm.push_back(_v);
+}
+void Obj::addUV(const ngl::Vec2 &_v)
+{
+  ngl::Vec3 v(_v.m_x,_v.m_y,0.0f);
+  m_uv.push_back(v);
+}
+void Obj::addUV(const ngl::Vec3 &_v)
+{
+  m_uv.push_back(_v);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-// parse a normal
-void Obj::parseNormal( const char *_begin )  noexcept
+void Obj::addFace(const ngl::Face &_f)
 {
-  std::vector<Real> values;
-  // here is our rule for normals
-  srule norm = "vn" >> spt::real_p[spt::append(values)] >>
-                       spt::real_p[spt::append(values)] >>
-                       spt::real_p[spt::append(values)];
-  // parse and push back to the list
-  spt::parse_info<> result = spt::parse(_begin, norm, spt::space_p);
-  // should check the return values at some stage
-  NGL_UNUSED(result);
-  m_norm.push_back(Vec3(values[0],values[1],values[2]));
+  m_face.push_back(_f);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-// parse face
-void Obj::parseFace(const char * _begin   )  noexcept
+
+bool Obj::save(const std::string_view &_fname)
 {
-  // ok this one is quite complex first create some lists for our face data
-  // list to hold the vertex data indices
-  std::vector<unsigned int> vec;
-  // list to hold the tex cord indices
-  std::vector<unsigned int> tvec;
-  // list to hold the normal indices
-  std::vector<unsigned int> nvec;
-
-  // create the parse rule for a face entry V/T/N
-  // so our entry can be always a vert, followed by optional t and norm seperated by /
-  // also it is possible to have just a V value with no / so the rule should do all this
-  srule entry = spt::int_p[spt::append(vec)] >>
-    (
-      ("/" >> (spt::int_p[spt::append(tvec)] | spt::epsilon_p) >>
-       "/" >> (spt::int_p[spt::append(nvec)] | spt::epsilon_p)
-      )
-      | spt::epsilon_p
-    );
-  // a face has at least 3 of the above entries plus many optional ones
-  srule face = "f"  >> entry >> entry >> entry >> *(entry);
-  // now we've done this we can parse
- spt::parse(_begin, face, spt::space_p);
-
- unsigned int numVerts=static_cast<unsigned int>(vec.size());
-  // so now build a face structure.
-  Face f;
-  // verts are -1 the size
-  f.m_numVerts=numVerts-1;
-  f.m_textureCoord=false;
-  f.m_normals=false;
-  // copy the vertex indices into our face data structure index in obj start from 1
-  // so we need to do -1 for our array index
-  for(auto i : vec)
+  std::ofstream out(_fname.data());
+  if (out.is_open() != true)
   {
-    f.m_vert.push_back(i-1);
+    std::cerr<<"ERROR could not open file for writing "<<_fname.data()<<"\n";
+    return false;
+  }
+  // write out some comments
+  out<<"# This file was created by ngl Obj exporter "<<_fname.data()<<'\n';
+  // write out the verts
+  for(auto v : m_verts)
+  {
+    out<<"v "<<v.m_x<<" "<<v.m_y<<" "<<v.m_z<<'\n';
   }
 
-  // merge in texture coordinates and normals, if present
-  // OBJ format requires an encoding for faces which uses one of the vertex/texture/normal specifications
-  // consistently across the entire face.  eg. we can have all v/vt/vn, or all v//vn, or all v, but not
-  // v//vn then v/vt/vn ...
-  if(!nvec.empty())
+  // write out the tex cords
+  for(auto v : m_uv)
   {
-    if(nvec.size() != vec.size())
-    {
-     std::cerr <<"Something wrong with the face data will continue but may not be correct\n";
-    }
+    out<<"vt "<<v.m_x<<" "<<v.m_y<<'\n';
+  }
+  // write out the normals
 
-    // copy in these references to normal vectors to the mesh's normal vector
-    for(auto i : nvec)
-    {
-      f.m_norm.push_back(i-1);
-    }
-    f.m_normals=true;
-
+  for(auto v : m_norm)
+  {
+    out<<"vn "<<v.m_x<<" "<<v.m_y<<" "<<v.m_z<<'\n';
   }
 
-  //
-  // merge in texture coordinates, if present
-  //
-  if(!tvec.empty())
+  // finally the faces
+  for(auto f : m_face)
   {
-    if(tvec.size() != vec.size())
+  out<<"f ";
+  // we now have V/T/N for each to write out
+  for(unsigned int i=0; i<f.m_vert.size(); ++i)
+  {
+    // don't forget that obj indices start from 1 not 0 (i did originally !)
+    out<<f.m_vert[i]+1;
+    if(m_uv.size() !=0)
     {
-     std::cerr <<"Something wrong with the face data will continue but may not be correct\n";
+    out<<'/';
+    out<<f.m_uv[i]+1;
     }
-
-    // copy in these references to normal vectors to the mesh's normal vector
-    for(auto i : tvec)
+    if(m_norm.size() !=0)
     {
-      f.m_uv.push_back(i-1);
+    out<<'/';
+      // weird case where we need to do f 1//1
+      if(m_uv.size()==0)
+      {
+        out<<'/';
+      }
+    out<<f.m_norm[i]+1;
+    out<<" ";
     }
-
-    f.m_textureCoord=true;
-
+    out<<' ';
   }
-// finally save the face into our face list
-  m_face.push_back(f);
+  out<<'\n';
+  }
+  return true;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-bool Obj::load(const std::string_view &_fname,CalcBB _calcBB )  noexcept
+
+
+bool Obj::load(const std::string_view & _fname, CalcBB _calcBB ) noexcept
 {
- // here we build up our ebnf rules for parsing
-  // so first we have a comment
-  srule comment = spt::comment_p("#");
-
-  // see below for the rest of the obj spec and other good format data
-  // http://local.wasp.uwa.edu.au/~pbourke/dataformats/obj/
-
-  // vertices rule v is a parse of 3 reals and we run the parseVertex function
-  srule vertex= ("v"  >> spt::real_p >> spt::real_p >> spt::real_p) [bind(&Obj::parseVertex,boost::ref(*this), _1)];
-  /// our tex rule and binding of the parse function
-  srule tex= ("vt" >> spt::real_p >> spt::real_p) [bind(&Obj::parseTextureCoordinate, boost::ref(*this), _1)];
-  // the normal rule and parsing function
-  srule norm= ("vn" >> spt::real_p >> spt::real_p >> spt::real_p) [bind(&Obj::parseNormal,boost::ref(*this), _1)];
-
-  // our vertex data can be any of the above values
-  srule vertex_type = vertex | tex | norm;
-
-  // the rule for the face and parser
-  srule  face = (spt::ch_p('f') >> *(spt::anychar_p))[bind(&Obj::parseFace, boost::ref(*this), _1)];
-  // open the file to parse
   std::ifstream in(_fname.data());
   if (in.is_open() != true)
   {
-    std::cout<<"FILE NOT FOUND !!!! "<<_fname.data()<<"\n";
+    std::cerr<<"ERROR .obj file not found  "<<_fname.data()<<"\n";
     return false;
-
   }
+
   std::string str;
-  // loop grabbing a line and then pass it to our parsing framework
-  while(std::getline(in, str))
+  // Read the next line from File untill it reaches the end.
+  while (std::getline(in, str))
   {
-    spt::parse(str.c_str(), vertex_type  | face | comment, spt::space_p);
-  }
-  // now we are done close the file
+    bool status=true;
+  // Line contains string of length > 0 then parse it
+    if(str.size() > 0)
+    {
+      std::vector<std::string> tokens;
+      ps::split(str,tokens);
+      if( tokens[0] == "v" )
+      {
+        status=parseVertex(tokens) ;
+      }
+      else if (tokens[0] == "vn" )
+      {
+        status=parseNormal(tokens);
+      }
+
+      else if(tokens[0] == "vt" )
+      {
+        status=parseUV(tokens);
+      }
+      else if(tokens[0]== "f" )
+      {
+        status=parseFace(tokens);
+      }
+    } // str.size()
+    // early out sanity checks!
+    if(status == false)
+      return false;
+  } // while
+
   in.close();
-
-  // grab the sizes used for drawing later
-/*  m_nVerts=static_cast<unsigned int>(m_verts.size());
-  m_nNorm=static_cast<unsigned int>(m_norm.size());
-  m_nTex=static_cast<unsigned int>(m_uv.size());
-  m_nFaces=static_cast<unsigned int>(m_face.size());
-*/
-
   // Calculate the center of the object.
   if(_calcBB == CalcBB::True)
   {
     this->calcDimensions();
   }
+  m_isLoaded=true;
   return true;
-
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-Obj::Obj(const std::string& _fname  , ngl::Obj::CalcBB _clacBB)  noexcept :AbstractMesh()
+
+bool Obj::parseVertex(std::vector<std::string> &_tokens)
 {
-    m_vbo=false;
-    m_ext=nullptr;
-    // set default values
- //   m_nVerts=m_nNorm=m_nTex=m_nFaces=0;
-    //set the default extents to 0
-    m_maxX=0.0f; m_maxY=0.0f; m_maxZ=0.0f;
-    m_minX=0.0f; m_minY=0.0f; m_minZ=0.0f;
-   // m_nNorm=m_nTex=0;
-
-    // load the file in
-    m_loaded=load(_fname,_clacBB);
-
-    m_texture = false;
+  bool parsedOK=true;
+  try
+  {
+    float x=std::stof(_tokens[1]);
+    float y=std::stof(_tokens[2]);
+    float z=std::stof(_tokens[3]);
+    m_verts.push_back({x,y,z});
+    ++m_currentVertexOffset;
+  }
+  catch (std::invalid_argument)
+  {
+    std::cerr<<"error converting Obj file vertex\n";
+    parsedOK=false;
+  }
+  return parsedOK;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-Obj::Obj( const char *_fname,const char *_texName, CalcBB _calcBB  )  noexcept:AbstractMesh()
+bool Obj::parseNormal(std::vector<std::string> &_tokens)
 {
-  m_vbo=false;
-  m_vao=false;
-  m_ext=nullptr;
-  // set default values
- // m_nVerts=m_nNorm=m_nTex=m_nFaces=0;
-  //set the default extents to 0
-  m_maxX=0.0f; m_maxY=0.0f; m_maxZ=0.0f;
-  m_minX=0.0f; m_minY=0.0f; m_minZ=0.0f;
- // m_nNorm=m_nTex=0;
-  // load the file in
-  m_loaded=load(_fname,_calcBB);
-
-  // load texture
-  loadTexture(_texName);
-  m_texture = true;
-
+  bool parsedOK=true;
+  try
+  {
+    float x=std::stof(_tokens[1]);
+    float y=std::stof(_tokens[2]);
+    float z=std::stof(_tokens[3]);
+    m_norm.push_back({x,y,z});
+    ++m_currentNormalOffset;
+  }
+  catch (std::invalid_argument)
+  {
+    std::cerr<<"error converting Obj file normals\n";
+    parsedOK=false;
+  }
+  return parsedOK;
 }
 
-Obj::Obj( const std::string& _fname,const std::string& _texName, CalcBB _calcBB  )  noexcept:AbstractMesh()
+
+bool Obj::parseUV(std::vector<std::string> &_tokens)
 {
-    //m_vbo=false;
-    //m_vao=false;
-    //m_ext=0;
-    // set default values
-    //m_nVerts=m_nNorm=m_nTex=m_nFaces=0;
-    //set the default extents to 0
-    //m_maxX=0.0f; m_maxY=0.0f; m_maxZ=0.0f;
-    //m_minX=0.0f; m_minY=0.0f; m_minZ=0.0f;
-    //m_nNorm=m_nTex=0;
-    // load the file in
-    m_loaded=load(_fname,_calcBB);
-
-    // load texture
-    loadTexture(_texName);
-    m_texture = true;
+  bool parsedOK=true;
+  try
+  {
+    float x=std::stof(_tokens[1]);
+    float y=std::stof(_tokens[2]);
+    float z=std::stof(_tokens[3]);
+    m_uv.push_back({x,y,z});
+    ++m_currentUVOffset;
+  }
+  catch (std::invalid_argument)
+  {
+    std::cerr<<"error converting Obj file UV's\n";
+    parsedOK=false;
+  }
+  return parsedOK;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-void Obj::save(const std::string& _fname)const noexcept
+
+bool Obj::parseFace(std::vector<std::string> &_tokens)
 {
-  // Open the stream and parse
-  std::fstream fileOut;
-  fileOut.open(_fname.c_str(),std::ios::out);
-  if (!fileOut.is_open())
+  bool parsedOK=true;
+  // first let's find what sort of face we are dealing with
+  // I assume most likely case is all
+  if( ps::count(_tokens[1],"/") == 2 && ps::find(_tokens[1],"//") ==-1)
   {
-    std::cout <<"File : "<<_fname<<" Not found \n";
-    return;
-  }
-  // write out some comments
-  fileOut<<"# This file was created by ngl Obj exporter "<<_fname.c_str()<<'\n';
-  // was c++ 11  for(Vec3 v : m_norm) for all of these
-  // write out the verts
-  for(Vec3 v : m_verts)
-  {
-    fileOut<<"v "<<v.m_x<<" "<<v.m_y<<" "<<v.m_z<<'\n';
+    parsedOK=parseFaceVertexNormalUV(_tokens);
   }
 
-  // write out the tex cords
-  for(Vec3 v : m_uv)
+  else if(ps::find(_tokens[1],"/") == -1)
   {
-    fileOut<<"vt "<<v.m_x<<" "<<v.m_y<<'\n';
+    parsedOK=parseFaceVertex(_tokens);
   }
-  // write out the normals
+  // look for VertNormal
+  else if( ps::find(_tokens[1],"//")!= -1)
+  {
+    parsedOK=parseFaceVertexNormal(_tokens);
+  }
+  // if we have 1 / it is a VertUV format
+  else if( ps::count(_tokens[1],"/") == 1)
+  {
+    parsedOK=parseFaceVertexUV(_tokens);
+  }
 
-  for(Vec3 v : m_norm)
-  {
-    fileOut<<"vn "<<v.m_x<<" "<<v.m_y<<" "<<v.m_z<<'\n';
-  }
+  return parsedOK;
 
-  // finally the faces
-  for(Face f : m_face)
-  {
-  fileOut<<"f ";
-  // we now have V/T/N for each to write out
-  for(unsigned int i=0; i<=f.m_numVerts; ++i)
-  {
-    // don't forget that obj indices start from 1 not 0 (i did originally !)
-    fileOut<<f.m_vert[i]+1;
-    fileOut<<"/";
-    fileOut<<f.m_uv[i]+1;
-    fileOut<<"/";
-
-    fileOut<<f.m_norm[i]+1;
-    fileOut<<" ";
-  }
-  fileOut<<'\n';
-  }
 }
+// f v v v v
+bool Obj::parseFaceVertex(std::vector<std::string> &_tokens)
+{
+  bool parsedOK=true;
+  ngl::Face f;
+  // token still starts with f so skip
+  for( size_t i=1; i<_tokens.size(); ++i)
+  {
+    try
+    {
+      // note we need to subtract one from the list
+      int idx=std::stoi(_tokens[i])-1;
+      // check if we are a negative index
+      if(std::signbit(idx))
+      {
+        // note we index from 0 not 1 like obj so adjust
+        idx=m_currentVertexOffset+(idx+1);
+      }
+      f.m_vert.push_back(static_cast<uint32_t>(idx));
+    }
+    catch (std::invalid_argument)
+    {
+      std::cerr<<"error converting Obj file face\n";
+      parsedOK=false;
+    }
+  }
+  m_face.push_back(f);
+  return parsedOK;
+
+}
+// f v//vn v//vn v//vn v//vn
+bool Obj::parseFaceVertexNormal(std::vector<std::string> &_tokens)
+{
+  bool parsedOK=true;
+  ngl::Face f;
+  // token still starts with f so skip
+  for( size_t i=1; i<_tokens.size(); ++i)
+  {
+    std::vector <std::string> vn;
+    ps::split(_tokens[i],vn,"//");
+    try
+    {
+      // note we need to subtract one from the list
+      int idx=std::stoi(vn[0])-1;
+      // check if we are a negative index
+      if(std::signbit(idx))
+      {
+        // note we index from 0 not 1 like obj so adjust
+        idx=m_currentVertexOffset+(idx+1);
+      }
+      f.m_vert.push_back(static_cast<uint32_t>(idx));
+      idx=std::stoi(vn[1])-1;
+      // check if we are a negative index
+      if(std::signbit(idx))
+      {
+        // note we index from 0 not 1 like obj so adjust
+        idx=m_currentNormalOffset+(idx+1);
+      }
+      f.m_norm.push_back(static_cast<uint32_t>(idx));
+
+    }
+    catch (std::invalid_argument)
+    {
+      std::cerr<<"error converting Obj file face\n";
+      parsedOK=false;
+    }
+  }
+  m_face.push_back(f);
+  return parsedOK;
+
+}
+// f v/vt v/vt v/vt v/vt
+bool Obj::parseFaceVertexUV(std::vector<std::string> &_tokens)
+{
+  bool parsedOK=true;
+  ngl::Face f;
+  // token still starts with f so skip
+  for( size_t i=1; i<_tokens.size(); ++i)
+  {
+    std::vector <std::string> vn;
+    ps::split(_tokens[i],vn,"/");
+    try
+    {
+      // note we need to subtract one from the list
+      int idx=std::stoi(vn[0])-1;
+      // check if we are a negative index
+      if(std::signbit(idx))
+      {
+        // note we index from 0 not 1 like obj so adjust
+        idx=m_currentVertexOffset+(idx+1);
+      }
+      f.m_vert.push_back(static_cast<uint32_t>(idx));
+      idx=std::stoi(vn[1])-1;
+      // check if we are a negative index
+      if(std::signbit(idx))
+      {
+        // note we index from 0 not 1 like obj so adjust
+        idx=m_currentUVOffset+(idx+1);
+      }
+      f.m_uv.push_back(static_cast<uint32_t>(idx));
+
+    }
+    catch (std::invalid_argument)
+    {
+      std::cerr<<"error converting Obj file face\n";
+      parsedOK=false;
+    }
+  }
+  m_face.push_back(f);
+  return parsedOK;
+}
+// f v/vt/vn v/vt/vn v/vt/vn v/vt/vn
+bool Obj::parseFaceVertexNormalUV(std::vector<std::string> &_tokens)
+{
+  bool parsedOK=true;
+  ngl::Face f;
+  // token still starts with f so skip
+  for( size_t i=1; i<_tokens.size(); ++i)
+  {
+    std::vector <std::string> vn;
+    ps::split(_tokens[i],vn,"/");
+    try
+    {
+      // note we need to subtract one from the list
+      int idx=std::stoi(vn[0])-1;
+      // check if we are a negative index
+      if(std::signbit(idx))
+      {
+        // note we index from 0 not 1 like obj so adjust
+        idx=m_currentVertexOffset+(idx+1);
+      }
+      f.m_vert.push_back(static_cast<uint32_t>(idx));
+
+      idx=std::stoi(vn[1])-1;
+      // check if we are a negative index
+      if(std::signbit(idx))
+      {
+        // note we index from 0 not 1 like obj so adjust
+        idx=m_currentUVOffset+(idx+1);
+      }
+      f.m_uv.push_back(static_cast<uint32_t>(idx));
+
+
+      idx=std::stoi(vn[2])-1;
+      // check if we are a negative index
+      if(std::signbit(idx))
+      {
+        // note we index from 0 not 1 like obj so adjust
+        idx=m_currentNormalOffset+(idx+1);
+      }
+      f.m_norm.push_back(static_cast<uint32_t>(idx));
+    }
+    catch (std::invalid_argument)
+    {
+      std::cerr<<"error converting Obj file face\n";
+      parsedOK=false;
+    }
+  }
+  m_face.push_back(f);
+  return parsedOK;
+}
+
 
 } //end ngl namespace
 //----------------------------------------------------------------------------------------------------------------------

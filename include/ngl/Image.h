@@ -41,7 +41,7 @@ public:
   /// @brief ctor passing in filename
   /// @param _fname the name of the file to load.
   //----------------------------------------------------------------------------------------------------------------------
-  Image(const std::string &_fname);
+  Image(const std::string_view &_fname);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor (does a deep copy so could be expensive)
   /// @param _i image to copy
@@ -56,7 +56,7 @@ public:
   /// @param _fname name of the file to load
   /// @returns true is loaded ok, else false
   //----------------------------------------------------------------------------------------------------------------------
-  bool load(const std::string &_fname) noexcept;
+  bool load(const std::string_view &_fname) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief raw access to unsigned char pixel data
   /// @returns a pointer to the first image pixel element.
@@ -72,7 +72,7 @@ public:
   /// @brief _mode RGB or RGBA image
   //----------------------------------------------------------------------------------------------------------------------
   enum class ImageModes : char {RGB,RGBA};
-  static void saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int _width, int _height,ImageModes _mode=ImageModes::RGB);
+  static void saveFrameBufferToFile(const std::string_view &_fname, int _x, int _y, int _width, int _height,ImageModes _mode=ImageModes::RGB);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Get the width of the texture
   /// @return width of the texture

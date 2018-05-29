@@ -21,91 +21,79 @@
 /// @brief basic obj loader inherits from AbstractMesh
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
-#include "Types.h"
 #include <vector>
-#include "Texture.h"
-#include <iostream>
-#include <fstream>
 #include <string>
-#include <memory>
-#include <vector>
-#include "Vec4.h"
 #include "AbstractMesh.h"
-#include "BBox.h"
-#include "RibExport.h"
-#include <cmath>
 
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
 /// @class Obj "include/Obj.h"
 /// @brief used to load in an alias wave front obj format file and draw using open gl
-///  has been completly re-written to use boost::spirit parser, most of this code is a
-/// modified version of the OBJReader class from the cortex-vfx lib framework here
-/// http://code.google.com/p/cortex-vfx/
+/// removed all boost stuff
 /// @author Jonathan Macey
-/// @version 4.0
-/// @date 22/10/09 updated to use boost::spirit parser framework
-/// @example AnimatedObj/AnimatedObj.cpp
-/// @example ObjViewer/ObjViewer.cpp
+/// @version 5.0
 //----------------------------------------------------------------------------------------------------------------------
 
 class NGL_DLLEXPORT Obj : public AbstractMesh
 {
 
-public :
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief default constructor
-  //----------------------------------------------------------------------------------------------------------------------
-  Obj()  noexcept: AbstractMesh(){;}
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief  constructor to load an objfile as a parameter
-  /// @param[in]  &_fname the name of the obj file to load
-  //----------------------------------------------------------------------------------------------------------------------
-  explicit Obj( const std::string& _fname , CalcBB _clacBB=CalcBB::True) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief constructor to load an objfile as a parameter
-  /// @param[in]  &_fname the name of the obj file to load
-  /// @param[in]  &_texName the name of the texture file
-  //----------------------------------------------------------------------------------------------------------------------
-  explicit Obj( const std::string& _fname,  const std::string& _texName,CalcBB _clacBB=CalcBB::True ) noexcept;
-  // avoid _texName being converted to bool via explicit conversion
-  explicit Obj( const char *_fname,  const char *_texName,CalcBB _clacBB=CalcBB::True ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief  Method to load the file in
-  /// @param[in]  _fname the name of the obj file to load
-  /// @param[in] _calcBB if we only want to load data and not use GL then set this to false
-  //----------------------------------------------------------------------------------------------------------------------
-  virtual bool load(const std::string_view &_fname,CalcBB _calcBB=CalcBB::True) noexcept override;
+  public :
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief default constructor
+    //----------------------------------------------------------------------------------------------------------------------
+    Obj()  noexcept: ngl::AbstractMesh(){}
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief  constructor to load an objfile as a parameter
+    /// @param[in]  &_fname the name of the obj file to load
+    //----------------------------------------------------------------------------------------------------------------------
+    Obj( const std::string_view& _fname  , CalcBB _clacBB=CalcBB::True)  noexcept ;
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief constructor to load an objfile as a parameter
+    /// @param[in]  &_fname the name of the obj file to load
+    /// @param[in]  &_texName the name of the texture file
+    // avoid _texName being converted to bool via explicit conversion
+    //----------------------------------------------------------------------------------------------------------------------
+    Obj(const std::string_view &_fname,  const std::string_view &_texName, CalcBB _calcBB=CalcBB::True ) noexcept;
 
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief  method to save the obj
-  /// @param[in] _fname the name of the file to save
-  //----------------------------------------------------------------------------------------------------------------------
-  void save( const std::string& _fname  ) const  noexcept;
+    Obj(const Obj &_c);
+    void addVertex(const Vec3 &_v);
+    void addNormal(const Vec3 &_v);
+    void addUV(const Vec2 &_v);
+    void addUV(const Vec3 &_v);
+    void addFace(const Face &_f);
 
-protected :
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief parser function to parse the vertex used by boost::spirit parser
-  /// @param[in] _begin the start of the string to parse
-  //----------------------------------------------------------------------------------------------------------------------
-  virtual void parseVertex( const char *_begin ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief parser function to parse the Norma used by boost::spirit parser
-  /// @param[in] _begin the start of the string to parse
-  //----------------------------------------------------------------------------------------------------------------------
-  virtual void parseNormal( const char *_begin  ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief parser function to parse the text cord used by boost::spirit parser
-  /// @param[in] _begin the start of the string to parse
-  //----------------------------------------------------------------------------------------------------------------------
-  virtual void parseTextureCoordinate( const char * _begin ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief parser function to parse the Face data used by boost::spirit parser
-  /// @param[in] _begin the start of the string to parse
-  //----------------------------------------------------------------------------------------------------------------------
-  virtual void parseFace( const char * _begin ) noexcept;
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief  Method to load the file in
+    /// @param[in]  _fname the name of the obj file to load
+    /// @param[in] _calcBB if we only want to load data and not use GL then set this to false
+    //----------------------------------------------------------------------------------------------------------------------
 
+    virtual bool load(const std::string_view &_fname, CalcBB _calcBB=CalcBB::True ) noexcept;
+    bool save(const std::string_view &_fname);
+    bool isLoaded() const {return m_isLoaded;}
+  private :
+    bool parseVertex(std::vector<std::string> &_tokens);
+    bool parseNormal(std::vector<std::string> &_tokens);
+    bool parseUV(std::vector<std::string> &_tokens);
+    // face parsing is complex we have different layouts.
+    // don't forget we can also have negative indices
+    bool parseFace(std::vector<std::string> &_tokens);
+    // f v v v v
+    bool parseFaceVertex(std::vector<std::string> &_tokens);
+    // f v//vn v//vn v//vn v//vn
+    bool parseFaceVertexNormal(std::vector<std::string> &_tokens);
+    // f v/vt v/vt v/vt v/vt
+    bool parseFaceVertexUV(std::vector<std::string> &_tokens);
+    // f v/vt/vn v/vt/vn v/vt/vn v/vt/vn
+    bool parseFaceVertexNormalUV(std::vector<std::string> &_tokens);
+
+    std::vector<std::string> m_fileContents;
+    bool m_isLoaded=false;
+    // as faces can use negative index values keep track of index
+    size_t m_currentVertexOffset=0;
+    size_t m_currentNormalOffset=0;
+    size_t m_currentUVOffset=0;
 };
 
 }

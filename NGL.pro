@@ -182,7 +182,8 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
     $$SRC_DIR/AbstractVAO.cpp \
     $$SRC_DIR/MultiBufferVAO.cpp \
     $$SRC_DIR/SimpleVAO.cpp \
-    $$SRC_DIR/SimpleIndexVAO.cpp
+    $$SRC_DIR/SimpleIndexVAO.cpp \
+    $$SRC_DIR/pystring.cpp
     !macx:{
       SOURCES+=$$PWD/gl3w/gl3w.c
     }
@@ -248,7 +249,8 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/rapidxml/rapidxml.hpp \
 		$$INC_DIR/rapidxml/rapidxml_iterators.hpp \
 		$$INC_DIR/rapidxml/rapidxml_print.hpp \
-    $$INC_DIR/rapidxml/rapidxml_utils.hpp
+    $$INC_DIR/rapidxml/rapidxml_utils.hpp \
+    $$INC_DIR/pystring.h
 
     !macx:{
             HEADERS+=$$PWD/gl3w/gl3w.h
