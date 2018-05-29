@@ -289,7 +289,7 @@ void AbstractMesh::createVAO() noexcept
   }
 
   // first we grab an instance of our VOA
-  m_vaoMesh= ngl::VAOFactory::createVAO("simpleVAO",m_dataPackType);
+  m_vaoMesh= ngl::VAOFactory::createVAO(simpleVAO,m_dataPackType);
   // next we bind it so it's active for setting data
   m_vaoMesh->bind();
   m_meshSize=vboMesh.size();
@@ -325,6 +325,7 @@ void AbstractMesh::createVAO() noexcept
 
 	// indicate we have a vao now
 	m_vao=true;
+  m_vbo=true;
   // create a new bbox based on the new object size
   m_ext.reset(new BBox(m_minX,m_maxX,m_minY,m_maxY,m_minZ,m_maxZ));
 
@@ -486,7 +487,7 @@ void AbstractMesh::calcBoundingSphere() noexcept
 auto size=m_verts.size();
 if( size <=0 )
 {
-	std::cerr<<"now vertices loaded \n";
+  std::cerr<<"no vertices loaded \n";
 	m_sphereCenter=0;
 	m_sphereRadius=0;
 	return;
@@ -494,13 +495,13 @@ if( size <=0 )
 }
 // find minimal and maximal extents and indexs into
 // into vert array
-int minXI=0; int minYI=0; int minZI=0;
-int maxXI=0; int maxYI=0; int maxZI=0;
+size_t minXI=0; int minYI=0; int minZI=0;
+size_t maxXI=0; int maxYI=0; int maxZI=0;
 Real minX=m_verts[0].m_x; Real maxX=m_verts[0].m_x;
 Real minY=m_verts[0].m_y; Real maxY=m_verts[0].m_y;
 Real minZ=m_verts[0].m_z; Real maxZ=m_verts[0].m_z;
 
-for(unsigned int i=0; i<size; ++i)
+for(size_t i=0; i<size; ++i)
 {
   if(m_verts[i].m_x < minX) { minXI=i; minX=m_verts[i].m_x; }
   if(m_verts[i].m_x > maxX) { maxXI=i; maxX=m_verts[i].m_x; }

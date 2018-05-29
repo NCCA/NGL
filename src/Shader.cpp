@@ -62,9 +62,15 @@ Shader::Shader(const std::string &_name,  ShaderType _type ) noexcept
       case ShaderType::GEOMETRY : { m_shaderHandle = glCreateShader(GL_GEOMETRY_SHADER); break; }
       case ShaderType::TESSCONTROL : { m_shaderHandle =glCreateShader(GL_TESS_CONTROL_SHADER); break; }
       case ShaderType::TESSEVAL : { m_shaderHandle =glCreateShader(GL_TESS_EVALUATION_SHADER); break; }
-      #ifndef __APPLE__
-        case ShaderType::COMPUTE : { m_shaderHandle =glCreateShader(GL_COMPUTE_SHADER); break; }
+      case ShaderType::COMPUTE :
+      #if defined(__APPLE__)
+        std::cerr<<"Apple doesn't support Computer Shaders \n";
+      #else
+        {
+          m_shaderHandle =glCreateShader(GL_COMPUTE_SHADER);
+        }
       #endif
+      break;
     #endif
     case ShaderType::NONE :{;}
   }
