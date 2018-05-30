@@ -23,7 +23,7 @@ namespace ngl
     if (it != m_vaoCreators.end())
     {
       // call the creation callback to construct this derived type
-      return std::move(it->second(_mode));
+      return it->second(_mode);
     }
     return nullptr;
   }

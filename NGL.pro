@@ -145,7 +145,6 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/VAOPrimitives.cpp \
 		$$SRC_DIR/Util.cpp \
 		$$SRC_DIR/Texture.cpp \
-		$$SRC_DIR/SpotLight.cpp \
 		$$SRC_DIR/ShaderLib.cpp \
 		$$SRC_DIR/Transformation.cpp \
 		$$SRC_DIR/RibExport.cpp \
@@ -154,9 +153,7 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/Obj.cpp \
 		$$SRC_DIR/Mat4.cpp \
 		$$SRC_DIR/Material.cpp \
-		$$SRC_DIR/Light.cpp \
 		$$SRC_DIR/NGLInit.cpp \
-		$$SRC_DIR/Colour.cpp \
 		$$SRC_DIR/Camera.cpp \
 		$$SRC_DIR/NCCABinMesh.cpp \
 		$$SRC_DIR/BezierCurve.cpp \
@@ -173,8 +170,6 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/Vec2.cpp \
 		$$SRC_DIR/Text.cpp \
 		$$SRC_DIR/Mat3.cpp \
-		$$SRC_DIR/AbstractSerializer.cpp \
-		$$SRC_DIR/XMLSerializer.cpp \
 		$$SRC_DIR/NGLStream.cpp \
 		$$SRC_DIR/Logger.cpp \
     $$SRC_DIR/Image.cpp \
@@ -204,7 +199,6 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/Util.h \
 		$$INC_DIR/Types.h \
 		$$INC_DIR/Texture.h \
-		$$INC_DIR/SpotLight.h \
 		$$INC_DIR/ShaderLib.h \
 		$$INC_DIR/RibExport.h \
 		$$INC_DIR/Transformation.h \
@@ -214,9 +208,7 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/NGLassert.h \
 		$$INC_DIR/Mat4.h \
 		$$INC_DIR/Material.h \
-		$$INC_DIR/Light.h \
 		$$INC_DIR/NGLInit.h \
-		$$INC_DIR/Colour.h \
 		$$INC_DIR/Camera.h \
 		$$INC_DIR/BezierCurve.h \
 		$$INC_DIR/NCCABinMesh.h \
@@ -239,8 +231,6 @@ HEADERS += $$INC_DIR/Vec4.h \
     $$INC_DIR/SimpleVAO.h \
     $$INC_DIR/SimpleIndexVAO.h \
     $$INC_DIR/MultiBufferVAO.h \
-    $$INC_DIR/AbstractSerializer.h \
-		$$INC_DIR/XMLSerializer.h \
 		$$INC_DIR/NGLStream.h \
 		$$SRC_DIR/shaders/TextShaders.h \
 		$$SRC_DIR/shaders/ColourShaders.h \

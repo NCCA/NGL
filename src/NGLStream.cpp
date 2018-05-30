@@ -1,5 +1,4 @@
 #include "Camera.h"
-#include "Colour.h"
 #include "Vec2.h"
 #include "Vec3.h"
 #include "Vec4.h"
@@ -52,19 +51,6 @@ NGL_DLLEXPORT std::ostream& operator<<(std::ostream& _output, const Camera &_c	)
   return _output<<"m_eye"<<_c.getEye()<<" m_look"<<_c.getLook()<<" Up"<<_c.getUp();
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-NGL_DLLEXPORT  std::ostream&  operator<<( std::ostream &_output, const Colour& _s )
-{
- return _output<<"["<<_s.m_r<<","<<_s.m_g<<","<<_s.m_b<<","<<_s.m_a<<"]";
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-
-NGL_DLLEXPORT  std::istream& operator>>( std::istream &_input, Colour &_s )
-{
- _input >> _s.m_r >> _s.m_g >> _s.m_b >> _s.m_a;
- return _input;
-}
 
 //----------------------------------------------------------------------------------------------------------------------
 NGL_DLLEXPORT std::ostream& operator<<(std::ostream &_output,const Mat3 &_m )

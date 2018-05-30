@@ -337,7 +337,7 @@ void Text::setScreenSize(int _w, int _h ) noexcept
 // fragColour.rgb=textColour.rgb;
 // fragColour.a=text.a;
 
-void Text::setColour(const Colour &_c ) noexcept
+void Text::setColour(const Vec3 &_c ) noexcept
 {
   // get shader instance
   ShaderLib *shader=ShaderLib::instance();

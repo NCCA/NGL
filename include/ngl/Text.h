@@ -37,7 +37,6 @@
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
 
-#include "Colour.h"
 #include "Types.h"
 #include "Vec2.h"
 #include "VAOFactory.h"
@@ -102,7 +101,7 @@ public:
   /// @brief set the colour of the font from an Colour
   /// @param[in] _c the colour to set for the font (alpha is overridden by the texture)
   //----------------------------------------------------------------------------------------------------------------------
-  void setColour( const Colour &_c  ) noexcept;
+  void setColour( const Vec3 &_c  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the colour of the font from three floats as a convenience method
   /// @param[in] _r the red component of the colour for the font

@@ -17,8 +17,8 @@
 #ifndef MATERIAL_H_
 #define MATERIAL_H_
 // must include types.h first for Real and GLEW if required
-#include "Colour.h"
 #include "Types.h"
+#include "Vec4.h"
 #include <string>
 
 /// @file Material.h
@@ -101,12 +101,12 @@ public :
   void change( const STDMAT _mat ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Constructor for material
-  /// @param[in]  _amb the ambient colour
-  /// @param[in]  _dif the diffuse colour
-  /// @param[in]  _spec the specular colour
-  /// @param[in]  _emis the emimissive colour
+  /// @param[in]  _amb the ambient Vec4
+  /// @param[in]  _dif the diffuse Vec4
+  /// @param[in]  _spec the specular Vec4
+  /// @param[in]  _emis the emimissive Vec4
   //----------------------------------------------------------------------------------------------------------------------
-  Material( Colour _amb=0.0f,  Colour _dif=0.5f, Colour _spec=1.0f )  noexcept:
+  Material( Vec4 _amb=0.0f,  Vec4 _dif=0.5f, Vec4 _spec=1.0f )  noexcept:
             m_ambient(_amb),
             m_diffuse(_dif),
             m_specular(_spec)
@@ -119,7 +119,7 @@ public :
   Material(STDMAT _mat) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief Constructor using an index into the default colour array from sdtmat for the coulour
+  /// @brief Constructor using an index into the default Vec4 array from sdtmat for the coulour
   /// @param[in] _mat the  index
   //----------------------------------------------------------------------------------------------------------------------
   Material( int _mat ) noexcept;
@@ -135,25 +135,25 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   void load(  const std::string &_fName  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief mutator to set the Ambient colour value
-  /// @param[in] _c  colour values to be set
+  /// @brief mutator to set the Ambient Vec4 value
+  /// @param[in] _c  Vec4 values to be set
   //----------------------------------------------------------------------------------------------------------------------
-  void setAmbient(const Colour &_c) noexcept{ m_ambient = _c;}
-  Colour getAmbient() const noexcept {return m_ambient;}
+  void setAmbient(const Vec4 &_c) noexcept{ m_ambient = _c;}
+  Vec4 getAmbient() const noexcept {return m_ambient;}
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief mutator to set the Diffuse colour value
-  /// @param[in] _c  colour values to be set
+  /// @brief mutator to set the Diffuse Vec4 value
+  /// @param[in] _c  Vec4 values to be set
   //----------------------------------------------------------------------------------------------------------------------
-  void setDiffuse(const Colour &_c) noexcept{ m_diffuse = _c;}
-  Colour getDiffuse() const noexcept {return m_diffuse;}
+  void setDiffuse(const Vec4 &_c) noexcept{ m_diffuse = _c;}
+  Vec4 getDiffuse() const noexcept {return m_diffuse;}
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief mutator to set the Specular colour value
-  /// @param[in] _c  colour values to be set
+  /// @brief mutator to set the Specular Vec4 value
+  /// @param[in] _c  Vec4 values to be set
   //----------------------------------------------------------------------------------------------------------------------
-  void setSpecular(const Colour &_c) noexcept{ m_specular = _c;}
-  Colour getSpecular() const  noexcept{return m_specular;}
+  void setSpecular(const Vec4 &_c) noexcept{ m_specular = _c;}
+  Vec4 getSpecular() const  noexcept{return m_specular;}
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief mutator to set the specular exponent colour value
+  /// @brief mutator to set the specular exponent Vec4 value
   /// @param[in] _s  specular exponent value smaller = larger highlights
   //----------------------------------------------------------------------------------------------------------------------
   void setSpecularExponent(Real _s) noexcept{ m_specularExponent=_s;}
@@ -185,15 +185,15 @@ protected :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ambient component of the material
   //----------------------------------------------------------------------------------------------------------------------
-  Colour m_ambient;
+  Vec4 m_ambient;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief diffuse component of the material
   //----------------------------------------------------------------------------------------------------------------------
-  Colour m_diffuse;
+  Vec4 m_diffuse;
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief specular component of the material
   //----------------------------------------------------------------------------------------------------------------------
-  Colour m_specular;
+  Vec4 m_specular;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief specular exponent used for OpenGL material
   //----------------------------------------------------------------------------------------------------------------------

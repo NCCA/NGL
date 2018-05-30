@@ -53,7 +53,7 @@ Image::Image(const Image &_i) :m_width(_i.m_width),m_height(_i.m_height),
 
 }
 
-Colour Image::getColour(const GLuint _x,const GLuint _y ) const noexcept
+Vec4 Image::getColour(const GLuint _x,const GLuint _y ) const noexcept
 {
 // make sure were in the image range
 	NGL_ASSERT(_x<=m_width && _y<=m_height);
@@ -62,21 +62,21 @@ Colour Image::getColour(const GLuint _x,const GLuint _y ) const noexcept
     auto offset=_x*m_channels+((_y)*m_width*m_channels);
     if(m_channels == 3)
     {
-      return Colour(m_data[offset],m_data[offset+1],m_data[offset+2]);
+      return Vec4(m_data[offset],m_data[offset+1],m_data[offset+2]);
 		}
 		else
 		{
-		return Colour(m_data[offset],m_data[offset+1],m_data[offset+2],m_data[offset+3]);
+    return Vec4(m_data[offset],m_data[offset+1],m_data[offset+2],m_data[offset+3]);
 		}
 	}
 	else
 	{
-		return Colour(0,0,0,0);
+    return Vec4(0,0,0,0);
 	}
 }
 
 
-Colour Image::getColour(const Real _uvX, const Real _uvY ) const noexcept
+Vec4 Image::getColour(const Real _uvX, const Real _uvY ) const noexcept
 {
 
   GLuint xx = static_cast<GLuint> (_uvX * (m_width-1));
@@ -89,16 +89,16 @@ Colour Image::getColour(const Real _uvX, const Real _uvY ) const noexcept
     auto offset = xx * m_channels + (yy * m_width * m_channels );
     if(m_channels == 4)
     {
-      return Colour(m_data[offset],m_data[offset+1],m_data[offset+2],m_data[offset+3]);
+      return Vec4(m_data[offset],m_data[offset+1],m_data[offset+2],m_data[offset+3]);
     }
     else
     {
-      return Colour(m_data[offset],m_data[offset+1],m_data[offset+2],1.0);
+      return Vec4(m_data[offset],m_data[offset+1],m_data[offset+2],1.0);
     }
   }
   else
   {
-    return Colour(0,0,0,0);
+    return Vec4(0.0f,0.0f,0.0f,0.0f);
   }
 }
 

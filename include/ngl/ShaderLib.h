@@ -20,7 +20,6 @@
 /// @brief main shader loader / manager class for GLSL shaders
 // must include types.h first for Real and GLEW if required
 
-#include "Colour.h"
 #include "Shader.h"
 #include "ShaderProgram.h"
 #include "Singleton.h"
@@ -288,13 +287,7 @@ public :
   /// @param[in] _v3 the int value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string &_paramName,GLint _v0,GLint _v1,GLint _v2,GLint _v3) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms the shader
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the colour value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,Colour _v0) noexcept;
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail

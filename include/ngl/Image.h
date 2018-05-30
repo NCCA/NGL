@@ -26,7 +26,7 @@
 #include <string>
 #include <memory>
 #include "Types.h"
-#include "Colour.h"
+#include "Vec4.h"
 namespace ngl
 {
 
@@ -98,13 +98,13 @@ public:
   /// @param[in] _x the x position in the image
   /// @param[in] _y the y position in the image
   //----------------------------------------------------------------------------------------------------------------------
-  Colour getColour(const GLuint _x, const GLuint _y ) const noexcept;
+  Vec4 getColour(const GLuint _x, const GLuint _y ) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the colour value from X,Y co-ordinates in texture space
   /// @param[in] _uvX the x position in the image
   /// @param[in] _uvY the y position in the image
   //----------------------------------------------------------------------------------------------------------------------
-  Colour getColour(const Real _uvX, const Real _uvY) const noexcept;
+  Vec4 getColour(const Real _uvX, const Real _uvY) const noexcept;
 
 private :
 	//----------------------------------------------------------------------------------------------------------------------

@@ -724,10 +724,6 @@ void ShaderLib::setUniform(const std::string &_paramName,GLint _v0,GLint _v1,GLi
   (*this)[m_currentShader]->setRegisteredUniform4i(_paramName.c_str(),_v0,_v1,_v2,_v3);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,Colour _v0) noexcept
-{
-  (*this)[m_currentShader]->setRegisteredUniform4f(_paramName.c_str(),_v0.m_r,_v0.m_g,_v0.m_b,_v0.m_a);
-}
 void ShaderLib::setUniform(const std::string &_paramName,Vec2 _v0) noexcept
 {
   (*this)[m_currentShader]->setRegisteredUniform2f(_paramName.c_str(),_v0.m_x,_v0.m_y);

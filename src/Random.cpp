@@ -76,22 +76,6 @@ Real Random::getFloatFromGeneratorName(const std::string &_name  )
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-Colour Random::getRandomColour()
-{
-  // get our positive gen function and assign valus to a colour (alpha =1)
-  auto gen=m_floatGenerators[RandomPositiveFloat];
-  return Colour(gen(m_generator),gen(m_generator),gen(m_generator));
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-Colour Random::getRandomColourAndAlpha()
-{
-	// get our positive gen function and assign valus to a colour with rand alpha
-
-  auto gen=m_floatGenerators[RandomPositiveFloat];
-  return Colour(gen(m_generator),gen(m_generator),gen(m_generator),gen(m_generator));
-}
 
 //----------------------------------------------------------------------------------------------------------------------
 Vec4 Random::getRandomVec4()
