@@ -31,12 +31,20 @@ namespace ps=pystring;
 
 Obj::Obj(const std::string_view &_fname  , CalcBB _calcBB)  noexcept :AbstractMesh()
 {
-  load(_fname,_calcBB);
+  if ( load(_fname,_calcBB) == false)
+  {
+    std::cerr<<"Error loading file "<<_fname.data()<<" exiting \n";
+    exit(EXIT_FAILURE);
+  }
 }
 
 Obj::Obj( const std::string_view &_fname,  const std::string_view &_texName,CalcBB _calcBB) noexcept : AbstractMesh()
 {
-  load(_fname,_calcBB);
+  if ( load(_fname,_calcBB) == false)
+  {
+    std::cerr<<"Error loading file "<<_fname.data()<<" exiting \n";
+    exit(EXIT_FAILURE);
+  }
   // load texture
   loadTexture(_texName);
   m_texture = true;
@@ -249,9 +257,14 @@ bool Obj::parseUV(std::vector<std::string> &_tokens)
   bool parsedOK=true;
   try
   {
-    float x=std::stof(_tokens[1]);
-    float y=std::stof(_tokens[2]);
-    float z=std::stof(_tokens[3]);
+    float x,y,z=0.0f;
+    x=std::stof(_tokens[1]);
+    y=std::stof(_tokens[2]);
+    if(_tokens.size() == 4)
+    {
+      z=std::stof(_tokens[3]);
+    }
+
     m_uv.push_back({x,y,z});
     ++m_currentUVOffset;
   }
