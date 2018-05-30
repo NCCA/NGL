@@ -136,18 +136,8 @@ public :
   /// @returns (uniform_random(0-1) * _mult)
   //----------------------------------------------------------------------------------------------------------------------
   Real randomPositiveNumber(  Real _mult=1  );
-  /*
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief method to add a new generator, we must choose which distribution
-  /// as well as a range for the distribution (if appropriate)
-  /// @param _distribution the distribution function to use
-  /// @param _min the min value for the distrbibution note will be cast to (int) if needed
-  /// @param _max the max value for distribution note will be cast to (int) if needed
-  /// @param _prob, the triangle dist uses this (see http://www.boost.org/doc/libs/1_43_0/doc/html/boost/triangle_distribution.html)
-  //----------------------------------------------------------------------------------------------------------------------
-  void addGenerator( const std::string &_name, RANDDIST _distribution, Real _min=0.0, Real _max=1.0,Real _prob=0.5);
-  */
-protected :
+
+  protected :
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the generator for rng class where all funcs and distribs are added.

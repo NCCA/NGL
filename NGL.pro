@@ -83,8 +83,8 @@ QMAKE_POST_LINK = install_name_tool -id @rpath/$$PWD/lib/libNGL.1.0.0.dylib $$PW
 }
 
 # this is where to look for includes
-INCLUDEPATH += $$BASE_DIR/include/ngl
-INCLUDEPATH += $$BASE_DIR/src/ngl
+INCLUDEPATH +=$$BASE_DIR/include/ngl
+INCLUDEPATH +=$$BASE_DIR/src/ngl
 INCLUDEPATH +=$$BASE_DIR/src/shaders
 INCLUDEPATH +=$$BASE_DIR/include/rapidjson
 INCLUDEPATH +=$$BASE_DIR/gl3w/
@@ -96,8 +96,6 @@ unix:LIBS += -L/usr/local/lib
 # set the SRC_DIR so we can find the project files
 SRC_DIR = $$BASE_DIR/src
 
-DEFINES+=BOOST_SYSTEM_NO_DEPRECATED
-DEFINES+=BOOST_ERROR_CODE_HEADER_ONLY
 
 # and the include files
 INC_DIR = $$BASE_DIR/include/ngl
@@ -125,17 +123,13 @@ win32|unix:!macx{
 
 
 # The windows configuration is very frustrating however I seem to have it working now
-# you will need to install boost in the path below
 # once you have done this set the PATH environment variable to look in
 # c:/NGL/lib to find the DLL
 win32{
 				message("Using Windows check to see what needs to be installed")
 				CONFIG+=staticlib
-				INCLUDEPATH +=C:/boost/
         INCLUDEPATH += C:/SDKs/ #for university STEM build
 				DEFINES+=_USE_MATH_DEFINES
-				# Silence some boost warnings
-				DEFINES+= _SCL_SECURE_NO_WARNINGS
 				DESTDIR=c:/
 				DEFINES += NO_DLL
 }
@@ -149,12 +143,10 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/Transformation.cpp \
 		$$SRC_DIR/RibExport.cpp \
 		$$SRC_DIR/Quaternion.cpp \
-		$$SRC_DIR/PathCamera.cpp \
 		$$SRC_DIR/Obj.cpp \
 		$$SRC_DIR/Mat4.cpp \
 		$$SRC_DIR/Material.cpp \
 		$$SRC_DIR/NGLInit.cpp \
-		$$SRC_DIR/Camera.cpp \
 		$$SRC_DIR/NCCABinMesh.cpp \
 		$$SRC_DIR/BezierCurve.cpp \
 		$$SRC_DIR/BBox.cpp \
@@ -183,7 +175,6 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
       SOURCES+=$$PWD/gl3w/gl3w.c
     }
 
-
 ios {
 	message("IOS BUILD")
 	DEFINES+=USINGIOS_
@@ -203,13 +194,11 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/RibExport.h \
 		$$INC_DIR/Transformation.h \
 		$$INC_DIR/Quaternion.h \
-		$$INC_DIR/PathCamera.h \
 		$$INC_DIR/Obj.h \
 		$$INC_DIR/NGLassert.h \
 		$$INC_DIR/Mat4.h \
 		$$INC_DIR/Material.h \
 		$$INC_DIR/NGLInit.h \
-		$$INC_DIR/Camera.h \
 		$$INC_DIR/BezierCurve.h \
 		$$INC_DIR/NCCABinMesh.h \
 		$$INC_DIR/BBox.h \
