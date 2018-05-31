@@ -50,7 +50,7 @@ Obj::Obj( const std::string_view &_fname,  const std::string_view &_texName,Calc
   m_texture = true;
 }
 
-Obj::Obj(const Obj &_c)
+Obj::Obj(const Obj &_c) noexcept
 {
   m_verts=_c.m_verts;
   m_norm=_c.m_norm;
@@ -74,31 +74,31 @@ Obj::Obj(const Obj &_c)
 }
 
 
-void Obj::addVertex(const ngl::Vec3 &_v)
+void Obj::addVertex(const ngl::Vec3 &_v) noexcept
 {
   m_verts.push_back(_v);
 }
-void Obj::addNormal(const ngl::Vec3 &_v)
+void Obj::addNormal(const ngl::Vec3 &_v) noexcept
 {
   m_norm.push_back(_v);
 }
-void Obj::addUV(const ngl::Vec2 &_v)
+void Obj::addUV(const ngl::Vec2 &_v) noexcept
 {
   ngl::Vec3 v(_v.m_x,_v.m_y,0.0f);
   m_uv.push_back(v);
 }
-void Obj::addUV(const ngl::Vec3 &_v)
+void Obj::addUV(const ngl::Vec3 &_v) noexcept
 {
   m_uv.push_back(_v);
 }
 
-void Obj::addFace(const ngl::Face &_f)
+void Obj::addFace(const ngl::Face &_f) noexcept
 {
   m_face.push_back(_f);
 }
 
 
-bool Obj::save(const std::string_view &_fname)
+bool Obj::save(const std::string_view &_fname) noexcept
 {
   std::ofstream out(_fname.data());
   if (out.is_open() != true)
@@ -213,7 +213,7 @@ bool Obj::load(const std::string_view & _fname, CalcBB _calcBB ) noexcept
 }
 
 
-bool Obj::parseVertex(std::vector<std::string> &_tokens)
+bool Obj::parseVertex(std::vector<std::string> &_tokens) noexcept
 {
   bool parsedOK=true;
   try
@@ -232,7 +232,7 @@ bool Obj::parseVertex(std::vector<std::string> &_tokens)
   return parsedOK;
 }
 
-bool Obj::parseNormal(std::vector<std::string> &_tokens)
+bool Obj::parseNormal(std::vector<std::string> &_tokens) noexcept
 {
   bool parsedOK=true;
   try
@@ -252,7 +252,7 @@ bool Obj::parseNormal(std::vector<std::string> &_tokens)
 }
 
 
-bool Obj::parseUV(std::vector<std::string> &_tokens)
+bool Obj::parseUV(std::vector<std::string> &_tokens) noexcept
 {
   bool parsedOK=true;
   try
@@ -277,7 +277,7 @@ bool Obj::parseUV(std::vector<std::string> &_tokens)
 }
 
 
-bool Obj::parseFace(std::vector<std::string> &_tokens)
+bool Obj::parseFace(std::vector<std::string> &_tokens) noexcept
 {
   bool parsedOK=true;
   // first let's find what sort of face we are dealing with
@@ -306,7 +306,7 @@ bool Obj::parseFace(std::vector<std::string> &_tokens)
 
 }
 // f v v v v
-bool Obj::parseFaceVertex(std::vector<std::string> &_tokens)
+bool Obj::parseFaceVertex(std::vector<std::string> &_tokens) noexcept
 {
   bool parsedOK=true;
   ngl::Face f;
@@ -336,7 +336,7 @@ bool Obj::parseFaceVertex(std::vector<std::string> &_tokens)
 
 }
 // f v//vn v//vn v//vn v//vn
-bool Obj::parseFaceVertexNormal(std::vector<std::string> &_tokens)
+bool Obj::parseFaceVertexNormal(std::vector<std::string> &_tokens) noexcept
 {
   bool parsedOK=true;
   ngl::Face f;
@@ -377,7 +377,7 @@ bool Obj::parseFaceVertexNormal(std::vector<std::string> &_tokens)
 
 }
 // f v/vt v/vt v/vt v/vt
-bool Obj::parseFaceVertexUV(std::vector<std::string> &_tokens)
+bool Obj::parseFaceVertexUV(std::vector<std::string> &_tokens) noexcept
 {
   bool parsedOK=true;
   ngl::Face f;
@@ -417,7 +417,7 @@ bool Obj::parseFaceVertexUV(std::vector<std::string> &_tokens)
   return parsedOK;
 }
 // f v/vt/vn v/vt/vn v/vt/vn v/vt/vn
-bool Obj::parseFaceVertexNormalUV(std::vector<std::string> &_tokens)
+bool Obj::parseFaceVertexNormalUV(std::vector<std::string> &_tokens) noexcept
 {
   bool parsedOK=true;
   ngl::Face f;

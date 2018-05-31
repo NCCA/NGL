@@ -56,12 +56,12 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
     //----------------------------------------------------------------------------------------------------------------------
     Obj(const std::string_view &_fname,  const std::string_view &_texName, CalcBB _calcBB=CalcBB::True ) noexcept;
 
-    Obj(const Obj &_c);
-    void addVertex(const Vec3 &_v);
-    void addNormal(const Vec3 &_v);
-    void addUV(const Vec2 &_v);
-    void addUV(const Vec3 &_v);
-    void addFace(const Face &_f);
+    Obj(const Obj &_c) noexcept;
+    void addVertex(const Vec3 &_v) noexcept;
+    void addNormal(const Vec3 &_v) noexcept;
+    void addUV(const Vec2 &_v) noexcept;
+    void addUV(const Vec3 &_v) noexcept;
+    void addFace(const Face &_f) noexcept;
 
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief  Method to load the file in
@@ -70,23 +70,23 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
     //----------------------------------------------------------------------------------------------------------------------
 
     virtual bool load(const std::string_view &_fname, CalcBB _calcBB=CalcBB::True ) noexcept;
-    bool save(const std::string_view &_fname);
-    bool isLoaded() const {return m_isLoaded;}
+    bool save(const std::string_view &_fname) noexcept;
+    bool isLoaded() const noexcept {return m_isLoaded;}
   private :
-    bool parseVertex(std::vector<std::string> &_tokens);
-    bool parseNormal(std::vector<std::string> &_tokens);
-    bool parseUV(std::vector<std::string> &_tokens);
+    bool parseVertex(std::vector<std::string> &_tokens) noexcept;
+    bool parseNormal(std::vector<std::string> &_tokens) noexcept;
+    bool parseUV(std::vector<std::string> &_tokens) noexcept;
     // face parsing is complex we have different layouts.
     // don't forget we can also have negative indices
-    bool parseFace(std::vector<std::string> &_tokens);
+    bool parseFace(std::vector<std::string> &_tokens) noexcept;
     // f v v v v
-    bool parseFaceVertex(std::vector<std::string> &_tokens);
+    bool parseFaceVertex(std::vector<std::string> &_tokens) noexcept;
     // f v//vn v//vn v//vn v//vn
-    bool parseFaceVertexNormal(std::vector<std::string> &_tokens);
+    bool parseFaceVertexNormal(std::vector<std::string> &_tokens) noexcept;
     // f v/vt v/vt v/vt v/vt
-    bool parseFaceVertexUV(std::vector<std::string> &_tokens);
+    bool parseFaceVertexUV(std::vector<std::string> &_tokens) noexcept;
     // f v/vt/vn v/vt/vn v/vt/vn v/vt/vn
-    bool parseFaceVertexNormalUV(std::vector<std::string> &_tokens);
+    bool parseFaceVertexNormalUV(std::vector<std::string> &_tokens) noexcept;
 
     bool m_isLoaded=false;
     // as faces can use negative index values keep track of index
