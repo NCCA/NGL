@@ -14,8 +14,7 @@ Better abstraction from Qt for certain types (and have SDL replacements as a com
 
 ## Building
 
-It needs to be built using QtCreator or CMake and you will also need to install
-boost (path is /usr/local/include as default)
+It needs to be built using QtCreator or CMake
 
 Note this is now being built using C++ 11 and will use many C++ 11 features so make sure you 
 have a modern compiler such as clang++ or g++ >4.8

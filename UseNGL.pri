@@ -20,7 +20,7 @@ else{ # note brace must be here
 
 message($${NGLBASE})
 
-# use this to suppress some warning from boost
+# use this to suppress some warning
 unix*:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
 # basic compiler flags (not all appropriate for all platforms)
 QMAKE_CXXFLAGS+= -msse -msse2 -msse3
@@ -64,7 +64,6 @@ win32: {
         LIBS+= -lopengl32
         LIBS += -LC:/NGL/lib/ -lNGL
         DEFINES+=NO_DLL
-        DEFINES+=BOOST_ALL_NO_LIB
 }
 
 ios {

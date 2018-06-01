@@ -25,7 +25,6 @@ add_definitions(-DFMT_HEADER_ONLY)
 
 
 
-
 set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Vec4.cpp
     ${PROJECT_SOURCE_DIR}/src/VAOPrimitives.cpp
@@ -36,19 +35,14 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/MultiBufferVAO.cpp
     ${PROJECT_SOURCE_DIR}/src/Util.cpp
     ${PROJECT_SOURCE_DIR}/src/Texture.cpp
-    ${PROJECT_SOURCE_DIR}/src/SpotLight.cpp
     ${PROJECT_SOURCE_DIR}/src/ShaderLib.cpp
     ${PROJECT_SOURCE_DIR}/src/Transformation.cpp
     ${PROJECT_SOURCE_DIR}/src/RibExport.cpp
     ${PROJECT_SOURCE_DIR}/src/Quaternion.cpp
-    ${PROJECT_SOURCE_DIR}/src/PathCamera.cpp
     ${PROJECT_SOURCE_DIR}/src/Obj.cpp
     ${PROJECT_SOURCE_DIR}/src/Mat4.cpp
     ${PROJECT_SOURCE_DIR}/src/Material.cpp
-    ${PROJECT_SOURCE_DIR}/src/Light.cpp
     ${PROJECT_SOURCE_DIR}/src/NGLInit.cpp
-    ${PROJECT_SOURCE_DIR}/src/Colour.cpp
-    ${PROJECT_SOURCE_DIR}/src/Camera.cpp
     ${PROJECT_SOURCE_DIR}/src/NCCABinMesh.cpp
     ${PROJECT_SOURCE_DIR}/src/BezierCurve.cpp
     ${PROJECT_SOURCE_DIR}/src/BBox.cpp
@@ -64,12 +58,12 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Vec2.cpp
     ${PROJECT_SOURCE_DIR}/src/Text.cpp
     ${PROJECT_SOURCE_DIR}/src/Mat3.cpp
-    ${PROJECT_SOURCE_DIR}/src/AbstractSerializer.cpp
-    ${PROJECT_SOURCE_DIR}/src/XMLSerializer.cpp
     ${PROJECT_SOURCE_DIR}/src/NGLStream.cpp
-    ${PROJECT_SOURCE_DIR}/src/Logger.cpp
     ${PROJECT_SOURCE_DIR}/src/Image.cpp
-    ${PROJECT_SOURCE_DIR}/glew/glew.c
+    ${PROJECT_SOURCE_DIR}/src/pystring.cpp
+    ${PROJECT_SOURCE_DIR}/gl3w/gl3w.c
+    ${PROJECT_SOURCE_DIR}/gl3w/gl3w.h
+    ${PROJECT_SOURCE_DIR}/gl3w/glcorearb.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Vec4.h
     ${PROJECT_SOURCE_DIR}/include/ngl/VAOPrimitives.h
     ${PROJECT_SOURCE_DIR}/include/ngl/VAOFactory.h
@@ -81,20 +75,15 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/include/ngl/Util.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Types.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Texture.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/SpotLight.h
     ${PROJECT_SOURCE_DIR}/include/ngl/ShaderLib.h
     ${PROJECT_SOURCE_DIR}/include/ngl/RibExport.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Transformation.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Quaternion.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/PathCamera.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Obj.h
     ${PROJECT_SOURCE_DIR}/include/ngl/NGLassert.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Mat4.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Material.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Light.h
     ${PROJECT_SOURCE_DIR}/include/ngl/NGLInit.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Colour.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Camera.h
     ${PROJECT_SOURCE_DIR}/include/ngl/BezierCurve.h
     ${PROJECT_SOURCE_DIR}/include/ngl/NCCABinMesh.h
     ${PROJECT_SOURCE_DIR}/include/ngl/BBox.h
@@ -109,10 +98,8 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/include/ngl/Vec2.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Text.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Mat3.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Logger.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Image.h 
-    ${PROJECT_SOURCE_DIR}/include/ngl/AbstractSerializer.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/XMLSerializer.h
+    ${PROJECT_SOURCE_DIR}/include/ngl/pystring.h
+    ${PROJECT_SOURCE_DIR}/include/ngl/Image.h
     ${PROJECT_SOURCE_DIR}/include/ngl/NGLStream.h
     ${PROJECT_SOURCE_DIR}/src/shaders/TextShaders.h
     ${PROJECT_SOURCE_DIR}/src/shaders/ColourShaders.h
@@ -132,9 +119,6 @@ set(SOURCES
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	add_definitions(-DDARWIN)
     find_library(MACGL OpenGL)
-    set(PROJECT_LINK_LIBS -lboost_system)
-    link_directories(/usr/local/lib/)
-
     set(EXTRALIBS  ${MACGL})
 
 

@@ -67,13 +67,10 @@ QMAKE_LFLAGS_SHLIB -= -single_module
 QMAKE_LFLAGS_VERSION=
 QMAKE_LFLAGS_COMPAT_VERSION=
 QMAKE_LFLAGS_SONAME=
-# use this to suppress some warning from boost
+# use this to suppress some warning
 unix:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
 # define the NGL_DEBUG flag for the graphics lib
 DEFINES += NGL_DEBUG
-# if you install boost to /usr/local/include/ we can find it from this line
-# basically all you need to do is copy the headers from the boost source to this
-# location cp -R boost_1_49_0/boost /usr/local/include under linux use apt-get install
 unix:INCLUDEPATH+=/usr/local/include
 #set some flags for sse etc
 unix:QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
@@ -163,7 +160,6 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/Text.cpp \
 		$$SRC_DIR/Mat3.cpp \
 		$$SRC_DIR/NGLStream.cpp \
-		$$SRC_DIR/Logger.cpp \
     $$SRC_DIR/Image.cpp \
     $$SRC_DIR/VAOFactory.cpp \
     $$SRC_DIR/AbstractVAO.cpp \
@@ -213,7 +209,6 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/Vec2.h \
 		$$INC_DIR/Text.h \
 		$$INC_DIR/Mat3.h \
-		$$INC_DIR/Logger.h \
 		$$INC_DIR/Image.h \
     $$INC_DIR/VAOFactory.h \
     $$INC_DIR/AbstractVAO.h \
@@ -230,12 +225,9 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/rapidxml/rapidxml_print.hpp \
     $$INC_DIR/rapidxml/rapidxml_utils.hpp \
     $$INC_DIR/pystring.h
-
     !macx:{
             HEADERS+=$$PWD/gl3w/gl3w.h
     }
-
-
 
 unix:PRECOMPILED_HEADER += $$SRC_DIR/ngl/Meshes.h \
 
