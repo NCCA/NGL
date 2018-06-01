@@ -76,7 +76,6 @@ DEFINES += NGL_DEBUG
 # location cp -R boost_1_49_0/boost /usr/local/include under linux use apt-get install
 unix:INCLUDEPATH+=/usr/local/include
 #set some flags for sse etc
-QMAKE_CFLAGS+= -DGLEW_NO_GLU -DGLEW_STATIC
 unix:QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
 macx:DEFINES +=GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 macx {

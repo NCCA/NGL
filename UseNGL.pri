@@ -23,7 +23,6 @@ message($${NGLBASE})
 # use this to suppress some warning from boost
 unix*:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
 # basic compiler flags (not all appropriate for all platforms)
-QMAKE_CXXFLAGS+= -msse -msse2 -msse3
 macx:QMAKE_CXXFLAGS+= -arch x86_64
 macx:INCLUDEPATH+=/usr/local/include/
 linux-g++:QMAKE_CXXFLAGS +=  -march=native
