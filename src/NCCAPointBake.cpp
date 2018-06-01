@@ -17,8 +17,7 @@
 
 #include "NCCAPointBake.h"
 #include "rapidxml/rapidxml.hpp"
-#include <boost/lexical_cast.hpp>
-#include <boost/tokenizer.hpp>
+#include "pystring.h"
 #include <cstring>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file NCCAPointBake.cpp
@@ -27,32 +26,22 @@
 
 namespace ngl
 {
-  typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
+namespace ps=pystring;
 
 //----------------------------------------------------------------------------------------------------------------------
-NCCAPointBake::NCCAPointBake() noexcept
-{
-	m_numFrames=0;
-	m_currFrame=0;
-	m_nVerts=0;
-	m_startFrame=0;
-	m_endFrame=0;
-	m_mesh=0;
-	m_binFile=false;
-}
 
-bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
+bool NCCAPointBake::loadPointBake(const std::string_view &_fileName) noexcept
 {
 	m_numFrames=0;
 	m_currFrame=0;
 	m_nVerts=0;
 	m_startFrame=0;
 	m_endFrame=0;
-	m_mesh=0;
+  m_mesh=nullptr;
 	m_binFile=false;
 	rapidxml::xml_node<> * rootNode;
 	// Read the xml file into a vector
-	std::ifstream xmlFile (_fileName.c_str() );
+  std::ifstream xmlFile (_fileName.data() );
 	if(!xmlFile.is_open())
 	{
 		std::cerr<<"Could not open file\n";
@@ -74,19 +63,26 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
   m_meshName=child->value();
   std::cerr<<"found mesh "<<m_meshName<<"\n";
 
-
-  child=rootNode->first_node("NumVerts");
-  m_nVerts=boost::lexical_cast<unsigned int>(child->value());
-  std::cerr<<"NumVerts "<<m_nVerts<<"\n";
-  child=rootNode->first_node("StartFrame");
-  m_startFrame=boost::lexical_cast<unsigned int>(child->value());
-  std::cerr<<"StartFrame"<<m_startFrame<<"\n";
-  child=rootNode->first_node("EndFrame");
-  m_endFrame=boost::lexical_cast<unsigned int>(child->value());
-  std::cerr<<"EndFrame"<<m_endFrame<<"\n";
-  child=rootNode->first_node("NumFrames");
-  m_numFrames=boost::lexical_cast< unsigned int>(child->value());
-  std::cerr<<"EndFrame  "<<m_numFrames<<"\n";
+  try
+  {
+    child=rootNode->first_node("NumVerts");
+    m_nVerts=std::stoul(child->value());
+    std::cerr<<"NumVerts "<<m_nVerts<<"\n";
+    child=rootNode->first_node("StartFrame");
+    m_startFrame=std::stoul(child->value());
+    std::cerr<<"StartFrame"<<m_startFrame<<"\n";
+    child=rootNode->first_node("EndFrame");
+    m_endFrame=std::stoul(child->value());
+    std::cerr<<"EndFrame"<<m_endFrame<<"\n";
+    child=rootNode->first_node("NumFrames");
+    m_numFrames=std::stoul(child->value());
+    std::cerr<<"EndFrame  "<<m_numFrames<<"\n";
+  }
+  catch (std::invalid_argument)
+  {
+    std::cerr<<"error reading PointBake File\n";
+    return false;
+  }
   //first allocate base pointer [vertex]
   m_data.resize(m_numFrames);
   //cout <<"Size is now"<<m_data.size()<<endl;
@@ -96,30 +92,40 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
   {
     data.resize(m_nVerts);
   }
-  unsigned int CurrentFrame=0;
+  size_t CurrentFrame=0;
   // this is the line we wish to parse
   std::string lineBuffer;
   // say which separators should be used in this
   // case Spaces, Tabs and return \ new line
-  boost::char_separator<char> sep(" \t\r\n");
+  const std::string sep(" \t\r\n");
+
   // now traverse each frame and grab the data
   for(child=rootNode->first_node("Frame"); child; child=child->next_sibling())
   {
     std::cerr<<"doing frame "<<child->first_attribute("number")->value()<<"\n";
-    CurrentFrame=boost::lexical_cast<unsigned int>(child->first_attribute("number")->value());
+    CurrentFrame=std::stoul(child->first_attribute("number")->value());
     CurrentFrame-=m_startFrame;
     std::flush(std::cerr);
 
     for(rapidxml::xml_node<> * vertex=child->first_node("Vertex"); vertex; vertex=vertex->next_sibling())
     {
-      unsigned int index=boost::lexical_cast<unsigned int>(vertex->first_attribute("number")->value());
+      size_t index=std::stoul(vertex->first_attribute("number")->value());
       lineBuffer=vertex->value();
-      tokenizer tokens(lineBuffer, sep);
-      tokenizer::iterator  firstWord = tokens.begin();
-      Real x=boost::lexical_cast<Real>(*firstWord++);
-      Real y=boost::lexical_cast<Real>(*firstWord++);
-      Real z=boost::lexical_cast<Real>(*firstWord++);
-      m_data[CurrentFrame][index].set(x,y,z);
+      std::vector <std::string> tokens;
+      ps::split(lineBuffer,tokens);
+      try
+      {
+        float x=std::stof(tokens[0]);
+        float y=std::stof(tokens[1]);
+        float z=std::stof(tokens[2]);
+        m_data[CurrentFrame][index].set(x,y,z);
+      }
+      catch (std::invalid_argument)
+      {
+        std::cerr<<"error converting buffer\n";
+        std::cerr<<lineBuffer<<" size "<<tokens.size()<<'\n';
+        return false;
+      }
 
     }
 
@@ -136,21 +142,21 @@ NCCAPointBake::~NCCAPointBake() noexcept
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-NCCAPointBake::NCCAPointBake( const std::string &_fileName) noexcept
+NCCAPointBake::NCCAPointBake( const std::string_view &_fileName) noexcept
 {
   loadPointBake(_fileName);
 }
 //----------------------------------------------------------------------------------------------------------------------
-void NCCAPointBake::setFrame( const unsigned int _frame) noexcept
+void NCCAPointBake::setFrame(const size_t _frame) noexcept
 {
  m_currFrame=_frame;
 }
 
-bool NCCAPointBake::loadBinaryPointBake( const std::string &_fileName) noexcept
+bool NCCAPointBake::loadBinaryPointBake( const std::string_view &_fileName) noexcept
 {
   // open a file stream for ip in binary mode
   std::fstream file;
-  file.open(_fileName.c_str(),std::ios::in | std::ios::binary);
+  file.open(_fileName.data(),std::ios::in | std::ios::binary);
   // see if it worked
   if (!file.is_open())
   {
