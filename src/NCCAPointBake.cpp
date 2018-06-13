@@ -19,7 +19,6 @@
 #include "rapidxml/rapidxml.hpp"
 #include "pystring.h"
 #include <iostream>
-#include <cstring>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file NCCAPointBake.cpp
 /// @brief implementation files for NCCAPointBake class
