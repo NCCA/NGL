@@ -22,7 +22,7 @@
 #include "TextShaders.h"
 #include "ColourShaders.h"
 #include "DiffuseShaders.h"
-#include "ToonShaders.h"
+#include "CheckerShaders.h"
 #include "rapidjson/document.h"
 
 
@@ -33,18 +33,6 @@
 
 namespace ngl
 {
-
-
-
-
-
-
-
-
-
-
-
-
 
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::loadShader( const std::string &_shaderName,const std::string &_vert, const std::string &_frag,const std::string &_geo, const bool _exitOnError ) noexcept
@@ -123,7 +111,7 @@ ShaderLib::ShaderLib()  noexcept
  loadTextShaders();
  loadColourShaders();
  loadDiffuseShaders();
- loadToonShaders();
+ loadCherckerShaders();
  m_debugState=true;
 }
 //----------------------------------------------------------------------------------------------------------------------
@@ -632,30 +620,30 @@ void ShaderLib::loadDiffuseShaders() noexcept
 }
 
 
-void ShaderLib::loadToonShaders() noexcept
+void ShaderLib::loadCherckerShaders() noexcept
 {
 
-  createShaderProgram("nglToonShader");
+  createShaderProgram("nglCheckerShader");
 
-  attachShader("nglToonVertex",ShaderType::VERTEX);
-  attachShader("nglToonFragment",ShaderType::FRAGMENT);
+  attachShader("nglCheckerVertex",ShaderType::VERTEX);
+  attachShader("nglCheckerFragment",ShaderType::FRAGMENT);
 
-  loadShaderSourceFromString("nglToonVertex",toonVertexShader);
-  loadShaderSourceFromString("nglToonFragment",toonFragmentShader);
+  loadShaderSourceFromString("nglCheckerVertex",CheckerVertexShader);
+  loadShaderSourceFromString("nglCheckerFragment",CheckerFragmentShader);
 
-  compileShader("nglToonVertex");
-  compileShader("nglToonFragment");
+  compileShader("nglCheckerVertex");
+  compileShader("nglCheckerFragment");
 
 
-  attachShaderToProgram("nglToonShader","nglToonVertex");
-  attachShaderToProgram("nglToonShader","nglToonFragment");
+  attachShaderToProgram("nglCheckerShader","nglCheckerVertex");
+  attachShaderToProgram("nglCheckerShader","nglCheckerFragment");
 
-  bindAttribute("nglToonShader",0,"inVert");
-  bindAttribute("nglToonShader",2,"inNormal");
+  bindAttribute("nglCheckerShader",0,"inVert");
+  bindAttribute("nglCheckerShader",2,"inNormal");
 
-  linkProgramObject("nglToonShader");
-  use("nglToonShader");
-  autoRegisterUniforms("nglToonShader");
+  linkProgramObject("nglCheckerShader");
+  use("nglCheckerShader");
+  autoRegisterUniforms("nglCheckerShader");
   use("NULL");
 }
 

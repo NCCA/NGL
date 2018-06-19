@@ -347,7 +347,7 @@ void VAOPrimitives::createVAO(const std::string &_name,const std::vector<vertDat
 
   vao->setVertexAttributePointer(0,3,GL_FLOAT,sizeof(vertData),0);
   vao->setVertexAttributePointer(1,3,GL_FLOAT,sizeof(vertData),3);
-  vao->setVertexAttributePointer(2,2,GL_FLOAT,sizeof(vertData),5);
+  vao->setVertexAttributePointer(2,2,GL_FLOAT,sizeof(vertData),6);
 
   // now we have set the vertex attributes we tell the VAO class how many indices to draw when
   // glDrawArrays is called, in this case we use buffSize (but if we wished less of the sphere to be drawn we could

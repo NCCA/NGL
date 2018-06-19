@@ -47,6 +47,13 @@ ShaderProgram::~ShaderProgram()
 {
   std::cerr<<"removing ShaderProgram "<< m_programName<<"\n";
   glDeleteProgram(m_programID);
+  for(auto & block : m_registeredUniformBlocks)
+  {
+    std::cerr<<"removing UniformBlock Buffers "<<block.second.name<<'\n';
+    glDeleteBuffers(1,&block.second.buffer);
+  }
+
+
 }
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::use() noexcept
@@ -410,10 +417,10 @@ void ShaderProgram::autoRegisterUniformBlocks() noexcept
 {
   GLint nUniforms;
   glGetProgramiv(m_programID, GL_ACTIVE_UNIFORM_BLOCKS, &nUniforms);
-  //std::cerr<<"FOUND UNIFORM BLOCKS "<<nUniforms<<'\n';
+  std::cerr<<"FOUND UNIFORM BLOCKS "<<nUniforms<<'\n';
   char name[256];
   uniformBlockData data;
-  for (GLint i=0; i<nUniforms; ++i)
+  for (GLuint i=0; i<nUniforms; ++i)
   {
     GLsizei nameLen=0;
     glGetActiveUniformBlockName(m_programID,i,sizeof(name)-1,&nameLen,name);
@@ -421,9 +428,22 @@ void ShaderProgram::autoRegisterUniformBlocks() noexcept
     data.loc=glGetUniformBlockIndex(m_programID,name);
     glGenBuffers( 1, &data.buffer );
     m_registeredUniformBlocks[name]=data;
+    std::cerr<<"Uniform Block "<<name<<' '<<data.loc<<' '<<data.buffer<<'\n';
+//    GLint params;
+//    glGetActiveUniformBlockiv(	m_programID,i,GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS,&params);
+//    std::cerr<<"GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS "<<params<<'\n';
+//    glGetActiveUniformBlockiv(	m_programID,i,GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER,&params);
+//    std::cerr<<"GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER "<<params<<'\n';
+//    glGetActiveUniformBlockiv(	m_programID,i,GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER,&params);
+//    std::cerr<<"GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER "<<params<<'\n';
+//    glGetActiveUniformBlockiv(	m_programID,i,GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_CONTROL_SHADER,&params);
+//    std::cerr<<"GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_CONTROL_SHADER "<<params<<'\n';
+//    glGetActiveUniformBlockiv(	m_programID,i,GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_EVALUATION_SHADER,&params);
+//    std::cerr<<"GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_EVALUATION_SHADER "<<params<<'\n';
+
 
   }
-}
+ }
 
 void ShaderProgram::setUniformBuffer(const std::string &_uniformBlockName, size_t _size, void *_data)
 {
@@ -432,10 +452,14 @@ void ShaderProgram::setUniformBuffer(const std::string &_uniformBlockName, size_
   if(uniform!=m_registeredUniformBlocks.end())
   {
     auto block=uniform->second;
+    //std::cerr<<"Uniform Block "<<block.name<<' '<<block.loc<<' '<<block.buffer<<'\n';
+
     glBindBuffer( GL_UNIFORM_BUFFER, block.buffer );
     glBufferData( GL_UNIFORM_BUFFER, _size,_data,GL_DYNAMIC_DRAW );
     glBindBufferBase( GL_UNIFORM_BUFFER, block.loc, block.buffer );
     glUnmapBuffer(GL_UNIFORM_BUFFER);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
   }
 }
 

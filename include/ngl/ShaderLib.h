@@ -54,7 +54,7 @@ namespace ngl
 
 constexpr auto nglColourShader="nglColourShader";
 constexpr auto nglDiffuseShader="nglDiffuseShader";
-constexpr auto nglToonShader="nglToonShader";
+constexpr auto nglCheckerShader="nglCheckerShader";
 
 class NGL_DLLEXPORT ShaderLib : public  Singleton<ShaderLib>
 {
@@ -409,7 +409,7 @@ protected:
   /// @brief  this will load the pre-defined text rendering shaders
   /// these are stored in the file src/shaders/ToonShaders.h
   //----------------------------------------------------------------------------------------------------------------------
-  void loadToonShaders() noexcept;
+  void loadCherckerShaders() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a map of shader Programs using name as key to shader pointer
   //----------------------------------------------------------------------------------------------------------------------

@@ -18,6 +18,7 @@ CONFIG-=app_bundle
 # Auto include all .cpp files in the project src directory (can specifiy individually if required)
 SOURCES+= $$PWD/Mat4Benchmarks.cpp \
           $$PWD/Mat3Benchmarks.cpp \
+          $$PWD/Transform.cpp \
           $$PWD/main.cpp
 # same for the .h files
 

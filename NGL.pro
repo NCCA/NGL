@@ -142,7 +142,6 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/Quaternion.cpp \
 		$$SRC_DIR/Obj.cpp \
 		$$SRC_DIR/Mat4.cpp \
-		$$SRC_DIR/Material.cpp \
 		$$SRC_DIR/NGLInit.cpp \
 		$$SRC_DIR/NCCABinMesh.cpp \
 		$$SRC_DIR/BezierCurve.cpp \
@@ -193,7 +192,6 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/Obj.h \
 		$$INC_DIR/NGLassert.h \
 		$$INC_DIR/Mat4.h \
-		$$INC_DIR/Material.h \
 		$$INC_DIR/NGLInit.h \
 		$$INC_DIR/BezierCurve.h \
 		$$INC_DIR/NCCABinMesh.h \
@@ -219,7 +217,7 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$SRC_DIR/shaders/TextShaders.h \
 		$$SRC_DIR/shaders/ColourShaders.h \
 		$$SRC_DIR/shaders/DiffuseShaders.h \
-		$$SRC_DIR/shaders/ToonShaders.h \
+    $$SRC_DIR/shaders/CheckerShaders.h \
 		$$INC_DIR/rapidxml/rapidxml.hpp \
 		$$INC_DIR/rapidxml/rapidxml_iterators.hpp \
 		$$INC_DIR/rapidxml/rapidxml_print.hpp \
