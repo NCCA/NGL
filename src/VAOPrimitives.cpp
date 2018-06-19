@@ -86,16 +86,11 @@ void VAOPrimitives::createVAOFromHeader(const std::string &_name, const Real *_d
     // u,v,nx,ny,nz,x,y,z
     // If you look at the shader we have the following attributes being used
     // attribute vec3 inVert; attribute 0
-    // attribute vec2 inUV; attribute 1
-    // attribute vec3 inNormal; attribute 2
-    // so we need to set the vertexAttributePointer so the correct size and type as follows
-    // vertex is attribute 0 with x,y,z(3) parts of type GL_FLOAT, our complete packed data is
-    // sizeof(vertData) and the offset into the data structure for the first x component is 5 (u,v,nx,ny,nz)..x
+    // attribute vec3 inNormal; attribute 1
+    // attribute vec2 inUV; attribute 2
     vao->setVertexAttributePointer(0,3,GL_FLOAT,sizeof(vertData),5);
-    // uv same as above but starts at 0 and is attrib 1 and only u,v so 2
-    vao->setVertexAttributePointer(1,2,GL_FLOAT,sizeof(vertData),0);
-    // normal same as vertex only starts at position 2 (u,v)-> nx
-    vao->setVertexAttributePointer(2,3,GL_FLOAT,sizeof(vertData),2);
+    vao->setVertexAttributePointer(1,3,GL_FLOAT,sizeof(vertData),2);
+    vao->setVertexAttributePointer(2,2,GL_FLOAT,sizeof(vertData),0);
     // now we have set the vertex attributes we tell the VAO class how many indices to draw when
     // glDrawArrays is called, in this case we use buffSize (but if we wished less of the sphere to be drawn we could
     // specify less (in steps of 3))
@@ -342,21 +337,18 @@ void VAOPrimitives::createVAO(const std::string &_name,const std::vector<vertDat
   // how much (in bytes) data we are copying
   // a pointer to the first element of data (in this case the address of the first element of the
   // std::vector
-  vao->setData(SimpleVAO::VertexData(_data.size()*sizeof(vertData),_data[0].u));
+  vao->setData(SimpleVAO::VertexData(_data.size()*sizeof(vertData),_data[0].x));
   // in this case we have packed our data in interleaved format as follows
-  // u,v,nx,ny,nz,x,y,z
+  // x,y,z,nx,ny,nz,u,v,
   // If you look at the shader we have the following attributes being used
   // attribute vec3 inVert; attribute 0
-  // attribute vec2 inUV; attribute 1
-  // attribute vec3 inNormal; attribure 2
-  // so we need to set the vertexAttributePointer so the correct size and type as follows
-  // vertex is attribute 0 with x,y,z(3) parts of type GL_FLOAT, our complete packed data is
-  // sizeof(vertData) and the offset into the data structure for the first x component is 5 (u,v,nx,ny,nz)..x
-  vao->setVertexAttributePointer(0,3,GL_FLOAT,sizeof(vertData),5);
-  // uv same as above but starts at 0 and is attrib 1 and only u,v so 2
-  vao->setVertexAttributePointer(1,2,GL_FLOAT,sizeof(vertData),0);
-  // normal same as vertex only starts at position 2 (u,v)-> nx
-  vao->setVertexAttributePointer(2,3,GL_FLOAT,sizeof(vertData),2);
+  // attribute vec3 inNormal; attribure 1
+  // attribute vec2 inUV; attribute 2
+
+  vao->setVertexAttributePointer(0,3,GL_FLOAT,sizeof(vertData),0);
+  vao->setVertexAttributePointer(1,3,GL_FLOAT,sizeof(vertData),3);
+  vao->setVertexAttributePointer(2,2,GL_FLOAT,sizeof(vertData),5);
+
   // now we have set the vertex attributes we tell the VAO class how many indices to draw when
   // glDrawArrays is called, in this case we use buffSize (but if we wished less of the sphere to be drawn we could
   // specify less (in steps of 3))
@@ -884,8 +876,6 @@ void VAOPrimitives::clear() noexcept
   // note glDeleteBuffers needs a const GLUint * so we need to de-reference the map object
   for(auto &v : m_createdVAOs)
   {
-    //GLuint address=v.second->getID();
-    //glDeleteVertexArrays(1,&address);
     v.second->removeVAO();
   }
 

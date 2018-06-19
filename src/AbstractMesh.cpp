@@ -198,14 +198,14 @@ bool AbstractMesh::isTriangular() noexcept
 // clang doesn't have a problem tho
 struct VertData
 {
-  GLfloat u; // tex cords
-  GLfloat v; // tex cords
-  GLfloat nx; // normal from obj mesh
-  GLfloat ny;
-  GLfloat nz;
   GLfloat x; // position from obj
   GLfloat y;
   GLfloat z;
+  GLfloat nx; // normal from obj mesh
+  GLfloat ny;
+  GLfloat nz;
+  GLfloat u; // tex cords
+  GLfloat v; // tex cords
 };
 
 
@@ -299,21 +299,19 @@ void AbstractMesh::createVAO() noexcept
 	// a pointer to the first element of data (in this case the address of the first element of the
 	// std::vector
   //m_vaoMesh->setData(m_meshSize*sizeof(VertData),vboMesh[0].u);
-  m_vaoMesh->setData(SimpleVAO::VertexData(m_meshSize*sizeof(VertData),vboMesh[0].u));
+  m_vaoMesh->setData(SimpleVAO::VertexData(m_meshSize*sizeof(VertData),vboMesh[0].x));
   // in this case we have packed our data in interleaved format as follows
-	// u,v,nx,ny,nz,x,y,z
+  // x,y,z,nx,ny,nz,u,v
 	// If you look at the shader we have the following attributes being used
 	// attribute vec3 inVert; attribute 0
-	// attribute vec2 inUV; attribute 1
-	// attribute vec3 inNormal; attribure 2
-	// so we need to set the vertexAttributePointer so the correct size and type as follows
-	// vertex is attribute 0 with x,y,z(3) parts of type GL_FLOAT, our complete packed data is
-	// sizeof(vertData) and the offset into the data structure for the first x component is 5 (u,v,nx,ny,nz)..x
-	m_vaoMesh->setVertexAttributePointer(0,3,GL_FLOAT,sizeof(VertData),5);
+  // attribute vec3 inNormal; attribure 1
+  // attribute vec2 inUV; attribute 2
+  // so we need to set the vertexAttributePointer so the correct size and type as follows
+  m_vaoMesh->setVertexAttributePointer(0,3,GL_FLOAT,sizeof(VertData),0);
 	// uv same as above but starts at 0 and is attrib 1 and only u,v so 2
-	m_vaoMesh->setVertexAttributePointer(1,2,GL_FLOAT,sizeof(VertData),0);
+  m_vaoMesh->setVertexAttributePointer(1,3,GL_FLOAT,sizeof(VertData),3);
 	// normal same as vertex only starts at position 2 (u,v)-> nx
-	m_vaoMesh->setVertexAttributePointer(2,3,GL_FLOAT,sizeof(VertData),2);
+  m_vaoMesh->setVertexAttributePointer(2,2,GL_FLOAT,sizeof(VertData),6);
 
 
 	// now we have set the vertex attributes we tell the VAO class how many indices to draw when
@@ -495,8 +493,8 @@ if( size <=0 )
 }
 // find minimal and maximal extents and indexs into
 // into vert array
-size_t minXI=0; int minYI=0; int minZI=0;
-size_t maxXI=0; int maxYI=0; int maxZI=0;
+size_t minXI=0; size_t minYI=0; size_t minZI=0;
+size_t maxXI=0; size_t maxYI=0; size_t maxZI=0;
 Real minX=m_verts[0].m_x; Real maxX=m_verts[0].m_x;
 Real minY=m_verts[0].m_y; Real maxY=m_verts[0].m_y;
 Real minZ=m_verts[0].m_z; Real maxZ=m_verts[0].m_z;

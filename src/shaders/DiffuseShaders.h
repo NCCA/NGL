@@ -5,7 +5,7 @@
 
 const std::string diffuseVertexShader =
 R"DELIM(
-  #version 150
+  #version 330
   out vec3 fragmentNormal;
   in vec3 inVert;
   in vec3 inNormal;

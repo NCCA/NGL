@@ -41,14 +41,14 @@ namespace ngl
 // legacy format form GLDebugger as we could set to 2 3 3 format
 struct vertData
 {
-    ngl::Real u;
-    ngl::Real v;
-    ngl::Real nx;
-    ngl::Real ny;
-    ngl::Real nz;
     ngl::Real x;
     ngl::Real y;
     ngl::Real z;
+    ngl::Real nx;
+    ngl::Real ny;
+    ngl::Real nz;
+    ngl::Real u;
+    ngl::Real v;
 };
 
 class NGL_DLLEXPORT VAOPrimitives : public  Singleton<VAOPrimitives>

@@ -3,8 +3,8 @@
 #include <string>
 
 const std::string colourVertexShader =
-R"DELIM(
-#version 150
+R"(
+#version 330 core
 
 /// @file Colour.vs
 /// @brief a basic unshaded solid colour shader used with Colour.fs
@@ -13,7 +13,7 @@ R"DELIM(
 uniform mat4 MVP;
 
 // first attribute the vertex values from our VAO
-in vec3 inVert;
+layout(location=0) in vec3 inVert;
 /// @brief the colour to shade draw with
 uniform vec4 Colour;
 
@@ -25,19 +25,19 @@ void main(void)
 
 }
 
-)DELIM";
+)";
 
 
 
 
 const std::string  colourFragmentShader=
-R"DELIM(
-#version 150
+R"(
+#version 330 core
 /// @file Colour.fs
 /// @brief a basic unshaded solid colour shader
 /// @brief the colour to shade draw with
 uniform vec4 Colour;
-out vec4 outColour;
+layout(location=0) out vec4 outColour;
 
 void main ()
 {
@@ -45,7 +45,7 @@ void main ()
 }
 
 
-)DELIM";
+)";
 
 #endif
 
