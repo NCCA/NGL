@@ -129,6 +129,7 @@ void ShaderProgram::link() noexcept
   m_linked=true;
   glUseProgram(m_programID);
   autoRegisterUniforms();
+  autoRegisterUniformBlocks();
 
 }
 
@@ -405,10 +406,42 @@ GLuint ShaderProgram::getUniformBlockIndex( const std::string &_uniformBlockName
 }
 
 
+void ShaderProgram::autoRegisterUniformBlocks() noexcept
+{
+  GLint nUniforms;
+  glGetProgramiv(m_programID, GL_ACTIVE_UNIFORM_BLOCKS, &nUniforms);
+  //std::cerr<<"FOUND UNIFORM BLOCKS "<<nUniforms<<'\n';
+  char name[256];
+  uniformBlockData data;
+  for (GLint i=0; i<nUniforms; ++i)
+  {
+    GLsizei nameLen=0;
+    glGetActiveUniformBlockName(m_programID,i,sizeof(name)-1,&nameLen,name);
+    data.name=name;
+    data.loc=glGetUniformBlockIndex(m_programID,name);
+    glGenBuffers( 1, &data.buffer );
+    m_registeredUniformBlocks[name]=data;
+
+  }
+}
+
+void ShaderProgram::setUniformBuffer(const std::string &_uniformBlockName, size_t _size, void *_data)
+{
+  auto uniform=m_registeredUniformBlocks.find(_uniformBlockName);
+  // make sure we have a valid shader
+  if(uniform!=m_registeredUniformBlocks.end())
+  {
+    auto block=uniform->second;
+    glBindBuffer( GL_UNIFORM_BUFFER, block.buffer );
+    glBufferData( GL_UNIFORM_BUFFER, _size,_data,GL_DYNAMIC_DRAW );
+    glBindBufferBase( GL_UNIFORM_BUFFER, block.loc, block.buffer );
+    glUnmapBuffer(GL_UNIFORM_BUFFER);
+  }
+}
+
+
 void ShaderProgram::autoRegisterUniforms() noexcept
 {
-
-
   GLint nUniforms;
   glGetProgramiv(m_programID, GL_ACTIVE_UNIFORMS, &nUniforms);
   // could use this with better OpenGL version

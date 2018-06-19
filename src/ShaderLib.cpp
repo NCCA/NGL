@@ -432,6 +432,7 @@ void ShaderLib::autoRegisterUniforms(const std::string &_shaderName   ) noexcept
   if(program!=m_shaderPrograms.end() )
   {
      program->second->autoRegisterUniforms();
+     program->second->autoRegisterUniformBlocks();
   }
   else
   {
@@ -540,6 +541,13 @@ GLuint ShaderLib::getUniformBlockIndex( const std::string &_uniformBlockName  ) 
 
   return id;
 }
+
+void ShaderLib::setUniformBuffer(const std::string &_uniformBlockName, size_t _size, void *_data)
+{
+  (*this)[m_currentShader]->setUniformBuffer(_uniformBlockName,_size,_data);
+
+}
+
 
 void ShaderLib::loadTextShaders() noexcept
 {

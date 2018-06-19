@@ -330,6 +330,9 @@ public :
   void setUniformMatrix3fv(const std::string &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::False) noexcept;
 
 #ifdef USEGLM
+
+
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -379,6 +382,7 @@ public :
   /// @param _shaderName the name of the shader to return
   //----------------------------------------------------------------------------------------------------------------------
   ngl::Shader* getShader(const std::string &_shaderName) noexcept;
+  void setUniformBuffer(const std::string &_uniformBlockName, size_t _size, void *_data);
 
 protected:
 

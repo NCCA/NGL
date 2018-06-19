@@ -247,6 +247,10 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   void autoRegisterUniforms() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
+  /// @brief  scan the shader source and find any uniforms blocks and register them (will create buffers too)
+  //----------------------------------------------------------------------------------------------------------------------
+  void autoRegisterUniformBlocks() noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
   /// @brief  debug print the registered uniforms
   //----------------------------------------------------------------------------------------------------------------------
   void printRegisteredUniforms()const noexcept;
@@ -264,6 +268,10 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
 
   GLuint getUniformBlockIndex( const std::string &_uniformBlockName  )const noexcept;
+
+
+  void setUniformBuffer(const std::string &_uniformBlockName, size_t _size, void *_data);
+
 
 private :
   //----------------------------------------------------------------------------------------------------------------------
@@ -302,11 +310,23 @@ private :
     GLenum type;
   };
 
+  struct uniformBlockData
+  {
+    GLuint loc;
+    std::string name;
+    GLuint buffer;
+  };
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a list of uniforms for this object, mapping name to ID number must be added by the user
   /// using the registerUniform method
   //----------------------------------------------------------------------------------------------------------------------
   std::unordered_map <std::string, uniformData> m_registeredUniforms;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief a list of uniform blocks for this object, mapping name to ID number must be added by the user
+  /// using the registerUniformBlock method
+  //----------------------------------------------------------------------------------------------------------------------
+  std::unordered_map <std::string, uniformBlockData> m_registeredUniformBlocks;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief indicate if this program is the current active program
   //----------------------------------------------------------------------------------------------------------------------
