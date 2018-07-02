@@ -42,7 +42,7 @@ public :
   /// it is initially empty and just has a name for id
   /// @param _name the name of the Program Object
   //----------------------------------------------------------------------------------------------------------------------
-  ShaderProgram(const std::string &_name ) noexcept;
+  ShaderProgram(const std::string_view &_name ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor
   //----------------------------------------------------------------------------------------------------------------------
@@ -70,13 +70,13 @@ public :
   /// @param _index the index number we wish to bind to
   /// @param _attribName the name of the attribute we wish to use
   //----------------------------------------------------------------------------------------------------------------------
-  void bindAttribute(GLuint index, const std::string &_attribName ) noexcept;
+  void bindAttribute(GLuint index, const std::string_view &_attribName ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief bind fragment output location in the Program object to _index using attribname
   /// @param _index the index number we wish to bind to
   /// @param _attribName the name of the attribute we wish to use
   //----------------------------------------------------------------------------------------------------------------------
-  void bindFragDataLocation(GLuint index, const std::string &_attribName ) noexcept;
+  void bindFragDataLocation(GLuint index, const std::string_view &_attribName ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief link our program object with the attatched shaders
@@ -118,7 +118,7 @@ public :
   /// @param  _varname - name of the uniform variable
   /// @param  _v0 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform1f(const std::string &_varname, float _v0 ) const noexcept;
+  void setRegisteredUniform1f(const std::string_view &_varname, float _v0 ) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single float
@@ -126,7 +126,7 @@ public :
   /// @param  _v0 - new value for the variable
   /// @param  _v1 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform2f(const std::string &_varname, float _v0, float _v1 ) const noexcept;
+  void setRegisteredUniform2f(const std::string_view &_varname, float _v0, float _v1 ) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single float
@@ -135,7 +135,7 @@ public :
   /// @param  _v1 - new value for the variable
   /// @param  _v2 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform3f( const std::string &_varname,float _v0, float _v1, float _v2 ) const noexcept;
+  void setRegisteredUniform3f( const std::string_view &_varname,float _v0, float _v1, float _v2 ) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single float
   /// @param  _varname - name of the uniform variable
@@ -144,13 +144,13 @@ public :
   /// @param  _v2 - new value for the variable
   /// @param  _v3 - new value for the variable
   /////----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform4f(const std::string &_varname, float _v0,float _v1,float _v2, float _v3 ) const noexcept;
+  void setRegisteredUniform4f(const std::string_view &_varname, float _v0,float _v1,float _v2, float _v3 ) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single int
   /// @param  _varname - name of the uniform variable
   /// @param  _v0 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform1i(const std::string &_varname, int _v0  ) const noexcept;
+  void setRegisteredUniform1i(const std::string_view &_varname, int _v0  ) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single int
   /// @param  _varname - name of the uniform variable
@@ -158,7 +158,7 @@ public :
   /// @param  _v1 - new value for the variable
 
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform2i(const std::string &_varname, int _v0, int _v1 ) const noexcept;
+  void setRegisteredUniform2i(const std::string_view &_varname, int _v0, int _v1 ) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single int
   /// @param  _varname - name of the uniform variable
@@ -166,7 +166,7 @@ public :
   /// @param  _v1 - new value for the variable
   /// @param  _v2 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform3i(const std::string &_varname, int _v0, int _v1,int _v2 ) const noexcept;
+  void setRegisteredUniform3i(const std::string_view &_varname, int _v0, int _v1,int _v2 ) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single int
   /// @param  _varname - name of the uniform variable
@@ -176,7 +176,7 @@ public :
   /// @param  _v3 - new value for the variable
 
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform4i( const std::string &_varname,int _v0, int _v1, int _v2, int _v3 ) const noexcept;
+  void setRegisteredUniform4i( const std::string_view &_varname,int _v0, int _v1, int _v2, int _v3 ) const noexcept;
 
 
   //----------------------------------------------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ public :
   /// @param  _transpose - if true will transpose the matrix values
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformMatrix2fv( const std::string  &_varname,size_t _count, bool _transpose, const float* _value ) const noexcept;
+  void setRegisteredUniformMatrix2fv( const std::string_view  &_varname,size_t _count, bool _transpose, const float* _value ) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets '_varname' as a 3D matrix array
   /// @param  _varname - name of the uniform variable
@@ -199,7 +199,7 @@ public :
   /// @param  _transpose - if true will transpose the matrix values
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformMatrix3fv( const std::string  &_varname,size_t _count, bool _transpose, const float* _value ) const noexcept;
+  void setRegisteredUniformMatrix3fv( const std::string_view  &_varname,size_t _count, bool _transpose, const float* _value ) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets '_varname' as a 4D matrix array
@@ -208,7 +208,7 @@ public :
   /// @param  _transpose - if true will transpose the matrix values
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformMatrix4fv( const std::string  &_varname,size_t _count,  bool _transpose,const float* _value ) const noexcept;
+  void setRegisteredUniformMatrix4fv( const std::string_view  &_varname,size_t _count,  bool _transpose,const float* _value ) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  gets the current value of the specified uniform var
@@ -267,10 +267,10 @@ public :
   /// @returns the id of the block
   //----------------------------------------------------------------------------------------------------------------------
 
-  GLuint getUniformBlockIndex( const std::string &_uniformBlockName  )const noexcept;
+  GLuint getUniformBlockIndex( const std::string_view &_uniformBlockName  )const noexcept;
 
 
-  void setUniformBuffer(const std::string &_uniformBlockName, size_t _size, void *_data);
+  void setUniformBuffer(const std::string_view &_uniformBlockName, size_t _size, void *_data);
 
 
 private :

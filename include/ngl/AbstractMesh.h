@@ -122,7 +122,7 @@ public :
   /// @brief Method to load the file in
   /// @param[in]  &_fname the name of the obj file to load
   //----------------------------------------------------------------------------------------------------------------------
-  virtual bool load(const std::string &_fname,CalcBB _calcBB=CalcBB::True) noexcept =0;
+  virtual bool load(const std::string_view &_fname,CalcBB _calcBB=CalcBB::True) noexcept =0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief default ctor must be called from the child class so our dtor is called
   //----------------------------------------------------------------------------------------------------------------------
@@ -156,7 +156,7 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief load int a texture and set it as the active texture of the Obj
   /// @param[in] &_fname the name of the file to load
-  void loadTexture(const std::string &_fname ) noexcept;
+  void loadTexture(const std::string_view &_fname ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief scale the obj by multiplying the actual vertex values by sx,sy and sz
@@ -204,7 +204,7 @@ public :
   /// basically this format is the processed binary vbo mesh data as
   /// as packed by the CreateVBO() method is called.
   //----------------------------------------------------------------------------------------------------------------------
-  void saveNCCABinaryMesh( const std::string &_fname ) noexcept;
+  void saveNCCABinaryMesh( const std::string_view &_fname ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a method to get the current bounding box of the mesh
   /// @returns the bounding box for the loaded mesh;

@@ -27,7 +27,7 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-Texture::Texture(const std::string &_fname  )
+Texture::Texture(const std::string_view &_fname  )
 {
 	m_image.load(_fname);
 	m_width=m_image.width();
@@ -38,7 +38,7 @@ Texture::Texture(const std::string &_fname  )
 }
 
 
-bool Texture::loadImage(const std::string &_fname )
+bool Texture::loadImage(const std::string_view &_fname )
 {
   bool status=m_image.load(_fname);
   if(status)
@@ -72,7 +72,7 @@ GLuint Texture::setTextureGL() const noexcept
 
   glTexImage2D(GL_TEXTURE_2D,0,m_format,m_width,m_height,0,m_format,GL_UNSIGNED_BYTE,m_image.getPixels());
 
-  std::cout<<"texture GL set "<<textureName<<" Active Texture "<<m_multiTextureID<<"\n";
+  std::cout<<"texture GL set "<<textureName<<" Active Texture "<<m_multiTextureID<<'\n';
   glGenerateMipmap(GL_TEXTURE_2D);
   return textureName;
 }

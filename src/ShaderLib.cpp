@@ -35,27 +35,28 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::loadShader( const std::string &_shaderName,const std::string &_vert, const std::string &_frag,const std::string &_geo, const bool _exitOnError ) noexcept
+void ShaderLib::loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag, const std::string_view &_geo, const bool _exitOnError ) noexcept
 {
   // must add code to do this next version
   NGL_UNUSED(_exitOnError);
   createShaderProgram(_shaderName);
+  // we can't concatinate a view so make a new one.
+  std::string shaderName=_shaderName.data();
+  attachShader(shaderName+"Vertex",ShaderType::VERTEX);
+  attachShader(shaderName+"Fragment",ShaderType::FRAGMENT);
+  loadShaderSource(shaderName+"Vertex",_vert);
+  loadShaderSource(shaderName+"Fragment",_frag);
 
-  attachShader(_shaderName+"Vertex",ShaderType::VERTEX);
-  attachShader(_shaderName+"Fragment",ShaderType::FRAGMENT);
-  loadShaderSource(_shaderName+"Vertex",_vert);
-  loadShaderSource(_shaderName+"Fragment",_frag);
-
-  compileShader(_shaderName+"Vertex");
-  compileShader(_shaderName+"Fragment");
-  attachShaderToProgram(_shaderName,_shaderName+"Vertex");
-  attachShaderToProgram(_shaderName,_shaderName+"Fragment");
+  compileShader(shaderName+"Vertex");
+  compileShader(shaderName+"Fragment");
+  attachShaderToProgram(shaderName,shaderName+"Vertex");
+  attachShaderToProgram(shaderName,shaderName+"Fragment");
   if( _geo !="")
   {
-    attachShader(_shaderName+"Geo",ShaderType::GEOMETRY);
-    loadShaderSource(_shaderName+"Geo",_geo);
-    compileShader(_shaderName+"Geo");
-    attachShaderToProgram(_shaderName,_shaderName+"Geo");
+    attachShader(shaderName+"Geo",ShaderType::GEOMETRY);
+    loadShaderSource(shaderName+"Geo",_geo);
+    compileShader(shaderName+"Geo");
+    attachShaderToProgram(shaderName,shaderName+"Geo");
   }
 
   linkProgramObject(_shaderName);
@@ -75,18 +76,18 @@ void ShaderLib::reset() noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-GLint ShaderLib::getAttribLocation( const std::string &_shaderName,   const std::string &_paramName   ) noexcept
+GLint ShaderLib::getAttribLocation( const std::string_view &_shaderName,   const std::string_view &_paramName   ) noexcept
 {
 
   GLint attrib=0;
 
   // get an iterator to the shaders
-  auto shader=m_shaderPrograms.find(_shaderName);
+  auto shader=m_shaderPrograms.find(_shaderName.data());
   // make sure we have a valid shader
   if(shader!=m_shaderPrograms.end())
   {
     // grab the pointer to the shader and call compile
-    attrib=glGetAttribLocation(shader->second->getID(),_paramName.c_str());
+    attrib=glGetAttribLocation(shader->second->getID(),_paramName.data());
   }
   else
   {
@@ -115,10 +116,10 @@ ShaderLib::ShaderLib()  noexcept
  m_debugState=true;
 }
 //----------------------------------------------------------------------------------------------------------------------
-GLuint ShaderLib::getShaderID(const std::string &_shaderName) noexcept
+GLuint ShaderLib::getShaderID(const std::string_view &_shaderName) noexcept
 {
   GLuint value = 0;
-  auto shader=m_shaders.find(_shaderName);
+  auto shader=m_shaders.find(_shaderName.data());
   // make sure we have a valid shader and program
   if(shader!=m_shaders.end() )
   {
@@ -131,10 +132,10 @@ GLuint ShaderLib::getShaderID(const std::string &_shaderName) noexcept
   return value;
 }
 
-ngl::Shader* ShaderLib::getShader(const std::string &_shaderName) noexcept
+ngl::Shader* ShaderLib::getShader(const std::string_view &_shaderName) noexcept
 {
   ngl::Shader* shaderPointer;
-  auto shader=m_shaders.find(_shaderName);
+  auto shader=m_shaders.find(_shaderName.data());
   // make sure we have a valid shader and program
   if(shader!=m_shaders.end() )
   {
@@ -148,41 +149,41 @@ ngl::Shader* ShaderLib::getShader(const std::string &_shaderName) noexcept
   return shaderPointer;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::attachShader(const std::string &_name, ShaderType _type ) noexcept
+void ShaderLib::attachShader(const std::string_view &_name, ShaderType _type ) noexcept
 {
-  m_shaders[_name]= new Shader(_name,_type);
+  m_shaders[_name.data()]= new Shader(_name,_type);
   if(m_debugState==true)
-    std::cout<<"just attached "<<_name<<" "<<m_shaders[_name]->getShaderHandle()<<"\n";
+    std::cout<<"just attached "<<_name<<" "<<m_shaders[_name.data()]->getShaderHandle()<<'\n';
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::compileShader( const std::string &_name  ) noexcept
+void ShaderLib::compileShader(const std::string_view &_name  ) noexcept
 {
   // get an iterator to the shaders
-  auto shader=m_shaders.find(_name);
+  auto shader=m_shaders.find(_name.data());
   // make sure we have a valid shader
   if(shader!=m_shaders.end())
   {
     // grab the pointer to the shader and call compile
     shader->second->compile();
   }
-  else {std::cerr<<"Warning shader not know in compile "<<_name.c_str();}
+  else {std::cerr<<"Warning shader not know in compile "<<_name.data()<<'\n';}
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::createShaderProgram(const std::string &_name  ) noexcept
+void ShaderLib::createShaderProgram(const std::string_view &_name  ) noexcept
 {
   if(m_debugState)
-    std::cerr<<"creating empty ShaderProgram "<<_name.c_str()<<"\n";
- m_shaderPrograms[_name]= new ShaderProgram(_name);
+    std::cerr<<"creating empty ShaderProgram "<<_name.data()<<'\n';
+ m_shaderPrograms[_name.data()]= new ShaderProgram(_name);
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::attachShaderToProgram( const std::string &_program, const std::string &_shader   ) noexcept
+void ShaderLib::attachShaderToProgram(const std::string_view &_program, const std::string_view &_shader   ) noexcept
 {
 
   // get an iterator to the shader and program
-  auto shader=m_shaders.find(_shader);
-  auto program=m_shaderPrograms.find(_program);
+  auto shader=m_shaders.find(_shader.data());
+  auto program=m_shaderPrograms.find(_program.data());
 
   // make sure we have a valid shader and program
   if(shader!=m_shaders.end() && program !=m_shaderPrograms.end())
@@ -194,30 +195,30 @@ void ShaderLib::attachShaderToProgram( const std::string &_program, const std::s
 
     if (m_debugState == true)
     {
-      std::cerr<<_shader.c_str()<<" attached to program "<<_program.c_str()<<"\n";
+      std::cerr<<_shader.data()<<" attached to program "<<_program.data()<<'\n';
     }
   }
-  else {std::cerr<<"Warning cant attach "<<_shader.c_str() <<" to "<<_program.c_str()<<"\n";}
+  else {std::cerr<<"Warning cant attach "<<_shader.data() <<" to "<<_program.data()<<'\n';}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::loadShaderSource(std::string _shaderName,	std::string _sourceFile ) noexcept
+void ShaderLib::loadShaderSource(std::string_view _shaderName,	std::string_view _sourceFile ) noexcept
 {
-  auto shader=m_shaders.find(_shaderName);
+  auto shader=m_shaders.find(_shaderName.data());
   // make sure we have a valid shader and program
   if(shader!=m_shaders.end() )
   {
     shader->second->load(_sourceFile);
   }
-  else {std::cerr<<"Warning shader not know in loadShaderSource "<<_shaderName.c_str();}
+  else {std::cerr<<"Warning shader not know in loadShaderSource "<<_shaderName.data();}
 
 }
 
 
-ShaderType ShaderLib::getShaderType(const std::string &type) noexcept
+ShaderType ShaderLib::getShaderType(const std::string_view &type) noexcept
 {
   // convert to low for test
-  std::string tlower=type;
+  std::string tlower=type.data();
   std::transform(type.begin(), type.end(), tlower.begin(), ::tolower);
   const static std::unordered_map<std::string,ShaderType> stype=
   {
@@ -241,11 +242,11 @@ ShaderType ShaderLib::getShaderType(const std::string &type) noexcept
 }
 
 
-bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
+bool ShaderLib::loadFromJson(const std::string_view &_fname)  noexcept
 {
   namespace rj=rapidjson;
   std::ifstream file;
-  file.open(_fname.c_str(), std::ios::in);
+  file.open(_fname.data(), std::ios::in);
   if (file.fail())
   {
       std::cerr<<"error opening json file\n";
@@ -308,7 +309,7 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
         source.open(paths[p].GetString(), std::ios::in);
         if(debug)
         {
-          std::cout<<"attempting to load "<<paths[p].GetString()<<"\n";
+          std::cout<<"attempting to load "<<paths[p].GetString()<<'\n';
         }
         if (source.fail())
         {
@@ -318,17 +319,17 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
         std::unique_ptr<std::string> f( new std::string((std::istreambuf_iterator<char>(source)), std::istreambuf_iterator<char>()));
         if(debug)
         {
-          std::cout<<"loaded data string \n"<< const_cast<char *>(f->c_str())<<"\n";
+          std::cout<<"loaded data string \n"<< const_cast<char *>(f->c_str())<<'\n';
         }
         source.close();
         shaderSource+=*f;
-        shaderSource+="\n";
+        shaderSource+='\n';
       }
       loadShaderSourceFromString(name,shaderSource);
       if(debug)
       {
         std::cout<<"********* Final Shader String ***************\n";
-        std::cout<<shaderSource<<"\n";
+        std::cout<<shaderSource<<'\n';
       }
       compileShader(name);
       attachShaderToProgram(progName,name);
@@ -346,49 +347,49 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::loadShaderSourceFromString(const std::string &_shaderName, const std::string &_string ) noexcept
+void ShaderLib::loadShaderSourceFromString(const std::string_view &_shaderName, const std::string_view &_string ) noexcept
 {
-  auto shader=m_shaders.find(_shaderName);
+  auto shader=m_shaders.find(_shaderName.data());
   // make sure we have a valid shader and program
   if(shader!=m_shaders.end() )
   {
-    shader->second->loadFromString(_string);
-    //std::cout<<*_string<<"\n";
+    shader->second->loadFromString(_string.data());
+    //std::cout<<*_string<<'\n';
   }
-  else {std::cerr<<"Warning shader not know in loadShaderSource "<<_shaderName.c_str();}
+  else {std::cerr<<"Warning shader not know in loadShaderSource "<<_shaderName.data();}
 
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::linkProgramObject(const std::string &_name	) noexcept
+void ShaderLib::linkProgramObject(const std::string_view &_name	) noexcept
 {
 
-  auto program=m_shaderPrograms.find(_name);
+  auto program=m_shaderPrograms.find(_name.data());
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
-    std::cerr<<"Linking "<<_name.c_str()<<"\n";
+    std::cerr<<"Linking "<<_name.data()<<'\n';
     program->second->link();
   }
-  else {std::cerr<<"Warning Program not known in link "<<_name.c_str();}
+  else {std::cerr<<"Warning Program not known in link "<<_name.data();}
 
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::use( const std::string &_name  )  noexcept
+void ShaderLib::use(const std::string_view &_name  )  noexcept
 {
-  auto program=m_shaderPrograms.find(_name);
+  auto program=m_shaderPrograms.find(_name.data());
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
     //std::cerr<<"Shader manager Use\n";
-    m_currentShader=_name;
+    m_currentShader=_name.data();
     program->second->use();
   }
   else
   {
-    std::cerr<<"Warning Program not know in use "<<_name.c_str()<<"\n";
+    std::cerr<<"Warning Program not know in use "<<_name.data()<<'\n';
     m_currentShader="NULL";
     glUseProgram(0);
   }
@@ -397,9 +398,9 @@ void ShaderLib::use( const std::string &_name  )  noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-GLuint ShaderLib::getProgramID(const std::string &_name ) noexcept
+GLuint ShaderLib::getProgramID(const std::string_view &_name ) noexcept
 {
-  auto program=m_shaderPrograms.find(_name);
+  auto program=m_shaderPrograms.find(_name.data());
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -407,15 +408,15 @@ GLuint ShaderLib::getProgramID(const std::string &_name ) noexcept
   }
   else
   {
-    std::cerr<<"Warning Program not know in use "<<_name.c_str();
+    std::cerr<<"Warning Program not know in use "<<_name.data();
     return 0;
   }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::autoRegisterUniforms(const std::string &_shaderName   ) noexcept
+void ShaderLib::autoRegisterUniforms(const std::string_view &_shaderName   ) noexcept
 {
-  auto program=m_shaderPrograms.find(_shaderName);
+  auto program=m_shaderPrograms.find(_shaderName.data());
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -424,49 +425,49 @@ void ShaderLib::autoRegisterUniforms(const std::string &_shaderName   ) noexcept
   }
   else
   {
-    std::cerr<<"Warning Program not know in registerUniform "<<_shaderName<<"\n";
+    std::cerr<<"Warning Program not know in registerUniform "<<_shaderName.data()<<'\n';
   }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::bindAttribute(const std::string &_programName, GLuint _index, const std::string &_attribName	) noexcept
+void ShaderLib::bindAttribute(const std::string_view &_programName, GLuint _index, const std::string_view &_attribName	) noexcept
 {
-  auto program=m_shaderPrograms.find(_programName);
+  auto program=m_shaderPrograms.find(_programName.data());
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
     program->second->bindAttribute(_index,_attribName);
   }
-  else {std::cerr<<"Warning Program not know in bindAttribute "<<_programName.c_str();}
+  else {std::cerr<<"Warning Program not know in bindAttribute "<<_programName.data();}
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::bindFragDataLocation( const std::string &_programName, GLuint _index, const std::string &_attribName	) noexcept
+void ShaderLib::bindFragDataLocation(const std::string_view &_programName, GLuint _index, const std::string_view &_attribName	) noexcept
 {
-  auto program=m_shaderPrograms.find(_programName);
+  auto program=m_shaderPrograms.find(_programName.data());
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
     program->second->bindFragDataLocation(_index,_attribName);
   }
-  else {std::cerr<<"Warning Program not know in bindAttribute "<<_programName.c_str();}
+  else {std::cerr<<"Warning Program not know in bindAttribute "<<_programName.data();}
 }
 
 
+////----------------------------------------------------------------------------------------------------------------------
+//void ceckGLError( const std::string_view  &_file, const int _line  ) noexcept
+//{
+
+//  NGLCheckGLError(_file,_line);
+
+//}
+
+
 //----------------------------------------------------------------------------------------------------------------------
-void ceckGLError( const std::string  &_file, const int _line  ) noexcept
+ShaderProgram * ShaderLib::operator[](const std::string_view &_name  ) noexcept
 {
-
-  NGLCheckGLError(_file,_line);
-
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-ShaderProgram * ShaderLib::operator[](const std::string &_name  ) noexcept
-{
-  auto program=m_shaderPrograms.find(_name);
+  auto program=m_shaderPrograms.find(_name.data());
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -475,7 +476,7 @@ ShaderProgram * ShaderLib::operator[](const std::string &_name  ) noexcept
   }
   else
   {
-    std::cerr<<"Warning Program not know in [] "<<_name.c_str();
+    std::cerr<<"Warning Program not know in [] "<<_name.data();
     std::cerr<<"returning a null program and hoping for the best\n";
     return m_nullProgram;
   }
@@ -509,28 +510,28 @@ void ShaderLib::useNullProgram() noexcept
 }
 
 
-GLuint ShaderLib::getUniformBlockIndex( const std::string &_uniformBlockName  ) const  noexcept
+GLuint ShaderLib::getUniformBlockIndex( const std::string_view &_uniformBlockName  ) const  noexcept
 {
 
   GLuint id=0;
 
   // get an iterator to the shaders
-  auto shader=m_shaderPrograms.find(m_currentShader);
+  auto shader=m_shaderPrograms.find(m_currentShader.data());
   // make sure we have a valid shader
   if(shader!=m_shaderPrograms.end())
   {
     // grab the pointer to the shader and call compile
-    id=shader->second->getUniformBlockIndex(_uniformBlockName);
+    id=shader->second->getUniformBlockIndex(_uniformBlockName.data());
   }
   else
   {
-    std::cerr <<"Can't find id for uniform block " << _uniformBlockName <<"\n";
+    std::cerr <<"Can't find id for uniform block " << _uniformBlockName.data() <<'\n';
   }
 
   return id;
 }
 
-void ShaderLib::setUniformBuffer(const std::string &_uniformBlockName, size_t _size, void *_data)
+void ShaderLib::setUniformBuffer(const std::string_view &_uniformBlockName, size_t _size, void *_data)
 {
   (*this)[m_currentShader]->setUniformBuffer(_uniformBlockName,_size,_data);
 
@@ -648,9 +649,9 @@ void ShaderLib::loadCherckerShaders() noexcept
 }
 
 
-void ShaderLib::printRegisteredUniforms(const std::string &_shader) const  noexcept
+void ShaderLib::printRegisteredUniforms(const std::string_view &_shader) const  noexcept
 {
-  auto program=m_shaderPrograms.find(_shader);
+  auto program=m_shaderPrograms.find(_shader.data());
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
@@ -666,12 +667,12 @@ void ShaderLib::printProperties() const noexcept
   if(program!=m_shaderPrograms.end() )
   {
     std::cerr<<"_______________________________________________________________________________________________________________________\n";
-    std::cerr<<"Printing Properties for ShaderProgram "<<m_currentShader<<"\n";
+    std::cerr<<"Printing Properties for ShaderProgram "<<m_currentShader<<'\n';
     std::cerr<<"_______________________________________________________________________________________________________________________\n";
     program->second->printProperties();
     std::cerr<<"_______________________________________________________________________________________________________________________\n";
   }
-  else {std::cerr<<"Warning no currently active shader to print properties for "<<m_currentShader<<"\n";}
+  else {std::cerr<<"Warning no currently active shader to print properties for "<<m_currentShader<<'\n';}
 
 
 
@@ -679,114 +680,114 @@ void ShaderLib::printProperties() const noexcept
 }
 
 
-void ShaderLib::setUniform(const std::string &_paramName,Real _v0) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,Real _v0) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform1f(_paramName.c_str(),_v0);
+  (*this)[m_currentShader]->setRegisteredUniform1f(_paramName.data(),_v0);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,Real _v0,Real _v1) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,Real _v0,Real _v1) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform2f(_paramName.c_str(),_v0,_v1);
+  (*this)[m_currentShader]->setRegisteredUniform2f(_paramName.data(),_v0,_v1);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,Real _v0,Real _v1,Real _v2) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,Real _v0,Real _v1,Real _v2) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform3f(_paramName.c_str(),_v0,_v1,_v2);
+  (*this)[m_currentShader]->setRegisteredUniform3f(_paramName.data(),_v0,_v1,_v2);
 
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,Real _v0,Real _v1,Real _v2,Real _v3) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,Real _v0,Real _v1,Real _v2,Real _v3) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform4f(_paramName.c_str(),_v0,_v1,_v2,_v3);
+  (*this)[m_currentShader]->setRegisteredUniform4f(_paramName.data(),_v0,_v1,_v2,_v3);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,GLint _v0) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,GLint _v0) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform1i(_paramName.c_str(),_v0);
+  (*this)[m_currentShader]->setRegisteredUniform1i(_paramName.data(),_v0);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,GLint _v0,GLint _v1) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,GLint _v0,GLint _v1) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform2i(_paramName.c_str(),_v0,_v1);
+  (*this)[m_currentShader]->setRegisteredUniform2i(_paramName.data(),_v0,_v1);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,GLint _v0,GLint _v1,GLint _v2) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,GLint _v0,GLint _v1,GLint _v2) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform3i(_paramName.c_str(),_v0,_v1,_v2);
+  (*this)[m_currentShader]->setRegisteredUniform3i(_paramName.data(),_v0,_v1,_v2);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,GLint _v0,GLint _v1,GLint _v2,GLint _v3) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,GLint _v0,GLint _v1,GLint _v2,GLint _v3) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform4i(_paramName.c_str(),_v0,_v1,_v2,_v3);
+  (*this)[m_currentShader]->setRegisteredUniform4i(_paramName.data(),_v0,_v1,_v2,_v3);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,Vec2 _v0) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,Vec2 _v0) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform2f(_paramName.c_str(),_v0.m_x,_v0.m_y);
+  (*this)[m_currentShader]->setRegisteredUniform2f(_paramName.data(),_v0.m_x,_v0.m_y);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,Vec3 _v0) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,Vec3 _v0) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform3f(_paramName.c_str(),_v0.m_x,_v0.m_y,_v0.m_z);
+  (*this)[m_currentShader]->setRegisteredUniform3f(_paramName.data(),_v0.m_x,_v0.m_y,_v0.m_z);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,Vec4 _v0) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,Vec4 _v0) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform4f(_paramName.c_str(),_v0.m_x,_v0.m_y,_v0.m_z,_v0.m_w);
+  (*this)[m_currentShader]->setRegisteredUniform4f(_paramName.data(),_v0.m_x,_v0.m_y,_v0.m_z,_v0.m_w);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,Mat3 _v0) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,Mat3 _v0) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniformMatrix3fv(_paramName.c_str(),1,GL_FALSE,_v0.openGL());
+  (*this)[m_currentShader]->setRegisteredUniformMatrix3fv(_paramName.data(),1,GL_FALSE,_v0.openGL());
 
 }
 
 #ifdef USEGLM
-void ShaderLib::setUniform(const std::string &_paramName,glm::vec2 _v0) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,glm::vec2 _v0) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform2f(_paramName.c_str(),_v0.x,_v0.y);
+  (*this)[m_currentShader]->setRegisteredUniform2f(_paramName.data(),_v0.x,_v0.y);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,glm::vec3 _v0) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,glm::vec3 _v0) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform3f(_paramName.c_str(),_v0.x,_v0.y,_v0.z);
+  (*this)[m_currentShader]->setRegisteredUniform3f(_paramName.data(),_v0.x,_v0.y,_v0.z);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,glm::vec4 _v0) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,glm::vec4 _v0) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniform4f(_paramName.c_str(),_v0.x,_v0.y,_v0.z,_v0.w);
+  (*this)[m_currentShader]->setRegisteredUniform4f(_paramName.data(),_v0.x,_v0.y,_v0.z,_v0.w);
 }
 
-void ShaderLib::setUniform(const std::string &_paramName,glm::mat3 _v0) noexcept
+void ShaderLib::setUniform(const std::string_view &_paramName,glm::mat3 _v0) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniformMatrix3fv(_paramName.c_str(),1,GL_FALSE,&_v0[0][0]);
+  (*this)[m_currentShader]->setRegisteredUniformMatrix3fv(_paramName.data(),1,GL_FALSE,&_v0[0][0]);
 
 }
 
 #endif
 
-void ShaderLib::setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value,MatrixTranspose _transpose) noexcept
+void ShaderLib::setUniformMatrix4fv(const std::string_view &_paramName,const GLfloat *_value,MatrixTranspose _transpose) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniformMatrix4fv(_paramName.c_str(),1,static_cast<bool>(_transpose),_value);
+  (*this)[m_currentShader]->setRegisteredUniformMatrix4fv(_paramName.data(),1,static_cast<bool>(_transpose),_value);
 
 }
-void ShaderLib::setUniformMatrix3fv(const std::string &_paramName, const GLfloat *_value, MatrixTranspose _transpose) noexcept
+void ShaderLib::setUniformMatrix3fv(const std::string_view &_paramName, const GLfloat *_value, MatrixTranspose _transpose) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniformMatrix3fv(_paramName.c_str(),1,static_cast<bool>(_transpose),_value);
-
-}
-
-void ShaderLib::setUniformMatrix2fv(const std::string &_paramName, const GLfloat *_value, MatrixTranspose _transpose) noexcept
-{
-  (*this)[m_currentShader]->setRegisteredUniformMatrix2fv(_paramName.c_str(),1,static_cast<bool>(_transpose),_value);
+  (*this)[m_currentShader]->setRegisteredUniformMatrix3fv(_paramName.data(),1,static_cast<bool>(_transpose),_value);
 
 }
 
-
-
-void ShaderLib::setUniform(const std::string &_paramName,Mat4 _v0) noexcept
+void ShaderLib::setUniformMatrix2fv(const std::string_view &_paramName, const GLfloat *_value, MatrixTranspose _transpose) noexcept
 {
-  (*this)[m_currentShader]->setRegisteredUniformMatrix4fv(_paramName.c_str(),1,GL_FALSE,_v0.openGL());
+  (*this)[m_currentShader]->setRegisteredUniformMatrix2fv(_paramName.data(),1,static_cast<bool>(_transpose),_value);
+
+}
+
+
+
+void ShaderLib::setUniform(const std::string_view &_paramName,Mat4 _v0) noexcept
+{
+  (*this)[m_currentShader]->setRegisteredUniformMatrix4fv(_paramName.data(),1,GL_FALSE,_v0.openGL());
 }
 
 

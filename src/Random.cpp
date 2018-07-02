@@ -57,11 +57,11 @@ Random::Random()
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Real Random::getFloatFromGeneratorName(const std::string &_name  )
+Real Random::getFloatFromGeneratorName(const std::string_view &_name  )
 {
   // grab a function pointer based on the _name from the map
   //auto func=m_floatGenerators[_name];
-  auto func = m_floatGenerators.find(_name);
+  auto func = m_floatGenerators.find(_name.data());
   // see if we got anything we can use
   if(func != m_floatGenerators.end())
   {

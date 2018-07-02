@@ -98,13 +98,13 @@ NGL_DLLEXPORT Real degrees( const Real _rad   ) noexcept
 }
 
 
-NGL_DLLEXPORT  void NGLCheckGLError( const std::string  &_file, const int _line ) noexcept
+NGL_DLLEXPORT  void NGLCheckGLError(const std::string_view &_file, const int _line ) noexcept
 {
  //std::cout<<"NGLCheckGLError Called ______________________\n";
  auto errNum = glGetError();
   while (errNum != GL_NO_ERROR)
   {
-   // std::cout<<errNum<<"\n";
+   // std::cout<<errNum<<'\n';
     std::string str;
     switch(errNum)
     {
@@ -122,7 +122,7 @@ NGL_DLLEXPORT  void NGLCheckGLError( const std::string  &_file, const int _line 
     }
     if(errNum !=GL_NO_ERROR)
     {
-      std::cerr<<"GL error "<< str<<" line : "<<_line<<" file : "<<_file<<"\n";
+      std::cerr<<"GL error "<< str<<" line : "<<_line<<" file : "<<_file.data()<<'\n';
     }
     errNum = glGetError();
 

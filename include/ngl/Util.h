@@ -198,7 +198,7 @@ extern NGL_DLLEXPORT unsigned int nextPow2(unsigned int _x) noexcept;
 /// @param[in]  _file the current file where the error occured
 /// @param[in]  _line the line number
 //----------------------------------------------------------------------------------------------------------------------
-extern NGL_DLLEXPORT void NGLCheckGLError(const std::string  &_file, const int _line ) noexcept;
+extern NGL_DLLEXPORT void NGLCheckGLError(const std::string_view  &_file, const int _line ) noexcept;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief a simple template function for Linear Interpolation requires that any classes have
 ///    + - and * scalar (i.e. Real) overloaded operators

@@ -75,7 +75,7 @@ AbstractMesh::~AbstractMesh() noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void AbstractMesh::loadTexture( const std::string& _fName  ) noexcept
+void AbstractMesh::loadTexture(const std::string_view &_fName  ) noexcept
 {
 	// load in the texture
   Texture  *t=new Texture(_fName);
@@ -421,16 +421,16 @@ void AbstractMesh::calcDimensions() noexcept
 
 }
 
-void AbstractMesh::saveNCCABinaryMesh( const std::string &_fname  ) noexcept
+void AbstractMesh::saveNCCABinaryMesh(const std::string_view &_fname  ) noexcept
 {
 // so basically we need to save all the state data from the abstract mesh
 // then map the vbo on the gpu and dump that in one go, this means we have to
 // call CreateVBO first the Save
   std::fstream file;
-  file.open(_fname.c_str(),std::ios::out | std::ios::binary);
+  file.open(_fname.data(),std::ios::out | std::ios::binary);
   if (!file.is_open())
   {
-    std::cerr<<"problems Opening File "<<_fname<<'\n';
+    std::cerr<<"problems Opening File "<<_fname.data()<<'\n';
     return;
   }
   // lets write out our own Magic Number file ID
@@ -570,7 +570,7 @@ for (auto v : m_verts)
     if(dist2 > newRad2)
     {
       std::cerr<<"something wrong here\n";
-      std::cerr<<"error margin "<<dist2-newRad2<<"\n";
+      std::cerr<<"error margin "<<dist2-newRad2<<'\n';
     }
     m_sphereCenter=newCenter;
     rad=newRad;
@@ -581,7 +581,7 @@ for (auto v : m_verts)
 }
 
 m_sphereRadius=rad;
-std::cout<<m_sphereCenter<<"  rad "<<m_sphereRadius<<"\n";
+std::cout<<m_sphereCenter<<"  rad "<<m_sphereRadius<<'\n';
 
 }
 /// end of citation

@@ -71,7 +71,7 @@ public :
   /// @brief   ctor using a clip and an obj
   /// @param[in] _fileName the name of the bake file to load
   //----------------------------------------------------------------------------------------------------------------------
-  NCCAPointBake(const std::string &_fileName ) noexcept;
+  NCCAPointBake(const std::string_view &_fileName ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  Set the current Frame and map the clip for that frame to the obj
   /// @param[in] frame the frame to set
@@ -81,18 +81,18 @@ public :
   /// @brief  method to load a point baked file
   /// @param[in] _fileName the file to load
   //----------------------------------------------------------------------------------------------------------------------
-  bool loadPointBake(const std::string &_fileName) noexcept;
+  bool loadPointBake(const std::string_view &_fileName) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to load a binary point baked file
   /// @param[in] _fileName the file to load
   //----------------------------------------------------------------------------------------------------------------------
-  bool loadBinaryPointBake(const std::string &_fileName) noexcept;
+  bool loadBinaryPointBake(const std::string_view &_fileName) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to save a binary point baked file basically re-ordered data only
   /// @param[in] _fileName the file to load
   //----------------------------------------------------------------------------------------------------------------------
-  bool saveBinaryPointBake( const std::string &_fileName) noexcept;
+  bool saveBinaryPointBake( const std::string_view &_fileName) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to attach a mesh to the data
   /// this method will check for basic vetex compatibility and then re-order the data

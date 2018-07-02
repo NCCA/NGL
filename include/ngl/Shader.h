@@ -45,7 +45,7 @@ public :
   /// @param _name the name of the program object
   /// @param[in] _type the type of shader we are building
   //----------------------------------------------------------------------------------------------------------------------
-  Shader( const std::string &_name,  ShaderType _type ) noexcept;
+  Shader( const std::string_view &_name,  ShaderType _type ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor, will clean up shader source and remove shader from GL
   //----------------------------------------------------------------------------------------------------------------------
@@ -59,9 +59,9 @@ public :
   /// if source is already loaded it will re-load and re-attached
   /// @param _name the file name for the source we are loading
   //----------------------------------------------------------------------------------------------------------------------
-  void load( const std::string &_name ) noexcept;
+  void load( const std::string_view &_name ) noexcept;
    //----------------------------------------------------------------------------------------------------------------------
-  void loadFromString(const std::string &_string  ) noexcept;
+  void loadFromString(const std::string_view &_string  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief toggle the debug state
   //----------------------------------------------------------------------------------------------------------------------

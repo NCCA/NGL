@@ -19,6 +19,7 @@
 #include "rapidxml/rapidxml.hpp"
 #include "pystring.h"
 #include <iostream>
+#include <cstring>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file NCCAPointBake.cpp
 /// @brief implementation files for NCCAPointBake class
@@ -30,7 +31,7 @@ namespace ps=pystring;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
+bool NCCAPointBake::loadPointBake(const std::string_view &_fileName) noexcept
 {
 	m_numFrames=0;
 	m_currFrame=0;
@@ -61,22 +62,22 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
 
   rapidxml::xml_node<> * child=rootNode->first_node("MeshName");
   m_meshName=child->value();
-  std::cerr<<"found mesh "<<m_meshName<<"\n";
+  std::cerr<<"found mesh "<<m_meshName<<'\n';
 
   try
   {
     child=rootNode->first_node("NumVerts");
     m_nVerts=std::stoul(child->value());
-    std::cerr<<"NumVerts "<<m_nVerts<<"\n";
+    std::cerr<<"NumVerts "<<m_nVerts<<'\n';
     child=rootNode->first_node("StartFrame");
     m_startFrame=std::stoul(child->value());
-    std::cerr<<"StartFrame"<<m_startFrame<<"\n";
+    std::cerr<<"StartFrame"<<m_startFrame<<'\n';
     child=rootNode->first_node("EndFrame");
     m_endFrame=std::stoul(child->value());
-    std::cerr<<"EndFrame"<<m_endFrame<<"\n";
+    std::cerr<<"EndFrame"<<m_endFrame<<'\n';
     child=rootNode->first_node("NumFrames");
     m_numFrames=std::stoul(child->value());
-    std::cerr<<"EndFrame  "<<m_numFrames<<"\n";
+    std::cerr<<"EndFrame  "<<m_numFrames<<'\n';
   }
   catch (std::invalid_argument)
   {
@@ -102,7 +103,7 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
   // now traverse each frame and grab the data
   for(child=rootNode->first_node("Frame"); child; child=child->next_sibling())
   {
-    std::cerr<<"doing frame "<<child->first_attribute("number")->value()<<"\n";
+    std::cerr<<"doing frame "<<child->first_attribute("number")->value()<<'\n';
     CurrentFrame=std::stoul(child->first_attribute("number")->value());
     CurrentFrame-=m_startFrame;
     std::flush(std::cerr);
@@ -142,7 +143,7 @@ NCCAPointBake::~NCCAPointBake() noexcept
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-NCCAPointBake::NCCAPointBake( const std::string &_fileName) noexcept
+NCCAPointBake::NCCAPointBake(const std::string_view &_fileName) noexcept
 {
   loadPointBake(_fileName);
 }
@@ -152,7 +153,7 @@ void NCCAPointBake::setFrame(const size_t _frame) noexcept
  m_currFrame=_frame;
 }
 
-bool NCCAPointBake::loadBinaryPointBake( const std::string &_fileName) noexcept
+bool NCCAPointBake::loadBinaryPointBake(const std::string_view &_fileName) noexcept
 {
   // open a file stream for ip in binary mode
   std::fstream file;
@@ -186,11 +187,11 @@ bool NCCAPointBake::loadBinaryPointBake( const std::string &_fileName) noexcept
   file.read(reinterpret_cast <char *>(&m_startFrame),sizeof(unsigned int));
   file.read(reinterpret_cast <char *>(&m_binFile),sizeof(bool));
   std::cout <<"Loaded header\n";
-  std::cout<<m_numFrames<<"\n";
-  std::cout<<m_currFrame<<"\n";
-  std::cout<<m_nVerts<<"\n";
-  std::cout<<m_startFrame<<"\n";
-  std::cout<<m_binFile<<"\n";
+  std::cout<<m_numFrames<<'\n';
+  std::cout<<m_currFrame<<'\n';
+  std::cout<<m_nVerts<<'\n';
+  std::cout<<m_startFrame<<'\n';
+  std::cout<<m_binFile<<'\n';
 
   m_data.resize(m_numFrames);
   for(unsigned int frame =0; frame<m_numFrames; ++frame)
@@ -206,13 +207,13 @@ bool NCCAPointBake::loadBinaryPointBake( const std::string &_fileName) noexcept
   return true;
 }
 
-bool NCCAPointBake::saveBinaryPointBake( const std::string &_fileName) noexcept
+bool NCCAPointBake::saveBinaryPointBake(const std::string_view &_fileName) noexcept
 {
   // so basically we need to save all the state data from the abstract mesh
   // then map the vbo on the gpu and dump that in one go, this means we have to
   // call CreateVBO first the Save
     std::fstream file;
-    file.open(_fileName.c_str(),std::ios::out | std::ios::binary);
+    file.open(_fileName.data(),std::ios::out | std::ios::binary);
     if (!file.is_open())
     {
       std::cerr<<"problems Opening File "<<_fileName<<'\n';
@@ -228,11 +229,11 @@ bool NCCAPointBake::saveBinaryPointBake( const std::string &_fileName) noexcept
     file.write(reinterpret_cast <char *>(&m_nVerts),sizeof(unsigned int));
     file.write(reinterpret_cast <char *>(&m_startFrame),sizeof(unsigned int));
     file.write(reinterpret_cast <char *>(&m_binFile),sizeof(bool));
-    std::cout<<m_numFrames<<"\n";
-    std::cout<<m_currFrame<<"\n";
-    std::cout<<m_nVerts<<"\n";
-    std::cout<<m_startFrame<<"\n";
-    std::cout<<m_binFile<<"\n";
+    std::cout<<m_numFrames<<'\n';
+    std::cout<<m_currFrame<<'\n';
+    std::cout<<m_nVerts<<'\n';
+    std::cout<<m_startFrame<<'\n';
+    std::cout<<m_binFile<<'\n';
 
     // now write out data
     for(unsigned int frame =0; frame<m_numFrames; ++frame)
@@ -290,7 +291,7 @@ bool NCCAPointBake::attachMesh(AbstractMesh *_mesh) noexcept
   if(_mesh->m_verts.size() != m_nVerts)
   {
     std::cerr <<" Mesh can't be attached to this data as vert count does not match\n";
-    std::cerr<<"mesh verts "<<_mesh->m_verts.size()<<" file verts "<<m_nVerts<<"\n";
+    std::cerr<<"mesh verts "<<_mesh->m_verts.size()<<" file verts "<<m_nVerts<<'\n';
     return false;
   }
 

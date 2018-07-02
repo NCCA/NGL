@@ -39,10 +39,10 @@ VAOPrimitives::VAOPrimitives() noexcept
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void VAOPrimitives::draw( const std::string &_name ) noexcept
+void VAOPrimitives::draw(const std::string_view &_name ) noexcept
 {
   // get an iterator to the VertexArrayObjects
-  auto VAO=m_createdVAOs.find(_name);
+  auto VAO=m_createdVAOs.find(_name.data());
   // make sure we have a valid shader
   if(VAO!=m_createdVAOs.end())
   {
@@ -51,14 +51,14 @@ void VAOPrimitives::draw( const std::string &_name ) noexcept
     VAO->second->draw();
     VAO->second->unbind();
   }
-  else {std::cerr<<"Warning VAO not know in Primitive list "<<_name.c_str()<<"\n";}
+  else {std::cerr<<"Warning VAO not know in Primitive list "<<_name.data()<<'\n';}
 
 }
 
-void VAOPrimitives::draw( const std::string &_name, GLenum _mode ) noexcept
+void VAOPrimitives::draw(const std::string_view &_name, GLenum _mode ) noexcept
 {
   // get an iterator to the VertexArrayObjects
-  auto vao=m_createdVAOs.find(_name);
+  auto vao=m_createdVAOs.find(_name.data());
   // make sure we have a valid shader
   if(vao!=m_createdVAOs.end())
   {
@@ -68,11 +68,11 @@ void VAOPrimitives::draw( const std::string &_name, GLenum _mode ) noexcept
     vao->second->draw();
     vao->second->unbind();
   }
-  else {std::cerr<<"Warning VAO not know in Primitive list "<<_name.c_str()<<"\n";}
+  else {std::cerr<<"Warning VAO not know in Primitive list "<<_name.data()<<'\n';}
 
 }
 
-void VAOPrimitives::createVAOFromHeader(const std::string &_name, const Real *_data,  unsigned int _size ) noexcept
+void VAOPrimitives::createVAOFromHeader(const std::string_view &_name, const Real *_data,  unsigned int _size ) noexcept
 {
     auto vao = VAOFactory::createVAO("simpleVAO",GL_TRIANGLES);
     // next we bind it so it's active for setting data
@@ -98,12 +98,12 @@ void VAOPrimitives::createVAOFromHeader(const std::string &_name, const Real *_d
     vao->setNumIndices(_size/8);
     // finally we have finished for now so time to unbind the VAO
     vao->unbind();
-    m_createdVAOs[_name]=std::move(vao);
-   // std::cout<<_name<<" Num Triangles "<<data.size()/3<<"\n";
+    m_createdVAOs[_name.data()]=std::move(vao);
+   // std::cout<<_name<<" Num Triangles "<<data.size()/3<<'\n';
 
 }
 
-void VAOPrimitives::createLineGrid( const std::string &_name, Real _width,  Real _depth, int _steps ) noexcept
+void VAOPrimitives::createLineGrid(const std::string_view &_name, Real _width,  Real _depth, int _steps ) noexcept
 {
   // a std::vector to store our verts, remember vector packs contiguously so we can use it
   std::vector <vertData> data;
@@ -155,7 +155,7 @@ void VAOPrimitives::createLineGrid( const std::string &_name, Real _width,  Real
 
 }
 
-void VAOPrimitives::createSphere( const std::string &_name, Real _radius, int _precision ) noexcept
+void VAOPrimitives::createSphere(const std::string_view &_name, Real _radius, int _precision ) noexcept
 {
     //  Sphere code based on a function Written by Paul Bourke.
     //  http://astronomy.swin.edu.au/~pbourke/opengl/sphere/
@@ -219,7 +219,7 @@ void VAOPrimitives::createSphere( const std::string &_name, Real _radius, int _p
 }
 
 
-void VAOPrimitives::createCapsule( const std::string &_name,  const Real _radius, const Real _height,  const int _precision ) noexcept
+void VAOPrimitives::createCapsule(const std::string_view &_name,  const Real _radius, const Real _height,  const int _precision ) noexcept
 
 {
   // based on code from here
@@ -326,7 +326,7 @@ void VAOPrimitives::createCapsule( const std::string &_name,  const Real _radius
 
 }
 
-void VAOPrimitives::createVAO(const std::string &_name,const std::vector<vertData> &_data,	const GLenum _mode) noexcept
+void VAOPrimitives::createVAO(const std::string_view &_name,const std::vector<vertData> &_data,	const GLenum _mode) noexcept
 {
 
   auto vao = VAOFactory::createVAO("simpleVAO",_mode);
@@ -355,8 +355,8 @@ void VAOPrimitives::createVAO(const std::string &_name,const std::vector<vertDat
   vao->setNumIndices(_data.size());
   // finally we have finished for now so time to unbind the VAO
   vao->unbind();
-  m_createdVAOs[_name]=std::move(vao);
- // std::cout<<_name<<" Num Triangles "<<_data.size()/3<<"\n";
+  m_createdVAOs[_name.data()]=std::move(vao);
+ // std::cout<<_name<<" Num Triangles "<<_data.size()/3<<'\n';
 
 }
 
@@ -399,7 +399,7 @@ void VAOPrimitives::fghCircleTable(std::unique_ptr<Real []> &io_sint, std::uniqu
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void VAOPrimitives::createCylinder(const std::string &_name,  Real _radius,const Real _height,unsigned int _slices,unsigned int _stacks ) noexcept
+void VAOPrimitives::createCylinder(const std::string_view &_name,  Real _radius,const Real _height,unsigned int _slices,unsigned int _stacks ) noexcept
 {
   /* Step in z and radius as stacks are drawn. */
 
@@ -506,7 +506,7 @@ void VAOPrimitives::createCylinder(const std::string &_name,  Real _radius,const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void VAOPrimitives::createCone(const std::string &_name, Real _base, Real _height, unsigned int _slices,unsigned int _stacks  ) noexcept
+void VAOPrimitives::createCone(const std::string_view &_name, Real _base, Real _height, unsigned int _slices, unsigned int _stacks  ) noexcept
 {
   /* Step in z and radius as stacks are drawn. */
   Real z0,z1;
@@ -575,7 +575,7 @@ void VAOPrimitives::createCone(const std::string &_name, Real _base, Real _heigh
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void VAOPrimitives::createDisk(const std::string &_name, const Real _radius, unsigned int _slices ) noexcept
+void VAOPrimitives::createDisk(const std::string_view &_name, const Real _radius, unsigned int _slices ) noexcept
 {
   /* Pre-computed circle */
   std::unique_ptr<Real []> sint;
@@ -622,7 +622,7 @@ void VAOPrimitives::createDisk(const std::string &_name, const Real _radius, uns
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void VAOPrimitives::createTorus(const std::string &_name, Real _minorRadius, Real _majorRadius,unsigned int _nSides, unsigned int _nRings, bool _flipTX ) noexcept
+void VAOPrimitives::createTorus(const std::string_view &_name, Real _minorRadius, Real _majorRadius, unsigned int _nSides, unsigned int _nRings, bool _flipTX ) noexcept
 {
     Real  iradius = _minorRadius, oradius = _majorRadius, phi, psi, dpsi, dphi;
 
@@ -786,7 +786,7 @@ void VAOPrimitives::createTorus(const std::string &_name, Real _minorRadius, Rea
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void VAOPrimitives::createTrianglePlane(const std::string &_name,const Real _width,const Real _depth,const int _wP,const int _dP,const Vec3 &_vN) noexcept
+void VAOPrimitives::createTrianglePlane(const std::string_view &_name, const Real _width, const Real _depth, const int _wP, const int _dP, const Vec3 &_vN) noexcept
 {
   // calculate the VBO size basically we have 2 tris per quad based on the width and depth
   // _precision.
@@ -882,10 +882,10 @@ void VAOPrimitives::clear() noexcept
     m_createdVAOs.erase(m_createdVAOs.begin(),m_createdVAOs.end());
 }
 
-AbstractVAO * VAOPrimitives::getVAOFromName(const std::string &_name)
+AbstractVAO * VAOPrimitives::getVAOFromName(const std::string_view &_name)
 {
   // get an iterator to the VertexArrayObjects
-  auto VAO=m_createdVAOs.find(_name);
+  auto VAO=m_createdVAOs.find(_name.data());
   // make sure we have a valid shader
   if(VAO!=m_createdVAOs.end())
   {
@@ -894,9 +894,9 @@ AbstractVAO * VAOPrimitives::getVAOFromName(const std::string &_name)
   else return nullptr;
 }
 
-void VAOPrimitives::addToPrimitives(const std::string &_name, std::unique_ptr<AbstractVAO> _vao) noexcept
+void VAOPrimitives::addToPrimitives(const std::string_view &_name, std::unique_ptr<AbstractVAO> _vao) noexcept
 {
-  m_createdVAOs[_name]=std::move(_vao);
+  m_createdVAOs[_name.data()]=std::move(_vao);
 
 }
 

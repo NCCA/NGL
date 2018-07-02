@@ -204,18 +204,6 @@ public:
   /// @returns all the transform matrix members * my _m members
   //----------------------------------------------------------------------------------------------------------------------
   Transformation operator*( const Transformation &_m  ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief load the current transform matrix to the shader
-  /// @param[in] _param the name of the parameter to set (varying mat4)
-  /// @param[in] _which which matrix mode to use
-  //----------------------------------------------------------------------------------------------------------------------
-  void loadMatrixToShader(const std::string &_param,  const ActiveMatrix &_which=ActiveMatrix::NORMAL   ) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief load the current * global transform matrix to the shader
-  /// @param[in] _param the name of the parameter to set (varying mat4)
-  /// @param[in] _which which matrix mode to use
-  //----------------------------------------------------------------------------------------------------------------------
-  void loadGlobalAndCurrentMatrixToShader( const std::string &_param, Transformation &_global,  const ActiveMatrix &_which=ActiveMatrix::NORMAL  )noexcept;
 
 protected :
 

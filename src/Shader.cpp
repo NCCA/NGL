@@ -34,7 +34,7 @@ void printInfoLog( const GLuint &_obj)
 	GLint charsWritten  = 0;
   std::unique_ptr<char []> infoLog;
   glGetShaderiv(_obj, GL_INFO_LOG_LENGTH,&infologLength);
-  //std::cerr<<"info log length "<<infologLength<<"\n";
+  //std::cerr<<"info log length "<<infologLength<<'\n';
   if(infologLength > 0)
   {
     infoLog.reset (new char[infologLength]);
@@ -47,7 +47,7 @@ void printInfoLog( const GLuint &_obj)
 }
 
 
-Shader::Shader(const std::string &_name,  ShaderType _type ) noexcept
+Shader::Shader(const std::string_view &_name,  ShaderType _type ) noexcept
 {
   m_name=_name;
   m_shaderType = _type;
@@ -79,7 +79,7 @@ Shader::Shader(const std::string &_name,  ShaderType _type ) noexcept
 }
 Shader::~Shader()
 {
-  std::cerr<<"removing shader "<<m_name<<"\n";
+  std::cerr<<"removing shader "<<m_name<<'\n';
   glDeleteShader(m_shaderHandle);
 }
 
@@ -95,7 +95,7 @@ void Shader::compile() noexcept
   if(m_debugState==true)
   {
     GLint infologLength = 0;
-    std::cerr <<"Compiling Shader "<<m_name<<"\n";
+    std::cerr <<"Compiling Shader "<<m_name<<'\n';
     glGetShaderiv(m_shaderHandle, GL_COMPILE_STATUS,&infologLength);
     if( infologLength == GL_FALSE)
     {
@@ -108,7 +108,7 @@ void Shader::compile() noexcept
 }
 
 
-void Shader::load(const std::string &_name ) noexcept
+void Shader::load(const std::string_view &_name ) noexcept
 {
   // see if we already have some source attached
   if(m_source.empty())
@@ -116,10 +116,10 @@ void Shader::load(const std::string &_name ) noexcept
     std::cerr<<"deleting existing source code\n";
     m_source.clear();
   }
-  std::ifstream shaderSource(_name.c_str());
+  std::ifstream shaderSource(_name.data());
   if (!shaderSource.is_open())
   {
-   std::cerr<<"File not found "<<_name.c_str()<<"\n";
+   std::cerr<<"File not found "<<_name.data()<<'\n';
    exit(EXIT_FAILURE);
   }
   // now read in the data
@@ -137,7 +137,7 @@ void Shader::load(const std::string &_name ) noexcept
   }
 }
 
-void Shader::loadFromString(const std::string &_string ) noexcept
+void Shader::loadFromString(const std::string_view &_string ) noexcept
 {
   // see if we already have some source attached
   if(m_source.size()!=0)

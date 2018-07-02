@@ -264,62 +264,6 @@ Transformation Transformation::operator*(const Transformation &_m) noexcept
 
   return t;
 }
-void Transformation::loadMatrixToShader(const std::string &_param, const ActiveMatrix &_which) noexcept
-{
-  computeMatrices();
-  ShaderLib *shader=ShaderLib::instance();
-  switch (_which)
-  {
-    case ActiveMatrix::NORMAL :
-    {
-      shader->setUniform(_param,m_matrix);
-    }
-    break;
-    case ActiveMatrix::TRANSPOSE :
-    {
-      shader->setUniform(_param,m_transposeMatrix);
-    }
-    break;
-    case ActiveMatrix::INVERSE :
-    {
-      shader->setUniform(_param,m_inverseMatrix);
-    }
-    break;
-
-  }
-
-
-}
-
-void Transformation::loadGlobalAndCurrentMatrixToShader(const std::string &_param, Transformation &_global,  const ActiveMatrix &_which ) noexcept
-{
-  computeMatrices();
-  ShaderLib *shader=ShaderLib::instance();
-  switch (_which)
-  {
-    case ActiveMatrix::NORMAL :
-    {
-      Mat4 tx=_global.getMatrix()*this->getMatrix();
-      shader->setUniform(_param,tx);
-    }
-    break;
-    case ActiveMatrix::TRANSPOSE :
-    {
-      Mat4 tx=_global.getTransposeMatrix()*this->getTransposeMatrix();
-
-      shader->setUniform(_param,tx);
-    }
-    break;
-    case ActiveMatrix::INVERSE :
-    {
-      Mat4 tx=_global.getInverseMatrix()*this->getInverseMatrix();
-      shader->setUniform(_param,tx);
-    }
-    break;
-
-  }
-
-}
 
 
 } // end ngl

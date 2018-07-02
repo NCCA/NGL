@@ -25,7 +25,7 @@
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
-ShaderProgram::ShaderProgram(const std::string &_name) noexcept
+ShaderProgram::ShaderProgram(const std::string_view &_name) noexcept
 {
   // we create a special NULL program so the shader manager can return
   // a NULL object.
@@ -37,7 +37,7 @@ if (_name !="NULL")
   {
     m_programID=0;
   }
-  //std::cerr <<"Created program id is "<<m_programID<<"\n";
+  //std::cerr <<"Created program id is "<<m_programID<<'\n';
   m_debugState=true;
   m_programName=_name;
   m_linked=false;
@@ -45,7 +45,7 @@ if (_name !="NULL")
 }
 ShaderProgram::~ShaderProgram()
 {
-  std::cerr<<"removing ShaderProgram "<< m_programName<<"\n";
+  std::cerr<<"removing ShaderProgram "<< m_programName<<'\n';
   glDeleteProgram(m_programID);
   for(auto & block : m_registeredUniformBlocks)
   {
@@ -58,7 +58,7 @@ ShaderProgram::~ShaderProgram()
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::use() noexcept
 {
- // std::cerr<<"Using shader "<<m_programName<<" id "<<m_programID<<"\n";
+ // std::cerr<<"Using shader "<<m_programName<<" id "<<m_programID<<'\n';
   glUseProgram(m_programID);
   //NGLCheckGLError(__FILE__,__LINE__);
   m_active=true;
@@ -79,29 +79,29 @@ void ShaderProgram::attachShader(Shader *_shader) noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::bindAttribute(GLuint _index, const std::string &_attribName) noexcept
+void ShaderProgram::bindAttribute(GLuint _index, const std::string_view &_attribName) noexcept
 {
   if(m_linked == true)
   {
     std::cerr<<"Warning binding attribute after link\n";
   }
-  m_attribs[_attribName]=_index;
-  glBindAttribLocation(m_programID,_index,_attribName.c_str());
-  //std::cerr<<"bindAttribLoc "<<m_programID<<" index "<<_index<<" name "<<_attribName<<"\n";
+  m_attribs[_attribName.data()]=_index;
+  glBindAttribLocation(m_programID,_index,_attribName.data());
+  //std::cerr<<"bindAttribLoc "<<m_programID<<" index "<<_index<<" name "<<_attribName<<'\n';
   NGLCheckGLError(__FILE__,__LINE__);
 }
 
-void ShaderProgram::bindFragDataLocation(GLuint _index, const std::string &_attribName) noexcept
+void ShaderProgram::bindFragDataLocation(GLuint _index, const std::string_view &_attribName) noexcept
 {
   if(m_linked == true)
   {
     std::cerr<<"Warning binding attribute after link\n";
   }
-  m_attribs[_attribName]=_index;
+  m_attribs[_attribName.data()]=_index;
   #ifndef USINGIOS_
-    glBindFragDataLocation(m_programID,_index,_attribName.c_str());
+    glBindFragDataLocation(m_programID,_index,_attribName.data());
   #endif
-  //std::cerr<<"bindAttribLoc "<<m_programID<<" index "<<_index<<" name "<<_attribName<<"\n";
+  //std::cerr<<"bindAttribLoc "<<m_programID<<" index "<<_index<<" name "<<_attribName<<'\n';
   NGLCheckGLError(__FILE__,__LINE__);
 }
 
@@ -111,7 +111,7 @@ void ShaderProgram::link() noexcept
   glLinkProgram(m_programID);
   if(m_debugState==true)
   {
-    std::cerr <<"linking Shader "<< m_programName.c_str()<<"\n";
+    std::cerr <<"linking Shader "<< m_programName.c_str()<<'\n';
   }
   GLint infologLength = 0;
 
@@ -157,7 +157,7 @@ GLint ShaderProgram::getUniformLocation(const char* _name   ) const noexcept
   //GLint loc = glGetUniformLocation( m_programID ,_name);
   //if (loc == -1)
   //{
-    std::cerr<<"Uniform \""<<_name<<"\" not found in Program \""<<m_programName<<"\"\n";
+    std::cerr<<"Uniform \""<<_name<<"\" not found in Program \""<<m_programName<<"\""<<'\n';
   }
   // so we cast to correct value when returning!
   return -1;
@@ -185,7 +185,7 @@ void ShaderProgram::printActiveUniforms() const noexcept
     for (GLint i=0; i<nUniforms; ++i)
     {
        glGetActiveUniformName(m_programID, static_cast<GLuint>(i), 256, &l, name);
-       std::cerr << "Uniform: "<<name<<"\n";
+       std::cerr << "Uniform: "<<name<<'\n';
     }
 #endif
 
@@ -226,9 +226,9 @@ void ShaderProgram::printActiveAttributes() const noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform1f( const std::string &_varname, float _v0    ) const noexcept
+void ShaderProgram::setRegisteredUniform1f(const std::string_view &_varname, float _v0    ) const noexcept
 {
-  auto uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -238,9 +238,9 @@ void ShaderProgram::setRegisteredUniform1f( const std::string &_varname, float _
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform2f(const std::string &_varname, float _v0, float _v1 ) const noexcept
+void ShaderProgram::setRegisteredUniform2f(const std::string_view &_varname, float _v0, float _v1 ) const noexcept
 {
-  auto uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -250,9 +250,9 @@ void ShaderProgram::setRegisteredUniform2f(const std::string &_varname, float _v
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform3f( const std::string &_varname, float _v0, float _v1, float _v2  ) const noexcept
+void ShaderProgram::setRegisteredUniform3f( const std::string_view &_varname, float _v0, float _v1, float _v2  ) const noexcept
 {
-  auto uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -262,9 +262,9 @@ void ShaderProgram::setRegisteredUniform3f( const std::string &_varname, float _
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform4f( const std::string &_varname, float _v0, float _v1,  float _v2, float _v3  ) const noexcept
+void ShaderProgram::setRegisteredUniform4f( const std::string_view &_varname, float _v0, float _v1,  float _v2, float _v3  ) const noexcept
 {
-  auto uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -276,9 +276,9 @@ void ShaderProgram::setRegisteredUniform4f( const std::string &_varname, float _
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform1i( const std::string &_varname, int _v0  ) const noexcept
+void ShaderProgram::setRegisteredUniform1i( const std::string_view &_varname, int _v0  ) const noexcept
 {
-  auto uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -288,9 +288,9 @@ void ShaderProgram::setRegisteredUniform1i( const std::string &_varname, int _v0
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform2i( const std::string &_varname, int _v0, int _v1   ) const noexcept
+void ShaderProgram::setRegisteredUniform2i( const std::string_view &_varname, int _v0, int _v1   ) const noexcept
 {
-  auto uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -301,9 +301,9 @@ void ShaderProgram::setRegisteredUniform2i( const std::string &_varname, int _v0
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform3i(const std::string &_varname,  int _v0,   int _v1,  int _v2   ) const noexcept
+void ShaderProgram::setRegisteredUniform3i(const std::string_view &_varname,  int _v0,   int _v1,  int _v2   ) const noexcept
 {
-  auto uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -312,9 +312,9 @@ void ShaderProgram::setRegisteredUniform3i(const std::string &_varname,  int _v0
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniform4i( const std::string &_varname,  int _v0,   int _v1, int _v2,  int _v3  ) const noexcept
+void ShaderProgram::setRegisteredUniform4i( const std::string_view &_varname,  int _v0,   int _v1, int _v2,  int _v3  ) const noexcept
 {
-  auto uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -324,9 +324,9 @@ void ShaderProgram::setRegisteredUniform4i( const std::string &_varname,  int _v
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string &_varname,size_t _count, bool _transpose,const float* _value) const noexcept
+void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string_view &_varname,size_t _count, bool _transpose,const float* _value) const noexcept
 {
-  auto uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -335,9 +335,9 @@ void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string &_varname,s
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniformMatrix2fv( const std::string &_varname,size_t _count, bool _transpose,const float* _value) const noexcept
+void ShaderProgram::setRegisteredUniformMatrix2fv( const std::string_view &_varname,size_t _count, bool _transpose,const float* _value) const noexcept
 {
-  auto uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -349,9 +349,9 @@ void ShaderProgram::setRegisteredUniformMatrix2fv( const std::string &_varname,s
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string &_varname, size_t _count, bool _transpose,  const float* _value ) const noexcept
+void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string_view &_varname, size_t _count, bool _transpose,  const float* _value ) const noexcept
 {
-  auto uniform=m_registeredUniforms.find(_varname);
+  auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
@@ -386,7 +386,7 @@ void ShaderProgram::enableAttribArray( const char* _name) const noexcept
 
   if(index!=m_attribs.end())
   {
-    std::cerr<<"Enable attrib "<<index->second<<"\n";
+    std::cerr<<"Enable attrib "<<index->second<<'\n';
     glEnableVertexAttribArray( index->second  );
   }
 }
@@ -407,9 +407,9 @@ void ShaderProgram::bindFragDataLocation(GLuint _colourNumber, const char *_name
   #endif
 }
 
-GLuint ShaderProgram::getUniformBlockIndex( const std::string &_uniformBlockName )const noexcept
+GLuint ShaderProgram::getUniformBlockIndex( const std::string_view &_uniformBlockName )const noexcept
 {
-  return glGetUniformBlockIndex(m_programID,_uniformBlockName.c_str());
+  return glGetUniformBlockIndex(m_programID,_uniformBlockName.data());
 }
 
 
@@ -420,7 +420,7 @@ void ShaderProgram::autoRegisterUniformBlocks() noexcept
   std::cerr<<"FOUND UNIFORM BLOCKS "<<nUniforms<<'\n';
   char name[256];
   uniformBlockData data;
-  for (GLuint i=0; i<nUniforms; ++i)
+  for (GLint i=0; i<nUniforms; ++i)
   {
     GLsizei nameLen=0;
     glGetActiveUniformBlockName(m_programID,i,sizeof(name)-1,&nameLen,name);
@@ -445,9 +445,9 @@ void ShaderProgram::autoRegisterUniformBlocks() noexcept
   }
  }
 
-void ShaderProgram::setUniformBuffer(const std::string &_uniformBlockName, size_t _size, void *_data)
+void ShaderProgram::setUniformBuffer(const std::string_view &_uniformBlockName, size_t _size, void *_data)
 {
-  auto uniform=m_registeredUniformBlocks.find(_uniformBlockName);
+  auto uniform=m_registeredUniformBlocks.find(_uniformBlockName.data());
   // make sure we have a valid shader
   if(uniform!=m_registeredUniformBlocks.end())
   {
@@ -622,7 +622,7 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {GL_UNSIGNED_INT_SAMPLER_CUBE,"usamplerCube"},
     {GL_UNSIGNED_INT_SAMPLER_2D_ARRAY,"usampler2DArray"}
   };
-  std::cout<<"Registered Uniforms for shader "<< m_programName<<"\n";
+  std::cout<<"Registered Uniforms for shader "<< m_programName<<'\n';
   for(auto d : m_registeredUniforms)
   {
     std::string type;
@@ -635,7 +635,7 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {
       type="unknown type";
     }
-    std::cout<<"Uniform "<<d.first<<"-> "<<" location "<<d.second.loc<<" glsl type "<<type<<"\n";
+    std::cout<<"Uniform "<<d.first<<"-> "<<" location "<<d.second.loc<<" glsl type "<<type<<'\n';
 
   }
 }
