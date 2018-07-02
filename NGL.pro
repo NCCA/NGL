@@ -13,8 +13,6 @@ QT -=xml
 
 CONFIG+=c++14
 
-# use this to remove any marked as deprecated classes from NGL
-DEFINES += REMOVEDDEPRECATED
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
 DEFINES+= USEGLM
 # What image library to use change to 1 of these depending on what platform

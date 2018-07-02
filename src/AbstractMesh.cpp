@@ -75,7 +75,7 @@ AbstractMesh::~AbstractMesh() noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void AbstractMesh::loadTexture( const std::string_view& _fName  ) noexcept
+void AbstractMesh::loadTexture( const std::string& _fName  ) noexcept
 {
 	// load in the texture
   Texture  *t=new Texture(_fName);

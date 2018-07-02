@@ -30,7 +30,7 @@ namespace ps=pystring;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-bool NCCAPointBake::loadPointBake(const std::string_view &_fileName) noexcept
+bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
 {
 	m_numFrames=0;
 	m_currFrame=0;
@@ -142,7 +142,7 @@ NCCAPointBake::~NCCAPointBake() noexcept
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-NCCAPointBake::NCCAPointBake( const std::string_view &_fileName) noexcept
+NCCAPointBake::NCCAPointBake( const std::string &_fileName) noexcept
 {
   loadPointBake(_fileName);
 }
@@ -152,7 +152,7 @@ void NCCAPointBake::setFrame(const size_t _frame) noexcept
  m_currFrame=_frame;
 }
 
-bool NCCAPointBake::loadBinaryPointBake( const std::string_view &_fileName) noexcept
+bool NCCAPointBake::loadBinaryPointBake( const std::string &_fileName) noexcept
 {
   // open a file stream for ip in binary mode
   std::fstream file;
