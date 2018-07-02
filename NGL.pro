@@ -11,7 +11,7 @@ QT += core
 QT += gui
 QT -=xml
 
-CONFIG+=c++14
+CONFIG+=c++1z
 
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
 DEFINES+= USEGLM
@@ -83,6 +83,8 @@ INCLUDEPATH +=$$BASE_DIR/src/ngl
 INCLUDEPATH +=$$BASE_DIR/src/shaders
 INCLUDEPATH +=$$BASE_DIR/include/rapidjson
 INCLUDEPATH +=$$BASE_DIR/gl3w/
+# for the University build
+INCLUDEPATH +=/public/devel/include
 # using the fmt library https://github.com/fmtlib/fmt but header only.
 DEFINES+=FMT_HEADER_ONLY
 INCLUDEPATH +=$$BASE_DIR/include/fmt

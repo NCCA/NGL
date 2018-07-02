@@ -36,6 +36,7 @@ DESTDIR=./
 OTHER_FILES+= README.md
 # were are going to default to a console app
 CONFIG += console
+LIBS += -L/public/devel/lib
 LIBS+=-lgtest
 # note each command you add needs a ; as it will be run as a single line
 # first check if we are shadow building or not easiest way is to check out against current

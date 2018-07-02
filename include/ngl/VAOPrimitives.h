@@ -23,6 +23,7 @@
 #include "Vec3.h"
 #include "AbstractVAO.h"
 #include <vector>
+#include <string_view>
 #include <string>
 #include <unordered_map>
 #include <memory>

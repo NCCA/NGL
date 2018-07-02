@@ -1,6 +1,6 @@
 #This file is included in any project that requires NGL it will be searched for
 #in the default $(HOME)/NGL/  directory if this can't be found the environment variable $NGLDIR will be searched for and this will be used.
-CONFIG+=c++14
+CONFIG+=c++1z
 macx:CONFIG-=app_bundle
 
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
@@ -34,7 +34,8 @@ linux-g++-64:QMAKE_CXXFLAGS +=  -march=native
 DEFINES +=NGL_DEBUG
 OTHER_FILES+=sceneSetup.vrscene
 QMAKE_RPATHDIR+=L$${NGLBASE}/lib
-
+# added for university build
+INCLUDEPATH+=/public/devel/include
 unix:LIBS += -L/usr/local/lib
 # add the ngl lib note the { } for the environment variable QMake variable's value at time qmake is run 
 unix:LIBS +=  -L$${NGLBASE}/lib -l NGL
