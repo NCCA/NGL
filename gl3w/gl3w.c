@@ -32,7 +32,7 @@
 #include <stdlib.h>
 
 #define ARRAY_SIZE(x)  (sizeof(x) / sizeof((x)[0]))
-/*
+
 #if defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN 1
 #include <windows.h>
@@ -64,7 +64,7 @@ static GL3WglProc get_proc(const char *proc)
 		res = (GL3WglProc)GetProcAddress(libgl, proc);
 	return res;
 }
-#elif defined(__APPLE__)*/
+#elif defined(__APPLE__)
 #include <dlfcn.h>
 
 static void *libgl;
@@ -90,7 +90,7 @@ static GL3WglProc get_proc(const char *proc)
 	*(void **)(&res) = dlsym(libgl, proc);
 	return res;
 }
-/*
+
 #else
 #include <dlfcn.h>
 
@@ -122,7 +122,7 @@ static GL3WglProc get_proc(const char *proc)
 	return res;
 }
 #endif
-*/
+
 static struct {
 	int major, minor;
 } version;
