@@ -22,6 +22,7 @@ SOURCES+= $$PWD/Vec4Tests.cpp \
           $$PWD/Mat3Tests.cpp \
           $$PWD/Vec2Tests.cpp \
           $$PWD/ObjTests.cpp \
+          $$PWD/UtilTests.cpp \
           $$PWD/main.cpp
 
 
