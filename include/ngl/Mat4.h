@@ -24,6 +24,9 @@
 #include "Types.h"
 #include <ostream>
 #include <array>
+#ifdef USEGLM
+  #include <glm/mat4x4.hpp>
+#endif
 
 namespace ngl
 {
@@ -88,6 +91,12 @@ public:
   /// @brief copy ctor with Real useful for Mat4 m=1; for identity or Matrix m=3.5 for uniform scale
   //----------------------------------------------------------------------------------------------------------------------
   Mat4(Real _m) noexcept;
+#ifdef USEGLM
+  Mat4(const glm::mat4 &_m);
+  glm::mat4 toGLM() const;
+#endif
+
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief assignment operator
   //----------------------------------------------------------------------------------------------------------------------

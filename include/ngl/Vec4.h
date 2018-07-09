@@ -26,6 +26,9 @@
 #include "Vec2.h"
 #include "Vec3.h"
 #include <array>
+#ifdef USEGLM
+  #include <glm/vec4.hpp>
+#endif
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vec4.h
 /// @brief encapsulates a 4d Homogenous Point / Vector object
@@ -93,6 +96,13 @@ public:
    m_y(_y),
    m_z(_z),
    m_w(_w){;}
+#ifdef USEGLM
+  Vec4( const glm::vec4 & _v)  noexcept :
+        m_x(_v.x),m_y(_v.y),m_z(_v.z),m_w(_v.w){;}
+  glm::vec4 toGLM() const {return glm::vec4(m_x,m_y,m_z,m_w);}
+  void set(const glm::vec4 &_r) {m_x=_r.x; m_y=_r.y; m_z=_r.z; m_w=_r.w;}
+
+#endif
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief return this dotted with _b

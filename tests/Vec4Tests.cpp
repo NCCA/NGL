@@ -4,7 +4,7 @@
 #include <ngl/Mat4.h>
 #include <string>
 #include <sstream>
-
+#include <glm/vec4.hpp>
 
 
 
@@ -164,6 +164,39 @@ TEST(Vec4,Cross1)
 
 
 
+
+TEST(Vec4,fromGLM)
+{
+  glm::vec4 f(0.4f,0.2f,0.1f,1.0f);
+  ngl::Vec4 r(f);
+  EXPECT_FLOAT_EQ(r[0],f[0]);
+  EXPECT_FLOAT_EQ(r[1],f[1]);
+  EXPECT_FLOAT_EQ(r[2],f[2]);
+  EXPECT_FLOAT_EQ(r[3],f[3]);
+}
+
+
+TEST(Vec4,toGLM)
+{
+  ngl::Vec4 f(0.4f,0.2f,0.1f,1.0f);
+  auto r=f.toGLM();
+  EXPECT_FLOAT_EQ(r[0],f[0]);
+  EXPECT_FLOAT_EQ(r[1],f[1]);
+  EXPECT_FLOAT_EQ(r[2],f[2]);
+  EXPECT_FLOAT_EQ(r[3],f[3]);
+
+}
+
+TEST(Vec4,setGLM)
+{
+  ngl::Vec4 f;
+  f.set(glm::vec4(0.4f,0.2f,0.1f,1.0f));
+  EXPECT_FLOAT_EQ(0.4f,f[0]);
+  EXPECT_FLOAT_EQ(0.2f,f[1]);
+  EXPECT_FLOAT_EQ(0.1f,f[2]);
+  EXPECT_FLOAT_EQ(1.0f,f[3]);
+
+}
 
 
 

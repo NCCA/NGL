@@ -24,6 +24,9 @@
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
 #include <array>
+#ifdef USEGLM
+  #include <glm/vec2.hpp>
+#endif
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vec2.h
 /// @brief encapsulates a 2 float object like glsl Vec2 but not maths
@@ -68,12 +71,6 @@ public:
   /// @param[in]  _v the Vec2 to set from
   //----------------------------------------------------------------------------------------------------------------------
   void set(const Vec4& _v) noexcept;
-
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set from another  Vec2
-  /// @param[in]  _v the Vec2 to set from
-  //----------------------------------------------------------------------------------------------------------------------
-  void set( const Vec2* _v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor
   /// @param[in] _v the value to set
@@ -81,7 +78,14 @@ public:
   Vec2( const Vec2& _v)  noexcept :
         m_x(_v.m_x),
         m_y(_v.m_y){;}
+  #ifdef USEGLM
+    Vec2( const glm::vec2 & _v)  noexcept :
+          m_x(_v.x),
+          m_y(_v.y){;}
+    glm::vec2 toGLM() const {return glm::vec2(m_x,m_y);}
+    void set(const glm::vec2 &_r) {m_x=_r.x; m_y=_r.y;}
 
+  #endif
    //----------------------------------------------------------------------------------------------------------------------
   /// @brief initialise the constructor from 3 or 4 Real
   /// @param[in]  _x x value
@@ -107,13 +111,13 @@ public:
   /// @brief [] index operator to access the index component of the Vec2
   /// @returns  this[x] as a Real
   //----------------------------------------------------------------------------------------------------------------------
-  Real& operator[]( int _i )  noexcept;
+  Real& operator[]( size_t _i )  noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief [] index operator to access the index component of the Vec2
   /// @returns  this[x] as a Real
   //----------------------------------------------------------------------------------------------------------------------
 
-  const Real& operator[]( int _i ) const  noexcept{ return m_openGL[_i]; }
+  const Real& operator[]( size_t _i ) const  noexcept{ return m_openGL[_i]; }
 
 
   //----------------------------------------------------------------------------------------------------------------------
@@ -227,6 +231,8 @@ public:
   /// \n \f$y=y/\sqrt{x^2+y^2} \f$
   //----------------------------------------------------------------------------------------------------------------------
   void normalize() noexcept;
+  static Vec2 zero();
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief return this dotted with _b
   /// @param[in]  _b vector to dot current vector with

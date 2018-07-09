@@ -5,7 +5,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
-
+#include <glm/vec3.hpp>
 std::string print(const ngl::Vec3 &_m)
 {
   std::stringstream ret;
@@ -158,5 +158,35 @@ TEST(Vec3,AssignOperator)
   EXPECT_FLOAT_EQ(test[0], copy[0]);
   EXPECT_FLOAT_EQ(test[1], copy[1]);
   EXPECT_FLOAT_EQ(test[2], copy[2]);
+
+}
+
+TEST(Vec3,fromGLM)
+{
+  glm::vec3 f(0.4f,0.2f,0.1f);
+  ngl::Vec3 r(f);
+  EXPECT_FLOAT_EQ(r[0],f[0]);
+  EXPECT_FLOAT_EQ(r[1],f[1]);
+  EXPECT_FLOAT_EQ(r[2],f[2]);
+}
+
+
+TEST(Vec3,toGLM)
+{
+  ngl::Vec3 f(0.4f,0.2f,0.1f);
+  auto r=f.toGLM();
+  EXPECT_FLOAT_EQ(r[0],f[0]);
+  EXPECT_FLOAT_EQ(r[1],f[1]);
+  EXPECT_FLOAT_EQ(r[2],f[2]);
+
+}
+
+TEST(Vec3,setGLM)
+{
+  ngl::Vec3 f;
+  f.set(glm::vec3(0.4f,0.2f,0.1f));
+  EXPECT_FLOAT_EQ(0.4f,f[0]);
+  EXPECT_FLOAT_EQ(0.2f,f[1]);
+  EXPECT_FLOAT_EQ(0.1f,f[2]);
 
 }

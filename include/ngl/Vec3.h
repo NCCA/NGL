@@ -23,6 +23,10 @@
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
 #include <array>
+#ifdef USEGLM
+  #include <glm/vec3.hpp>
+#endif
+
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vec3.h
 /// @brief encapsulates a 3 float object like glsl vec3 but not maths
@@ -70,6 +74,15 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   Vec3(Real _x,  Real _y, Real _z) noexcept:
         m_x(_x),m_y(_y),m_z(_z){}
+#ifdef USEGLM
+  Vec3( const glm::vec3 & _v)  noexcept :
+        m_x(_v.x),m_y(_v.y),m_z(_v.z){;}
+  glm::vec3 toGLM() const {return glm::vec3(m_x,m_y,m_z);}
+  void set(const glm::vec3 &_r) {m_x=_r.x; m_y=_r.y; m_z=_r.z;}
+
+#endif
+
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief sets the Vec3 component from 3 values
   /// @param[in]  _x the x component

@@ -20,6 +20,7 @@ SOURCES+= $$PWD/Vec4Tests.cpp \
           $$PWD/Mat4Tests.cpp  \
           $$PWD/Vec3Tests.cpp  \
           $$PWD/Mat3Tests.cpp \
+          $$PWD/Vec2Tests.cpp \
           $$PWD/ObjTests.cpp \
           $$PWD/main.cpp
 

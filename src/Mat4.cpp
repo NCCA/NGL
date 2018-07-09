@@ -22,6 +22,9 @@
 #include <iostream>
 #include <cstring> // for memset
 #include <algorithm>
+#ifdef USEGLM
+  #include <glm/gtc/type_ptr.hpp>
+#endif
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Mat4.cpp
@@ -83,6 +86,25 @@ Mat4::Mat4(const Mat4& _m ) noexcept
  // memcpy(m_m,&_m.m_m,sizeof(m_m));
   m_openGL=_m.m_openGL;
 }
+
+#ifdef USEGLM
+Mat4::Mat4(const glm::mat4 &_m)
+{
+  memcpy(m_m,glm::value_ptr(_m) ,sizeof(m_m));
+}
+
+glm::mat4 Mat4::toGLM() const
+{
+  glm::mat4 result;
+  memcpy(glm::value_ptr(result),m_m ,sizeof(m_m));
+
+  return result;
+}
+
+
+
+#endif
+
 //----------------------------------------------------------------------------------------------------------------------
 Mat4& Mat4::operator=(const Mat4& _m ) noexcept
 {

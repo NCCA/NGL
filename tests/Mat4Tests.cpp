@@ -4,7 +4,7 @@
 #include <ngl/Vec4.h>
 #include <string>
 #include <sstream>
-
+#include <glm/mat4x4.hpp>
 
 std::string print(const ngl::Mat4 &_m)
 {
@@ -21,7 +21,7 @@ std::string print(const ngl::Mat4 &_m)
 TEST(Mat4,DefaultCtor)
 {
   ngl::Mat4 test;
-  ngl::Mat4 result(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
+  ngl::Mat4 result(1.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,0.0f,1.0f);
   EXPECT_TRUE(test == result);
 }
 
@@ -276,6 +276,29 @@ TEST(Mat4,Mat4xVec4)
 
   EXPECT_TRUE(test == result);
 }
+
+TEST(Mat4,fromGLM)
+{
+  glm::mat4 m(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f,10.0f,11.0f,12.0f,13.0f,14.0f,15.0f,16.0f);
+  ngl::Mat4 test(m);
+
+  ngl::Mat4 result(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f,10.0f,11.0f,12.0f,13.0f,14.0f,15.0f,16.0f);
+
+  EXPECT_TRUE(test == result);
+}
+
+
+TEST(Mat4,toGLM)
+{
+  ngl::Mat4 test(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f,10.0f,11.0f,12.0f,13.0f,14.0f,15.0f,16.0f);
+  auto result = test.toGLM();
+  EXPECT_TRUE(test == result);
+
+}
+
+
+
+
 
 /* after thinking about it this is not a valid test!
 class EulerTestRot : public ::testing::TestWithParam<ngl::Real> {

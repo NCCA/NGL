@@ -12,7 +12,7 @@ isEqual(QT_MAJOR_VERSION, 5) {
 NGLPATH=$$(NGLDIR)
 DEFINES+=FMT_HEADER_ONLY
 
-
+DEFINES += USEGLM
 isEmpty(NGLPATH){ # note brace must be here
   NGLBASE=$$(HOME)/NGL
 }
