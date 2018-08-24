@@ -3,7 +3,7 @@
 *.lo
 *.o
 
-
+*.pyc
 # Compiled Dynamic libraries
 *.so
 *.dylib

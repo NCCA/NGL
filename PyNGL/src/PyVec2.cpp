@@ -10,13 +10,17 @@ namespace ngl
         .def(py::init<>())
         .def(py::init<const Vec2 &>())
         .def(py::init<Real,Real>(),py::arg("_x")=0.0f,py::arg("_y")=1.0f)
-     //   .def(py::init<Real>())
-  //      .def("set",(void(Vec2::*)(const Vec2&)) &Vec2::set)
-  //      .def("set",(void(Vec2::*)(const Vec3&)) &Vec2::set)
-  //      .def("set",(void(Vec2::*)(const Vec4&)) &Vec2::set)
-  //      .def("set",(void(Vec2::*)(Real,Real)) &Vec2::set)
+        .def("dot", &Vec2::dot)
+        .def("null", &Vec2::null)
+        .def("__getitem__",(Real& (Vec2::*)(const size_t &)) &Vec2::operator[])
+        .def("normalize", &Vec2::normalize)
+        .def_static("zero", &Vec2::zero)
+        .def("length", &Vec2::length)
+        .def("lengthSquared", &Vec2::lengthSquared)
+        .def(py::self == py::self)
+        .def(py::self != py::self)
+
        ;
-        #warning finish this and tidy the class anyway
   }
 
 }

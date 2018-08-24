@@ -111,13 +111,13 @@ public:
   /// @brief [] index operator to access the index component of the Vec2
   /// @returns  this[x] as a Real
   //----------------------------------------------------------------------------------------------------------------------
-  Real& operator[]( size_t _i )  noexcept;
+  Real& operator[](const size_t &_i )  noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief [] index operator to access the index component of the Vec2
   /// @returns  this[x] as a Real
   //----------------------------------------------------------------------------------------------------------------------
 
-  const Real& operator[]( size_t _i ) const  noexcept{ return m_openGL[_i]; }
+  const Real& operator[](const size_t &_i ) const  noexcept{ return m_openGL[_i]; }
 
 
   //----------------------------------------------------------------------------------------------------------------------

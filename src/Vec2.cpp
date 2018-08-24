@@ -52,7 +52,7 @@ void Vec2::null() noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Real& Vec2::operator[]( size_t _i) noexcept
+Real& Vec2::operator[](const size_t &_i) noexcept
 {
 	NGL_ASSERT(_i >=0 || _i<=2);
 	return (&m_x)[_i];
