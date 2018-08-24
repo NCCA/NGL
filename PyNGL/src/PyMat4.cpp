@@ -48,6 +48,7 @@ namespace ngl
         //.def(Real() * py::self)
         .def(py::self *= Real())
         .def(py::self * Vec3())
+        .def(py::self * Vec4())
         .def("__repr__",
                 [](const Mat4 &v) {
                     return
