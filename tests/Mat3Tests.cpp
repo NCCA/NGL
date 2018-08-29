@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <ngl/Mat3.h>
 #include <ngl/Vec3.h>
+#include <ngl/Vec4.h>
 #include <string>
 #include <sstream>
 #include <ngl/NGLStream.h>
@@ -67,7 +68,7 @@ TEST(Mat3,AssignOperator)
 TEST(Mat3,setAtXY)
 {
   ngl::Mat3 test;
-  int value=0.0f;
+  float value=0.0f;
   for(int y=0; y<3; ++y)
     for(int x=0; x<3; ++x)
         test.setAtXY(x,y,value++);
@@ -152,7 +153,7 @@ TEST(Mat3,Mat3xeuqals2)
   EXPECT_TRUE(test == (t2*r));
 }
 
-TEST(Mat3,Mat3pluEqual)
+TEST(Mat3,Mat3plusEqual)
 {
   ngl::Mat3 t1;
   ngl::Mat3 t2;
@@ -180,7 +181,7 @@ TEST(Mat3,Mat3plus)
 TEST(Mat3,Mat3xReal)
 {
   ngl::Mat3 test;
-  int value=0.0f;
+  float value=0.0f;
   for(int y=0; y<3; ++y)
     for(int x=0; x<3; ++x)
         test.setAtXY(x,y,value++);
@@ -193,12 +194,12 @@ TEST(Mat3,Mat3xReal)
 TEST(Mat3,Mat3xEqualReal)
 {
   ngl::Mat3 test;
-  int value=0.0f;
-  for(int y=0; y<4; ++y)
-    for(int x=0; x<4; ++x)
+  float value=0.0f;
+  for(int y=0; y<3; ++y)
+    for(int x=0; x<3; ++x)
         test.setAtXY(x,y,value++);
   test*=4.2f;
-  ngl::Mat3 result(0,16.8,33.6,50.4,21,37.8,54.6,25.2,42);
+  ngl::Mat3 result(0,12.599999427795,25.199998855591,4.199999809265,16.799999237061,29.399997711182,8.399999618530,21.000000000000,33.599998474121);
 
   EXPECT_TRUE(test == result);
 }
@@ -223,7 +224,7 @@ TEST(Mat3,inverse)
   ngl::Mat3 result(1.0f ,0.0f,0.0f,0.0f,0.4f ,0.1f,0.0f,-0.4f,0.4f);
 
 
-  std::cout<<test<<'\n'<<result;
+  //std::cout<<test<<'\n'<<result;
   EXPECT_TRUE(test == result);
 }
 
@@ -235,16 +236,6 @@ TEST(Mat3,Vec4xMat3)
   t1.rotateX(45.0f);
   test=test*t1;
   ngl::Vec3 result(2,-0.707107f,2.12132f);
-  EXPECT_TRUE(test == result);
-}
-
-TEST(Mat3,Mat3xVec4)
-{
-  ngl::Mat3 t1;
-  ngl::Vec3 test(2,1,2);
-  t1.rotateX(45.0f);
-  test=t1*test;
-  ngl::Vec3 result(2,2.12132f,0.707107f);
   EXPECT_TRUE(test == result);
 }
 

@@ -1,5 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
+#include <pybind11/stl.h>
+#include <pybind11/cast.h>
 
 namespace ngl
 {
@@ -27,7 +29,6 @@ extern void pyInitNCCABinMesh(py::module & m);
 extern void pyInitPointBake(py::module & m);
 extern void pyInitNGLInit(py::module & m);
 extern void pyInitObj(py::module & m);
-extern void pyInitPathCamera(py::module & m);
 extern void pyInitPlane(py::module & m);
 extern void pyInitQuaternion(py::module & m);
 extern void pyInitRandom(py::module & m);
@@ -46,10 +47,10 @@ extern void pyInitShader(py::module & m);
 extern void pyInitShaderProgram(py::module & m);
 
 
-PYBIND11_PLUGIN(pyngl)
+PYBIND11_MODULE(pyngl,m)
 {
-    py::module m("pyngl", "pyngl module ");
-
+//    py::module m("pyngl", "pyngl module ");
+    m.doc()="pyngl module to use NGL in python";
 
     pyInitVec4(m);
     pyInitVec3(m);
@@ -87,7 +88,7 @@ PYBIND11_PLUGIN(pyngl)
     m.attr("nglDiffuseShader")="nglDiffuseShader";
     m.attr("nglToonShader")="nglToonShader";
 
-    return m.ptr();
+    //return m.ptr();
 }
 
 

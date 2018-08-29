@@ -658,7 +658,7 @@ Quaternion Mat4::asQuaternion() const noexcept
 }
 //----------------------------------------------------------------------------------------------------------------------
 
-Mat4  Mat4::Adjacent( const Mat4 &_mat) noexcept
+Mat4  Mat4::adjacent( const Mat4 &_mat) noexcept
 {
     Mat4 m;
 
@@ -685,7 +685,7 @@ Mat4  Mat4::Adjacent( const Mat4 &_mat) noexcept
     return m;
 }
 
-Mat4  Mat4::Adjacent() noexcept
+Mat4  Mat4::adjacent() noexcept
 {
     Mat4 m;
 

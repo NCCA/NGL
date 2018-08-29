@@ -250,12 +250,12 @@ public:
   /// @brief returns a matrix adjacent to the matrix passed in
   /// @returns the adjacent matrix
   //----------------------------------------------------------------------------------------------------------------------
-  Mat4 Adjacent(const Mat4 &_mat) noexcept;
+  Mat4 adjacent(const Mat4 &_mat) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief returns the  ajacent matrix to this
   /// @returns the adjacent matrix
   //----------------------------------------------------------------------------------------------------------------------
-  Mat4 Adjacent() noexcept;
+  Mat4 adjacent() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the left vector of the matrix (-ve 1st Row)
   /// @returns the up vector

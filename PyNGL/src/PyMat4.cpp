@@ -39,6 +39,8 @@ namespace ngl
         .def("getDownVector",&Mat4::getDownVector)
         .def("getForwardVector",&Mat4::getForwardVector)
         .def("getBackVector",&Mat4::getBackVector)
+        .def("adjacent",(Mat4 (Mat4::*)())&Mat4::adjacent)
+        .def("adjacent",(Mat4 (Mat4::*)(const Mat4 &))&Mat4::adjacent)
         .def(py::self == py::self)
         .def(py::self * py::self)
         .def(py::self *= py::self)

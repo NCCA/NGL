@@ -12,7 +12,7 @@ QT -=xml
 QMAKE_LFLAGS += -shared
 CONFIG += console
 CONFIG-=app_bundle
-CONFIG += c++14
+CONFIG += c++1z
 message("this will need to be changed for you own paths")
 macx:QMAKE_CXXFLAGS+=$$system(python-config --cflags)
 macx:QMAKE_LFLAGS+=$$system(python-config --ldflags)
@@ -20,10 +20,10 @@ linux:QMAKE_CXXFLAGS+=$$system(python-config --cflags)
 linux:QMAKE_LFLAGS+=$$system(python-config --ldflags)
 
 INCLUDEPATH+=$$PWD
-
+DEFINES+= PYBIND11_CPP_STANDARD=-std=c++1z
 
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
-DEFINES+= USEGLM
+#DEFINES+= USEGLM
 # What image library to use change to 1 of these depending on what platform
 # QImage USEQIMAGE
 # ImageMagick USEIMAGEMAGIC

@@ -236,7 +236,7 @@ TEST(Mat4,inverse)
 TEST(Mat4,adjacent)
 {
   ngl::Mat4 test(1,0,0,0,0,2,2,0,0,-0.5,2,0,0,0,0,1);
-  test=test.Adjacent();
+  test=test.adjacent();
   ngl::Mat4 result(5,0,0,0,0,2,0.5,0,0,-2,2,0,0,0,0,5);
 
   EXPECT_TRUE(test == result);
@@ -248,7 +248,7 @@ TEST(Mat4,adjacentWithMat4)
   ngl::Mat4 t2;
   t1.rotateX(45.0f);
   t2.rotateY(35.0f);
-  ngl::Mat4 test=t1.Adjacent(t2);
+  ngl::Mat4 test=t1.adjacent(t2);
   ngl::Mat4 result(0.819152f,0,-0.573577f,0,0,1,0,0,0.573577f,0,0.819152f,0,0,0,0,1);
 
   EXPECT_TRUE(test == result);
