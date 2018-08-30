@@ -92,7 +92,7 @@ TEST(Obj,parseNormal)
 {
   ngl::Obj a;
   EXPECT_TRUE(a.load("files/Triangle1.obj"));
-  EXPECT_EQ(a.getNumVerts(),3);
+  EXPECT_EQ(a.getNumNormals(),3);
 }
 
 TEST(Obj,parseUV)

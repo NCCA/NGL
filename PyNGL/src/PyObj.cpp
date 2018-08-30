@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <pybind11/cast.h>
+#include <pybind11/complex.h>
+
 
 #include "Obj.h"
 namespace py = pybind11;
@@ -16,7 +17,10 @@ namespace ngl
         .def("load",(bool (Obj::*)(const std::string_view &_fname, AbstractMesh::CalcBB _calcBB)) &Obj::load)
         .def("save", &Obj::save)
         .def("isLoaded", &Obj::isLoaded)
+        .def("addVertex",&Obj::addVertex)
+        .def("addFace",&Obj::addFace)
         ;
+
 
   }
 

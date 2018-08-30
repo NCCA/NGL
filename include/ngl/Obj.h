@@ -22,7 +22,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
 #include <vector>
-#include <string>
+#include <string_view>
 #include "AbstractMesh.h"
 
 namespace ngl
@@ -47,7 +47,7 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
     /// @brief  constructor to load an objfile as a parameter
     /// @param[in]  &_fname the name of the obj file to load
     //----------------------------------------------------------------------------------------------------------------------
-    Obj( const std::string_view& _fname  , CalcBB _clacBB=CalcBB::True)  noexcept ;
+    Obj( const std::string_view& _fname, CalcBB _clacBB=CalcBB::True)  noexcept ;
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief constructor to load an objfile as a parameter
     /// @param[in]  &_fname the name of the obj file to load

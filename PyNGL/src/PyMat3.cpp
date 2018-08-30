@@ -1,5 +1,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
+#include <pybind11/stl.h>
+#include <pybind11/cast.h>
+
 
 #include "Mat3.h"
 #include "Mat4.h"
@@ -51,15 +54,15 @@ namespace ngl
                         "["+std::to_string(v.m_20) + "," + std::to_string(v.m_21) + "," + std::to_string(v.m_22) + "]\n";})
 
         .def_readwrite("m_openGL", &Mat3::m_openGL)
-        .def_readwrite("m_openGL", &Mat3::m_00)
-        .def_readwrite("m_openGL", &Mat3::m_01)
-        .def_readwrite("m_openGL", &Mat3::m_02)
-        .def_readwrite("m_openGL", &Mat3::m_10)
-        .def_readwrite("m_openGL", &Mat3::m_11)
-        .def_readwrite("m_openGL", &Mat3::m_12)
-        .def_readwrite("m_openGL", &Mat3::m_20)
-        .def_readwrite("m_openGL", &Mat3::m_21)
-        .def_readwrite("m_openGL", &Mat3::m_22)
+        .def_readwrite("m_00", &Mat3::m_00)
+        .def_readwrite("m_01", &Mat3::m_01)
+        .def_readwrite("m_02", &Mat3::m_02)
+        .def_readwrite("m_10", &Mat3::m_10)
+        .def_readwrite("m_11", &Mat3::m_11)
+        .def_readwrite("m_12", &Mat3::m_12)
+        .def_readwrite("m_20", &Mat3::m_20)
+        .def_readwrite("m_21", &Mat3::m_21)
+        .def_readwrite("m_22", &Mat3::m_22)
 
 
         ;

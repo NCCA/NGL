@@ -3,9 +3,17 @@
 #include <pybind11/stl.h>
 #include <pybind11/cast.h>
 
+PYBIND11_MAKE_OPAQUE(std::vector<uint32_t, std::allocator<uint32_t>>);
+
+
 namespace ngl
 {
 namespace py = pybind11;
+
+using uintList = std::vector<uint32_t, std::allocator<uint32_t>>;
+
+
+
 // each cpp file will have an init function to do the binding
 // see http://pybind11.readthedocs.io/en/master/faq.html#how-can-i-reduce-the-build-time
 extern void pyInitVec4(py::module & m);
@@ -51,7 +59,6 @@ PYBIND11_MODULE(pyngl,m)
 {
 //    py::module m("pyngl", "pyngl module ");
     m.doc()="pyngl module to use NGL in python";
-
     pyInitVec4(m);
     pyInitVec3(m);
     pyInitAABB(m);
@@ -84,9 +91,15 @@ PYBIND11_MODULE(pyngl,m)
     pyInitVAOFactory(m);
     pyInitVec2(m);
 
+
     m.attr("nglColourShader")="nglColourShader";
     m.attr("nglDiffuseShader")="nglDiffuseShader";
-    m.attr("nglToonShader")="nglToonShader";
+    m.attr("nglCheckerShader")="nglCheckerShader";
+    m.attr("simpleVAO")="simpleVAO";
+    m.attr("multiBufferVAO")="multiBufferVAO";
+    m.attr("simpleIndexVAO")="simpleIndexVAO";
+
+
 
     //return m.ptr();
 }

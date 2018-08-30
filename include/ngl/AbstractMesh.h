@@ -28,7 +28,7 @@
 #include "AbstractVAO.h"
 
 #include <vector>
-#include <string>
+#include <string_view>
 #include <cstdint>
 #include <memory>
 

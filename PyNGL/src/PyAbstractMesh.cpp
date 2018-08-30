@@ -1,15 +1,32 @@
 #include <pybind11/pybind11.h>
-#include <pybind11/cast.h>
 #include <pybind11/stl.h>
+#include <pybind11/complex.h>
 
 #include "AbstractMesh.h"
+#include <vector>
 namespace py = pybind11;
+
+PYBIND11_MAKE_OPAQUE(std::vector<uint32_t, std::allocator<uint32_t>>);
+
+
 namespace ngl
 {
 
+#ifndef PYBIND11_HAS_STRING_VIEW
+  #warning No String View for PYBIND11
+#endif
 
 void pyInitAbstractMesh(py::module & m)
 {
+
+
+  using uintList = std::vector<uint32_t, std::allocator<uint32_t>>;
+
+  py::class_<std::vector<uint32_t>>(m, "uint32_tVector")
+    .def(py::init<>())
+    .def("push_back", (void (uintList::*)(const uint32_t &)) &uintList::push_back)
+      ;
+
   py::class_<AbstractMesh>(m, "AbstractMesh")
       .def("drawBBox", &AbstractMesh::drawBBox)
       .def("draw", &AbstractMesh::draw)
@@ -42,11 +59,26 @@ void pyInitAbstractMesh(py::module & m)
       ;
 
 
+
   py::enum_<AbstractMesh::CalcBB>(m, "CalcBB")
       .value("True",AbstractMesh::CalcBB::True )
       .value("False",AbstractMesh::CalcBB::False)
     ;
 
+  py::class_<Face>(m, "Face")
+    .def(py::init<>())
+    .def(py::init<const Face &>())
+    .def_readwrite("m_vert",&Face::m_vert)
+    .def_readwrite("m_uv",&Face::m_uv)
+    .def_readwrite("m_norm",&Face::m_norm)
+    .def_readwrite("m_numVerts",&Face::m_numVerts)
+    .def_readwrite("m_textureCoord",&Face::m_textureCoord)
+    .def_readwrite("m_normals",&Face::m_normals)
+    ;
 }
 
+
+
+
 }
+
