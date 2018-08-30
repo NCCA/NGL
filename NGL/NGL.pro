@@ -167,7 +167,7 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
     $$SRC_DIR/SimpleIndexVAO.cpp \
     $$SRC_DIR/pystring.cpp
     !macx:{
-      SOURCES+=$$PWD/gl3w/gl3w.c
+      SOURCES+=$$BASE_DIR/gl3w/gl3w.c
     }
 
 ios {

@@ -25,6 +25,18 @@ void pyInitAbstractMesh(py::module & m)
   py::class_<std::vector<uint32_t>>(m, "uint32_tVector")
     .def(py::init<>())
     .def("push_back", (void (uintList::*)(const uint32_t &)) &uintList::push_back)
+    .def("__iter__", [](std::vector<uint32_t> &v) {
+            return py::make_iterator(v.begin(), v.end());
+         }, py::keep_alive<0, 1>())
+      .def("__getitem__", [](const uintList &s, size_t i) {
+                  if (i >= s.size()) throw py::index_error();
+                  return s[i];
+              })
+      .def("__setitem__", [](uintList &s, size_t i, float v) {
+          if (i >= s.size()) throw py::index_error();
+          s[i] = v;
+      })
+     .def("__len__",&uintlist::size)
       ;
 
   py::class_<AbstractMesh>(m, "AbstractMesh")
@@ -45,7 +57,7 @@ void pyInitAbstractMesh(py::module & m)
       .def("getVertexList", &AbstractMesh::getVertexList)
       .def("getVertexAtIndex",&AbstractMesh::getVertexAtIndex)
       .def("getNormalList",&AbstractMesh::getNormalList)
-      //.def("getTextureCordList",&AbstractMesh::getTextureCordList)
+      .def("getUVList",&AbstractMesh::getUVList)
       .def("getFaceList", &AbstractMesh::getFaceList)
       .def("getNumVerts",&AbstractMesh::getNumVerts)
       .def("getNumNormals",&AbstractMesh::getNumNormals)

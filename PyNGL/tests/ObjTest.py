@@ -70,6 +70,73 @@ class TestObj(unittest.TestCase):
     a=pyngl.Obj()
     self.assertTrue(a.load(sourcedir+'Triangle3UV.obj',pyngl.CalcBB.False))
     self.assertEqual(a.getNumTexCords(),3)
+  
+  def testCheckVerts(self) :
+    a=pyngl.Obj()
+    self.assertTrue(a.load(sourcedir+'Triangle1.obj',pyngl.CalcBB.False))
+    verts=a.getVertexList()
+    self.assertTrue(verts[0]==pyngl.Vec3(2.0,0.0,0.0))
+    self.assertTrue(verts[1]==pyngl.Vec3(0.0,4.0,0.0))
+    self.assertTrue(verts[2]==pyngl.Vec3(-2.0,0.0,0.0))
+
+  def testCheckNormals(self) :
+    a=pyngl.Obj()
+    self.assertTrue(a.load(sourcedir+'Triangle1.obj',pyngl.CalcBB.False))
+    normal=a.getNormalList()
+    self.assertTrue(normal[0]==pyngl.Vec3(0.0,0.0,1.0))
+    self.assertTrue(normal[1]==pyngl.Vec3(0.0,0.0,1.0))
+    self.assertTrue(normal[2]==pyngl.Vec3(0.0,0.0,1.0))
+
+  def testCheckUV(self) :
+    a=pyngl.Obj()
+    self.assertTrue(a.load(sourcedir+'Triangle1.obj',pyngl.CalcBB.False))
+    uv=a.getUVList()
+    self.assertTrue(uv[0]==pyngl.Vec3(1.00000,0.00000,0.000000))
+    self.assertTrue(uv[1]==pyngl.Vec3(0.5000,1.0000,0.000000))
+    self.assertTrue(uv[2]==pyngl.Vec3(0.004399,0.008916,0.00000))
+
+  def testCheckFaceVertOnly(self) :
+    a=pyngl.Obj()
+    self.assertTrue(a.load(sourcedir+'TriangleVertsOnly.obj',pyngl.CalcBB.False))
+    face=a.getFaceList()
+    self.assertEqual(face[0].m_vert[0],0)
+    self.assertEqual(face[0].m_vert[1],1)
+    self.assertEqual(face[0].m_vert[2],2)
+
+  def testCheckFaceVertNormal(self) :
+    a=pyngl.Obj()
+    self.assertTrue(a.load(sourcedir+'TriangleVertNormal.obj',pyngl.CalcBB.False))
+    face=a.getFaceList()
+    self.assertEqual(face[0].m_vert[0],0)
+    self.assertEqual(face[0].m_vert[1],1)
+    self.assertEqual(face[0].m_vert[2],2)
+    self.assertEqual(face[0].m_norm[0],0);
+    self.assertEqual(face[0].m_norm[1],1);
+    self.assertEqual(face[0].m_norm[2],2);
+
+  def testCheckFaceVertUV(self) :
+    a=pyngl.Obj()
+    self.assertTrue(a.load(sourcedir+'TriangleVertsUV.obj',pyngl.CalcBB.False))
+    face=a.getFaceList()
+    self.assertEqual(face[0].m_vert[0],0)
+    self.assertEqual(face[0].m_vert[1],1)
+    self.assertEqual(face[0].m_vert[2],2)
+    self.assertEqual(face[0].m_uv[0],0);
+    self.assertEqual(face[0].m_uv[1],1);
+    self.assertEqual(face[0].m_uv[2],2);
+
+  def testCheckFaceVertOnlyNegativeIndex(self) :
+    a=pyngl.Obj()
+    self.assertTrue(a.load(sourcedir+'CubeNegativeIndex.obj',pyngl.CalcBB.False))
+    face=a.getFaceList()
+    idx=0
+    for i in range(0,len(face)) :
+      self.assertEqual(face[i].m_vert[0],idx)
+      self.assertEqual(face[i].m_vert[1],idx+1)
+      self.assertEqual(face[i].m_vert[2],idx+2)
+      self.assertEqual(face[i].m_vert[3],idx+3)
+      idx+=4
+      
 
 
   def testSave(self) :
