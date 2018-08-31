@@ -1,7 +1,7 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-11-05T12:31:57
 # -------------------------------------------------
-# qt 5 wants this may cause errors with 4
+# qt 5 wants this may caus errors with 4
 isEqual(QT_MAJOR_VERSION, 5) {cache() }
 
 # We will use the built in Qt lib template
@@ -14,7 +14,7 @@ QT -=xml
 CONFIG+=c++1z
 
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
-DEFINES+= USEGLM
+DEFINES+=USEGLM
 # What image library to use change to 1 of these depending on what platform
 # QImage USEQIMAGE
 # ImageMagick USEIMAGEMAGIC

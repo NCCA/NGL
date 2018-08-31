@@ -36,7 +36,7 @@ void pyInitAbstractMesh(py::module & m)
           if (i >= s.size()) throw py::index_error();
           s[i] = v;
       })
-     .def("__len__",&uintlist::size)
+     .def("__len__",&uintList::size)
       ;
 
   py::class_<AbstractMesh>(m, "AbstractMesh")
