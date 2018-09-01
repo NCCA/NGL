@@ -6,6 +6,6 @@ from Vec2Test import *
 from Vec3Test import *
 from Vec4Test import *
 from ObjTest import *
-
+from UtilTest import *
 if __name__ == '__main__':
      unittest.main()

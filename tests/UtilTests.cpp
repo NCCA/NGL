@@ -28,7 +28,6 @@ TEST(Util,perspectiveFov)
   float fov=45.0f;
   float near=0.02f;
   float far=10.0f;
-  float aspect= 1024.0f / 720.0f;
   float width=1024;
   float height=720;
   auto perspNGL=ngl::perspectiveFov(fov,width,height,near,far);

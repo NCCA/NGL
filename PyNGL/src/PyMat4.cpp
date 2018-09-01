@@ -7,6 +7,9 @@
 #include "Mat4.h"
 #include "Mat3.h"
 #include "Vec4.h"
+#ifdef USEGLM
+  #include <glm/mat4x4.hpp>
+#endif
 namespace py = pybind11;
 namespace ngl
 {
@@ -23,6 +26,7 @@ namespace ngl
                       Real,Real,Real,Real>())
         .def(py::init<Real>())
         .def(py::init<Mat4 &>())
+        .def(py::init<const glm::mat4  &>())
         .def("setAtXY",&Mat4::setAtXY)
         .def("null",&Mat4::null)
         .def("identity",&Mat4::identity)

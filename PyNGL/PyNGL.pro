@@ -25,7 +25,7 @@ QMAKE_CXXFLAGS+= -std=c++1z
 DEFINES+=PYBIND11_HAS_STRING_VIEW
 
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
-#DEFINES+= USEGLM
+DEFINES+= USEGLM
 # What image library to use change to 1 of these depending on what platform
 # QImage USEQIMAGE
 # ImageMagick USEIMAGEMAGIC

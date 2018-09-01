@@ -7,6 +7,11 @@
 #include "Vec4.h"
 #include "Mat3.h"
 #include "Mat4.h"
+
+#ifdef USEGLM
+  #include <glm/vec3.hpp>
+#endif
+
 namespace py = pybind11;
 namespace ngl
 {
@@ -17,7 +22,8 @@ namespace ngl
       py::class_<Vec3>(m, "Vec3")
           .def(py::init<>())
           .def(py::init<Real,Real,Real>())
-          .def(py::init<Vec3 &>())
+          .def(py::init<const Vec3 &>())
+          .def(py::init<const glm::vec3 &>())
           .def("set", (void (Vec3::*)(Real,Real,Real)) &Vec3::set)
           .def("set", (void (Vec3::*)(const Vec3 &)) &Vec3::set)
           .def("set", (void (Vec3::*)(const Vec4 &)) &Vec3::set)
