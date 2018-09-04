@@ -25,7 +25,7 @@
 #ifdef __APPLE__
   #include <unistd.h>
   #ifndef USINGIOS_
-    #include <OpenGL/gl.h>
+   // #include <OpenGL/gl.h>
     #include <OpenGL/gl3.h>
     #include <OpenGL/gl3ext.h>
   #else

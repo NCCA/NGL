@@ -9,7 +9,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include/fmt)
 
 include_directories(/usr/local/include/)
 # Set to C++ 11
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 # use this to remove any marked as deprecated classes from NGL
 add_definitions(-DREMOVEDDEPRECATED)
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
@@ -22,8 +22,6 @@ add_definitions(-DADDLARGEMODELS)
 add_definitions(-DUSEQIMAGE)
 #This defines that we are using the header only version of the fmt lib
 add_definitions(-DFMT_HEADER_ONLY)
-
-
 
 set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Vec4.cpp
@@ -41,7 +39,6 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/Quaternion.cpp
     ${PROJECT_SOURCE_DIR}/src/Obj.cpp
     ${PROJECT_SOURCE_DIR}/src/Mat4.cpp
-    ${PROJECT_SOURCE_DIR}/src/Material.cpp
     ${PROJECT_SOURCE_DIR}/src/NGLInit.cpp
     ${PROJECT_SOURCE_DIR}/src/NCCABinMesh.cpp
     ${PROJECT_SOURCE_DIR}/src/BezierCurve.cpp
@@ -82,7 +79,6 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/include/ngl/Obj.h
     ${PROJECT_SOURCE_DIR}/include/ngl/NGLassert.h
     ${PROJECT_SOURCE_DIR}/include/ngl/Mat4.h
-    ${PROJECT_SOURCE_DIR}/include/ngl/Material.h
     ${PROJECT_SOURCE_DIR}/include/ngl/NGLInit.h
     ${PROJECT_SOURCE_DIR}/include/ngl/BezierCurve.h
     ${PROJECT_SOURCE_DIR}/include/ngl/NCCABinMesh.h
@@ -104,7 +100,6 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/src/shaders/TextShaders.h
     ${PROJECT_SOURCE_DIR}/src/shaders/ColourShaders.h
     ${PROJECT_SOURCE_DIR}/src/shaders/DiffuseShaders.h
-    ${PROJECT_SOURCE_DIR}/src/shaders/ToonShaders.h
     ${PROJECT_SOURCE_DIR}/include/ngl/rapidxml/rapidxml.hpp
     ${PROJECT_SOURCE_DIR}/include/ngl/rapidxml/rapidxml_iterators.hpp
     ${PROJECT_SOURCE_DIR}/include/ngl/rapidxml/rapidxml_print.hpp
@@ -117,13 +112,11 @@ set(SOURCES
 
 # see what platform we are on and set platform defines
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	add_definitions(-DDARWIN)
     find_library(MACGL OpenGL)
     set(EXTRALIBS  ${MACGL})
 
 
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	add_definitions(-DLINUX)
 endif()
 
 

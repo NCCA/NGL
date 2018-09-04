@@ -113,11 +113,6 @@ NGL_DLLEXPORT  void NGLCheckGLError(const std::string_view &_file, const int _li
       case GL_INVALID_OPERATION : str="GL_INVALID_OPERATION error"; break;
       case GL_OUT_OF_MEMORY : str="GL_OUT_OF_MEMORY error"; break;
       case GL_INVALID_FRAMEBUFFER_OPERATION : str="GL_INVALID_FRAMEBUFFER_OPERATION error";  break;
-      #ifndef USINGIOS_
-        case GL_STACK_UNDERFLOW : str= "GL_STACK_UNDERFLOW error"; break;
-        case GL_STACK_OVERFLOW : str= "GL_STACK_OVERFLOW error"; break;
-      #endif
-      // this should be in the spec but it's not on the mac! will check linux
       default : break;
     }
     if(errNum !=GL_NO_ERROR)
