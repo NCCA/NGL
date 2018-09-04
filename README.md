@@ -1,22 +1,19 @@
 # NGL the NCCA Graphics Library
 
-NGL 7 Alpha branch this is the cutting edge work in progress for the new master.
+NGL 7 master branch 
 
-## Planned Changes
-
+## Changes from NGL6
 Remove all boost dependancies
 Remove all GLEW elements and replace with [gl3w](https://github.com/skaslev/gl3w)
-Remove Camera, Light, Material as classes and replace with simple structs.
-Autogenerate (from gl3w python style code) all bindings for shaderLib to make changes to code easier.
+Remove Camera,PathCamera Light, Material as classes and replace with simple structs.
 New Obj Class to remove boost spirit (and make it copyable for Cos!)
-Better Python integration
+Better Python integration (python library now built at same time as NGL)
 Better abstraction from Qt for certain types (and have SDL replacements as a compile switch (i.e. font text classes)
 
 ## Building
-
 It needs to be built using QtCreator or CMake
 
-Note this is now being built using C++ 11 and will use many C++ 11 features so make sure you 
+Note this is now being built using C++ 17 and will use many C++ 17 features so make sure you 
 have a modern compiler such as clang++ or g++ >4.8
 
 For more info check out the website here
