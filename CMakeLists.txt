@@ -104,9 +104,6 @@ set(SOURCES
     ${PROJECT_SOURCE_DIR}/include/ngl/rapidxml/rapidxml_iterators.hpp
     ${PROJECT_SOURCE_DIR}/include/ngl/rapidxml/rapidxml_print.hpp
     ${PROJECT_SOURCE_DIR}/include/ngl/rapidxml/rapidxml_utils.hpp
-
-
-
 )
 
 

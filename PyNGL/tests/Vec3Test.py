@@ -2,7 +2,6 @@
 
 import unittest
 import pyngl
-import glm
 
 # Note all pyngl types use internal fuzzy float equality operators
 
@@ -82,10 +81,6 @@ class TestVec3(unittest.TestCase):
     result=pyngl.Vec3(1.0,2.0,3.0)
     self.assertEqual(test,result)
 
-  def testFromGLM(self) :
-    a=glm.vec3(0.0,1.0,2.0)
-    b=pyngl.Vec3(a)
-    self.assertTrue(a==b)
 
 if __name__ == '__main__':
      unittest.main()
