@@ -53,6 +53,7 @@ namespace ngl
         .def("setUniform",(void (ShaderLib::*)(const std::string_view &,Mat4)) &ShaderLib::setUniform)
         .def("getShaderID",&ShaderLib::getShaderID)
         .def("getShader",&ShaderLib::getShader)
+        .def("setUniformBuffer", (void (ShaderLib::*)(const std::string_view &_uniformBlockName, size_t _size, void *_data)) &ShaderLib::setUniformBuffer )
         ;
 
     py::enum_<ShaderType>(m, "ShaderType")

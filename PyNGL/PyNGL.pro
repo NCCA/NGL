@@ -15,8 +15,8 @@ CONFIG-=app_bundle
 CONFIG += c++1z
 message("this will need to be changed for you own paths")
 
-macx:QMAKE_CXXFLAGS+=$$system(/usr/bin/python-config --cflags)
-macx:QMAKE_LFLAGS+=$$system(/usr/bin/python-config --ldflags)
+macx:QMAKE_CXXFLAGS+=$$system(python-config --cflags)
+macx:QMAKE_LFLAGS+=$$system(python-config --ldflags)
 linux:QMAKE_CXXFLAGS+=$$system(python-config --cflags)
 linux:QMAKE_LFLAGS+=$$system(python-config --ldflags)
 

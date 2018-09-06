@@ -23,6 +23,9 @@
 #include "Vec2.h"
 #include <iostream>
 #include <cstring> // for memset
+#ifdef USEGLM
+  #include <glm/gtc/type_ptr.hpp>
+#endif
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Mat3x3.cpp
 /// @brief implementation files for Mat3x3 class
@@ -86,7 +89,23 @@ Mat3::Mat3(const Real _m  ) noexcept
 }
 
 
+#ifdef USEGLM
+Mat3::Mat3(const glm::mat3 &_m)
+{
+  memcpy(m_m,glm::value_ptr(_m) ,sizeof(m_m));
+}
 
+glm::mat3 Mat3::toGLM() const
+{
+  glm::mat3 result;
+  memcpy(glm::value_ptr(result),m_m ,sizeof(m_m));
+
+  return result;
+}
+
+
+
+#endif
 
 
 //----------------------------------------------------------------------------------------------------------------------

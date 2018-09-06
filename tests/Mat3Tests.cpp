@@ -5,7 +5,12 @@
 #include <string>
 #include <sstream>
 #include <ngl/NGLStream.h>
-
+#include <ngl/Util.h>
+#include <ngl/Mat4.h>
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
 
 std::string print(const ngl::Mat3 &_m)
 {
@@ -99,7 +104,7 @@ TEST(Mat3,rotateX)
 {
   ngl::Mat3 test;
   test.rotateX(45.0f);
-  ngl::Mat3 result(1,0,0,0,0.707107,0.707107,0,-0.707107,0.707107);
+  ngl::Mat3 result(1.0f,0.0f,0.0f,0.0f,0.707107f,0.707107f,0.0f,-0.707107f,0.707107f);
   EXPECT_TRUE(test == result);
 }
 
@@ -107,7 +112,7 @@ TEST(Mat3,rotateY)
 {
   ngl::Mat3 test;
   test.rotateY(25.0f);
-  ngl::Mat3 result(0.906308,0,-0.422618,0,1,0,0.422618,0,0.906308);
+  ngl::Mat3 result(0.906308f,0.0f,-0.422618f,0.0f,1.0f,0.0f,0.422618f,0.0f,0.906308f);
   EXPECT_TRUE(test == result);
 }
 
@@ -115,7 +120,7 @@ TEST(Mat3,rotateZ)
 {
   ngl::Mat3 test;
   test.rotateZ(-36.0f);
-  ngl::Mat3 result(0.809017,-0.587785,0,0.587785,0.809017,0,0,0,1);
+  ngl::Mat3 result(0.809017f,-0.587785f,0.0f,0.587785f,0.809017f,0.0f,0.0f,0.0f,1.0f);
   EXPECT_TRUE(test == result);
 }
 
@@ -126,7 +131,7 @@ TEST(Mat3,Mat3xMat3)
   t1.rotateX(45.0f);
   t2.rotateY(35.0f);
   ngl::Mat3 test=t1*t2;
-  ngl::Mat3 result(0.819152f,0,-0.573577f,0.40558f,0.707107f,0.579228f,0.40558f,-0.707107f,0.579228f);
+  ngl::Mat3 result(0.819152f,0.0f,-0.573577f,0.40558f,0.707107f,0.579228f,0.40558f,-0.707107f,0.579228f);
   EXPECT_TRUE(test == result);
 }
 
@@ -186,7 +191,8 @@ TEST(Mat3,Mat3xReal)
     for(int x=0; x<3; ++x)
         test.setAtXY(x,y,value++);
   test=test*4.2f;
-  ngl::Mat3 result(0,12.599999427795,25.199998855591,4.199999809265,16.799999237061,29.399997711182,8.399999618530,21.000000000000,33.599998474121);
+  ngl::Mat3 result(0.0f,12.599999427795f,25.199998855591f,4.199999809265f,16.799999237061f,
+                   29.399997711182f,8.399999618530f,21.000000000000f,33.599998474121f);
 
   EXPECT_TRUE(test == result);
 }
@@ -199,7 +205,8 @@ TEST(Mat3,Mat3xEqualReal)
     for(int x=0; x<3; ++x)
         test.setAtXY(x,y,value++);
   test*=4.2f;
-  ngl::Mat3 result(0,12.599999427795,25.199998855591,4.199999809265,16.799999237061,29.399997711182,8.399999618530,21.000000000000,33.599998474121);
+  ngl::Mat3 result(0.0f,12.599999427795f,25.199998855591f,4.199999809265f,
+                   16.799999237061f,29.399997711182f,8.399999618530f,21.000000000000f,33.599998474121f);
 
   EXPECT_TRUE(test == result);
 }
@@ -237,5 +244,25 @@ TEST(Mat3,Vec4xMat3)
   test=test*t1;
   ngl::Vec3 result(2,-0.707107f,2.12132f);
   EXPECT_TRUE(test == result);
+}
+
+TEST(Mat3,normalMatrix)
+{
+  ngl::Mat4 view=ngl::lookAt({2.0f,2.0f,2.0f},{0.0f,0.0f,0.0f},{0.0f,1.0f,0.0f});
+  ngl::Mat4 model;
+  model.scale(0.2f,1.0f,0.2f);
+  ngl::Mat3 normalMatrix(view*model);
+  normalMatrix.inverse().transpose();
+
+  glm::mat4 glmview=glm::lookAt(glm::vec3(2.0f,2.0f,2.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,1.0f,0.0f));
+  glm::mat4 glmmodel=glm::scale(glm::mat4(),glm::vec3(0.2f,1.0f,0.2f));
+  glm::mat3 glmNormalMatrix;
+  glmNormalMatrix = glm::transpose(glm::inverse(glm::mat3(glmview*glmmodel)));
+
+  EXPECT_TRUE(ngl::Mat4(glmview)==view);
+  EXPECT_TRUE(ngl::Mat4(glmmodel)==model);
+  EXPECT_TRUE(ngl::Mat3(glmNormalMatrix)==normalMatrix);
+  EXPECT_TRUE(ngl::Mat3(glm::inverseTranspose(glm::mat3(glmview*glmmodel))) == normalMatrix);
+
 }
 

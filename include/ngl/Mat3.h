@@ -24,6 +24,9 @@
 #include "Types.h"
 #include <array>
 #include <ostream>
+#ifdef USEGLM
+  #include <glm/mat3x3.hpp>
+#endif
 
 namespace ngl
 {
@@ -66,7 +69,10 @@ public:
   /// @brief copy ctor with Real useful for Matrix m=1; for identity or Matrix m=3.5 for uniform scale
   //----------------------------------------------------------------------------------------------------------------------
   Mat3( const Real _m ) noexcept;
-
+  #ifdef USEGLM
+    Mat3(const glm::mat3 &_m);
+    glm::mat3 toGLM() const;
+  #endif
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the value at m_m[_x][_y] to _equals
   /// @param[in]  _x the x index into the array
