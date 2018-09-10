@@ -3,6 +3,14 @@
 NGL 7 master branch 
 
 ## Changes from NGL6
+- Internal VAO layout has changed, all shaders using built in primitives must now use the following layout
+
+```
+layout(location =0)in vec3 inVert;
+layout(location =1)in vec3 inNormal;
+layout(location =2)in vec2 inUV;
+```
+
 - Remove all boost dependancies
 - Remove all GLEW elements and replace with [gl3w](https://github.com/skaslev/gl3w)
 - Remove Camera,PathCamera Light, Material as classes and replace with simple structs.
