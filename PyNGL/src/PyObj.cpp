@@ -26,6 +26,7 @@ namespace ngl
         .def("addNormal",&Obj::addNormal)
         .def("addUV", (void (Obj::*)(const Vec2 &)) &Obj::addUV)
         .def("addUV", (void (Obj::*)(const Vec3 &)) &Obj::addUV)
+        .def("setTexture",&Obj::setTexture)
 
         ;
 
