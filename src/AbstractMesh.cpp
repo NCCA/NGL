@@ -77,10 +77,13 @@ AbstractMesh::~AbstractMesh() noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void AbstractMesh::loadTexture(const std::string_view &_fName  ) noexcept
 {
+  if(m_textureID !=0)
+  {
+    glDeleteTextures(1,&m_textureID);
+  }
 	// load in the texture
-  Texture  *t=new Texture(_fName);
-  m_textureID=t->setTextureGL();
-	delete t;
+  Texture t(_fName);
+  m_textureID=t.setTextureGL();
   m_texture=true;
 }
 

@@ -57,12 +57,13 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
     Obj(const std::string_view &_fname,  const std::string_view &_texName, CalcBB _calcBB=CalcBB::True ) noexcept;
 
     Obj(const Obj &_c) noexcept;
+    void setTexture(const std::string_view &_texName);
+
     void addVertex(const Vec3 &_v) noexcept;
     void addNormal(const Vec3 &_v) noexcept;
     void addUV(const Vec2 &_v) noexcept;
     void addUV(const Vec3 &_v) noexcept;
     void addFace(const Face &_f) noexcept;
-
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief  Method to load the file in
     /// @param[in]  _fname the name of the obj file to load

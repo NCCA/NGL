@@ -51,6 +51,11 @@ Obj::Obj(const std::string_view &_fname,  const std::string_view &_texName, Calc
   m_texture = true;
 }
 
+void Obj::setTexture(const std::string_view &_texName)
+{
+  loadTexture(_texName);
+}
+
 Obj::Obj(const Obj &_c) noexcept
 {
   m_verts=_c.m_verts;
