@@ -146,6 +146,15 @@ class NGL_DLLEXPORT AbstractVAO
     size_t m_indicesCount=0;
 };
 
+// based on https://stackoverflow.com/questions/36120424/alternatives-of-static-pointer-cast-for-unique-ptr
+// this allows us to cast the AbstractVAO to another type useful for extended VAO's especially see the demo
+// https://github.com/NCCA/VertexArrayObject/tree/master/ExtendedVAOFactory for more details
+template<typename TO>
+std::unique_ptr<TO> vaoFactoryCast (std::unique_ptr<AbstractVAO>&& old)
+{
+    return std::unique_ptr<TO>{static_cast<TO*>(old.release())};
+}
+
 
 } // end namespace
 
