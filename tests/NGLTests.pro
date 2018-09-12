@@ -31,7 +31,7 @@ SOURCES+= $$PWD/Vec4Tests.cpp \
           $$PWD/ShaderLibTests.cpp \
           $$PWD/main.cpp
 
-
+OTHER_FILES+=$$PWD/files/*
 
 # same for the .h files
 

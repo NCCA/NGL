@@ -238,6 +238,18 @@ void ShaderProgram::setRegisteredUniform1f(const std::string_view &_varname, flo
 
 }
 
+void ShaderProgram::getRegisteredUniform1f(const std::string_view &_varname, float &o_v0    ) const noexcept
+{
+  auto uniform=m_registeredUniforms.find(_varname.data());
+  // make sure we have a valid shader
+  if(uniform!=m_registeredUniforms.end())
+  {
+    glGetUniformfv(m_programID,uniform->second.loc,&o_v0);
+  }
+
+}
+
+
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniform2f(const std::string_view &_varname, float _v0, float _v1 ) const noexcept
 {
@@ -249,6 +261,21 @@ void ShaderProgram::setRegisteredUniform2f(const std::string_view &_varname, flo
   }
 
 }
+
+void ShaderProgram::getRegisteredUniform2f(const std::string_view &_varname, float &o_v0, float &o_v1    ) const noexcept
+{
+  auto uniform=m_registeredUniforms.find(_varname.data());
+  float data[2];
+  // make sure we have a valid shader
+  if(uniform!=m_registeredUniforms.end())
+  {
+    glGetUniformfv(m_programID,uniform->second.loc,&data[0]);
+    o_v0=data[0];
+    o_v1=data[1];
+  }
+
+}
+
 
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniform3f( const std::string_view &_varname, float _v0, float _v1, float _v2  ) const noexcept

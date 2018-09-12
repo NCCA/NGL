@@ -34,7 +34,7 @@ TEST(ShaderLib,useNull)
 TEST(ShaderLib,loadErrorShader)
 {
   auto shader = ngl::ShaderLib::instance();
-  EXPECT_FALSE(shader->loadShader("Test","files/vertErr.glsl","files/fragErr.glsl","",false));
+  EXPECT_FALSE(shader->loadShader("Test","files/vertErr.glsl","files/fragErr.glsl",false));
 }
 
 TEST(ShaderLib,loadParts)
@@ -101,3 +101,28 @@ TEST(ShaderLib,failLink)
   EXPECT_FALSE(shader->linkProgramObject(shaderName));
 }
 
+TEST(ShaderLib,testSetUniform)
+{
+  auto shader = ngl::ShaderLib::instance();
+  auto *shaderName="TestUniform";
+  EXPECT_TRUE(shader->loadShader(shaderName,"files/testUniformVertex.glsl","files/testUniformFragment.glsl",true))<<"shader loaded?";
+  shader->use(shaderName);
+  shader->setUniform("testFloat",2.25f);
+  {
+    float resultF;
+    shader->getUniform("testFloat",resultF);
+    EXPECT_FLOAT_EQ(resultF,2.25f);
+  }
+  shader->setUniform("testVec2",0.5f,2.0f);
+  {
+    float resultF1,resultF2;
+    shader->getUniform("testVec2",resultF1,resultF2);
+    EXPECT_FLOAT_EQ(resultF1,0.5f);
+    EXPECT_FLOAT_EQ(resultF2,2.0f);
+    ngl::Vec2 resultVec2;
+    shader->getUniform("testVec2",resultVec2);
+    EXPECT_FLOAT_EQ(resultVec2.m_x,0.5f);
+    EXPECT_FLOAT_EQ(resultVec2.m_y,2.0f);
+  }
+
+}

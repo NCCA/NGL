@@ -143,7 +143,8 @@ public :
   /// @param[in] _exitOnError exit if there is an error in the shader
   //----------------------------------------------------------------------------------------------------------------------
   bool loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag,
-                  const std::string_view &_geo="",
+                  const std::string_view &_geo,const bool _exitOnError=true ) noexcept;
+  bool loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag,
                   const bool _exitOnError=true ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to load multiple shaders from a json file
@@ -230,6 +231,7 @@ public :
   /// @param[in] _v0 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string_view &_paramName,Real _v0) noexcept;
+  void getUniform(const std::string_view &_paramName, Real &o_v0);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -238,6 +240,8 @@ public :
   /// @param[in] _v1 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string_view &_paramName,Real _v0,Real _v1) noexcept;
+  void getUniform(const std::string_view &_paramName, Real &o_v0,Real &o_v1);
+  void getUniform(const std::string_view &_paramName, Vec2 &o_v2);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail

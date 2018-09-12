@@ -47,27 +47,48 @@ bool ShaderLib::loadShader(const std::string_view &_shaderName, const std::strin
   loadShaderSource(shaderName+"Vertex",_vert);
   loadShaderSource(shaderName+"Fragment",_frag);
 
-  if ( (loaded=compileShader(shaderName+"Vertex")) )
+  if ( !(loaded=compileShader(shaderName+"Vertex")) )
     return loaded;
-  if ( (loaded=compileShader(shaderName+"Fragment")) )
+  if ( !(loaded=compileShader(shaderName+"Fragment")) )
     return loaded;
 
   attachShaderToProgram(shaderName,shaderName+"Vertex");
   attachShaderToProgram(shaderName,shaderName+"Fragment");
-  if( _geo !="")
-  {
-    attachShader(shaderName+"Geo",ShaderType::GEOMETRY);
-    loadShaderSource(shaderName+"Geo",_geo);
-    compileShader(shaderName+"Geo");
-    attachShaderToProgram(shaderName,shaderName+"Geo");
-  }
-
+  attachShader(shaderName+"Geo",ShaderType::GEOMETRY);
+  loadShaderSource(shaderName+"Geo",_geo);
+  if( !(loaded=compileShader(shaderName+"Geo")))
+    return loaded;
+  attachShaderToProgram(shaderName,shaderName+"Geo");
   loaded=linkProgramObject(_shaderName);
   autoRegisterUniforms(_shaderName);
   return loaded;
 }
 
+bool ShaderLib::loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag,  const bool _exitOnError ) noexcept
+{
+  bool loaded=false;
+  // must add code to do this next version
+  createShaderProgram(_shaderName,_exitOnError);
+  // we can't concatinate a view so make a new one.
+  std::string shaderName=_shaderName.data();
+  attachShader(shaderName+"Vertex",ShaderType::VERTEX,_exitOnError);
+  attachShader(shaderName+"Fragment",ShaderType::FRAGMENT,_exitOnError);
+  loadShaderSource(shaderName+"Vertex",_vert);
+  loadShaderSource(shaderName+"Fragment",_frag);
+  std::cerr<<"loaded sources\n";
+  if ( !(loaded=compileShader(shaderName+"Vertex")) )
+    return loaded;
+  if ( !(loaded=compileShader(shaderName+"Fragment")) )
+    return loaded;
 
+  attachShaderToProgram(shaderName,shaderName+"Vertex");
+  attachShaderToProgram(shaderName,shaderName+"Fragment");
+  if( (loaded=linkProgramObject(_shaderName)))
+    return loaded;
+  autoRegisterUniforms(_shaderName);
+  printRegisteredUniforms(_shaderName);
+  return loaded;
+}
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::reset() noexcept
 {
@@ -693,6 +714,25 @@ void ShaderLib::setUniform(const std::string_view &_paramName,Real _v0) noexcept
 {
   (*this)[m_currentShader]->setRegisteredUniform1f(_paramName.data(),_v0);
 }
+
+void ShaderLib::getUniform(const std::string_view &_paramName, Real &o_v0)
+{
+ (*this)[m_currentShader]->getRegisteredUniform1f(_paramName.data(),o_v0);
+}
+
+void ShaderLib::getUniform(const std::string_view &_paramName, Real &o_v0, Real &o_v1)
+{
+ (*this)[m_currentShader]->getRegisteredUniform2f(_paramName.data(),o_v0,o_v1);
+}
+
+void ShaderLib::getUniform(const std::string_view &_paramName, ngl::Vec2 &o_v)
+{
+  float x,y;
+ (*this)[m_currentShader]->getRegisteredUniform2f(_paramName.data(),x,y);
+  o_v.m_x=x;
+  o_v.m_y=y;
+}
+
 
 void ShaderLib::setUniform(const std::string_view &_paramName,Real _v0,Real _v1) noexcept
 {

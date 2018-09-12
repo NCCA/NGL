@@ -119,6 +119,7 @@ public :
   /// @param  _v0 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
   void setRegisteredUniform1f(const std::string_view &_varname, float _v0 ) const noexcept;
+  void getRegisteredUniform1f(const std::string_view &_varname, float &o_v0 ) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single float
@@ -127,6 +128,7 @@ public :
   /// @param  _v1 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
   void setRegisteredUniform2f(const std::string_view &_varname, float _v0, float _v1 ) const noexcept;
+  void getRegisteredUniform2f(const std::string_view &_varname, float &o_v0, float &o_v1 ) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single float
