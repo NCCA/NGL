@@ -36,6 +36,10 @@ VAOPrimitives::VAOPrimitives() noexcept
     createDefaultVAOs();
 }
 
+VAOPrimitives::~VAOPrimitives()
+{
+  clear();
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -889,7 +893,7 @@ AbstractVAO * VAOPrimitives::getVAOFromName(const std::string_view &_name)
   // make sure we have a valid shader
   if(VAO!=m_createdVAOs.end())
   {
-    //return VAO->second;
+    return VAO->second.get();
   }
   else return nullptr;
 }

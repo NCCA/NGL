@@ -26,7 +26,7 @@ namespace ngl
 {
 constexpr int cubeSIZE=288;
 
-static const float cube[cubeSIZE]={
+static const float Cube[cubeSIZE]={
 0.37500f,0.00000f,0.00000f,0.00000f,1.00000f,-0.50000f,-0.50000f,0.50000f,
 0.62500f,0.00000f,0.00000f,0.00000f,1.00000f,0.50000f,-0.50000f,0.50000f,
 0.37500f,0.25000f,0.00000f,0.00000f,1.00000f,-0.50000f,0.50000f,0.50000f,

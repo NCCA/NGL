@@ -26,7 +26,7 @@
 namespace ngl
 {
 constexpr unsigned int teapotSIZE=337608;
-static float teapot[teapotSIZE]={
+static float Teapot[teapotSIZE]={
   0.41811f,0.52887f,-0.69817f,0.70739f,-0.11024f,0.32499f,0.25484f,0.05612f,
   0.41813f,0.53015f,0.31236f,0.94925f,0.03675f,0.32894f,0.25405f,0.05667f,
   0.40022f,0.52908f,-0.43079f,0.90236f,-0.01281f,0.32866f,0.25484f,0.00000f,

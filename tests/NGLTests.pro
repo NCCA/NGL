@@ -12,6 +12,7 @@ linux:LIBS+= -lX11 -lXxf86vm -L/usr/lib64 -lXrandr -lXi -lXinerama -lXcursor -ld
 macx:DEFINES+=GLFW_USE_MENUBAR
 macx:DEFINES+=GLFW_USE_RETINA
 linxu:DEFINES+=GLM_ENABLE_EXPERIMENTAL
+DEFINES+=ADDLARGEMODELS
  cache()
 # where to put moc auto generated files
 MOC_DIR=moc

@@ -98,7 +98,14 @@ PYBIND11_MODULE(pyngl,m)
     m.attr("simpleVAO")="simpleVAO";
     m.attr("multiBufferVAO")="multiBufferVAO";
     m.attr("simpleIndexVAO")="simpleIndexVAO";
-
+    m.attr("teapot")="teapot";
+    m.attr("octahedron")="octahedron";
+    m.attr("dodecahedron")="dodecahedron";
+    m.attr("icosahedron")="icosahedron";
+    m.attr("tetrahedron")="tetrahedron";
+    m.attr("football")="football";
+    m.attr("cube")="cube";
+    m.attr("troll")="troll";
 
 
     //return m.ptr();

@@ -24,7 +24,7 @@
 #define ICOSAHEDRON_H_
 namespace ngl{
 constexpr int icosahedronSIZE=480;
-static float icosahedron[icosahedronSIZE]={
+static float Icosahedron[icosahedronSIZE]={
 
   0.909091f,0.583333f,0.934172f,-0.356822f,0.0f,0.850651f,0.0f,0.525731f,
   0.818182f,0.75f,0.934172f,-0.356822f,0.0f,0.525731f,-0.850651f,0.0f,

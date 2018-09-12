@@ -24,7 +24,7 @@
 #define FOOTBALL_H_
 namespace ngl {
 constexpr int footballSIZE=2784;
-static float football[footballSIZE]={
+static float Football[footballSIZE]={
        0.41936f,0.41102f,0.18849f,0.91496f,-0.35682f,0.00000f,1.00000f,0.00000f,
 0.38710f,0.35515f,0.18849f,0.91496f,-0.35682f,0.39525f,0.91857f,0.00000f,
 0.48387f,0.41102f,0.18849f,0.91496f,-0.35682f,-0.22279f,0.91857f,-0.32648f,

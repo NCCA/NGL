@@ -52,12 +52,26 @@ struct vertData
     ngl::Real v;
 };
 
+const static auto * teapot="teapot";
+const static auto * octahedron="octahedron";
+const static auto * dodecahedron="dodecahedron";
+const static auto * icosahedron="icosahedron";
+const static auto * tetrahedron="tetrahedron";
+const static auto * football="football";
+const static auto * cube="cube";
+const static auto * troll="troll";
+/// @note these data sets are huge and compilation takes a
+/// long time hence only enable if needed
+#ifdef ADDLARGEMODELS
+const static auto * bunny="bunny";
+const static auto * dragon="dragon";
+const static auto * buddah="buddah";
+#endif
 class NGL_DLLEXPORT VAOPrimitives : public  Singleton<VAOPrimitives>
 {
 
   friend class Singleton<VAOPrimitives>;
   friend class Vec3;
-
 public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Draw one of the VBO's created via a name lookup
@@ -173,7 +187,7 @@ private :
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief dtor
 	//----------------------------------------------------------------------------------------------------------------------
-	virtual ~VAOPrimitives(){clear();}
+  virtual ~VAOPrimitives();
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create a VAO from a static header file of data in the TNV format
   /// this will usually be created from the Obj2VBO program in the Models directory

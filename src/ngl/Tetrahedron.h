@@ -24,7 +24,7 @@
 #ifndef TETRAHEDRON_H_
 #define TETRAHEDRON_H_
 constexpr unsigned int tetrahedronSIZE=96;
-static float tetrahedron[tetrahedronSIZE]={
+static float Tetrahedron[tetrahedronSIZE]={
         //Triangle 0
          0.250000f,0.375000f,0.0f, -1.000000f, 0.0f,1.000000f,-1.0f,0.0f,
          0.500000f,0.0f,0.0f, -1.000000f, 0.0f,-1.0f,-1.0f,1.0f,
