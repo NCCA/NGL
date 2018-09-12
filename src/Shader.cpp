@@ -47,13 +47,11 @@ void printInfoLog( const GLuint &_obj)
 }
 
 
-Shader::Shader(const std::string_view &_name,  ShaderType _type ) noexcept
+Shader::Shader(const std::string_view &_name,  ShaderType _type , bool _exitOnError) noexcept
 {
   m_name=_name;
   m_shaderType = _type;
-  m_debugState = true;
-  m_compiled=false;
-
+  m_errorExit=_exitOnError;
   switch (_type)
   {
     case ShaderType::VERTEX : { m_shaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
@@ -83,28 +81,31 @@ Shader::~Shader()
   glDeleteShader(m_shaderHandle);
 }
 
-void Shader::compile() noexcept
+bool Shader::compile() noexcept
 {
   if (m_source.empty() )
   {
     std::cerr<<"Warning no shader source loaded\n";
-    return;
+    return false;
   }
 
   glCompileShader(m_shaderHandle);
+
+  GLint compileStatus = 0;
+  glGetShaderiv(m_shaderHandle, GL_COMPILE_STATUS,&compileStatus);
+  m_compiled=static_cast<bool>(compileStatus);
   if(m_debugState==true)
   {
-    GLint infologLength = 0;
     std::cerr <<"Compiling Shader "<<m_name<<'\n';
-    glGetShaderiv(m_shaderHandle, GL_COMPILE_STATUS,&infologLength);
-    if( infologLength == GL_FALSE)
+    if( compileStatus == GL_FALSE)
     {
       std::cerr<<"Shader compile failed or had warnings \n";
       printInfoLog(m_shaderHandle);
-      exit(EXIT_FAILURE);
+      if(m_errorExit)
+        exit(EXIT_FAILURE);
     }
   }
-  m_compiled=true;
+  return m_compiled;
 }
 
 
@@ -128,7 +129,7 @@ void Shader::load(const std::string_view &_name ) noexcept
   // glShaderSource needs null terminated const char *
   m_source+='\0';
   const char* data=m_source.c_str();
-  glShaderSource(m_shaderHandle , 1, &data,NULL);
+  glShaderSource(m_shaderHandle , 1, &data,nullptr);
   m_compiled=false;
 
   if (m_debugState == true)

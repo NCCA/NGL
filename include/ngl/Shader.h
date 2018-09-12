@@ -45,7 +45,7 @@ public :
   /// @param _name the name of the program object
   /// @param[in] _type the type of shader we are building
   //----------------------------------------------------------------------------------------------------------------------
-  Shader( const std::string_view &_name,  ShaderType _type ) noexcept;
+  Shader( const std::string_view &_name,  ShaderType _type , bool _exitOnError=true) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor, will clean up shader source and remove shader from GL
   //----------------------------------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ public :
   /// @brief compile the current shader will check to see if source
   /// is attached and issue warning if not
   //----------------------------------------------------------------------------------------------------------------------
-  void compile() noexcept;
+  bool compile() noexcept;
   /// @brief load in shader source and attach it to the shader object
   /// if source is already loaded it will re-load and re-attached
   /// @param _name the file name for the source we are loading
@@ -105,7 +105,7 @@ private :
   /// @brief flag to indicate if the shader has been compiled
   /// this will get channged on re-load of source to false
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_compiled;
+  bool m_compiled=false;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief what type of shader we are
   //----------------------------------------------------------------------------------------------------------------------
@@ -117,11 +117,16 @@ private :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate the debug state
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_debugState;
+  bool m_debugState=true;
   //----------------------------------------------------------------------------------------------------------------------
+  /// @brief flag to indicate the errorExit state
+  //----------------------------------------------------------------------------------------------------------------------
+  bool m_errorExit=true;
+  //----------------------------------------------------------------------------------------------------------------------  //----------------------------------------------------------------------------------------------------------------------
   /// @brief number of ProgramObjects referencing this shader
   //----------------------------------------------------------------------------------------------------------------------
   int m_refCount;
+
 };
 } // end NGL namespace
 #endif

@@ -25,11 +25,11 @@
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
-ShaderProgram::ShaderProgram(const std::string_view &_name) noexcept
+ShaderProgram::ShaderProgram(const std::string_view &_name, bool _errorExit) noexcept
 {
   // we create a special NULL program so the shader manager can return
   // a NULL object.
-if (_name !="NULL")
+  if (_name !="NULL")
   {
     m_programID = glCreateProgram();
   }
@@ -37,12 +37,10 @@ if (_name !="NULL")
   {
     m_programID=0;
   }
-  //std::cerr <<"Created program id is "<<m_programID<<'\n';
-  m_debugState=true;
+  m_errorExit=_errorExit;
   m_programName=_name;
-  m_linked=false;
-  m_active=false;
 }
+
 ShaderProgram::~ShaderProgram()
 {
   std::cerr<<"removing ShaderProgram "<< m_programName<<'\n';
@@ -87,7 +85,6 @@ void ShaderProgram::bindAttribute(GLuint _index, const std::string_view &_attrib
   }
   m_attribs[_attribName.data()]=_index;
   glBindAttribLocation(m_programID,_index,_attribName.data());
-  //std::cerr<<"bindAttribLoc "<<m_programID<<" index "<<_index<<" name "<<_attribName<<'\n';
   NGLCheckGLError(__FILE__,__LINE__);
 }
 
@@ -106,38 +103,42 @@ void ShaderProgram::bindFragDataLocation(GLuint _index, const std::string_view &
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::link() noexcept
+bool ShaderProgram::link() noexcept
 {
+  m_linked=false;
   glLinkProgram(m_programID);
   if(m_debugState==true)
   {
     std::cerr <<"linking Shader "<< m_programName.c_str()<<'\n';
   }
   GLint infologLength = 0;
+  GLint linkStatus;
+  glGetProgramiv(m_programID, GL_LINK_STATUS,&linkStatus);
+  m_linked=static_cast<bool>(linkStatus);
 
   glGetProgramiv(m_programID,GL_INFO_LOG_LENGTH,&infologLength);
 
   if(infologLength > 0)
   {
-    std::unique_ptr<char []> infoLog(new char [infologLength]);
+    std::unique_ptr<char []> infoLog(new char [static_cast<size_t>(infologLength)]);
     GLint charsWritten  = 0;
 
     glGetProgramInfoLog(m_programID, infologLength, &charsWritten, infoLog.get());
 
     std::cerr<<infoLog.get()<<'\n';
-    glGetProgramiv(m_programID, GL_LINK_STATUS,&infologLength);
-    if( infologLength == GL_FALSE)
+    if( m_linked == false)
     {
-      std::cerr<<"Program link failed exiting \n";
-      exit(EXIT_FAILURE);
+      std::cerr<<"Program link failed (will exit if errorExit enabled else return false) \n";
+      if(m_errorExit)
+        exit(EXIT_FAILURE);
+
     }
   }
-
-  m_linked=true;
   glUseProgram(m_programID);
   autoRegisterUniforms();
   autoRegisterUniformBlocks();
 
+  return m_linked;
 }
 
 

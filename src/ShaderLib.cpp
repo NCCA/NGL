@@ -39,17 +39,19 @@ bool ShaderLib::loadShader(const std::string_view &_shaderName, const std::strin
 {
   bool loaded=false;
   // must add code to do this next version
-  NGL_UNUSED(_exitOnError);
-  createShaderProgram(_shaderName);
+  createShaderProgram(_shaderName,_exitOnError);
   // we can't concatinate a view so make a new one.
   std::string shaderName=_shaderName.data();
-  attachShader(shaderName+"Vertex",ShaderType::VERTEX);
-  attachShader(shaderName+"Fragment",ShaderType::FRAGMENT);
+  attachShader(shaderName+"Vertex",ShaderType::VERTEX,_exitOnError);
+  attachShader(shaderName+"Fragment",ShaderType::FRAGMENT,_exitOnError);
   loadShaderSource(shaderName+"Vertex",_vert);
   loadShaderSource(shaderName+"Fragment",_frag);
 
-  compileShader(shaderName+"Vertex");
-  compileShader(shaderName+"Fragment");
+  if ( (loaded=compileShader(shaderName+"Vertex")) )
+    return loaded;
+  if ( (loaded=compileShader(shaderName+"Fragment")) )
+    return loaded;
+
   attachShaderToProgram(shaderName,shaderName+"Vertex");
   attachShaderToProgram(shaderName,shaderName+"Fragment");
   if( _geo !="")
@@ -151,9 +153,9 @@ ngl::Shader* ShaderLib::getShader(const std::string_view &_shaderName) noexcept
   return shaderPointer;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::attachShader(const std::string_view &_name, ShaderType _type ) noexcept
+void ShaderLib::attachShader(const std::string_view &_name, ShaderType _type , bool _errorOnExit) noexcept
 {
-  m_shaders[_name.data()]= new Shader(_name,_type);
+  m_shaders[_name.data()]= new Shader(_name,_type,_errorOnExit);
   if(m_debugState==true)
     std::cout<<"just attached "<<_name<<" "<<m_shaders[_name.data()]->getShaderHandle()<<'\n';
 }
@@ -167,8 +169,7 @@ bool ShaderLib::compileShader(const std::string_view &_name  ) noexcept
   if(shader!=m_shaders.end())
   {
     // grab the pointer to the shader and call compile
-    shader->second->compile();
-    return shader->second->isCompiled();
+    return shader->second->compile();
   }
   else
   {
@@ -178,11 +179,11 @@ bool ShaderLib::compileShader(const std::string_view &_name  ) noexcept
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::createShaderProgram(const std::string_view &_name  ) noexcept
+void ShaderLib::createShaderProgram(const std::string_view &_name , bool _exitOnError ) noexcept
 {
   if(m_debugState)
     std::cerr<<"creating empty ShaderProgram "<<_name.data()<<'\n';
- m_shaderPrograms[_name.data()]= new ShaderProgram(_name);
+ m_shaderPrograms[_name.data()]= new ShaderProgram(_name,_exitOnError);
 }
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::attachShaderToProgram(const std::string_view &_program, const std::string_view &_shader   ) noexcept
@@ -377,8 +378,7 @@ bool ShaderLib::linkProgramObject(const std::string_view &_name	) noexcept
   if(program!=m_shaderPrograms.end() )
   {
     std::cerr<<"Linking "<<_name.data()<<'\n';
-    program->second->link();
-    linked=program->second->isLinked();
+    linked=program->second->link();
   }
   else {std::cerr<<"Warning Program not known in link "<<_name.data();}
   return linked;

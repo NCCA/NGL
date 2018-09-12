@@ -66,12 +66,12 @@ public :
   /// @brief create an empty ShaderProgram for us to attach shaders etc to
   /// @param _name the name of the ShaderProgram to link
   //----------------------------------------------------------------------------------------------------------------------
-  void createShaderProgram( const std::string_view &_name  ) noexcept;
+  void createShaderProgram(const std::string_view &_name  , bool _exitOnError=true) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief attatch a Shader to the ShaderProgram referenced by _name
   /// @param _name the name of the ShaderProgram to attach
   //----------------------------------------------------------------------------------------------------------------------
-  void attachShader( const std::string_view &_name, ShaderType _type ) noexcept;
+  void attachShader(const std::string_view &_name, ShaderType _type , bool _errorOnExit=true) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief attatch a Shader to the ShaderProgram referenced by _name
   /// @param _program the name of the ShaderProgram to attach to
@@ -144,7 +144,7 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   bool loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag,
                   const std::string_view &_geo="",
-                  const bool _exitOnError=false ) noexcept;
+                  const bool _exitOnError=true ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to load multiple shaders from a json file
   /// @param[in] _shaderName the name of the json resource file
