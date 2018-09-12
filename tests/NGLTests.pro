@@ -28,6 +28,7 @@ SOURCES+= $$PWD/Vec4Tests.cpp \
           $$PWD/UtilTests.cpp \
           $$PWD/NGLInitTests.cpp \
           $$PWD/VAOPrimitivesTests.cpp \
+          $$PWD/ShaderLibTests.cpp \
           $$PWD/main.cpp
 
 

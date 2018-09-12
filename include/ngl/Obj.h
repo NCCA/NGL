@@ -88,12 +88,11 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
     bool parseFaceVertexUV(std::vector<std::string> &_tokens) noexcept;
     // f v/vt/vn v/vt/vn v/vt/vn v/vt/vn
     bool parseFaceVertexNormalUV(std::vector<std::string> &_tokens) noexcept;
-
-    bool m_isLoaded=false;
     // as faces can use negative index values keep track of index
     size_t m_currentVertexOffset=0;
     size_t m_currentNormalOffset=0;
     size_t m_currentUVOffset=0;
+    bool m_isLoaded=false;
 };
 
 }

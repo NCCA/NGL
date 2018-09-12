@@ -110,12 +110,12 @@ public :
   /// @brief  return the number of Frames loaded from the PointBake file
   /// @returns the number of frames
   //----------------------------------------------------------------------------------------------------------------------
-  unsigned int getNumFrames() const  noexcept{return m_numFrames-1;}
+  size_t getNumFrames() const  noexcept{return m_numFrames-1;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  return the number of verts loaded from the PointBake file
   /// @returns the number of verts
   //----------------------------------------------------------------------------------------------------------------------
-  unsigned int getNumVerts() const  noexcept{return m_nVerts;}
+  size_t getNumVerts() const  noexcept{return m_nVerts;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  get a Raw data pointer to the un-sorted PointBake data
   /// @returns a pointer to the data
