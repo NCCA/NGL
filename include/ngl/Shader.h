@@ -90,6 +90,7 @@ public :
   /// @returns the shader source
   //----------------------------------------------------------------------------------------------------------------------
   const std::string  getShaderSource() const noexcept {return m_source;}
+  bool isCompiled() const noexcept {return m_compiled;}
 
 private :
   //----------------------------------------------------------------------------------------------------------------------

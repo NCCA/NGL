@@ -271,7 +271,7 @@ public :
 
 
   void setUniformBuffer(const std::string_view &_uniformBlockName, size_t _size, void *_data);
-
+  bool isLinked() const noexcept {return m_linked;}
 
 private :
   //----------------------------------------------------------------------------------------------------------------------

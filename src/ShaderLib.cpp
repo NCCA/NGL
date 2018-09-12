@@ -35,8 +35,9 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag, const std::string_view &_geo, const bool _exitOnError ) noexcept
+bool ShaderLib::loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag, const std::string_view &_geo, const bool _exitOnError ) noexcept
 {
+  bool loaded=false;
   // must add code to do this next version
   NGL_UNUSED(_exitOnError);
   createShaderProgram(_shaderName);
@@ -59,8 +60,9 @@ void ShaderLib::loadShader(const std::string_view &_shaderName, const std::strin
     attachShaderToProgram(shaderName,shaderName+"Geo");
   }
 
-  linkProgramObject(_shaderName);
+  loaded=linkProgramObject(_shaderName);
   autoRegisterUniforms(_shaderName);
+  return loaded;
 }
 
 
@@ -157,7 +159,7 @@ void ShaderLib::attachShader(const std::string_view &_name, ShaderType _type ) n
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::compileShader(const std::string_view &_name  ) noexcept
+bool ShaderLib::compileShader(const std::string_view &_name  ) noexcept
 {
   // get an iterator to the shaders
   auto shader=m_shaders.find(_name.data());
@@ -166,8 +168,13 @@ void ShaderLib::compileShader(const std::string_view &_name  ) noexcept
   {
     // grab the pointer to the shader and call compile
     shader->second->compile();
+    return shader->second->isCompiled();
   }
-  else {std::cerr<<"Warning shader not know in compile "<<_name.data()<<'\n';}
+  else
+  {
+    std::cerr<<"Warning shader not know in compile "<<_name.data()<<'\n';
+    return false;
+  }
 
 }
 //----------------------------------------------------------------------------------------------------------------------
@@ -286,7 +293,7 @@ bool ShaderLib::loadFromJson(const std::string_view &_fname)  noexcept
       debug=itr->value["debug"].GetBool();
     }
     const rj::Value::Ch* progName=itr->value["name"].GetString();
-    if(progName ==NULL || strlen(progName)==0 )
+    if(progName ==nullptr || strlen(progName)==0 )
     {
       std::cerr<<"ShaderProgram must have a name (or could be 0 length) \n";
       return false;
@@ -362,17 +369,19 @@ void ShaderLib::loadShaderSourceFromString(const std::string_view &_shaderName, 
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::linkProgramObject(const std::string_view &_name	) noexcept
+bool ShaderLib::linkProgramObject(const std::string_view &_name	) noexcept
 {
-
+  bool linked=false;
   auto program=m_shaderPrograms.find(_name.data());
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
     std::cerr<<"Linking "<<_name.data()<<'\n';
     program->second->link();
+    linked=program->second->isLinked();
   }
   else {std::cerr<<"Warning Program not known in link "<<_name.data();}
+  return linked;
 
 }
 

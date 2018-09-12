@@ -89,12 +89,12 @@ public :
   /// @brief compile the shader from _name
   /// @param _name the name of the ShaderProgram to compile
   //----------------------------------------------------------------------------------------------------------------------
-  void compileShader(const std::string_view &_name ) noexcept;
+  bool compileShader(const std::string_view &_name ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief link the program Object  from _name
   /// @param _name the name of the ShaderProgram to link
   //----------------------------------------------------------------------------------------------------------------------
-  void linkProgramObject( const std::string_view &_name ) noexcept;
+  bool linkProgramObject( const std::string_view &_name ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief toggle debug mode
   //----------------------------------------------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ public :
   /// @param[in] _geo an optional geo shader to load
   /// @param[in] _exitOnError exit if there is an error in the shader
   //----------------------------------------------------------------------------------------------------------------------
-  void loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag,
+  bool loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag,
                   const std::string_view &_geo="",
                   const bool _exitOnError=false ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
@@ -170,6 +170,10 @@ public :
   /// @brief reset the Shader manager which will delete all shader objects
   //----------------------------------------------------------------------------------------------------------------------
   void reset() noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief get the current shader name
+  //----------------------------------------------------------------------------------------------------------------------
+  std::string_view  getCurrentShaderName() const {return m_currentShader;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief return the index to the shader attribute location
   /// @param _shaderName the name of the shader program
