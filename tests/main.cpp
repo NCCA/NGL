@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <array>
 #include <string>
-#include <GLFW/glfw3.h>
 #include <ngl/NGLInit.h>
+#include <GLFW/glfw3.h>
 class Environment : public  ::testing::Environment
 {
  public:
@@ -21,10 +21,9 @@ void Environment::SetUp()
     GLFWwindow* window;
 
     /* Initialize the library */
-    if (!glfwInit())
-    {
-       std::exit(EXIT_FAILURE);
-    }
+    auto init=glfwInit();
+    ASSERT_TRUE(init==GLFW_TRUE)<<"Failed to create init GLFW need an X server\n";
+  
     // use GL 4.1 as it's the max mac can use.
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -32,7 +31,8 @@ void Environment::SetUp()
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     window = glfwCreateWindow(1024, 720, "", nullptr, nullptr);
-      if (!window)
+    ASSERT_TRUE(window!=nullptr);  
+    if (!window)
       {
         glfwTerminate();
         std::exit(EXIT_FAILURE);

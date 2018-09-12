@@ -8,9 +8,10 @@ QT+=gui opengl core
 QMAKE_CXXFLAGS+= $$system(pkg-config --cflags glfw3)
 LIBS+=$$system(pkg-config --libs glfw3)
 macx:LIBS+= -framework OpenGL -framework IOKit -framework Cocoa -framework CoreVideo
-linux:LIBS+= -lX11 -lXxf86vm -L/usr/lib64 -lXrandr -lXi -lXinerama -lXcursor
+linux:LIBS+= -lX11 -lXxf86vm -L/usr/lib64 -lXrandr -lXi -lXinerama -lXcursor -ldl
 macx:DEFINES+=GLFW_USE_MENUBAR
 macx:DEFINES+=GLFW_USE_RETINA
+linxu:DEFINES+=GLM_ENABLE_EXPERIMENTAL
  cache()
 # where to put moc auto generated files
 MOC_DIR=moc

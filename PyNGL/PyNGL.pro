@@ -10,6 +10,7 @@ QT += core
 QT += gui
 QT -=xml
 QMAKE_LFLAGS += -shared
+QMAKE_CXXFLAGS+= -Wno-register
 CONFIG += console
 CONFIG-=app_bundle
 CONFIG += c++1z
