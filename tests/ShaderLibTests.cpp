@@ -107,14 +107,14 @@ TEST(ShaderLib,testSetUniform)
   auto *shaderName="TestUniform";
   EXPECT_TRUE(shader->loadShader(shaderName,"files/testUniformVertex.glsl","files/testUniformFragment.glsl",true))<<"shader loaded?";
   shader->use(shaderName);
-  shader->setUniform("testFloat",2.25f);
   {
-    float resultF;
-    shader->getUniform("testFloat",resultF);
-    EXPECT_FLOAT_EQ(resultF,2.25f);
+    shader->setUniform("testFloat",2.25f);
+    float result;
+    shader->getUniform("testFloat",result);
+    EXPECT_FLOAT_EQ(result,2.25f);
   }
-  shader->setUniform("testVec2",0.5f,2.0f);
   {
+    shader->setUniform("testVec2",0.5f,2.0f);
     float resultF1,resultF2;
     shader->getUniform("testVec2",resultF1,resultF2);
     EXPECT_FLOAT_EQ(resultF1,0.5f);
@@ -123,6 +123,34 @@ TEST(ShaderLib,testSetUniform)
     shader->getUniform("testVec2",resultVec2);
     EXPECT_FLOAT_EQ(resultVec2.m_x,0.5f);
     EXPECT_FLOAT_EQ(resultVec2.m_y,2.0f);
+  }
+  {
+    shader->setUniform("testVec3",0.5f,2.0f,-22.2f);
+    ngl::Real resultF1,resultF2,resultF3;
+    shader->getUniform("testVec3",resultF1,resultF2,resultF3);
+    EXPECT_FLOAT_EQ(resultF1,0.5f)<<"Test Vec3 resultF1";
+    EXPECT_FLOAT_EQ(resultF2,2.0f);
+    EXPECT_FLOAT_EQ(resultF3,-22.2f);
+    ngl::Vec3 resultVec3;
+    shader->getUniform("testVec3",resultVec3);
+    EXPECT_FLOAT_EQ(resultVec3.m_x,0.5f);
+    EXPECT_FLOAT_EQ(resultVec3.m_y,2.0f);
+    EXPECT_FLOAT_EQ(resultVec3.m_z,-22.2f);
+  }
+  {
+    shader->setUniform("testVec4",0.5f,2.0f,-22.2f,1230.4f);
+    ngl::Real resultF1,resultF2,resultF3,resultF4;
+    shader->getUniform("testVec4",resultF1,resultF2,resultF3,resultF4);
+    EXPECT_FLOAT_EQ(resultF1,0.5f);
+    EXPECT_FLOAT_EQ(resultF2,2.0f);
+    EXPECT_FLOAT_EQ(resultF3,-22.2f);
+    EXPECT_FLOAT_EQ(resultF4,1230.4f);
+    ngl::Vec4 resultVec4;
+    shader->getUniform("testVec4",resultVec4);
+    EXPECT_FLOAT_EQ(resultVec4.m_x,0.5f);
+    EXPECT_FLOAT_EQ(resultVec4.m_y,2.0f);
+    EXPECT_FLOAT_EQ(resultVec4.m_z,-22.2f);
+    EXPECT_FLOAT_EQ(resultVec4.m_w,1230.4f);
   }
 
 }

@@ -709,28 +709,53 @@ void ShaderLib::printProperties() const noexcept
 
 }
 
-
 void ShaderLib::setUniform(const std::string_view &_paramName,Real _v0) noexcept
 {
   (*this)[m_currentShader]->setRegisteredUniform1f(_paramName.data(),_v0);
 }
 
-void ShaderLib::getUniform(const std::string_view &_paramName, Real &o_v0)
+void ShaderLib::getUniform(const std::string_view &_paramName, Real &o_v0)  noexcept
 {
  (*this)[m_currentShader]->getRegisteredUniform1f(_paramName.data(),o_v0);
 }
 
-void ShaderLib::getUniform(const std::string_view &_paramName, Real &o_v0, Real &o_v1)
+void ShaderLib::getUniform(const std::string_view &_paramName, Real &o_v0, Real &o_v1)  noexcept
 {
  (*this)[m_currentShader]->getRegisteredUniform2f(_paramName.data(),o_v0,o_v1);
 }
 
-void ShaderLib::getUniform(const std::string_view &_paramName, ngl::Vec2 &o_v)
+void ShaderLib::getUniform(const std::string_view &_paramName, ngl::Vec2 &o_v)  noexcept
 {
   float x,y;
  (*this)[m_currentShader]->getRegisteredUniform2f(_paramName.data(),x,y);
-  o_v.m_x=x;
-  o_v.m_y=y;
+  o_v.set(x,y);
+}
+
+
+
+void ShaderLib::getUniform(const std::string_view &_paramName, Real &o_v0, Real &o_v1, Real &o_v2)  noexcept
+{
+ (*this)[m_currentShader]->getRegisteredUniform3f(_paramName.data(),o_v0,o_v1,o_v2);
+}
+
+void ShaderLib::getUniform(const std::string_view &_paramName, ngl::Vec3 &o_v)  noexcept
+{
+  float x,y,z;
+ (*this)[m_currentShader]->getRegisteredUniform3f(_paramName.data(),x,y,z);
+  o_v.set(x,y,z);
+}
+
+
+void ShaderLib::getUniform(const std::string_view &_paramName, Real &o_v0, Real &o_v1, Real &o_v2, Real &o_v3)  noexcept
+{
+ (*this)[m_currentShader]->getRegisteredUniform4f(_paramName.data(),o_v0,o_v1,o_v2,o_v3);
+}
+
+void ShaderLib::getUniform(const std::string_view &_paramName, ngl::Vec4 &o_v)  noexcept
+{
+  float x,y,z,w;
+ (*this)[m_currentShader]->getRegisteredUniform4f(_paramName.data(),x,y,z,w);
+  o_v.set(x,y,z,w);
 }
 
 
