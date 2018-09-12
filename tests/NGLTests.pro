@@ -4,13 +4,14 @@ TARGET=NGLTests
 OBJECTS_DIR=obj
 # core Qt Libs to use add more here if needed.
 QT+=gui opengl core
-
-# as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
-# mainly in the types.h file for the setMacVisual which is native in Qt5
-isEqual(QT_MAJOR_VERSION, 5) {
-  cache()
-  DEFINES +=QT5BUILD
-}
+# we are going to use GLFW for Offscreen OpenGL context creation so we can test GL elements
+QMAKE_CXXFLAGS+= $$system(pkg-config --cflags glfw3)
+LIBS+=$$system(pkg-config --libs glfw3)
+macx:LIBS+= -framework OpenGL -framework IOKit -framework Cocoa -framework CoreVideo
+linux:LIBS+= -lX11 -lXxf86vm -L/usr/lib64 -lXrandr -lXi -lXinerama -lXcursor
+macx:DEFINES+=GLFW_USE_MENUBAR
+macx:DEFINES+=GLFW_USE_RETINA
+ cache()
 # where to put moc auto generated files
 MOC_DIR=moc
 # on a mac we don't create a .app bundle file ( for ease of multiplatform use)
@@ -23,6 +24,8 @@ SOURCES+= $$PWD/Vec4Tests.cpp \
           $$PWD/Vec2Tests.cpp \
           $$PWD/ObjTests.cpp \
           $$PWD/UtilTests.cpp \
+          $$PWD/NGLInitTests.cpp \
+          $$PWD/VAOPrimitivesTests.cpp \
           $$PWD/main.cpp
 
 

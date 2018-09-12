@@ -45,10 +45,10 @@ NGLInit::NGLInit()
      std::cerr<<"failed to initialize OpenGL\n";
      exit(EXIT_FAILURE);
   }
-  if (!gl3wIsSupported(3, 2))
+  if (!gl3wIsSupported(4, 1))
   {
     std::cerr<<"To run these demos you need a modern OpenGL Version\n";
-    std::cerr<<"The lowest level OpenGL we support is 3.2\n";
+    std::cerr<<"The lowest level OpenGL we support is 4.1\n";
     std::cerr<<"It could be you don't have the correct drivers installed\n";
     std::cerr<<"Or if linux on a laptop it could be using the intel driver and not the GPU\n";
     std::cerr<<"for more info contact Jon\n";
