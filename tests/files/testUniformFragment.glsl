@@ -10,8 +10,8 @@ layout(location=0) out vec4 fragColour;
 
 void main()
 {
-  fragColour=vec4(outTestFloat);
-  fragColour=vec4(outTestVec2,0,0);
-  fragColour=vec4(outTestVec3,0);
-  fragColour=vec4(outTestVec4);
+  // this nvidia compiler will optimise out values not used so we need to use them.
+  vec4 total=vec4(outTestFloat)+vec4(outTestVec2,0,0)+
+             vec4(outTestVec3,0)+outTestVec4;
+  fragColour=total;
 }
