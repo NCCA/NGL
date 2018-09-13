@@ -41,7 +41,9 @@ TEST(ShaderLib,loadParts)
 {
 
   auto shader = ngl::ShaderLib::instance();
-  shader->createShaderProgram("Test2",false);
+  auto *shaderName="Test2";
+
+  shader->createShaderProgram(shaderName,false);
   constexpr auto Vertex="Test2Vert";
   shader->attachShader( Vertex, ngl::ShaderType::VERTEX );
   shader->loadShaderSource(Vertex,"files/vert.glsl");
@@ -51,9 +53,13 @@ TEST(ShaderLib,loadParts)
   shader->attachShader( Fragment, ngl::ShaderType::FRAGMENT );
   shader->loadShaderSource(Fragment,"files/frag.glsl");
   EXPECT_TRUE(shader->compileShader(Fragment))<<"error compiling vert shader";
-  EXPECT_TRUE(shader->linkProgramObject("Test2"));
-  (*shader)["Test2"]->use();
-  EXPECT_TRUE(shader->getCurrentShaderName()=="Test2");
+  shader->attachShaderToProgram(shaderName,Vertex);
+  shader->attachShaderToProgram(shaderName,Fragment);
+
+
+  EXPECT_TRUE(shader->linkProgramObject(shaderName));
+  (*shader)[shaderName]->use();
+  EXPECT_TRUE(shader->getCurrentShaderName()==shaderName);
 }
 
 TEST(ShaderLib,loadPartsFailVertex)
@@ -90,15 +96,13 @@ TEST(ShaderLib,failLink)
   shader->attachShader( Vertex, ngl::ShaderType::VERTEX );
   shader->loadShaderSource(Vertex,"files/vertLinkErr.glsl");
   EXPECT_TRUE(shader->compileShader(Vertex))<<"error compiling vert shader";
-
   constexpr auto Fragment="Test5Frag";
   shader->attachShader( Fragment, ngl::ShaderType::FRAGMENT );
   shader->loadShaderSource(Fragment,"files/fragLinkErr.glsl");
   EXPECT_TRUE(shader->compileShader(Fragment))<<"error compiling vert shader";
-
   shader->attachShaderToProgram(shaderName,Vertex);
   shader->attachShaderToProgram(shaderName,Fragment);
-  EXPECT_FALSE(shader->linkProgramObject(shaderName));
+  EXPECT_FALSE(shader->linkProgramObject(shaderName))<<"This should not link as in and out don't match";
 }
 
 TEST(ShaderLib,testSetUniform)
@@ -111,31 +115,31 @@ TEST(ShaderLib,testSetUniform)
     shader->setUniform("testFloat",2.25f);
     float result;
     shader->getUniform("testFloat",result);
-    EXPECT_FLOAT_EQ(result,2.25f);
+    EXPECT_FLOAT_EQ(result,2.25f)<<"Testing setting a single float";
   }
   {
     shader->setUniform("testVec2",0.5f,2.0f);
     float resultF1,resultF2;
     shader->getUniform("testVec2",resultF1,resultF2);
-    EXPECT_FLOAT_EQ(resultF1,0.5f);
-    EXPECT_FLOAT_EQ(resultF2,2.0f);
+    EXPECT_FLOAT_EQ(resultF1,0.5f)<<"Test setting two floats x";
+    EXPECT_FLOAT_EQ(resultF2,2.0f)<<"Test setting two floats y";
     ngl::Vec2 resultVec2;
     shader->getUniform("testVec2",resultVec2);
-    EXPECT_FLOAT_EQ(resultVec2.m_x,0.5f);
-    EXPECT_FLOAT_EQ(resultVec2.m_y,2.0f);
+    EXPECT_FLOAT_EQ(resultVec2.m_x,0.5f)<<"Test getting from ngl::Vec2 m_x";
+    EXPECT_FLOAT_EQ(resultVec2.m_y,2.0f)<<"Test getting from ngl::Vec2 m_y";;
   }
   {
     shader->setUniform("testVec3",0.5f,2.0f,-22.2f);
     ngl::Real resultF1,resultF2,resultF3;
     shader->getUniform("testVec3",resultF1,resultF2,resultF3);
-    EXPECT_FLOAT_EQ(resultF1,0.5f)<<"Test Vec3 resultF1";
-    EXPECT_FLOAT_EQ(resultF2,2.0f);
-    EXPECT_FLOAT_EQ(resultF3,-22.2f);
+    EXPECT_FLOAT_EQ(resultF1,0.5f)<<"test setting 3 floats x";
+    EXPECT_FLOAT_EQ(resultF2,2.0f)<<"test setting 3 floats x";
+    EXPECT_FLOAT_EQ(resultF3,-22.2f)<<"test setting 3 floats x";
     ngl::Vec3 resultVec3;
     shader->getUniform("testVec3",resultVec3);
-    EXPECT_FLOAT_EQ(resultVec3.m_x,0.5f);
-    EXPECT_FLOAT_EQ(resultVec3.m_y,2.0f);
-    EXPECT_FLOAT_EQ(resultVec3.m_z,-22.2f);
+    EXPECT_FLOAT_EQ(resultVec3.m_x,0.5f)<<"test getting ngl::Vec3 m_x";
+    EXPECT_FLOAT_EQ(resultVec3.m_y,2.0f)<<"test getting ngl::Vec3 m_y";
+    EXPECT_FLOAT_EQ(resultVec3.m_z,-22.2f)<<"test getting ngl::Vec3 m_z";
   }
   {
     shader->setUniform("testVec4",0.5f,2.0f,-22.2f,1230.4f);

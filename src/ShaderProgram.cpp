@@ -244,7 +244,9 @@ void ShaderProgram::getRegisteredUniform1f(const std::string_view &_varname, flo
   // make sure we have a valid shader
   if(uniform!=m_registeredUniforms.end())
   {
-    glGetUniformfv(m_programID,uniform->second.loc,&o_v0);
+    float data[4];
+    glGetUniformfv(m_programID,uniform->second.loc,&data[0]);
+    o_v0=data[0];
   }
 
 }
