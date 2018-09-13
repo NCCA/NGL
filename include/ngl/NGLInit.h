@@ -24,6 +24,8 @@
 #include "Singleton.h"
 #include "Types.h"
 #include "VAOPrimitives.h"
+#include "NGLMessage.h"
+#include <memory>
 
 namespace ngl
 {
@@ -43,7 +45,7 @@ class   NGL_DLLEXPORT NGLInit : public  Singleton<NGLInit>
 {
   friend class Singleton<NGLInit>;
   public :
-
+    void setCommunicationMode(ngl::CommunicationMode _mode );
   protected :
     //----------------------------------------------------------------------------------------------------------------------
     ///  @brief dtor

@@ -10,11 +10,11 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include "fmt/format.h"
-#include "AbstractMessageConsumer.h"
-#include "STDERRConsumer.h"
-#include "STDOutConsumer.h"
-#include "FileConsumer.h"
-#include "PipeConsumer.h"
+#include "MessageQueue/AbstractMessageConsumer.h"
+#include "MessageQueue/STDERRConsumer.h"
+#include "MessageQueue/STDOutConsumer.h"
+#include "MessageQueue/FileConsumer.h"
+#include "MessageQueue/PipeConsumer.h"
 namespace ngl
 {
   std::vector <message> NGLMessage::s_messageQueue;
@@ -58,7 +58,6 @@ namespace ngl
 
   NGLMessage::~NGLMessage()
   {
-    std::cout<<"DTOR ";
     if(s_fifoID !=FIFOERR)
     {
       std::cout<<"closing fifo "<<s_fifoID<<'\n';

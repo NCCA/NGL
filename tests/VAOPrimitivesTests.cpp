@@ -16,7 +16,7 @@ static std::array<const char *,12> meshes={{
   ngl::troll,ngl::bunny,ngl::dragon,ngl::buddah
 }};
 
-TEST(VAOPrimities,getCreatedIDs)
+TEST(VAOPrimitives,getCreatedIDs)
 {
   auto prim = ngl::VAOPrimitives::instance();
   for(auto m : meshes)
@@ -24,7 +24,7 @@ TEST(VAOPrimities,getCreatedIDs)
 
 }
 
-TEST(VAOPrimities,checkCreated)
+TEST(VAOPrimitives,checkCreated)
 {
   auto prim = ngl::VAOPrimitives::instance();
   for(auto m : meshes)
@@ -36,7 +36,7 @@ TEST(VAOPrimities,checkCreated)
   }
 }
 
-TEST(VAOPrimities,checkADD)
+TEST(VAOPrimitives,checkADD)
 {
   std::array<ngl::Vec3,12> verts=
    {{
@@ -77,49 +77,49 @@ TEST(VAOPrimities,checkADD)
 
 }
 
-TEST(VAOPrimities,createSphere)
+TEST(VAOPrimitives,createSphere)
 {
   auto prim = ngl::VAOPrimitives::instance();
   prim->createSphere("sphere",1.0,200);
   EXPECT_TRUE(prim->getVAOFromName("sphere") !=nullptr);
 }
 
-TEST(VAOPrimities,createLineGrid)
+TEST(VAOPrimitives,createLineGrid)
 {
   auto prim = ngl::VAOPrimitives::instance();
   prim->createLineGrid("grid",100,100,1000);
   EXPECT_TRUE(prim->getVAOFromName("grid") !=nullptr);
 }
 
-TEST(VAOPrimities,createTrianglePlane)
+TEST(VAOPrimitives,createTrianglePlane)
 {
   auto prim = ngl::VAOPrimitives::instance();
   prim->createTrianglePlane("plane",100,100,1000,1000,ngl::Vec3::up());
   EXPECT_TRUE(prim->getVAOFromName("plane") !=nullptr);
 }
 
-TEST(VAOPrimities,createCylinder)
+TEST(VAOPrimitives,createCylinder)
 {
   auto prim = ngl::VAOPrimitives::instance();
   prim->createCylinder("cylinder",1.0f,2.0f,100,100);
   EXPECT_TRUE(prim->getVAOFromName("cylinder") !=nullptr);
 }
 
-TEST(VAOPrimities,createTorus)
+TEST(VAOPrimitives,createTorus)
 {
   auto prim = ngl::VAOPrimitives::instance();
   prim->createCylinder("torus",1.0f,2.0f,100,100);
   EXPECT_TRUE(prim->getVAOFromName("torus") !=nullptr);
 }
 
-TEST(VAOPrimities,createCone)
+TEST(VAOPrimitives,createCone)
 {
   auto prim = ngl::VAOPrimitives::instance();
   prim->createCone("cone",1.0f,2.0f,100,100);
   EXPECT_TRUE(prim->getVAOFromName("cone") !=nullptr);
 }
 
-TEST(VAOPrimities,createCapsule)
+TEST(VAOPrimitives,createCapsule)
 {
   auto prim = ngl::VAOPrimitives::instance();
   prim->createCapsule("capsule",1.0f,2.0f,100);
@@ -127,7 +127,7 @@ TEST(VAOPrimities,createCapsule)
 }
 
 
-TEST(VAOPrimities,clear)
+TEST(VAOPrimitives,clear)
 {
   auto prim = ngl::VAOPrimitives::instance();
   prim->clear();

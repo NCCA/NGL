@@ -21,6 +21,7 @@
 #include "SimpleVAO.h"
 #include "MultiBufferVAO.h"
 #include "SimpleIndexVAO.h"
+#include <string>
 
 #if defined(LINUX) || defined(WIN32)
   #include <cstdlib>
@@ -35,9 +36,23 @@ namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
 
-
+void NGLInit::setCommunicationMode(ngl::CommunicationMode _mode)
+{
+  switch (_mode)
+  {
+    case CommunicationMode::STDERR : msg.reset(new  NGLMessage(NGLMessage::Mode::SERVER,CommunicationMode::STDERR)); break;
+    case CommunicationMode::STDOUT : msg.reset(new  NGLMessage(NGLMessage::Mode::SERVER,CommunicationMode::STDOUT)); break;
+    case CommunicationMode::NULLCONSUMER : msg.reset(new  NGLMessage(NGLMessage::Mode::SERVER,CommunicationMode::NULLCONSUMER)); break;
+    case CommunicationMode::FILE : msg.reset(new  NGLMessage(NGLMessage::Mode::SERVER,CommunicationMode::FILE)); break;
+    case CommunicationMode::NAMEDPIPE : msg.reset(new  NGLMessage(NGLMessage::Mode::SERVER,CommunicationMode::NAMEDPIPE)); break;
+    case CommunicationMode::SHAREDMEMORY : msg.reset(new  NGLMessage(NGLMessage::Mode::SERVER,CommunicationMode::SHAREDMEMORY)); break;
+    case CommunicationMode::UDP : break;
+    case CommunicationMode::TCPIP : break;
+  }
+}
 NGLInit::NGLInit()
 {
+  //setCommunicationMode(CommunicationMode::STDERR);
 #if defined(USINGIOS_) || !defined(__APPLE__)
 
   if (gl3wInit())
@@ -55,9 +70,12 @@ NGLInit::NGLInit()
     exit(EXIT_FAILURE);
   }
 #endif
-  std::cerr<<"NGL configured with \n";
-  std::cerr<<"OpenGL " << glGetString(GL_VERSION);
-  std::cerr<<" GLSL version "<<glGetString(GL_SHADING_LANGUAGE_VERSION)<<'\n';
+  msg=std::make_unique<NGLMessage>(NGLMessage(NGLMessage::Mode::CLIENTSERVER,CommunicationMode::STDERR));
+
+  msg->startMessageConsumer();
+  msg->addMessage("NGL configured with ",Colours::NORMAL,TimeFormat::TIME);
+  msg->addMessage(fmt::format("OpenGL {0}",glGetString(GL_VERSION)));
+  msg->addMessage(fmt::format("GLSL version {0}",glGetString(GL_SHADING_LANGUAGE_VERSION)));
 
 
   VAOFactory::registerVAOCreator(simpleVAO,SimpleVAO::create);
@@ -68,6 +86,7 @@ NGLInit::NGLInit()
 //----------------------------------------------------------------------------------------------------------------------
 NGLInit::~NGLInit()
 {
+  msg->stopMessageConsumer();
 }
 
 

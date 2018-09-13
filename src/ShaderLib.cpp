@@ -152,7 +152,7 @@ GLuint ShaderLib::getShaderID(const std::string_view &_shaderName) noexcept
   }
   else
   {
-    std::cout<<"Warning: No shader named "<< _shaderName << " in " << m_currentShader <<" shader program \n";
+    msg->addMessage(fmt::format("Warning: No shader named {0} in {1} shader program",_shaderName.data(),m_currentShader),Colours::YELLOW);
   }
   return value;
 }
@@ -169,7 +169,7 @@ ngl::Shader* ShaderLib::getShader(const std::string_view &_shaderName) noexcept
   else
   {
     shaderPointer = nullptr;
-    std::cout<<"Warning: No shader named "<< _shaderName << " in " << m_currentShader <<" shader program \n";
+    msg->addMessage(fmt::format("Warning: No shader named {0} in {1} shader program",_shaderName.data(),m_currentShader),Colours::YELLOW);
   }
   return shaderPointer;
 }
@@ -178,7 +178,7 @@ void ShaderLib::attachShader(const std::string_view &_name, ShaderType _type , b
 {
   m_shaders[_name.data()]= new Shader(_name,_type,_errorOnExit);
   if(m_debugState==true)
-    std::cout<<"just attached "<<_name<<" "<<m_shaders[_name.data()]->getShaderHandle()<<'\n';
+    msg->addMessage(fmt::format("just attached {0} to ngl::ShaderLib",_name.data()),Colours::GREEN);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -194,7 +194,7 @@ bool ShaderLib::compileShader(const std::string_view &_name  ) noexcept
   }
   else
   {
-    std::cerr<<"Warning shader not know in compile "<<_name.data()<<'\n';
+    msg->addMessage(fmt::format("Warning attempting to compile unknow shader {0} have you added it?",_name.data()),Colours::YELLOW);
     return false;
   }
 

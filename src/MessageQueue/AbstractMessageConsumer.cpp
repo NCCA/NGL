@@ -1,4 +1,4 @@
-#include "AbstractMessageConsumer.h"
+#include "MessageQueue/AbstractMessageConsumer.h"
 
 
 void AbstractMessageConsumer::setTimeFormat(TimeFormat _f)

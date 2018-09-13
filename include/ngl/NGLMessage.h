@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <ostream>
-#include "AbstractMessageConsumer.h"
+#include "MessageQueue/AbstractMessageConsumer.h"
 namespace ngl
 {
 

@@ -21,7 +21,6 @@
 /// @brief main definition of types and namespace
 //----------------------------------------------------------------------------------------------------------------------
 
-
 #ifdef __APPLE__
   #include <unistd.h>
   #ifndef USINGIOS_
@@ -42,7 +41,7 @@
   #include "gl3w.h"
 #endif
 
-
+#include "fmt/format.h"
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -62,7 +61,8 @@
 #else
     #define NGL_DLLEXPORT
 #endif
-
+#include "NGLMessage.h"
+#include <memory>
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @file types.h
@@ -80,6 +80,7 @@
 
 namespace ngl
 {
+extern  std::unique_ptr<NGLMessage> msg;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief Set the PRECISION of all data types
 ///  Set PRECISION to be a GLfloat so we only have to change one value to set the data type
