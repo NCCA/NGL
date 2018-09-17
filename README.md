@@ -12,11 +12,13 @@ layout(location =2)in vec2 inUV;
 ```
 
 - Remove all boost dependancies
+- moved to C++ 17 (so using std::string_view for most method parameters)
 - Remove all GLEW elements and replace with [gl3w](https://github.com/skaslev/gl3w)
 - Remove Camera,PathCamera Light, Material as classes and replace with simple structs.
 - New Obj Class to remove boost spirit (and make it copyable for Cos!)
 - Better Python integration (python library now built at same time as NGL)
-- Better abstraction from Qt for certain types (and have SDL replacements as a compile switch (i.e. font text classes)
+- Better abstraction from Qt for certain types (and have SDL replacements as a compile switch (i.e. font text classes etc) this is not quite complete yet but will not change the underlying NGL API).
+- Added an new Messaging system to help with printing errors and warnings there will be a full write up / demo coming soon.
 
 ## Building
 

@@ -1,2 +1,2 @@
 TEMPLATE=subdirs
-SUBDIRS+= NGL PyNGL
+SUBDIRS+= NGL PyNGL tests/NGLTests.pro
