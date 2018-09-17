@@ -40,6 +40,8 @@ class NGLMessage
     static Mode getMode()   {return s_mode;}
     static void addMessage(const std::string &_message,Colours _c=Colours::NORMAL,TimeFormat _timeFormat=TimeFormat::TIME);
     static void addMessage(int x, int y,const std::string &_message,Colours _c=Colours::NORMAL);
+    static void addError(const std::string &_message, TimeFormat _timeFormat=TimeFormat::TIME);
+    static void addWarning(const std::string &_message, TimeFormat _timeFormat=TimeFormat::TIME);
     static void sendClearTerminal();
     static size_t numMessages()  {return s_messageQueue.size();}
     static void startMessageConsumer();
@@ -53,6 +55,7 @@ class NGLMessage
   private :
     static bool s_active;
     static Mode s_mode;
+    static Colours s_currentColour;
     static CommunicationMode s_comMode;
     static std::vector <message> s_messageQueue;
     static std::atomic_flag	 s_consuming;

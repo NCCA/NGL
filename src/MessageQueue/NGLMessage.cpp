@@ -26,7 +26,7 @@ namespace ngl
   static std::mutex g_serverLock;
   bool NGLMessage::s_active=true;
   CommunicationMode NGLMessage::s_comMode=CommunicationMode::STDERR;
-
+  Colours NGLMessage::s_currentColour=Colours::NORMAL;
   static std::string s_fifoName="/tmp/nccadebug";
   static int s_fifoID=0;
   constexpr int FIFOERR=-1;
@@ -60,7 +60,7 @@ namespace ngl
   {
     if(s_fifoID !=FIFOERR)
     {
-      std::cout<<"closing fifo "<<s_fifoID<<'\n';
+      //std::cout<<"closing fifo "<<s_fifoID<<'\n';
       close(s_fifoID);
     }
   }
@@ -99,6 +99,8 @@ namespace ngl
   void NGLMessage::addMessage(const std::string &_message, Colours _c, TimeFormat _timeFormat)
   {
     std::lock_guard<std::mutex> lock(g_messageQueueLock);
+    if(_c != s_currentColour)
+      s_currentColour=_c;
     // add to front
     s_messageQueue.insert(std::begin(s_messageQueue),{std::chrono::system_clock::now(),_message,_c,_timeFormat});
     //std::this_thread::sleep_for(std::chrono::milliseconds(4));
@@ -116,6 +118,8 @@ namespace ngl
   void NGLMessage::addMessage(int x, int y,const std::string &_message,Colours _c)
   {
     std::lock_guard<std::mutex> lock(g_messageQueueLock);
+    if(_c != s_currentColour)
+      s_currentColour=_c;
     // add to front
     std::string loc=fmt::format("\033[{0};{1}H",x,y);
     loc+=_message;
@@ -131,10 +135,6 @@ namespace ngl
     s_messageQueue.insert(std::begin(s_messageQueue),{std::chrono::system_clock::now(),"\033[2J\033[1;1H"});
 
   }
-
-
-
-
 
   void NGLMessage::startMessageConsumer()
   {
@@ -186,6 +186,20 @@ namespace ngl
     }
 
 
+  }
+
+  void NGLMessage::addError(const std::string &_message, TimeFormat _timeFormat)
+  {
+    auto colour=s_currentColour;
+    addMessage(fmt::format("[ERROR] :- {0}",_message),Colours::RED,_timeFormat);
+    s_currentColour=colour;
+  }
+
+  void NGLMessage::addWarning(const std::string &_message, TimeFormat _timeFormat)
+  {
+    auto colour=s_currentColour;
+    addMessage(fmt::format("[WARNING] :- {0}",_message),Colours::YELLOW,_timeFormat);
+    s_currentColour=colour;
   }
 
 

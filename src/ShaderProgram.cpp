@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (C) 2009 Jon Macey
 
     This program is free software: you can redistribute it and/or modify
@@ -43,11 +43,12 @@ ShaderProgram::ShaderProgram(const std::string_view &_name, bool _errorExit) noe
 
 ShaderProgram::~ShaderProgram()
 {
-  std::cerr<<"removing ShaderProgram "<< m_programName<<'\n';
+  if(m_debugState ==true)
+    msg->addMessage(fmt::format("removing ShaderProgram {0}", m_programName));
   glDeleteProgram(m_programID);
   for(auto & block : m_registeredUniformBlocks)
   {
-    std::cerr<<"removing UniformBlock Buffers "<<block.second.name<<'\n';
+    msg->addMessage(fmt::format("removing UniformBlock Buffers {0}",block.second.name));
     glDeleteBuffers(1,&block.second.buffer);
   }
 
@@ -56,9 +57,7 @@ ShaderProgram::~ShaderProgram()
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::use() noexcept
 {
- // std::cerr<<"Using shader "<<m_programName<<" id "<<m_programID<<'\n';
   glUseProgram(m_programID);
-  //NGLCheckGLError(__FILE__,__LINE__);
   m_active=true;
 }
 
@@ -81,7 +80,7 @@ void ShaderProgram::bindAttribute(GLuint _index, const std::string_view &_attrib
 {
   if(m_linked == true)
   {
-    std::cerr<<"Warning binding attribute after link\n";
+   msg->addMessage(fmt::format("binding attribute {0} after link ",_attribName.data()));
   }
   m_attribs[_attribName.data()]=_index;
   glBindAttribLocation(m_programID,_index,_attribName.data());
@@ -92,13 +91,12 @@ void ShaderProgram::bindFragDataLocation(GLuint _index, const std::string_view &
 {
   if(m_linked == true)
   {
-    std::cerr<<"Warning binding attribute after link\n";
+    msg->addMessage(fmt::format("binding attribute {0} after link ",_attribName.data()));
   }
   m_attribs[_attribName.data()]=_index;
   #ifndef USINGIOS_
     glBindFragDataLocation(m_programID,_index,_attribName.data());
   #endif
-  //std::cerr<<"bindAttribLoc "<<m_programID<<" index "<<_index<<" name "<<_attribName<<'\n';
   NGLCheckGLError(__FILE__,__LINE__);
 }
 
@@ -109,7 +107,7 @@ bool ShaderProgram::link() noexcept
   glLinkProgram(m_programID);
   if(m_debugState==true)
   {
-    std::cerr <<"linking Shader "<< m_programName.c_str()<<'\n';
+    msg->addMessage(fmt::format("linking Shader {0} ",m_programName.c_str()));
   }
   GLint infologLength = 0;
   GLint linkStatus;
@@ -125,10 +123,10 @@ bool ShaderProgram::link() noexcept
 
     glGetProgramInfoLog(m_programID, infologLength, &charsWritten, infoLog.get());
 
-    std::cerr<<infoLog.get()<<'\n';
+    msg->addMessage(infoLog.get(),Colours::WHITE,TimeFormat::NONE);
     if( m_linked == false)
     {
-      std::cerr<<"Program link failed (will exit if errorExit enabled else return false) \n";
+      msg->addError("Program link failed (will exit if errorExit enabled else return false)");
       if(m_errorExit)
         exit(EXIT_FAILURE);
 
@@ -154,12 +152,10 @@ GLint ShaderProgram::getUniformLocation(const char* _name   ) const noexcept
   }
   else
   {
+    msg->addWarning(fmt::format("Uniform {0} not found in Program {1}",_name,m_programName.data()));
+  }
   // nasty C lib uses -1 return value for error
   //GLint loc = glGetUniformLocation( m_programID ,_name);
-  //if (loc == -1)
-  //{
-    std::cerr<<"Uniform \""<<_name<<"\" not found in Program \""<<m_programName<<"\""<<'\n';
-  }
   // so we cast to correct value when returning!
   return -1;
 }
@@ -167,7 +163,7 @@ GLint ShaderProgram::getUniformLocation(const char* _name   ) const noexcept
 void ShaderProgram::printProperties() const noexcept
 {
   printActiveUniforms();
-  std::cerr<<"_______________________________________________________________________________________________________________________\n";
+  msg->addMessage("_______________________________________________________________________________________________________________________",Colours::WHITE,TimeFormat::NONE);
   printActiveAttributes();
 }
 
@@ -177,7 +173,7 @@ void ShaderProgram::printActiveUniforms() const noexcept
 #ifndef USINGIOS_
     if(m_active !=true)
     {
-      std::cerr<<"calling printActiveUniforms on unbound shader program\n";
+      msg->addWarning("calling printActiveUniforms on unbound shader program");
     }
     GLint nUniforms;
     glGetProgramiv(m_programID, GL_ACTIVE_UNIFORMS, &nUniforms);
@@ -186,7 +182,7 @@ void ShaderProgram::printActiveUniforms() const noexcept
     for (GLint i=0; i<nUniforms; ++i)
     {
        glGetActiveUniformName(m_programID, static_cast<GLuint>(i), 256, &l, name);
-       std::cerr << "Uniform: "<<name<<'\n';
+       msg->addMessage(fmt::format("Uniform: {0}",name),Colours::WHITE,TimeFormat::NONE);
     }
 #endif
 
@@ -202,25 +198,28 @@ void ShaderProgram::printActiveAttributes() const noexcept
   char name[256];
   for (GLint i=0; i < nAttribs; ++i)
   {
+    std::string Type;
     glGetActiveAttrib(m_programID, static_cast<GLuint>(i), 256, &l, &size, &type, name);
-    std::cerr << "Attribute"<<i<<":\""<<name<<"\" Size:"<<size<<" Type:";
     switch(type)
     {
-    case GL_FLOAT: std::cerr << "GL_FLOAT\n"; break;
-    case GL_FLOAT_VEC2: std::cerr << "GL_FLOAT_VEC2\n"; break;
-    case GL_FLOAT_VEC3: std::cerr << "GL_FLOAT_VEC3\n"; break;
-    case GL_FLOAT_VEC4: std::cerr << "GL_FLOAT_VEC4\n"; break;
-    case GL_FLOAT_MAT2: std::cerr << "GL_FLOAT_MAT2\n"; break;
-    case GL_FLOAT_MAT3: std::cerr << "GL_FLOAT_MAT3\n"; break;
-    case GL_FLOAT_MAT4: std::cerr << "GL_FLOAT_MAT4\n"; break;
-    case GL_FLOAT_MAT2x3: std::cerr << "GL_FLOAT_MAT2x3\n"; break;
-    case GL_FLOAT_MAT2x4: std::cerr << "GL_FLOAT_MAT2x4\n"; break;
-    case GL_FLOAT_MAT3x2: std::cerr << "GL_FLOAT_MAT3x2\n"; break;
-    case GL_FLOAT_MAT3x4: std::cerr << "GL_FLOAT_MAT3x4\n"; break;
-    case GL_FLOAT_MAT4x2: std::cerr << "GL_FLOAT_MAT4x2\n"; break;
-    case GL_FLOAT_MAT4x3: std::cerr << "GL_FLOAT_MAT4x3\n"; break;
-    default: std::cerr << "UNKNOWN\n";
+    case GL_FLOAT: Type="GL_FLOAT"; break;
+    case GL_FLOAT_VEC2: Type="GL_FLOAT_VEC2"; break;
+    case GL_FLOAT_VEC3: Type="GL_FLOAT_VEC3"; break;
+    case GL_FLOAT_VEC4: Type="GL_FLOAT_VEC4"; break;
+    case GL_FLOAT_MAT2: Type="GL_FLOAT_MAT2"; break;
+    case GL_FLOAT_MAT3: Type="GL_FLOAT_MAT3"; break;
+    case GL_FLOAT_MAT4: Type="GL_FLOAT_MAT4"; break;
+    case GL_FLOAT_MAT2x3: Type="GL_FLOAT_MAT2x3"; break;
+    case GL_FLOAT_MAT2x4: Type="GL_FLOAT_MAT2x4"; break;
+    case GL_FLOAT_MAT3x2: Type="GL_FLOAT_MAT3x2"; break;
+    case GL_FLOAT_MAT3x4: Type="GL_FLOAT_MAT3x4"; break;
+    case GL_FLOAT_MAT4x2: Type="GL_FLOAT_MAT4x2"; break;
+    case GL_FLOAT_MAT4x3: Type="GL_FLOAT_MAT4x3"; break;
+    default: Type="UNKNOWN";
     }
+
+    msg->addMessage(fmt::format("Attribute {0}, {1} Size : {2} Type : {3}",i,name,size,Type));
+
   }
 }
 
@@ -444,7 +443,7 @@ void ShaderProgram::enableAttribArray( const char* _name) const noexcept
 
   if(index!=m_attribs.end())
   {
-    std::cerr<<"Enable attrib "<<index->second<<'\n';
+    msg->addMessage(fmt::format("Enable attrib array {0} ",index->second));
     glEnableVertexAttribArray( index->second  );
   }
 }
@@ -475,7 +474,8 @@ void ShaderProgram::autoRegisterUniformBlocks() noexcept
 {
   GLint nUniforms;
   glGetProgramiv(m_programID, GL_ACTIVE_UNIFORM_BLOCKS, &nUniforms);
-  std::cerr<<"FOUND UNIFORM BLOCKS "<<nUniforms<<'\n';
+  if(m_debugState==true)
+    msg->addMessage(fmt::format("FOUND UNIFORM BLOCKS {0}",nUniforms),Colours::WHITE,TimeFormat::NONE);
   char name[256];
   uniformBlockData data;
   for (GLint i=0; i<nUniforms; ++i)
@@ -486,18 +486,7 @@ void ShaderProgram::autoRegisterUniformBlocks() noexcept
     data.loc=glGetUniformBlockIndex(m_programID,name);
     glGenBuffers( 1, &data.buffer );
     m_registeredUniformBlocks[name]=data;
-    std::cerr<<"Uniform Block "<<name<<' '<<data.loc<<' '<<data.buffer<<'\n';
-//    GLint params;
-//    glGetActiveUniformBlockiv(	m_programID,i,GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS,&params);
-//    std::cerr<<"GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS "<<params<<'\n';
-//    glGetActiveUniformBlockiv(	m_programID,i,GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER,&params);
-//    std::cerr<<"GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER "<<params<<'\n';
-//    glGetActiveUniformBlockiv(	m_programID,i,GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER,&params);
-//    std::cerr<<"GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER "<<params<<'\n';
-//    glGetActiveUniformBlockiv(	m_programID,i,GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_CONTROL_SHADER,&params);
-//    std::cerr<<"GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_CONTROL_SHADER "<<params<<'\n';
-//    glGetActiveUniformBlockiv(	m_programID,i,GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_EVALUATION_SHADER,&params);
-//    std::cerr<<"GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_EVALUATION_SHADER "<<params<<'\n';
+    msg->addMessage(fmt::format("Uniform Block {0} {1} {2}",name,data.loc,data.buffer),Colours::WHITE,TimeFormat::NONE);
 
 
   }
@@ -510,8 +499,6 @@ void ShaderProgram::setUniformBuffer(const std::string_view &_uniformBlockName, 
   if(uniform!=m_registeredUniformBlocks.end())
   {
     auto block=uniform->second;
-    //std::cerr<<"Uniform Block "<<block.name<<' '<<block.loc<<' '<<block.buffer<<'\n';
-
     glBindBuffer( GL_UNIFORM_BUFFER, block.buffer );
     glBufferData( GL_UNIFORM_BUFFER, _size,_data,GL_DYNAMIC_DRAW );
     glBindBufferBase( GL_UNIFORM_BUFFER, block.loc, block.buffer );
@@ -680,7 +667,7 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {GL_UNSIGNED_INT_SAMPLER_CUBE,"usamplerCube"},
     {GL_UNSIGNED_INT_SAMPLER_2D_ARRAY,"usampler2DArray"}
   };
-  std::cout<<"Registered Uniforms for shader "<< m_programName<<'\n';
+  msg->addMessage(fmt::format("Registered Uniforms for shader {0}", m_programName),Colours::WHITE,TimeFormat::NONE);
   for(auto d : m_registeredUniforms)
   {
     std::string type;
@@ -693,7 +680,7 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {
       type="unknown type";
     }
-    std::cout<<"Uniform "<<d.first<<"-> "<<" location "<<d.second.loc<<" glsl type "<<type<<'\n';
+    msg->addMessage(fmt::format("Uniform {0} Location -> {1}, glsl type : {2} ",d.first,d.second.loc,type),Colours::WHITE,TimeFormat::NONE);
 
   }
 }

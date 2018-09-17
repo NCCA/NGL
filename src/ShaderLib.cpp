@@ -75,7 +75,6 @@ bool ShaderLib::loadShader(const std::string_view &_shaderName, const std::strin
   attachShader(shaderName+"Fragment",ShaderType::FRAGMENT,_exitOnError);
   loadShaderSource(shaderName+"Vertex",_vert);
   loadShaderSource(shaderName+"Fragment",_frag);
-  std::cerr<<"loaded sources\n";
   if ( !(loaded=compileShader(shaderName+"Vertex")) )
     return loaded;
   if ( !(loaded=compileShader(shaderName+"Fragment")) )
@@ -92,7 +91,7 @@ bool ShaderLib::loadShader(const std::string_view &_shaderName, const std::strin
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::reset() noexcept
 {
-  std::cerr<<"Closing down shader manager\n";
+  msg->addMessage("Closing down shader manager");
   for(auto programs : m_shaderPrograms)
     delete programs.second;
   for(auto shader : m_shaders)
@@ -116,7 +115,7 @@ GLint ShaderLib::getAttribLocation( const std::string_view &_shaderName,   const
   }
   else
   {
-    std::cerr <<"Warning trying to get attrib "<<_paramName<<" from "<<_shaderName<<" but not found\n";
+    msg->addWarning(fmt::format("Warning trying to get attrib {0} from {1} but not found",_paramName.data(),_shaderName.data()));
   }
 
   return attrib;
@@ -128,7 +127,6 @@ GLint ShaderLib::getAttribLocation( const std::string_view &_shaderName,   const
 //----------------------------------------------------------------------------------------------------------------------
 ShaderLib::ShaderLib()  noexcept
 {
-//std::cout<<"Shader Manager ctor\n";
  m_debugState=false;
  m_numShaders=0;
  m_nullProgram = new ShaderProgram("NULL");
@@ -152,7 +150,7 @@ GLuint ShaderLib::getShaderID(const std::string_view &_shaderName) noexcept
   }
   else
   {
-    msg->addMessage(fmt::format("Warning: No shader named {0} in {1} shader program",_shaderName.data(),m_currentShader),Colours::YELLOW);
+    msg->addWarning(fmt::format("Warning: No shader named {0} in {1} shader program",_shaderName.data(),m_currentShader));
   }
   return value;
 }
@@ -169,7 +167,7 @@ ngl::Shader* ShaderLib::getShader(const std::string_view &_shaderName) noexcept
   else
   {
     shaderPointer = nullptr;
-    msg->addMessage(fmt::format("Warning: No shader named {0} in {1} shader program",_shaderName.data(),m_currentShader),Colours::YELLOW);
+    msg->addWarning(fmt::format("Warning: No shader named {0} in {1} shader program",_shaderName.data(),m_currentShader));
   }
   return shaderPointer;
 }
@@ -178,7 +176,7 @@ void ShaderLib::attachShader(const std::string_view &_name, ShaderType _type , b
 {
   m_shaders[_name.data()]= new Shader(_name,_type,_errorOnExit);
   if(m_debugState==true)
-    msg->addMessage(fmt::format("just attached {0} to ngl::ShaderLib",_name.data()),Colours::GREEN);
+    msg->addMessage(fmt::format("just attached {0} to ngl::ShaderLib",_name.data()));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -194,7 +192,7 @@ bool ShaderLib::compileShader(const std::string_view &_name  ) noexcept
   }
   else
   {
-    msg->addMessage(fmt::format("Warning attempting to compile unknow shader {0} have you added it?",_name.data()),Colours::YELLOW);
+    msg->addWarning(fmt::format("Warning attempting to compile unknow shader {0} have you added it?",_name.data()));
     return false;
   }
 
@@ -203,7 +201,7 @@ bool ShaderLib::compileShader(const std::string_view &_name  ) noexcept
 void ShaderLib::createShaderProgram(const std::string_view &_name , bool _exitOnError ) noexcept
 {
   if(m_debugState)
-    std::cerr<<"creating empty ShaderProgram "<<_name.data()<<'\n';
+    msg->addMessage(fmt::format("creating empty ShaderProgram {0}",_name.data()));
  m_shaderPrograms[_name.data()]= new ShaderProgram(_name,_exitOnError);
 }
 //----------------------------------------------------------------------------------------------------------------------
@@ -224,10 +222,10 @@ void ShaderLib::attachShaderToProgram(const std::string_view &_program, const st
 
     if (m_debugState == true)
     {
-      std::cerr<<_shader.data()<<" attached to program "<<_program.data()<<'\n';
+      msg->addMessage(fmt::format("{0} attached to program",_shader.data()));
     }
   }
-  else {std::cerr<<"Warning cant attach "<<_shader.data() <<" to "<<_program.data()<<'\n';}
+  else {msg->addWarning(fmt::format("Warning cant attach {0} to {1} ",_shader.data() ,_program.data()));}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -239,7 +237,7 @@ void ShaderLib::loadShaderSource(std::string_view _shaderName,	std::string_view 
   {
     shader->second->load(_sourceFile);
   }
-  else {std::cerr<<"Warning shader not know in loadShaderSource "<<_shaderName.data();}
+  else {msg->addWarning(fmt::format("Warning shader not know in loadShaderSource {0}",_shaderName.data()));}
 
 }
 
@@ -278,7 +276,7 @@ bool ShaderLib::loadFromJson(const std::string_view &_fname)  noexcept
   file.open(_fname.data(), std::ios::in);
   if (file.fail())
   {
-      std::cerr<<"error opening json file\n";
+      msg->addError(fmt::format("error opening json file {0}",_fname.data()));
       exit(EXIT_FAILURE);
   }
   std::unique_ptr<std::string> source( new std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>()) );
@@ -294,17 +292,18 @@ bool ShaderLib::loadFromJson(const std::string_view &_fname)  noexcept
 
   if (doc.ParseInsitu<0>(buffer.get()).HasParseError())
   {
-    std::cerr<<"Parse Error for file "<<_fname<<'\n';
+    msg->addError(fmt::format("Parse Error for file {0}",_fname.data()));
     return false;
 
   }
 
   if(!doc.HasMember("ShaderProgram"))
   {
-    std::cerr<<"This does not seem to be a valid shader json file\n";
+    msg->addError(fmt::format("This does not seem to be a valid shader json file"));
     return false;
   }
-  std::cout<<"***************Loading Shaders from JSON*****************\n";
+  if(m_debugState ==true)
+     msg->addMessage(fmt::format("***************Loading Shaders from JSON*****************"));
 
   bool debug=false;
   // Now we iterate through the json and gather our data.
@@ -317,7 +316,7 @@ bool ShaderLib::loadFromJson(const std::string_view &_fname)  noexcept
     const rj::Value::Ch* progName=itr->value["name"].GetString();
     if(progName ==nullptr || strlen(progName)==0 )
     {
-      std::cerr<<"ShaderProgram must have a name (or could be 0 length) \n";
+       msg->addError(fmt::format("ShaderProgram must have a name (or could be 0 length) "));
       return false;
     }
     createShaderProgram(progName);
@@ -338,17 +337,17 @@ bool ShaderLib::loadFromJson(const std::string_view &_fname)  noexcept
         source.open(paths[p].GetString(), std::ios::in);
         if(debug)
         {
-          std::cout<<"attempting to load "<<paths[p].GetString()<<'\n';
+           msg->addMessage(fmt::format("attempting to load {0}",paths[p].GetString()));
         }
         if (source.fail())
         {
-            std::cerr<<"error opening shader file\n";
+             msg->addError(fmt::format("error opening shader file"));
             exit(EXIT_FAILURE);
         }
         std::unique_ptr<std::string> f( new std::string((std::istreambuf_iterator<char>(source)), std::istreambuf_iterator<char>()));
         if(debug)
         {
-          std::cout<<"loaded data string \n"<< const_cast<char *>(f->c_str())<<'\n';
+         msg->addMessage(fmt::format("loaded data string {0}",const_cast<char *>(f->c_str())));
         }
         source.close();
         shaderSource+=*f;
@@ -357,19 +356,18 @@ bool ShaderLib::loadFromJson(const std::string_view &_fname)  noexcept
       loadShaderSourceFromString(name,shaderSource);
       if(debug)
       {
-        std::cout<<"********* Final Shader String ***************\n";
-        std::cout<<shaderSource<<'\n';
+         msg->addMessage("********* Final Shader String ***************");
+         msg->addMessage(shaderSource);
       }
       compileShader(name);
       attachShaderToProgram(progName,name);
     } // end parse shader loop
     if(debug)
     {
-      std::cout<<"Linking and registering Uniforms to ShaderLib\n";
+      msg->addMessage("Linking and registering Uniforms to ShaderLib");
     }
     linkProgramObject(progName);
-    //autoRegisterUniforms(progName);
-    std::cout<<"**********************DONE********************\n";
+    msg->addMessage("**********************DONE********************");
   }
   return true;
 }
@@ -383,9 +381,8 @@ void ShaderLib::loadShaderSourceFromString(const std::string_view &_shaderName, 
   if(shader!=m_shaders.end() )
   {
     shader->second->loadFromString(_string.data());
-    //std::cout<<*_string<<'\n';
   }
-  else {std::cerr<<"Warning shader not know in loadShaderSource "<<_shaderName.data();}
+  else {msg->addError( fmt::format("shader not know in loadShaderSource {0}",_shaderName.data()));}
 
 }
 
@@ -398,10 +395,11 @@ bool ShaderLib::linkProgramObject(const std::string_view &_name	) noexcept
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
-    std::cerr<<"Linking "<<_name.data()<<'\n';
+    if(m_debugState==true)
+      msg->addMessage(fmt::format("Linking {0}",_name.data()));
     linked=program->second->link();
   }
-  else {std::cerr<<"Warning Program not known in link "<<_name.data();}
+  else { msg->addError(fmt::format(fmt::format("Program not known in link {0} ",_name.data())));}
   return linked;
 
 }
@@ -413,13 +411,12 @@ void ShaderLib::use(const std::string_view &_name  )  noexcept
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
-    //std::cerr<<"Shader manager Use\n";
     m_currentShader=_name.data();
     program->second->use();
   }
   else
   {
-    std::cerr<<"Warning Program not know in use "<<_name.data()<<'\n';
+    msg->addWarning(fmt::format("Warning Program not know in use {0}",_name.data()));
     m_currentShader="NULL";
     glUseProgram(0);
   }
@@ -438,7 +435,7 @@ GLuint ShaderLib::getProgramID(const std::string_view &_name ) noexcept
   }
   else
   {
-    std::cerr<<"Warning Program not know in use "<<_name.data();
+    msg->addWarning(fmt::format("Warning Program not know in use {0}",_name.data()));
     return 0;
   }
 }
@@ -455,7 +452,7 @@ void ShaderLib::autoRegisterUniforms(const std::string_view &_shaderName   ) noe
   }
   else
   {
-    std::cerr<<"Warning Program not know in registerUniform "<<_shaderName.data()<<'\n';
+    msg->addWarning(fmt::format("Warning Program not know in registerUniform {0} ",_shaderName.data()));
   }
 }
 
@@ -468,7 +465,7 @@ void ShaderLib::bindAttribute(const std::string_view &_programName, GLuint _inde
   {
     program->second->bindAttribute(_index,_attribName);
   }
-  else {std::cerr<<"Warning Program not know in bindAttribute "<<_programName.data();}
+  else {msg->addWarning(fmt::format("Warning Program not know in bindAttribute {0}",_programName.data()));}
 }
 
 
@@ -481,7 +478,7 @@ void ShaderLib::bindFragDataLocation(const std::string_view &_programName, GLuin
   {
     program->second->bindFragDataLocation(_index,_attribName);
   }
-  else {std::cerr<<"Warning Program not know in bindAttribute "<<_programName.data();}
+  else {msg->addWarning(fmt::format("Warning Program not know in bindAttribute {0}",_programName.data()));}
 }
 
 
@@ -506,8 +503,8 @@ ShaderProgram * ShaderLib::operator[](const std::string_view &_name  ) noexcept
   }
   else
   {
-    std::cerr<<"Warning Program not know in [] "<<_name.data();
-    std::cerr<<"returning a null program and hoping for the best\n";
+    msg->addWarning(fmt::format("Warning Program not know in [] {0}",_name.data()));
+    msg->addWarning("returning a null program and hoping for the best");
     return m_nullProgram;
   }
 }
@@ -526,8 +523,8 @@ ShaderProgram * ShaderLib::operator[]( const char *_name ) noexcept
   }
   else
   {
-    std::cerr<<"Warning Program not know in [] "<<_name;
-    std::cerr<<"returning a null program and hoping for the best\n";
+    msg->addWarning(fmt::format("Warning Program not know in [] {0}",_name));
+    msg->addWarning("returning a null program and hoping for the best");
     return m_nullProgram;
   }
 }
@@ -555,7 +552,7 @@ GLuint ShaderLib::getUniformBlockIndex( const std::string_view &_uniformBlockNam
   }
   else
   {
-    std::cerr <<"Can't find id for uniform block " << _uniformBlockName.data() <<'\n';
+    msg->addWarning(fmt::format("Can't find id for uniform block {0}", _uniformBlockName.data()));
   }
 
   return id;
@@ -696,13 +693,13 @@ void ShaderLib::printProperties() const noexcept
   // make sure we have a valid  program
   if(program!=m_shaderPrograms.end() )
   {
-    std::cerr<<"_______________________________________________________________________________________________________________________\n";
-    std::cerr<<"Printing Properties for ShaderProgram "<<m_currentShader<<'\n';
-    std::cerr<<"_______________________________________________________________________________________________________________________\n";
+    msg->addMessage("_______________________________________________________________________________________________________________________",Colours::WHITE,TimeFormat::NONE);
+    msg->addMessage(fmt::format("Printing Properties for ShaderProgram {0} ",m_currentShader),Colours::WHITE,TimeFormat::NONE);
+    msg->addMessage("_______________________________________________________________________________________________________________________",Colours::WHITE,TimeFormat::NONE);
     program->second->printProperties();
-    std::cerr<<"_______________________________________________________________________________________________________________________\n";
+    msg->addMessage("_______________________________________________________________________________________________________________________",Colours::WHITE,TimeFormat::NONE);
   }
-  else {std::cerr<<"Warning no currently active shader to print properties for "<<m_currentShader<<'\n';}
+  else {msg->addWarning(fmt::format("Warning no currently active shader to print properties for {0} ",m_currentShader));}
 
 
 

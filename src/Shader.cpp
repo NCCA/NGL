@@ -40,8 +40,7 @@ void printInfoLog( const GLuint &_obj)
     infoLog.reset (new char[infologLength]);
     glGetShaderInfoLog(_obj, infologLength, &charsWritten, infoLog.get());
 
-    std::cerr<<infoLog.get()<<'\n';
-
+    msg->addError(infoLog.get(),TimeFormat::NONE);
 	}
 
 }
@@ -62,7 +61,7 @@ Shader::Shader(const std::string_view &_name,  ShaderType _type , bool _exitOnEr
       case ShaderType::TESSEVAL : { m_shaderHandle =glCreateShader(GL_TESS_EVALUATION_SHADER); break; }
       case ShaderType::COMPUTE :
       #if defined(__APPLE__)
-        std::cerr<<"Apple doesn't support Computer Shaders \n";
+       msg->addError("Apple doesn't support Computer Shaders ");
       #else
         {
           m_shaderHandle =glCreateShader(GL_COMPUTE_SHADER);
@@ -77,7 +76,7 @@ Shader::Shader(const std::string_view &_name,  ShaderType _type , bool _exitOnEr
 }
 Shader::~Shader()
 {
-  std::cerr<<"removing shader "<<m_name<<'\n';
+  msg->addMessage(fmt::format("removing shader {0}",m_name),Colours::WHITE,TimeFormat::NONE);
   glDeleteShader(m_shaderHandle);
 }
 
@@ -85,7 +84,7 @@ bool Shader::compile() noexcept
 {
   if (m_source.empty() )
   {
-    std::cerr<<"Warning no shader source loaded\n";
+    msg->addError("Warning no shader source loaded");
     return false;
   }
 
@@ -96,10 +95,10 @@ bool Shader::compile() noexcept
   m_compiled=static_cast<bool>(compileStatus);
   if(m_debugState==true)
   {
-    std::cerr <<"Compiling Shader "<<m_name<<'\n';
+    msg->addMessage(fmt::format("Compiling Shader {0}",m_name));
     if( compileStatus == GL_FALSE)
     {
-      std::cerr<<"Shader compile failed or had warnings \n";
+      msg->addError("Shader compile failed or had warnings ");
       printInfoLog(m_shaderHandle);
       if(m_errorExit)
         exit(EXIT_FAILURE);
@@ -112,15 +111,15 @@ bool Shader::compile() noexcept
 void Shader::load(const std::string_view &_name ) noexcept
 {
   // see if we already have some source attached
-  if(m_source.empty())
+  if(!m_source.empty())
   {
-    std::cerr<<"deleting existing source code\n";
+    msg->addWarning("deleting existing source code\n");
     m_source.clear();
   }
   std::ifstream shaderSource(_name.data());
   if (!shaderSource.is_open())
   {
-   std::cerr<<"File not found "<<_name.data()<<'\n';
+   msg->addError(fmt::format("File not found {0}",_name.data()));
    exit(EXIT_FAILURE);
   }
   // now read in the data
@@ -143,7 +142,7 @@ void Shader::loadFromString(const std::string_view &_string ) noexcept
   // see if we already have some source attached
   if(m_source.size()!=0)
   {
-    std::cerr<<"deleting existing source code\n";
+    msg->addWarning("deleting existing source code\n");
     m_source.clear();
   }
 
@@ -151,7 +150,7 @@ void Shader::loadFromString(const std::string_view &_string ) noexcept
   m_source=_string;
   const char* data=m_source.c_str();
 
-  glShaderSource(m_shaderHandle , 1, &data,NULL);
+  glShaderSource(m_shaderHandle , 1, &data,nullptr);
   m_compiled=false;
  if (m_debugState == true)
   {

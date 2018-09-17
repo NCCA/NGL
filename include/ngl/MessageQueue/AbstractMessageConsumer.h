@@ -10,7 +10,7 @@ struct message
 {
   std::chrono::system_clock::time_point time;
   std::string message;
-  Colours colour=Colours::RED;
+  Colours colour=Colours::NORMAL;
   TimeFormat timeFormat=TimeFormat::TIME;
 };
 
@@ -28,9 +28,9 @@ class AbstractMessageConsumer
     static std::string getColourString(const Colours &_colour) ;
     static std::string getTimeString(const  TimeFormat &_t);
   protected :
+    std::string getTimeString(const message &_message);
     std::string m_timeString="%I:%M%p";
     Colours m_activeColour=Colours::NORMAL;
-    std::string getTimeString(const message &_message);
 
 };
 

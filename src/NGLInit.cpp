@@ -22,6 +22,8 @@
 #include "MultiBufferVAO.h"
 #include "SimpleIndexVAO.h"
 #include <string>
+#include <thread>
+#include <chrono>
 
 #if defined(LINUX) || defined(WIN32)
   #include <cstdlib>
@@ -73,6 +75,7 @@ NGLInit::NGLInit()
   msg=std::make_unique<NGLMessage>(NGLMessage(NGLMessage::Mode::CLIENTSERVER,CommunicationMode::STDERR));
 
   msg->startMessageConsumer();
+  std::this_thread::sleep_for(std::chrono::milliseconds(20));
   msg->addMessage("NGL configured with ",Colours::NORMAL,TimeFormat::TIME);
   msg->addMessage(fmt::format("OpenGL {0}",glGetString(GL_VERSION)));
   msg->addMessage(fmt::format("GLSL version {0}",glGetString(GL_SHADING_LANGUAGE_VERSION)));

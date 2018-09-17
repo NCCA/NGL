@@ -230,7 +230,7 @@ void AbstractMesh::createVAO() noexcept
 	// data is mixed of > quad so exit error
 	if(m_dataPackType == 0)
 	{
-    msg->addMessage("Can only create VBO from all Triangle or ALL Quad data at present",Colours::RED);
+    msg->addError("Can only create VBO from all Triangle or ALL Quad data at present");
 		exit(EXIT_FAILURE);
 	}
 
@@ -433,7 +433,7 @@ void AbstractMesh::saveNCCABinaryMesh(const std::string_view &_fname  ) noexcept
   file.open(_fname.data(),std::ios::out | std::ios::binary);
   if (!file.is_open())
   {
-    msg->addMessage(fmt::format("problems Opening File {0} for reading",_fname.data()),Colours::RED);
+    msg->addError(fmt::format("problems Opening File {0} for reading",_fname.data()));
     return;
   }
   // lets write out our own Magic Number file ID
