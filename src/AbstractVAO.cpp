@@ -37,7 +37,7 @@ namespace ngl
   {
     if(m_bound !=true)
     {
-      std::cerr<<"Warning trying to set attribute on Unbound VOA\n";
+      msg->addWarning("Warning trying to set attribute on Unbound VOA");
     }
     // set and enable the generic vertex attribute
     glVertexAttribPointer(_id,_size,_type,_normalise,_stride,static_cast<Real *>(NULL)  + _dataOffset);//   ((Real *)NULL + (_dataOffset)));

@@ -36,7 +36,7 @@ bool NCCABinMesh::load(const std::string_view &_fname, CalcBB _calcBB) noexcept
   // see if it worked
   if (!file.is_open())
   {
-    std::cerr<<"problems Opening File "<<_fname<<'\n';
+    msg->addError(fmt::format("problems Opening File {0} ",_fname.data()));
     return false;
   }
   // lets read in the header and see if the file is valid
@@ -49,7 +49,7 @@ bool NCCABinMesh::load(const std::string_view &_fname, CalcBB _calcBB) noexcept
   {
     // best close the file and exit
     file.close();
-    std::cout<<"this is not an ngl::bin file "<<'\n';
+    msg->addError("this is not an ngl::bin file ");
     return false;
   }
   Real m_nVerts,m_nNorm,m_nTex,m_nFaces;
@@ -108,24 +108,18 @@ bool NCCABinMesh::load(const std::string_view &_fname, CalcBB _calcBB) noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-NCCABinMesh::NCCABinMesh(const std::string_view &_fname )  noexcept:AbstractMesh()
+NCCABinMesh::NCCABinMesh(const std::string_view &_fname )  noexcept : AbstractMesh()
 {
-  m_vbo=false;
-  m_ext=0;
-  m_texture = false;
   load(_fname);
  }
 
 //----------------------------------------------------------------------------------------------------------------------
-NCCABinMesh::NCCABinMesh(const std::string_view &_fname, const std::string_view &_texName   ) noexcept:AbstractMesh()
+NCCABinMesh::NCCABinMesh(const std::string_view &_fname, const std::string_view &_texName   ) noexcept : AbstractMesh()
 {
-  m_vbo=false;
-  m_ext=0;
   load(_fname);
   // load texture
   loadTexture(_texName);
   m_texture = true;
-
 }
 
 //----------------------------------------------------------------------------------------------------------------------

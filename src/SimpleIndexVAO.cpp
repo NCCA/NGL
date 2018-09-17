@@ -11,11 +11,11 @@ namespace ngl
   {
     if(m_allocated == false)
     {
-      std::cerr<<"Warning trying to draw an unallocated VOA\n";
+      msg->addWarning("Warning trying to draw an unallocated VOA");
     }
     if(m_bound == false)
     {
-      std::cerr<<"Warning trying to draw an unbound VOA\n";
+      msg->addWarning("Warning trying to draw an unbound VOA");
     }
     glDrawElements(m_mode,static_cast<GLsizei>(m_indicesCount),m_indexType,static_cast<GLvoid *>(nullptr));
   }
@@ -42,7 +42,7 @@ namespace ngl
     const VertexData &data = static_cast<const VertexData &>(_data);
     if(m_bound == false)
     {
-    std::cerr<<"trying to set VOA data when unbound\n";
+      msg->addWarning("trying to set VOA data when unbound");
     }
     if( m_allocated ==true)
     {
@@ -66,7 +66,7 @@ namespace ngl
       case GL_UNSIGNED_INT   : size=sizeof(GLuint);   break;
       case GL_UNSIGNED_SHORT : size=sizeof(GLushort); break;
       case GL_UNSIGNED_BYTE  : size=sizeof(GLubyte);  break;
-      default : std::cerr<<"wrong data type send for index value\n"; break;
+      default : msg->addWarning("wrong data type send for index value"); break;
     }
     // now for the indices
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_idxBuffer);

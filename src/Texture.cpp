@@ -72,7 +72,7 @@ GLuint Texture::setTextureGL() const noexcept
 
   glTexImage2D(GL_TEXTURE_2D,0,m_format,m_width,m_height,0,m_format,GL_UNSIGNED_BYTE,m_image.getPixels());
 
-  std::cout<<"texture GL set "<<textureName<<" Active Texture "<<m_multiTextureID<<'\n';
+  msg->addMessage(fmt::format("texture GL set texure ID is {0} Active Texture unit is {1}",textureName,m_multiTextureID));
   glGenerateMipmap(GL_TEXTURE_2D);
   return textureName;
 }

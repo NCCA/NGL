@@ -45,7 +45,7 @@ bool NCCAPointBake::loadPointBake(const std::string_view &_fileName) noexcept
   std::ifstream xmlFile (_fileName.data() );
 	if(!xmlFile.is_open())
 	{
-		std::cerr<<"Could not open file\n";
+    msg->addError(fmt::format("Could not open PointBake file {0} ",_fileName.data()));
 		return false;
 	}
 	std::vector<char> buffer((std::istreambuf_iterator<char>(xmlFile)), std::istreambuf_iterator<char>());
@@ -56,32 +56,32 @@ bool NCCAPointBake::loadPointBake(const std::string_view &_fileName) noexcept
 	rootNode=doc.first_node();
 	if(rootNode->name() !=std::string("NCCAPointBake"))
 	{
-		std::cerr<<"this is not a pointbake file \n";
+    msg->addError(fmt::format("{0} is not a pointbake file ",_fileName.data()));
 		return false;
 	}
 
   rapidxml::xml_node<> * child=rootNode->first_node("MeshName");
   m_meshName=child->value();
-  std::cerr<<"found mesh "<<m_meshName<<'\n';
+  msg->addMessage(fmt::format("found mesh{0} ",m_meshName));
 
   try
   {
     child=rootNode->first_node("NumVerts");
     m_nVerts=std::stoul(child->value());
-    std::cerr<<"NumVerts "<<m_nVerts<<'\n';
+    msg->addMessage(fmt::format("NumVerts {0}",m_nVerts));
     child=rootNode->first_node("StartFrame");
     m_startFrame=std::stoul(child->value());
-    std::cerr<<"StartFrame"<<m_startFrame<<'\n';
+    msg->addMessage(fmt::format("StartFrame {0}",m_startFrame));;
     child=rootNode->first_node("EndFrame");
     m_endFrame=std::stoul(child->value());
-    std::cerr<<"EndFrame"<<m_endFrame<<'\n';
+    msg->addMessage(fmt::format("EndFrame {0}",m_endFrame));
     child=rootNode->first_node("NumFrames");
     m_numFrames=std::stoul(child->value());
-    std::cerr<<"EndFrame  "<<m_numFrames<<'\n';
+    msg->addMessage(fmt::format("NumFrames  {0}",m_numFrames));
   }
   catch (std::invalid_argument)
   {
-    std::cerr<<"error reading PointBake File\n";
+    msg->addError("error reading PointBake File");
     return false;
   }
   //first allocate base pointer [vertex]
@@ -103,10 +103,9 @@ bool NCCAPointBake::loadPointBake(const std::string_view &_fileName) noexcept
   // now traverse each frame and grab the data
   for(child=rootNode->first_node("Frame"); child; child=child->next_sibling())
   {
-    std::cerr<<"doing frame "<<child->first_attribute("number")->value()<<'\n';
+    msg->addMessage(fmt::format("doing frame {0}",child->first_attribute("number")->value()));
     CurrentFrame=std::stoul(child->first_attribute("number")->value());
     CurrentFrame-=m_startFrame;
-    std::flush(std::cerr);
 
     for(rapidxml::xml_node<> * vertex=child->first_node("Vertex"); vertex; vertex=vertex->next_sibling())
     {
@@ -123,8 +122,8 @@ bool NCCAPointBake::loadPointBake(const std::string_view &_fileName) noexcept
       }
       catch (std::invalid_argument)
       {
-        std::cerr<<"error converting buffer\n";
-        std::cerr<<lineBuffer<<" size "<<tokens.size()<<'\n';
+        msg->addError("error converting buffer");
+        msg->addError(fmt::format("{0} size {1} ",lineBuffer,tokens.size()));
         return false;
       }
 
@@ -161,7 +160,7 @@ bool NCCAPointBake::loadBinaryPointBake(const std::string_view &_fileName) noexc
   // see if it worked
   if (!file.is_open())
   {
-    std::cerr<<"problems Opening File "<<_fileName<<'\n';
+    msg->addError(fmt::format("problems Opening File {0}",_fileName.data()));
     return false;
   }
   // lets read in the header and see if the file is valid
@@ -174,7 +173,7 @@ bool NCCAPointBake::loadBinaryPointBake(const std::string_view &_fileName) noexc
   {
     // best close the file and exit
     file.close();
-    std::cout<<"this is not an ngl::binpb file \n";
+    msg->addError("this is not an ngl::binpb file ");
     return false;
   }
 
@@ -186,12 +185,7 @@ bool NCCAPointBake::loadBinaryPointBake(const std::string_view &_fileName) noexc
   file.read(reinterpret_cast <char *>(&m_nVerts),sizeof(unsigned int));
   file.read(reinterpret_cast <char *>(&m_startFrame),sizeof(unsigned int));
   file.read(reinterpret_cast <char *>(&m_binFile),sizeof(bool));
-  std::cout <<"Loaded header\n";
-  std::cout<<m_numFrames<<'\n';
-  std::cout<<m_currFrame<<'\n';
-  std::cout<<m_nVerts<<'\n';
-  std::cout<<m_startFrame<<'\n';
-  std::cout<<m_binFile<<'\n';
+  msg->addMessage("Loaded header\n");
 
   m_data.resize(m_numFrames);
   for(unsigned int frame =0; frame<m_numFrames; ++frame)
@@ -216,7 +210,7 @@ bool NCCAPointBake::saveBinaryPointBake(const std::string_view &_fileName) noexc
     file.open(_fileName.data(),std::ios::out | std::ios::binary);
     if (!file.is_open())
     {
-      std::cerr<<"problems Opening File "<<_fileName<<'\n';
+      msg->addError(fmt::format("problems Opening File {0} ",_fileName.data()));
       return false;
     }
 
@@ -229,11 +223,6 @@ bool NCCAPointBake::saveBinaryPointBake(const std::string_view &_fileName) noexc
     file.write(reinterpret_cast <char *>(&m_nVerts),sizeof(unsigned int));
     file.write(reinterpret_cast <char *>(&m_startFrame),sizeof(unsigned int));
     file.write(reinterpret_cast <char *>(&m_binFile),sizeof(bool));
-    std::cout<<m_numFrames<<'\n';
-    std::cout<<m_currFrame<<'\n';
-    std::cout<<m_nVerts<<'\n';
-    std::cout<<m_startFrame<<'\n';
-    std::cout<<m_binFile<<'\n';
 
     // now write out data
     for(unsigned int frame =0; frame<m_numFrames; ++frame)
@@ -287,11 +276,11 @@ void NCCAPointBake::setMeshToFrame(  const unsigned int _frame) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 bool NCCAPointBake::attachMesh(AbstractMesh *_mesh) noexcept
 {
-  std::cout<<"doing attach mesh\n";
+  msg->addMessage("doing attach mesh");
   if(_mesh->m_verts.size() != m_nVerts)
   {
-    std::cerr <<" Mesh can't be attached to this data as vert count does not match\n";
-    std::cerr<<"mesh verts "<<_mesh->m_verts.size()<<" file verts "<<m_nVerts<<'\n';
+    msg->addError(" Mesh can't be attached to this data as vert count does not match");
+    msg->addError(fmt::format("mesh verts {0} file verts {1}",_mesh->m_verts.size(),m_nVerts));
     return false;
   }
 

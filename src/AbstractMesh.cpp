@@ -217,7 +217,7 @@ void AbstractMesh::createVAO() noexcept
 	// if we have already created a VBO just return.
 	if(m_vao == true)
 	{
-		std::cout<<"VAO exist so returning\n";
+    msg->addWarning("VAO exist so returning");
 		return;
 	}
 // else allocate space as build our VAO
@@ -225,7 +225,6 @@ void AbstractMesh::createVAO() noexcept
 	if(isTriangular())
 	{
 		m_dataPackType=GL_TRIANGLES;
-    std::cout <<"Doing Tri Data\n";
 	}
 	// data is mixed of > quad so exit error
 	if(m_dataPackType == 0)
@@ -467,7 +466,6 @@ void AbstractMesh::saveNCCABinaryMesh(const std::string_view &_fname  ) noexcept
   file.write(reinterpret_cast <char *>(&  m_bufferPackSize),sizeof(unsigned int));
   /// now we can dump the data from the vbo
   unsigned int size=m_indexSize*m_bufferPackSize*sizeof(GLfloat);
-  std::cout<<"size is"<<size<<'\n';
   file.write(reinterpret_cast <char *>(&size),sizeof(unsigned int));
 
 
@@ -488,7 +486,7 @@ void AbstractMesh::calcBoundingSphere() noexcept
 auto size=m_verts.size();
 if( size <=0 )
 {
-  std::cerr<<"no vertices loaded \n";
+  msg->addError("no vertices loaded ");
 	m_sphereCenter=0;
 	m_sphereRadius=0;
 	return;
@@ -572,8 +570,7 @@ for (auto v : m_verts)
     dist2=dx*dx+dy*dy+dz*dz;
     if(dist2 > newRad2)
     {
-      std::cerr<<"something wrong here\n";
-      std::cerr<<"error margin "<<dist2-newRad2<<'\n';
+      msg->addWarning(fmt::format("something wrong here error margin {0}",dist2-newRad2));
     }
     m_sphereCenter=newCenter;
     rad=newRad;
@@ -584,8 +581,6 @@ for (auto v : m_verts)
 }
 
 m_sphereRadius=rad;
-std::cout<<m_sphereCenter<<"  rad "<<m_sphereRadius<<'\n';
-
 }
 /// end of citation
 

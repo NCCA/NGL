@@ -31,14 +31,14 @@ namespace ngl
 
   void VAOFactory::listCreators()
   {
-    std::cout<<"******************************\n";
-    std::cout<<"VAOFactory Creators List \n";
-    std::cout<<"******************************\n";
+    msg->addMessage("******************************\n",Colours::WHITE,TimeFormat::NONE);
+    msg->addMessage("VAOFactory Creators List ",Colours::WHITE,TimeFormat::NONE);
+    msg->addMessage("******************************",Colours::WHITE,TimeFormat::NONE);
     for(auto c : m_vaoCreators)
     {
-      std::cout<<"Creator "<<c.first<<" registered \n";
+      msg->addMessage(fmt::format("Creator {0} created",c.first),Colours::WHITE,TimeFormat::NONE);
     }
-    std::cout<<"******************************\n";
+    msg->addMessage("******************************",Colours::WHITE,TimeFormat::NONE);
   }
 
 }

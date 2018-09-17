@@ -667,7 +667,9 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {GL_UNSIGNED_INT_SAMPLER_CUBE,"usamplerCube"},
     {GL_UNSIGNED_INT_SAMPLER_2D_ARRAY,"usampler2DArray"}
   };
+  msg->drawLine();
   msg->addMessage(fmt::format("Registered Uniforms for shader {0}", m_programName),Colours::WHITE,TimeFormat::NONE);
+  msg->drawLine();
   for(auto d : m_registeredUniforms)
   {
     std::string type;
@@ -680,9 +682,9 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {
       type="unknown type";
     }
-    msg->addMessage(fmt::format("Uniform {0} Location -> {1}, glsl type : {2} ",d.first,d.second.loc,type),Colours::WHITE,TimeFormat::NONE);
-
+    msg->addMessage(fmt::format("Uniform {0} Location -> {1} glsl type : {2} ",d.first,d.second.loc,type),Colours::WHITE,TimeFormat::NONE);
   }
+  msg->drawLine();
 }
 
 

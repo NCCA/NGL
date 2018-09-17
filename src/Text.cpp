@@ -239,10 +239,10 @@ Text::Text( const QFont &_f)  noexcept
     // thing we do
     m_characters[c]=std::move(fc);
   }
-  std::cout<<"created "<<widthVAO.size()<<" unique billboards\n";
+  msg->addMessage(fmt::format("Text created {0} unique billboards",widthVAO.size()));
   // set a default colour (black) incase user forgets
-  this->setColour(0,0,0);
-  this->setTransform(1.0,1.0);
+  setColour(0.0f,0.0f,0.0f);
+  setTransform(1.0f,1.0f);
 }
 
 

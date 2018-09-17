@@ -117,7 +117,7 @@ NGL_DLLEXPORT  void NGLCheckGLError(const std::string_view &_file, const int _li
     }
     if(errNum !=GL_NO_ERROR)
     {
-      std::cerr<<"GL error "<< str<<" line : "<<_line<<" file : "<<_file.data()<<'\n';
+      msg->addError(fmt::format("GL error {0} line {1} : file {2} ",str,_line,_file.data()));
     }
     errNum = glGetError();
 

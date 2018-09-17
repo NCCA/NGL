@@ -303,8 +303,11 @@ bool ShaderLib::loadFromJson(const std::string_view &_fname)  noexcept
     return false;
   }
   if(m_debugState ==true)
-     msg->addMessage(fmt::format("***************Loading Shaders from JSON*****************"));
-
+  {
+    msg->drawLine();
+    msg->addMessage(fmt::format("***************Loading Shaders from JSON*****************"));
+    msg->drawLine();
+  }
   bool debug=false;
   // Now we iterate through the json and gather our data.
   for (rj::Value::ConstMemberIterator itr = doc.MemberBegin(); itr != doc.MemberEnd(); ++itr)
@@ -367,7 +370,10 @@ bool ShaderLib::loadFromJson(const std::string_view &_fname)  noexcept
       msg->addMessage("Linking and registering Uniforms to ShaderLib");
     }
     linkProgramObject(progName);
+    msg->drawLine();
     msg->addMessage("**********************DONE********************");
+    msg->drawLine();
+
   }
   return true;
 }

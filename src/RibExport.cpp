@@ -41,15 +41,15 @@ RibExport::~RibExport()
 {
   if (m_attribCount != 0)
   {
-    std::cerr << "Warning Mismatched AttributeBegin / AttributeEnd block\n";
+    msg->addWarning("Mismatched AttributeBegin / AttributeEnd block");
   }
   if (m_transformCount != 0)
   {
-    std::cerr << "Warning Mismatched TransformBegin / TransformEnd block\n";
+    msg->addWarning("Mismatched TransformBegin / TransformEnd block");
   }
   if (m_worldCount != 0)
   {
-    std::cerr << "Warning Mismatched WorldBegin / WorldEnd block\n";
+    msg->addWarning("Mismatched WorldBegin / WorldEnd block");
   }
   if (m_ribFile.is_open())
   {
@@ -85,7 +85,8 @@ void RibExport::open()
   m_ribFile.open(fName.c_str(), std::ios::out);
   if (!m_ribFile.is_open())
   {
-    std::cerr << "problems Opening File\n";
+    msg->addError(fmt::format("Problems Opening File {0}",fName));
+    std::exit(EXIT_FAILURE);
   }
   m_ribFile << "# Rib file generated using RibExporter\n";
   m_isOpen = true;

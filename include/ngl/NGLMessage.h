@@ -42,6 +42,7 @@ class NGLMessage
     static void addMessage(int x, int y,const std::string &_message,Colours _c=Colours::NORMAL);
     static void addError(const std::string &_message, TimeFormat _timeFormat=TimeFormat::TIME);
     static void addWarning(const std::string &_message, TimeFormat _timeFormat=TimeFormat::TIME);
+    static void drawLine(const Colours &_c=Colours::CYAN);
     static void sendClearTerminal();
     static size_t numMessages()  {return s_messageQueue.size();}
     static void startMessageConsumer();

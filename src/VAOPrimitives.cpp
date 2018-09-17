@@ -55,7 +55,7 @@ void VAOPrimitives::draw(const std::string_view &_name ) noexcept
     VAO->second->draw();
     VAO->second->unbind();
   }
-  else {std::cerr<<"Warning VAO not know in Primitive list "<<_name.data()<<'\n';}
+  else {msg->addWarning(fmt::format("VAO not know in Primitive list {0}",_name.data()));}
 
 }
 
@@ -72,7 +72,7 @@ void VAOPrimitives::draw(const std::string_view &_name, GLenum _mode ) noexcept
     vao->second->draw();
     vao->second->unbind();
   }
-  else {std::cerr<<"Warning VAO not know in Primitive list "<<_name.data()<<'\n';}
+  else {msg->addWarning(fmt::format("VAO not know in Primitive list {0}",_name.data()));}
 
 }
 
@@ -874,7 +874,7 @@ void VAOPrimitives::createTrianglePlane(const std::string_view &_name, const Rea
 void VAOPrimitives::clear() noexcept
 {
 
-  std::cerr<<"clearing VAOs\n";
+  msg->addMessage("clearing VAOs");
 
   // loop through the map and delete the VBO's allocated
   // note glDeleteBuffers needs a const GLUint * so we need to de-reference the map object

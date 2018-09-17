@@ -369,7 +369,7 @@ Mat3 Mat3::inverse() noexcept
   Real det = determinant();
   if(det==0.0f)
   {
-    std::cerr<<"ngl 0 determinant \n";
+    msg->addWarning("ngl 0 determinant in Mat3 returning identity matrix");
     return Mat3();
 
   }

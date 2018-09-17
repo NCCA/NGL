@@ -34,7 +34,6 @@ void printInfoLog( const GLuint &_obj)
 	GLint charsWritten  = 0;
   std::unique_ptr<char []> infoLog;
   glGetShaderiv(_obj, GL_INFO_LOG_LENGTH,&infologLength);
-  //std::cerr<<"info log length "<<infologLength<<'\n';
   if(infologLength > 0)
   {
     infoLog.reset (new char[infologLength]);

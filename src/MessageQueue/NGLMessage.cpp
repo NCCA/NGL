@@ -102,7 +102,7 @@ namespace ngl
     if(_c != s_currentColour)
       s_currentColour=_c;
     // add to front
-    s_messageQueue.insert(std::begin(s_messageQueue),{std::chrono::system_clock::now(),_message,_c,_timeFormat});
+    s_messageQueue.insert(std::begin(s_messageQueue),{std::chrono::system_clock::now(),_message,s_currentColour,_timeFormat});
     //std::this_thread::sleep_for(std::chrono::milliseconds(4));
 
   }
@@ -194,7 +194,12 @@ namespace ngl
     addMessage(fmt::format("[ERROR] :- {0}",_message),Colours::RED,_timeFormat);
     s_currentColour=colour;
   }
-
+  void NGLMessage::drawLine(const Colours &_c)
+  {
+    auto colour=s_currentColour;
+    addMessage("-------------------------------------------------------------------------------",_c,TimeFormat::NONE);
+    s_currentColour=colour;
+  }
   void NGLMessage::addWarning(const std::string &_message, TimeFormat _timeFormat)
   {
     auto colour=s_currentColour;

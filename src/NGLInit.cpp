@@ -54,31 +54,37 @@ void NGLInit::setCommunicationMode(ngl::CommunicationMode _mode)
 }
 NGLInit::NGLInit()
 {
-  //setCommunicationMode(CommunicationMode::STDERR);
+  msg=std::make_unique<NGLMessage>(NGLMessage(NGLMessage::Mode::CLIENTSERVER,CommunicationMode::STDERR));
+
 #if defined(USINGIOS_) || !defined(__APPLE__)
 
   if (gl3wInit())
   {
-     std::cerr<<"failed to initialize OpenGL\n";
-     exit(EXIT_FAILURE);
+    msg->drawLine(Colours::RED);
+    msg->addError("failed to initialize OpenGL");
+    msg->drawLine(Colours::RED);
+`    exit(EXIT_FAILURE);
   }
   if (!gl3wIsSupported(4, 1))
   {
-    std::cerr<<"To run these demos you need a modern OpenGL Version\n";
-    std::cerr<<"The lowest level OpenGL we support is 4.1\n";
-    std::cerr<<"It could be you don't have the correct drivers installed\n";
-    std::cerr<<"Or if linux on a laptop it could be using the intel driver and not the GPU\n";
-    std::cerr<<"for more info contact Jon\n";
+    msg->drawLine(Colours::RED);
+    msg->addError("To run these demos you need a modern OpenGL Version");
+    msg->addError("The lowest level OpenGL we support is 4.1");
+    msg->addError("It could be you don't have the correct drivers installed");
+    msg->addError("Or if linux on a laptop it could be using the intel driver and not the GPU");
+    msg->addError("for more info contact Jon");
+    msg->drawLine(Colours::RED);
     exit(EXIT_FAILURE);
   }
 #endif
-  msg=std::make_unique<NGLMessage>(NGLMessage(NGLMessage::Mode::CLIENTSERVER,CommunicationMode::STDERR));
 
   msg->startMessageConsumer();
   std::this_thread::sleep_for(std::chrono::milliseconds(20));
+  msg->drawLine(Colours::YELLOW);
   msg->addMessage("NGL configured with ",Colours::NORMAL,TimeFormat::TIME);
   msg->addMessage(fmt::format("OpenGL {0}",glGetString(GL_VERSION)));
   msg->addMessage(fmt::format("GLSL version {0}",glGetString(GL_SHADING_LANGUAGE_VERSION)));
+  msg->drawLine(Colours::YELLOW);
 
 
   VAOFactory::registerVAOCreator(simpleVAO,SimpleVAO::create);

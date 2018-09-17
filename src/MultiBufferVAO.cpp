@@ -12,11 +12,11 @@ namespace ngl
   {
     if(m_allocated == false)
     {
-      std::cerr<<"Warning trying to draw an unallocated VOA\n";
+      msg->addWarning("trying to draw an unallocated VOA");
     }
     if(m_bound == false)
     {
-      std::cerr<<"Warning trying to draw an unbound VOA\n";
+      msg->addWarning("trying to draw an unbound VOA");
     }
     glDrawArrays(m_mode, 0, static_cast<GLsizei>(m_indicesCount));
   }
@@ -41,7 +41,7 @@ namespace ngl
   {
     if(m_bound == false)
     {
-      std::cerr<<"trying to set VOA data when unbound\n";
+      msg->addWarning("trying to set VOA data when unbound");
     }
 
     GLuint vboID;

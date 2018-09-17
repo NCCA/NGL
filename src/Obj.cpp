@@ -34,7 +34,7 @@ Obj::Obj(const std::string_view &_fname  , CalcBB _calcBB)  noexcept :AbstractMe
 {
   if ( load(_fname,_calcBB) == false)
   {
-    std::cerr<<"Error loading file "<<_fname.data()<<" exiting \n";
+    msg->addError(fmt::format("Error loading file {0} ",_fname.data()));
     exit(EXIT_FAILURE);
   }
 }
@@ -43,7 +43,7 @@ Obj::Obj(const std::string_view &_fname,  const std::string_view &_texName, Calc
 {
   if ( load(_fname,_calcBB) == false)
   {
-    std::cerr<<"Error loading file "<<_fname.data()<<" exiting \n";
+    msg->addError(fmt::format("Error loading file {0} ",_fname.data()));
     exit(EXIT_FAILURE);
   }
   // load texture
@@ -109,7 +109,7 @@ bool Obj::save(const std::string_view &_fname) noexcept
   std::ofstream out(_fname.data());
   if (out.is_open() != true)
   {
-    std::cerr<<"ERROR could not open file for writing "<<_fname.data()<<'\n';
+    msg->addError(fmt::format(" could not open file  {0} for writing ",_fname.data()));
     return false;
   }
   // write out some comments
@@ -171,7 +171,7 @@ bool Obj::load(const std::string_view &_fname, CalcBB _calcBB ) noexcept
   std::ifstream in(_fname.data());
   if (in.is_open() != true)
   {
-    std::cerr<<"ERROR .obj file not found  "<<_fname.data()<<'\n';
+    msg->addError(fmt::format(" file {0} not found  ",_fname.data()));
     return false;
   }
 
@@ -232,7 +232,7 @@ bool Obj::parseVertex(std::vector<std::string> &_tokens) noexcept
   }
   catch (std::invalid_argument)
   {
-    std::cerr<<"error converting Obj file vertex\n";
+    msg->addError("problem converting Obj file vertex");
     parsedOK=false;
   }
   return parsedOK;
@@ -251,7 +251,7 @@ bool Obj::parseNormal(std::vector<std::string> &_tokens) noexcept
   }
   catch (std::invalid_argument)
   {
-    std::cerr<<"error converting Obj file normals\n";
+    msg->addError("problem converting Obj file normals");
     parsedOK=false;
   }
   return parsedOK;
@@ -276,7 +276,7 @@ bool Obj::parseUV(std::vector<std::string> &_tokens) noexcept
   }
   catch (std::invalid_argument)
   {
-    std::cerr<<"error converting Obj file UV's\n";
+    msg->addError("problem converting Obj file UV's");
     parsedOK=false;
   }
   return parsedOK;
@@ -333,7 +333,7 @@ bool Obj::parseFaceVertex(std::vector<std::string> &_tokens) noexcept
     }
     catch (std::invalid_argument)
     {
-      std::cerr<<"error converting Obj file face\n";
+      msg->addError("problem converting Obj file face");
       parsedOK=false;
     }
   }
@@ -374,7 +374,7 @@ bool Obj::parseFaceVertexNormal(std::vector<std::string> &_tokens) noexcept
     }
     catch (std::invalid_argument)
     {
-      std::cerr<<"error converting Obj file face\n";
+      msg->addError("problem converting Obj file face");
       parsedOK=false;
     }
   }
@@ -415,7 +415,7 @@ bool Obj::parseFaceVertexUV(std::vector<std::string> &_tokens) noexcept
     }
     catch (std::invalid_argument)
     {
-      std::cerr<<"error converting Obj file face\n";
+      msg->addError("problem converting Obj file face");
       parsedOK=false;
     }
   }
@@ -465,7 +465,7 @@ bool Obj::parseFaceVertexNormalUV(std::vector<std::string> &_tokens) noexcept
     }
     catch (std::invalid_argument)
     {
-      std::cerr<<"error converting Obj file face\n";
+      msg->addError("problem converting Obj file face");
       parsedOK=false;
     }
   }
