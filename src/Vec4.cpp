@@ -334,6 +334,31 @@ Vec4 Vec4::operator*(const Mat4 &_m ) const noexcept
 return temp;
 }
 
+void Vec4::clamp(float _min, float _max ) noexcept
+{
+  m_x<_min ? m_x = _min : m_x;
+  m_x>_max ? m_x = _max : m_x;
+
+  m_y<_min ? m_y = _min : m_y;
+  m_y>_max ? m_y = _max : m_y;
+
+  m_z<_min ? m_z = _min : m_z;
+  m_z>_max ? m_z = _max : m_z;
+}
+
+void Vec4::clamp(float _max ) noexcept
+{
+  m_x<-_max ? m_x = -_max : m_x;
+  m_x>_max ? m_x = _max : m_x;
+
+  m_y<-_max ? m_y = -_max : m_y;
+  m_y>_max ? m_y = _max : m_y;
+
+  m_z<-_max ? m_z = -_max : m_z;
+  m_z>_max ? m_z = _max : m_z;
+
+
+}
 
 } // end namspace ngl
 

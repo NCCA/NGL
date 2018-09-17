@@ -306,6 +306,17 @@ public:
   /// @brief accesor to the m_openGL matrix returns the address of the 0th element
   //----------------------------------------------------------------------------------------------------------------------
   Real* openGL() noexcept{return &m_openGL[0];}
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief clamp the vector values between _min and _max
+  /// @param[in]  _min value
+  /// @param[in]  _max value
+  //----------------------------------------------------------------------------------------------------------------------
+  void clamp(float _min, float _max) noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief clamp the vector values between +/-_max
+  /// @param[in]  _max value
+  //----------------------------------------------------------------------------------------------------------------------
+  void clamp(float _max) noexcept;
 
   static Vec4 up()  {return Vec4(0.0f,1.0f,0.0f,0.0f); }
   static Vec4 down()  {return Vec4(0.0f,-1.0f,0.0f,0.0f); }

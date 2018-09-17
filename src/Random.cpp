@@ -84,6 +84,17 @@ Vec4 Random::getRandomVec4()
   return Vec4(gen(m_generator),gen(m_generator),gen(m_generator),0.0f);
 }
 
+Vec4 Random::getRandomColour4()
+{
+  auto gen=m_floatGenerators[RandomFloat];
+  return Vec4(gen(m_generator),gen(m_generator),gen(m_generator),1.0f);
+}
+Vec3 Random::getRandomColour3()
+{
+  auto gen=m_floatGenerators[RandomFloat];
+  return Vec3(gen(m_generator),gen(m_generator),gen(m_generator));
+}
+
 //----------------------------------------------------------------------------------------------------------------------
 Vec4 Random::getRandomNormalizedVec4()
 {

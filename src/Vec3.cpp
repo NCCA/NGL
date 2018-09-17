@@ -274,9 +274,8 @@ void Vec3::clamp(float _min, float _max ) noexcept
 
   m_z<_min ? m_z = _min : m_z;
   m_z>_max ? m_z = _max : m_z;
-
-
 }
+
 void Vec3::clamp(float _max ) noexcept
 {
   m_x<-_max ? m_x = -_max : m_x;
