@@ -45,7 +45,7 @@ public :
   /// @param _name the name of the program object
   /// @param[in] _type the type of shader we are building
   //----------------------------------------------------------------------------------------------------------------------
-  Shader( const std::string_view &_name,  ShaderType _type , bool _exitOnError=true) noexcept;
+  Shader( const std::string_view &_name,  ShaderType _type , ErrorExit _exitOnError=ErrorExit::ON) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor, will clean up shader source and remove shader from GL
   //----------------------------------------------------------------------------------------------------------------------
@@ -91,6 +91,7 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   const std::string  getShaderSource() const noexcept {return m_source;}
   bool isCompiled() const noexcept {return m_compiled;}
+  bool editShader(const std::string_view &_toFind, const std::string_view &_edit);
 
 private :
   //----------------------------------------------------------------------------------------------------------------------
@@ -101,6 +102,10 @@ private :
   /// @brief the actual source code for this shader (used for debug and initial loading)
   //----------------------------------------------------------------------------------------------------------------------
   std::string m_source;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief the actual source code for this shader as loaded and may be edited.
+  //----------------------------------------------------------------------------------------------------------------------
+  std::string m_originalSource;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate if the shader has been compiled
   /// this will get channged on re-load of source to false
@@ -121,7 +126,7 @@ private :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate the errorExit state
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_errorExit=true;
+  ErrorExit  m_errorExit=ErrorExit::ON;
   //----------------------------------------------------------------------------------------------------------------------  //----------------------------------------------------------------------------------------------------------------------
   /// @brief number of ProgramObjects referencing this shader
   //----------------------------------------------------------------------------------------------------------------------

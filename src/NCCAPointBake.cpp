@@ -257,9 +257,9 @@ void NCCAPointBake::setMeshToFrame(  const unsigned int _frame) noexcept
 
       for(unsigned int j=0;j<3;++j)
       {
-        ptr[step+5]=m_data[_frame][face.m_vert[j]].m_x;
-        ptr[step+6]=m_data[_frame][face.m_vert[j]].m_y;
-        ptr[step+7]=m_data[_frame][face.m_vert[j]].m_z;
+        ptr[step]=m_data[_frame][face.m_vert[j]].m_x;
+        ptr[step+1]=m_data[_frame][face.m_vert[j]].m_y;
+        ptr[step+2]=m_data[_frame][face.m_vert[j]].m_z;
         step+=8;
       }
 

@@ -52,9 +52,6 @@ namespace ngl
 ///  @date Last Revision 20/04/10 used templated singleton
 //----------------------------------------------------------------------------------------------------------------------
 
-constexpr auto nglColourShader="nglColourShader";
-constexpr auto nglDiffuseShader="nglDiffuseShader";
-constexpr auto nglCheckerShader="nglCheckerShader";
 
 class NGL_DLLEXPORT ShaderLib : public  Singleton<ShaderLib>
 {
@@ -66,12 +63,12 @@ public :
   /// @brief create an empty ShaderProgram for us to attach shaders etc to
   /// @param _name the name of the ShaderProgram to link
   //----------------------------------------------------------------------------------------------------------------------
-  void createShaderProgram(const std::string_view &_name  , bool _exitOnError=true) noexcept;
+  void createShaderProgram(const std::string_view &_name  , ErrorExit _exitOnError=ErrorExit::ON) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief attatch a Shader to the ShaderProgram referenced by _name
   /// @param _name the name of the ShaderProgram to attach
   //----------------------------------------------------------------------------------------------------------------------
-  void attachShader(const std::string_view &_name, ShaderType _type , bool _errorOnExit=true) noexcept;
+  void attachShader(const std::string_view &_name, ShaderType _type , ErrorExit _exitOnError=ErrorExit::ON) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief attatch a Shader to the ShaderProgram referenced by _name
   /// @param _program the name of the ShaderProgram to attach to
@@ -104,7 +101,11 @@ public :
   /// @param _name the name of the ShaderProgram to use
   //----------------------------------------------------------------------------------------------------------------------
   void use( const std::string_view &_name ) noexcept;
-
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief edit the shader source
+  /// @param _name the name of the ShaderProgram to use
+  //----------------------------------------------------------------------------------------------------------------------
+  bool editShader(const std::string_view &_shader, const std::string_view &_toFind, const std::string_view &_edit );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief bind an attribute at index by name
   /// @param _programName  the name of the ShaderProgram to use
@@ -143,9 +144,9 @@ public :
   /// @param[in] _exitOnError exit if there is an error in the shader
   //----------------------------------------------------------------------------------------------------------------------
   bool loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag,
-                  const std::string_view &_geo,const bool _exitOnError=true ) noexcept;
+                  const std::string_view &_geo, ErrorExit _exitOnError=ErrorExit::ON ) noexcept;
   bool loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag,
-                  const bool _exitOnError=true ) noexcept;
+                  ErrorExit _exitOnError=ErrorExit::ON ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to load multiple shaders from a json file
   /// @param[in] _shaderName the name of the json resource file

@@ -20,6 +20,7 @@
 #include "Shader.h"
 #include <string> // needed for windows build as get error otherwise
 #include <memory>
+#include <pystring.h>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Shader.cpp
 /// @brief implementation files for Shader class
@@ -45,7 +46,7 @@ void printInfoLog( const GLuint &_obj)
 }
 
 
-Shader::Shader(const std::string_view &_name,  ShaderType _type , bool _exitOnError) noexcept
+Shader::Shader(const std::string_view &_name,  ShaderType _type , ErrorExit _exitOnError) noexcept
 {
   m_name=_name;
   m_shaderType = _type;
@@ -99,14 +100,27 @@ bool Shader::compile() noexcept
     {
       msg->addError("Shader compile failed or had warnings ");
       printInfoLog(m_shaderHandle);
-      if(m_errorExit)
+      if(m_errorExit==ErrorExit::ON)
         exit(EXIT_FAILURE);
     }
   }
   return m_compiled;
 }
 
-
+bool Shader::editShader(const std::string_view &_toFind, const std::string_view &_edit)
+{
+  if(m_source.length() ==0)
+  {
+    msg->addError("No shader source to edit");
+    return false;
+  }
+  m_source=pystring::replace(m_originalSource,_toFind.data(),_edit.data());
+  msg->addMessage(m_source,Colours::YELLOW,TimeFormat::NONE);
+  const char* data=m_source.c_str();
+  glShaderSource(m_shaderHandle , 1, &data,nullptr);
+  m_compiled=false;
+  return true;
+}
 void Shader::load(const std::string_view &_name ) noexcept
 {
   // see if we already have some source attached
@@ -126,6 +140,7 @@ void Shader::load(const std::string_view &_name ) noexcept
   shaderSource.close();
   // glShaderSource needs null terminated const char *
   m_source+='\0';
+  m_originalSource=m_source;
   const char* data=m_source.c_str();
   glShaderSource(m_shaderHandle , 1, &data,nullptr);
   m_compiled=false;

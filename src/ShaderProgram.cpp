@@ -25,7 +25,7 @@
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
-ShaderProgram::ShaderProgram(const std::string_view &_name, bool _errorExit) noexcept
+ShaderProgram::ShaderProgram(const std::string_view &_name, ErrorExit _exitOnError) noexcept
 {
   // we create a special NULL program so the shader manager can return
   // a NULL object.
@@ -37,7 +37,7 @@ ShaderProgram::ShaderProgram(const std::string_view &_name, bool _errorExit) noe
   {
     m_programID=0;
   }
-  m_errorExit=_errorExit;
+  m_errorExit=_exitOnError;
   m_programName=_name;
 }
 
@@ -127,7 +127,7 @@ bool ShaderProgram::link() noexcept
     if( m_linked == false)
     {
       msg->addError("Program link failed (will exit if errorExit enabled else return false)");
-      if(m_errorExit)
+      if(m_errorExit==ErrorExit::ON)
         exit(EXIT_FAILURE);
 
     }
@@ -381,7 +381,7 @@ void ShaderProgram::setRegisteredUniform4i( const std::string_view &_varname,  i
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string_view &_varname,size_t _count, bool _transpose,const float* _value) const noexcept
+void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string_view &_varname,GLsizei _count, bool _transpose,const float* _value) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
@@ -392,7 +392,7 @@ void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string_view &_varn
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniformMatrix2fv( const std::string_view &_varname,size_t _count, bool _transpose,const float* _value) const noexcept
+void ShaderProgram::setRegisteredUniformMatrix2fv( const std::string_view &_varname,GLsizei _count, bool _transpose,const float* _value) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
@@ -406,7 +406,7 @@ void ShaderProgram::setRegisteredUniformMatrix2fv( const std::string_view &_varn
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string_view &_varname, size_t _count, bool _transpose,  const float* _value ) const noexcept
+void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string_view &_varname, GLsizei _count, bool _transpose,  const float* _value ) const noexcept
 {
   auto uniform=m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader

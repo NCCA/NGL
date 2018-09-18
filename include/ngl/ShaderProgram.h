@@ -42,7 +42,7 @@ public :
   /// it is initially empty and just has a name for id
   /// @param _name the name of the Program Object
   //----------------------------------------------------------------------------------------------------------------------
-  ShaderProgram(const std::string_view &_name, bool _errorExit=true ) noexcept;
+  ShaderProgram(const std::string_view &_name, ErrorExit _exitOnError=ErrorExit::ON ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor
   //----------------------------------------------------------------------------------------------------------------------
@@ -195,7 +195,7 @@ public :
   /// @param  _transpose - if true will transpose the matrix values
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformMatrix2fv( const std::string_view  &_varname,size_t _count, bool _transpose, const float* _value ) const noexcept;
+  void setRegisteredUniformMatrix2fv(const std::string_view  &_varname, GLsizei _count, bool _transpose, const float* _value ) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets '_varname' as a 3D matrix array
   /// @param  _varname - name of the uniform variable
@@ -203,7 +203,7 @@ public :
   /// @param  _transpose - if true will transpose the matrix values
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformMatrix3fv( const std::string_view  &_varname,size_t _count, bool _transpose, const float* _value ) const noexcept;
+  void setRegisteredUniformMatrix3fv(const std::string_view  &_varname, GLsizei _count, bool _transpose, const float* _value ) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets '_varname' as a 4D matrix array
@@ -212,7 +212,7 @@ public :
   /// @param  _transpose - if true will transpose the matrix values
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformMatrix4fv( const std::string_view  &_varname,size_t _count,  bool _transpose,const float* _value ) const noexcept;
+  void setRegisteredUniformMatrix4fv(const std::string_view  &_varname, GLsizei _count,  bool _transpose, const float* _value ) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  gets the current value of the specified uniform var
@@ -297,7 +297,7 @@ private :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief errorExit mode flag
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_errorExit=true;
+  ErrorExit  m_errorExit=ErrorExit::ON;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief text name of the current program used in lookup and debugging
   //----------------------------------------------------------------------------------------------------------------------

@@ -35,7 +35,7 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-bool ShaderLib::loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag, const std::string_view &_geo, const bool _exitOnError ) noexcept
+bool ShaderLib::loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag, const std::string_view &_geo, ErrorExit _exitOnError) noexcept
 {
   bool loaded=false;
   // must add code to do this next version
@@ -64,7 +64,10 @@ bool ShaderLib::loadShader(const std::string_view &_shaderName, const std::strin
   return loaded;
 }
 
-bool ShaderLib::loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag,  const bool _exitOnError ) noexcept
+
+
+
+bool ShaderLib::loadShader(const std::string_view &_shaderName, const std::string_view &_vert, const std::string_view &_frag,  ErrorExit _exitOnError ) noexcept
 {
   bool loaded=false;
   // must add code to do this next version
@@ -172,9 +175,9 @@ ngl::Shader* ShaderLib::getShader(const std::string_view &_shaderName) noexcept
   return shaderPointer;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::attachShader(const std::string_view &_name, ShaderType _type , bool _errorOnExit) noexcept
+void ShaderLib::attachShader(const std::string_view &_name, ShaderType _type , ErrorExit _exitOnError) noexcept
 {
-  m_shaders[_name.data()]= new Shader(_name,_type,_errorOnExit);
+  m_shaders[_name.data()]= new Shader(_name,_type,_exitOnError);
   if(m_debugState==true)
     msg->addMessage(fmt::format("just attached {0} to ngl::ShaderLib",_name.data()));
 }
@@ -197,8 +200,19 @@ bool ShaderLib::compileShader(const std::string_view &_name  ) noexcept
   }
 
 }
+
+bool ShaderLib::editShader(const std::string_view &_shader,const std::string_view &_toFind, const std::string_view &_edit )
+{
+  bool success=false;
+  auto shader=m_shaders.find(_shader.data());
+  if(shader!=m_shaders.end() )
+    success=shader->second->editShader(_toFind,_edit);
+  return success;
+}
+
+
 //----------------------------------------------------------------------------------------------------------------------
-void ShaderLib::createShaderProgram(const std::string_view &_name , bool _exitOnError ) noexcept
+void ShaderLib::createShaderProgram(const std::string_view &_name , ErrorExit _exitOnError ) noexcept
 {
   if(m_debugState)
     msg->addMessage(fmt::format("creating empty ShaderProgram {0}",_name.data()));
