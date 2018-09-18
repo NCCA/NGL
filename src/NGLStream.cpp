@@ -1,6 +1,7 @@
 #include "Vec2.h"
 #include "Vec3.h"
 #include "Vec4.h"
+#include "Mat2.h"
 #include "Mat3.h"
 #include "Mat4.h"
 #include "Quaternion.h"
@@ -44,7 +45,15 @@ NGL_DLLEXPORT std::istream& operator>>(std::istream& _input, Vec4& _s)
   return _input >> _s.m_x >> _s.m_y >> _s.m_z >> _s.m_w;
 }
 
-
+//----------------------------------------------------------------------------------------------------------------------
+NGL_DLLEXPORT std::ostream& operator<<(std::ostream &_output,const Mat2 &_m )
+{
+  std::cout.setf(std::ios::fixed|std::ios::adjustfield|std::ios::showpos);
+  std::cout.precision(12);
+  return _output
+  <<"["<<_m.m_00<<","<<_m.m_01<<"]\n"
+  <<"["<<_m.m_10<<","<<_m.m_11<<"]\n";
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 NGL_DLLEXPORT std::ostream& operator<<(std::ostream &_output,const Mat3 &_m )

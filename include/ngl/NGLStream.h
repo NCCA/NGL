@@ -24,6 +24,7 @@ namespace ngl
 {
   class Light;
   class Plane;
+  class Mat2;
   class Mat3;
   class Mat4;
   class Vec2;
@@ -94,7 +95,12 @@ namespace ngl
  /// @param[in] _s the colour to read in to
  //----------------------------------------------------------------------------------------------------------------------
  NGL_DLLEXPORT  std::istream& operator>>( std::istream& _input, Colour& _s );
-
+ //----------------------------------------------------------------------------------------------------------------------
+ /// @brief  insertion operator to write matrix to stream
+ /// @param[in] output the stream to write to
+ /// @param[in] M the matrix to write
+ //----------------------------------------------------------------------------------------------------------------------
+ NGL_DLLEXPORT std::ostream& operator<<(std::ostream& output, const Mat2& M);
  //----------------------------------------------------------------------------------------------------------------------
  /// @brief  insertion operator to write matrix to stream
  /// @param[in] output the stream to write to

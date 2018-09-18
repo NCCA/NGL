@@ -22,6 +22,7 @@ CONFIG-=app_bundle
 SOURCES+= $$PWD/Vec4Tests.cpp \
           $$PWD/Mat4Tests.cpp  \
           $$PWD/Vec3Tests.cpp  \
+          $$PWD/Mat2Tests.cpp \
           $$PWD/Mat3Tests.cpp \
           $$PWD/Vec2Tests.cpp \
           $$PWD/ObjTests.cpp \

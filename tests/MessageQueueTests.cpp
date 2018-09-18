@@ -45,7 +45,6 @@ TEST(NGLMessage,stdOut)
 {
   ngl::NGLMessage message(ngl::NGLMessage::Mode::SERVER,ngl::CommunicationMode::STDOUT);
   message.addMessage("test message to std out");
-  std::cout<<"Num messages "<<message.numMessages()<<'\n';
   EXPECT_TRUE(message.numMessages()==1);
   ngl::NGLMessage::startMessageConsumer();
   while(ngl::NGLMessage::numMessages() !=0)
@@ -145,7 +144,42 @@ TEST(NGLMessage,fileConsumer)
 
 TEST(NGLMessage,fifoConsumer)
 {
-  ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENTSERVER,ngl::CommunicationMode::NAMEDPIPE);
+  {
+    ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENTSERVER,ngl::CommunicationMode::NAMEDPIPE);
+    message.clearMessageQueue();
+    message.stopMessageConsumer();
+    std::string msg="test message ";
+    message.addMessage(msg,Colours::NORMAL,TimeFormat::TIME);
+    message.addMessage(msg,Colours::RED);
+    message.addMessage(msg,Colours::GREEN);
+    message.addMessage(msg,Colours::YELLOW,TimeFormat::TIMEDATE);
+    message.addMessage(msg,Colours::BLUE);
+    message.addMessage(msg,Colours::MAGENTA,TimeFormat::TIMEDATEDAY);
+    message.addMessage(msg,Colours::CYAN);
+    message.addMessage(msg,Colours::WHITE,TimeFormat::TIMEDATEDAY);
+    message.addMessage(msg,Colours::RESET);
+    // need some time for the queue to settle
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
+    EXPECT_TRUE(message.numMessages()==9)<<message.numMessages()<<" total messages";
+  }
+//  ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT,ngl::CommunicationMode::NAMEDPIPE);
+
+//  ngl::NGLMessage::startMessageConsumer();
+//  while(ngl::NGLMessage::numMessages() !=0)
+//  {
+//    std::cout<<"messages are "<<message.numMessages();
+//    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+//  }
+//  ngl::NGLMessage::stopMessageConsumer();
+//  EXPECT_TRUE(message.numMessages()==0);
+
+
+}
+
+TEST(NGLMessage,fifoServerNamed)
+{
+  ngl::NGLMessage message(ngl::NGLMessage::FromNamedPipe("nccadebug",ngl::NGLMessage::Mode::SERVER));
   message.clearMessageQueue();
   std::string msg="test message ";
   message.addMessage(msg,Colours::NORMAL,TimeFormat::TIME);
@@ -153,51 +187,22 @@ TEST(NGLMessage,fifoConsumer)
   message.addMessage(msg,Colours::GREEN);
   message.addMessage(msg,Colours::YELLOW,TimeFormat::TIMEDATE);
   message.addMessage(msg,Colours::BLUE);
+
   message.addMessage(msg,Colours::MAGENTA,TimeFormat::TIMEDATEDAY);
   message.addMessage(msg,Colours::CYAN);
   message.addMessage(msg,Colours::WHITE,TimeFormat::TIMEDATEDAY);
   message.addMessage(msg,Colours::RESET);
+  // need some time for the queue to settle
+  std::this_thread::sleep_for(std::chrono::seconds(2));
 
-  EXPECT_TRUE(message.numMessages()==9);
-
-
+  EXPECT_TRUE(message.numMessages()>0)<<"number of messages "<<message.numMessages();
 //  ngl::NGLMessage::startMessageConsumer();
-//  //while(ngl::NGLMessage::numMessages() !=0)
-//  {
-//  //std::this_thread::sleep_for(std::chrono::milliseconds(1));
-//  }
+//  while(ngl::NGLMessage::numMessages() !=0)
+//    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
 //  ngl::NGLMessage::stopMessageConsumer();
 //  EXPECT_TRUE(message.numMessages()==0);
 }
-/*
-TEST(NGLMessage,fifoServerNamed)
-{
-  ngl::NGLMessage message(ngl::NGLMessage::FromNamedPipe("nccadebug",ngl::NGLMessage::Mode::SERVER));
-  message.clearMessageQueue();
-  for(size_t i=97; i<97+26; ++i)
-  {
-    std::string msg="test message ";
-    msg+=std::to_string(i);
-    message.addMessage(msg,Colours::NORMAL,TimeFormat::TIME);
-    message.addMessage(msg,Colours::RED);
-    message.addMessage(msg,Colours::GREEN);
-    message.addMessage(msg,Colours::YELLOW,TimeFormat::TIMEDATE);
-    message.addMessage(msg,Colours::BLUE);
-
-    message.addMessage(msg,Colours::MAGENTA,TimeFormat::TIMEDATEDAY);
-    message.addMessage(msg,Colours::CYAN);
-    message.addMessage(msg,Colours::WHITE,TimeFormat::TIMEDATEDAY);
-    message.addMessage(msg,Colours::RESET);
-
-  }
-  EXPECT_TRUE(message.numMessages()>0);
-  ngl::NGLMessage::startMessageConsumer();
-  while(ngl::NGLMessage::numMessages() !=0)
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
-  ngl::NGLMessage::stopMessageConsumer();
-  EXPECT_TRUE(message.numMessages()==0);
-}*/
 
 
 

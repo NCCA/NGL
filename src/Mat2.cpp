@@ -108,13 +108,24 @@ const Mat2&  Mat2::identity() noexcept
 Mat2 Mat2::operator*(const Mat2& _m   )const noexcept
 {
   Mat2 temp;
- return temp;
+  temp.m_00=m_00*_m.m_00 + m_01 * _m.m_10;
+  temp.m_01=m_00*_m.m_01 + m_01 * _m.m_11;
+
+  temp.m_10=m_10*_m.m_00 + m_11 * _m.m_10;
+  temp.m_11=m_10*_m.m_01 + m_11 * _m.m_11;
+
+  return temp;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 const Mat2& Mat2::operator*= ( const Mat2 &_m ) noexcept
 {
   Mat2 temp(*this);
+  m_00=temp.m_00*_m.m_00 + temp.m_01 * _m.m_10;
+  m_01=temp.m_00*_m.m_01 + temp.m_01 * _m.m_11;
+
+  m_10=temp.m_10*_m.m_00 + temp.m_11 * _m.m_10;
+  m_11=temp.m_10*_m.m_01 + temp.m_11 * _m.m_11;
 
 	return *this;
 }
@@ -165,9 +176,9 @@ Mat2 Mat2::operator*( Real _i  ) const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 const Mat2& Mat2::operator*=(Real _i) noexcept
 {
-  for(int y=0; y<3; ++y)
+  for(int y=0; y<2; ++y)
 	{
-    for(int x=0; x<3; ++x)
+    for(int x=0; x<2; ++x)
 		{
 			m_m[y][x]*=_i;
 		}
