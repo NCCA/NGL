@@ -12,12 +12,17 @@ out vec3 outTestVec3;
 uniform vec4 testVec4;
 out vec4 outTestVec4;
 
+uniform mat2 testMat2;
+uniform mat3 testMat3;
+uniform mat4 testMat4;
+
+
 void main()
 {
   outTestFloat=testFloat;
-  outTestVec2=testVec2;
-  outTestVec3=testVec3;
-  outTestVec4=testVec4;
+  outTestVec2=testMat2*testVec2;
+  outTestVec3=testMat3*testVec3;
+  outTestVec4=testMat4*testVec4;
   gl_Position=vec4(1);
 
 }

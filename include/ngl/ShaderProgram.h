@@ -20,6 +20,9 @@
 #include "Shader.h"
 #include "Types.h"
 #include "Util.h"
+#include "Mat2.h"
+#include "Mat3.h"
+#include "Mat4.h"
 #include <vector>
 #include <unordered_map>
 
@@ -181,12 +184,9 @@ public :
 
   //----------------------------------------------------------------------------------------------------------------------
   void setRegisteredUniform4i( const std::string_view &_varname,int _v0, int _v1, int _v2, int _v3 ) const noexcept;
-
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @name  Set Program Matrix Args
   //----------------------------------------------------------------------------------------------------------------------
-
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets '_varname' as a 3D matrix array
@@ -196,6 +196,7 @@ public :
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
   void setRegisteredUniformMatrix2fv(const std::string_view  &_varname, GLsizei _count, bool _transpose, const float* _value ) const noexcept;
+  void getRegisteredUniformMatrix2fv(const std::string_view  &_varname, ngl::Mat2 &o_value ) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets '_varname' as a 3D matrix array
   /// @param  _varname - name of the uniform variable
@@ -204,6 +205,7 @@ public :
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
   void setRegisteredUniformMatrix3fv(const std::string_view  &_varname, GLsizei _count, bool _transpose, const float* _value ) const noexcept;
+  void getRegisteredUniformMatrix3fv(const std::string_view  &_varname, ngl::Mat3 &o_value ) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets '_varname' as a 4D matrix array
@@ -213,6 +215,7 @@ public :
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
   void setRegisteredUniformMatrix4fv(const std::string_view  &_varname, GLsizei _count,  bool _transpose, const float* _value ) const noexcept;
+  void getRegisteredUniformMatrix4fv(const std::string_view  &_varname, ngl::Mat4 &o_value ) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  gets the current value of the specified uniform var

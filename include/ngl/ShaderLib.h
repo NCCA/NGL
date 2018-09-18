@@ -24,6 +24,7 @@
 #include "ShaderProgram.h"
 #include "Singleton.h"
 #include "Types.h"
+#include "Mat2.h"
 #include "Mat3.h"
 #include "Mat4.h"
 #include "Vec4.h"
@@ -326,9 +327,18 @@ public :
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
+  /// @param[in] _v0 the Mat2 value of the parameter to set
+  //----------------------------------------------------------------------------------------------------------------------
+  void setUniform(const std::string_view &_paramName,Mat2 _v0) noexcept;
+  void getUniform(const std::string_view &_paramName,Mat2 &_v0) noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief overloaded method to set shader Uniforms the shader
+  /// must be the currently active shader of else this will fail
+  /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string_view &_paramName,Mat3 _v0) noexcept;
+  void getUniform(const std::string_view &_paramName,Mat3 &_v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -336,6 +346,7 @@ public :
   /// @param[in] _v0 the Mat4 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string_view &_paramName,Mat4 _v0) noexcept;
+  void getUniform(const std::string_view &_paramName,Mat4 &_v0) noexcept;
 
   // compatability functions to make it easier to use GLM
   void setUniformMatrix2fv(const std::string_view &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::False) noexcept;
@@ -343,9 +354,6 @@ public :
   void setUniformMatrix3fv(const std::string_view &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::False) noexcept;
 
 #ifdef USEGLM
-
-
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail

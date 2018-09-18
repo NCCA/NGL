@@ -18,7 +18,8 @@
 /// @file ShaderProgram.cpp
 /// @brief implementation files for ShaderProgram class
 //----------------------------------------------------------------------------------------------------------------------
-
+#include "Mat3.h"
+#include "Mat4.h"
 #include "ShaderProgram.h"
 #include "fmt/format.h"
 #include <memory>
@@ -391,6 +392,19 @@ void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string_view &_varn
   }
 
 }
+
+void ShaderProgram::getRegisteredUniformMatrix3fv( const std::string_view &_varname,ngl::Mat3 &o_value) const noexcept
+{
+  auto uniform=m_registeredUniforms.find(_varname.data());
+  // make sure we have a valid shader
+  if(uniform!=m_registeredUniforms.end())
+  {
+    glGetUniformfv(m_programID,uniform->second.loc,&o_value.m_openGL[0]);
+  }
+
+}
+
+
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::setRegisteredUniformMatrix2fv( const std::string_view &_varname,GLsizei _count, bool _transpose,const float* _value) const noexcept
 {
@@ -403,6 +417,16 @@ void ShaderProgram::setRegisteredUniformMatrix2fv( const std::string_view &_varn
 
 }
 
+void ShaderProgram::getRegisteredUniformMatrix2fv( const std::string_view &_varname,ngl::Mat2 &o_value) const noexcept
+{
+  auto uniform=m_registeredUniforms.find(_varname.data());
+  // make sure we have a valid shader
+  if(uniform!=m_registeredUniforms.end())
+  {
+    glGetUniformfv(m_programID,uniform->second.loc,&o_value.m_openGL[0]);
+  }
+
+}
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -418,7 +442,16 @@ void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string_view &_varna
 }
 //----------------------------------------------------------------------------------------------------------------------
 
+void ShaderProgram::getRegisteredUniformMatrix4fv( const std::string_view &_varname,ngl::Mat4 &o_value) const noexcept
+{
+  auto uniform=m_registeredUniforms.find(_varname.data());
+  // make sure we have a valid shader
+  if(uniform!=m_registeredUniforms.end())
+  {
+    glGetUniformfv(m_programID,uniform->second.loc,&o_value.m_openGL[0]);
+  }
 
+}
 
 
 //----------------------------------------------------------------------------------------------------------------------

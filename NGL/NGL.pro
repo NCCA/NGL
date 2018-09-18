@@ -157,7 +157,8 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/Vec3.cpp \
 		$$SRC_DIR/Vec2.cpp \
 		$$SRC_DIR/Text.cpp \
-		$$SRC_DIR/Mat3.cpp \
+    $$SRC_DIR/Mat2.cpp \
+    $$SRC_DIR/Mat3.cpp \
 		$$SRC_DIR/NGLStream.cpp \
     $$SRC_DIR/Image.cpp \
     $$SRC_DIR/VAOFactory.cpp \
@@ -212,7 +213,8 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/Vec3.h \
 		$$INC_DIR/Vec2.h \
 		$$INC_DIR/Text.h \
-		$$INC_DIR/Mat3.h \
+    $$INC_DIR/Mat2.h \
+    $$INC_DIR/Mat3.h \
 		$$INC_DIR/Image.h \
     $$INC_DIR/VAOFactory.h \
     $$INC_DIR/AbstractVAO.h \

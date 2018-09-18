@@ -775,7 +775,6 @@ void ShaderLib::getUniform(const std::string_view &_paramName, ngl::Vec4 &o_v)  
   o_v.set(x,y,z,w);
 }
 
-
 void ShaderLib::setUniform(const std::string_view &_paramName,Real _v0,Real _v1) noexcept
 {
   (*this)[m_currentShader]->setRegisteredUniform2f(_paramName.data(),_v0,_v1);
@@ -827,10 +826,32 @@ void ShaderLib::setUniform(const std::string_view &_paramName,Vec4 _v0) noexcept
   (*this)[m_currentShader]->setRegisteredUniform4f(_paramName.data(),_v0.m_x,_v0.m_y,_v0.m_z,_v0.m_w);
 }
 
+void ShaderLib::setUniform(const std::string_view &_paramName,Mat2 _v0) noexcept
+{
+  (*this)[m_currentShader]->setRegisteredUniformMatrix2fv(_paramName.data(),1,GL_FALSE,_v0.openGL());
+}
+
+
+void ShaderLib::getUniform(const std::string_view &_paramName, ngl::Mat2 &o_v)  noexcept
+{
+ (*this)[m_currentShader]->getRegisteredUniformMatrix2fv(_paramName.data(),o_v);
+}
+
+
 void ShaderLib::setUniform(const std::string_view &_paramName,Mat3 _v0) noexcept
 {
   (*this)[m_currentShader]->setRegisteredUniformMatrix3fv(_paramName.data(),1,GL_FALSE,_v0.openGL());
+}
 
+
+void ShaderLib::getUniform(const std::string_view &_paramName, ngl::Mat3 &o_v)  noexcept
+{
+ (*this)[m_currentShader]->getRegisteredUniformMatrix3fv(_paramName.data(),o_v);
+}
+
+void ShaderLib::getUniform(const std::string_view &_paramName, ngl::Mat4 &o_v)  noexcept
+{
+ (*this)[m_currentShader]->getRegisteredUniformMatrix4fv(_paramName.data(),o_v);
 }
 
 #ifdef USEGLM

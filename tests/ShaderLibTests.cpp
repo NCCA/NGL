@@ -156,6 +156,24 @@ TEST(ShaderLib,testSetUniform)
     EXPECT_FLOAT_EQ(resultVec4.m_z,-22.2f);
     EXPECT_FLOAT_EQ(resultVec4.m_w,1230.4f);
   }
+  {
+    shader->setUniform("testMat2",ngl::Mat2());
+    ngl::Mat2 result;
+    shader->getUniform("testMat2",result);
+    EXPECT_TRUE(result==ngl::Mat2());
+  }
+  {
+    shader->setUniform("testMat3",ngl::Mat3());
+    ngl::Mat3 result;
+    shader->getUniform("testMat3",result);
+    EXPECT_TRUE(result==ngl::Mat3());
+  }
+  {
+    shader->setUniform("testMat4",ngl::Mat4());
+    ngl::Mat4 result;
+    shader->getUniform("testMat4",result);
+    EXPECT_TRUE(result==ngl::Mat4());
+  }
 
 }
 
