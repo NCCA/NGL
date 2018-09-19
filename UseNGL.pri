@@ -29,7 +29,7 @@ QMAKE_CXXFLAGS+= -msse -msse2 -msse3
 macx:QMAKE_CXXFLAGS+= -arch x86_64
 macx:INCLUDEPATH+=/usr/local/include/
 
-linux-g++:QMAKE_CXXFLAGS +=  -march=native
+linux-g++:QMAKE_CXXFLAGS +=  -march=native -Wno-unused-variable
 linux-g++-64:QMAKE_CXXFLAGS +=  -march=native
 # define the _DEBUG flag for the graphics lib
 DEFINES +=NGL_DEBUG
