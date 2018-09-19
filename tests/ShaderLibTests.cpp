@@ -188,6 +188,7 @@ TEST(ShaderLib,editShader)
   constexpr auto Vertex="EditVert";
   shader->attachShader( Vertex, ngl::ShaderType::VERTEX ,ngl::ErrorExit::OFF);
   shader->loadShaderSource(Vertex,"files/EditVert.glsl");
+  EXPECT_TRUE(shader->editShader(Vertex,"@breakMe","1.0"))<<"edit shader set breakMe ";
   EXPECT_TRUE(shader->editShader(Vertex,"@numLights","2"))<<"edit shader";
   EXPECT_TRUE(shader->compileShader(Vertex))<<"error compiling vert shader";
   constexpr auto Fragment="EditFrag";
@@ -197,12 +198,14 @@ TEST(ShaderLib,editShader)
   EXPECT_TRUE(shader->compileShader(Fragment))<<"error compiling vert shader";
   shader->attachShaderToProgram(shaderName,Vertex);
   shader->attachShaderToProgram(shaderName,Fragment);
-  EXPECT_TRUE(shader->linkProgramObject(shaderName));
+  EXPECT_TRUE(shader->linkProgramObject(shaderName))<<"First Link";
   (*shader)[shaderName]->use();
   EXPECT_TRUE(shader->getCurrentShaderName()==shaderName);
   // Now re-edit
-  EXPECT_TRUE(shader->editShader(Vertex,"@numLights","5"))<<"edit shader";
-  EXPECT_TRUE(shader->editShader(Vertex,"@breakMe","1.0"))<<"edit shader set breakMe";
+  shader->resetEdits(Vertex);
+  shader->resetEdits(Fragment);
+  EXPECT_TRUE(shader->editShader(Vertex,"@numLights","5"))<<"edit shader 2nd";
+  EXPECT_TRUE(shader->editShader(Vertex,"@breakMe","1.0"))<<"edit shader set breakMe 2nd";
   EXPECT_TRUE(shader->editShader(Fragment,"@numLights","5"))<<"edit shader";
   EXPECT_TRUE(shader->compileShader(Vertex))<<"error compiling vert shader";
   EXPECT_TRUE(shader->compileShader(Fragment))<<"error compiling vert shader";
