@@ -63,7 +63,7 @@ NGLInit::NGLInit()
     msg->drawLine(Colours::RED);
     msg->addError("failed to initialize OpenGL");
     msg->drawLine(Colours::RED);
-`    exit(EXIT_FAILURE);
+    exit(EXIT_FAILURE);
   }
   if (!gl3wIsSupported(4, 1))
   {

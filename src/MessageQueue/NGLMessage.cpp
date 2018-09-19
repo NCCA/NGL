@@ -1,5 +1,7 @@
 #include "NGLMessage.h"
 #include <thread>
+#include <mutex>
+#include <atomic>
 #include <iostream>
 #include <fcntl.h>
 #include <sys/stat.h>
