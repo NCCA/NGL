@@ -108,6 +108,10 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   bool editShader(const std::string_view &_shader, const std::string_view &_toFind, const std::string_view &_edit );
   //----------------------------------------------------------------------------------------------------------------------
+  /// @brief reset all edits
+  //----------------------------------------------------------------------------------------------------------------------
+  void resetEdits(const std::string_view &_shader);
+  //----------------------------------------------------------------------------------------------------------------------
   /// @brief bind an attribute at index by name
   /// @param _programName  the name of the ShaderProgram to use
   /// @param _index the attribute index to bind

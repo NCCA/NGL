@@ -121,6 +121,13 @@ bool Shader::editShader(const std::string_view &_toFind, const std::string_view 
   m_compiled=false;
   return true;
 }
+
+void Shader::resetEdits()
+{
+  m_edited=false;
+}
+
+
 void Shader::load(const std::string_view &_name ) noexcept
 {
   // see if we already have some source attached

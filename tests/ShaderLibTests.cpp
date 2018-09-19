@@ -202,6 +202,7 @@ TEST(ShaderLib,editShader)
   EXPECT_TRUE(shader->getCurrentShaderName()==shaderName);
   // Now re-edit
   EXPECT_TRUE(shader->editShader(Vertex,"@numLights","5"))<<"edit shader";
+  EXPECT_TRUE(shader->editShader(Vertex,"@breakMe","1.0"))<<"edit shader set breakMe";
   EXPECT_TRUE(shader->editShader(Fragment,"@numLights","5"))<<"edit shader";
   EXPECT_TRUE(shader->compileShader(Vertex))<<"error compiling vert shader";
   EXPECT_TRUE(shader->compileShader(Fragment))<<"error compiling vert shader";

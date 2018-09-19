@@ -210,7 +210,12 @@ bool ShaderLib::editShader(const std::string_view &_shader,const std::string_vie
   return success;
 }
 
-
+void ShaderLib::resetEdits(const std::string_view &_shader)
+{
+  auto shader=m_shaders.find(_shader.data());
+  if(shader!=m_shaders.end() )
+    shader->second->resetEdits();
+}
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::createShaderProgram(const std::string_view &_name , ErrorExit _exitOnError ) noexcept
 {
