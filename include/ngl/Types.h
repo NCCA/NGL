@@ -20,7 +20,7 @@
 /// @file Types.h
 /// @brief main definition of types and namespace
 //----------------------------------------------------------------------------------------------------------------------
-
+/*
 #ifdef __APPLE__
   #include <unistd.h>
   #ifndef USINGIOS_
@@ -40,7 +40,8 @@
 #else
   #include "gl3w.h"
 #endif
-
+*/
+#include "gl3w.h"
 #include "fmt/format.h"
 
 

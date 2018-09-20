@@ -172,10 +172,12 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
     $$SRC_DIR/MessageQueue/NGLMessage.cpp \
     $$SRC_DIR/MessageQueue/FileConsumer.cpp \
     $$SRC_DIR/MessageQueue/PipeConsumer.cpp \
-    $$SRC_DIR/MessageQueue/MMapConsumer.cpp
-    !macx:{
-      SOURCES+=$$BASE_DIR/gl3w/gl3w.c
-    }
+    $$SRC_DIR/MessageQueue/MMapConsumer.cpp   \
+    $$BASE_DIR/gl3w/gl3w.c
+
+#    !macx:{
+#      SOURCES+=$$BASE_DIR/gl3w/gl3w.c
+#    }
 
 ios {
 	message("IOS BUILD")
@@ -237,10 +239,11 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/rapidxml/rapidxml_iterators.hpp \
 		$$INC_DIR/rapidxml/rapidxml_print.hpp \
     $$INC_DIR/rapidxml/rapidxml_utils.hpp \
-    $$INC_DIR/pystring.h
-    !macx:{
-            HEADERS+=$$PWD/gl3w/gl3w.h
-    }
+    $$INC_DIR/pystring.h \
+    $$BASE_DIR/gl3w/gl3w.h
+#    !macx:{
+#            HEADERS+=$$PWD/gl3w/gl3w.h
+#    }
 
 unix:PRECOMPILED_HEADER += $$SRC_DIR/ngl/Meshes.h \
 
