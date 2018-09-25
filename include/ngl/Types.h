@@ -41,7 +41,14 @@
   #include "gl3w.h"
 #endif
 */
-#include "gl3w.h"
+
+#ifdef __APPLE__
+  #include <OpenGL/gl3.h>
+  #include <OpenGL/gl3ext.h>
+#else
+
+  #include "gl3w.h"
+#endif
 #include "fmt/format.h"
 
 

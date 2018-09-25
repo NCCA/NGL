@@ -56,7 +56,7 @@ NGLInit::NGLInit()
 {
   msg=std::make_unique<NGLMessage>(NGLMessage(NGLMessage::Mode::CLIENTSERVER,CommunicationMode::STDERR));
 
-//#if defined(USINGIOS_) || !defined(__APPLE__)
+#if defined(USINGIOS_) || !defined(__APPLE__)
 
   if (gl3wInit())
   {
@@ -76,7 +76,7 @@ NGLInit::NGLInit()
     msg->drawLine(Colours::RED);
     exit(EXIT_FAILURE);
   }
-//#endif
+#endif
 
   msg->startMessageConsumer();
   std::this_thread::sleep_for(std::chrono::milliseconds(20));
