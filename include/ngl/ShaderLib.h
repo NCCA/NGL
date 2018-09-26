@@ -59,7 +59,7 @@ class NGL_DLLEXPORT ShaderLib : public  Singleton<ShaderLib>
   friend class Singleton<ShaderLib>;
 
 public :
-  enum class MatrixTranspose : bool {True=GL_TRUE,False=GL_FALSE};
+  enum class MatrixTranspose : bool {TransposeOn=GL_TRUE,TransposeOff=GL_FALSE};
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create an empty ShaderProgram for us to attach shaders etc to
   /// @param _name the name of the ShaderProgram to link
@@ -353,9 +353,9 @@ public :
   void getUniform(const std::string_view &_paramName,Mat4 &_v0) noexcept;
 
   // compatability functions to make it easier to use GLM
-  void setUniformMatrix2fv(const std::string_view &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::False) noexcept;
-  void setUniformMatrix4fv(const std::string_view &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::False) noexcept;
-  void setUniformMatrix3fv(const std::string_view &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::False) noexcept;
+  void setUniformMatrix2fv(const std::string_view &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::TransposeOff) noexcept;
+  void setUniformMatrix4fv(const std::string_view &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::TransposeOff) noexcept;
+  void setUniformMatrix3fv(const std::string_view &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::TransposeOff) noexcept;
 
 #ifdef USEGLM
   //----------------------------------------------------------------------------------------------------------------------

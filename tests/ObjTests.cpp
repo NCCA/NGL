@@ -555,6 +555,4 @@ TEST(Obj,passbyref)
 
   countVerts(a);
   EXPECT_EQ(count,10);
-
-
 }
