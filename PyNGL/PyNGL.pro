@@ -16,14 +16,12 @@ CONFIG-=app_bundle
 CONFIG += c++1z
 message("this will need to be changed for you own paths")
 
-macx:QMAKE_CXXFLAGS+=$$system(python-config --cflags)
-macx:QMAKE_LFLAGS+=$$system(python-config --ldflags)
-linux:QMAKE_CXXFLAGS+=$$system(python-config --cflags)
-linux:QMAKE_LFLAGS+=$$system(python-config --ldflags)
+QMAKE_CXXFLAGS+=$$system(python-config --cflags)
+QMAKE_LFLAGS+=$$system(python-config --ldflags)
 
 INCLUDEPATH+=$$PWD
 QMAKE_CXXFLAGS+= -std=c++1z
-DEFINES+=PYBIND11_HAS_STRING_VIEW
+macx:DEFINES+=PYBIND11_HAS_STRING_VIEW
 
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
 DEFINES+= USEGLM

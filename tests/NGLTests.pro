@@ -11,7 +11,7 @@ macx:LIBS+= -framework OpenGL -framework IOKit -framework Cocoa -framework CoreV
 linux:LIBS+= -lX11 -lXxf86vm -L/usr/lib64 -lXrandr -lXi -lXinerama -lXcursor -ldl
 macx:DEFINES+=GLFW_USE_MENUBAR
 macx:DEFINES+=GLFW_USE_RETINA
-linxu:DEFINES+=GLM_ENABLE_EXPERIMENTAL
+linux:DEFINES+=GLM_ENABLE_EXPERIMENTAL
 DEFINES+=ADDLARGEMODELS
  cache()
 # where to put moc auto generated files

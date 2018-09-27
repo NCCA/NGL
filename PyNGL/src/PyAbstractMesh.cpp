@@ -12,9 +12,6 @@ PYBIND11_MAKE_OPAQUE(std::vector<uint32_t, std::allocator<uint32_t>>);
 namespace ngl
 {
 
-#ifndef PYBIND11_HAS_STRING_VIEW
-  #warning No String View for PYBIND11
-#endif
 
 void pyInitAbstractMesh(py::module & m)
 {

@@ -305,7 +305,6 @@ public :
   /// @param[in] _v3 the int value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
   void setUniform(const std::string_view &_paramName,GLint _v0,GLint _v1,GLint _v2,GLint _v3) noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail

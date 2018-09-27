@@ -584,6 +584,65 @@ void ShaderProgram::autoRegisterUniforms() noexcept
   }
 }
 
+std::string ShaderProgram::getValueFromShader(const uniformData &_d) const noexcept
+{
+  std::string value;
+  if(_d.type ==GL_FLOAT || _d.type==GL_BOOL)
+  {
+    float v;
+    getUniformfv(_d.name.c_str(),&v);
+    value=fmt::format("[{0}]",v);
+  }
+
+  else if(_d.type ==GL_FLOAT_VEC2)
+  {
+    float v[2];
+    getUniformfv(_d.name.c_str(),&v[0]);
+    value=fmt::format("[{0},{1}]",v[0],v[1]);
+  }
+  else if(_d.type ==GL_FLOAT_VEC3)
+  {
+    float v[3];
+    getUniformfv(_d.name.c_str(),&v[0]);
+    value=fmt::format("[{0},{1},{2}]",v[0],v[1],v[2]);
+  }
+  else if(_d.type ==GL_FLOAT_VEC4)
+  {
+    float v[4];
+    getUniformfv(_d.name.c_str(),&v[0]);
+    value=fmt::format("[{0},{1},{2},{3}]",v[0],v[1],v[2],v[3]);
+  }
+  else if(_d.type ==GL_FLOAT_MAT2)
+  {
+    float v[4];
+    getUniformfv(_d.name.c_str(),&v[0]);
+    value=fmt::format("[{0},{1}]"
+                      "[{2},{3}]",v[0],v[1],v[2],v[3]);
+  }
+  else if(_d.type ==GL_FLOAT_MAT3)
+  {
+    float v[9];
+    getUniformfv(_d.name.c_str(),&v[0]);
+    value=fmt::format("[{0},{1},{2}]"
+                      "[{3},{4},{5}]"
+                      "[{6},{7},{8}]",v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7],v[8]);
+  }
+  else if(_d.type ==GL_FLOAT_MAT4)
+  {
+    float v[16];
+    getUniformfv(_d.name.c_str(),&v[0]);
+    value=fmt::format("[{0},{1},{2},{3}]"
+                      "[{4},{5},{6},{7}]"
+                      "[{8},{9},{10},{11}]"
+                      "[{12},{13},{14},{15}]",
+                      v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7],v[8],
+                      v[9],v[10],v[11],v[12],v[13],v[14],v[15]);
+  }
+
+
+return value;
+}
+
 void ShaderProgram::printRegisteredUniforms() const noexcept
 {
   const static std::unordered_map<GLenum,const char *> types=
@@ -706,6 +765,7 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
   for(auto d : m_registeredUniforms)
   {
     std::string type;
+    std::string shaderValue;
     auto value=types.find(d.second.type);
     if(value !=types.end())
     {
@@ -715,7 +775,8 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {
       type="unknown type";
     }
-    msg->addMessage(fmt::format("Uniform {0} Location -> {1} glsl type : {2} ",d.first,d.second.loc,type),Colours::WHITE,TimeFormat::NONE);
+    shaderValue=getValueFromShader(d.second);
+    msg->addMessage(fmt::format("Uniform {0} Location -> {1} glsl type : {2}  value {3}",d.first,d.second.loc,type,shaderValue),Colours::WHITE,TimeFormat::NONE);
   }
   msg->drawLine();
 }

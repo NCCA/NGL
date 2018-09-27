@@ -327,6 +327,7 @@ private :
     std::string name;
     GLuint buffer;
   };
+  std::string getValueFromShader(const uniformData &_d)const noexcept ;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a list of uniforms for this object, mapping name to ID number must be added by the user

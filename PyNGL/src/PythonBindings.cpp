@@ -26,7 +26,6 @@ extern void pyInitBezierCurve(py::module & m);
 extern void pyInitCamera(py::module & m);
 extern void pyInitColour(py::module & m);
 extern void pyInitImage(py::module & m);
-extern void pyInitLight(py::module & m);
 extern void pyInitLogger(py::module & m);
 extern void pyInitVAOPrimitives(py::module & m);
 extern void pyInitMat3(py::module & m);
