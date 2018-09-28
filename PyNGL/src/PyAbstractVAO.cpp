@@ -2,7 +2,7 @@
 #include <pybind11/operators.h>
 #include <pybind11/stl.h>
 #include <pybind11/cast.h>
-
+#include <pybind11/pytypes.h>
 
 #include "AbstractVAO.h"
 namespace py = pybind11;
@@ -24,11 +24,11 @@ void pyInitAbstractVAO(py::module & m)
     .def("setMode",&AbstractVAO::setMode)
       ;
 
+
   py::class_<AbstractVAO::VertexData>(m, "VertexData")
       .def(py::init<size_t,const GLfloat &, GLenum >(),
-           py::arg("_size"),py::arg("_data"),py::arg("_mode"))
+           py::arg("_size"),py::arg("_data"),py::arg("_mode")=GL_STATIC_DRAW)
       ;
-
 
 }
 }

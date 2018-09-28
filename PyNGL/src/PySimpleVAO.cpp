@@ -16,8 +16,11 @@ namespace ngl
         .def("bind", &SimpleVAO::bind)
         .def("unbind", &SimpleVAO::unbind)
         .def("removeVAO", &SimpleVAO::removeVAO)
-        .def("setData",(void(SimpleVAO::*)(py::list)) &SimpleVAO::setData)
+        .def("setData", &SimpleVAO::setData)
         .def("getBufferID", &SimpleVAO::getBufferID)
         ;
+
   }
+
+
 }
