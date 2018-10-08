@@ -13,7 +13,7 @@ QMAKE_LFLAGS += -shared
 QMAKE_CXXFLAGS+= -Wno-register
 CONFIG += console
 CONFIG-=app_bundle
-CONFIG += c++1z
+CONFIG += c++14
 message("this will need to be changed for you own paths")
 
 QMAKE_CXXFLAGS+=$$system(python-config --cflags)

@@ -2,15 +2,15 @@
 #define FILECONSUMER_H_
 
 #include <fstream>
-#include <string_view>
+#include <string>
 #include "AbstractMessageConsumer.h"
 
 class FileConsumer : public AbstractMessageConsumer
 {
   public :
-    FileConsumer(const std::string_view &_fname);
+    FileConsumer(const std::string &_fname);
     virtual ~FileConsumer() override;
-    bool setFilename(const std::string_view &_fname);
+    bool setFilename(const std::string &_fname);
     virtual void consume(const message &_message) override;
   private :
     std::ofstream m_output;

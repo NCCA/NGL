@@ -24,7 +24,7 @@
 #include <string>
 #include <thread>
 #include <chrono>
-
+#include <memory>
 #if defined(LINUX) || defined(WIN32)
   #include <cstdlib>
 #endif

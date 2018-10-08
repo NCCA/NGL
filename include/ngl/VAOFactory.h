@@ -44,19 +44,19 @@ class NGL_DLLEXPORT VAOFactory
     /// @param _type the name of the creator function registered
     /// @param _cb the creator function must pass in a GLenum for the type to create and return an AbstractVAO
     //----------------------------------------------------------------------------------------------------------------------
-    static void registerVAOCreator(const std::string_view &_type, std::function<std::unique_ptr< AbstractVAO>(GLenum _mode)> _cb);
+    static void registerVAOCreator(const std::string &_type, std::function<std::unique_ptr< AbstractVAO>(GLenum _mode)> _cb);
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief Remove an existing vao creator from the map
     /// @param _type the name of the creator to remove
     //----------------------------------------------------------------------------------------------------------------------
-    static void unregisterVAOCreator(const std::string_view &_type);
+    static void unregisterVAOCreator(const std::string &_type);
     //----------------------------------------------------------------------------------------------------------------------
     /// Create an instance of a named VAO from a creator
     /// @param _type the name of the creator to use from our factory
     /// @param _mode the initial mode to create (i.e. GL_TRIANGLES etc)
     /// @returns AbstractAVO *
     //----------------------------------------------------------------------------------------------------------------------
-    static std::unique_ptr<AbstractVAO> createVAO(const std::string_view &_type, GLenum _mode=GL_TRIANGLES);
+    static std::unique_ptr<AbstractVAO> createVAO(const std::string &_type, GLenum _mode=GL_TRIANGLES);
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief debug function to list all creators
     //----------------------------------------------------------------------------------------------------------------------

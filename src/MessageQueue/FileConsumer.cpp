@@ -2,7 +2,7 @@
 #include <iostream>
 #include <iomanip>
 
-FileConsumer::FileConsumer(const std::string_view &_fname)
+FileConsumer::FileConsumer(const std::string &_fname)
 {
   m_output.open(_fname.data());
   // check to see if we can open the file
@@ -19,7 +19,7 @@ FileConsumer::~FileConsumer()
   m_output.close();
 }
 
-bool FileConsumer::setFilename(const std::string_view &_fname)
+bool FileConsumer::setFilename(const std::string &_fname)
 {
   if(m_output.is_open())
   {

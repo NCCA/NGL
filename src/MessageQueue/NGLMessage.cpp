@@ -67,7 +67,7 @@ namespace ngl
     }
   }
 
-  void NGLMessage::setFilename(const std::string_view &_fname)
+  void NGLMessage::setFilename(const std::string &_fname)
   {
     FileConsumer *f=reinterpret_cast<FileConsumer *>(m_consumer.get());
     if(f!=nullptr)

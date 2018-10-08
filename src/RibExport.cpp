@@ -24,7 +24,7 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-RibExport::RibExport(const std::string_view &_fileName, bool _oneShot)
+RibExport::RibExport(const std::string &_fileName, bool _oneShot)
 {
   m_attribCount    = 0;
   m_transformCount = 0;
@@ -61,7 +61,7 @@ RibExport::~RibExport()
 // Writes the Comment parameters to
 // the rib file.
 //----------------------------------------------------------------------------------------------------------------------
-void RibExport::comment(const std::string_view &_sText)
+void RibExport::comment(const std::string &_sText)
 {
   // Append Comment
   m_ribFile << "\n#======================================================\n";
@@ -163,7 +163,7 @@ void RibExport::WorldEnd()
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void RibExport::writeToFile(std::string_view _string)
+void RibExport::writeToFile(std::string _string)
 {
   writeTabs();
   m_ribFile << _string.data() << '\n';

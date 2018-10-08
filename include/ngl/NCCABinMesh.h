@@ -56,23 +56,23 @@ public :
   /// @brief constructor to load an objfile as a parameter
   /// @param[in]  &_fname the name of the obj file to load
   //----------------------------------------------------------------------------------------------------------------------
-  NCCABinMesh( const std::string_view& _fname  ) noexcept;
+  NCCABinMesh( const std::string& _fname  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief constructor to load an objfile as a parameter
   /// @param[in]  &_fname the name of the obj file to load
   /// @param[in]  &_texName the name of the texture file
   //----------------------------------------------------------------------------------------------------------------------
-  NCCABinMesh( const std::string_view& _fname, const std::string_view& _texName) noexcept;
+  NCCABinMesh( const std::string& _fname, const std::string& _texName) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  Method to load the file in
   /// @param[in]  _fname the name of the obj file to load
   //----------------------------------------------------------------------------------------------------------------------
-  bool load( const std::string_view& _fname, CalcBB _calcBB=CalcBB::True) noexcept override;
+  bool load( const std::string& _fname, CalcBB _calcBB=CalcBB::True) noexcept override;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to save the obj
   /// @param[in] _fname the name of the file to save
   //----------------------------------------------------------------------------------------------------------------------
-  void save( const std::string_view& _fname) noexcept;
+  void save( const std::string& _fname) noexcept;
 
 protected :
 

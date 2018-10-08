@@ -11,7 +11,7 @@ QT += core
 QT += gui
 QT -=xml
 
-CONFIG+=c++1z
+CONFIG+=c++1y
 
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
 DEFINES+=USEGLM

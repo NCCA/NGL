@@ -22,7 +22,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
 #include <vector>
-#include <string_view>
+#include <string>
 #include "AbstractMesh.h"
 
 namespace ngl
@@ -47,17 +47,17 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
     /// @brief  constructor to load an objfile as a parameter
     /// @param[in]  &_fname the name of the obj file to load
     //----------------------------------------------------------------------------------------------------------------------
-    Obj( const std::string_view& _fname, CalcBB _calcBB=CalcBB::True)  noexcept ;
+    Obj( const std::string& _fname, CalcBB _calcBB=CalcBB::True)  noexcept ;
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief constructor to load an objfile as a parameter
     /// @param[in]  &_fname the name of the obj file to load
     /// @param[in]  &_texName the name of the texture file
     // avoid _texName being converted to bool via explicit conversion
     //----------------------------------------------------------------------------------------------------------------------
-    Obj(const std::string_view &_fname,  const std::string_view &_texName, CalcBB _calcBB=CalcBB::True ) noexcept;
+    Obj(const std::string &_fname,  const std::string &_texName, CalcBB _calcBB=CalcBB::True ) noexcept;
 
     Obj(const Obj &_c) noexcept;
-    void setTexture(const std::string_view &_texName);
+    void setTexture(const std::string &_texName);
 
     void addVertex(const Vec3 &_v) noexcept;
     void addNormal(const Vec3 &_v) noexcept;
@@ -70,8 +70,8 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
     /// @param[in] _calcBB if we only want to load data and not use GL then set this to false
     //----------------------------------------------------------------------------------------------------------------------
 
-    virtual bool load(const std::string_view &_fname, CalcBB _calcBB=CalcBB::True ) noexcept;
-    bool save(const std::string_view &_fname) noexcept;
+    virtual bool load(const std::string &_fname, CalcBB _calcBB=CalcBB::True ) noexcept;
+    bool save(const std::string &_fname) noexcept;
     bool isLoaded() const noexcept {return m_isLoaded;}
   private :
     bool parseVertex(std::vector<std::string> &_tokens) noexcept;

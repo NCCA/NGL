@@ -49,7 +49,7 @@ public :
   /// @brief ctor passing in the name of the rib file to open
   /// @param[in] _fileName the rib file to open
   //----------------------------------------------------------------------------------------------------------------------
-  RibExport(  const std::string_view &_fileName, bool _oneShot=false );
+  RibExport(  const std::string &_fileName, bool _oneShot=false );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief destructor
   //----------------------------------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ public :
   /// @brief  write a comment to the rib stream
   /// @param[in] _sText the text to write
   //----------------------------------------------------------------------------------------------------------------------
-  void comment( const std::string_view &_sText );
+  void comment( const std::string &_sText );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief open a rib file for writing
   //----------------------------------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ public :
   /// @brief Write text to rib file
   /// @param[in] _string the string to write
   //----------------------------------------------------------------------------------------------------------------------
-  void writeToFile(std::string_view _string);
+  void writeToFile(std::string _string);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief write an RiTranslate to file
   /// @param[in] _x the x translate value
