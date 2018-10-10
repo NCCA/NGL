@@ -9,8 +9,8 @@ before_install:
     - sudo apt-add-repository --yes ppa:beineri/opt-qt551-trusty
     - sudo apt-get -qq update
 install:
-    - sudo apt-get --yes install qt55base
-
+    - sudo apt-get --yes install qt55base git
+    - git clone https://github.com/g-truc/glm && cd glm && cp -r glm /usr/include
 language : cpp
 
 compiler:
