@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.1)
 # Name of the project
 project(NGL)
-
+message("doing check")
 if(DEFINED ENV{NGLDIR})
-    message("found NGLDIR")
+    message("found define NGLDIR as " $ENV{NGLDIR})
     set(NGLROOT $ENV{NGLDIR})
 elseif(NOT DEFINED ENV{NGLDIR})
+    message("setting NGLROOT to " $ENV{HOME}/NGL/)
     set(NGLROOT $ENV{HOME}/NGL/)
 endif()
 
