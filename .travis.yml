@@ -7,11 +7,19 @@ notifications:
 # add qt support
 before_install:
     - sudo apt-add-repository --yes ppa:beineri/opt-qt551-trusty
-    - sudo apt-get -qq update
+    # C++17
+    - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+    - sudo apt-get update -qq
+
+
 install:
     - sudo apt-get --yes install qt55base git xorg-dev
     - git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/include 
     - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake ../glfw && make -j2 && sudo make install
+    # C++17
+    - sudo apt-get install -qq g++-6
+    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
+
 language : cpp
 
 compiler:
