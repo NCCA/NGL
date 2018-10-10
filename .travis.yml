@@ -6,7 +6,7 @@
     addons:
       apt:
         sources: ['ubuntu-toolchain-r-test']
-        packages: [g++-6  qt55base git xorg-dev ]
+        packages: [g++-6  qt55base git xorg-dev gtest ]
   - os: linux
     dist: trusty
     compiler: 
@@ -35,6 +35,7 @@ install:
     - sudo apt-get --yes install qt55base git xorg-dev
     - git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/include 
     - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake ../glfw && make -j2 && sudo make install
+    - git clone https://github.com/google/googletest && cd googletest && mkdir build && cd build && cmake .. && make -j2 && sudo make install
     # C++17
 #    - sudo apt-get install -qq g++-6
 #    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
@@ -48,4 +49,4 @@ install:
 
 script :
   - cd /home/travis/build/NCCA/NGL
-  - CXX=/usr/bin/g++-6 cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2
+  - cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2
