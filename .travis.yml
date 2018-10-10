@@ -16,6 +16,8 @@ language : cpp
 compiler:
   - gcc
 
-script :
-  - cd && cd NGL && cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL"  && make -j2
+before_script :
+  cmake CMakeLists
 
+script :
+  - make -j 2
