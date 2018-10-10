@@ -18,6 +18,8 @@ compiler:
 
 before_script :
   - cd NCCA/NGL &&  cmake CMakeLists
-
+  - ls
 script :
+  - ls
+  - pwd
   - make -j 2
