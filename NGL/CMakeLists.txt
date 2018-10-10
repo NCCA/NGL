@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 3.1)
 # Name of the project
 project(NGL)
+
+if(DEFINED ENV{NGLDIR})
+    set(NGLROOT NGLDIR/../)
+elseif(NOT DEFINED ENV{NGLDIR})
+    set(NGLROOT $ENV{HOME}/NGL/)
+endif()
+
 #Bring the headers into the project (local ones)
-set(NGLROOT ../)
 include_directories(${NGLROOT}/include/ngl)
 include_directories(${NGLROOT}/src/ngl)
 include_directories(${NGLROOT}/src/shaders)
