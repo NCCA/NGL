@@ -10,7 +10,7 @@ before_install:
     - sudo apt-get -qq update
 install:
     - sudo apt-get --yes install qt55base git
-    - git clone https://github.com/g-truc/glm && cd glm && cp -r glm /usr/include
+    - git clone https://github.com/g-truc/glm && cd glm && sudo cp -r glm /usr/include
 language : cpp
 
 compiler:
