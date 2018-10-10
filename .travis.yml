@@ -19,8 +19,8 @@ install:
     - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake ../glfw && make -j2 && sudo make install
     # C++17
     - sudo apt-get install -qq g++-6
-    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6.90
-
+    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
+    
 
 language : cpp
 
@@ -29,4 +29,4 @@ compiler:
 
 script :
   - cd /home/travis/build/NCCA/NGL
-  - cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2 VERBOSE=1
+  - CXX=/usr/bin/g++-6 cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2 VERBOSE=1
