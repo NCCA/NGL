@@ -5,6 +5,9 @@ sudo: require
 notifications:
   email: false
 # add qt support
+
+
+
 before_install:
     - sudo apt-add-repository --yes ppa:beineri/opt-qt551-trusty
     - sudo apt-get update -qq
@@ -17,16 +20,18 @@ install:
     - sudo apt-get --yes install qt55base git xorg-dev
     - git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/include 
     - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake ../glfw && make -j2 && sudo make install
-    # C++17
-    - sudo apt-get install -qq g++-6
-    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
+    - git clone https://github.com/google/googletest && cd googletest && mkdir build && cd build && cmake .. && make -j2 && sudo make install
+    # C++17 
+    - sudo apt-get install -qq g++-7
+    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
     
 
-language : cpp
+#language : cpp
 
 compiler:
-  - gcc
+ - gcc
+ - clang
 
 script :
   - cd /home/travis/build/NCCA/NGL
-  - CXX=/usr/bin/g++-6 cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2 VERBOSE=1
+  - NGLDIR=/home/travis/build/NCCA/NGL cmake   -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2

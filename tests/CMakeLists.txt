@@ -2,12 +2,18 @@ cmake_minimum_required(VERSION 3.1)
 find_package(PkgConfig)
 find_package(glfw3 3.2 REQUIRED)
 
+if(DEFINED ENV{NGLDIR})
+    message("found NGLDIR")
+    set(NGLROOT $ENV{NGLDIR})
+elseif(NOT DEFINED ENV{NGLDIR})
+    set(NGLROOT $ENV{HOME}/NGL/)
+endif()
 
 # Name of the project
 set(PROJECT_NAME NGLTests)
 project(${PROJECT_NAME})
 #Bring the headers into the project (local ones)
-include_directories(include $ENV{HOME}/NGL/include $ENV{HOME}/NGL/gl3w $ENV{HOME}/NGL/include/fmt )
+include_directories(include ${NGLROOT}/include ${NGLROOT}/gl3w ${NGLROOT}/include/fmt )
 # use C++ 17
 set(CMAKE_CXX_STANDARD 17)
 add_definitions(-DUSEGLM )
@@ -54,7 +60,7 @@ add_definitions(-O2)
 
 
 # now add NGL specific values
-link_directories( $ENV{HOME}/NGL/lib )
+link_directories( ${NGLROOT}/lib )
 
 # add exe and link libs that must be after the other defines
 add_executable(${PROJECT_NAME} ${SOURCES})

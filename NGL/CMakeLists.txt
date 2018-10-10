@@ -1,8 +1,19 @@
 cmake_minimum_required(VERSION 3.1)
 # Name of the project
 project(NGL)
+message("doing check")
+if(DEFINED ENV{NGLDIR})
+    message("found define NGLDIR as " $ENV{NGLDIR})
+    set(NGLROOT $ENV{NGLDIR})
+elseif(NOT DEFINED ENV{NGLDIR})
+    message("setting NGLROOT to " $ENV{HOME}/NGL/)
+    set(NGLROOT $ENV{HOME}/NGL/)
+endif()
+
+
+
+
 #Bring the headers into the project (local ones)
-set(NGLROOT ../)
 include_directories(${NGLROOT}/include/ngl)
 include_directories(${NGLROOT}/src/ngl)
 include_directories(${NGLROOT}/src/shaders)
@@ -139,7 +150,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NGLROOT}/lib)
 SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${NGLROOT}/lib/libNGL*")
 
 add_library(NGL SHARED ${SOURCES})
-target_compile_features(NGL PRIVATE cxx_lambda_init_captures)
 
 target_link_libraries(NGL Qt5::OpenGL)
 target_link_libraries(NGL ${PROJECT_LINK_LIBS} ${EXTRALIBS})
