@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <strstream>
+#include <sstream>
 #include <cstdarg>
 #include <sys/ipc.h>
 #include <sys/shm.h>
@@ -67,7 +67,7 @@ namespace ngl
     }
   }
 
-  void NGLMessage::setFilename(const std::string_view &_fname)
+  void NGLMessage::setFilename(const std::string &_fname)
   {
     FileConsumer *f=reinterpret_cast<FileConsumer *>(m_consumer.get());
     if(f!=nullptr)
@@ -223,7 +223,7 @@ namespace ngl
          {
            auto msg=s_messageQueue.back();
            s_messageQueue.pop_back();
-           std::strstream message;
+           std::stringstream message;
            message<<AbstractMessageConsumer::getColourString(msg.colour);
 
            // put_time returns a " " if time string is empty which is annoying!
@@ -235,7 +235,7 @@ namespace ngl
            }
 
            message<<msg.message<<' ';
-           write(s_fifoID,message.str(),message.pcount());
+           write(s_fifoID,message.str().c_str(),message.gcount());
            std::this_thread::sleep_for(std::chrono::milliseconds(10));
          }
        }
