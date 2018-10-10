@@ -6,7 +6,7 @@ before_install:
     - sudo apt-add-repository --yes ppa:beineri/opt-qt551-trusty
     - sudo apt-get -qq update
 install:
-    - sudo apt-get --yes install qt55base glfw3
+    - sudo apt-get --yes install qt55base glfw
 
 language : cpp
 
