@@ -26,7 +26,8 @@ language : cpp
 
 compiler:
   - gcc
+  - clang
 
 script :
   - cd /home/travis/build/NCCA/NGL
-  - CXX=/usr/bin/g++-6 cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2 VERBOSE=1
+  - CXX=/usr/bin/g++-6 cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2
