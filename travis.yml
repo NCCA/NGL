@@ -1,18 +1,12 @@
 dist: trusty
-sudo: require
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-6
-      - g++-6
-      - cmake
-
+sudo: false
 
 language : cpp
 
 compiler:
-  - clang
   - gcc
+
+script :
+  - cmake .
+  - cmake --build . -- -j2
 
