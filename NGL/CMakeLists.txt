@@ -139,6 +139,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NGLROOT}/lib)
 SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${NGLROOT}/lib/libNGL*")
 
 add_library(NGL SHARED ${SOURCES})
+target_compile_features(NGL PRIVATE cxx_lambda_init_captures)
 
 target_link_libraries(NGL Qt5::OpenGL)
 target_link_libraries(NGL ${PROJECT_LINK_LIBS} ${EXTRALIBS})
