@@ -60,7 +60,7 @@ add_definitions(-O2)
 
 
 # now add NGL specific values
-link_directories( $ENV{HOME}/NGL/lib )
+link_directories( ${NGLROOT}/lib )
 
 # add exe and link libs that must be after the other defines
 add_executable(${PROJECT_NAME} ${SOURCES})
