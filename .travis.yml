@@ -11,6 +11,7 @@ before_install:
 install:
     - sudo apt-get --yes install qt55base git
     - git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/include 
+    - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake ../glfw && make -j2 && sudo make install
 language : cpp
 
 compiler:
