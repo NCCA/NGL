@@ -6,7 +6,7 @@ before_install:
     - sudo apt-add-repository --yes ppa:beineri/opt-qt551-trusty
     - sudo apt-get -qq update
 install:
-    - sudo apt-get --yes install qt55base qt55opengl glfw3
+    - sudo apt-get --yes install qt55base glfw3
 
 language : cpp
 
@@ -14,6 +14,6 @@ compiler:
   - gcc
 
 script :
-  - cmake .
+  - cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" . 
   - cmake --build . -- -j2
 
