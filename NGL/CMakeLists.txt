@@ -12,7 +12,7 @@ endif()
 
 
 
-
+set(CMAKE_CXX_FLAGS "-Wno-register")
 #Bring the headers into the project (local ones)
 include_directories(${NGLROOT}/include/ngl)
 include_directories(${NGLROOT}/src/ngl)
