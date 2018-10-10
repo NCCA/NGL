@@ -18,5 +18,5 @@ compiler:
 
 script :
   - cd /home/travis/build/NCCA/NGL
-  - cmake CMakeLists
+  - cmake CMakeLists.txt
   - make -j 2
