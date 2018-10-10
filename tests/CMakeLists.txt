@@ -9,7 +9,7 @@ elseif(NOT DEFINED ENV{NGLDIR})
 endif()
 # if we are building using Travis CI
 if(DEFINED $ENV{TRAVIS_BUILD_DIR})
-    set(NGLROOT $ENV{TRAVIS_BUILD_DIR})
+    set(NGLROOT /home/travis/build/NCCA/NGL)
 endif()
 
 # Name of the project
