@@ -34,4 +34,4 @@ compiler:
 
 script :
   - cd /home/travis/build/NCCA/NGL
-  - cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2
+  - cmake  -DNGLROOT="/home/travis/build/NCCA/NGL" -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2

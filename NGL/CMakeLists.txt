@@ -7,10 +7,6 @@ if(DEFINED $ENV{NGLDIR})
 elseif(NOT DEFINED ENV{NGLDIR})
     set(NGLROOT $ENV{HOME}/NGL/)
 endif()
-# if we are building using Travis CI
-if(DEFINED $ENV{TRAVIS_BUILD_DIR})
-    set(NGLROOT $ENV{TRAVIS_BUILD_DIR})
-endif()
 
 
 
