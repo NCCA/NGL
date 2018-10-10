@@ -10,12 +10,12 @@ before_install:
     - sudo apt-get -qq update
 install:
     - sudo apt-get --yes install qt55base git
-    - git clone https://github.com/g-truc/glm && cd glm && sudo cp -r glm /usr/include
+    - git clone https://github.com/g-truc/glm && cd glm && sudo cp -r glm /usr/include && cd
 language : cpp
 
 compiler:
   - gcc
 
 script :
-  - cd NGL && cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL"  && make -j2
+  - cd && cd NGL && cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL"  && make -j2
 
