@@ -1,0 +1,19 @@
+dist: trusty
+sudo: require
+
+# add qt support
+before_install:
+    - sudo apt-add-repository --yes ppa:beineri/opt-qt551-trusty
+    - sudo apt-get -qq update
+install:
+    - sudo apt-get --yes install qt55base 
+
+language : cpp
+
+compiler:
+  - gcc
+
+script :
+  - cmake .
+  - cmake --build . -- -j2
+
