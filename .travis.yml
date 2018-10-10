@@ -15,5 +15,5 @@ compiler:
 
 script :
   - cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" NGL/ 
-  - cmake --build NGL/ -- -j2
+  - cd NGL && make -j2
 
