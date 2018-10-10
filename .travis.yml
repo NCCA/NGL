@@ -1,16 +1,34 @@
-dist: trusty
-sudo: require
+- os: linux
+    dist: trusty
+    compiler: gcc
+    env:
+      - COMPILER=g++-6
+    addons:
+      apt:
+        sources: ['ubuntu-toolchain-r-test']
+        packages: [g++-6  qt55base git xorg-dev ]
+  - os: linux
+    dist: trusty
+    compiler: 
+    - gcc
+    - clang
+
+#dist: trusty
+#sudo: require
 
 
 notifications:
   email: false
 # add qt support
-before_install:
-    - sudo apt-add-repository --yes ppa:beineri/opt-qt551-trusty
-    - sudo apt-get update -qq
-    # C++17
-    - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-    - sudo apt-get update -qq
+
+
+
+#before_install:
+#    - sudo apt-add-repository --yes ppa:beineri/opt-qt551-trusty
+#    - sudo apt-get update -qq
+#    # C++17
+#    - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+#    - sudo apt-get update -qq
 
 
 install:
@@ -18,15 +36,15 @@ install:
     - git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/include 
     - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake ../glfw && make -j2 && sudo make install
     # C++17
-    - sudo apt-get install -qq g++-6
-    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
+#    - sudo apt-get install -qq g++-6
+#    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
     
 
-language : cpp
+#language : cpp
 
-compiler:
-  - gcc
-  - clang
+#compiler:
+#  - gcc
+#  - clang
 
 script :
   - cd /home/travis/build/NCCA/NGL
