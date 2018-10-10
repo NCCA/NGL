@@ -1,17 +1,14 @@
 - os: linux
     dist: trusty
-    compiler: gcc
+    compiler: 
+    - gcc
+    - clang
     env:
       - COMPILER=g++-6
     addons:
       apt:
         sources: ['ubuntu-toolchain-r-test']
         packages: [g++-6  qt55base git xorg-dev gtest ]
-  - os: linux
-    dist: trusty
-    compiler: 
-    - gcc
-    - clang
 
 #dist: trusty
 #sudo: require
