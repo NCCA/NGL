@@ -17,8 +17,8 @@ compiler:
   - gcc
 
 before_script :
-  - cd NCCA/NGL &&  cmake CMakeLists
   - ls
+  - pwd
 script :
   - ls
   - pwd
