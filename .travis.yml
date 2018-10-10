@@ -18,5 +18,4 @@ compiler:
 
 script :
   - cd /home/travis/build/NCCA/NGL
-  - cmake CMakeLists.txt
-  - make -j 2
+  - cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2
