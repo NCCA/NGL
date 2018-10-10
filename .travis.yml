@@ -1,6 +1,9 @@
 dist: trusty
 sudo: require
 
+
+notifications:
+  email: false
 # add qt support
 before_install:
     - sudo apt-add-repository --yes ppa:beineri/opt-qt551-trusty
@@ -14,5 +17,5 @@ compiler:
   - gcc
 
 script :
-  - cd NGL && cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL"  && cd NGL && make -j2
+  - cd NGL && cmake  -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL"  && make -j2
 
