@@ -142,7 +142,7 @@ void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int
     out->close ();
   #endif
   #if defined(USEIMAGEMAGIC)
-    Magick::Image output(realWidth,realHeight,
+      Magick::Image output(realWidth,realHeight,
                            size==3 ? "RGB" : "RGBA",
                            Magick::CharPixel,data.get()
                            );

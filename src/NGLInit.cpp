@@ -57,7 +57,6 @@ NGLInit::NGLInit()
   msg=std::make_unique<NGLMessage>(NGLMessage(NGLMessage::Mode::CLIENTSERVER,CommunicationMode::STDERR));
 
 #if defined(USINGIOS_) || !defined(__APPLE__)
-
   if (gl3wInit())
   {
     msg->drawLine(Colours::RED);

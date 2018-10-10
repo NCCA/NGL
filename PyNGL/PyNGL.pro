@@ -18,7 +18,7 @@ message("this will need to be changed for you own paths")
 
 QMAKE_CXXFLAGS+=$$system(python-config --cflags)
 QMAKE_LFLAGS+=$$system(python-config --ldflags)
-
+LIBS+=-L/opt/rh/python27/root/usr/lib64/
 INCLUDEPATH+=$$PWD
 QMAKE_CXXFLAGS+= -std=c++1z
 macx:DEFINES+=PYBIND11_HAS_STRING_VIEW
