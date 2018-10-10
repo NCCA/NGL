@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.1)
 # Name of the project
 project(NGL)
 
-if(DEFINED $ENV{NGLDIR})
-    set(NGLROOT NGLDIR/../)
+if(DEFINED ENV{NGLDIR})
+    message("found NGLDIR")
+    set(NGLROOT $ENV{NGLDIR})
 elseif(NOT DEFINED ENV{NGLDIR})
     set(NGLROOT $ENV{HOME}/NGL/)
 endif()
