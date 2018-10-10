@@ -16,10 +16,7 @@ language : cpp
 compiler:
   - gcc
 
-before_script :
-  - ls
-  - pwd
 script :
-  - ls
-  - pwd
+  - cd /home/travis/build/NCCA/NGL
+  - cmake CMakeLists
   - make -j 2
