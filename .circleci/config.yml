@@ -21,4 +21,8 @@ jobs:
           command : 'git clone https://github.com/google/googletest && cd googletest && mkdir build && cd build && cmake -DBUILD_GMOCK=OFF .. && make -j2 && sudo make install'
       
       - run : 
-          command : 'cd NGL && git checkout NGLc++14 && ls && NGLDIR=/root/project/NGL/ cmake CMakeLists.txt'
+          name : Build NGL
+          command : 'cd NGL && git checkout NGLc++14 && ls && NGLDIR=/root/project/NGL/ cmake CMakeLists.txt && make -j2'
+      - run :
+          name : NGL c++ Tests
+          command : 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/project/NGL/lib && cd //root/project/NGL/tests && ./NGLTests -g'
