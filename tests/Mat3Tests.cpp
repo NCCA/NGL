@@ -256,7 +256,7 @@ TEST(Mat3,normalMatrix)
   normalMatrix.inverse().transpose();
 
   glm::mat4 glmview=glm::lookAt(glm::vec3(2.0f,2.0f,2.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,1.0f,0.0f));
-  glm::mat4 glmmodel=glm::scale(glm::mat4(),glm::vec3(0.2f,1.0f,0.2f));
+  glm::mat4 glmmodel=glm::scale(glm::mat4(1.0f),glm::vec3(0.2f,1.0f,0.2f));
   glm::mat3 glmNormalMatrix;
   glmNormalMatrix = glm::transpose(glm::inverse(glm::mat3(glmview*glmmodel)));
 
