@@ -40,8 +40,8 @@ compiler:
  - clang
 
 script :
-  - cd /home/travis/build/NCCA/NGL
+  - cd $HOME/build/NCCA/NGL
   - NGLDIR=/home/travis/build/NCCA/NGL cmake   -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2
-  - export LD_LIBRARY_PATH=/home/travis/build/NCCA/NGL/lib:$LD_LIBRARY_PATH
-  - cd  /home/travis/build/NCCA/NGL/tests
+  - export LD_LIBRARY_PATH=$HOME/build/NCCA/NGL/lib:$LD_LIBRARY_PATH
+  - cd  $HOME/build/NCCA/NGL/tests
   - ./NGLTests -g

@@ -168,9 +168,6 @@ TEST(Mat2,Mat2xEqualReal)
 
 
 
-
-
-
 TEST(Mat2,Vec2xMat2)
 {
   ngl::Mat2 t1(1,2,3,4);

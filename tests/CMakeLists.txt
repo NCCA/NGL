@@ -17,6 +17,7 @@ include_directories(include ${NGLROOT}/include ${NGLROOT}/gl3w ${NGLROOT}/includ
 # use C++ 17
 set(CMAKE_CXX_STANDARD 17)
 add_definitions(-DUSEGLM -DGLM_ENABLE_EXPERIMENTAL)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -g")
 
 #the file(GLOB...) allows for wildcard additions of our src dir
 set(SOURCES 
