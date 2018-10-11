@@ -162,15 +162,11 @@ const Mat2& Mat2::operator+=( const Mat2 &_m  ) noexcept
 Mat2 Mat2::operator*( Real _i  ) const noexcept
 {
   Mat2 ret;
-  const Real* iterA = &m_openGL[0];
-  Real* iterB = &ret.m_openGL[0];
-  const Real* end   = &m_openGL[9];
-
-	for( ; iterA != end; ++iterA, ++iterB)
-	{
-		*iterB = (*iterA) * _i;
-	}
-	return ret;
+  ret.m_00=m_00*_i;
+  ret.m_01=m_01*_i;
+  ret.m_10=m_10*_i;
+  ret.m_11=m_11*_i;
+  return ret;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
