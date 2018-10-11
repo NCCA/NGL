@@ -51,7 +51,7 @@ script :
       NGLDIR=$HOME/build/NCCA/NGL cmake   -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2 
     ;fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
-      NGLDIR=$HOME/build/NCCA/NGL cmake  -DCMAKE_PREFIX_PATH=$(brew --prefix qt5) CMakeLists.txt  && make -j2 
+      NGLDIR=$HOME/build/NCCA/NGL cmake  -DCMAKE_PREFIX_PATH=$(brew --prefix qt5) CMakeLists.txt  && make -j2 VERBOSE=1
     ;fi
     
   - export LD_LIBRARY_PATH=$HOME/build/NCCA/NGL/lib:$LD_LIBRARY_PATH
