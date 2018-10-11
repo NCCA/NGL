@@ -5,6 +5,7 @@
 For the current build status see our CI logs here 
 
 [Travis CI (Linux and Mac)](https://travis-ci.org/NCCA/NGL)
+
 [Circle CI (g++ latest (8))](https://circleci.com/gh/NCCA)
 
 ## Changes from NGL6
