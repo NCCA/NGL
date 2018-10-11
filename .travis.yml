@@ -36,8 +36,8 @@ install:
         brew install qt5
       ; fi
     
-    - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake ../glfw && make -j2 && sudo make install
-    - git clone https://github.com/google/googletest && cd googletest && mkdir build && cd build && cmake .. && make -j2 && sudo make install
+    - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF ../glfw && make -j2 && sudo make install
+    - git clone https://github.com/google/googletest && cd googletest && mkdir build && cd build && cmake -DBUILD_GMOCK=OFF .. && make -j2 && sudo make install
 
 
 
