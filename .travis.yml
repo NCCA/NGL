@@ -18,8 +18,8 @@ before_install:
         sudo apt-add-repository --yes ppa:beineri/opt-qt551-trusty &&
         sudo apt-get update -qq &&
         sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test &&
-        sudo apt-get update -qq ; 
-      fi
+        sudo apt-get update -qq 
+        ; fi
 
 
 install:
@@ -29,7 +29,7 @@ install:
         sudo apt-get install -qq g++-7 &&
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90 
       ; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx "]]; then
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
         git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/local/include 
       ; fi
     
