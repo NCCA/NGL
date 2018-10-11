@@ -7,7 +7,6 @@
 #include <ngl/NGLStream.h>
 #include <ngl/Util.h>
 #include <ngl/Mat4.h>
-#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -256,9 +255,13 @@ TEST(Mat3,normalMatrix)
   normalMatrix.inverse().transpose();
 
   glm::mat4 glmview=glm::lookAt(glm::vec3(2.0f,2.0f,2.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,1.0f,0.0f));
-  glm::mat4 glmmodel=glm::scale(glm::mat4(),glm::vec3(0.2f,1.0f,0.2f));
+  glm::mat4 glmmodel=glm::scale(glm::mat4(1.0f),glm::vec3(0.2f,1.0f,0.2f));
   glm::mat3 glmNormalMatrix;
   glmNormalMatrix = glm::transpose(glm::inverse(glm::mat3(glmview*glmmodel)));
+  std::cout<<"NGL\nview\n"<<view<<"\nmodel\n"<<model<<"\nnormal\n"<<normalMatrix<<'\n';
+
+  std::cout<<"GLM\nview\n"<<glm::to_string(glmview)<<"\nmodel\n"<<glm::to_string(glmmodel)<<"\nnormal\n"<<glm::to_string(glmNormalMatrix)<<'\n';
+
 
   EXPECT_TRUE(ngl::Mat4(glmview)==view);
   EXPECT_TRUE(ngl::Mat4(glmmodel)==model);
