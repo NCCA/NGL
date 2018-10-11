@@ -10,7 +10,7 @@ jobs:
           command: 'apt-get update && apt-get install -y sudo '
       - run :
            name : Install tools
-           command: 'sudo apt-get install -y cmake libglfw3-dev '
+           command: 'sudo apt-get install -y cmake libglfw3-dev qtbase5-dev libpython2.7-dev'
   #         command: 'sudo apt-get install -y cmake libglfw3-dev' #qtbase5-dev libgtest-dev libglfw3-dev libpython2.7-dev'
 
       - run :
@@ -18,4 +18,4 @@ jobs:
           command : 'git clone https://github.com/google/googletest && cd googletest && mkdir build && cd build && cmake -DBUILD_GMOCK=OFF .. && make -j2 && sudo make install'
       
       - run : 
-          command : 'NGLDIR=/root/project/NGL && cd NGL && cmake CMakeLists.txt'
+          command : 'NGLDIR=/root/project/NGL/ && cd NGL && cmake CMakeLists.txt'
