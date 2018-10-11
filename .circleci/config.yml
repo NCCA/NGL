@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: gcc:latest
     steps:
       - checkout
       - run:
@@ -10,7 +10,7 @@ jobs:
           command: 'apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*'
       - run :
           name : Install tools
-          command: 'sudo apt-get install -y gcc g++ git cmake ' #qtbase5-dev libgtest-dev libglfw3-dev libpython2.7-dev'
+          command: 'sudo apt-get install -y cmake ' #qtbase5-dev libgtest-dev libglfw3-dev libpython2.7-dev'
 
       - run :
           name : Install gtest
