@@ -16,7 +16,8 @@ project(${PROJECT_NAME})
 include_directories(include ${NGLROOT}/include ${NGLROOT}/gl3w ${NGLROOT}/include/fmt )
 # use C++ 17
 set(CMAKE_CXX_STANDARD 17)
-add_definitions(-DUSEGLM )
+add_definitions(-DUSEGLM -DGLM_ENABLE_EXPERIMENTAL)
+
 #the file(GLOB...) allows for wildcard additions of our src dir
 set(SOURCES 
 			${PROJECT_SOURCE_DIR}/main.cpp  
