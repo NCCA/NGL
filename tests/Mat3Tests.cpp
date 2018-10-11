@@ -7,7 +7,6 @@
 #include <ngl/NGLStream.h>
 #include <ngl/Util.h>
 #include <ngl/Mat4.h>
-#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/string_cast.hpp>
