@@ -47,7 +47,7 @@ compiler:
 
 script :
   - cd $HOME/build/NCCA/NGL
-  - NGLDIR=/home/travis/build/NCCA/NGL cmake   -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2
+  - NGLDIR=$HOME/build/NCCA/NGL cmake   -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2
   - export LD_LIBRARY_PATH=$HOME/build/NCCA/NGL/lib:$LD_LIBRARY_PATH
   - cd  $HOME/build/NCCA/NGL/tests
   - ./NGLTests -g
