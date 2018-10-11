@@ -1,5 +1,5 @@
 os : 
-  - linux
+ # - linux
   - osx
 
 dist: trusty
@@ -30,7 +30,8 @@ install:
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90 
       ; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/local/include 
+        git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/local/include &&
+        brew install qt5
       ; fi
     
     - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake ../glfw && make -j2 && sudo make install
