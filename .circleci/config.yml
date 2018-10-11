@@ -29,3 +29,6 @@ jobs:
       - run :
           name : NGL c++ Tests
           command : 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/project/NGL/lib && cd //root/project/NGL/tests && ./NGLTests -g'
+      - run :
+          name : NGL python Tests
+          command : 'export PYTHONPATH=$PYTHONPATH:/root/project/NGL/lib && cd //root/project/NGL/PyNGL/tests && ./NGLTests.py '
