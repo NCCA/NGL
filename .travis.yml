@@ -59,3 +59,7 @@ script :
   - export LD_LIBRARY_PATH=$HOME/build/NCCA/NGL/lib:$LD_LIBRARY_PATH
   - cd  $HOME/build/NCCA/NGL/tests
   - ./NGLTests -g
+  - cd  $HOME/build/NCCA/NGL/PyNGL/tests
+  - export PYTHONPATH=$PYTHONPATH:$HOME/build/NCCA/NGL/lib
+
+  
