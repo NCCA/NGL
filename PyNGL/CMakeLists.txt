@@ -166,12 +166,9 @@ set(SOURCES
 # see what platform we are on and set platform defines
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     find_library(MACGL OpenGL)
-    set(EXTRALIBS  ${MACGL})
-
-
+    set(EXTRALIBS  ${MACGL} -lpython2.7)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif()
-
 
 
 # as NGL uses Qt we need to define this flag
