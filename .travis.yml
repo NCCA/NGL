@@ -61,7 +61,7 @@ script :
   - ./NGLTests -g
   - cd  $HOME/build/NCCA/NGL/PyNGL/tests
   - export PYTHONPATH=$HOME/build/NCCA/NGL/lib
-  - echo $PYTHONPATH && echo $HOME && ls $HOME/build/NCCA/NGL/lib
+  - echo $PYTHONPATH && echo $HOME && ls $HOME/build/NCCA/NGL/lib && which python
   - python NGLTests.py 
 
   
