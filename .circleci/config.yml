@@ -18,4 +18,4 @@ jobs:
           command : 'git clone https://github.com/google/googletest && cd googletest && mkdir build && cd build && cmake -DBUILD_GMOCK=OFF .. && make -j2 && sudo make install'
       
       - run : 
-          command : 'NGLDIR=/root/project/NGL/ && cd NGL && cmake CMakeLists.txt'
+          command : 'cd NGL && NGLDIR=/root/project/NGL/ cmake CMakeLists.txt'
