@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run :
           name : clone repo
-          command : 'rm -rf NGL && git clone https:://github.com:/NCCA/NGL'
+          command : 'rm -rf NGL && git clone https://github.com:/NCCA/NGL'
       - run:
           name: Installing SUDO
           command: 'apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*'
