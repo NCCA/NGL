@@ -1,10 +1,11 @@
 # NGL the NCCA Graphics Library
 
-NGL 7 master branch 
+## NGL 7 master branch 
 
-[https://travis-ci.org/NCCA/NGL](https://travis-ci.org/NCCA/NGL)
+For the current build status see our CI logs here 
 
-[https://circleci.com/gh/NCCA](https://circleci.com/gh/NCCA)
+[Travis CI (Linux and Mac)](https://travis-ci.org/NCCA/NGL)
+[Circle CI (g++ latest (8))](https://circleci.com/gh/NCCA)
 
 ## Changes from NGL6
 - Internal VAO layout has changed, all shaders using built in primitives must now use the following layout
