@@ -1,5 +1,5 @@
 os : 
-  # - linux
+  - linux
   - osx
 
 dist: trusty
@@ -44,7 +44,7 @@ install:
 language : cpp
 
 compiler:
-#  - gcc
+ - gcc
  - clang
 
 script :
