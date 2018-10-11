@@ -15,4 +15,4 @@ jobs:
           name: Install cmake
           command: 'apt-get update && sudo apt-get install -y cmake'
       - run : 
-          command : 'cd NGL && cmake CMakeLists'
+          command : 'cd NGL && cmake CMakeLists.txt'
