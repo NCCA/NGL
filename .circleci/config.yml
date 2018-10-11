@@ -15,5 +15,4 @@ jobs:
           name: Install cmake
           command: 'apt-get update && sudo apt-get install -y cmake'
       - run : 
-          name : Get NGL
-          command : 'pwd && git clone https://github.com:/NCCA/NGL && cd NGL && cmake CMakeLists'
+          command : 'cd NGL && cmake CMakeLists'
