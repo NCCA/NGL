@@ -24,12 +24,14 @@ before_install:
 
 install:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
-      sudo apt-get --yes install qt55base git xorg-dev &&
-      git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/include &&         
-      sudo apt-get install -qq g++-7 &&
-      sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90 ; fi
-    elseif [[ "$TRAVIS_OS_NAME" == "osx "]]; then
-      git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/local/include ; fi
+        sudo apt-get --yes install qt55base git xorg-dev &&
+        git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/include &&         
+        sudo apt-get install -qq g++-7 &&
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90 
+      ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx "]]; then
+        git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/local/include 
+      ; fi
     
     - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake ../glfw && make -j2 && sudo make install
     - git clone https://github.com/google/googletest && cd googletest && mkdir build && cd build && cmake .. && make -j2 && sudo make install
