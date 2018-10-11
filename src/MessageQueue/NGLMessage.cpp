@@ -44,7 +44,7 @@ namespace ngl
       case CommunicationMode::STDOUT : m_consumer=std::make_unique<StdOutConsumer>(); s_mode=Mode::CLIENTSERVER; break;
       case CommunicationMode::NULLCONSUMER : m_consumer=std::make_unique<NullMessageConsumer>(); s_mode=Mode::CLIENTSERVER; break;
       case CommunicationMode::FILE :  m_consumer=std::make_unique<FileConsumer>("NGLMessageDebug.out"); s_mode=Mode::CLIENTSERVER; break;
-      case CommunicationMode::NAMEDPIPE : m_consumer=std::make_unique<PipeConsumer>("/tmp/NCCADebug"); break;
+      case CommunicationMode::NAMEDPIPE : m_consumer=std::make_unique<PipeConsumer>("/tmp/nccadebug"); break;
       case CommunicationMode::TCPIP : break;
       case CommunicationMode::UDP : break;
       case CommunicationMode::SHAREDMEMORY : break;

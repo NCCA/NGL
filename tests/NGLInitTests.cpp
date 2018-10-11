@@ -1,9 +1,10 @@
 #include <gtest/gtest.h>
 #include <ngl/NGLInit.h>
 #include <ngl/Types.h>
+
+
 TEST(NGLInit,construct)
 {
-
   auto init=ngl::NGLInit::instance();
   EXPECT_TRUE(init !=nullptr);
   int major,minor;
