@@ -35,11 +35,11 @@ include_directories(${NGLROOT}/include/fmt)
 include_directories(${NGLROOT}/gl3w)
 
 if(WIN32)
-  #YOU MUST DEFINE THIS YOURSELF
-  #CMake does not provide a module to use find_package for glm
-  #include_directories(/path/to/glm)
+    #YOU MUST DEFINE THIS YOURSELF
+    #CMake does not provide a module to use find_package for glm
+    #include_directories(/path/to/glm)
 else()
-  include_directories(/usr/local/include/)
+    include_directories(/usr/local/include/)
 endif()
 
 # Set to C++ 17
