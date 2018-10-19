@@ -6,20 +6,42 @@ if(DEFINED ENV{NGLDIR})
     message("found define NGLDIR as " $ENV{NGLDIR})
     set(NGLROOT $ENV{NGLDIR})
 elseif(NOT DEFINED ENV{NGLDIR})
-    message("setting NGLROOT to " $ENV{HOME}/NGL/)
-    set(NGLROOT $ENV{HOME}/NGL/)
+    #$ENV{HOME} gives you backslashes on windows so default to C drive root
+    if(WIN32)
+        message("setting NGLROOT to C:/NGL/")
+        set(NGLROOT C:/NGL/)
+    else()
+        message("setting NGLROOT to " $ENV{HOME}/NGL/)
+        set(NGLROOT $ENV{HOME}/NGL/)
+    endif()
 endif()
 
 
+if(WIN32)
+    #Not defined in msvc compiler for cmaths so must set definition manually here
+    add_definitions(-D_USE_MATH_DEFINES)
+    #Need to define this when building shared library or suffer dllimport errors
+    add_definitions(-DBUILDING_DLL)
+else()
+    #Not a defined option for msvc - fine for gcc and clang
+    set(CMAKE_CXX_FLAGS "-Wno-register")
+endif()
 
-set(CMAKE_CXX_FLAGS "-Wno-register")
 #Bring the headers into the project (local ones)
 include_directories(${NGLROOT}/include/ngl)
 include_directories(${NGLROOT}/src/ngl)
 include_directories(${NGLROOT}/src/shaders)
 include_directories(${NGLROOT}/include/fmt)
 include_directories(${NGLROOT}/gl3w)
-include_directories(/usr/local/include/)
+
+if(WIN32)
+  #YOU MUST DEFINE THIS YOURSELF
+  #CMake does not provide a module to use find_package for glm
+  #include_directories(/path/to/glm)
+else()
+  include_directories(/usr/local/include/)
+endif()
+
 # Set to C++ 17
 set(CMAKE_CXX_STANDARD 17)
 # define this if you want to include the stanford data sets
