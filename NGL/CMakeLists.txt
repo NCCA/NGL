@@ -6,13 +6,29 @@ if(DEFINED ENV{NGLDIR})
     message("found define NGLDIR as " $ENV{NGLDIR})
     set(NGLROOT $ENV{NGLDIR})
 elseif(NOT DEFINED ENV{NGLDIR})
-    message("setting NGLROOT to " $ENV{HOME}/NGL/)
-    set(NGLROOT $ENV{HOME}/NGL/)
+    #$ENV{HOME} gives you backslashes on windows so default to C drive root
+    if(WIN32)
+        message("setting NGLROOT to C:/NGL/")
+        set(NGLROOT C:/NGL/)
+    else()
+        message("setting NGLROOT to " $ENV{HOME}/NGL/)
+        set(NGLROOT $ENV{HOME}/NGL/)
+    endif()
 endif()
 
 
+if(WIN32)
+    #Not defined in msvc compiler for cmaths so must set definition manually here
+    add_definitions(-D_USE_MATH_DEFINES)
+    #Need to define this when building shared library or suffer dllimport errors
+    add_definitions(-DBUILDING_DLL)
+    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.0\\msvc2017_64")
+else()
+    #Not a defined option for msvc - fine for gcc and clang
+    set(CMAKE_CXX_FLAGS "-Wno-register")
+endif()
 
-set(CMAKE_CXX_FLAGS "-Wno-register")
+
 #Bring the headers into the project (local ones)
 include_directories(${NGLROOT}/include/ngl)
 include_directories(${NGLROOT}/src/ngl)
