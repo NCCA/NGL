@@ -41,7 +41,7 @@ set(SOURCES
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	message("Mac build")
 	find_library(MACGL OpenGL)
-	set ( PROJECT_LINK_LIBS -lNGL ${MACGL} -lgtest)
+	set ( PROJECT_LINK_LIBS -lNGL ${MACGL} -L/usr/local/lib/ -lgtest)
 
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	set ( PROJECT_LINK_LIBS -lNGL -lGL -lpthread -lgtest)
