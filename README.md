@@ -4,9 +4,12 @@
 
 For the current build status see our CI logs here 
 
+
+[![Build Status](https://travis-ci.org/NCCA/NGL.svg?branch=master)](https://travis-ci.org/NCCA/NGL)
 [Travis CI (Linux and Mac)](https://travis-ci.org/NCCA/NGL)
 
 [Circle CI (g++ latest (8))](https://circleci.com/gh/NCCA)
+[![CircleCI](https://circleci.com/gh/NCCA/NGL.svg?style=svg)](https://circleci.com/gh/NCCA/NGL)
 
 ## Changes from NGL6
 
