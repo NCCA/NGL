@@ -34,7 +34,7 @@ layout(location =2)in vec2 inUV;
 
 It needs to be built using QtCreator or CMake
 
-Note this is now being built using C++ 17 and will use many C++ 17 features so make sure you 
+Note this is now being built using C++ 14 and will use many C++ 14 features so make sure you 
 have a modern compiler such as clang++ or g++ >4.8
 
 For more info check out the website here
