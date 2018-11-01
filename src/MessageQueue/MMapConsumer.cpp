@@ -7,7 +7,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-MMapConsumer::MMapConsumer(const std::string_view &_fifoName) :m_fifoName(_fifoName)
+MMapConsumer::MMapConsumer(const std::string &_fifoName) :m_fifoName(_fifoName)
 {
 //  if(m_fifoName !="")
 //  {
@@ -27,7 +27,7 @@ MMapConsumer::~MMapConsumer()
 
 }
 
-bool MMapConsumer::setPipeName(const std::string_view &_fifoName)
+bool MMapConsumer::setPipeName(const std::string &_fifoName)
 {
   m_fifoName=_fifoName;
 }

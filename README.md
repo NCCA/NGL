@@ -9,6 +9,7 @@ For the current build status see our CI logs here
 [Circle CI (g++ latest (8))](https://circleci.com/gh/NCCA)
 
 ## Changes from NGL6
+
 - Internal VAO layout has changed, all shaders using built in primitives must now use the following layout
 
 ```
@@ -18,7 +19,7 @@ layout(location =2)in vec2 inUV;
 ```
 
 - Remove all boost dependancies
-- moved to C++ 17 (so using std::string_view for most method parameters)
+- moved to C++ 14 
 - Remove all GLEW elements and replace with [gl3w](https://github.com/skaslev/gl3w)
 - Remove Camera,PathCamera Light, Material as classes and replace with simple structs.
 - New Obj Class to remove boost spirit (and make it copyable for Cos!)

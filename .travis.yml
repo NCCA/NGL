@@ -1,7 +1,3 @@
-os : 
-  - linux
-  - osx
-
 dist: trusty
 sudo: require
 
@@ -15,31 +11,22 @@ notifications:
 
 
 before_install:
-
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
-        sudo apt-add-repository --yes ppa:beineri/opt-qt551-trusty &&
-        sudo apt-get update -qq &&
-        sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test &&
-        sudo apt-get update -qq 
-        ; fi
+    - sudo apt-add-repository --yes ppa:beineri/opt-qt551-trusty
+    - sudo apt-get update -qq
+    # C++14
+    - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+    - sudo apt-get update -qq
 
 
 install:
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
-        sudo apt-get --yes install qt55base git xorg-dev &&
-        git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/include &&         
-        sudo apt-get install -qq g++-7 &&
-        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90 
-      ; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/local/include &&
-        brew install qt5
-      ; fi
+    - sudo apt-get --yes install qt55base git xorg-dev
+    - git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/include 
+    - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake ../glfw && make -j2 && sudo make install
+    - git clone https://github.com/google/googletest && cd googletest && mkdir build && cd build && cmake .. && make -j2 && sudo make install
+    # C++14
+    - sudo apt-get install -qq g++-6
+    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
     
-    - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF ../glfw && make -j2 && sudo make install
-    - git clone https://github.com/google/googletest && cd googletest && mkdir build && cd build && cmake -DBUILD_GMOCK=OFF .. && make -j2 && sudo make install
-
-
 
 language : cpp
 
@@ -48,21 +35,8 @@ compiler:
  - clang
 
 script :
-  - cd $HOME/build/NCCA/NGL
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then 
-      NGLDIR=$HOME/build/NCCA/NGL cmake   -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2 
-    ;fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
-      NGLDIR=$HOME/build/NCCA/NGL cmake  -DCMAKE_PREFIX_PATH=$(brew --prefix qt5) CMakeLists.txt  && make -j2
-    ;fi
-    
-  - export LD_LIBRARY_PATH=$HOME/build/NCCA/NGL/lib:$LD_LIBRARY_PATH
-  - cd  $HOME/build/NCCA/NGL/tests
+  - cd /home/travis/build/NCCA/NGL
+  - NGLDIR=/home/travis/build/NCCA/NGL cmake   -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2
+  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/travis/build/NCCA/NGL/lib
+  - cd /home/travis/build/NCCA/NGL/tests
   - ./NGLTests -g
-  - cd  $HOME/build/NCCA/NGL/PyNGL/tests
-  - export PYTHONPATH=$HOME/build/NCCA/NGL/lib
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then  python NGLTests.py ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then  /usr/bin/python NGLTests.py ; fi
-   
-
-  

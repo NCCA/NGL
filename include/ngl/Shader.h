@@ -45,7 +45,7 @@ public :
   /// @param _name the name of the program object
   /// @param[in] _type the type of shader we are building
   //----------------------------------------------------------------------------------------------------------------------
-  Shader( const std::string_view &_name,  ShaderType _type , ErrorExit _exitOnError=ErrorExit::ON) noexcept;
+  Shader( const std::string &_name,  ShaderType _type , ErrorExit _exitOnError=ErrorExit::ON) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor, will clean up shader source and remove shader from GL
   //----------------------------------------------------------------------------------------------------------------------
@@ -59,9 +59,9 @@ public :
   /// if source is already loaded it will re-load and re-attached
   /// @param _name the file name for the source we are loading
   //----------------------------------------------------------------------------------------------------------------------
-  void load( const std::string_view &_name ) noexcept;
+  void load( const std::string &_name ) noexcept;
    //----------------------------------------------------------------------------------------------------------------------
-  void loadFromString(const std::string_view &_string  ) noexcept;
+  void loadFromString(const std::string &_string  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief toggle the debug state
   //----------------------------------------------------------------------------------------------------------------------
@@ -91,7 +91,7 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   const std::string  getShaderSource() const noexcept {return m_source;}
   bool isCompiled() const noexcept {return m_compiled;}
-  bool editShader(const std::string_view &_toFind, const std::string_view &_edit);
+  bool editShader(const std::string &_toFind, const std::string &_edit);
   void resetEdits();
 private :
   //----------------------------------------------------------------------------------------------------------------------

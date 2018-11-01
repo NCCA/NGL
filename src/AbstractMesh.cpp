@@ -75,7 +75,7 @@ AbstractMesh::~AbstractMesh() noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void AbstractMesh::loadTexture(const std::string_view &_fName  ) noexcept
+void AbstractMesh::loadTexture(const std::string &_fName  ) noexcept
 {
   if(m_textureID !=0)
   {
@@ -423,7 +423,7 @@ void AbstractMesh::calcDimensions() noexcept
 
 }
 
-void AbstractMesh::saveNCCABinaryMesh(const std::string_view &_fname  ) noexcept
+void AbstractMesh::saveNCCABinaryMesh(const std::string &_fname  ) noexcept
 {
 // so basically we need to save all the state data from the abstract mesh
 // then map the vbo on the gpu and dump that in one go, this means we have to

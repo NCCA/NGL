@@ -12,8 +12,8 @@ namespace ngl
   {
     py::class_<VAOPrimitives, std::unique_ptr<VAOPrimitives, py::nodelete>>(m, "VAOPrimitives")
         .def_static("instance",VAOPrimitives::instance)
-        .def("draw", (void (VAOPrimitives::*)(const std::string_view &))&VAOPrimitives::draw)
-        .def("draw", (void (VAOPrimitives::*)(const std::string_view &, GLenum))&VAOPrimitives::draw)
+        .def("draw", (void (VAOPrimitives::*)(const std::string &))&VAOPrimitives::draw)
+        .def("draw", (void (VAOPrimitives::*)(const std::string &, GLenum))&VAOPrimitives::draw)
         .def("createSphere", &VAOPrimitives::createSphere)
         .def("createLineGrid", &VAOPrimitives::createLineGrid)
         .def("createCylinder", &VAOPrimitives::createCylinder)

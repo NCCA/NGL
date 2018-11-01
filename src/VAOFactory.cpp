@@ -6,17 +6,17 @@ namespace ngl
 {
   std::unordered_map<std::string, std::function<std::unique_ptr<AbstractVAO>(GLenum _mode)>> VAOFactory::m_vaoCreators;
 
-  void VAOFactory::registerVAOCreator(const std::string_view &_type, std::function<std::unique_ptr<AbstractVAO>(GLenum _mode)> _cb)
+  void VAOFactory::registerVAOCreator(const std::string &_type, std::function<std::unique_ptr<AbstractVAO>(GLenum _mode)> _cb)
   {
     m_vaoCreators[_type.data()] = _cb;
   }
 
-  void VAOFactory::unregisterVAOCreator(const std::string_view &_type)
+  void VAOFactory::unregisterVAOCreator(const std::string &_type)
   {
     m_vaoCreators.erase(_type.data());
   }
 
-  std::unique_ptr<AbstractVAO> VAOFactory::createVAO(const std::string_view &_type, GLenum _mode)
+  std::unique_ptr<AbstractVAO> VAOFactory::createVAO(const std::string &_type, GLenum _mode)
   {
 
     auto it = m_vaoCreators.find(_type.data());

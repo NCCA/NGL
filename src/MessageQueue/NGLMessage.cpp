@@ -44,7 +44,7 @@ namespace ngl
       case CommunicationMode::STDOUT : m_consumer=std::make_unique<StdOutConsumer>(); s_mode=Mode::CLIENTSERVER; break;
       case CommunicationMode::NULLCONSUMER : m_consumer=std::make_unique<NullMessageConsumer>(); s_mode=Mode::CLIENTSERVER; break;
       case CommunicationMode::FILE :  m_consumer=std::make_unique<FileConsumer>("NGLMessageDebug.out"); s_mode=Mode::CLIENTSERVER; break;
-    case CommunicationMode::NAMEDPIPE : s_mode=Mode::CLIENTSERVER; createFiFo(); m_consumer=std::make_unique<PipeConsumer>(s_fifoName);   break;
+      case CommunicationMode::NAMEDPIPE : s_mode=Mode::CLIENTSERVER; createFiFo(); m_consumer=std::make_unique<PipeConsumer>(s_fifoName);   break;
       case CommunicationMode::TCPIP : break;
       case CommunicationMode::UDP : break;
       case CommunicationMode::SHAREDMEMORY : break;
@@ -67,7 +67,7 @@ namespace ngl
     }
   }
 
-  void NGLMessage::setFilename(const std::string_view &_fname)
+  void NGLMessage::setFilename(const std::string &_fname)
   {
     FileConsumer *f=reinterpret_cast<FileConsumer *>(m_consumer.get());
     if(f!=nullptr)

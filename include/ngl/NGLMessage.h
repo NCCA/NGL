@@ -23,14 +23,14 @@ class NGLMessage
     // see here for discussion on why I do this https://stackoverflow.com/questions/5120768/how-to-implement-the-factory-method-pattern-in-c-correctly
     struct FromFilename
     {
-      FromFilename(const std::string_view &_name) : m_name(_name){}
-      std::string_view m_name;
+      FromFilename(const std::string &_name) : m_name(_name){}
+      std::string m_name;
     };
 
     struct FromNamedPipe
     {
-      FromNamedPipe(const std::string_view &_name, Mode _mode) : m_name(_name),m_mode(_mode){}
-      std::string_view m_name;
+      FromNamedPipe(const std::string &_name, Mode _mode) : m_name(_name),m_mode(_mode){}
+      std::string m_name;
       Mode m_mode;
 
     };
@@ -54,7 +54,7 @@ class NGLMessage
     static void stopServer(){ s_server.clear();}
     void operator <<(const char *msg);
     static void clearMessageQueue();
-    void setFilename(const std::string_view &_fname);
+    void setFilename(const std::string &_fname);
   private :
     static bool s_active;
     static Mode s_mode;

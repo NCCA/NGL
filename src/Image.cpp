@@ -38,7 +38,7 @@ namespace ngl
 #define IMAGE_DEBUG_ON 1
 
 
-Image::Image(const std::string_view &_fname)
+Image::Image(const std::string &_fname)
 {
 	load(_fname);
 }
@@ -102,7 +102,7 @@ Vec4 Image::getColour(const Real _uvX, const Real _uvY ) const noexcept
   }
 }
 
-void Image::saveFrameBufferToFile(const std::string_view &_fname, int _x, int _y, int _width, int _height, ImageModes _mode)
+void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int _width, int _height, ImageModes _mode)
 {
   GLenum format=GL_RGB;
   int size=3;
@@ -142,7 +142,7 @@ void Image::saveFrameBufferToFile(const std::string_view &_fname, int _x, int _y
     out->close ();
   #endif
   #if defined(USEIMAGEMAGIC)
-    Magick::Image output(realWidth,realHeight,
+      Magick::Image output(realWidth,realHeight,
                            size==3 ? "RGB" : "RGBA",
                            Magick::CharPixel,data.get()
                            );
@@ -160,7 +160,7 @@ void Image::saveFrameBufferToFile(const std::string_view &_fname, int _x, int _y
 //----------------------------------------------------------------------------------------------------------------------
 // Qt Image loading routines
 //----------------------------------------------------------------------------------------------------------------------
-bool Image::load(const std::string_view &_fName  ) noexcept
+bool Image::load(const std::string &_fName  ) noexcept
 {
 #ifdef IMAGE_DEBUG_ON
   msg->addMessage("loading with QImage");
@@ -226,7 +226,7 @@ bool Image::load(const std::string_view &_fName  ) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 // Image Magick Image loading routines
 //----------------------------------------------------------------------------------------------------------------------
-bool Image::load( const std::string_view &_fname  ) noexcept
+bool Image::load( const std::string &_fname  ) noexcept
 {
   #ifdef IMAGE_DEBUG_ON
     msg->addMessage("loading with ImageMagick");
@@ -263,7 +263,7 @@ bool Image::load( const std::string_view &_fname  ) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 // Open Image I/O loading routines
 //----------------------------------------------------------------------------------------------------------------------
-bool Image::load( const std::string_view &_fname  ) noexcept
+bool Image::load( const std::string &_fname  ) noexcept
 {
 #ifdef IMAGE_DEBUG_ON
  msg->addMessage("loading with OpenImageIO");;

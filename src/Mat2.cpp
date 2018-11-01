@@ -168,7 +168,6 @@ Mat2 Mat2::operator*( Real _i  ) const noexcept
   ret.m_01=m_01*_i;
   ret.m_10=m_10*_i;
   ret.m_11=m_11*_i;
-  
   return ret;
 }
 

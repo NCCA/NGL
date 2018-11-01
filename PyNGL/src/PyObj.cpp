@@ -11,14 +11,14 @@ namespace ngl
   {
     py::class_<Obj,AbstractMesh>(m, "Obj")
         .def(py::init<>())
-        .def(py::init<const std::string_view&,AbstractMesh::CalcBB>(),
+        .def(py::init<const std::string&,AbstractMesh::CalcBB>(),
              "constructor", py::arg("_fname")="",py::arg("_calcBB")=AbstractMesh::CalcBB::False)
-        .def(py::init<const std::string_view&,const std::string_view&,AbstractMesh::CalcBB>(),
+        .def(py::init<const std::string&,const std::string&,AbstractMesh::CalcBB>(),
              "constructor with texture", py::arg("_fname")="", py::arg("_texName")="",py::arg("_calcBB")=AbstractMesh::CalcBB::False)
         .def(py::init<const char *,const char *,AbstractMesh::CalcBB>(),
              "constructor", py::arg("_fname")="", py::arg("_texName")="",py::arg("_calcBB")=AbstractMesh::CalcBB::False)
 
-        .def("load",(bool (Obj::*)(const std::string_view &_fname, AbstractMesh::CalcBB _calcBB)) &Obj::load,"load mesh returns true if succesful", py::arg("_fname")="",py::arg("_calcBB")=AbstractMesh::CalcBB::False)
+        .def("load",(bool (Obj::*)(const std::string &_fname, AbstractMesh::CalcBB _calcBB)) &Obj::load,"load mesh returns true if succesful", py::arg("_fname")="",py::arg("_calcBB")=AbstractMesh::CalcBB::False)
         .def("save", &Obj::save)
         .def("isLoaded", &Obj::isLoaded)
         .def("addVertex",&Obj::addVertex)

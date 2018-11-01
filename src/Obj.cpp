@@ -30,7 +30,7 @@ namespace ngl
 
 namespace ps=pystring;
 
-Obj::Obj(const std::string_view &_fname  , CalcBB _calcBB)  noexcept :AbstractMesh()
+Obj::Obj(const std::string &_fname  , CalcBB _calcBB)  noexcept :AbstractMesh()
 {
   if ( load(_fname,_calcBB) == false)
   {
@@ -39,7 +39,7 @@ Obj::Obj(const std::string_view &_fname  , CalcBB _calcBB)  noexcept :AbstractMe
   }
 }
 
-Obj::Obj(const std::string_view &_fname,  const std::string_view &_texName, CalcBB _calcBB) noexcept : AbstractMesh()
+Obj::Obj(const std::string &_fname,  const std::string &_texName, CalcBB _calcBB) noexcept : AbstractMesh()
 {
   if ( load(_fname,_calcBB) == false)
   {
@@ -51,7 +51,7 @@ Obj::Obj(const std::string_view &_fname,  const std::string_view &_texName, Calc
   m_texture = true;
 }
 
-void Obj::setTexture(const std::string_view &_texName)
+void Obj::setTexture(const std::string &_texName)
 {
   loadTexture(_texName);
 }
@@ -104,7 +104,7 @@ void Obj::addFace(const ngl::Face &_f) noexcept
 }
 
 
-bool Obj::save(const std::string_view &_fname) noexcept
+bool Obj::save(const std::string &_fname) noexcept
 {
   std::ofstream out(_fname.data());
   if (out.is_open() != true)
@@ -166,7 +166,7 @@ bool Obj::save(const std::string_view &_fname) noexcept
 
 
 
-bool Obj::load(const std::string_view &_fname, CalcBB _calcBB ) noexcept
+bool Obj::load(const std::string &_fname, CalcBB _calcBB ) noexcept
 {
   std::ifstream in(_fname.data());
   if (in.is_open() != true)

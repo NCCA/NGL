@@ -46,7 +46,7 @@ void printInfoLog( const GLuint &_obj)
 }
 
 
-Shader::Shader(const std::string_view &_name,  ShaderType _type , ErrorExit _exitOnError) noexcept
+Shader::Shader(const std::string &_name,  ShaderType _type , ErrorExit _exitOnError) noexcept
 {
   m_name=_name;
   m_shaderType = _type;
@@ -107,7 +107,7 @@ bool Shader::compile() noexcept
   return m_compiled;
 }
 
-bool Shader::editShader(const std::string_view &_toFind, const std::string_view &_edit)
+bool Shader::editShader(const std::string &_toFind, const std::string &_edit)
 {
   if(m_source.length() ==0)
   {
@@ -136,7 +136,7 @@ void Shader::resetEdits()
 }
 
 
-void Shader::load(const std::string_view &_name ) noexcept
+void Shader::load(const std::string &_name ) noexcept
 {
   // see if we already have some source attached
   if(!m_source.empty())
@@ -166,7 +166,7 @@ void Shader::load(const std::string_view &_name ) noexcept
   }
 }
 
-void Shader::loadFromString(const std::string_view &_string ) noexcept
+void Shader::loadFromString(const std::string &_string ) noexcept
 {
   // see if we already have some source attached
   if(m_source.size()!=0)

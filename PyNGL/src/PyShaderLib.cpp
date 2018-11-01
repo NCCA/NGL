@@ -37,17 +37,17 @@ namespace ngl
         .def("use",&ShaderLib::use)
         .def("bindAttribute",&ShaderLib::bindAttribute)
         .def("bindFragDataLocation",&ShaderLib::bindFragDataLocation)
-        .def("__getitem__",(ShaderProgram * (ShaderLib::*)(const std::string_view &)) &ShaderLib::operator[])
+        .def("__getitem__",(ShaderProgram * (ShaderLib::*)(const std::string &)) &ShaderLib::operator[])
         .def("__getitem__",(ShaderProgram * (ShaderLib::*)(const char *)) &ShaderLib::operator[])
 
-        .def("loadShader",(bool (ShaderLib::*)(const std::string_view &,const std::string_view &,
-                                               const std::string_view &,const std::string_view &,
+        .def("loadShader",(bool (ShaderLib::*)(const std::string &,const std::string &,
+                                               const std::string &,const std::string &,
                                                ngl::ErrorExit )) &ShaderLib::loadShader,
         "load shader",py::arg("_shaderName")="",py::arg("_vert")="",
          py::arg("_frag")="",py::arg("_geo")="",py::arg("_exitOnError")=ngl::ErrorExit::OFF )
 
-        .def("loadShader",(bool (ShaderLib::*)(const std::string_view &,const std::string_view &,
-                                               const std::string_view &,ErrorExit )) &ShaderLib::loadShader,
+        .def("loadShader",(bool (ShaderLib::*)(const std::string &,const std::string &,
+                                               const std::string &,ErrorExit )) &ShaderLib::loadShader,
              "load shader",py::arg("_shaderName")="",py::arg("_vert")="",
               py::arg("_frag")="",py::arg("_exitOnError")=ErrorExit::OFF )
 
@@ -69,32 +69,32 @@ namespace ngl
        // .def("registerUniform",&ShaderLib::registerUniform)
         .def("autoRegisterUniforms",&ShaderLib::autoRegisterUniforms)
         .def("printRegisteredUniforms",&ShaderLib::printRegisteredUniforms)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &, Real)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &,Real,Real)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &,Real,Real,Real)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &,Real,Real,Real,Real)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &, GLint)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &,GLint,GLint)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &,GLint,GLint,GLint)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &,GLint,GLint,GLint,GLint)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &,Vec2)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &,Vec3)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &,Vec4)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &,Mat3)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string_view &,Mat4)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &, Real)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &,Real,Real)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &,Real,Real,Real)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &,Real,Real,Real,Real)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &, GLint)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &,GLint,GLint)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &,GLint,GLint,GLint)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &,GLint,GLint,GLint,GLint)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &,Vec2)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &,Vec3)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &,Vec4)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &,Mat3)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &,Mat4)) &ShaderLib::setUniform)
         .def("getShaderID",&ShaderLib::getShaderID)
         .def("getShader",&ShaderLib::getShader)
-        .def("setUniformBuffer", (void (ShaderLib::*)(const std::string_view &_uniformBlockName, size_t _size, void *_data)) &ShaderLib::setUniformBuffer )
-        .def("getUniform",(void (ShaderLib::*)(const std::string_view &, Real &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string_view &, Real &, Real &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string_view &, Vec2 &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string_view &, Real &, Real &, Real &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string_view &, Vec3 &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string_view &, Real &, Real &, Real &, Real &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string_view &, Vec4 &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string_view &, Mat2 &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string_view &, Mat3 &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string_view &, Mat4 &)) &ShaderLib::getUniform)
+        .def("setUniformBuffer", (void (ShaderLib::*)(const std::string &_uniformBlockName, size_t _size, void *_data)) &ShaderLib::setUniformBuffer )
+        .def("getUniform",(void (ShaderLib::*)(const std::string &, Real &)) &ShaderLib::getUniform)
+        .def("getUniform",(void (ShaderLib::*)(const std::string &, Real &, Real &)) &ShaderLib::getUniform)
+        .def("getUniform",(void (ShaderLib::*)(const std::string &, Vec2 &)) &ShaderLib::getUniform)
+        .def("getUniform",(void (ShaderLib::*)(const std::string &, Real &, Real &, Real &)) &ShaderLib::getUniform)
+        .def("getUniform",(void (ShaderLib::*)(const std::string &, Vec3 &)) &ShaderLib::getUniform)
+        .def("getUniform",(void (ShaderLib::*)(const std::string &, Real &, Real &, Real &, Real &)) &ShaderLib::getUniform)
+        .def("getUniform",(void (ShaderLib::*)(const std::string &, Vec4 &)) &ShaderLib::getUniform)
+        .def("getUniform",(void (ShaderLib::*)(const std::string &, Mat2 &)) &ShaderLib::getUniform)
+        .def("getUniform",(void (ShaderLib::*)(const std::string &, Mat3 &)) &ShaderLib::getUniform)
+        .def("getUniform",(void (ShaderLib::*)(const std::string &, Mat4 &)) &ShaderLib::getUniform)
 
         ;
 

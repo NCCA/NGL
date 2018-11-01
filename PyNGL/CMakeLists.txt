@@ -21,8 +21,8 @@ include_directories(${NGLROOT}/gl3w)
 include_directories(/usr/local/include/)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
-# Set to C++ 17
-set(CMAKE_CXX_STANDARD 17)
+# Set to C++ 14
+set(CMAKE_CXX_STANDARD 14)
 # define this if you want to include the stanford data sets
 # these are very big and make compilation time huge
 add_definitions(-DADDLARGEMODELS)

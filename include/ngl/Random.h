@@ -88,7 +88,7 @@ public :
   /// @brief returns a random number created by the generator or 0
   /// if the generator is not found
   //----------------------------------------------------------------------------------------------------------------------
-  Real getFloatFromGeneratorName( const std::string_view &_name);
+  Real getFloatFromGeneratorName( const std::string &_name);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a random vector with componets ranged from +/- 1
   //----------------------------------------------------------------------------------------------------------------------
