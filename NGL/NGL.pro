@@ -10,8 +10,15 @@ QT += opengl
 QT += core
 QT += gui
 QT -=xml
+HOST=$$system("hostname -s|cut -c 1-4")
+equals(HOST, "w115"){
+  message("doing z420 compiler hack for w115")
+  QMAKE_CXX=clang++
+  QMAKE_CC=clang
+  QMAKE_LINK=clang++
+}
 
-CONFIG+=c++1y
+CONFIG+=c++14
 
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
 DEFINES+=USEGLM
