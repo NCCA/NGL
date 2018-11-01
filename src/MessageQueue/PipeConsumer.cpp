@@ -12,7 +12,7 @@ PipeConsumer::PipeConsumer(const std::string_view &_fifoName) :m_fifoName(_fifoN
     m_fifoID = open(m_fifoName.c_str(), O_RDWR | O_NONBLOCK);
     if(m_fifoID == -1)
     {
-      std::cerr<<"unable to open FIFO\n";
+      std::cerr<<"unable to open FIFO "<<_fifoName<<'\n';
       std::abort();
     }
 }

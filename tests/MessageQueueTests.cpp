@@ -7,29 +7,21 @@
 
 TEST(NGLMessage,defaultctor)
 {
-  {
-    ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT,ngl::CommunicationMode::NAMEDPIPE);
-    EXPECT_TRUE(message.getMode()==ngl::NGLMessage::Mode::CLIENT)<<"pipe test";
-  }
-  {
-    ngl::NGLMessage message(ngl::NGLMessage::Mode::SERVER,ngl::CommunicationMode::NAMEDPIPE);
-    EXPECT_TRUE(message.getMode()==ngl::NGLMessage::Mode::SERVER);
-  }
-  {
+   {
     ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENTSERVER,ngl::CommunicationMode::FILE);
     EXPECT_TRUE(message.getMode()==ngl::NGLMessage::Mode::CLIENTSERVER);
   }
-
-  {
-    ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT,ngl::CommunicationMode::NAMEDPIPE);
-    EXPECT_FALSE(message.startServer());
-  }
   {
     ngl::NGLMessage message(ngl::NGLMessage::Mode::SERVER,ngl::CommunicationMode::NAMEDPIPE);
-    EXPECT_TRUE(message.startServer());
+    message.startServer();
+    EXPECT_TRUE(message.getMode()==ngl::NGLMessage::Mode::CLIENTSERVER)<<"Pipe Server";
     message.stopServer();
   }
 
+  {
+    ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT,ngl::CommunicationMode::NAMEDPIPE);
+    EXPECT_TRUE(message.getMode()==ngl::NGLMessage::Mode::CLIENTSERVER)<<"pipe test client";
+  }
 
 }
 
