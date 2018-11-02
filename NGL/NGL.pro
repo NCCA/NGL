@@ -22,6 +22,7 @@ CONFIG+=c++14
 
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
 DEFINES+=USEGLM
+DEFINES+=GLM_ENABLE_EXPERIMENTAL
 # What image library to use change to 1 of these depending on what platform
 # QImage USEQIMAGE
 # ImageMagick USEIMAGEMAGIC

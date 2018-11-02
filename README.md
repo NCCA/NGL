@@ -11,6 +11,15 @@ For the current build status see our CI logs here
 [![CircleCI](https://circleci.com/gh/NCCA/NGL.svg?style=svg)](https://circleci.com/gh/NCCA/NGL)
 [Circle CI (g++ latest (8))](https://circleci.com/gh/NCCA)
 
+## Pre-requisites
+
+NGL depends upon the following libraries
+
+- Qt (Used by default for QImage and Font support), these can be removed and use other libraries such as OpenImageIO or ImageMagick
+- [GLM](https://glm.g-truc.net/0.9.9/index.html) this is a header only library and can be copied to /usr/local/include This is a compatibility layer and can be removed by commenting out the  USEGLM define in the Qt projects.
+- [glfw3](https://www.glfw.org/) is used to create an OpenGL context for the unit tests, if you don't want to install this just don't build the unit tests.  
+
+
 ## Changes from NGL6
 
 - Internal VAO layout has changed, all shaders using built in primitives must now use the following layout
