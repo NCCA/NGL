@@ -46,7 +46,7 @@ add_definitions(-DUSEQIMAGE)
 #This defines that we are using the header only version of the fmt lib
 add_definitions(-DFMT_HEADER_ONLY)
 add_definitions(-DUSEGLM)
-
+add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
 set(SOURCES
     ${NGLROOT}/src/Vec4.cpp
     ${NGLROOT}/src/VAOPrimitives.cpp
