@@ -16,7 +16,6 @@
 #include "MessageQueue/STDERRConsumer.h"
 #include "MessageQueue/STDOutConsumer.h"
 #include "MessageQueue/FileConsumer.h"
-#include "MessageQueue/PipeConsumer.h"
 namespace ngl
 {
   std::vector <Message> NGLMessage::s_messageQueue;
@@ -44,10 +43,7 @@ namespace ngl
       case CommunicationMode::STDOUT : m_consumer=std::make_unique<StdOutConsumer>(); s_mode=Mode::CLIENTSERVER; break;
       case CommunicationMode::NULLCONSUMER : m_consumer=std::make_unique<NullMessageConsumer>(); s_mode=Mode::CLIENTSERVER; break;
       case CommunicationMode::FILE :  m_consumer=std::make_unique<FileConsumer>("NGLMessageDebug.out"); s_mode=Mode::CLIENTSERVER; break;
-      case CommunicationMode::NAMEDPIPE : s_mode=Mode::CLIENTSERVER; createFiFo(); m_consumer=std::make_unique<PipeConsumer>(s_fifoName);   break;
-      case CommunicationMode::TCPIP : break;
-      case CommunicationMode::UDP : break;
-      case CommunicationMode::SHAREDMEMORY : break;
+
     }
 
   }
@@ -82,21 +78,6 @@ namespace ngl
 
   }
 
-  NGLMessage::NGLMessage(const FromNamedPipe &_f)
-  {
-    s_comMode=CommunicationMode::NAMEDPIPE;
-    s_mode=_f.m_mode;
-    s_fifoName=_f.m_name;
-    if(s_mode == Mode::CLIENT)
-    {
-      m_consumer=std::make_unique<PipeConsumer>(_f.m_name);
-    }
-    else if(s_mode == Mode::SERVER)
-    {
-      createFiFo();
-      s_server.test_and_set();
-    }
-  }
 
   void NGLMessage::addMessage(const std::string &_message, Colours _c, TimeFormat _timeFormat)
   {
@@ -167,26 +148,6 @@ namespace ngl
       s_active=true;
       t.detach();
      } // client server in one versions
-    else if(s_comMode == CommunicationMode::NAMEDPIPE)
-    {
-      std::thread t([]()
-      {
-        char data[2048];
-        if(s_fifoID !=FIFOERR) close(s_fifoID);
-        s_fifoID = open(s_fifoName.c_str(), O_RDONLY );// | O_NONBLOCK );
-
-        while(true)
-        {
-          auto size=read(s_fifoID, data, 2048);
-          data[size]='\0';
-          std::cerr<<data;
-        }
-        });
-//      close(s_fifoID);
-      s_active=true;
-      t.detach();
-    }
-
 
   }
 
@@ -255,10 +216,7 @@ namespace ngl
       std::cerr<<"Error attempting to start server in Client Mode \n";
       return false;
     }
-    if(s_comMode == CommunicationMode::NAMEDPIPE)
-    {
-      return  createNamedPipeServer();
-    }
+
     else return false;
   }
 

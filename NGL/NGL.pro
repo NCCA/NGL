@@ -179,8 +179,6 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
     $$SRC_DIR/MessageQueue/AbstractMessageConsumer.cpp \
     $$SRC_DIR/MessageQueue/NGLMessage.cpp \
     $$SRC_DIR/MessageQueue/FileConsumer.cpp \
-    $$SRC_DIR/MessageQueue/PipeConsumer.cpp \
-    $$SRC_DIR/MessageQueue/MMapConsumer.cpp   \
     $$BASE_DIR/gl3w/gl3w.c
 
 #    !macx:{
@@ -235,8 +233,6 @@ HEADERS += $$INC_DIR/Vec4.h \
     $$INC_DIR/NGLMessage.h \
     $$INC_DIR/MessageQueue/AbstractMessageConsumer.h \
     $$INC_DIR/MessageQueue/FileConsumer.h \
-    $$INC_DIR/MessageQueue/PipeConsumer.h \
-    $$INC_DIR/MessageQueue/MMapConsumer.h \
     $$INC_DIR/MessageQueue/STDERRConsumer.h \
     $$INC_DIR/MessageQueue/STDOutConsumer.h \
     $$SRC_DIR/shaders/TextShaders.h \

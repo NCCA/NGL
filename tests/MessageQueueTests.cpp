@@ -11,17 +11,7 @@ TEST(NGLMessage,defaultctor)
     ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENTSERVER,ngl::CommunicationMode::FILE);
     EXPECT_TRUE(message.getMode()==ngl::NGLMessage::Mode::CLIENTSERVER);
   }
-  {
-    ngl::NGLMessage message(ngl::NGLMessage::Mode::SERVER,ngl::CommunicationMode::NAMEDPIPE);
-    message.startServer();
-    EXPECT_TRUE(message.getMode()==ngl::NGLMessage::Mode::CLIENTSERVER)<<"Pipe Server";
-    message.stopServer();
-  }
 
-  {
-    ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT,ngl::CommunicationMode::NAMEDPIPE);
-    EXPECT_TRUE(message.getMode()==ngl::NGLMessage::Mode::CLIENTSERVER)<<"pipe test client";
-  }
 
 }
 
@@ -134,68 +124,6 @@ TEST(NGLMessage,fileConsumer)
 
 
 
-TEST(NGLMessage,fifoConsumer)
-{
-  {
-    ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENTSERVER,ngl::CommunicationMode::NAMEDPIPE);
-    message.clearMessageQueue();
-    message.stopMessageConsumer();
-    std::string msg="test message ";
-    message.addMessage(msg,Colours::NORMAL,TimeFormat::TIME);
-    message.addMessage(msg,Colours::RED);
-    message.addMessage(msg,Colours::GREEN);
-    message.addMessage(msg,Colours::YELLOW,TimeFormat::TIMEDATE);
-    message.addMessage(msg,Colours::BLUE);
-    message.addMessage(msg,Colours::MAGENTA,TimeFormat::TIMEDATEDAY);
-    message.addMessage(msg,Colours::CYAN);
-    message.addMessage(msg,Colours::WHITE,TimeFormat::TIMEDATEDAY);
-    message.addMessage(msg,Colours::RESET);
-    // need some time for the queue to settle
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-
-    EXPECT_TRUE(message.numMessages()==9)<<message.numMessages()<<" total messages";
-  }
-//  ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT,ngl::CommunicationMode::NAMEDPIPE);
-
-//  ngl::NGLMessage::startMessageConsumer();
-//  while(ngl::NGLMessage::numMessages() !=0)
-//  {
-//    std::cout<<"messages are "<<message.numMessages();
-//    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-//  }
-//  ngl::NGLMessage::stopMessageConsumer();
-//  EXPECT_TRUE(message.numMessages()==0);
-
-
-}
-
-TEST(NGLMessage,fifoServerNamed)
-{
-  ngl::NGLMessage message(ngl::NGLMessage::FromNamedPipe("nccadebug",ngl::NGLMessage::Mode::SERVER));
-  message.clearMessageQueue();
-  std::string msg="test message ";
-  message.addMessage(msg,Colours::NORMAL,TimeFormat::TIME);
-  message.addMessage(msg,Colours::RED);
-  message.addMessage(msg,Colours::GREEN);
-  message.addMessage(msg,Colours::YELLOW,TimeFormat::TIMEDATE);
-  message.addMessage(msg,Colours::BLUE);
-
-  message.addMessage(msg,Colours::MAGENTA,TimeFormat::TIMEDATEDAY);
-  message.addMessage(msg,Colours::CYAN);
-  message.addMessage(msg,Colours::WHITE,TimeFormat::TIMEDATEDAY);
-  message.addMessage(msg,Colours::RESET);
-  // need some time for the queue to settle
-  std::this_thread::sleep_for(std::chrono::seconds(2));
-
-  EXPECT_TRUE(message.numMessages()>0)<<"number of messages "<<message.numMessages();
-//  ngl::NGLMessage::startMessageConsumer();
-//  while(ngl::NGLMessage::numMessages() !=0)
-//    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
-//  ngl::NGLMessage::stopMessageConsumer();
-//  EXPECT_TRUE(message.numMessages()==0);
-}
-
 
 
 TEST(NGLMessage,fileConsumerFromFileName)
@@ -260,6 +188,8 @@ TEST(NGLMessage,testMultiThread)
 {
   ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT);
   message.clearMessageQueue();
+  ngl::NGLMessage::stopMessageConsumer();
+
   auto func=[]()
   {
     for(size_t i=0; i<20; ++i)
@@ -277,7 +207,7 @@ TEST(NGLMessage,testMultiThread)
     t.join();
   }
 
-  ASSERT_TRUE(ngl::NGLMessage::numMessages() == 20*10);
+  ASSERT_EQ(ngl::NGLMessage::numMessages() , 200);
   ngl::NGLMessage::startMessageConsumer();
   while(ngl::NGLMessage::numMessages() !=0)
     std::this_thread::sleep_for(std::chrono::milliseconds(1));

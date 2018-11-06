@@ -184,8 +184,6 @@ SOURCES += $$PYSOURCEDIR/*.cpp \
     $$SRC_DIR/MessageQueue/AbstractMessageConsumer.cpp \
     $$SRC_DIR/MessageQueue/NGLMessage.cpp \
     $$SRC_DIR/MessageQueue/FileConsumer.cpp \
-    $$SRC_DIR/MessageQueue/PipeConsumer.cpp \
-    $$SRC_DIR/MessageQueue/MMapConsumer.cpp \
     $$SRC_DIR/pystring.cpp \
     $$BASE_DIR/gl3w/gl3w.c
 
@@ -230,8 +228,6 @@ HEADERS += $$INC_DIR/Vec4.h \
     $$INC_DIR/NGLMessage.h \
     $$INC_DIR/MessageQueue/AbstractMessageConsumer.h \
     $$INC_DIR/MessageQueue/FileConsumer.h \
-    $$INC_DIR/MessageQueue/PipeConsumer.h \
-    $$INC_DIR/MessageQueue/MMapConsumer.h \
     $$INC_DIR/MessageQueue/STDERRConsumer.h \
     $$INC_DIR/MessageQueue/STDOUTConsumer.h \
 		$$SRC_DIR/shaders/TextShaders.h \

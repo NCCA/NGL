@@ -105,8 +105,6 @@ set(SOURCES
     ${NGLROOT}/src/MessageQueue/AbstractMessageConsumer.cpp 
     ${NGLROOT}/src/MessageQueue/NGLMessage.cpp 
     ${NGLROOT}/src/MessageQueue/FileConsumer.cpp 
-    ${NGLROOT}/src/MessageQueue/PipeConsumer.cpp 
-    ${NGLROOT}/src/MessageQueue/MMapConsumer.cpp   
     ${NGLROOT}/gl3w/gl3w.c
     ${NGLROOT}/gl3w/gl3w.h
     ${NGLROOT}/gl3w/glcorearb.h
@@ -150,8 +148,6 @@ set(SOURCES
     ${NGLROOT}/include/ngl/NGLStream.h
     ${NGLROOT}/include/ngl/MessageQueue/AbstractMessageConsumer.h 
     ${NGLROOT}/include/ngl/MessageQueue/FileConsumer.h 
-    ${NGLROOT}/include/ngl/MessageQueue/PipeConsumer.h 
-    ${NGLROOT}/include/ngl/MessageQueue/MMapConsumer.h 
     ${NGLROOT}/include/ngl/MessageQueue/STDERRConsumer.h 
     ${NGLROOT}/include/ngl/MessageQueue/STDOutConsumer.h    
     ${NGLROOT}/src/shaders/TextShaders.h

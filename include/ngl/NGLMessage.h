@@ -12,7 +12,7 @@ namespace ngl
 {
 
 
-enum class CommunicationMode{NULLCONSUMER,STDOUT,STDERR,FILE,TCPIP,NAMEDPIPE,UDP,SHAREDMEMORY};
+enum class CommunicationMode{NULLCONSUMER,STDOUT,STDERR,FILE}; // this will need more work!,TCPIP,NAMEDPIPE,UDP,SHAREDMEMORY};
 enum class DataType{NONE,VEC2,VEC3,VEC4,MAT2,MAT3,MAT4,QUATERNION};
 
 class NGLMessage

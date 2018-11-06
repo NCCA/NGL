@@ -465,7 +465,7 @@ void AbstractMesh::saveNCCABinaryMesh(const std::string &_fname  ) noexcept
   file.write(reinterpret_cast <char *>(&  m_indexSize),sizeof(unsigned int));
   file.write(reinterpret_cast <char *>(&  m_bufferPackSize),sizeof(unsigned int));
   /// now we can dump the data from the vbo
-  unsigned int size=m_indexSize*m_bufferPackSize*sizeof(GLfloat);
+  auto size=m_indexSize*m_bufferPackSize*sizeof(GLfloat);
   file.write(reinterpret_cast <char *>(&size),sizeof(unsigned int));
 
 

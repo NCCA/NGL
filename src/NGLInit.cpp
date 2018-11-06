@@ -46,11 +46,7 @@ void NGLInit::setCommunicationMode(ngl::CommunicationMode _mode)
     case CommunicationMode::STDOUT : msg.reset(new  NGLMessage(NGLMessage::Mode::SERVER,CommunicationMode::STDOUT)); break;
     case CommunicationMode::NULLCONSUMER : msg.reset(new  NGLMessage(NGLMessage::Mode::SERVER,CommunicationMode::NULLCONSUMER)); break;
     case CommunicationMode::FILE : msg.reset(new  NGLMessage(NGLMessage::Mode::SERVER,CommunicationMode::FILE)); break;
-    case CommunicationMode::NAMEDPIPE : msg.reset(new  NGLMessage(NGLMessage::Mode::SERVER,CommunicationMode::NAMEDPIPE)); break;
-    case CommunicationMode::SHAREDMEMORY : msg.reset(new  NGLMessage(NGLMessage::Mode::SERVER,CommunicationMode::SHAREDMEMORY)); break;
-    case CommunicationMode::UDP : break;
-    case CommunicationMode::TCPIP : break;
-  }
+   }
 }
 NGLInit::NGLInit()
 {
