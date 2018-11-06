@@ -11,7 +11,7 @@ class PipeConsumer : public AbstractMessageConsumer
     PipeConsumer(const std::string &_fifoName);
     virtual ~PipeConsumer() override;
     void setPipeName(const std::string &_fifoName);
-    virtual void consume(const message &_message) override;
+    virtual void consume(const Message &_message) override;
   private :
     std::string m_fifoName;
     int m_fifoID;

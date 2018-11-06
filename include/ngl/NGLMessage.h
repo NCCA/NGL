@@ -60,7 +60,7 @@ class NGLMessage
     static Mode s_mode;
     static Colours s_currentColour;
     static CommunicationMode s_comMode;
-    static std::vector <message> s_messageQueue;
+    static std::vector <Message> s_messageQueue;
     static std::atomic_flag	 s_consuming;
     static std::atomic_flag	 s_server;
     static std::unique_ptr<AbstractMessageConsumer> m_consumer;

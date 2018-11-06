@@ -11,7 +11,7 @@ class FileConsumer : public AbstractMessageConsumer
     FileConsumer(const std::string &_fname);
     virtual ~FileConsumer() override;
     bool setFilename(const std::string &_fname);
-    virtual void consume(const message &_message) override;
+    virtual void consume(const Message &_message) override;
   private :
     std::ofstream m_output;
 };

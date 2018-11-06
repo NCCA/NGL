@@ -8,11 +8,11 @@ class StdErrConsumer : public AbstractMessageConsumer
 {
   public :
     StdErrConsumer()=default;
-    virtual void consume(const message &_message) override;
+    virtual void consume(const Message &_message) override;
 };
 
 
-void StdErrConsumer::consume(const message &_message)
+void StdErrConsumer::consume(const Message &_message)
 {
 
   // put_time returns a " " if time string is empty which is annoying!

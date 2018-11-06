@@ -27,7 +27,7 @@ void PipeConsumer::setPipeName(const std::string &_fifoName)
   m_fifoName=_fifoName;
 }
 
-void PipeConsumer::consume(const message &)
+void PipeConsumer::consume(const Message &)
 {
 
 }

@@ -8,11 +8,11 @@ class StdOutConsumer : public AbstractMessageConsumer
 {
   public :
     StdOutConsumer()=default;
-    virtual void consume(const message &_message) override;
+    virtual void consume(const Message &_message) override;
 };
 
 
-void StdOutConsumer::consume(const message &_message)
+void StdOutConsumer::consume(const Message &_message)
 {
   // put_time returns a " " if time string is empty which is annoying!
   if(_message.timeFormat !=TimeFormat::NONE)

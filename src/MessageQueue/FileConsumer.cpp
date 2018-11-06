@@ -35,7 +35,7 @@ bool FileConsumer::setFilename(const std::string &_fname)
   else return true;
 }
 
-void FileConsumer::consume(const message &_message)
+void FileConsumer::consume(const Message &_message)
 {
 
   // put_time returns a " " if time string is empty which is annoying!

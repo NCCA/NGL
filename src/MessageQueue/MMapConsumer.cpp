@@ -32,7 +32,7 @@ bool MMapConsumer::setPipeName(const std::string &_fifoName)
   m_fifoName=_fifoName;
 }
 
-void MMapConsumer::consume(const message &_message)
+void MMapConsumer::consume(const Message &_message)
 {
 }
 

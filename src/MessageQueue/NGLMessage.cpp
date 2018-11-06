@@ -19,7 +19,7 @@
 #include "MessageQueue/PipeConsumer.h"
 namespace ngl
 {
-  std::vector <message> NGLMessage::s_messageQueue;
+  std::vector <Message> NGLMessage::s_messageQueue;
   std::atomic_flag NGLMessage::s_consuming=ATOMIC_FLAG_INIT;
   std::atomic_flag NGLMessage::s_server=ATOMIC_FLAG_INIT;
   std::unique_ptr<AbstractMessageConsumer> NGLMessage::m_consumer=std::make_unique<StdErrConsumer>();

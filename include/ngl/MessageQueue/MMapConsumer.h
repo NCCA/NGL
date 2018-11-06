@@ -11,7 +11,7 @@ class MMapConsumer : public AbstractMessageConsumer
     MMapConsumer(const std::string &_fifoName);
     virtual ~MMapConsumer() override;
     bool setPipeName(const std::string &_fifoName);
-    virtual void consume(const message &_message) override;
+    virtual void consume(const Message &_message) override;
   private :
     std::string m_fifoName;
     int m_fifoID;
