@@ -331,12 +331,11 @@ const Mat4& Mat4::operator*= ( const Mat4 &_m ) noexcept
 Mat4 Mat4::operator+(const Mat4 &_m ) const noexcept
 {
   Mat4 ret;
-  const Real* iterA = &m_openGL[0];
-  const Real* iterB = &_m.m_openGL[0];
-  Real* iterR = &ret.m_openGL[0];
-  const Real* end   = &m_openGL[16];
 
-
+  auto iterA=std::cbegin(m_openGL);
+  auto iterB=std::cbegin(_m.m_openGL);
+  auto iterR=std::begin(ret.m_openGL);
+  auto end=std::cend(m_openGL);
   for( ; iterA != end; ++iterA, ++iterB, ++iterR)
   {
     *iterR = *iterA + *iterB;
@@ -356,10 +355,9 @@ return ret;
 //----------------------------------------------------------------------------------------------------------------------
 const Mat4& Mat4::operator+=(const Mat4 &_m) noexcept
 {
-  Real* iterA =&m_openGL[0];
-  const Real* iterB = &_m.m_openGL[0];
-  const Real* end   = &m_openGL[16];
-
+  auto iterA=std::begin(m_openGL);
+  auto iterB=std::cbegin(_m.m_openGL);
+  auto end=std::cend(m_openGL);
   for( ; iterA != end; ++iterA, ++iterB)
   {
     *iterA += *iterB;
@@ -370,13 +368,12 @@ const Mat4& Mat4::operator+=(const Mat4 &_m) noexcept
 Mat4 Mat4::operator*( const Real _i) const noexcept
 {
   Mat4 ret;
-  const Real* iterA = &m_openGL[0];
-  Real* iterB = &ret.m_openGL[0];
-  const Real* end   = &m_openGL[16];
-
+  auto iterA=std::cbegin(m_openGL);
+  auto iterB=std::begin(ret.m_openGL);
+  auto end=std::cend(m_openGL);
   for( ; iterA != end; ++iterA, ++iterB)
   {
-    *iterB = (*iterA) * _i;
+    *iterB = *(iterA) * _i;
   }
   return ret;
 }
@@ -486,9 +483,9 @@ void Mat4::scale(const Real _x, const Real _y,  const Real _z ) noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Mat4::subMatrix3x3(const int _i, const int _j, Real o_mat[]  ) const noexcept
+void Mat4::subMatrix3x3(const size_t _i, const size_t _j, Real o_mat[]  ) const noexcept
 {
-  int ti, tj, idst=0, jdst=0;
+  size_t ti, tj, idst=0, jdst=0;
 
   for ( ti = 0; ti != 4; ++ti )
   {

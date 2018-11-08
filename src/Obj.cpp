@@ -24,12 +24,6 @@
 #include <iostream>
 #include <cmath>
 
-
-namespace ngl
-{
-
-namespace ps=pystring;
-
 #if defined(_WIN32)
 
 namespace std
@@ -42,6 +36,13 @@ namespace std
 }
 
 #endif
+
+
+namespace ngl
+{
+
+namespace ps=pystring;
+
 
 
 Obj::Obj(const std::string &_fname  , CalcBB _calcBB)  noexcept :AbstractMesh()

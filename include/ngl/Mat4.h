@@ -208,7 +208,7 @@ public:
   /// @param[in] _j index value
   /// @param[in] o_mat the 3x3 matrix
   //----------------------------------------------------------------------------------------------------------------------
-  void subMatrix3x3(const int _i,const int _j,Real o_mat[]) const noexcept;
+  void subMatrix3x3(const size_t _i, const size_t _j, Real o_mat[]) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief return the data as a 3x3 matrix
