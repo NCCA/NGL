@@ -206,6 +206,7 @@ TEST(NGLMessage,testMultiThread)
   {
     t.join();
   }
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
   ASSERT_EQ(ngl::NGLMessage::numMessages() , 200);
   ngl::NGLMessage::startMessageConsumer();
