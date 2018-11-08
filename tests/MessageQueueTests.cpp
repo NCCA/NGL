@@ -18,6 +18,7 @@ TEST(NGLMessage,defaultctor)
 TEST(NGLMessage,addMessage)
 {
   ngl::NGLMessage message(ngl::NGLMessage::Mode::SERVER);
+  message.clearMessageQueue();
   message.addMessage("test message");
   EXPECT_TRUE(message.numMessages()==1);
   message.clearMessageQueue();
