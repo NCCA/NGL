@@ -25,7 +25,7 @@
 #include <thread>
 #include <chrono>
 #include <memory>
-#if defined(LINUX) || defined(WIN32)
+#if defined(LINUX) || defined(_WIN32)
   #include <cstdlib>
 #endif
 //----------------------------------------------------------------------------------------------------------------------
@@ -48,9 +48,16 @@ void NGLInit::setCommunicationMode(ngl::CommunicationMode _mode)
     case CommunicationMode::FILE : msg.reset(new  NGLMessage(NGLMessage::Mode::SERVER,CommunicationMode::FILE)); break;
    }
 }
-NGLInit::NGLInit()
+
+void NGLInit::initMessageSystem()
 {
   msg=std::make_unique<NGLMessage>(NGLMessage(NGLMessage::Mode::CLIENTSERVER,CommunicationMode::STDERR));
+  msg->startMessageConsumer();
+  std::this_thread::sleep_for(std::chrono::milliseconds(20));
+
+}
+NGLInit::NGLInit()
+{
 
 #if defined(USINGIOS_) || !defined(__APPLE__)
   if (gl3wInit())
@@ -72,21 +79,17 @@ NGLInit::NGLInit()
     exit(EXIT_FAILURE);
   }
 #endif
-
-  msg->startMessageConsumer();
-  std::this_thread::sleep_for(std::chrono::milliseconds(20));
+  initMessageSystem();
   msg->drawLine(Colours::YELLOW);
   msg->addMessage("NGL configured with ",Colours::NORMAL,TimeFormat::TIME);
   msg->addMessage(fmt::format("OpenGL {0}",glGetString(GL_VERSION)));
   msg->addMessage(fmt::format("GLSL version {0}",glGetString(GL_SHADING_LANGUAGE_VERSION)));
   msg->drawLine(Colours::YELLOW);
 
-
   VAOFactory::registerVAOCreator(simpleVAO,SimpleVAO::create);
   VAOFactory::registerVAOCreator(multiBufferVAO,MultiBufferVAO::create);
   VAOFactory::registerVAOCreator(simpleIndexVAO,SimpleIndexVAO::create);
 }
-
 //----------------------------------------------------------------------------------------------------------------------
 NGLInit::~NGLInit()
 {

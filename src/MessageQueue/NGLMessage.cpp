@@ -6,11 +6,8 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <unistd.h>
 #include <sstream>
 #include <cstdarg>
-#include <sys/ipc.h>
-#include <sys/shm.h>
 #include "fmt/format.h"
 #include "MessageQueue/AbstractMessageConsumer.h"
 #include "MessageQueue/STDERRConsumer.h"
@@ -28,9 +25,6 @@ namespace ngl
   bool NGLMessage::s_active=true;
   CommunicationMode NGLMessage::s_comMode=CommunicationMode::STDERR;
   Colours NGLMessage::s_currentColour=Colours::NORMAL;
-  static std::string s_fifoName="/tmp/nccadebug";
-  static int s_fifoID=0;
-  constexpr int FIFOERR=-1;
   NGLMessage::NGLMessage(Mode _mode,CommunicationMode _comMode)
   {
     s_mode=_mode;
@@ -56,11 +50,6 @@ namespace ngl
 
   NGLMessage::~NGLMessage()
   {
-    if(s_fifoID !=FIFOERR)
-    {
-      //std::cout<<"closing fifo "<<s_fifoID<<'\n';
-      close(s_fifoID);
-    }
   }
 
   void NGLMessage::setFilename(const std::string &_fname)
@@ -171,43 +160,6 @@ namespace ngl
   }
 
 
-  bool NGLMessage::createNamedPipeServer()
-  {
-     createFiFo();
-     std::thread t([]()
-     {
-       while(s_server.test_and_set())
-       {
-         std::lock_guard<std::mutex> serverLock(g_serverLock);
-         std::lock_guard<std::mutex> queueLock(g_messageQueueLock);
-         if(s_messageQueue.size() !=0)
-         {
-           auto msg=s_messageQueue.back();
-           s_messageQueue.pop_back();
-           std::stringstream message;
-           message<<AbstractMessageConsumer::getColourString(msg.colour);
-
-           // put_time returns a " " if time string is empty which is annoying!
-           if(msg.timeFormat !=TimeFormat::NONE)
-           {
-             std::string fmt=AbstractMessageConsumer::getTimeString(msg.timeFormat);
-             std::time_t tm = std::chrono::system_clock::to_time_t(msg.time);
-             message<<std::put_time(std::localtime(&tm),fmt.c_str())<<' ';
-           }
-
-           message<<msg.message<<' ';
-           write(s_fifoID,message.str().c_str(),static_cast<size_t>(message.gcount()));
-           std::this_thread::sleep_for(std::chrono::milliseconds(10));
-         }
-       }
-
-     }); // end lambda
-     s_active=true;
-     t.detach();
-     return true;
-  }
-
-
   bool NGLMessage::startServer()
   {
     std::cerr<<"starting server\n";
@@ -220,26 +172,7 @@ namespace ngl
     else return false;
   }
 
-  bool NGLMessage::createFiFo()
-  {
-    if(s_fifoName !="")
-    {
-      mkfifo(s_fifoName.c_str(), 0666);
-      s_fifoID = open(s_fifoName.c_str(), O_RDWR | O_NONBLOCK);
-    }
-    return  (s_fifoID == FIFOERR) ? true : false;
-  }
 
-
-
-  bool NGLMessage::createSocket()
-  {
-    return false;
-  }
-  bool NGLMessage::createSharedMemory()
-  {
-    return false;
-  }
 
 
 

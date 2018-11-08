@@ -30,6 +30,20 @@ namespace ngl
 
 namespace ps=pystring;
 
+#if defined(_WIN32)
+
+namespace std
+{
+  template<typename T>
+  bool signbit(T t)
+  {
+    return signbit(double(t));
+  }
+}
+
+#endif
+
+
 Obj::Obj(const std::string &_fname  , CalcBB _calcBB)  noexcept :AbstractMesh()
 {
   if ( load(_fname,_calcBB) == false)

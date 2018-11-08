@@ -51,6 +51,7 @@ void Environment::SetUp()
       // incase we run isolated tests on just GL elements
       ngl::NGLInit::instance()->setCommunicationMode(ngl::CommunicationMode::STDERR);
   }
+
 }
 
 void Environment::TearDown()
@@ -92,8 +93,8 @@ int main(int argc, char **argv)
   if(useOpenGL == false)
   {
     std::cerr<<"excluding tests\n";
-    ::testing::GTEST_FLAG(filter) = "-ShaderLib.*:VAOPrimitives.*:NGLInit*:NGLMessage*";
-
+    ::testing::GTEST_FLAG(filter) = "-ShaderLib.*:VAOPrimitives.*:NGLInit*";
+    ngl::NGLInit::initMessageSystem();
   }
   return RUN_ALL_TESTS();
 }

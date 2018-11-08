@@ -27,16 +27,8 @@ class NGLMessage
       std::string m_name;
     };
 
-    struct FromNamedPipe
-    {
-      FromNamedPipe(const std::string &_name, Mode _mode) : m_name(_name),m_mode(_mode){}
-      std::string m_name;
-      Mode m_mode;
-
-    };
     NGLMessage(Mode _mode,CommunicationMode _comMode=CommunicationMode::STDERR);
     NGLMessage(const FromFilename &_fname);
-    NGLMessage(const FromNamedPipe &_fname);
     ~NGLMessage();
     static bool isActive()  {return s_active;}
     static Mode getMode()   {return s_mode;}
@@ -64,10 +56,6 @@ class NGLMessage
     static std::atomic_flag	 s_consuming;
     static std::atomic_flag	 s_server;
     static std::unique_ptr<AbstractMessageConsumer> m_consumer;
-    static bool createFiFo();
-    static bool createSocket();
-    static bool createSharedMemory();
-    static bool createNamedPipeServer();
 
 };
 

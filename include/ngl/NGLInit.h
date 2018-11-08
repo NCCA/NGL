@@ -45,6 +45,7 @@ class   NGL_DLLEXPORT NGLInit : public  Singleton<NGLInit>
 {
   friend class Singleton<NGLInit>;
   public :
+    static void initMessageSystem();
     void setCommunicationMode(ngl::CommunicationMode _mode );
   protected :
     //----------------------------------------------------------------------------------------------------------------------
