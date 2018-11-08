@@ -201,12 +201,14 @@ const Mat3& Mat3::operator*= ( const Mat3 &_m ) noexcept
 Mat3 Mat3::operator+(const Mat3 &_m ) const noexcept
 {
   Mat3 ret;
-  const Real* iterA = &m_openGL[0];
-  const Real* iterB = &_m.m_openGL[0];
-  Real* iterR = &ret.m_openGL[0];
-  const Real* end   = &m_openGL[9];
 
-	for( ; iterA != end; ++iterA, ++iterB, ++iterR)
+  auto iterA=std::cbegin(m_openGL);
+  auto iterB=std::cbegin(_m.m_openGL);
+  auto iterR=std::begin(ret.m_openGL);
+  auto end=std::cend(m_openGL);
+
+
+  for( ; iterA != end; ++iterA, ++iterB, ++iterR)
 	{
 		*iterR = *iterA + *iterB;
 	}
@@ -215,10 +217,10 @@ Mat3 Mat3::operator+(const Mat3 &_m ) const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 const Mat3& Mat3::operator+=( const Mat3 &_m  ) noexcept
 {
-  Real* iterA =&m_openGL[0];
-  const Real* iterB = &_m.m_openGL[0];
-  const Real* end   = &m_openGL[9];
 
+  auto iterA=std::begin(m_openGL);
+  auto iterB=std::cbegin(_m.m_openGL);
+  auto end=std::cend(m_openGL);
 	for( ; iterA != end; ++iterA, ++iterB)
 	{
 		*iterA += *iterB;
@@ -229,10 +231,9 @@ const Mat3& Mat3::operator+=( const Mat3 &_m  ) noexcept
 Mat3 Mat3::operator*( Real _i  ) const noexcept
 {
   Mat3 ret;
-  const Real* iterA = &m_openGL[0];
-  Real* iterB = &ret.m_openGL[0];
-  const Real* end   = &m_openGL[9];
-
+  auto iterA=std::cbegin(m_openGL);
+  auto iterB=std::begin(ret.m_openGL);
+  auto end=std::cend(m_openGL);
 	for( ; iterA != end; ++iterA, ++iterB)
 	{
 		*iterB = (*iterA) * _i;
