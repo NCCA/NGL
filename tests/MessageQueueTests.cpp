@@ -40,7 +40,7 @@ TEST(NGLMessage,stdOut)
 
 TEST(NGLMessage,writeOutput)
 {
-  ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT);
+  ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT,ngl::CommunicationMode::NULLCONSUMER);
 
   ngl::NGLMessage::startMessageConsumer();
   for(size_t i=97; i<97+26; ++i)
@@ -186,7 +186,7 @@ TEST(NGLMessage,fileConsumerChangeFileName)
 
 TEST(NGLMessage,testMultiThread)
 {
-  ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT);
+  ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT,ngl::CommunicationMode::NULLCONSUMER);
   message.clearMessageQueue();
   ngl::NGLMessage::stopMessageConsumer();
 
