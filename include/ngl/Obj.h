@@ -73,13 +73,14 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
     virtual bool load(const std::string &_fname, CalcBB _calcBB=CalcBB::True ) noexcept;
     bool save(const std::string &_fname) noexcept;
     bool isLoaded() const noexcept {return m_isLoaded;}
-  private :
-    bool parseVertex(std::vector<std::string> &_tokens) noexcept;
-    bool parseNormal(std::vector<std::string> &_tokens) noexcept;
-    bool parseUV(std::vector<std::string> &_tokens) noexcept;
+  protected :
+    // note these are virtual so we can extend obj parser (see colour obj demo)
+    virtual bool parseVertex(std::vector<std::string> &_tokens) noexcept;
+    virtual bool parseNormal(std::vector<std::string> &_tokens) noexcept;
+    virtual bool parseUV(std::vector<std::string> &_tokens) noexcept;
     // face parsing is complex we have different layouts.
     // don't forget we can also have negative indices
-    bool parseFace(std::vector<std::string> &_tokens) noexcept;
+    virtual bool parseFace(std::vector<std::string> &_tokens) noexcept;
     // f v v v v
     bool parseFaceVertex(std::vector<std::string> &_tokens) noexcept;
     // f v//vn v//vn v//vn v//vn
