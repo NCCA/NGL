@@ -25,7 +25,7 @@ jobs:
       
       - run : 
           name : Build NGL
-          command : 'cd NGL && git checkout NGLc++14 && ls && NGLDIR=/root/project/NGL/ cmake CMakeLists.txt && make -j2'
+          command : 'cd NGL && git checkout master && ls && NGLDIR=/root/project/NGL/ cmake CMakeLists.txt && make -j2'
       - run :
           name : NGL c++ Tests
           command : 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/project/NGL/lib && cd //root/project/NGL/tests && ./NGLTests -g'
