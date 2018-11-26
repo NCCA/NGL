@@ -79,7 +79,8 @@ unix:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
 # define the NGL_DEBUG flag for the graphics lib
 DEFINES += NGL_DEBUG
 unix:INCLUDEPATH+=/usr/local/include
-#set some flags for sse etc
+# enable this to see all the warnings!
+# QMAKE_CXXFLAGS += -Wconversion
 unix:QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
 macx:DEFINES +=GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 macx {
