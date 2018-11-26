@@ -22,6 +22,8 @@ namespace ngl
         .def("lengthSquared", &Vec2::lengthSquared)
         .def(py::self == py::self)
         .def(py::self != py::self)
+        .def_readwrite("m_x", &Vec2::m_x)
+        .def_readwrite("m_y", &Vec2::m_y)
 
        ;
   }

@@ -85,7 +85,15 @@ namespace ngl
         .def("getShaderID",&ShaderLib::getShaderID)
         .def("getShader",&ShaderLib::getShader)
         .def("setUniformBuffer", (void (ShaderLib::*)(const std::string &_uniformBlockName, size_t _size, void *_data)) &ShaderLib::setUniformBuffer )
-        .def("getUniform",(void (ShaderLib::*)(const std::string &, Real &)) &ShaderLib::getUniform)
+        //.def("getUniform",(void (ShaderLib::*)(const std::string &, Real &)) &ShaderLib::getUniform)
+
+        .def("getUniform",
+             [](const std::string &_name) {
+             Real v; ngl::ShaderLib::instance()->getUniform(_name, v); return v; })
+
+        .def("getUniform",(void (ShaderLib::*)(const std::string &, Vec2 &)) &ShaderLib::getUniform)
+
+/*
         .def("getUniform",(void (ShaderLib::*)(const std::string &, Real &, Real &)) &ShaderLib::getUniform)
         .def("getUniform",(void (ShaderLib::*)(const std::string &, Vec2 &)) &ShaderLib::getUniform)
         .def("getUniform",(void (ShaderLib::*)(const std::string &, Real &, Real &, Real &)) &ShaderLib::getUniform)
@@ -95,7 +103,8 @@ namespace ngl
         .def("getUniform",(void (ShaderLib::*)(const std::string &, Mat2 &)) &ShaderLib::getUniform)
         .def("getUniform",(void (ShaderLib::*)(const std::string &, Mat3 &)) &ShaderLib::getUniform)
         .def("getUniform",(void (ShaderLib::*)(const std::string &, Mat4 &)) &ShaderLib::getUniform)
-
+  */
+          .def("getCurrentShaderName",&ShaderLib::getCurrentShaderName)
         ;
 
 
