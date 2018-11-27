@@ -1,9 +1,7 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-11-05T12:31:57
 # -------------------------------------------------
-# qt 5 wants this may cause errors with 4
-isEqual(QT_MAJOR_VERSION, 5) {cache() }
-
+cache()
 # We will use the built in Qt lib template
 QT += opengl
 QT += core

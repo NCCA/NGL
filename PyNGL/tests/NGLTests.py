@@ -43,6 +43,7 @@ if __name__ == '__main__':
     setup()
     # gl only tests
     from ShaderLibTests import *
+    from VAOPrimitivesTests import *
   # non GL tests
   from Mat3Test import *
   from Mat4Test import *

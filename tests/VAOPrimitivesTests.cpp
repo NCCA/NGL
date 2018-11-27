@@ -10,8 +10,8 @@ TEST(VAOPrimitives,instance)
   EXPECT_TRUE(prim !=nullptr);
 }
 
-static std::array<const char *,12> meshes={{
- ngl::teapot,ngl::octahedron,ngl::dodecahedron,ngl::icosahedron,
+static std::array<const char *,11> meshes={{
+ ngl::teapot,ngl::octahedron,ngl::dodecahedron,
   ngl::icosahedron,ngl::tetrahedron,ngl::football,ngl::cube,
   ngl::troll,ngl::bunny,ngl::dragon,ngl::buddah
 }};

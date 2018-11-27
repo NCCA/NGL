@@ -107,6 +107,10 @@ PYBIND11_MODULE(pyngl,m)
     m.attr("football")="football";
     m.attr("cube")="cube";
     m.attr("troll")="troll";
+    m.attr("bunny")="bunny";
+    m.attr("dragon")="dragon";
+    m.attr("buddah")="buddah";
+
 
 
     //return m.ptr();
