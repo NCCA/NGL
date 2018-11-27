@@ -21,7 +21,7 @@ def setup():
 
   # Make the window's context current
   glfw.make_context_current(window)
-  pyngl.NGLInit.instance().setCommunicationMode(pyngl.CommunicationMode.NULLCONSUMER);
+  pyngl.NGLInit.instance().setCommunicationMode(pyngl.CommunicationMode.STDOUT);
 
 
 

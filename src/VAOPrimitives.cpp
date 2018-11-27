@@ -878,19 +878,21 @@ void VAOPrimitives::clear() noexcept
 
   // loop through the map and delete the VBO's allocated
   // note glDeleteBuffers needs a const GLUint * so we need to de-reference the map object
-  for(auto &v : m_createdVAOs)
-  {
-    v.second->removeVAO();
-  }
+//  for(auto &v : m_createdVAOs)
+//  {
+//   // msg->addMessage(fmt::format("clearing {0}",v.first));
+//    v.second->removeVAO();
+//  }
 
-    m_createdVAOs.erase(m_createdVAOs.begin(),m_createdVAOs.end());
+   m_createdVAOs.erase(std::begin(m_createdVAOs),std::end(m_createdVAOs));
+
 }
 
 AbstractVAO * VAOPrimitives::getVAOFromName(const std::string &_name)
 {
   // get an iterator to the VertexArrayObjects
   auto VAO=m_createdVAOs.find(_name.data());
-  // make sure we have a valid shader
+  // make sure we have a valid vao
   if(VAO!=m_createdVAOs.end())
   {
     return VAO->second.get();
