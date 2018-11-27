@@ -53,6 +53,7 @@ set(SOURCES
     ${PYSOURCEDIR}/PyRibExport.cpp       
     ${PYSOURCEDIR}/PyVAOFactory.cpp
     ${PYSOURCEDIR}/PyMat3.cpp            
+    ${PYSOURCEDIR}/PyMat2.cpp            
     ${PYSOURCEDIR}/PyShader.cpp          
     ${PYSOURCEDIR}/PyVAOPrimitives.cpp
     ${PYSOURCEDIR}/PyMat4.cpp            
