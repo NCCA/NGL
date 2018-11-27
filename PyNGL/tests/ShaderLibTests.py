@@ -9,11 +9,9 @@ sourcedir='../../tests/files/'
 class TestShaderLib(unittest.TestCase):
 
 
-  def testInstance(self) :
-    
+  def testInstance(self) :    
     shader=pyngl.ShaderLib.instance()
     self.assertTrue(shader !=None)
-    self.assertTrue(shader.getNumShaders()==8)
 
   def testLoadShader(self) :
     shader=pyngl.ShaderLib.instance()
@@ -91,81 +89,91 @@ class TestShaderLib(unittest.TestCase):
     self.assertFalse(shader.linkProgramObject(shaderName))
 
   def testSetUniform(self) :
+    # note how the API changes here to be more pythonic as 
+    # we have no pass by reference here
     shader=pyngl.ShaderLib.instance()
     shaderName='TestUniform'
     self.assertTrue(shader.loadShader(shaderName,sourcedir+'testUniformVertex.glsl',sourcedir+'testUniformFragment.glsl',pyngl.ErrorExit.OFF))
     shader.use(shaderName);
     shader.setUniform('testFloat',2.25)
-#    result=shader.getUniform('testFloat')
+    result=shader.getUniform1f('testFloat')
     
-#    self.assertAlmostEqual(result,2.25)
+    self.assertAlmostEqual(result,2.25,delta=3)
 
-    resultVec2=pyngl.Vec2()
-    shader.getUniform("testVec2",resultVec2);
-    self.assertAlmostEqual(resultVec2.m_x,0.5)
-    self.assertAlmostEqual(resultVec2.m_y,2.0)
+    shader.setUniform("testVec2",0.5,2.0)
+    resultVec2=shader.getUniformVec2("testVec2")
+    self.assertAlmostEqual(resultVec2.m_x,0.5,delta=3)
+    self.assertAlmostEqual(resultVec2.m_y,2.0,delta=3)
 
+    x,y=shader.getUniform2f("testVec2")
+    self.assertAlmostEqual(resultVec2.m_x,0.5,delta=3)
+    self.assertAlmostEqual(resultVec2.m_y,2.0,delta=3)
 
+    shader.setUniform('testVec3',0.5,2.0,-22.2)
+    resultF1,resultF2,resultF3=shader.getUniform3f('testVec3')
+    self.assertAlmostEqual(resultF1,0.5,delta=3)
+    self.assertAlmostEqual(resultF2,2.0,delta=3)
+    self.assertAlmostEqual(resultF3,-22.2,delta=3)
+    resultVec3=shader.getUniformVec3('testVec3');
+    self.assertAlmostEqual(resultVec3.m_x,0.5,delta=3)
+    self.assertAlmostEqual(resultVec3.m_y,2.0,delta=3)
+    self.assertAlmostEqual(resultVec3.m_z,-22.2,delta=3)
 
-"""
-    shader->setUniform("testVec2",0.5f,2.0f);
-    float resultF1,resultF2;
-    shader->getUniform("testVec2",resultF1,resultF2);
-    EXPECT_FLOAT_EQ(resultF1,0.5f)<<"Test setting two floats x";
-    EXPECT_FLOAT_EQ(resultF2,2.0f)<<"Test setting two floats y";
-    ngl::Vec2 resultVec2;
-    shader->getUniform("testVec2",resultVec2);
-    EXPECT_FLOAT_EQ(resultVec2.m_x,0.5f)<<"Test getting from ngl::Vec2 m_x";
-    EXPECT_FLOAT_EQ(resultVec2.m_y,2.0f)<<"Test getting from ngl::Vec2 m_y";;
-    }
-    {
-    shader->setUniform("testVec3",0.5f,2.0f,-22.2f);
-    ngl::Real resultF1,resultF2,resultF3;
-    shader->getUniform("testVec3",resultF1,resultF2,resultF3);
-    EXPECT_FLOAT_EQ(resultF1,0.5f)<<"test setting 3 floats x";
-    EXPECT_FLOAT_EQ(resultF2,2.0f)<<"test setting 3 floats x";
-    EXPECT_FLOAT_EQ(resultF3,-22.2f)<<"test setting 3 floats x";
-    ngl::Vec3 resultVec3;
-    shader->getUniform("testVec3",resultVec3);
-    EXPECT_FLOAT_EQ(resultVec3.m_x,0.5f)<<"test getting ngl::Vec3 m_x";
-    EXPECT_FLOAT_EQ(resultVec3.m_y,2.0f)<<"test getting ngl::Vec3 m_y";
-    EXPECT_FLOAT_EQ(resultVec3.m_z,-22.2f)<<"test getting ngl::Vec3 m_z";
-    }
-    {
-    shader->setUniform("testVec4",0.5f,2.0f,-22.2f,1230.4f);
-    ngl::Real resultF1,resultF2,resultF3,resultF4;
-    shader->getUniform("testVec4",resultF1,resultF2,resultF3,resultF4);
-    EXPECT_FLOAT_EQ(resultF1,0.5f);
-    EXPECT_FLOAT_EQ(resultF2,2.0f);
-    EXPECT_FLOAT_EQ(resultF3,-22.2f);
-    EXPECT_FLOAT_EQ(resultF4,1230.4f);
-    ngl::Vec4 resultVec4;
-    shader->getUniform("testVec4",resultVec4);
-    EXPECT_FLOAT_EQ(resultVec4.m_x,0.5f);
-    EXPECT_FLOAT_EQ(resultVec4.m_y,2.0f);
-    EXPECT_FLOAT_EQ(resultVec4.m_z,-22.2f);
-    EXPECT_FLOAT_EQ(resultVec4.m_w,1230.4f);
-    }
-    {
-    shader->setUniform("testMat2",ngl::Mat2());
-    ngl::Mat2 result;
-    shader->getUniform("testMat2",result);
-    EXPECT_TRUE(result==ngl::Mat2());
-    }
-    {
-    shader->setUniform("testMat3",ngl::Mat3());
-    ngl::Mat3 result;
-    shader->getUniform("testMat3",result);
-    EXPECT_TRUE(result==ngl::Mat3());
-    }
-    {
-    shader->setUniform("testMat4",ngl::Mat4());
-    ngl::Mat4 result;
-    shader->getUniform("testMat4",result);
-    EXPECT_TRUE(result==ngl::Mat4());
-    }
-"""
+    shader.setUniform('testVec4',0.5,2.0,-22.2,1230.4)
+    resultF1,resultF2,resultF3,resultF4=shader.getUniform4f('testVec4')
+    self.assertAlmostEqual(resultF1,0.5,delta=3)
+    self.assertAlmostEqual(resultF2,2.0,delta=3)
+    self.assertAlmostEqual(resultF3,-22.2,delta=3)
+    self.assertAlmostEqual(resultF4,1230.4,delta=3)
 
+    resultVec4=shader.getUniformVec4('testVec4');
+    self.assertAlmostEqual(resultVec4.m_x,0.5,delta=3)
+    self.assertAlmostEqual(resultVec4.m_y,2.0,delta=3)
+    self.assertAlmostEqual(resultVec4.m_z,-22.2,delta=3)
+    self.assertAlmostEqual(resultVec4.m_w,1230.4,delta=3)
+    shader.setUniform('testMat2',pyngl.Mat2())    
+    result=shader.getUniformMat2('testMat2')
+    self.assertTrue(result==pyngl.Mat2())
+
+    shader.setUniform('testMat3',pyngl.Mat3())    
+    result=shader.getUniformMat3('testMat3')
+    self.assertTrue(result==pyngl.Mat3())
+
+    shader.setUniform('testMat4',pyngl.Mat4())    
+    result=shader.getUniformMat4('testMat4')
+    self.assertTrue(result==pyngl.Mat4())
+
+  def testEditShader(self) :
+    shader = pyngl.ShaderLib.instance()
+    shaderName='Edit'
+
+    shader.createShaderProgram(shaderName,pyngl.ErrorExit.OFF)
+    Vertex='EditVert'
+    shader.attachShader( Vertex, pyngl.ShaderType.VERTEX ,pyngl.ErrorExit.OFF)
+    shader.loadShaderSource(Vertex,sourcedir+'EditVert.glsl')
+    self.assertTrue(shader.editShader(Vertex,'@breakMe','1.0'))
+    self.assertTrue(shader.editShader(Vertex,'@numLights','2'))
+    self.assertTrue(shader.compileShader(Vertex))
+    Fragment='EditFrag'
+    shader.attachShader( Fragment, pyngl.ShaderType.FRAGMENT,pyngl.ErrorExit.OFF )
+    shader.loadShaderSource(Fragment,sourcedir+'EditFrag.glsl')
+    self.assertTrue(shader.editShader(Fragment,'@numLights','2'))
+    self.assertTrue(shader.compileShader(Fragment))
+    shader.attachShaderToProgram(shaderName,Vertex);
+    shader.attachShaderToProgram(shaderName,Fragment);
+    self.assertTrue(shader.linkProgramObject(shaderName))
+    shader.use(shaderName)
+    self.assertTrue(shader.getCurrentShaderName()==shaderName);
+    # Now re-edit
+    shader.resetEdits(Vertex);
+    shader.resetEdits(Fragment);
+    self.assertTrue(shader.editShader(Vertex,'@numLights','5'))
+    self.assertTrue(shader.editShader(Vertex,'@breakMe','1.0'))
+    self.assertTrue(shader.editShader(Fragment,'@numLights','5'))
+    self.assertTrue(shader.compileShader(Vertex))
+    self.assertTrue(shader.compileShader(Fragment))
+    self.assertTrue(shader.linkProgramObject(shaderName));
+   
 
 
 

@@ -63,7 +63,7 @@ namespace ngl
           .def_readwrite("m_x", &Vec4::m_x)
           .def_readwrite("m_y", &Vec4::m_y)
           .def_readwrite("m_z", &Vec4::m_z)
-          .def_readwrite("m_w", &Vec4::m_z)
+          .def_readwrite("m_w", &Vec4::m_w)
 
           ;
 

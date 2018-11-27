@@ -4,6 +4,7 @@
 #include <pybind11/cast.h>
 
 #include "ShaderLib.h"
+
 namespace py = pybind11;
 namespace ngl
 {
@@ -52,9 +53,6 @@ namespace ngl
               py::arg("_frag")="",py::arg("_exitOnError")=ErrorExit::OFF )
 
 
-
-
-
         .def("loadFromJson",&ShaderLib::loadFromJson)
         .def("debugOn",&ShaderLib::debugOn)
         .def("debugOff",&ShaderLib::debugOff)
@@ -66,7 +64,9 @@ namespace ngl
         .def("loadShaderSourceFromString",&ShaderLib::loadShaderSourceFromString)
         .def("useNullProgram",&ShaderLib::useNullProgram)
         .def("getUniformBlockIndex",&ShaderLib::getUniformBlockIndex)
-       // .def("registerUniform",&ShaderLib::registerUniform)
+        .def("editShader",&ShaderLib::editShader)
+        .def("resetEdits",&ShaderLib::resetEdits)
+        // .def("registerUniform",&ShaderLib::registerUniform)
         .def("autoRegisterUniforms",&ShaderLib::autoRegisterUniforms)
         .def("printRegisteredUniforms",&ShaderLib::printRegisteredUniforms)
         .def("setUniform",(void (ShaderLib::*)(const std::string &, Real)) &ShaderLib::setUniform)
@@ -80,30 +80,88 @@ namespace ngl
         .def("setUniform",(void (ShaderLib::*)(const std::string &,Vec2)) &ShaderLib::setUniform)
         .def("setUniform",(void (ShaderLib::*)(const std::string &,Vec3)) &ShaderLib::setUniform)
         .def("setUniform",(void (ShaderLib::*)(const std::string &,Vec4)) &ShaderLib::setUniform)
+        .def("setUniform",(void (ShaderLib::*)(const std::string &,Mat2)) &ShaderLib::setUniform)
         .def("setUniform",(void (ShaderLib::*)(const std::string &,Mat3)) &ShaderLib::setUniform)
         .def("setUniform",(void (ShaderLib::*)(const std::string &,Mat4)) &ShaderLib::setUniform)
         .def("getShaderID",&ShaderLib::getShaderID)
         .def("getShader",&ShaderLib::getShader)
         .def("setUniformBuffer", (void (ShaderLib::*)(const std::string &_uniformBlockName, size_t _size, void *_data)) &ShaderLib::setUniformBuffer )
-        //.def("getUniform",(void (ShaderLib::*)(const std::string &, Real &)) &ShaderLib::getUniform)
+        // Note that NGL uses pass by reference, for python we have a different API
+        .def_static("getUniform1f",
+             [](const std::string &_name)
+             {
+             Real v;
+             ShaderLib::instance()->getUniform(_name, v);
+             return v;
+             })
+        .def_static("getUniformVec2",
+             [](const std::string &_name)
+             {
+             Vec2 v;
+             ShaderLib::instance()->getUniform(_name, v);
+             return v;
+             })
 
-        .def("getUniform",
-             [](const std::string &_name) {
-             Real v; ngl::ShaderLib::instance()->getUniform(_name, v); return v; })
+        .def_static("getUniform2f",
+             [](const std::string &_name)
+             {
+             Vec2 v;
+             ShaderLib::instance()->getUniform(_name, v);
+             return py::make_tuple(v.m_x,v.m_y);
+             })
 
-        .def("getUniform",(void (ShaderLib::*)(const std::string &, Vec2 &)) &ShaderLib::getUniform)
+        .def_static("getUniform3f",
+             [](const std::string &_name)
+             {
+             Vec3 v;
+             ShaderLib::instance()->getUniform(_name, v);
+             return py::make_tuple(v.m_x,v.m_y,v.m_z);
+             })
+        .def_static("getUniformVec3",
+             [](const std::string &_name)
+             {
+             Vec3 v;
+             ShaderLib::instance()->getUniform(_name, v);
+             return v;
+             })
+        .def_static("getUniform4f",
+             [](const std::string &_name)
+             {
+             Vec4 v;
+             ShaderLib::instance()->getUniform(_name, v);
+             return py::make_tuple(v.m_x,v.m_y,v.m_z,v.m_w);
+             })
+        .def_static("getUniformVec4",
+             [](const std::string &_name)
+             {
+             Vec4 v;
+             ShaderLib::instance()->getUniform(_name, v);
+             return v;
+             })
 
-/*
-        .def("getUniform",(void (ShaderLib::*)(const std::string &, Real &, Real &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string &, Vec2 &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string &, Real &, Real &, Real &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string &, Vec3 &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string &, Real &, Real &, Real &, Real &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string &, Vec4 &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string &, Mat2 &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string &, Mat3 &)) &ShaderLib::getUniform)
-        .def("getUniform",(void (ShaderLib::*)(const std::string &, Mat4 &)) &ShaderLib::getUniform)
-  */
+        .def_static("getUniformMat2",
+             [](const std::string &_name)
+             {
+             Mat2 v;
+             ShaderLib::instance()->getUniform(_name, v);
+             return v;
+             })
+        .def_static("getUniformMat3",
+             [](const std::string &_name)
+             {
+             Mat3 v;
+             ShaderLib::instance()->getUniform(_name, v);
+             return v;
+             })
+        .def_static("getUniformMat4",
+             [](const std::string &_name)
+             {
+             Mat4 v;
+             ShaderLib::instance()->getUniform(_name, v);
+             return v;
+             })
+
+
           .def("getCurrentShaderName",&ShaderLib::getCurrentShaderName)
         ;
 

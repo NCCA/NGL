@@ -28,6 +28,7 @@ extern void pyInitColour(py::module & m);
 extern void pyInitImage(py::module & m);
 extern void pyInitLogger(py::module & m);
 extern void pyInitVAOPrimitives(py::module & m);
+extern void pyInitMat2(py::module & m);
 extern void pyInitMat3(py::module & m);
 extern void pyInitMat4(py::module & m);
 extern void pyInitMaterial(py::module & m);
@@ -67,6 +68,7 @@ PYBIND11_MODULE(pyngl,m)
     pyInitBezierCurve(m);
     pyInitImage(m);
     pyInitVAOPrimitives(m);
+    pyInitMat2(m);
     pyInitMat3(m);
     pyInitMat4(m);
     pyInitMultiBufferVAO(m);
