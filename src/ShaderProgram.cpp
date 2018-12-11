@@ -235,6 +235,10 @@ void ShaderProgram::setRegisteredUniform1f(const std::string &_varname, float _v
   {
     glUniform1f(uniform->second.loc,_v0);
   }
+  else
+  {
+    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+  }
 
 }
 
@@ -245,6 +249,10 @@ void ShaderProgram::getRegisteredUniform1f(const std::string &_varname, float &o
   if(uniform!=m_registeredUniforms.end())
   {
     glGetUniformfv(m_programID,uniform->second.loc,&o_v0);
+  }
+  else
+  {
+    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -258,6 +266,10 @@ void ShaderProgram::setRegisteredUniform2f(const std::string &_varname, float _v
   if(uniform!=m_registeredUniforms.end())
   {
     glUniform2f(uniform->second.loc,_v0,_v1);
+  }
+  else
+  {
+    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -285,6 +297,10 @@ void ShaderProgram::setRegisteredUniform3f( const std::string &_varname, float _
   if(uniform!=m_registeredUniforms.end())
   {
     glUniform3f(uniform->second.loc,_v0,_v1,_v2);
+  }
+  else
+  {
+    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -314,6 +330,10 @@ void ShaderProgram::setRegisteredUniform4f( const std::string &_varname, float _
   {
     glUniform4f(uniform->second.loc,_v0,_v1,_v2,_v3);
   }
+  else
+  {
+    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+  }
 
 }
 
@@ -342,6 +362,10 @@ void ShaderProgram::setRegisteredUniform1i( const std::string &_varname, int _v0
   {
     glUniform1i(uniform->second.loc,_v0);
   }
+  else
+  {
+    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+  }
 
 }
 
@@ -353,6 +377,10 @@ void ShaderProgram::setRegisteredUniform2i( const std::string &_varname, int _v0
   if(uniform!=m_registeredUniforms.end())
   {
     glUniform2i(uniform->second.loc,_v0,_v1);
+  }
+  else
+  {
+    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -367,6 +395,10 @@ void ShaderProgram::setRegisteredUniform3i(const std::string &_varname,  int _v0
   {
     glUniform3i(uniform->second.loc,_v0,_v1,_v2);
   }
+  else
+  {
+    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+  }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -377,6 +409,10 @@ void ShaderProgram::setRegisteredUniform4i( const std::string &_varname,  int _v
   if(uniform!=m_registeredUniforms.end())
   {
     glUniform4i(uniform->second.loc,_v0,_v1,_v2,_v3);
+  }
+  else
+  {
+    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -389,6 +425,10 @@ void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string &_varname,G
   if(uniform!=m_registeredUniforms.end())
   {
     glUniformMatrix3fv(uniform->second.loc,_count,_transpose,_value);
+  }
+  else
+  {
+    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -414,6 +454,10 @@ void ShaderProgram::setRegisteredUniformMatrix2fv( const std::string &_varname,G
   {
     glUniformMatrix2fv(uniform->second.loc,_count,_transpose,_value);
   }
+  else
+  {
+    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+  }
 
 }
 
@@ -437,6 +481,10 @@ void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string &_varname, G
   if(uniform!=m_registeredUniforms.end())
   {
     glUniformMatrix4fv(uniform->second.loc,_count,_transpose,_value);
+  }
+  else
+  {
+    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
