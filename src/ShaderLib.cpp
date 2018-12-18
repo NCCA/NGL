@@ -326,7 +326,6 @@ void ShaderLib::setJsonUniform(const std::string &_name, const std::string &_typ
   {
     std::vector<std::string> tokens;
     ps::split(_value,tokens);
-    std::cout<<_value<<"\n";
     if(tokens.size()==4)
     {
       setUniform(_name,atoi(tokens[0].c_str()),
@@ -365,7 +364,6 @@ void ShaderLib::setJsonUniform(const std::string &_name, const std::string &_typ
   {
     std::vector<std::string> tokens;
     ps::split(_value,tokens);
-    std::cout<<_value<<"\n";
     if(tokens.size()==4)
     {
       setUniform(_name,float(atof(tokens[0].c_str())),
@@ -380,6 +378,8 @@ void ShaderLib::setJsonUniform(const std::string &_name, const std::string &_typ
 
 bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
 {
+  namespace ps=pystring;
+
   namespace rj=rapidjson;
   std::ifstream file;
   file.open(_fname.data(), std::ios::in);
@@ -464,6 +464,20 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
         source.close();
         shaderSource+=*f;
         shaderSource+='\n';
+        if(currentShader.HasMember("edit"))
+        {
+          msg->addMessage("found edits\n");
+
+          auto &edits = currentShader["edit"];
+          msg->addMessage(fmt::format("found edits {0}",edits.Size()));
+          for (rj::SizeType i = 0; i < edits.Size(); i++)
+          {
+           auto &currentEdit = edits[i];
+           msg->addMessage(fmt::format("{0} {1}",currentEdit["search"].GetString(),currentEdit["replace"].GetString()));
+          shaderSource=ps::replace(shaderSource,currentEdit["search"].GetString(),currentEdit["replace"].GetString());
+          }
+        }
+
       }
       loadShaderSourceFromString(name,shaderSource);
       if(debug)
@@ -471,8 +485,12 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
          msg->addMessage("********* Final Shader String ***************");
          msg->addMessage(shaderSource);
       }
+
       compileShader(name);
       attachShaderToProgram(progName,name);
+      msg->addMessage("Searching for edits\n");
+
+
     } // end parse shader loop
     if(debug)
     {
@@ -486,7 +504,6 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
     {
       std::cerr<<"have uniforms\n";
       auto &uniforms = itr->value["Uniforms"];
-      std::cout<<"Is Array "<<uniforms.IsArray() << "size "<<uniforms.Size()<<'\n';
 
       for (rj::SizeType i = 0; i < uniforms.Size(); i++)
       {
