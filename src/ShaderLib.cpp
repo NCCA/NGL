@@ -18,6 +18,7 @@
 #include <fstream>
 #include <memory>
 #include <algorithm>
+#include "pystring.h"
 #include "ShaderLib.h"
 #include "TextShaders.h"
 #include "ColourShaders.h"
@@ -288,6 +289,95 @@ ShaderType ShaderLib::getShaderType(const std::string &type) noexcept
 }
 
 
+void ShaderLib::setJsonUniform(const std::string &_name, const std::string &_type, const std::string &_value)
+{
+  namespace ps=pystring;
+
+  if(m_debugState ==true)
+    msg->addMessage(fmt::format("Setting Uniform {0}",_name));
+
+  if(_type =="int")
+  {
+    setUniform(_name,atoi(_value.c_str()));
+  }
+  else if(_type == "ivec2")
+  {
+    std::vector<std::string> tokens;
+    ps::split(_value,tokens);
+    if(tokens.size()==2)
+    {
+      setUniform(_name,atoi(tokens[0].c_str()),atoi(tokens[1].c_str()));
+
+    }
+  }
+
+  else if(_type == "ivec3")
+  {
+    std::vector<std::string> tokens;
+    ps::split(_value,tokens);
+    if(tokens.size()==3)
+    {
+      setUniform(_name,atoi(tokens[0].c_str()),
+                       atoi(tokens[1].c_str()),
+                       atoi(tokens[2].c_str()));
+    }
+  }
+  else if(_type == "ivec4")
+  {
+    std::vector<std::string> tokens;
+    ps::split(_value,tokens);
+    std::cout<<_value<<"\n";
+    if(tokens.size()==4)
+    {
+      setUniform(_name,atoi(tokens[0].c_str()),
+                       atoi(tokens[1].c_str()),
+                       atoi(tokens[2].c_str()),
+                       atoi(tokens[3].c_str()));
+    }
+  }
+  else if(_type=="float")
+  {
+    setUniform(_name,float(atof(_value.c_str())));
+
+  }
+  else if(_type == "vec2")
+  {
+    std::vector<std::string> tokens;
+    ps::split(_value,tokens);
+    if(tokens.size()==2)
+    {
+      setUniform(_name,float(atof(tokens[0].c_str())),float(atof(tokens[1].c_str())));
+
+    }
+  }
+  else if(_type == "vec3")
+  {
+    std::vector<std::string> tokens;
+    ps::split(_value,tokens);
+    if(tokens.size()==3)
+    {
+      setUniform(_name,float(atof(tokens[0].c_str())),
+                       float(atof(tokens[1].c_str())),
+                       float(atof(tokens[2].c_str())));
+    }
+  }
+  else if(_type == "vec4")
+  {
+    std::vector<std::string> tokens;
+    ps::split(_value,tokens);
+    std::cout<<_value<<"\n";
+    if(tokens.size()==4)
+    {
+      setUniform(_name,float(atof(tokens[0].c_str())),
+                       float(atof(tokens[1].c_str())),
+                       float(atof(tokens[2].c_str())),
+                       float(atof(tokens[3].c_str())));
+    }
+  }
+
+}
+
+
 bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
 {
   namespace rj=rapidjson;
@@ -369,7 +459,7 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
         std::unique_ptr<std::string> f( new std::string((std::istreambuf_iterator<char>(source)), std::istreambuf_iterator<char>()));
         if(debug)
         {
-         msg->addMessage(fmt::format("loaded data string {0}",const_cast<char *>(f->c_str())));
+         msg->addMessage(fmt::format("loaded data string\n {0}",const_cast<char *>(f->c_str())));
         }
         source.close();
         shaderSource+=*f;
@@ -389,6 +479,29 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
       msg->addMessage("Linking and registering Uniforms to ShaderLib");
     }
     linkProgramObject(progName);
+    msg->addMessage(fmt::format("Using shader {0}",progName));
+    use(progName);
+    // load uniforms and set defaults if present.
+    if(itr->value.HasMember("Uniforms"))
+    {
+      std::cerr<<"have uniforms\n";
+      auto &uniforms = itr->value["Uniforms"];
+      std::cout<<"Is Array "<<uniforms.IsArray() << "size "<<uniforms.Size()<<'\n';
+
+      for (rj::SizeType i = 0; i < uniforms.Size(); i++)
+      {
+//       std::cerr<<"i "<<i<<'\n';
+      // const rj::Value::Ch *name=uniforms["name"].GetString();
+       auto &currentUniform = uniforms[i];
+       const rj::Value::Ch *name=currentUniform["name"].GetString();
+       const rj::Value::Ch *type=currentUniform["type"].GetString();
+       const rj::Value::Ch *value=currentUniform["value"].GetString();
+       setJsonUniform(name,type,value);
+      }
+    }
+
+
+
     msg->drawLine();
     msg->addMessage("**********************DONE********************");
     msg->drawLine();

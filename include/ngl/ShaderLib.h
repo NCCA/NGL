@@ -156,6 +156,7 @@ public :
   /// @brief method to load multiple shaders from a json file
   /// @param[in] _shaderName the name of the json resource file
   bool loadFromJson(const std::string &_fname) noexcept;
+  void setJsonUniform(const std::string &_name, const std::string &_type, const std::string &_value);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Toggle debug mode on
   //----------------------------------------------------------------------------------------------------------------------
