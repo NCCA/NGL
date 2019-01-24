@@ -79,6 +79,10 @@ namespace ngl
 
   }
 
+
+
+
+
   void NGLMessage::operator<<(const char *_message)
   {
     std::lock_guard<std::mutex> lock(g_messageQueueLock);

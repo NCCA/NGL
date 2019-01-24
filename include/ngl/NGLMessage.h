@@ -7,6 +7,7 @@
 #include <ostream>
 #include <atomic>
 #include <memory>
+#include "fmt/format.h"
 #include "MessageQueue/AbstractMessageConsumer.h"
 namespace ngl
 {

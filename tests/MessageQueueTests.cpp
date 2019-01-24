@@ -24,6 +24,9 @@ TEST(NGLMessage,addMessage)
   message.clearMessageQueue();
 }
 
+
+
+
 TEST(NGLMessage,stdOut)
 {
   ngl::NGLMessage message(ngl::NGLMessage::Mode::SERVER,ngl::CommunicationMode::STDOUT);
