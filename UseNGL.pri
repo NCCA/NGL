@@ -45,7 +45,6 @@ linux-g++:QMAKE_CXXFLAGS +=  -march=native -Wno-unused-variable
 linux-g++-64:QMAKE_CXXFLAGS +=  -march=native
 # define the _DEBUG flag for the graphics lib
 DEFINES +=NGL_DEBUG
-OTHER_FILES+=sceneSetup.vrscene
 QMAKE_RPATHDIR+=L$${NGLBASE}/lib
 # added for university build
 INCLUDEPATH+=/public/devel/include

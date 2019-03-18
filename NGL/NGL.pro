@@ -114,8 +114,6 @@ macx:{
   QMAKE_CXXFLAGS+=  -fPIC
 	LIBS+= -L/System/Library/Frameworks/OpenGL.framework/Libraries -framework OpenGL
 	LIBS+=  -Wl,-framework,Cocoa
-	#DEFINES += DARWIN
-  #QMAKE_MAC_SDK=macosx10.13
 
 }
 
