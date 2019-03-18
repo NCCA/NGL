@@ -31,7 +31,7 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 void Random::setSeed()
 {
-  m_generator.seed(static_cast<unsigned int>(std::time(0)));
+  m_generator.seed(static_cast<unsigned int>(std::time(nullptr)));
 }
 
 
@@ -86,12 +86,12 @@ Vec4 Random::getRandomVec4()
 
 Vec4 Random::getRandomColour4()
 {
-  auto gen=m_floatGenerators[RandomFloat];
+  auto gen=m_floatGenerators[RandomPositiveFloat];
   return Vec4(gen(m_generator),gen(m_generator),gen(m_generator),1.0f);
 }
 Vec3 Random::getRandomColour3()
 {
-  auto gen=m_floatGenerators[RandomFloat];
+  auto gen=m_floatGenerators[RandomPositiveFloat];
   return Vec3(gen(m_generator),gen(m_generator),gen(m_generator));
 }
 
