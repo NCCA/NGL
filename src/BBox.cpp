@@ -77,8 +77,8 @@ BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  ) noex
 	#else
 		m_drawMode=GL_LINE;
 	#endif
-	m_vao=0;
-	setVAO();
+  m_vao=nullptr;
+  setVAO();
 }
 
 
@@ -98,7 +98,7 @@ BBox::BBox() noexcept
   m_height=2.0;
   m_depth=2.0;
   m_vao=nullptr;
-  setVAO();
+  //setVAO();
 }
 
 BBox::BBox(const BBox &_b) noexcept
@@ -114,7 +114,7 @@ BBox::BBox(const BBox &_b) noexcept
   m_maxY=_b.m_maxY;
   m_minZ=_b.m_minZ;
   m_maxZ=_b.m_maxZ;
-  m_vao=0;
+  m_vao=nullptr;
   recalculate();
 }
 
@@ -168,10 +168,42 @@ BBox::BBox( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _minZ, Real _m
 	m_width=m_maxX-m_minX;
 	m_height=m_maxY-m_minY;
 	m_depth=m_maxZ-m_minZ;
-	m_vao=0;
+  m_vao=nullptr;
 	setVAO();
 
 }
+
+
+void BBox::setExtents( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _minZ, Real _maxZ  ) noexcept
+{
+
+  m_minX=_minX;
+  m_maxX=_maxX;
+  m_minY=_minY;
+  m_maxY=_maxY;
+  m_minZ=_minZ;
+  m_maxZ=_maxZ;
+
+  m_vert[0].m_x=_minX; m_vert[0].m_y=_maxY; m_vert[0].m_z=_minZ;
+  m_vert[1].m_x=_maxX; m_vert[1].m_y=_maxY; m_vert[1].m_z=_minZ;
+  m_vert[2].m_x=_maxX; m_vert[2].m_y=_maxY; m_vert[2].m_z=_maxZ;
+  m_vert[3].m_x=_minX; m_vert[3].m_y=_maxY; m_vert[3].m_z=_maxZ;
+
+  m_vert[4].m_x=_minX; m_vert[4].m_y=_minY; m_vert[4].m_z=_minZ;
+  m_vert[5].m_x=_maxX; m_vert[5].m_y=_minY; m_vert[5].m_z=_minZ;
+  m_vert[6].m_x=_maxX; m_vert[6].m_y=_minY; m_vert[6].m_z=_maxZ;
+  m_vert[7].m_x=_minX; m_vert[7].m_y=_minY; m_vert[7].m_z=_maxZ;
+  #ifdef USINGIOS_
+    m_drawMode=GL_LINE_LOOP;
+  #else
+    m_drawMode=GL_LINE;
+  #endif
+  m_width=m_maxX-m_minX;
+  m_height=m_maxY-m_minY;
+  m_depth=m_maxZ-m_minZ;
+  setVAO();
+}
+
 
 //----------------------------------------------------------------------------------------------------------------------
 void BBox::setDrawMode( GLenum _mode) noexcept

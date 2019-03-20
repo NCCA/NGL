@@ -162,6 +162,7 @@ public :
    /// this will also re-do the VAO
    //----------------------------------------------------------------------------------------------------------------------
    void recalculate() noexcept;
+   void setExtents(Real _minX,Real _maxX,Real _minY,Real _maxY,Real _minZ,Real _maxZ) noexcept;
 
 protected :
 
