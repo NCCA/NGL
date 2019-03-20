@@ -41,7 +41,7 @@ class NGL_DLLEXPORT Quaternion
   public:
 
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief constructor I use the format used in John Vinces bood where we have a scalar and a vector, some libs do this
+  /// @brief constructor I use the format used in John Vinces book where we have a scalar and a vector, some libs do this
   /// the otherway round and use the w component, make sure you check if using different libs
   /// @param [in]  _s  -  the s component of the quaternion
   /// @param [in]  _x  -  the x component of the quaternion
