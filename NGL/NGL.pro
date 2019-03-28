@@ -20,7 +20,7 @@ equals(HOST, "w115"){
 }
 }
 CONFIG+=c++14
-
+DEFINES+=GL_SILENCE_DEPRECATION
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
 DEFINES+=USEGLM
 DEFINES+=GLM_ENABLE_EXPERIMENTAL
@@ -109,7 +109,7 @@ INC_DIR = $$BASE_DIR/include/ngl
 DEPENDPATH= $$INC_DIR
 DEPENDPATH +=$$SRC_DIR/ngl/
 DEPENDPATH +=$$SRC_DIR/shaders/
-QMAKE_CXXFLAGS+=-Wall
+QMAKE_CXXFLAGS+=-Wall -fstrict-aliasing
 macx:{
   QMAKE_CXXFLAGS+=  -fPIC
 	LIBS+= -L/System/Library/Frameworks/OpenGL.framework/Libraries -framework OpenGL

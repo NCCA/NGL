@@ -101,6 +101,11 @@ BBox::BBox() noexcept
   //setVAO();
 }
 
+BBox::BBox(bool _noGL) noexcept :  BBox()
+{
+  m_noGL=_noGL;
+}
+
 BBox::BBox(const BBox &_b) noexcept
 {
   m_center=_b.m_center;
@@ -214,6 +219,7 @@ void BBox::setDrawMode( GLenum _mode) noexcept
 
 void BBox::setVAO()
 {
+  if(m_noGL == true) return;
 	// if were not doing line drawing then use tris
 	#ifdef USINGIOS_
 		if(m_drawMode !=GL_LINE_LOOP)
@@ -343,7 +349,8 @@ void BBox::recalculate() noexcept
 
 BBox::~BBox() noexcept
 {
-  m_vao->removeVAO();
+  if(!m_noGL)
+    m_vao->removeVAO();
 }
 //----------------------------------------------------------------------------------------------------------------------
 
