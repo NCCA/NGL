@@ -98,6 +98,7 @@ BBox::BBox() noexcept
   m_height=2.0;
   m_depth=2.0;
   m_vao=nullptr;
+  m_noGL=false;
   //setVAO();
 }
 
@@ -349,7 +350,7 @@ void BBox::recalculate() noexcept
 
 BBox::~BBox() noexcept
 {
-  if(!m_noGL)
+  if(m_noGL==true)
     m_vao->removeVAO();
 }
 //----------------------------------------------------------------------------------------------------------------------
