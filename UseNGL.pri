@@ -12,7 +12,8 @@ equals(HOST, "w115"){
 }
 CONFIG+=c++14
 macx:CONFIG-=app_bundle
-
+# get rid of annoying mac OpenGL warnings (bloody apple!)
+macx:DEFINES+=GL_SILENCE_DEPRECATION
 # as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
 # mainly in the types.h file for the setMacVisual which is native in Qt5
 isEqual(QT_MAJOR_VERSION, 5) {

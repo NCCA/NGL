@@ -25,21 +25,20 @@
 namespace ngl
 {
 constexpr GLubyte indices[]=  {
-                                    0,1,5,0,4,5, // back
-                                    3,2,6,7,6,3, // front
-                                    0,1,2,3,2,0, // top
-                                    4,5,6,7,6,4, // bottom
-                                    0,3,4,4,7,3,
-                                    1,5,2,2,6,5
-
-                                 };
+                                0,1,5,0,4,5, // back
+                                3,2,6,7,6,3, // front
+                                0,1,2,3,2,0, // top
+                                4,5,6,7,6,4, // bottom
+                                0,3,4,4,7,3,
+                                1,5,2,2,6,5
+                              };
 // indices for line loop
 constexpr GLubyte lindices[]=  {
-                                    0,3,7,4,0, /// Left
-                                    0,1,5,4,0, /// back quad
-                                    1,2,6,5,1, // right
-                                    0,1,2,3,0,
-                                    4,5,6,7,4
+                                  0,3,7,4,0, /// Left
+                                  0,1,5,4,0, /// back quad
+                                  1,2,6,5,1, // right
+                                  0,1,2,3,0,
+                                  4,5,6,7,4
                                  };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -94,9 +93,9 @@ BBox::BBox() noexcept
   #else
     m_drawMode=GL_LINE;
   #endif
-  m_width=2.0;
-  m_height=2.0;
-  m_depth=2.0;
+  m_width=2.0f;
+  m_height=2.0f;
+  m_depth=2.0f;
   m_vao=nullptr;
   m_noGL=false;
   //setVAO();
@@ -121,6 +120,7 @@ BBox::BBox(const BBox &_b) noexcept
   m_minZ=_b.m_minZ;
   m_maxZ=_b.m_maxZ;
   m_vao=nullptr;
+  m_noGL=_b.m_noGL;
   recalculate();
 }
 
@@ -139,6 +139,7 @@ BBox& BBox::operator=(const BBox &_b)
   m_minZ=_b.m_minZ;
   m_maxZ=_b.m_maxZ;
   m_vao.reset(_b.m_vao.get());
+  m_noGL=_b.m_noGL;
   return *this;
 }
 
