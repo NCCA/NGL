@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{204278D1-E3E9-3682-9A55-4E0332464222}</ProjectGuid>
+    <RootNamespace>NGL</RootNamespace>
+    <Keyword>Qt4VSv1.0</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <PlatformToolset>v142</PlatformToolset>
+    <OutputDirectory>$(HOMEDRIVE)$(HOMEPATH)\NGL\lib\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <IntermediateDirectory>$(HOMEDRIVE)$(HOMEPATH)\NGL\obj\</IntermediateDirectory>
+    <PrimaryOutput>NGL</PrimaryOutput>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">
+    <QtMsBuild>$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(HOMEDRIVE)$(HOMEPATH)\NGL\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NGL</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;$(HOMEDRIVE)$(HOMEPATH)\NGL\include\ngl;$(HOMEDRIVE)$(HOMEPATH)\NGL\src\ngl;$(HOMEDRIVE)$(HOMEPATH)\NGL\src\shaders;$(HOMEDRIVE)$(HOMEPATH)\NGL\include\rapidjson;$(HOMEDRIVE)$(HOMEPATH)\NGL\gl3w;\public\devel\include;$(HOMEDRIVE)$(HOMEPATH)\NGL\include\fmt;.\..\..\vcpkg\installed\x86-windows\include;$(QTDIR)\include;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;\include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>$(HOMEDRIVE)$(HOMEPATH)\NGL\obj\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;GL_SILENCE_DEPRECATION;USEGLM;GLM_ENABLE_EXPERIMENTAL;USEQIMAGE;QT5BUILD;ADDLARGEMODELS;NGL_DEBUG;FMT_HEADER_ONLY;_USE_MATH_DEFINES;NO_DLL;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;GL_SILENCE_DEPRECATION;USEGLM;GLM_ENABLE_EXPERIMENTAL;USEQIMAGE;QT5BUILD;ADDLARGEMODELS;NGL_DEBUG;FMT_HEADER_ONLY;_USE_MATH_DEFINES;NO_DLL;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;GL_SILENCE_DEPRECATION;USEGLM;GLM_ENABLE_EXPERIMENTAL;USEQIMAGE;QT5BUILD;ADDLARGEMODELS;NGL_DEBUG;FMT_HEADER_ONLY;_USE_MATH_DEFINES;NO_DLL;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</Define>
+    </QtMoc>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\jpmac\NGL\src\AABB.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\AbstractMesh.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\MessageQueue\AbstractMessageConsumer.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\AbstractVAO.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\BBox.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\BezierCurve.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\MessageQueue\FileConsumer.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Image.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Mat2.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Mat3.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Mat4.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\MultiBufferVAO.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\NCCABinMesh.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\NCCAPointBake.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\NGLInit.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\MessageQueue\NGLMessage.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\NGLStream.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Obj.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Plane.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Quaternion.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Random.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\RibExport.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Shader.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\ShaderLib.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\ShaderProgram.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\SimpleIndexVAO.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\SimpleVAO.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Text.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Texture.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Transformation.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Types.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Util.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\VAOFactory.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\VAOPrimitives.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Vec2.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Vec3.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\Vec4.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\createDefaultVAOs.cpp" />
+    <ClCompile Include="C:\Users\jpmac\NGL\gl3w\gl3w.c" />
+    <ClCompile Include="C:\Users\jpmac\NGL\src\pystring.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\AABB.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\AbstractMesh.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\MessageQueue\AbstractMessageConsumer.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\AbstractVAO.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\BBox.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\BezierCurve.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\src\shaders\CheckerShaders.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\src\shaders\ColourShaders.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\src\shaders\DiffuseShaders.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\MessageQueue\FileConsumer.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Image.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Mat2.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Mat3.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Mat4.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\MultiBufferVAO.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\NCCABinMesh.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\NCCAPointBake.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\NGLInit.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\NGLMessage.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\NGLStream.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\NGLassert.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Obj.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Plane.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Quaternion.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Random.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\RibExport.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\MessageQueue\STDERRConsumer.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\MessageQueue\STDOutConsumer.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Shader.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\ShaderLib.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\ShaderProgram.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\SimpleIndexVAO.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\SimpleVAO.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Singleton.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Text.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\src\shaders\TextShaders.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Texture.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Transformation.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Types.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Util.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\VAOFactory.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\VAOPrimitives.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Vec2.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Vec3.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\Vec4.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\gl3w\gl3w.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\pystring.h" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\rapidxml\rapidxml.hpp" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\rapidxml\rapidxml_iterators.hpp" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\rapidxml\rapidxml_print.hpp" />
+    <ClInclude Include="C:\Users\jpmac\NGL\include\ngl\rapidxml\rapidxml_utils.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="moc_predefs.h.cbt">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\mkspecs\features\data\dummy.cpp;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cl -Bx"$(QTDIR)\bin\qmake.exe" -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -Wall /FS -O2 -MD -std:c++14 -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E $(QTDIR)\mkspecs\features\data\dummy.cpp 2&gt;NUL &gt;moc_predefs.h</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generate moc_predefs.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">moc_predefs.h;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NGLUML.qmodel" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Qt5Version_x0020_Win32="Qt" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

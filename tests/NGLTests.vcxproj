@@ -77,7 +77,7 @@
       <LanguageStandard>stdcpp14</LanguageStandard>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;ADDLARGEMODELS;QT5BUILD;FMT_HEADER_ONLY;USEGLM;GLM_ENABLE_EXPERIMENTAL;NGL_DEBUG;GL42;WIN32;_WIN32;_USE_MATH_DEFINES;NO_DLL;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;ADDLARGEMODELS;QT5BUILD;FMT_HEADER_ONLY;USEGLM;GLM_ENABLE_EXPERIMENTAL;NGL_DEBUG;GL42;WIN32;_WIN32;_USE_MATH_DEFINES;NO_DLL;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -132,7 +132,7 @@
     <Link>
       <AdditionalDependencies>C:\Users\jpmac\vcpkg\installed\x86-windows\lib\glfw3dll.lib;C:\Users\jpmac\vcpkg\installed\x86-windows\lib\gtest.lib;"C:\Program Files (x86)\Windows Kits\10\lib\10.0.17763.0\um\x86\opengl32.lib";C:\Users\jpmac\NGL\lib\NGL.lib;$(QTDIR)\lib\Qt5OpenGLd.lib;$(QTDIR)\lib\Qt5Widgetsd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\Users\jpmac\vcpkg\installed\x86-windows\lib;\public\devel\lib;C:\Users\jpmac\NGL\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>"/MTd;/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreImportLibrary>true</IgnoreImportLibrary>

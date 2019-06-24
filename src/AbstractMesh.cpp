@@ -556,7 +556,7 @@ for (auto v : m_verts)
   if(dist2 > radTwo)
   {
     dist=sqrt(dist2);
-    newRad=(rad+dist)/2.0;
+    newRad=(rad+dist)/2.0f;
     newRad2=newRad*newRad;
     delta=dist-newRad;
     // now compute new center using the weights above
