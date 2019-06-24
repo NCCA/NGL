@@ -10,7 +10,7 @@ QT += opengl
 QT += core
 QT += gui
 QT -=xml
-linix*:{
+linux*:{
 HOST=$$system("hostname -s|cut -c 1-4")
 equals(HOST, "w115"){
   message("doing z420 compiler hack for w115")
@@ -57,13 +57,17 @@ DEFINES+=ADDLARGEMODELS
 NGLPATH=$$(NGLDIR)
 
 isEmpty(NGLPATH){ # note brace must be here
-	BASE_DIR=$$(HOME)/NGL
+        linux*:BASE_DIR=$$(HOME)/NGL
+        win32:{
+            BASE_DIR=$(HOMEDRIVE)\$(HOMEPATH)\NGL
+            message("under windows base dir is" $${BASE_DIR})
+            }
 }
 else{ # note brace must be here
 	BASE_DIR=$$(NGLDIR)
 }
 
-message($${BASE_DIR})
+message("Base dir set to" $${BASE_DIR})
 
 # This is the output target we want to create
 TARGET = $$BASE_DIR/lib/NGL
@@ -101,15 +105,15 @@ INCLUDEPATH +=$$BASE_DIR/include/fmt
 
 unix:LIBS += -L/usr/local/lib
 # set the SRC_DIR so we can find the project files
-SRC_DIR = $$BASE_DIR/src
-
+SRC_DIR = $${BASE_DIR}\src
+message(SRC_DIR is $${SRC_DIR})
 
 # and the include files
 INC_DIR = $$BASE_DIR/include/ngl
 DEPENDPATH= $$INC_DIR
 DEPENDPATH +=$$SRC_DIR/ngl/
 DEPENDPATH +=$$SRC_DIR/shaders/
-QMAKE_CXXFLAGS+=-Wall -fstrict-aliasing
+QMAKE_CXXFLAGS+=-Wall
 macx:{
   QMAKE_CXXFLAGS+=  -fPIC
 	LIBS+= -L/System/Library/Frameworks/OpenGL.framework/Libraries -framework OpenGL
@@ -131,12 +135,16 @@ win32|unix:!macx{
 # once you have done this set the PATH environment variable to look in
 # c:/NGL/lib to find the DLL
 win32{
-				message("Using Windows check to see what needs to be installed")
-				CONFIG+=staticlib
-        INCLUDEPATH += C:/SDKs/ #for university STEM build
-				DEFINES+=_USE_MATH_DEFINES
-				DESTDIR=c:/
-				DEFINES += NO_DLL
+message("Using Windows check to see what needs to be installed")
+CONFIG+=staticlib
+INCLUDEPATH += $$(HOMEDRIVE)\\$$(HOMEPATH)\vcpkg\installed\x86-windows\include
+
+DEFINES+=_USE_MATH_DEFINES
+DEFINES += NO_DLL
+QMAKE_CXXFLAGS += /FS
+DEST_DIR=BASE_DIR\lib
+CONFIG -= debug_and_release debug_and_release_target
+
 }
 
 

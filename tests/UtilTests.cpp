@@ -9,6 +9,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 extern std::string print(const ngl::Mat4 &_m);
+// FFS Windows!
+#ifdef WIN32
+    #undef near
+    #undef far
+#endif
+
+
 
 TEST(Util,perspective)
 {

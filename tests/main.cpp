@@ -3,8 +3,9 @@
 #include <string>
 #include <ngl/NGLInit.h>
 #include <GLFW/glfw3.h>
-#include <getopt.h>
-
+#ifndef WIN32
+    #include <getopt.h>
+#endif
 class Environment : public  ::testing::Environment
 {
  public:
@@ -71,12 +72,14 @@ void Environment::TearDown()
 
 int main(int argc, char **argv)
 {
+    bool useOpenGL=true;
+    testing::InitGoogleTest(&argc, argv);
+
+#ifndef WIN32
   const char* const shortOpts = "g";
   const option longOpts[] = {
           {"noGL", no_argument, nullptr, 'g'}};
 
-  bool useOpenGL=true;
-  testing::InitGoogleTest(&argc, argv);
   // parse command line arguments to see if we fun GL tests
   // can't run these via ssh or CI as no GPU
   while(true)
@@ -88,7 +91,7 @@ int main(int argc, char **argv)
       case 'g' : useOpenGL=false; break;
     }
   }
-
+#endif
   ::testing::AddGlobalTestEnvironment(new Environment(useOpenGL));
   if(useOpenGL == false)
   {

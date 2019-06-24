@@ -28,6 +28,12 @@ DEFINES+=GLM_ENABLE_EXPERIMENTAL
 
 isEmpty(NGLPATH){ # note brace must be here
   NGLBASE=$$(HOME)/NGL
+        win32:{
+            NGLBASE=$(HOMEDRIVE)\$(HOMEPATH)\NGL
+            message("under windows base dir is" $${BASE_DIR})
+
+}
+
 }
 else{ # note brace must be here
 	NGLBASE=$$(NGLDIR)
@@ -71,15 +77,15 @@ INCLUDEPATH += $${NGLBASE}/include/
 INCLUDEPATH += $${NGLBASE}/gl3w/
 
 win32: {
-        PRE_TARGETDEPS+=C:/NGL/lib/NGL.lib
-        INCLUDEPATH+=-I c:/boost
+        PRE_TARGETDEPS+=$$(HOMEDRIVE)\\$$(HOMEPATH)\NGL\lib\NGL.lib
         DEFINES+=GL42
         DEFINES += WIN32
         DEFINES+=_WIN32
         DEFINES+=_USE_MATH_DEFINES
         LIBS+= -lopengl32
-        LIBS += -LC:/NGL/lib/ -lNGL
+        LIBS += -L$$(HOMEDRIVE)\\$$(HOMEPATH)\NGL\lib -lNGL
         DEFINES+=NO_DLL
+        INCLUDEPATH += $$(HOMEDRIVE)\\$$(HOMEPATH)\vcpkg\installed\x86-windows\include
 }
 
 ios {

@@ -157,7 +157,7 @@ TEST(NGLMessage,fileConsumerFromFileName)
   EXPECT_TRUE(message.numMessages()==0);
 }
 
-
+/*
 TEST(NGLMessage,fileConsumerChangeFileName)
 {
   ngl::NGLMessage message(ngl::NGLMessage::FromFilename("testFromFilename.out"));
@@ -186,7 +186,7 @@ TEST(NGLMessage,fileConsumerChangeFileName)
   EXPECT_TRUE(message.numMessages()==0);
 }
 
-
+*/
 
 TEST(NGLMessage,testMultiThread)
 {

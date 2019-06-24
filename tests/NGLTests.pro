@@ -12,6 +12,18 @@ linux:LIBS+= -lX11 -lXxf86vm -L/usr/lib64 -lXrandr -lXi -lXinerama -lXcursor -ld
 macx:DEFINES+=GLFW_USE_MENUBAR
 macx:DEFINES+=GLFW_USE_RETINA
 linux:DEFINES+=GLM_ENABLE_EXPERIMENTAL
+win32:{
+# using vcpkg to install gtest under windows
+BASE=$$(HOMEDRIVE)\\$$(HOMEPATH)
+message($$BASE)
+INCLUDEPATH+=$$BASE\vcpkg\installed\x86-windows\include
+PRE_TARGETDEPS+=$$BASE\vcpkg\installed\x86-windows\lib\gtest.lib
+LIBS+= -L$$BASE\vcpkg\installed\x86-windows\lib\ -lgtest
+PRE_TARGETDEPS+=$$BASE\vcpkg\installed\x86-windows\lib\glfw3dll.lib
+LIBS+= -L$$BASE\vcpkg\installed\x86-windows\lib\ -lglfw3dll
+
+}
+
 DEFINES+=ADDLARGEMODELS
  cache()
 # where to put moc auto generated files
@@ -68,6 +80,8 @@ NGLPATH=$$(NGLDIR)
 isEmpty(NGLPATH){ # note brace must be here
   message("including $HOME/NGL")
   include($(HOME)/NGL/UseNGL.pri)
+  win32:include($(HOMEDRIVE)\$(HOMEPATH)\NGL\UseNGL.pri)
+
 }
 else{ # note brace must be here
   message("Using custom NGL location")
