@@ -57,7 +57,7 @@ DEFINES+=ADDLARGEMODELS
 NGLPATH=$$(NGLDIR)
 
 isEmpty(NGLPATH){ # note brace must be here
-        linux*:BASE_DIR=$$(HOME)/NGL
+        linux*|macx:BASE_DIR=$$(HOME)/NGL
         win32:{
             BASE_DIR=$(HOMEDRIVE)\$(HOMEPATH)\NGL
             message("under windows base dir is" $${BASE_DIR})

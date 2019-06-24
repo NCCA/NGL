@@ -58,7 +58,6 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
 
     Obj(const Obj &_c) noexcept;
     void setTexture(const std::string &_texName);
-
     void addVertex(const Vec3 &_v) noexcept;
     void addNormal(const Vec3 &_v) noexcept;
     void addUV(const Vec2 &_v) noexcept;
