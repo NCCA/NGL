@@ -533,9 +533,9 @@ if(diam2y>diamTwo){ diamTwo=diam2y; p1i=minYI; p2i=maxYI;}
 if(diam2z>diamTwo){ diamTwo=diam2z; p1i=minZI; p2i=maxZI;}
 // now we can get the center of the sphere as the average
 // of the two points
-m_sphereCenter=(m_verts[p1i]+m_verts[p2i])/2.0;
+m_sphereCenter=(m_verts[p1i]+m_verts[p2i])/2.0f;
 // now calculate radius and radius^2 of the initial sphere
-Real radTwo=diamTwo/4.0;
+Real radTwo=diamTwo/4.0f;
 Real rad=sqrt(radTwo);
 // now check and adjust for outlying points
 Vec3 newCenter;
