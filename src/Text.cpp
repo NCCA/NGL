@@ -262,7 +262,7 @@ Text::~Text()
 
 
 //---------------------------------------------------------------------------
-void Text::renderText( float _x, float _y,  const QString &text ) const noexcept
+void Text::renderText( float _x, float _y,  const std::string &text ) const noexcept
 {
   // make sure we are in texture unit 0 as this is what the
   // shader expects
@@ -289,7 +289,7 @@ void Text::renderText( float _x, float _y,  const QString &text ) const noexcept
     shader->setUniform("xpos",_x);
     // so find the FontChar data for our current char
 //    FontChar f = m_characters[text[i].toAscii()];
-    FontChar f = m_characters[text[i].toLatin1()];
+    FontChar f = m_characters[text[i]];
 
     // bind the pre-generated texture
     glBindTexture(GL_TEXTURE_2D, f.textureID);

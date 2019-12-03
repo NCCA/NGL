@@ -12,7 +12,7 @@ namespace ngl
   {
     py::class_<Text>(m, "Text")
         .def(py::init< const QFont &>())
-      //  .def(py::init< const std::string &, int  >())
+        .def(py::init< const std::string &, int  >())
         .def("renderText",&Text::renderText)
         .def("setScreenSize",&Text::setScreenSize)
         .def("setColour",(void (Text::*)(Real,Real,Real))&Text::setColour)
