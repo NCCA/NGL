@@ -26,6 +26,7 @@ set(CMAKE_CXX_STANDARD 14)
 # define this if you want to include the stanford data sets
 # these are very big and make compilation time huge
 add_definitions(-DADDLARGEMODELS)
+add_definitions(-DPYTHONBUILD)
 #This defines the image lib to use by default use QIMAGE, I need to fix this for the others
 add_definitions(-DUSEQIMAGE)
 #This defines that we are using the header only version of the fmt lib
