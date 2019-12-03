@@ -29,6 +29,7 @@ namespace ngl
           .def("lengthSquared", &Vec4::lengthSquared)
           .def("cross",(void (Vec4::*)(const Vec4&, const Vec4&)) &Vec4::cross)
           .def("cross",( Vec4 (Vec4::*)(const Vec4&) const) &Vec4::cross)
+          .def_static("sizeof", [](){return sizeof(Vec4);}  )
           .def_static("up", &Vec4::up)
           .def_static("down", &Vec4::down)
           .def_static("left", &Vec4::left)

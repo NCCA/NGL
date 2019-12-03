@@ -2,6 +2,7 @@
 
 import unittest
 import pyngl
+import ctypes
 
 # Note all pyngl types use internal fuzzy float equality operators
 
@@ -53,6 +54,9 @@ class TestVec2(unittest.TestCase):
     copy=test
     result=pyngl.Vec2(1.0,2.0)
     self.assertEqual(test,result)
+  def testSizeof(self):
+    test=pyngl.Vec2()
+    self.assertTrue( test.sizeof()==2*ctypes.sizeof(ctypes.c_float))
 
 if __name__ == '__main__':
      unittest.main()

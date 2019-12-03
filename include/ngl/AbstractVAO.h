@@ -19,6 +19,12 @@
 
 #include "Types.h"
 #include <memory>
+#ifdef PYTHONBUILD
+  #include "Vec2.h"
+  #include "Vec3.h"
+  #include "Vec4.h"
+  #include <vector>
+#endif
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
@@ -34,12 +40,21 @@ namespace ngl
 class NGL_DLLEXPORT AbstractVAO
 {
   public :
-    class VertexData
+    struct VertexData
     {
-        public :
-          VertexData(size_t _size,const GLfloat &_data, GLenum _mode=GL_STATIC_DRAW ) :
+        VertexData(size_t _size,const GLfloat &_data, GLenum _mode=GL_STATIC_DRAW ) :
            m_size(_size), m_data(_data), m_mode(_mode){}
 
+        #ifdef PYTHONBUILD
+        VertexData(size_t _size,const std::vector<float> &_data , GLenum _mode=GL_STATIC_DRAW ) :
+           m_size(_size), m_data(_data[0]), m_mode(_mode){}
+        VertexData(size_t _size,const std::vector<Vec2> &_data , GLenum _mode=GL_STATIC_DRAW ) :
+           m_size(_size), m_data(_data[0].m_x), m_mode(_mode){}
+        VertexData(size_t _size,const std::vector<Vec3> &_data , GLenum _mode=GL_STATIC_DRAW ) :
+          m_size(_size), m_data(_data[0].m_x), m_mode(_mode){}
+        VertexData(size_t _size,const std::vector<Vec4 > &_data , GLenum _mode=GL_STATIC_DRAW ) :
+           m_size(_size), m_data(_data[0].m_x), m_mode(_mode){}
+        #endif
         size_t m_size;
         const GLfloat &m_data;
         GLenum m_mode=GL_STATIC_DRAW;

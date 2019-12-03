@@ -11,23 +11,16 @@ QMAKE_LFLAGS += -shared
 QMAKE_CXXFLAGS+= -Wno-register
 CONFIG += console
 CONFIG-=app_bundle
-HOST=$$system("hostname -s|cut -c 1-4")
-equals(HOST, "w115"){
-  message("doing z420 compiler hack for w115")
-  QMAKE_CXX=clang++
-  QMAKE_CC=clang
-  QMAKE_LINK=clang++
-}
-CONFIG += c++14
+CONFIG+= c++14
 message("this will need to be changed for you own paths")
 
 QMAKE_CXXFLAGS+=$$system(python-config --cflags)
 QMAKE_LFLAGS+=$$system(python-config --ldflags)
 LIBS+=-L/opt/rh/python27/root/usr/lib64/
 INCLUDEPATH+=$$PWD
-QMAKE_CXXFLAGS+= -std=c++1z
+QMAKE_CXXFLAGS+= -std=c++14
 macx:DEFINES+=PYBIND11_HAS_STRING_VIEW
-
+DEFINES+=PYTHONBUILD
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
 DEFINES+= USEGLM
 DEFINES+=GLM_ENABLE_EXPERIMENTAL

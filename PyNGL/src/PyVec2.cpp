@@ -24,6 +24,8 @@ namespace ngl
         .def(py::self != py::self)
         .def_readwrite("m_x", &Vec2::m_x)
         .def_readwrite("m_y", &Vec2::m_y)
+        .def_static("sizeof", [](){return sizeof(Vec2);}  )
+
 
        ;
   }

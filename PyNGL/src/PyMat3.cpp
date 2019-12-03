@@ -37,6 +37,8 @@ namespace ngl
         .def("getDownVector",&Mat3::getDownVector)
         .def("getForwardVector",&Mat3::getForwardVector)
         .def("getBackVector",&Mat3::getBackVector)
+        .def_static("sizeof",[](){return sizeof(Mat3);})
+
         .def(py::self == py::self)
         .def(py::self * py::self)
         .def(py::self *= py::self)

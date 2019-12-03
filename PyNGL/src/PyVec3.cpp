@@ -40,6 +40,7 @@ namespace ngl
           .def("clamp",( void (Vec3::*)(float)) &Vec3::clamp)
           .def("clamp",( void (Vec3::*)(float,float)) &Vec3::clamp)
           .def("reflect", &Vec3::reflect)
+          .def_static("sizeof", [](){return sizeof(Vec3);}  )
           .def_static("up", &Vec3::up)
           .def_static("down", &Vec3::down)
           .def_static("left", &Vec3::left)

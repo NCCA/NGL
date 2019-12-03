@@ -2,6 +2,7 @@
 
 import unittest
 import pyngl
+import ctypes
 
 # Note all pyngl types use internal fuzzy float equality operators
 
@@ -80,6 +81,11 @@ class TestVec4(unittest.TestCase):
     c.cross(a,b)
     # alas in is a reserved work in python so we use inV
     self.assertTrue(c==pyngl.Vec4.inV())
+
+  def testSizeof(self):
+    test=pyngl.Vec4()
+    self.assertTrue( test.sizeof()==4*ctypes.sizeof(ctypes.c_float))
+
 
 if __name__ == '__main__':
      unittest.main()
