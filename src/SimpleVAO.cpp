@@ -49,13 +49,26 @@ namespace ngl
     // now we will bind an array buffer to the first one and load the data for the verts
     glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
     glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>( _size), &_data[0].m_x,GL_STATIC_DRAW);
-//    float * vertgpu = static_cast<float *>( glMapBuffer(GL_ARRAY_BUFFER,GL_READ_ONLY));
-//    for(size_t i=0; i<_data.m_size/sizeof(float); ++i)
-//      std::cout<<i<<" Data "<<vertgpu[i]<<'\n';
-
-//    glUnmapBuffer(GL_ARRAY_BUFFER);
     m_allocated=true;
   }
+
+  void SimpleVAO::setData(size_t _size, const std::vector<float> &_data)
+  {
+    if(m_bound == false)
+    {
+      msg->addWarning("trying to set VOA data when unbound");
+    }
+    if( m_allocated ==true)
+    {
+        glDeleteBuffers(1,&m_buffer);
+    }
+    glGenBuffers(1, &m_buffer);
+    // now we will bind an array buffer to the first one and load the data for the verts
+    glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+    glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>( _size), &_data[0],GL_STATIC_DRAW);
+    m_allocated=true;
+  }
+
 
 #endif
 
@@ -69,20 +82,10 @@ namespace ngl
     {
         glDeleteBuffers(1,&m_buffer);
     }
-    std::cout<<"setting data "<<_data.m_size<<'\n';
-    //std::unique_ptr<float [] > d=std::make_unique<float []>(_data.m_size);
-    //std::memcpy(d.get(),&_data.m_data,_data.m_size);
-    //for(size_t i=0; i<_data.m_size/sizeof(float); ++i)
-    //  std::cout<<i<<" Data "<<_data.m_data[i]<<'\n';
     glGenBuffers(1, &m_buffer);
     // now we will bind an array buffer to the first one and load the data for the verts
     glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
     glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>( _data.m_size), &_data.m_data, _data.m_mode);
-//    float * vertgpu = static_cast<float *>( glMapBuffer(GL_ARRAY_BUFFER,GL_READ_ONLY));
-//    for(size_t i=0; i<_data.m_size/sizeof(float); ++i)
-//      std::cout<<i<<" Data "<<vertgpu[i]<<'\n';
-
-//    glUnmapBuffer(GL_ARRAY_BUFFER);
     m_allocated=true;
   }
 

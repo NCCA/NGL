@@ -17,6 +17,7 @@ namespace ngl
         .def("unbind", &SimpleVAO::unbind)
         .def("removeVAO", &SimpleVAO::removeVAO)
         .def("setData", py::overload_cast<size_t,const std::vector<Vec3> &>(&SimpleVAO::setData))
+        .def("setData", py::overload_cast<size_t,const std::vector<float> &>(&SimpleVAO::setData))
         .def("getBufferID", &SimpleVAO::getBufferID)
         ;
 
