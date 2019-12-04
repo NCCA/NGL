@@ -66,6 +66,7 @@ set(SOURCES
     ${PYSOURCEDIR}/PyNCCABinMesh.cpp     
     ${PYSOURCEDIR}/PySimpleIndexVAO.cpp  
     ${PYSOURCEDIR}/PyVec4.cpp
+    ${PYSOURCEDIR}/PyVectorTypes.cpp
     ${PYSOURCEDIR}/PyNCCAPointBake.cpp   
     ${PYSOURCEDIR}/PySimpleVAO.cpp
     ${NGLROOT}/src/Vec4.cpp
