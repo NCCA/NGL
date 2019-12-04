@@ -8,11 +8,14 @@
 #include "Vec3.h"
 #include "Vec4.h"
 
-PYBIND11_MAKE_OPAQUE(std::vector<uint32_t, std::allocator<uint32_t>>);
 PYBIND11_MAKE_OPAQUE(std::vector<float, std::allocator<float>>);
 PYBIND11_MAKE_OPAQUE(std::vector<ngl::Vec2, std::allocator<ngl::Vec3>>);
 PYBIND11_MAKE_OPAQUE(std::vector<ngl::Vec3, std::allocator<ngl::Vec3>>);
 PYBIND11_MAKE_OPAQUE(std::vector<ngl::Vec4, std::allocator<ngl::Vec4>>);
+PYBIND11_MAKE_OPAQUE(std::vector<GLushort, std::allocator<GLushort>>);
+PYBIND11_MAKE_OPAQUE(std::vector<GLuint, std::allocator<GLuint>>);
+PYBIND11_MAKE_OPAQUE(std::vector<GLubyte, std::allocator<GLubyte>>);
+
 
 
 namespace ngl
@@ -70,6 +73,10 @@ PYBIND11_MODULE(pyngl,m)
     py::bind_vector<std::vector<ngl::Vec2>>(m,"VectorVec2");
     py::bind_vector<std::vector<ngl::Vec3>>(m,"VectorVec3");
     py::bind_vector<std::vector<ngl::Vec4>>(m,"VectorVec4");
+
+    py::bind_vector<std::vector<GLushort>>(m,"VectorUShort");
+    py::bind_vector<std::vector<GLuint>>(m,"VectorUInt");
+    py::bind_vector<std::vector<GLubyte>>(m,"VectorUByte");
 
     m.doc()="pyngl module to use NGL in python";
     pyInitVec4(m);
