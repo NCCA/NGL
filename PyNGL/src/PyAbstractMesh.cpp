@@ -17,23 +17,23 @@ void pyInitAbstractMesh(py::module & m)
 {
 
 
-  using uintList = std::vector<uint32_t, std::allocator<uint32_t>>;
+  using VectorUInt = std::vector<uint32_t, std::allocator<uint32_t>>;
 
-  py::class_<std::vector<uint32_t>>(m, "uint32_tVector")
+  py::class_<std::vector<uint32_t>>(m, "VectorUInt")
     .def(py::init<>())
-    .def("push_back", (void (uintList::*)(const uint32_t &)) &uintList::push_back)
+    .def("push_back", (void (VectorUInt::*)(const uint32_t &)) &VectorUInt::push_back)
     .def("__iter__", [](std::vector<uint32_t> &v) {
             return py::make_iterator(v.begin(), v.end());
          }, py::keep_alive<0, 1>())
-      .def("__getitem__", [](const uintList &s, size_t i) {
+      .def("__getitem__", [](const VectorUInt &s, size_t i) {
                   if (i >= s.size()) throw py::index_error();
                   return s[i];
               })
-      .def("__setitem__", [](uintList &s, size_t i, float v) {
+      .def("__setitem__", [](VectorUInt &s, size_t i, float v) {
           if (i >= s.size()) throw py::index_error();
           s[i] = v;
       })
-     .def("__len__",&uintList::size)
+     .def("__len__",&VectorUInt::size)
       ;
 
   py::class_<AbstractMesh>(m, "AbstractMesh")
