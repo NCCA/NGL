@@ -57,6 +57,11 @@ class NGL_DLLEXPORT MultiBufferVAO : public AbstractVAO
     /// and then re-set with the new data.
     //----------------------------------------------------------------------------------------------------------------------
     virtual void setData(const VertexData &_data);
+    #ifdef PYTHONBUILD
+        void setData(size_t _size, const std::vector<Vec3>  &_data);
+        void setData(size_t _size, const std::vector<float>  &_data);
+    #endif
+
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief return the id of the buffer, if there is only 1 buffer just return this
     /// if we have the more than one buffer the sub class manages the id's
