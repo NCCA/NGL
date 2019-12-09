@@ -15,7 +15,7 @@ namespace ngl
         .def(py::init<Real,Real>(),py::arg("_x")=0.0f,py::arg("_y")=1.0f)
         .def("dot", &Vec2::dot)
         .def("null", &Vec2::null)
-        .def("__getitem__",(Real& (Vec2::*)(const size_t &)) &Vec2::operator[])
+        .def("__getitem__", py::overload_cast<const size_t &>( &Vec2::operator[]))
         .def("normalize", &Vec2::normalize)
         .def_static("zero", &Vec2::zero)
         .def("length", &Vec2::length)

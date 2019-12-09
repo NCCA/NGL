@@ -2,8 +2,6 @@ Add UniformBlock transfer to  NGL shaderlib
 
 Python
 
-need to get getUniform to work python (uses pass by ref which is an issue for python)
-VAO classes still don't work for setData
-
+Need to add more types to Vertex Array objects for python bindings
 
 

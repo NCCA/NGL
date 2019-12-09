@@ -19,8 +19,6 @@ namespace ngl
 {
 namespace py = pybind11;
 
-using uintList = std::vector<uint32_t, std::allocator<uint32_t>>;
-
 
 // each cpp file will have an init function to do the binding
 // see http://pybind11.readthedocs.io/en/master/faq.html#how-can-i-reduce-the-build-time
@@ -66,6 +64,8 @@ extern void pyInitShaderProgram(py::module & m);
 PYBIND11_MODULE(pyngl,m)
 {
 //    py::module m("pyngl", "pyngl module ");
+    py::bind_vector<std::vector<GLuint>>(m,"VectorUint");
+
     py::bind_vector<std::vector<float>>(m,"VectorFloat");
     py::bind_vector<std::vector<ngl::Vec2>>(m,"VectorVec2");
     py::bind_vector<std::vector<ngl::Vec3>>(m,"VectorVec3");

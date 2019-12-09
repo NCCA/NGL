@@ -11,8 +11,8 @@ namespace ngl
   {
     py::class_<Random, std::unique_ptr<Random, py::nodelete>>(m, "Random")
         .def_static("instance",&Random::instance)
-        .def("setSeed",(void(Random::*)() ) &Random::setSeed)
-        .def("setSeed",(void(Random::*)(unsigned int)  ) &Random::setSeed)
+        .def("setSeed",py::overload_cast<> (&Random::setSeed))
+        .def("setSeed",py::overload_cast<unsigned int>(&Random::setSeed))
         .def("getFloatFromGeneratorName",&Random::getFloatFromGeneratorName)
         .def("getRandomVec4",&Random::getRandomVec4)
         .def("getRandomNormalizedVec4",&Random::getRandomNormalizedVec4)

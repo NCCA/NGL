@@ -74,9 +74,13 @@ Real& Vec3::operator[](const size_t & _i ) noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-Vec3 Vec3::operator-() const noexcept
+Vec3 Vec3::operator-()  noexcept
 {
-	return Vec3(-m_x,-m_y,-m_z);
+    m_x=-m_x;
+    m_y=-m_y;
+    m_z=-m_z;
+    return *this;
+
 }
 
 

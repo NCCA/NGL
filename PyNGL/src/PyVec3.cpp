@@ -24,21 +24,21 @@ namespace ngl
           .def(py::init<Real,Real,Real>())
           .def(py::init<const Vec3 &>())
           .def(py::init<const glm::vec3 &>())
-          .def("set", (void (Vec3::*)(Real,Real,Real)) &Vec3::set)
-          .def("set", (void (Vec3::*)(const Vec3 &)) &Vec3::set)
-          .def("set", (void (Vec3::*)(const Vec4 &)) &Vec3::set)
+          .def("set", py::overload_cast<Real,Real,Real> (&Vec3::set))
+          .def("set", py::overload_cast<const Vec3 &> (&Vec3::set))
+          .def("set", py::overload_cast<const Vec4 &> (&Vec3::set))
           .def("dot", &Vec3::dot)
           .def("null", &Vec3::null)
-          .def("__getitem__",(Real& (Vec3::*)(const size_t &)) &Vec3::operator[])
+          .def("__getitem__",py::overload_cast<const size_t &>( &Vec3::operator[]))
           .def("normalize", &Vec3::normalize)
           .def("inner", &Vec3::inner)
           .def("outer", &Vec3::outer)
           .def("length", &Vec3::length)
           .def("lengthSquared", &Vec3::lengthSquared)
-          .def("cross",(void (Vec3::*)(const Vec3&, const Vec3&)) &Vec3::cross)
-          .def("cross",( Vec3 (Vec3::*)(const Vec3&) const) &Vec3::cross)
-          .def("clamp",( void (Vec3::*)(float)) &Vec3::clamp)
-          .def("clamp",( void (Vec3::*)(float,float)) &Vec3::clamp)
+          .def("cross",py::overload_cast<const Vec3&, const Vec3&>(&Vec3::cross ))
+          .def("cross",py::overload_cast<const Vec3&>( &Vec3::cross, py::const_))
+          .def("clamp",py::overload_cast<float>(&Vec3::clamp))
+          .def("clamp",py::overload_cast<float,float>(&Vec3::clamp))
           .def("reflect", &Vec3::reflect)
           .def_static("sizeof", [](){return sizeof(Vec3);}  )
           .def_static("up", &Vec3::up)
@@ -48,7 +48,6 @@ namespace ngl
           .def_static("inV", &Vec3::in) // note in is a reserved word so use inV
           .def_static("out", &Vec3::out)
           .def_static("zero", &Vec3::zero)
-
           .def(py::self == py::self)
           .def(py::self != py::self)
           .def(py::self += py::self)
@@ -63,7 +62,8 @@ namespace ngl
           .def(py::self /= ngl::Real())
           .def(py::self *= ngl::Real())
           .def(py::self * ngl::Mat3())
-          .def("__neg__",(Vec3 (Vec3::*)()const) &Vec3::operator-)
+          .def("__neg__", py::overload_cast<> ( &Vec3::operator- ))
+
           .def("__repr__",
                   [](const Vec3 &v) {
                       return "["+std::to_string(v.m_x)+","+

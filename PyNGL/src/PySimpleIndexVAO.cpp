@@ -13,11 +13,8 @@ namespace ngl
         .def_static("create",&SimpleIndexVAO::create)
         .def("draw", &SimpleIndexVAO::draw)
         .def("removeVAO", &SimpleIndexVAO::removeVAO)
-//        .def("setData", &SimpleIndexVAO::setData)
         .def("setData", py::overload_cast<size_t , const std::vector<Vec3> &, unsigned int , const std::vector<GLushort> &>(&SimpleIndexVAO::setData))
-
         .def("getBufferID", &SimpleIndexVAO::getBufferID)
-
         ;
 
   }
