@@ -7,7 +7,7 @@
 #include "Vec4.h"
 #include "Mat4.h"
 namespace py = pybind11;
-PYBIND11_MAKE_OPAQUE(std::vector<uint32_t, std::allocator<uint32_t>>);
+//PYBIND11_MAKE_OPAQUE(std::vector<uint32_t, std::allocator<uint32_t>>);
 
 namespace ngl
 {
@@ -15,7 +15,7 @@ namespace ngl
   void pyInitVectorTypes(py::module & m)
   {
 
-      using VectorUInt = std::vector<GLuint, std::allocator<GLuint>>;
+/*      using VectorUInt = std::vector<GLuint, std::allocator<GLuint>>;
 
       py::class_<std::vector<uint32_t>>(m, "VectorUInt")
         .def(py::init<>())
@@ -35,6 +35,6 @@ namespace ngl
           ;
 
 
-
+*/
    }
 }
