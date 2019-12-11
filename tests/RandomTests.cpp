@@ -38,6 +38,16 @@ TEST(Random,vec3)
 }
 
 
+TEST(Random,point)
+{
+    auto rng=ngl::Random::instance();
+    rng->setSeed();
+    auto v=rng->getRandomPoint(20,20,20);
+    EXPECT_TRUE(v.m_x>=-20.0f && v.m_x<=20.0f);
+    EXPECT_TRUE(v.m_y>=-20.0f && v.m_y<=20.0f);
+    EXPECT_TRUE(v.m_z>=-20.0f && v.m_z<=20.0f);
+}
+
 TEST(Random,vec4)
 {
     auto rng=ngl::Random::instance();
@@ -48,6 +58,40 @@ TEST(Random,vec4)
     EXPECT_TRUE(v.m_z>=-1.0f && v.m_z<=1.0f);
     EXPECT_TRUE(v.m_w>=-1.0f && v.m_w<=1.0f);
 }
+
+
+TEST(Random,randomNumberDefault)
+{
+    auto rng=ngl::Random::instance();
+    rng->setSeed();
+    auto v=rng->randomNumber();
+    EXPECT_TRUE(v>=-1.0f && v<=1.0f);
+}
+
+TEST(Random,randomNumberParam)
+{
+    auto rng=ngl::Random::instance();
+    rng->setSeed();
+    auto v=rng->randomNumber(2000.0);
+    EXPECT_TRUE(v>=-2000.0f && v<=2000.0f);
+}
+
+TEST(Random,randomPositiveNumberDefault)
+{
+    auto rng=ngl::Random::instance();
+    rng->setSeed();
+    auto v=rng->randomPositiveNumber();
+    EXPECT_TRUE(v>=0.0f && v<=1.0f);
+}
+
+TEST(Random,randomPositiveNumberParam)
+{
+    auto rng=ngl::Random::instance();
+    rng->setSeed();
+    auto v=rng->randomPositiveNumber(2000.0);
+    EXPECT_TRUE(v>=0.0f && v<=2000.0f);
+}
+
 
 
 TEST(Random,addIntGenerator)
@@ -70,4 +114,7 @@ TEST(Random,addFloatGenerator)
     auto test=rng->getFloatFromGeneratorName("test");
     EXPECT_TRUE(test>=0.0f && test <=5.0f);
 }
+
+
+
 
