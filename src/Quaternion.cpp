@@ -29,10 +29,17 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 Quaternion::Quaternion(const Mat4 &_m) noexcept
 {
+
+    m_s = sqrtf( std::max( 0.0f, 1.0f + _m.m_00 + _m.m_11 + _m.m_22 ) ) / 2.0f;
+    m_x = sqrtf( std::max( 0.0f, 1.0f + _m.m_00 - _m.m_11 - _m.m_22 ) ) / 2.0f;
+    m_y = sqrtf( std::max( 0.0f, 1.0f - _m.m_00 + _m.m_11 - _m.m_22 ) ) / 2.0f;
+    m_z = sqrtf( std::max( 0.0f, 1.0f - _m.m_00 - _m.m_11 + _m.m_22 ) ) / 2.0f;
+   return;
+
   Real T = 1 + _m.m_openGL[0] + _m.m_openGL[5] + _m.m_openGL[10];
   if ( T > 0.00000001f ) //to avoid large distortions!
   {
-    Real S = static_cast<Real>(sqrt(T) * 2.0f);
+    Real S = static_cast<Real>(sqrtf(T) * 2.0f);
     m_x = ( _m.m_openGL[6] - _m.m_openGL[9] ) / S;
     m_y = ( _m.m_openGL[8] - _m.m_openGL[2] ) / S;
     m_z = ( _m.m_openGL[1] - _m.m_openGL[4] ) / S;
@@ -42,7 +49,7 @@ Quaternion::Quaternion(const Mat4 &_m) noexcept
   if ( _m.m_openGL[0] > _m.m_openGL[5] &&
        _m.m_openGL[0] > _m.m_openGL[10] )
   {		// Column 0:
-    Real S  = static_cast<Real>(sqrt( 1.0f + _m.m_openGL[0] - _m.m_openGL[5] - _m.m_openGL[10] ) * 2.0f);
+    Real S  = static_cast<Real>(sqrtf( 1.0f + _m.m_openGL[0] - _m.m_openGL[5] - _m.m_openGL[10] ) * 2.0f);
     m_x = 0.25f * S;
     m_y = (_m.m_openGL[1] + _m.m_openGL[4] ) / S;
     m_z = (_m.m_openGL[8] + _m.m_openGL[2] ) / S;
@@ -51,7 +58,7 @@ Quaternion::Quaternion(const Mat4 &_m) noexcept
   else
   if ( _m.m_openGL[5] > _m.m_openGL[10] )
   {			// Column 1:
-    Real S  = static_cast<Real>(sqrt( 1.0 + _m.m_openGL[5] - _m.m_openGL[0] - _m.m_openGL[10] ) * 2.0f);
+    Real S  = static_cast<Real>(sqrtf( 1.0f + _m.m_openGL[5] - _m.m_openGL[0] - _m.m_openGL[10] ) * 2.0f);
     m_x = (_m.m_openGL[1] + _m.m_openGL[4] ) / S;
     m_y = 0.25f * S;
     m_z = (_m.m_openGL[6] + _m.m_openGL[9] ) / S;
@@ -59,7 +66,7 @@ Quaternion::Quaternion(const Mat4 &_m) noexcept
   }
   else
   {										// Column 2:
-    Real S  = static_cast<Real>(sqrt( 1.0 + _m.m_openGL[10] - _m.m_openGL[0] - _m.m_openGL[5] ) * 2.0f);
+    Real S  = static_cast<Real>(sqrtf( 1.0f + _m.m_openGL[10] - _m.m_openGL[0] - _m.m_openGL[5] ) * 2.0f);
     m_x = (_m.m_openGL[8] + _m.m_openGL[2] ) / S;
     m_y = (_m.m_openGL[6] + _m.m_openGL[9] ) / S;
     m_z = 0.25f * S;
@@ -77,9 +84,9 @@ Quaternion::Quaternion(const Vec3 &_rot) noexcept
   Real cy = cosf(radians(_rot.m_y/2.0f));
   Real cz = cosf(radians(_rot.m_z/2.0f));
 
-  m_s=cx*cy*cz + sx*sy*sz,
-  m_x=sx*cy*cz - cx*sy*sz,
-  m_y=cx*sy*cz + sx*cy*sz,
+  m_s=cx*cy*cz + sx*sy*sz;
+  m_x=sx*cy*cz - cx*sy*sz;
+  m_y=cx*sy*cz + sx*cy*sz;
   m_z=cx*cy*sz - sx*sy*cz;
 
 }

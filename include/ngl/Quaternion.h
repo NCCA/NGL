@@ -39,7 +39,7 @@ class NGL_DLLEXPORT Quaternion
 {
 
   public:
-
+  Quaternion()=default;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief constructor I use the format used in John Vinces book where we have a scalar and a vector, some libs do this
   /// the otherway round and use the w component, make sure you check if using different libs
@@ -48,11 +48,11 @@ class NGL_DLLEXPORT Quaternion
   /// @param [in]  _y  -  the y component of the quaternion
   /// @param [in]  _z  -  the z component of the quaternion
   //----------------------------------------------------------------------------------------------------------------------
-  Quaternion(const Real _s=0.0f,const Real _x=0.0f,const Real _y=0.0f,const Real _z=0.0f) noexcept:
+  Quaternion(const Real _s,const Real _x,const Real _y,const Real _z) noexcept:
           m_s(_s),
           m_x(_x),
           m_y(_y),
-          m_z(_z) {;}
+          m_z(_z) {}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief constructor passing in a matrix
   /// @param _m the matrix to build the quat from
@@ -76,7 +76,7 @@ class NGL_DLLEXPORT Quaternion
           m_s(_q.m_s),
           m_x(_q.m_x),
           m_y(_q.m_y),
-          m_z(_q.m_z) {;}
+          m_z(_q.m_z) {}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to set the quaternion values
   /// @param[in] _x the x value
@@ -303,13 +303,13 @@ class NGL_DLLEXPORT Quaternion
 
   protected :
   /// @brief  the quaternion data for the scalar real part
-  Real m_s;
+  Real m_s=1.0f;
   /// @brief  the quaternion data for x
-  Real m_x;
+  Real m_x=0.0f;
   /// @brief  the quaternion data for y
-  Real m_y;
+  Real m_y=0.0f;
   /// @brief  the quaternion data for z
-  Real m_z;
+  Real m_z=0.0f;
 
 }; // end of class
 
