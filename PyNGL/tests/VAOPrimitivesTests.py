@@ -25,17 +25,17 @@ class TestVAOPrimitives(unittest.TestCase):
    prim = pyngl.VAOPrimitives.instance()
    for m in self.meshes :
      print(m)
-     self.assertTrue(prim.getVAOFromName(m) != 0)
-  
+     self.assertTrue(prim.getVAOFromName(m) != 0)  
 
-  # def testCheckCreated(self) :
-  #   prim = pyngl.VAOPrimitives.instance()
-  #   for m in self.meshes :
-  #     print(m)
-  #     vao=prim.getVAOFromName(m)
-  #     vao.bind()
-  #     self.assertTrue(vao.getBufferID(0) > 0)
-  #     vao.unbind()
+  def testCheckCreated(self) :
+    prim = pyngl.VAOPrimitives.instance()
+    for m in self.meshes :
+      print(m)
+      vao=prim.getVAOFromName(m)
+      vao.bind()
+      self.assertTrue(vao.getBufferID(0) > 0)
+      vao.unbind()
+
   def testCheckCreateSphere(self) :
     prim = pyngl.VAOPrimitives.instance()
     prim.createSphere('sphere',1.0,200)

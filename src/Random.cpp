@@ -71,12 +71,40 @@ Real Random::getFloatFromGeneratorName(const std::string &_name  )
   else
   {
     // otherwise we return the safest possible value 0
+    return 0.0f;
+  }
+}
+
+
+int Random::getIntFromGeneratorName(const std::string &_name  )
+{
+  // grab a function pointer based on the _name from the map
+  //auto func=m_floatGenerators[_name];
+  auto func = m_intGenerators.find(_name.data());
+  // see if we got anything we can use
+  if(func != m_intGenerators.end())
+  {
+    // if it exists execute the function and return the value
+    return func->second(m_generator);
+  }
+  else
+  {
+    // otherwise we return the safest possible value 0
     return 0;
   }
 }
 
 
 
+void Random::addIntGenerator(const std::string &_name,std::uniform_int_distribution<int> &_dist)
+{
+ m_intGenerators[_name]=_dist;
+}
+
+void Random::addFloatGenerator(const std::string &_name,std::uniform_real_distribution<float> &_dist)
+{
+ m_floatGenerators[_name]=_dist;
+}
 //----------------------------------------------------------------------------------------------------------------------
 Vec4 Random::getRandomVec4()
 {

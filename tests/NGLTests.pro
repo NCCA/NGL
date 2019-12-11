@@ -43,6 +43,7 @@ SOURCES+= $$PWD/Vec4Tests.cpp \
           $$PWD/VAOPrimitivesTests.cpp \
           $$PWD/ShaderLibTests.cpp \
           $$PWD/MessageQueueTests.cpp \
+          $$PWD/RandomTests.cpp \
           $$PWD/main.cpp
 
 OTHER_FILES+=$$PWD/files/*

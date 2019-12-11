@@ -14,6 +14,7 @@ namespace ngl
         .def("setSeed",py::overload_cast<> (&Random::setSeed))
         .def("setSeed",py::overload_cast<unsigned int>(&Random::setSeed))
         .def("getFloatFromGeneratorName",&Random::getFloatFromGeneratorName)
+        .def("getIntFromGeneratorName",&Random::getIntFromGeneratorName)
         .def("getRandomVec4",&Random::getRandomVec4)
         .def("getRandomNormalizedVec4",&Random::getRandomNormalizedVec4)
         .def("getRandomVec3",&Random::getRandomVec3)

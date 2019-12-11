@@ -264,6 +264,13 @@ void Text::renderText( float _x, float _y,  const QString &_text ) const noexcep
   renderText(_x,_y,_text.toStdString());
 }
 
+
+void Text::renderText( float _x, float _y,  const char *_text ) const noexcept
+{
+  renderText(_x,_y,std::string(_text));
+}
+
+
 //---------------------------------------------------------------------------
 void Text::renderText( float _x, float _y,  const std::string &_text ) const noexcept
 {
