@@ -7,7 +7,9 @@
 #include <glm/vec4.hpp>
 
 
-
+// so testing randomness is a weird thing, however we can test for ranges
+// in these cases I will use a different seed each time which may also help to show up issues
+// in all cases I will just see if I get the range I need.
 
 
 TEST(Random,instance)

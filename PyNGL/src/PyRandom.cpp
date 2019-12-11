@@ -22,8 +22,8 @@ namespace ngl
         .def("getRandomVec2",&Random::getRandomVec2)
         .def("getRandomNormalizedVec2",&Random::getRandomNormalizedVec2)
         .def("getRandomPoint",&Random::getRandomPoint)
-        .def("randomNumber",&Random::randomNumber)
-        .def("randomPositiveNumber",&Random::randomPositiveNumber)
+        .def("randomNumber",&Random::randomNumber ,py::arg("_mult") = 1)
+        .def("randomPositiveNumber",&Random::randomPositiveNumber, py::arg("_mult") = 1)
 
         ;
 
