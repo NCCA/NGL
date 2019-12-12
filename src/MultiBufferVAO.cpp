@@ -54,22 +54,6 @@ namespace ngl
 
   }
 #ifdef PYTHONBUILD
-  void MultiBufferVAO::setData(size_t _size, const std::vector<Vec3>  &_data)
-  {
-    if(m_bound == false)
-    {
-      msg->addWarning("trying to set VOA data when unbound");
-    }
-
-    GLuint vboID;
-    glGenBuffers(1, &vboID);
-    m_vboIDs.push_back(vboID);
-    // now we will bind an array buffer to the first one and load the data for the verts
-    glBindBuffer(GL_ARRAY_BUFFER, vboID);
-    glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>(_size), &_data[0].m_x, GL_STATIC_DRAW);
-    m_allocated=true;
-
-  }
 
   void MultiBufferVAO::setData(size_t _size, const std::vector<float>  &_data)
   {
@@ -87,6 +71,25 @@ namespace ngl
     m_allocated=true;
 
   }
+
+  void MultiBufferVAO::setData(size_t _size, const std::vector<Vec3>  &_data)
+  {
+      if(m_bound == false)
+      {
+          msg->addWarning("trying to set VOA data when unbound");
+      }
+
+      GLuint vboID;
+      glGenBuffers(1, &vboID);
+      m_vboIDs.push_back(vboID);
+      // now we will bind an array buffer to the first one and load the data for the verts
+      glBindBuffer(GL_ARRAY_BUFFER, vboID);
+      glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>(_size), &_data[0].m_x, GL_STATIC_DRAW);
+      m_allocated=true;
+
+  }
+
+
 
 #endif
   GLuint MultiBufferVAO::getBufferID(unsigned int _id )
