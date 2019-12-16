@@ -46,5 +46,15 @@ Finally in the kits tab select the new compiler as the default compiler for the 
 
 ## Build NGL
 
-NGL can now be cloned and installed as with Mac and Linux. It is important that when building the demos they are build as release or debug for everything. For example NGL build as debug must have the demo programs build as debug as well.
+NGL can now be cloned and installed as with Mac and Linux. It is important that when building the demos they are build as release or debug for everything. For example NGL build as debug must have the demo programs build as debug as well. Also this will require the correct version of the vcpkg libs to be installed as well for both debug and release.
+
+
+## Visual Studio build.
+
+It is generally easier to install and use the Visual Studio IDE rather than Qt, however you first need to install the Qt Extensions, from the Extensions menu search for Qt and install the Qt Visual Studio Tools as shown in the image below
+![](images/qt4.png) and re-start Visual Studio.
+
+You can now Open Qt Project file from the Extensions -> Qt VS Tools menu and load the NGL project.
+
+Again you will need to setup either Release or Debug builds for all projects and choose the x64 options.
 
