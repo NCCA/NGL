@@ -9,7 +9,7 @@ You will need to install Visual Studio community edition from [here](https://vis
 As a minimum choose Desktop C++ development as show in the image here
 ![](images/windows1.png)
 
-## install vcpkg
+## Install vcpkg
 
 vcpkg is a tool which allows you to install libraries under windows. I use this to help install the required libraries for NGL. Follow the install instructions here  [https://github.com/microsoft/vcpkg](https://github.com/microsoft/vcpkg). It is important to install this in the root of your home directory to ensure this is correct run the cmd.exe terminal and type ```cd %HOMEDRIVE%%HOMEPATH%``` before running the commands to install vcpkg. NGL will use ``` %HOMEDRIVE%%HOMEPATH% ``` in all the build scripts to ensure things are in the correct locations.
 
@@ -31,4 +31,20 @@ As a minimum install the latest version of Qt for the MSVC 64 bit compiler as sh
 
 ![](images/qt.png)
 
+
+Once Qt is installed launch Qt Creator and setup the kits / compilers.
+
+1. Choose Tools-> Options -> Kits
+2. Choose the Compilers Tab
+3. Select Add and choose the MSVC Tab, now select the 64 bit ABI version as shown in the Image below.
+
+![](images/qt2.png)
+
+Finally in the kits tab select the new compiler as the default compiler for the Kit as shown below.
+
+![](images/qt3.png)
+
+## Build NGL
+
+NGL can now be cloned and installed as with Mac and Linux. It is important that when building the demos they are build as release or debug for everything. For example NGL build as debug must have the demo programs build as debug as well.
 
