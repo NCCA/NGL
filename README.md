@@ -19,32 +19,12 @@ NGL depends upon the following libraries
 - [GLM](https://glm.g-truc.net/0.9.9/index.html) this is a header only library and can be copied to /usr/local/include This is a compatibility layer and can be removed by commenting out the  USEGLM define in the Qt projects.
 - [glfw3](https://www.glfw.org/) is used to create an OpenGL context for the unit tests, if you don't want to install this just don't build the unit tests.  
 
-
-## Changes from NGL6
-
-- Internal VAO layout has changed, all shaders using built in primitives must now use the following layout
-
-```
-layout(location =0)in vec3 inVert;
-layout(location =1)in vec3 inNormal;
-layout(location =2)in vec2 inUV;
-```
-
-- Remove all boost dependancies
-- moved to C++ 14 
-- Remove all GLEW elements and replace with [gl3w](https://github.com/skaslev/gl3w)
-- Remove Camera,PathCamera Light, Material as classes and replace with simple structs.
-- New Obj Class to remove boost spirit (and make it copyable for Cos!)
-- Better Python integration (python library now built at same time as NGL)
-- Better abstraction from Qt for certain types (and have SDL replacements as a compile switch (i.e. font text classes etc) this is not quite complete yet but will not change the underlying NGL API).
-- Added an new Messaging system to help with printing errors and warnings there will be a full write up / demo coming soon.
-
 ## Building
 
-It needs to be built using QtCreator or CMake
 
-Note this is now being built using C++ 14 and will use many C++ 14 features so make sure you 
-have a modern compiler such as clang++ or g++ >4.8
+It needs to be built using QtCreator or CMake for Windows build instructions read [Windows.md](Windows.md).
+
+Note this is now being built using C++ 14 and will use many C++ 14 features so make sure you have a modern compiler such as clang++ or g++ >4.8
 
 For more info check out the website here
 
@@ -54,6 +34,7 @@ and for the demos
 http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/index.html
 
 Theres are also other demos on github which are generally work in progress.
+
 # Demos
 ## [BlankNGL](https://github.com/NCCA/BlankNGL)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/BlankNGL.png)
