@@ -231,7 +231,7 @@ protected :
   /// @brief sets the draw mode for the BBox Faces,  set to GL_LINE for
   ///  line faces and GL_FILL for filled
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint m_drawMode;
+  GLuint m_drawMode=GL_LINE;
   bool m_noGL=false;
 
 }; // end class

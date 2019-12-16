@@ -126,58 +126,57 @@ win32|unix:!macx{
 # once you have done this set the PATH environment variable to look in
 # c:/NGL/lib to find the DLL
 win32{
-				message("Using Windows check to see what needs to be installed")
-				CONFIG+=staticlib
-        INCLUDEPATH += C:/SDKs/ #for university STEM build
-				DEFINES+=_USE_MATH_DEFINES
-				DESTDIR=c:/
-				DEFINES += NO_DLL
+    message("Using Windows check to see what needs to be installed")
+    CONFIG+=staticlib
+    INCLUDEPATH += C:/SDKs/ #for university STEM build
+    DEFINES+=_USE_MATH_DEFINES
+    DESTDIR=c:/
+    DEFINES += NO_DLL
 }
 
 PYSOURCEDIR=$$BASE_DIR/PyNGL/src
 
-SOURCES += $$PYSOURCEDIR/*.cpp \
-    $$SRC_DIR/Vec4.cpp \
-		$$SRC_DIR/VAOPrimitives.cpp \
-		$$SRC_DIR/Util.cpp \
-		$$SRC_DIR/Texture.cpp \
-		$$SRC_DIR/ShaderLib.cpp \
-		$$SRC_DIR/Transformation.cpp \
-		$$SRC_DIR/RibExport.cpp \
-		$$SRC_DIR/Quaternion.cpp \
-		$$SRC_DIR/Obj.cpp \
-		$$SRC_DIR/Mat4.cpp \
-		$$SRC_DIR/NGLInit.cpp \
-		$$SRC_DIR/NCCABinMesh.cpp \
-		$$SRC_DIR/BezierCurve.cpp \
-    $$SRC_DIR/BBox.cpp \
-    $$SRC_DIR/AbstractMesh.cpp \
-		$$SRC_DIR/Random.cpp \
-		$$SRC_DIR/NCCAPointBake.cpp \
-		$$SRC_DIR/Shader.cpp \
-		$$SRC_DIR/ShaderProgram.cpp \
-    $$SRC_DIR/Plane.cpp \
-		$$SRC_DIR/AABB.cpp \
-		$$SRC_DIR/createDefaultVAOs.cpp \
-		$$SRC_DIR/Vec3.cpp \
-		$$SRC_DIR/Vec2.cpp \
-		$$SRC_DIR/Text.cpp \
-    $$SRC_DIR/Mat2.cpp \
-    $$SRC_DIR/Mat3.cpp \
-    $$SRC_DIR/NGLStream.cpp \
-    $$SRC_DIR/Image.cpp \
-    $$SRC_DIR/VAOFactory.cpp \
-    $$SRC_DIR/AbstractVAO.cpp \
-    $$SRC_DIR/MultiBufferVAO.cpp \
-    $$SRC_DIR/SimpleVAO.cpp \
-    $$SRC_DIR/SimpleIndexVAO.cpp \
-    $$SRC_DIR/Types.cpp \
-    $$SRC_DIR/MessageQueue/AbstractMessageConsumer.cpp \
-    $$SRC_DIR/MessageQueue/NGLMessage.cpp \
-    $$SRC_DIR/MessageQueue/FileConsumer.cpp \
-    $$SRC_DIR/pystring.cpp \
-    $$BASE_DIR/gl3w/gl3w.c
-
+SOURCES +=$$SRC_DIR/Vec4.cpp \
+            $$SRC_DIR/VAOPrimitives.cpp \
+            $$SRC_DIR/Util.cpp \
+            $$SRC_DIR/Texture.cpp \
+            $$SRC_DIR/ShaderLib.cpp \
+            $$SRC_DIR/Transformation.cpp \
+            $$SRC_DIR/RibExport.cpp \
+            $$SRC_DIR/Quaternion.cpp \
+            $$SRC_DIR/Obj.cpp \
+            $$SRC_DIR/Mat4.cpp \
+            $$SRC_DIR/NGLInit.cpp \
+            $$SRC_DIR/NCCABinMesh.cpp \
+            $$SRC_DIR/BezierCurve.cpp \
+            $$SRC_DIR/BBox.cpp \
+            $$SRC_DIR/AbstractMesh.cpp \
+            $$SRC_DIR/Random.cpp \
+            $$SRC_DIR/NCCAPointBake.cpp \
+            $$SRC_DIR/Shader.cpp \
+            $$SRC_DIR/ShaderProgram.cpp \
+            $$SRC_DIR/Plane.cpp \
+            $$SRC_DIR/AABB.cpp \
+            $$SRC_DIR/createDefaultVAOs.cpp \
+            $$SRC_DIR/Vec3.cpp \
+            $$SRC_DIR/Vec2.cpp \
+            $$SRC_DIR/Text.cpp \
+            $$SRC_DIR/Mat2.cpp \
+            $$SRC_DIR/Mat3.cpp \
+            $$SRC_DIR/NGLStream.cpp \
+            $$SRC_DIR/Image.cpp \
+            $$SRC_DIR/VAOFactory.cpp \
+            $$SRC_DIR/AbstractVAO.cpp \
+            $$SRC_DIR/MultiBufferVAO.cpp \
+            $$SRC_DIR/SimpleVAO.cpp \
+            $$SRC_DIR/SimpleIndexVAO.cpp \
+            $$SRC_DIR/Types.cpp \
+            $$SRC_DIR/MessageQueue/AbstractMessageConsumer.cpp \
+            $$SRC_DIR/MessageQueue/NGLMessage.cpp \
+            $$SRC_DIR/MessageQueue/FileConsumer.cpp \
+            $$SRC_DIR/pystring.cpp \
+            $$PYSOURCEDIR/*.cpp \
+            $$BASE_DIR/gl3w/gl3w.c
 
 
 HEADERS += $$INC_DIR/Vec4.h \

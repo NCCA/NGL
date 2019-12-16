@@ -35,6 +35,25 @@ namespace ngl
     }
 
 #ifdef PYTHONBUILD
+
+    void SimpleVAO::setData(size_t _size, const std::vector<float> &_data)
+    {
+        if(m_bound == false)
+        {
+            msg->addWarning("trying to set VOA data when unbound");
+        }
+        if( m_allocated ==true)
+        {
+            glDeleteBuffers(1,&m_buffer);
+        }
+        glGenBuffers(1, &m_buffer);
+        // now we will bind an array buffer to the first one and load the data for the verts
+        glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+        glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>( _size), &_data[0],GL_STATIC_DRAW);
+        m_allocated=true;
+    }
+
+
   void SimpleVAO::setData(size_t _size, const std::vector<Vec3> &_data)
   {
     if(m_bound == false)
@@ -52,22 +71,6 @@ namespace ngl
     m_allocated=true;
   }
 
-  void SimpleVAO::setData(size_t _size, const std::vector<float> &_data)
-  {
-    if(m_bound == false)
-    {
-      msg->addWarning("trying to set VOA data when unbound");
-    }
-    if( m_allocated ==true)
-    {
-        glDeleteBuffers(1,&m_buffer);
-    }
-    glGenBuffers(1, &m_buffer);
-    // now we will bind an array buffer to the first one and load the data for the verts
-    glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-    glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>( _size), &_data[0],GL_STATIC_DRAW);
-    m_allocated=true;
-  }
 
 
 #endif

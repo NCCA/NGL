@@ -90,7 +90,7 @@ public:
   /// @param[in] _y the y position of the text in screen space
   /// @param[in] _text the text to draw (this is limited to ASCII chars ' '->'~' at present but unicode will be done soon
   //----------------------------------------------------------------------------------------------------------------------
-
+  void renderText( float _x, float _y,  const char *_text ) const noexcept;
   void renderText(float _x, float _y, const std::string &_text ) const noexcept;
   void renderText(float _x, float _y, const QString &_text ) const noexcept;
 

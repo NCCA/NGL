@@ -53,6 +53,7 @@ if __name__ == '__main__':
   from Vec4Test import *
   from ObjTest import *
   from UtilTest import *
+  from RandomTest import *
   if len(sys.argv) > 1 :
     unittest.main(argv=sys.argv[1:])
   else :

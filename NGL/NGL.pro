@@ -105,7 +105,7 @@ INCLUDEPATH +=$$BASE_DIR/include/fmt
 
 unix:LIBS += -L/usr/local/lib
 # set the SRC_DIR so we can find the project files
-SRC_DIR = $${BASE_DIR}\src
+SRC_DIR = $${BASE_DIR}/src
 message(SRC_DIR is $${SRC_DIR})
 
 # and the include files

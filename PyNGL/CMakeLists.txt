@@ -35,39 +35,6 @@ add_definitions(-DUSEGLM)
 add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
 
 set(SOURCES
-    ${PYSOURCEDIR}/PyAABB.cpp            
-    ${PYSOURCEDIR}/PyNGLInit.cpp         
-    ${PYSOURCEDIR}/PyText.cpp
-    ${PYSOURCEDIR}/PyAbstractMesh.cpp    
-    ${PYSOURCEDIR}/PyObj.cpp             
-    ${PYSOURCEDIR}/PyTexture.cpp
-    ${PYSOURCEDIR}/PyAbstractVAO.cpp     
-    ${PYSOURCEDIR}/PyPlane.cpp           
-    ${PYSOURCEDIR}/PythonBindings.cpp
-    ${PYSOURCEDIR}/PyBBox.cpp            
-    ${PYSOURCEDIR}/PyQuaternion.cpp      
-    ${PYSOURCEDIR}/PyTransformation.cpp
-    ${PYSOURCEDIR}/PyBezierCurve.cpp     
-    ${PYSOURCEDIR}/PyRandom.cpp          
-    ${PYSOURCEDIR}/PyUtil.cpp
-    ${PYSOURCEDIR}/PyImage.cpp           
-    ${PYSOURCEDIR}/PyRibExport.cpp       
-    ${PYSOURCEDIR}/PyVAOFactory.cpp
-    ${PYSOURCEDIR}/PyMat3.cpp            
-    ${PYSOURCEDIR}/PyMat2.cpp            
-    ${PYSOURCEDIR}/PyShader.cpp          
-    ${PYSOURCEDIR}/PyVAOPrimitives.cpp
-    ${PYSOURCEDIR}/PyMat4.cpp            
-    ${PYSOURCEDIR}/PyShaderLib.cpp       
-    ${PYSOURCEDIR}/PyVec2.cpp
-    ${PYSOURCEDIR}/PyMultiBufferVAO.cpp  
-    ${PYSOURCEDIR}/PyShaderProgram.cpp   
-    ${PYSOURCEDIR}/PyVec3.cpp
-    ${PYSOURCEDIR}/PyNCCABinMesh.cpp     
-    ${PYSOURCEDIR}/PySimpleIndexVAO.cpp  
-    ${PYSOURCEDIR}/PyVec4.cpp
-    ${PYSOURCEDIR}/PyNCCAPointBake.cpp   
-    ${PYSOURCEDIR}/PySimpleVAO.cpp
     ${NGLROOT}/src/Vec4.cpp
     ${NGLROOT}/src/VAOPrimitives.cpp
     ${NGLROOT}/src/VAOFactory.cpp
@@ -107,6 +74,39 @@ set(SOURCES
     ${NGLROOT}/src/MessageQueue/AbstractMessageConsumer.cpp 
     ${NGLROOT}/src/MessageQueue/NGLMessage.cpp 
     ${NGLROOT}/src/MessageQueue/FileConsumer.cpp 
+    ${PYSOURCEDIR}/PyAABB.cpp            
+    ${PYSOURCEDIR}/PyNGLInit.cpp         
+    ${PYSOURCEDIR}/PyText.cpp
+    ${PYSOURCEDIR}/PyAbstractMesh.cpp    
+    ${PYSOURCEDIR}/PyObj.cpp             
+    ${PYSOURCEDIR}/PyTexture.cpp
+    ${PYSOURCEDIR}/PyAbstractVAO.cpp     
+    ${PYSOURCEDIR}/PyPlane.cpp           
+    ${PYSOURCEDIR}/PythonBindings.cpp
+    ${PYSOURCEDIR}/PyBBox.cpp            
+    ${PYSOURCEDIR}/PyQuaternion.cpp      
+    ${PYSOURCEDIR}/PyTransformation.cpp
+    ${PYSOURCEDIR}/PyBezierCurve.cpp     
+    ${PYSOURCEDIR}/PyRandom.cpp          
+    ${PYSOURCEDIR}/PyUtil.cpp
+    ${PYSOURCEDIR}/PyImage.cpp           
+    ${PYSOURCEDIR}/PyRibExport.cpp       
+    ${PYSOURCEDIR}/PyVAOFactory.cpp
+    ${PYSOURCEDIR}/PyMat3.cpp            
+    ${PYSOURCEDIR}/PyMat2.cpp            
+    ${PYSOURCEDIR}/PyShader.cpp          
+    ${PYSOURCEDIR}/PyVAOPrimitives.cpp
+    ${PYSOURCEDIR}/PyMat4.cpp            
+    ${PYSOURCEDIR}/PyShaderLib.cpp       
+    ${PYSOURCEDIR}/PyVec2.cpp
+    ${PYSOURCEDIR}/PyMultiBufferVAO.cpp  
+    ${PYSOURCEDIR}/PyShaderProgram.cpp   
+    ${PYSOURCEDIR}/PyVec3.cpp
+    ${PYSOURCEDIR}/PyNCCABinMesh.cpp     
+    ${PYSOURCEDIR}/PySimpleIndexVAO.cpp  
+    ${PYSOURCEDIR}/PyVec4.cpp
+    ${PYSOURCEDIR}/PyNCCAPointBake.cpp   
+    ${PYSOURCEDIR}/PySimpleVAO.cpp
     ${NGLROOT}/gl3w/gl3w.c
     ${NGLROOT}/gl3w/gl3w.h
     ${NGLROOT}/gl3w/glcorearb.h

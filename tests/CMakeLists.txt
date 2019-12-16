@@ -34,6 +34,7 @@ set(SOURCES
 			${PROJECT_SOURCE_DIR}/Mat4Tests.cpp  
 			${PROJECT_SOURCE_DIR}/ShaderLibTests.cpp     
 			${PROJECT_SOURCE_DIR}/Vec3Tests.cpp
+			${PROJECT_SOURCE_DIR}/RandomTests.cpp
 )
 
 
