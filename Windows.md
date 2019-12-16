@@ -18,9 +18,9 @@ Once vcpkg is installed the following libraries need to be added.
 
 ```
 cd vcpkg
-.\vcpkg install gtest
+.\vcpkg install gtest:x64-windows
 .\vcpkg install glm
-.\vcpkg install glfw3
+.\vcpkg install glfw3:x64-windows
 ```
 
 ## Install Qt 
