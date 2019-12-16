@@ -28,7 +28,7 @@ Note this is now being built using C++ 14 and will use many C++ 14 features so m
 
 For more info check out the website here
 
-http://nccastaff.bmth.ac.uk/jmacey/GraphicsLib/
+https://nccastaff.bmth.ac.uk/jmacey/GraphicsLib/
 and for the demos 
 
 http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/index.html
@@ -44,8 +44,7 @@ This is an empty boilerplate framework for NGL projects, it creates an empty win
 ## [SimpleNGL](https://github.com/NCCA/SimpleNGL)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/SimpleNGL.png)
 
-This is the most basic version of an NGL demo, it creates a simple window in Qt and allows
-the manipulaiton of the teapot using the mouse.
+This is the most basic version of an NGL demo, it creates a simple window in Qt and allows the manipulation of the teapot using the mouse.
 
 ## [SDLNGL](https://github.com/NCCA/SDLNGL)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/SDLNGL.png)
@@ -55,7 +54,7 @@ This is the simplest SDL / NGL demo using a basic SDL2.0 window and core profile
 Note that this .pro file contains the calls to add the output of sdl2-config to the build using
 
 
-There is a webgl demo of the sphere program [here](http://nccastaff.bournemouth.ac.uk/jmacey/WebGL/VAO1/)
+There is a webgl demo of the sphere program [here](https://nccastaff.bournemouth.ac.uk/jmacey/WebGL/VAO1/)
 
 ## [VAOPrimitives](https://github.com/NCCA/VAOPrimitives)
 ![alt tag](http://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/VAOPrims.png)
