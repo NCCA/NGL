@@ -95,7 +95,7 @@ TEST(Random,randomPositiveNumberParam)
 }
 
 
-
+/*
 TEST(Random,addIntGenerator)
 {
     auto rng=ngl::Random::instance();
@@ -116,7 +116,7 @@ TEST(Random,addFloatGenerator)
     auto test=rng->getFloatFromGeneratorName("test");
     EXPECT_TRUE(test>=0.0f && test <=5.0f);
 }
-
+*/
 
 
 

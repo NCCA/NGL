@@ -141,7 +141,7 @@ INCLUDEPATH += $$(HOMEDRIVE)\\$$(HOMEPATH)\vcpkg\installed\x86-windows\include
 
 DEFINES+=_USE_MATH_DEFINES
 DEFINES += NO_DLL
-QMAKE_CXXFLAGS += /FS
+QMAKE_CXXFLAGS += /FS /wd5040 /wd5045 /std:c++14
 DEST_DIR=BASE_DIR\lib
 CONFIG -= debug_and_release debug_and_release_target
 

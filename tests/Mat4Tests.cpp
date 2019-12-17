@@ -204,7 +204,7 @@ TEST(Mat4,Mat4xEqualReal)
   int value=0.0f;
   for(int y=0; y<4; ++y)
     for(int x=0; x<4; ++x)
-        test.setAtXY(x,y,value++);
+        test.setAtXY(x,y,float(value++));
   test*=4.2f;
   ngl::Mat4 result(0,16.8f,33.6f,50.4f,4.2f,21,37.8f,54.6f,8.4f,25.2f,42,58.8f,12.6f,29.4f,46.2f,63);
 

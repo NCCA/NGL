@@ -59,7 +59,7 @@ TEST(Obj,loadvalid)
   ngl::Obj a;
   for(auto f : validfiles)
   {
-    EXPECT_TRUE(a.load(f));
+    EXPECT_TRUE(a.load(f,ngl::Obj::CalcBB::False));
     EXPECT_TRUE(a.isLoaded());
   }
 }
@@ -68,7 +68,7 @@ TEST(Obj,loadinvalid)
   ngl::Obj a;
   for(auto f : invalidfiles)
   {
-    EXPECT_FALSE(a.load(f));
+    EXPECT_FALSE(a.load(f,ngl::Obj::CalcBB::False));
     EXPECT_FALSE(a.isLoaded());
   }
 
@@ -77,35 +77,35 @@ TEST(Obj,loadinvalid)
 TEST(Obj,loadFail)
 {
   ngl::Obj a;
-  EXPECT_FALSE(a.load("nothere.obj"));
+  EXPECT_FALSE(a.load("nothere.obj",ngl::Obj::CalcBB::False));
   EXPECT_FALSE(a.isLoaded());
 }
 
 TEST(Obj,parseVertex)
 {
   ngl::Obj a;
-  EXPECT_TRUE(a.load("files/Triangle1.obj"));
+  EXPECT_TRUE(a.load("files/Triangle1.obj",ngl::Obj::CalcBB::False));
   EXPECT_EQ(a.getNumVerts(),3);
 }
 
 TEST(Obj,parseNormal)
 {
   ngl::Obj a;
-  EXPECT_TRUE(a.load("files/Triangle1.obj"));
+  EXPECT_TRUE(a.load("files/Triangle1.obj",ngl::Obj::CalcBB::False));
   EXPECT_EQ(a.getNumNormals(),3);
 }
 
 TEST(Obj,parseUV)
 {
   ngl::Obj a;
-  EXPECT_TRUE(a.load("files/Triangle1.obj"));
+  EXPECT_TRUE(a.load("files/Triangle1.obj",ngl::Obj::CalcBB::False));
   EXPECT_EQ(a.getNumTexCords(),3);
 }
 
 TEST(Obj,parseUV3)
 {
   ngl::Obj a;
-  EXPECT_TRUE(a.load("files/Triangle3UV.obj"));
+  EXPECT_TRUE(a.load("files/Triangle3UV.obj",ngl::Obj::CalcBB::False));
   EXPECT_EQ(a.getNumTexCords(),3);
 }
 

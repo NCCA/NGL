@@ -2,12 +2,13 @@
 TARGET=NGLTests
 # where to put the .o files
 OBJECTS_DIR=obj
+CONFIG+=c++14
 # core Qt Libs to use add more here if needed.
 QT+=gui opengl core
 # we are going to use GLFW for Offscreen OpenGL context creation so we can test GL elements
-QMAKE_CXXFLAGS+= $$system(pkg-config --cflags glfw3)
-LIBS+=$$system(pkg-config --libs glfw3)
-macx:LIBS+= -framework OpenGL -framework IOKit -framework Cocoa -framework CoreVideo
+!win32:QMAKE_CXXFLAGS+= $$system(pkg-config --cflags glfw3)
+!win32:LIBS+=$$system(pkg-config --libs glfw3)
+macx:LIBS+= -framework OpenGL -framework IOKit -Cocoa -framework CoreVideo
 linux:LIBS+= -lX11 -lXxf86vm -L/usr/lib64 -lXrandr -lXi -lXinerama -lXcursor -ldl
 macx:DEFINES+=GLFW_USE_MENUBAR
 macx:DEFINES+=GLFW_USE_RETINA
@@ -16,11 +17,11 @@ win32:{
 # using vcpkg to install gtest under windows
 BASE=$$(HOMEDRIVE)\\$$(HOMEPATH)
 message($$BASE)
-INCLUDEPATH+=$$BASE\vcpkg\installed\x86-windows\include
-PRE_TARGETDEPS+=$$BASE\vcpkg\installed\x86-windows\lib\gtest.lib
-LIBS+= -L$$BASE\vcpkg\installed\x86-windows\lib\ -lgtest
-PRE_TARGETDEPS+=$$BASE\vcpkg\installed\x86-windows\lib\glfw3dll.lib
-LIBS+= -L$$BASE\vcpkg\installed\x86-windows\lib\ -lglfw3dll
+INCLUDEPATH+=$$BASE\vcpkg\installed\x64-windows\include
+PRE_TARGETDEPS+=$$BASE\vcpkg\installed\x64-windows\lib\gtest.lib
+LIBS+= -L$$BASE\vcpkg\installed\x64-windows\lib\ -lgtest
+PRE_TARGETDEPS+=$$BASE\vcpkg\installed\x64-windows\lib\glfw3dll.lib
+LIBS+= -L$$BASE\vcpkg\installed\x64-windows\lib\ -lglfw3dll
 
 }
 
@@ -44,7 +45,6 @@ SOURCES+= $$PWD/Vec4Tests.cpp \
           $$PWD/ShaderLibTests.cpp \
           $$PWD/MessageQueueTests.cpp \
           $$PWD/RandomTests.cpp \
-          $$PWD/QuaternionTests.cpp \
           $$PWD/main.cpp
 
 OTHER_FILES+=$$PWD/files/*
@@ -61,7 +61,7 @@ OTHER_FILES+= README.md
 # were are going to default to a console app
 CONFIG += console
 LIBS += -L/public/devel/lib
-LIBS+=-lgtest
+!win32:LIBS+=-lgtest
 # note each command you add needs a ; as it will be run as a single line
 # first check if we are shadow building or not easiest way is to check out against current
 #!equals(PWD, $${OUT_PWD}){

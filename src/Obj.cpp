@@ -179,7 +179,38 @@ bool Obj::save(const std::string &_fname) noexcept
   return true;
 }
 
+std::istream& safeGetline(std::istream& is, std::string& t)
+{
+    t.clear();
 
+    // The characters in the stream are read one-by-one using a std::streambuf.
+    // That is faster than reading them one-by-one using the std::istream.
+    // Code that uses streambuf this way must be guarded by a sentry object.
+    // The sentry object performs various tasks,
+    // such as thread synchronization and updating the stream state.
+
+    std::istream::sentry se(is, true);
+    std::streambuf* sb = is.rdbuf();
+
+    for(;;) {
+        int c = sb->sbumpc();
+        switch (c) {
+        case '\n':
+            return is;
+        case '\r':
+            if(sb->sgetc() == '\n')
+                sb->sbumpc();
+            return is;
+        case std::streambuf::traits_type::eof():
+            // Also handle the case when the last line has no line ending
+            if(t.empty())
+                is.setstate(std::ios::eofbit);
+            return is;
+        default:
+            t += static_cast<char>(c);
+        }
+    }
+}
 
 bool Obj::load(const std::string &_fname, CalcBB _calcBB ) noexcept
 {
@@ -192,7 +223,8 @@ bool Obj::load(const std::string &_fname, CalcBB _calcBB ) noexcept
 
   std::string str;
   // Read the next line from File untill it reaches the end.
-  while (std::getline(in, str))
+  //while (std::getline(in, str))
+  while(!safeGetline(in,str).eof())
   {
     bool status=true;
   // Line contains string of length > 0 then parse it
