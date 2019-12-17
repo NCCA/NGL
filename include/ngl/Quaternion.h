@@ -207,12 +207,12 @@ class NGL_DLLEXPORT Quaternion
   /// @brief  conjugate negate the vector part can also be done by the -() operator
   /// @returns the conjugate of the current quaternion
   //----------------------------------------------------------------------------------------------------------------------
-  Quaternion  conjugate() const  noexcept{return Quaternion(m_s,-m_x,-m_y,-m_z);}
+  Quaternion  conjugate() const  noexcept {return Quaternion(m_s,-m_x,-m_y,-m_z);}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  conjugate negate the vector part can also be done by the -() operator
   /// @returns the conjugate of the current quaternion
   //----------------------------------------------------------------------------------------------------------------------
-  Quaternion inverse()const  noexcept{return Quaternion(m_s,-m_x,-m_y,-m_z);}
+  Quaternion inverse()const  noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  conjugate negate the vector part but for the current vector -
   /// @returns the conjugate of the current quaternion

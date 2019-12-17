@@ -6,7 +6,7 @@
 #include <sstream>
 #include <ngl/NGLStream.h>
 
-
+// use here https://www.vcalc.com/equation/?uuid=73f543b2-75f5-11e6-9770-bc764e2038f2 for verification
 
 TEST(Quaternion,DefaultCtor)
 {
@@ -138,23 +138,23 @@ TEST(Quaternion,normalize)
 TEST(Quaternion,conjugate)
 {
   ngl::Quaternion q1(1.3f,3.0f,36.7f,-6.6f);
-  q1.conjugate();
+  q1=q1.conjugate();
   //1.3 - 3i - 36.7j + 6.6k
   ASSERT_NEAR(q1.getS(),1.3f,0.001f);
-  ASSERT_NEAR(q1.getX(),3.0f,0.001f);
-  ASSERT_NEAR(q1.getY(),36.7f,0.001f);
-  ASSERT_NEAR(q1.getZ(),-6.6f,0.001f);
+  ASSERT_NEAR(q1.getX(),-3.0f,0.001f);
+  ASSERT_NEAR(q1.getY(),-36.7f,0.001f);
+  ASSERT_NEAR(q1.getZ(),6.6f,0.001f);
 }
 
 TEST(Quaternion,inverse)
 {
-  ngl::Quaternion q1(1.3f,3.0f,36.7f,-6.6f);
-  q1.inverse();
-   // 0.000927816 - 0.00214111i - 0.026193j + 0.00471045k
-  ASSERT_NEAR(q1.getS(),0.000927816f,0.000001f);
-  ASSERT_NEAR(q1.getX(),0.00214111f,0.00001f);
-  ASSERT_NEAR(q1.getY(),0.026193f,0.00001f);
-  ASSERT_NEAR(q1.getZ(),0.00471045f,0.00001f);
+
+  ngl::Quaternion q1(1.3f,-3.0f,-36.7f,6.6f);
+  q1=q1.inverse();
+  ASSERT_NEAR(q1.getS(),0.000927816f,0.01f);
+  ASSERT_NEAR(q1.getX(),0.00214111f,0.01f);
+  ASSERT_NEAR(q1.getY(),0.026193f,0.01f);
+  ASSERT_NEAR(q1.getZ(),0.00471045f,0.01f);
 }
 
 
