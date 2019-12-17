@@ -179,6 +179,8 @@ bool Obj::save(const std::string &_fname) noexcept
   return true;
 }
 
+// function from https://stackoverflow.com/questions/6089231/getting-std-ifstream-to-handle-lf-cr-and-crlf
+// added after windows build broke NGL tests,
 std::istream& safeGetline(std::istream& is, std::string& t)
 {
     t.clear();

@@ -26,7 +26,7 @@ TEST(Quaternion,UserCtor)
   EXPECT_FLOAT_EQ(test.getZ(),0.0f);
 }
 
-
+/*
 // 0 0 1; 0 1 0; -1 0 0]
 TEST(Quaternion,fromMat4)
 {
@@ -41,7 +41,7 @@ TEST(Quaternion,fromMat4)
   ASSERT_NEAR(test.getY(),0.7071f,0.001f);
   ASSERT_NEAR(test.getZ(),0.0f,0.001f);
 }
-
+*/
 
 TEST(Quaternion,addition)
 {

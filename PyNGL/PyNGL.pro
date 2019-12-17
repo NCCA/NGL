@@ -68,7 +68,7 @@ message($${BASE_DIR})
 # This is the output target we want to create
 TARGET = $$BASE_DIR/lib/pyngl.so
 # this is where we want to put the intermediate build files ( ../obj)
-OBJECTS_DIR = $$BASE_DIR/obj
+OBJECTS_DIR = $$BASE_DIR/PyNGL/obj
 unix:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
 # define the NGL_DEBUG flag for the graphics lib
 DEFINES += NGL_DEBUG

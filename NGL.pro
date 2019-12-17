@@ -2,6 +2,8 @@ TEMPLATE=subdirs
 # if on mac and linux build all projects
 macx|linux {
     SUBDIRS= NGL PyNGL tests/NGLTests.pro PyNGL/tests/PyTests.pro
+    tests.subdir=tests/NGLTests.pro
+    tests.depends = NGL
 }
 # on windows only do the core NGL lib for ease.
 win32 {
