@@ -56,6 +56,8 @@
 // DLL Glue for windows build / apps
 //----------------------------------------------------------------------------------------------------------------------
 #ifdef _WIN32
+    #pragma warning( disable :  5045 )
+
   #ifdef BUILDING_DLL
     #define NGL_DLLEXPORT __declspec(dllexport)
   #else

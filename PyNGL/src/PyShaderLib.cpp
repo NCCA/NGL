@@ -38,17 +38,17 @@ namespace ngl
         .def("use",&ShaderLib::use)
         .def("bindAttribute",&ShaderLib::bindAttribute)
         .def("bindFragDataLocation",&ShaderLib::bindFragDataLocation)
-        .def("__getitem__",(ShaderProgram * (ShaderLib::*)(const std::string &)) &ShaderLib::operator[])
-        .def("__getitem__",(ShaderProgram * (ShaderLib::*)(const char *)) &ShaderLib::operator[])
+        .def("__getitem__",py::overload_cast<const std::string &>( &ShaderLib::operator[]))
+        .def("__getitem__",py::overload_cast<const char *>( &ShaderLib::operator[]))
 
-        .def("loadShader",(bool (ShaderLib::*)(const std::string &,const std::string &,
+        .def("loadShader",py::overload_cast<const std::string &,const std::string &,
                                                const std::string &,const std::string &,
-                                               ngl::ErrorExit )) &ShaderLib::loadShader,
+                                               ngl::ErrorExit >( &ShaderLib::loadShader),
         "load shader",py::arg("_shaderName")="",py::arg("_vert")="",
          py::arg("_frag")="",py::arg("_geo")="",py::arg("_exitOnError")=ngl::ErrorExit::OFF )
 
-        .def("loadShader",(bool (ShaderLib::*)(const std::string &,const std::string &,
-                                               const std::string &,ErrorExit )) &ShaderLib::loadShader,
+        .def("loadShader",py::overload_cast<const std::string &,const std::string &,
+                                               const std::string &,ErrorExit >( &ShaderLib::loadShader),
              "load shader",py::arg("_shaderName")="",py::arg("_vert")="",
               py::arg("_frag")="",py::arg("_exitOnError")=ErrorExit::OFF )
 
@@ -69,23 +69,23 @@ namespace ngl
         // .def("registerUniform",&ShaderLib::registerUniform)
         .def("autoRegisterUniforms",&ShaderLib::autoRegisterUniforms)
         .def("printRegisteredUniforms",&ShaderLib::printRegisteredUniforms)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &, Real)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &,Real,Real)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &,Real,Real,Real)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &,Real,Real,Real,Real)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &, GLint)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &,GLint,GLint)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &,GLint,GLint,GLint)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &,GLint,GLint,GLint,GLint)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &,Vec2)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &,Vec3)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &,Vec4)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &,Mat2)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &,Mat3)) &ShaderLib::setUniform)
-        .def("setUniform",(void (ShaderLib::*)(const std::string &,Mat4)) &ShaderLib::setUniform)
+        .def("setUniform", py::overload_cast<const std::string &, Real>( &ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &,Real,Real> (&ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &,Real,Real,Real> (&ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &,Real,Real,Real,Real> (&ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &, GLint> (&ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &,GLint,GLint> (&ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &,GLint,GLint,GLint> (&ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &,GLint,GLint,GLint,GLint> (&ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &,Vec2>( &ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &,Vec3>( &ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &,Vec4>( &ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &,Mat2>( &ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &,Mat3>( &ShaderLib::setUniform))
+        .def("setUniform", py::overload_cast<const std::string &,Mat4>( &ShaderLib::setUniform))
         .def("getShaderID",&ShaderLib::getShaderID)
         .def("getShader",&ShaderLib::getShader)
-        .def("setUniformBuffer", (void (ShaderLib::*)(const std::string &_uniformBlockName, size_t _size, void *_data)) &ShaderLib::setUniformBuffer )
+        .def("setUniformBuffer",  py::overload_cast<const std::string &, size_t , void *> (&ShaderLib::setUniformBuffer))
         // Note that NGL uses pass by reference, for python we have a different API
         .def_static("getUniform1f",
              [](const std::string &_name)

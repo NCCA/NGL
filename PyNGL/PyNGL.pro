@@ -11,23 +11,16 @@ QMAKE_LFLAGS += -shared
 QMAKE_CXXFLAGS+= -Wno-register
 CONFIG += console
 CONFIG-=app_bundle
-HOST=$$system("hostname -s|cut -c 1-4")
-equals(HOST, "w115"){
-  message("doing z420 compiler hack for w115")
-  QMAKE_CXX=clang++
-  QMAKE_CC=clang
-  QMAKE_LINK=clang++
-}
-CONFIG += c++14
+CONFIG+= c++14
 message("this will need to be changed for you own paths")
 macx:DEFINES+=GL_SILENCE_DEPRECATION
 QMAKE_CXXFLAGS+=$$system(python-config --cflags)
 QMAKE_LFLAGS+=$$system(python-config --ldflags)
 LIBS+=-L/opt/rh/python27/root/usr/lib64/
 INCLUDEPATH+=$$PWD
-QMAKE_CXXFLAGS+= -std=c++1z
+QMAKE_CXXFLAGS+= -std=c++14
 macx:DEFINES+=PYBIND11_HAS_STRING_VIEW
-
+DEFINES+=PYTHONBUILD
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
 DEFINES+= USEGLM
 DEFINES+=GLM_ENABLE_EXPERIMENTAL
@@ -75,7 +68,7 @@ message($${BASE_DIR})
 # This is the output target we want to create
 TARGET = $$BASE_DIR/lib/pyngl.so
 # this is where we want to put the intermediate build files ( ../obj)
-OBJECTS_DIR = $$BASE_DIR/obj
+OBJECTS_DIR = $$BASE_DIR/PyNGL/obj
 unix:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
 # define the NGL_DEBUG flag for the graphics lib
 DEFINES += NGL_DEBUG
@@ -133,58 +126,57 @@ win32|unix:!macx{
 # once you have done this set the PATH environment variable to look in
 # c:/NGL/lib to find the DLL
 win32{
-				message("Using Windows check to see what needs to be installed")
-				CONFIG+=staticlib
-        INCLUDEPATH += C:/SDKs/ #for university STEM build
-				DEFINES+=_USE_MATH_DEFINES
-				DESTDIR=c:/
-				DEFINES += NO_DLL
+    message("Using Windows check to see what needs to be installed")
+    CONFIG+=staticlib
+    INCLUDEPATH += C:/SDKs/ #for university STEM build
+    DEFINES+=_USE_MATH_DEFINES
+    DESTDIR=c:/
+    DEFINES += NO_DLL
 }
 
 PYSOURCEDIR=$$BASE_DIR/PyNGL/src
 
-SOURCES += $$PYSOURCEDIR/*.cpp \
-    $$SRC_DIR/Vec4.cpp \
-		$$SRC_DIR/VAOPrimitives.cpp \
-		$$SRC_DIR/Util.cpp \
-		$$SRC_DIR/Texture.cpp \
-		$$SRC_DIR/ShaderLib.cpp \
-		$$SRC_DIR/Transformation.cpp \
-		$$SRC_DIR/RibExport.cpp \
-		$$SRC_DIR/Quaternion.cpp \
-		$$SRC_DIR/Obj.cpp \
-		$$SRC_DIR/Mat4.cpp \
-		$$SRC_DIR/NGLInit.cpp \
-		$$SRC_DIR/NCCABinMesh.cpp \
-		$$SRC_DIR/BezierCurve.cpp \
-    $$SRC_DIR/BBox.cpp \
-    $$SRC_DIR/AbstractMesh.cpp \
-		$$SRC_DIR/Random.cpp \
-		$$SRC_DIR/NCCAPointBake.cpp \
-		$$SRC_DIR/Shader.cpp \
-		$$SRC_DIR/ShaderProgram.cpp \
-    $$SRC_DIR/Plane.cpp \
-		$$SRC_DIR/AABB.cpp \
-		$$SRC_DIR/createDefaultVAOs.cpp \
-		$$SRC_DIR/Vec3.cpp \
-		$$SRC_DIR/Vec2.cpp \
-		$$SRC_DIR/Text.cpp \
-    $$SRC_DIR/Mat2.cpp \
-    $$SRC_DIR/Mat3.cpp \
-    $$SRC_DIR/NGLStream.cpp \
-    $$SRC_DIR/Image.cpp \
-    $$SRC_DIR/VAOFactory.cpp \
-    $$SRC_DIR/AbstractVAO.cpp \
-    $$SRC_DIR/MultiBufferVAO.cpp \
-    $$SRC_DIR/SimpleVAO.cpp \
-    $$SRC_DIR/SimpleIndexVAO.cpp \
-    $$SRC_DIR/Types.cpp \
-    $$SRC_DIR/MessageQueue/AbstractMessageConsumer.cpp \
-    $$SRC_DIR/MessageQueue/NGLMessage.cpp \
-    $$SRC_DIR/MessageQueue/FileConsumer.cpp \
-    $$SRC_DIR/pystring.cpp \
-    $$BASE_DIR/gl3w/gl3w.c
-
+SOURCES +=$$SRC_DIR/Vec4.cpp \
+            $$SRC_DIR/VAOPrimitives.cpp \
+            $$SRC_DIR/Util.cpp \
+            $$SRC_DIR/Texture.cpp \
+            $$SRC_DIR/ShaderLib.cpp \
+            $$SRC_DIR/Transformation.cpp \
+            $$SRC_DIR/RibExport.cpp \
+            $$SRC_DIR/Quaternion.cpp \
+            $$SRC_DIR/Obj.cpp \
+            $$SRC_DIR/Mat4.cpp \
+            $$SRC_DIR/NGLInit.cpp \
+            $$SRC_DIR/NCCABinMesh.cpp \
+            $$SRC_DIR/BezierCurve.cpp \
+            $$SRC_DIR/BBox.cpp \
+            $$SRC_DIR/AbstractMesh.cpp \
+            $$SRC_DIR/Random.cpp \
+            $$SRC_DIR/NCCAPointBake.cpp \
+            $$SRC_DIR/Shader.cpp \
+            $$SRC_DIR/ShaderProgram.cpp \
+            $$SRC_DIR/Plane.cpp \
+            $$SRC_DIR/AABB.cpp \
+            $$SRC_DIR/createDefaultVAOs.cpp \
+            $$SRC_DIR/Vec3.cpp \
+            $$SRC_DIR/Vec2.cpp \
+            $$SRC_DIR/Text.cpp \
+            $$SRC_DIR/Mat2.cpp \
+            $$SRC_DIR/Mat3.cpp \
+            $$SRC_DIR/NGLStream.cpp \
+            $$SRC_DIR/Image.cpp \
+            $$SRC_DIR/VAOFactory.cpp \
+            $$SRC_DIR/AbstractVAO.cpp \
+            $$SRC_DIR/MultiBufferVAO.cpp \
+            $$SRC_DIR/SimpleVAO.cpp \
+            $$SRC_DIR/SimpleIndexVAO.cpp \
+            $$SRC_DIR/Types.cpp \
+            $$SRC_DIR/MessageQueue/AbstractMessageConsumer.cpp \
+            $$SRC_DIR/MessageQueue/NGLMessage.cpp \
+            $$SRC_DIR/MessageQueue/FileConsumer.cpp \
+            $$SRC_DIR/pystring.cpp \
+            $$PYSOURCEDIR/*.cpp \
+            $$BASE_DIR/gl3w/gl3w.c
 
 
 HEADERS += $$INC_DIR/Vec4.h \

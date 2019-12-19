@@ -16,26 +16,6 @@ namespace ngl
 void pyInitAbstractMesh(py::module & m)
 {
 
-
-  using uintList = std::vector<uint32_t, std::allocator<uint32_t>>;
-
-  py::class_<std::vector<uint32_t>>(m, "uint32_tVector")
-    .def(py::init<>())
-    .def("push_back", (void (uintList::*)(const uint32_t &)) &uintList::push_back)
-    .def("__iter__", [](std::vector<uint32_t> &v) {
-            return py::make_iterator(v.begin(), v.end());
-         }, py::keep_alive<0, 1>())
-      .def("__getitem__", [](const uintList &s, size_t i) {
-                  if (i >= s.size()) throw py::index_error();
-                  return s[i];
-              })
-      .def("__setitem__", [](uintList &s, size_t i, float v) {
-          if (i >= s.size()) throw py::index_error();
-          s[i] = v;
-      })
-     .def("__len__",&uintList::size)
-      ;
-
   py::class_<AbstractMesh>(m, "AbstractMesh")
       .def("drawBBox", &AbstractMesh::drawBBox)
       .def("draw", &AbstractMesh::draw)
@@ -48,7 +28,6 @@ void pyInitAbstractMesh(py::module & m)
       .def("getTextureID",&AbstractMesh::getTextureID)
       .def("mapVAOVerts", &AbstractMesh::mapVAOVerts)
       .def("unMapVAO", &AbstractMesh::unMapVAO)
-      //.def("getIndices", &AbstractMesh::getIndices)
       .def("saveNCCABinaryMesh", &AbstractMesh::saveNCCABinaryMesh)
       .def("getBBox", &AbstractMesh::getBBox)
       .def("getVertexList", &AbstractMesh::getVertexList)

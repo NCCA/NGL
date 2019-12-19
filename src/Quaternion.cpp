@@ -178,6 +178,16 @@ void Quaternion::normalise() noexcept
 }
 
 
+Quaternion Quaternion::inverse() const noexcept
+{
+
+  auto scale=this->magnitude();
+  scale=1.0f/(scale*scale);
+  auto conj=this->conjugate();
+  return conj*scale;
+}
+
+
 //----------------------------------------------------------------------------------------------------------------------
 Real Quaternion::magnitude()const noexcept
 {

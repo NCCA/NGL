@@ -259,10 +259,20 @@ Text::~Text()
 }
 
 
+void Text::renderText( float _x, float _y,  const QString &_text ) const noexcept
+{
+  renderText(_x,_y,_text.toStdString());
+}
+
+
+void Text::renderText( float _x, float _y,  const char *_text ) const noexcept
+{
+  renderText(_x,_y,std::string(_text));
+}
 
 
 //---------------------------------------------------------------------------
-void Text::renderText( float _x, float _y,  const QString &text ) const noexcept
+void Text::renderText( float _x, float _y,  const std::string &_text ) const noexcept
 {
   // make sure we are in texture unit 0 as this is what the
   // shader expects
@@ -280,7 +290,7 @@ void Text::renderText( float _x, float _y,  const QString &text ) const noexcept
   glDisable(GL_DEPTH_TEST);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   // now loop for each of the char and draw our billboard
-  int textLength=text.length();
+  int textLength=_text.length();
 
   for ( int i = 0; i < textLength; ++i)
   {
@@ -289,7 +299,7 @@ void Text::renderText( float _x, float _y,  const QString &text ) const noexcept
     shader->setUniform("xpos",_x);
     // so find the FontChar data for our current char
 //    FontChar f = m_characters[text[i].toAscii()];
-    FontChar f = m_characters[text[i].toLatin1()];
+    FontChar f = m_characters[_text[i]];
 
     // bind the pre-generated texture
     glBindTexture(GL_TEXTURE_2D, f.textureID);

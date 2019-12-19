@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from __future__ import print_function
 
 import unittest
 import pyngl
@@ -20,15 +21,16 @@ class TestVAOPrimitives(unittest.TestCase):
     prim = pyngl.VAOPrimitives.instance()
     self.assertTrue(prim !=None)
 
-#  def testGetCreatedIDs(self) :
-#    prim = pyngl.VAOPrimitives.instance()
-#    for m in self.meshes :
-#      print m
-#      self.assertTrue(prim.getVAOFromName(m) != 0)
+  def testGetCreatedIDs(self) :
+   prim = pyngl.VAOPrimitives.instance()
+   for m in self.meshes :
+     print(m)
+     self.assertTrue(prim.getVAOFromName(m) != 0)  
 
   def testCheckCreated(self) :
     prim = pyngl.VAOPrimitives.instance()
     for m in self.meshes :
+      print(m)
       vao=prim.getVAOFromName(m)
       vao.bind()
       self.assertTrue(vao.getBufferID(0) > 0)
@@ -71,12 +73,11 @@ class TestVAOPrimitives(unittest.TestCase):
     prim.createCapsule('capsule',1.0,2.0,100)
     self.assertTrue(prim.getVAOFromName('capsule') !=None)
 
-#  def testClear(self) :
-#    prim = pyngl.VAOPrimitives.instance()
-#    prim.clear()
-#    for m in self.meshes :
-#      self.assertFalse(prim.getVAOFromName(m) != None)
-
+  # def testClear(self) :
+  #  prim = pyngl.VAOPrimitives.instance()
+  #  prim.clear()
+  #  for m in self.meshes :
+  #    self.assertFalse(prim.getVAOFromName(m) != None)
 
 
 

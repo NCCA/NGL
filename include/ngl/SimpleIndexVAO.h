@@ -79,6 +79,11 @@ class NGL_DLLEXPORT SimpleIndexVAO : public AbstractVAO
     //----------------------------------------------------------------------------------------------------------------------
     //void setData(size_t _size,const GLfloat &_data,unsigned int _indexSize,const GLvoid *_indexData,GLenum _indexType,GLenum _mode=GL_STATIC_DRAW);
     virtual void setData(const AbstractVAO::VertexData &_data) override;
+    #ifdef PYTHONBUILD
+
+    void setData(size_t _size, const std::vector<Vec3> &_data, unsigned int _indexSize, const std::vector<GLushort> &_indexData);
+
+    #endif
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief return the id of the buffer, if there is only 1 buffer just return this
     /// if we have the more than one buffer the sub class manages the id's

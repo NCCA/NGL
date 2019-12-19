@@ -2,22 +2,29 @@
 #include <pybind11/operators.h>
 #include <pybind11/stl.h>
 #include <pybind11/cast.h>
+#include <pybind11/stl_bind.h>
+#include <vector>
+#include "Vec2.h"
+#include "Vec3.h"
+#include "Vec4.h"
 
 PYBIND11_MAKE_OPAQUE(std::vector<uint32_t, std::allocator<uint32_t>>);
+PYBIND11_MAKE_OPAQUE(std::vector<float, std::allocator<float>>);
+PYBIND11_MAKE_OPAQUE(std::vector<ngl::Vec2, std::allocator<ngl::Vec3>>);
+PYBIND11_MAKE_OPAQUE(std::vector<ngl::Vec3, std::allocator<ngl::Vec3>>);
+PYBIND11_MAKE_OPAQUE(std::vector<ngl::Vec4, std::allocator<ngl::Vec4>>);
 
 
 namespace ngl
 {
 namespace py = pybind11;
 
-using uintList = std::vector<uint32_t, std::allocator<uint32_t>>;
-
-
 
 // each cpp file will have an init function to do the binding
 // see http://pybind11.readthedocs.io/en/master/faq.html#how-can-i-reduce-the-build-time
 extern void pyInitVec4(py::module & m);
 extern void pyInitVec3(py::module & m);
+extern void pyInitVec2(py::module & m);
 extern void pyInitAABB(py::module & m);
 extern void pyInitAbstractMesh(py::module & m);
 extern void pyInitAbstractVAO(py::module & m);
@@ -50,7 +57,6 @@ extern void pyInitTexture(py::module & m);
 extern void pyInitTransformation(py::module & m);
 extern void pyInitUtils(py::module & m);
 extern void pyInitVAOFactory(py::module & m);
-extern void pyInitVec2(py::module & m);
 extern void pyInitShader(py::module & m);
 extern void pyInitShaderProgram(py::module & m);
 
@@ -58,9 +64,17 @@ extern void pyInitShaderProgram(py::module & m);
 PYBIND11_MODULE(pyngl,m)
 {
 //    py::module m("pyngl", "pyngl module ");
+    py::bind_vector<std::vector<GLuint>>(m,"VectorUint");
+
+    py::bind_vector<std::vector<float>>(m,"VectorFloat");
+    py::bind_vector<std::vector<ngl::Vec2>>(m,"VectorVec2");
+    py::bind_vector<std::vector<ngl::Vec3>>(m,"VectorVec3");
+    py::bind_vector<std::vector<ngl::Vec4>>(m,"VectorVec4");
+
     m.doc()="pyngl module to use NGL in python";
     pyInitVec4(m);
     pyInitVec3(m);
+    pyInitVec2(m);
     pyInitAABB(m);
     pyInitAbstractMesh(m);
     pyInitAbstractVAO(m);
@@ -90,7 +104,6 @@ PYBIND11_MODULE(pyngl,m)
     pyInitTransformation(m);
     pyInitUtils(m);
     pyInitVAOFactory(m);
-    pyInitVec2(m);
 
 
     m.attr("nglColourShader")="nglColourShader";

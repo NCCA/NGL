@@ -49,8 +49,8 @@ namespace ngl
         .def(py::self += py::self)
         .def(py::self -= py::self)
         .def(py::self == py::self)
-        .def("__neg__",(void (Quaternion::*)()) &Quaternion::operator-)
-        .def("__neg__",(Quaternion (Quaternion::*)() const) &Quaternion::operator-)
+        .def("__neg__",py::overload_cast<> (&Quaternion::operator-))
+        .def("__neg__",py::overload_cast<> (&Quaternion::operator- ,py::const_))
         ;
 
 }

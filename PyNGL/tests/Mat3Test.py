@@ -2,7 +2,7 @@
 
 import unittest
 import pyngl
-
+import ctypes
 # Note all pyngl types use internal fuzzy float equality operators
 
 class TestMat3(unittest.TestCase):
@@ -40,6 +40,9 @@ class TestMat3(unittest.TestCase):
     result=pyngl.Mat3(2,0,0,0,2,0,0,0,2)         
     self.assertTrue( copy==result)
 
+  def testSizeof(self):
+    test=pyngl.Mat3()
+    self.assertTrue( test.sizeof()==9*ctypes.sizeof(ctypes.c_float))
 
   def testSetAt(self) :
     test=pyngl.Mat3()

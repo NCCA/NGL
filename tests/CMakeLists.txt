@@ -34,6 +34,8 @@ set(SOURCES
 			${PROJECT_SOURCE_DIR}/Mat4Tests.cpp  
 			${PROJECT_SOURCE_DIR}/ShaderLibTests.cpp     
 			${PROJECT_SOURCE_DIR}/Vec3Tests.cpp
+			${PROJECT_SOURCE_DIR}/RandomTests.cpp
+			${PROJECT_SOURCE_DIR}/QuaternionTests.cpp
 )
 
 
@@ -48,15 +50,12 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif()
 
 
-#As were using Qt we need to run moc
 # define that if you want to include the stanford data sets
 # these are very big and make compilation time huge
 add_definitions(-DADDLARGEMODELS)
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-# Instruct CMake to run moc automatically when needed.
-set(CMAKE_AUTOMOC ON)
 
 add_definitions(-O2) 
 

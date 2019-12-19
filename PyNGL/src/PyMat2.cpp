@@ -24,6 +24,7 @@ namespace ngl
         .def("rotate",&Mat2::rotate)
         .def("scale",&Mat2::scale)
         .def("openGL",&Mat2::openGL)
+        .def_static("sizeof",[](){return sizeof(Mat2);})
         .def(py::self == py::self)
         .def(py::self * py::self)
         .def(py::self *= py::self)

@@ -1,9 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
 project(AllNGL)
-cmake_host_system_information(RESULT HOST QUERY HOSTNAME)
-if ("${HOST}" MATCHES "^w115")
-  message(FATAL_ERROR  "there is an issue using cmake in this lab please use qmake")
-endif()
 
 add_subdirectory(NGL)
 add_subdirectory(PyNGL)

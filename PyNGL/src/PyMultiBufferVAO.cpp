@@ -14,7 +14,8 @@ namespace ngl
         .def_static("create",&MultiBufferVAO::create)
         .def("draw", &MultiBufferVAO::draw)
         .def("removeVAO", &MultiBufferVAO::removeVAO)
-        .def("setData", &MultiBufferVAO::setData)
+        .def("setData", py::overload_cast<size_t,const std::vector<Vec3> &>(&MultiBufferVAO::setData))
+        .def("setData", py::overload_cast<size_t,const std::vector<float> &>(&MultiBufferVAO::setData))
         .def("getBufferID", &MultiBufferVAO::getBufferID);
   }
 }

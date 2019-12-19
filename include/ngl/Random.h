@@ -90,6 +90,27 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   Real getFloatFromGeneratorName( const std::string &_name);
   //----------------------------------------------------------------------------------------------------------------------
+  /// @brief gets a pre-generated int value for a genetator
+  /// @param _name the name of the generator to use for the number
+  /// @brief returns a random number created by the generator or 0
+  /// if the generator is not found
+  //----------------------------------------------------------------------------------------------------------------------
+  int getIntFromGeneratorName(const std::string &_name);
+
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief add a generator to the int generators
+  /// @param _name the name of the generator to use for the number
+  /// @param _dist the distribution to add
+  //----------------------------------------------------------------------------------------------------------------------
+
+  void addIntGenerator(const std::string &_name,std::uniform_int_distribution<int> &_dist);
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief add a generator to the float generators
+  /// @param _name the name of the generator to use for the number
+  /// @param _dist the distribution to add
+  //----------------------------------------------------------------------------------------------------------------------
+  void addFloatGenerator(const std::string &_name,std::uniform_real_distribution<float> &_dist);
+  //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a random vector with componets ranged from +/- 1
   //----------------------------------------------------------------------------------------------------------------------
   Vec4 getRandomVec4();
@@ -159,7 +180,8 @@ public :
   /// a name / function pair, and this function will be called returning a Real
   /// value
   //----------------------------------------------------------------------------------------------------------------------
-  std::unordered_map<std::string, std::uniform_real_distribution<Real> > m_floatGenerators;
+  std::unordered_map<std::string, std::uniform_real_distribution<Real>> m_floatGenerators;
+  std::unordered_map<std::string, std::uniform_int_distribution<int>> m_intGenerators;
 
 };
 

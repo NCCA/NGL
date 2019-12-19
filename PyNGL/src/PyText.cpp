@@ -12,10 +12,10 @@ namespace ngl
   {
     py::class_<Text>(m, "Text")
         .def(py::init< const QFont &>())
-      //  .def(py::init< const std::string &, int  >())
-        .def("renderText",&Text::renderText)
+        .def(py::init< const std::string &, int  >())
+        .def("renderText", py::overload_cast<float,float,const std::string &  >(&Text::renderText , py::const_ ))
         .def("setScreenSize",&Text::setScreenSize)
-        .def("setColour",(void (Text::*)(Real,Real,Real))&Text::setColour)
+        .def("setColour",py::overload_cast<float,float,float>(&Text::setColour))
         .def("setTransform",&Text::setTransform)
         ;
 

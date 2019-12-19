@@ -101,7 +101,7 @@ Vec4 &Vec4::operator-() noexcept
 Vec4 &Vec4::normalize() noexcept
 {
   Real len=sqrtf(m_x*m_x+m_y*m_y+m_z*m_z);
-	NGL_ASSERT(len!=0.0f);
+  NGL_ASSERT(len!=0.0f)
 	m_x/=len;
 	m_y/=len;
 	m_z/=len;

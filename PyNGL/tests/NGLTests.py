@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+from __future__ import print_function
 import unittest
 import sys
 import argparse
@@ -8,7 +9,7 @@ def setup():
   import glfw
   import pyngl
   if not glfw.init():
-    print "error with glfw init"
+    print("error with glfw init")
     sys.exit()
   glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 4)
   glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 1)
@@ -26,7 +27,7 @@ def setup():
 
 
 def tearDown():
-  print "teardown module"
+  print("teardown module")
   glfw.Terminate()
 
 
@@ -52,6 +53,7 @@ if __name__ == '__main__':
   from Vec4Test import *
   from ObjTest import *
   from UtilTest import *
+  from RandomTest import *
   if len(sys.argv) > 1 :
     unittest.main(argv=sys.argv[1:])
   else :

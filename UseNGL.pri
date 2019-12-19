@@ -1,15 +1,6 @@
 #This file is included in any project that requires NGL it will be searched for
 #in the default $(HOME)/NGL/  directory if this can't be found the environment variable $NGLDIR will be searched for and this will be used.
-# hack to change compiler for w115 as g++ breaks
-linux*{
-HOST=$$system("hostname -s|cut -c 1-4")
-equals(HOST, "w115"){
-  message("doing z420 compiler hack for w115")
-  QMAKE_CXX=clang++
-  QMAKE_CC=clang
-  QMAKE_LINK=clang++
-}
-}
+
 CONFIG+=c++14
 macx:CONFIG-=app_bundle
 # get rid of annoying mac OpenGL warnings (bloody apple!)
