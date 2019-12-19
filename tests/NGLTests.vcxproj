@@ -78,7 +78,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;C:\Users\jpmac\vcpkg\installed\x64-windows\include;./include;/public/devel/include;$(HOMEDRIVE)$(HOMEPATH)\NGL/include/;$(HOMEDRIVE)$(HOMEPATH)\NGL/gl3w/;C:\Users\jpmac\vcpkg\installed\x86-windows\include;$(QTDIR)\include;moc;/include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;C:\Users\jpmac\vcpkg\installed\x64-windows\include;./include;$(HOMEDRIVE)$(HOMEPATH)\NGL/include/;$(HOMEDRIVE)$(HOMEPATH)\NGL/gl3w/;$(QTDIR)\include;moc;/include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>obj\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -88,7 +88,7 @@
       <LanguageStandard>stdcpp14</LanguageStandard>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;ADDLARGEMODELS;QT5BUILD;FMT_HEADER_ONLY;USEGLM;GLM_ENABLE_EXPERIMENTAL;NGL_DEBUG;GL42;WIN32;_WIN32;_USE_MATH_DEFINES;NO_DLL;QT_NO_DEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;ADDLARGEMODELS;FMT_HEADER_ONLY;USEGLM;GLM_ENABLE_EXPERIMENTAL;NGL_DEBUG;GL42;WIN32;_WIN32;_USE_MATH_DEFINES;NO_DLL;QT_NO_DEBUG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -98,7 +98,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glfw3dll.lib;C:\Users\jpmac\vcpkg\installed\x64-windows\lib\gtest.lib;C:\Users\jpmac\NGL\lib\NGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\jpmac\vcpkg\installed\x64-windows\lib\gtest.lib;C:\Users\jpmac\vcpkg\installed\x64-windows\lib\glfw3dll.lib;C:\Users\jpmac\NGL\lib\NGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\jpmac\vcpkg\installed\x64-windows\lib;\public\devel\lib;C:\Users\jpmac\NGL\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -116,12 +116,12 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;ADDLARGEMODELS;QT5BUILD;FMT_HEADER_ONLY;USEGLM;GLM_ENABLE_EXPERIMENTAL;NGL_DEBUG;GL42;WIN32;_WIN32;_USE_MATH_DEFINES;NO_DLL;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;ADDLARGEMODELS;FMT_HEADER_ONLY;USEGLM;GLM_ENABLE_EXPERIMENTAL;NGL_DEBUG;GL42;WIN32;_WIN32;_USE_MATH_DEFINES;NO_DLL;QT_NO_DEBUG;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;C:\Users\jpmac\vcpkg\installed\x64-windows\include;./include;/public/devel/include;$(HOMEDRIVE)$(HOMEPATH)\NGL/include/;$(HOMEDRIVE)$(HOMEPATH)\NGL/gl3w/;C:\Users\jpmac\vcpkg\installed\x86-windows\include;$(QTDIR)\include;moc;/include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;C:\Users\jpmac\vcpkg\installed\x64-windows\include;./include;$(HOMEDRIVE)$(HOMEPATH)\NGL/include/;$(HOMEDRIVE)$(HOMEPATH)\NGL/gl3w/;$(QTDIR)\include;moc;/include;$(QTDIR)\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>obj\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -131,7 +131,7 @@
       <LanguageStandard>stdcpp14</LanguageStandard>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;ADDLARGEMODELS;QT5BUILD;FMT_HEADER_ONLY;USEGLM;GLM_ENABLE_EXPERIMENTAL;NGL_DEBUG;GL42;WIN32;_WIN32;_USE_MATH_DEFINES;NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;ADDLARGEMODELS;FMT_HEADER_ONLY;USEGLM;GLM_ENABLE_EXPERIMENTAL;NGL_DEBUG;GL42;WIN32;_WIN32;_USE_MATH_DEFINES;NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -141,7 +141,7 @@
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>glfw3dll.lib;C:\Users\jpmac\vcpkg\installed\x64-windows\lib\gtest.lib;C:\Users\jpmac\NGL\lib\NGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\jpmac\vcpkg\installed\x64-windows\lib\gtest.lib;C:\Users\jpmac\vcpkg\installed\x64-windows\lib\glfw3dll.lib;C:\Users\jpmac\NGL\lib\NGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\jpmac\vcpkg\installed\x64-windows\lib;\public\devel\lib;C:\Users\jpmac\NGL\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -158,7 +158,7 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;ADDLARGEMODELS;QT5BUILD;FMT_HEADER_ONLY;USEGLM;GLM_ENABLE_EXPERIMENTAL;NGL_DEBUG;GL42;WIN32;_WIN32;_USE_MATH_DEFINES;NO_DLL;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CONSOLE;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;ADDLARGEMODELS;FMT_HEADER_ONLY;USEGLM;GLM_ENABLE_EXPERIMENTAL;NGL_DEBUG;GL42;WIN32;_WIN32;_USE_MATH_DEFINES;NO_DLL;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -168,6 +168,7 @@
     <ClCompile Include="MessageQueueTests.cpp" />
     <ClCompile Include="NGLInitTests.cpp" />
     <ClCompile Include="ObjTests.cpp" />
+    <ClCompile Include="QuaternionTests.cpp" />
     <ClCompile Include="RandomTests.cpp" />
     <ClCompile Include="ShaderLibTests.cpp" />
     <ClCompile Include="UtilTests.cpp" />

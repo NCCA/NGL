@@ -1,29 +1,80 @@
-# -------------------------------------------------
-# Project created by QtCreator 2009-11-05T12:31:57
-# -------------------------------------------------
-# qt 5 wants this may caus errors with 4
-isEqual(QT_MAJOR_VERSION, 5) {cache() }
-
+###############################################################################
 # We will use the built in Qt lib template
+###############################################################################
 TEMPLATE = lib
-QT += opengl
-QT += core
-QT += gui
-QT -=xml
-linux*:{
-HOST=$$system("hostname -s|cut -c 1-4")
-equals(HOST, "w115"){
-  message("doing z420 compiler hack for w115")
-  QMAKE_CXX=clang++
-  QMAKE_CC=clang
-  QMAKE_LINK=clang++
-}
-}
+QT += opengl core gui
+cache()
 CONFIG+=c++14
-DEFINES+=GL_SILENCE_DEPRECATION
+QMAKE_CXXFLAGS+=-Wall
+
+###############################################################################
+# set the base directory of our project so Qt knows where to find them
+# we can use shell vars but need to use $$
+###############################################################################
+NGLPATH=$$(NGLDIR)
+
+isEmpty(NGLPATH){ # note brace must be here
+        linux*|macx:BASE_DIR=$$(HOME)/NGL
+        win32:{
+            BASE_DIR=$(HOMEDRIVE)\$(HOMEPATH)\NGL
+            message("under windows base dir is" $${BASE_DIR})
+            }
+}
+else{ # note brace must be here
+	BASE_DIR=$$(NGLDIR)
+}
+
+message("Base dir set to" $${BASE_DIR})
+###############################################################################
+# This is the output target we want to create
+###############################################################################
+TARGET = $$BASE_DIR/lib/NGL
+###############################################################################
+# this is where we want to put the intermediate build files ( ../obj)
+###############################################################################
+OBJECTS_DIR = $$BASE_DIR/obj
+###############################################################################
+
+
+###############################################################################
+# this is where to look for includes and dependencies for re-build
+###############################################################################
+INCLUDEPATH +=$$BASE_DIR/include/ngl
+INCLUDEPATH +=$$BASE_DIR/src/ngl
+INCLUDEPATH +=$$BASE_DIR/src/shaders
+INCLUDEPATH +=$$BASE_DIR/include/rapidjson
+INCLUDEPATH +=$$BASE_DIR/gl3w/
+INC_DIR = $$BASE_DIR/include/ngl
+DEPENDPATH= $$INC_DIR
+DEPENDPATH +=$$SRC_DIR/ngl/
+DEPENDPATH +=$$SRC_DIR/shaders/
+###############################################################################
+# for the University build
+###############################################################################
+INCLUDEPATH +=/public/devel/include
+###############################################################################
+# using the fmt library https://github.com/fmtlib/fmt but header only.
+###############################################################################
+DEFINES+=FMT_HEADER_ONLY
+INCLUDEPATH +=$$BASE_DIR/include/fmt
+
+# set the SRC_DIR so we can find the project files
+SRC_DIR = $${BASE_DIR}/src
+message(SRC_DIR is $${SRC_DIR})
+
+
+###############################################################################
 # Use this to add GLM to the ShaderLib (assumes glm in include path)
+###############################################################################
 DEFINES+=USEGLM
 DEFINES+=GLM_ENABLE_EXPERIMENTAL
+DEFINES += NGL_DEBUG
+###############################################################################
+# define this if you want to include the stanford data sets these are very big and make compilation time huge
+DEFINES+=ADDLARGEMODELS
+###############################################################################
+
+###############################################################################
 # What image library to use change to 1 of these depending on what platform
 # QImage USEQIMAGE
 # ImageMagick USEIMAGEMAGIC
@@ -41,109 +92,63 @@ equals(IMAGELIB,"USEIMAGEMAGIC"){
 equals(IMAGELIB,"USEOIIO"){
 	LIBS+=-L/usr/local/lib/ -lOpenImageIO
 }
+###############################################################################
 
-# to ensure we don't get any ABI issues use c++ and correct libs on mac
+###############################################################################
+# Unix (mac / linux) Specific build
+###############################################################################
 
-# as I want to support 4.8 and 5 this will set a flag for some of the mac stuff
-# mainly in the types.h file for the setMacVisual which is native in Qt5
-isEqual(QT_MAJOR_VERSION, 5) {DEFINES +=QT5BUILD }
+unix:{
+	QMAKE_LFLAGS-= -headerpad_max_install_names
+	QMAKE_LFLAGS_SHLIB -= -single_module
+	QMAKE_LFLAGS_VERSION=
+	QMAKE_LFLAGS_COMPAT_VERSION=
+	QMAKE_LFLAGS_SONAME=
+    QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
+	INCLUDEPATH+=/usr/local/include
+	LIBS += -L/usr/local/lib
+	LIBS+= -L/usr/lib64 -lGL  -lX11
+	QMAKE_CXXFLAGS+=  -march=native
 
-# define this if you want to include the stanford data sets
-# these are very big and make compilation time huge
-DEFINES+=ADDLARGEMODELS
-# set the base directory of our project so Qt knows where to find them
-# we can use shell vars but need to use $$
-
-NGLPATH=$$(NGLDIR)
-
-isEmpty(NGLPATH){ # note brace must be here
-        linux*|macx:BASE_DIR=$$(HOME)/NGL
-        win32:{
-            BASE_DIR=$(HOMEDRIVE)\$(HOMEPATH)\NGL
-            message("under windows base dir is" $${BASE_DIR})
-            }
-}
-else{ # note brace must be here
-	BASE_DIR=$$(NGLDIR)
 }
 
-message("Base dir set to" $${BASE_DIR})
 
-# This is the output target we want to create
-TARGET = $$BASE_DIR/lib/NGL
-# this is where we want to put the intermediate build files ( ../obj)
-OBJECTS_DIR = $$BASE_DIR/obj
-QMAKE_LFLAGS-= -headerpad_max_install_names
-QMAKE_LFLAGS_SHLIB -= -single_module
-QMAKE_LFLAGS_VERSION=
-QMAKE_LFLAGS_COMPAT_VERSION=
-QMAKE_LFLAGS_SONAME=
-# use this to suppress some warning
-unix:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
-# define the NGL_DEBUG flag for the graphics lib
-DEFINES += NGL_DEBUG
-unix:INCLUDEPATH+=/usr/local/include
-# enable this to see all the warnings!
-# QMAKE_CXXFLAGS += -Wconversion
-unix:QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
-macx:DEFINES +=GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
+###############################################################################
+# Mac OSX Specific build
+###############################################################################
+
 macx {
-QMAKE_POST_LINK = install_name_tool -id @rpath/$$BASE_DIR/lib/libNGL.1.0.0.dylib $$BASE_DIR/lib/libNGL.1.0.0.dylib
-}
-
-# this is where to look for includes
-INCLUDEPATH +=$$BASE_DIR/include/ngl
-INCLUDEPATH +=$$BASE_DIR/src/ngl
-INCLUDEPATH +=$$BASE_DIR/src/shaders
-INCLUDEPATH +=$$BASE_DIR/include/rapidjson
-INCLUDEPATH +=$$BASE_DIR/gl3w/
-# for the University build
-INCLUDEPATH +=/public/devel/include
-# using the fmt library https://github.com/fmtlib/fmt but header only.
-DEFINES+=FMT_HEADER_ONLY
-INCLUDEPATH +=$$BASE_DIR/include/fmt
-
-unix:LIBS += -L/usr/local/lib
-# set the SRC_DIR so we can find the project files
-SRC_DIR = $${BASE_DIR}/src
-message(SRC_DIR is $${SRC_DIR})
-
-# and the include files
-INC_DIR = $$BASE_DIR/include/ngl
-DEPENDPATH= $$INC_DIR
-DEPENDPATH +=$$SRC_DIR/ngl/
-DEPENDPATH +=$$SRC_DIR/shaders/
-QMAKE_CXXFLAGS+=-Wall
-macx:{
-  QMAKE_CXXFLAGS+=  -fPIC
+	# turn off opengl deprecation warnings
+	DEFINES+=GL_SILENCE_DEPRECATION
+	DEFINES +=GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
+	QMAKE_POST_LINK = install_name_tool -id @rpath/$$BASE_DIR/lib/libNGL.1.0.0.dylib $$BASE_DIR/lib/libNGL.1.0.0.dylib
+    QMAKE_CXXFLAGS+=  -fPIC
 	LIBS+= -L/System/Library/Frameworks/OpenGL.framework/Libraries -framework OpenGL
 	LIBS+=  -Wl,-framework,Cocoa
-
-}
-
-# in this case unix is also mac so we need to exclude mac from the unix build
-win32|unix:!macx{
-	# now define some linux specific flags
-	unix:QMAKE_CXXFLAGS+=  -march=native
-	#unix:DEFINES += LINUX
-	unix:LIBS+= -L/usr/lib64 -lGL  -lX11
-
 }
 
 
-# The windows configuration is very frustrating however I seem to have it working now
-# once you have done this set the PATH environment variable to look in
-# c:/NGL/lib to find the DLL
+###############################################################################
+
+
 win32{
-message("Using Windows check to see what needs to be installed")
 CONFIG+=staticlib
-INCLUDEPATH += $$(HOMEDRIVE)\\$$(HOMEPATH)\vcpkg\installed\x86-windows\include
-
 DEFINES+=_USE_MATH_DEFINES
 DEFINES += NO_DLL
 QMAKE_CXXFLAGS += /FS /wd5040 /wd5045 /std:c++14
-DEST_DIR=BASE_DIR\lib
+DEST_DIR=$$BASE_DIR\lib
 CONFIG -= debug_and_release debug_and_release_target
+
+contains(QT_ARCH, i386) {
+    message("32-bit build")
+	INCLUDEPATH += $$(HOMEDRIVE)\\$$(HOMEPATH)\vcpkg\installed\x86-windows\include
+
+} 
+else {
+    message("64-bit build")
+	INCLUDEPATH += $$(HOMEDRIVE)\\$$(HOMEPATH)\vcpkg\installed\x64-windows\include
+
+}
 
 }
 
@@ -173,34 +178,21 @@ SOURCES += $$SRC_DIR/Vec4.cpp \
 		$$SRC_DIR/Vec3.cpp \
 		$$SRC_DIR/Vec2.cpp \
 		$$SRC_DIR/Text.cpp \
-    $$SRC_DIR/Mat2.cpp \
-    $$SRC_DIR/Mat3.cpp \
+		$$SRC_DIR/Mat2.cpp \
+		$$SRC_DIR/Mat3.cpp \
 		$$SRC_DIR/NGLStream.cpp \
-    $$SRC_DIR/Image.cpp \
-    $$SRC_DIR/VAOFactory.cpp \
-    $$SRC_DIR/AbstractVAO.cpp \
-    $$SRC_DIR/MultiBufferVAO.cpp \
-    $$SRC_DIR/SimpleVAO.cpp \
-    $$SRC_DIR/SimpleIndexVAO.cpp \
-    $$SRC_DIR/Types.cpp \
-    $$SRC_DIR/pystring.cpp \
-    $$SRC_DIR/MessageQueue/AbstractMessageConsumer.cpp \
-    $$SRC_DIR/MessageQueue/NGLMessage.cpp \
-    $$SRC_DIR/MessageQueue/FileConsumer.cpp \
-    $$BASE_DIR/gl3w/gl3w.c
-
-#    !macx:{
-#      SOURCES+=$$BASE_DIR/gl3w/gl3w.c
-#    }
-
-ios {
-	message("IOS BUILD")
-	DEFINES+=USINGIOS_
-}
-
-
-
-
+		$$SRC_DIR/Image.cpp \
+		$$SRC_DIR/VAOFactory.cpp \
+		$$SRC_DIR/AbstractVAO.cpp \
+		$$SRC_DIR/MultiBufferVAO.cpp \
+		$$SRC_DIR/SimpleVAO.cpp \
+		$$SRC_DIR/SimpleIndexVAO.cpp \
+		$$SRC_DIR/Types.cpp \
+		$$SRC_DIR/pystring.cpp \
+		$$SRC_DIR/MessageQueue/AbstractMessageConsumer.cpp \
+		$$SRC_DIR/MessageQueue/NGLMessage.cpp \
+		$$SRC_DIR/MessageQueue/FileConsumer.cpp \
+		$$BASE_DIR/gl3w/gl3w.c
 
 HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/VAOPrimitives.h \
@@ -229,43 +221,37 @@ HEADERS += $$INC_DIR/Vec4.h \
 		$$INC_DIR/Vec3.h \
 		$$INC_DIR/Vec2.h \
 		$$INC_DIR/Text.h \
-    $$INC_DIR/Mat2.h \
-    $$INC_DIR/Mat3.h \
+		$$INC_DIR/Mat2.h \
+		$$INC_DIR/Mat3.h \
 		$$INC_DIR/Image.h \
-    $$INC_DIR/VAOFactory.h \
-    $$INC_DIR/AbstractVAO.h \
-    $$INC_DIR/SimpleVAO.h \
-    $$INC_DIR/SimpleIndexVAO.h \
-    $$INC_DIR/MultiBufferVAO.h \
+		$$INC_DIR/VAOFactory.h \
+		$$INC_DIR/AbstractVAO.h \
+		$$INC_DIR/SimpleVAO.h \
+		$$INC_DIR/SimpleIndexVAO.h \
+		$$INC_DIR/MultiBufferVAO.h \
 		$$INC_DIR/NGLStream.h \
-    $$INC_DIR/NGLMessage.h \
-    $$INC_DIR/MessageQueue/AbstractMessageConsumer.h \
-    $$INC_DIR/MessageQueue/FileConsumer.h \
-    $$INC_DIR/MessageQueue/STDERRConsumer.h \
-    $$INC_DIR/MessageQueue/STDOutConsumer.h \
-    $$SRC_DIR/shaders/TextShaders.h \
+		$$INC_DIR/NGLMessage.h \
+		$$INC_DIR/MessageQueue/AbstractMessageConsumer.h \
+		$$INC_DIR/MessageQueue/FileConsumer.h \
+		$$INC_DIR/MessageQueue/STDERRConsumer.h \
+		$$INC_DIR/MessageQueue/STDOutConsumer.h \
+		$$SRC_DIR/shaders/TextShaders.h \
 		$$SRC_DIR/shaders/ColourShaders.h \
 		$$SRC_DIR/shaders/DiffuseShaders.h \
-    $$SRC_DIR/shaders/CheckerShaders.h \
+		$$SRC_DIR/shaders/CheckerShaders.h \
 		$$INC_DIR/rapidxml/rapidxml.hpp \
 		$$INC_DIR/rapidxml/rapidxml_iterators.hpp \
 		$$INC_DIR/rapidxml/rapidxml_print.hpp \
-    $$INC_DIR/rapidxml/rapidxml_utils.hpp \
-    $$INC_DIR/pystring.h \
-    $$BASE_DIR/gl3w/gl3w.h
-#    !macx:{
-#            HEADERS+=$$PWD/gl3w/gl3w.h
-#    }
+		$$INC_DIR/rapidxml/rapidxml_utils.hpp \
+		$$INC_DIR/pystring.h \
+		$$BASE_DIR/gl3w/gl3w.h
 
-unix:PRECOMPILED_HEADER += $$SRC_DIR/ngl/Meshes.h \
+		unix:PRECOMPILED_HEADER += $$SRC_DIR/ngl/Meshes.h \
 
 
 OTHER_FILES+= Doxyfile \
               README.md \
               CMakeLists.txt
-
-DISTFILES += \
-    NGLUML.qmodel
 
 
 
