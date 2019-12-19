@@ -20,7 +20,7 @@ equals(HOST, "w115"){
 }
 CONFIG += c++14
 message("this will need to be changed for you own paths")
-
+macx:DEFINES+=GL_SILENCE_DEPRECATION
 QMAKE_CXXFLAGS+=$$system(python-config --cflags)
 QMAKE_LFLAGS+=$$system(python-config --ldflags)
 LIBS+=-L/opt/rh/python27/root/usr/lib64/
