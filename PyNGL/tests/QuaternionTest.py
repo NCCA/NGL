@@ -87,9 +87,9 @@ class TestQuaternion(unittest.TestCase):
     q1=pyngl.Quaternion(1.3,3.0,36.7,-6.6)
     self.assertAlmostEquals(q1.magnitude(),37.4381,delta=0.01)
 
-  def testNormalize(self):
+  def testNormalise(self):
     q1=pyngl.Quaternion(1.3,3.0,36.7,-6.6)
-    q1.normalize()
+    q1.normalise()
     self.assertAlmostEquals( q1.getS(),0.0347298,delta=0.001)
     self.assertAlmostEquals( q1.getX(),0.0801457,delta=0.001)
     self.assertAlmostEquals( q1.getY(),0.98045,delta=0.001)

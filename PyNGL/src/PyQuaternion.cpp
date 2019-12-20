@@ -52,6 +52,13 @@ namespace ngl
         .def(py::self == py::self)
         .def("__neg__",py::overload_cast<> (&Quaternion::operator-))
         .def("__neg__",py::overload_cast<> (&Quaternion::operator- ,py::const_))
+        .def("__repr__",
+                [](const Quaternion &v) {
+                    return std::to_string(v.getS())+"["+
+                        std::to_string(v.getX())+","+
+                        std::to_string(v.getY())+","+
+                        std::to_string(v.getZ())
+                        +"]";})
         ;
 
 }

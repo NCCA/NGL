@@ -157,7 +157,7 @@ class NGL_DLLEXPORT Quaternion
   /// sets the current quat q1 = q1*q2
   /// @param[in] _q the rhs quaternion argument
   //----------------------------------------------------------------------------------------------------------------------
-  void operator *=(const Quaternion& _q ) noexcept;
+  Quaternion &operator *=(const Quaternion& _q ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  Perform a multiplication between a quaternion and a scalar
   /// @param[in] _s the rhs scalar argument
@@ -186,12 +186,12 @@ class NGL_DLLEXPORT Quaternion
   /// @brief  add _q to the current quaternion
   /// @param[in] _q the rhs quaternion argument
   //----------------------------------------------------------------------------------------------------------------------
-  void operator +=(const Quaternion& _q )  noexcept;
+  Quaternion &operator +=(const Quaternion& _q )  noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  subtract _q from the current quaternion
   /// @param[in] _q the rhs quaternion argument
   //----------------------------------------------------------------------------------------------------------------------
-  void operator -=( const Quaternion& _q )  noexcept;
+  Quaternion & operator -=( const Quaternion& _q )  noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  normalise this  quaternion this sets each of the component parts

@@ -646,7 +646,7 @@ Quaternion Mat4::asQuaternion() const noexcept
   }
   default:
   {
-    NGL_ASSERT(0 && "SHOULDN'T GET HERE in ngl Quaternion");
+    //NGL_ASSERT(0 && "SHOULDN'T GET HERE in ngl Quaternion");
     break;
   }
   }// end switch
@@ -778,12 +778,12 @@ Vec3 Mat4::getBackVector() const noexcept
 
 Real &Mat4::operator[](size_t _i)  noexcept
 {
-  NGL_ASSERT(_i>=0 && _i<=15)
+  NGL_ASSERT( _i<=15)
   return m_openGL[_i];
 }
 Real Mat4::operator[](size_t _i)  const noexcept
 {
-  NGL_ASSERT(_i>=0 && _i<=15)
+  NGL_ASSERT( _i<=15)
   return m_openGL[_i];
 }
 /*

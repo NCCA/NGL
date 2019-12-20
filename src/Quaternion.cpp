@@ -32,7 +32,7 @@ Quaternion::Quaternion(const Mat4 &_m) noexcept
   Real T = 1 + _m.m_openGL[0] + _m.m_openGL[5] + _m.m_openGL[10];
   if ( T > 0.00000001f ) //to avoid large distortions!
   {
-    Real S = static_cast<Real>(sqrt(T) * 2.0f);
+    Real S = static_cast<Real>(sqrtf(T) * 2.0f);
     m_x = ( _m.m_openGL[6] - _m.m_openGL[9] ) / S;
     m_y = ( _m.m_openGL[8] - _m.m_openGL[2] ) / S;
     m_z = ( _m.m_openGL[1] - _m.m_openGL[4] ) / S;
@@ -42,7 +42,7 @@ Quaternion::Quaternion(const Mat4 &_m) noexcept
   if ( _m.m_openGL[0] > _m.m_openGL[5] &&
        _m.m_openGL[0] > _m.m_openGL[10] )
   {		// Column 0:
-    Real S  = static_cast<Real>(sqrt( 1.0f + _m.m_openGL[0] - _m.m_openGL[5] - _m.m_openGL[10] ) * 2.0f);
+    Real S  = static_cast<Real>(sqrtf( 1.0f + _m.m_openGL[0] - _m.m_openGL[5] - _m.m_openGL[10] ) * 2.0f);
     m_x = 0.25f * S;
     m_y = (_m.m_openGL[1] + _m.m_openGL[4] ) / S;
     m_z = (_m.m_openGL[8] + _m.m_openGL[2] ) / S;
@@ -51,7 +51,7 @@ Quaternion::Quaternion(const Mat4 &_m) noexcept
   else
   if ( _m.m_openGL[5] > _m.m_openGL[10] )
   {			// Column 1:
-    Real S  = static_cast<Real>(sqrt( 1.0 + _m.m_openGL[5] - _m.m_openGL[0] - _m.m_openGL[10] ) * 2.0f);
+    Real S  = static_cast<Real>(sqrtf( 1.0f + _m.m_openGL[5] - _m.m_openGL[0] - _m.m_openGL[10] ) * 2.0f);
     m_x = (_m.m_openGL[1] + _m.m_openGL[4] ) / S;
     m_y = 0.25f * S;
     m_z = (_m.m_openGL[6] + _m.m_openGL[9] ) / S;
@@ -59,7 +59,7 @@ Quaternion::Quaternion(const Mat4 &_m) noexcept
   }
   else
   {										// Column 2:
-    Real S  = static_cast<Real>(sqrt( 1.0 + _m.m_openGL[10] - _m.m_openGL[0] - _m.m_openGL[5] ) * 2.0f);
+    Real S  = static_cast<Real>(sqrtf( 1.0f + _m.m_openGL[10] - _m.m_openGL[0] - _m.m_openGL[5] ) * 2.0f);
     m_x = (_m.m_openGL[8] + _m.m_openGL[2] ) / S;
     m_y = (_m.m_openGL[6] + _m.m_openGL[9] ) / S;
     m_z = 0.25f * S;
@@ -77,9 +77,9 @@ Quaternion::Quaternion(const Vec3 &_rot) noexcept
   Real cy = cosf(radians(_rot.m_y/2.0f));
   Real cz = cosf(radians(_rot.m_z/2.0f));
 
-  m_s=cx*cy*cz + sx*sy*sz,
-  m_x=sx*cy*cz - cx*sy*sz,
-  m_y=cx*sy*cz + sx*cy*sz,
+  m_s=cx*cy*cz + sx*sy*sz;
+  m_x=sx*cy*cz - cx*sy*sz;
+  m_y=cx*sy*cz + sx*cy*sz;
   m_z=cx*cy*sz - sx*sy*cz;
 
 }
@@ -107,10 +107,11 @@ Quaternion Quaternion::operator *(const Quaternion& _q)const noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Quaternion::operator *=(const Quaternion& _q) noexcept
+Quaternion & Quaternion::operator *=(const Quaternion& _q) noexcept
 {
 		// as we have already written the code to do the mult above re-use
 		*this=*this*_q;
+    return *this;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -137,16 +138,23 @@ Quaternion Quaternion::operator -(const Quaternion& _q) const noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void Quaternion::operator +=(const Quaternion& _q) noexcept
+Quaternion & Quaternion::operator +=(const Quaternion& _q) noexcept
 {
-	// re-call the code from above
-	*this=*this+_q;
+  m_s=m_s+_q.m_s;
+  m_x=m_x+_q.m_x;
+  m_y=m_y+_q.m_y;
+  m_z=m_z+_q.m_z;
+  return *this;
+
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Quaternion::operator -=(const Quaternion& _q) noexcept
+Quaternion &Quaternion::operator -=(const Quaternion& _q) noexcept
 {
-	// re-call the code from above
-	*this=*this-_q;
+    m_s=m_s-_q.m_s;
+    m_x=m_x-_q.m_x;
+    m_y=m_y-_q.m_y;
+    m_z=m_z-_q.m_z;
+    return *this;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -191,7 +199,7 @@ Quaternion Quaternion::inverse() const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Real Quaternion::magnitude()const noexcept
 {
-	return static_cast<Real>( sqrt(m_s*m_s + m_x*m_x + m_y*m_y + m_z*m_z) );
+  return static_cast<Real>( sqrtf(m_s*m_s + m_x*m_x + m_y*m_y + m_z*m_z) );
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -220,33 +228,32 @@ Vec4 Quaternion::operator* (const Vec4 &_vec) const noexcept
 
 void Quaternion::rotateX(Real _angle) noexcept
 {
-_angle/=2.0;
-// q=[cos 1/2 theta, sin 1/2 theta V]
-m_s=cosf(radians(_angle));
-m_x=sinf(radians(_angle));
-m_y=0;
-m_z=0;
+  _angle/=2.0f;
+  // q=[cos 1/2 theta, sin 1/2 theta V]
+  m_s=cosf(radians(_angle));
+  m_x=sinf(radians(_angle));
+  m_y=0.0f;
+  m_z=0.0f;
 }
 
 void Quaternion::rotateY(Real _angle) noexcept
 {
-	_angle/=2.0;
-	// q=[cos 1/2 theta, sin 1/2 theta V]
-  m_s=cosf(radians(_angle));
-	m_x=0;
-
-  m_y=sinf(radians(_angle));
-	m_z=0;
+    _angle/=2.0f;
+    // q=[cos 1/2 theta, sin 1/2 theta V]
+    m_s=cosf(radians(_angle));
+    m_x=0.0f;
+    m_y=sinf(radians(_angle));
+    m_z=0.0f;
 }
 
 void Quaternion::rotateZ(Real _angle) noexcept
 {
 
-	_angle/=2.0;
+  _angle/=2.0f;
 	// q=[cos 1/2 theta, sin 1/2 theta V]
   m_s=cosf(radians(_angle));
-	m_x=0;
-	m_y=0;
+  m_x=0.0f;
+  m_y=0.0f;
   m_z=sinf(radians(_angle));
 
 }
@@ -257,8 +264,8 @@ void Quaternion::fromAxisAngle(const Vec3& _axis, Real _angle) noexcept
   Vec3 axis = _axis;
   axis.normalize();
   _angle=radians(_angle);
-  Real sinAngle = static_cast<Real>(sin( _angle / 2.0f ));
-  Real cosAngle = static_cast<Real>(cos( _angle / 2.0f ));
+  Real sinAngle = static_cast<Real>(sinf( _angle / 2.0f ));
+  Real cosAngle = static_cast<Real>(cosf( _angle / 2.0f ));
   m_s = cosAngle;
   m_x = axis.m_x * sinAngle;
   m_y = axis.m_y * sinAngle;
@@ -275,9 +282,9 @@ void Quaternion::fromEulerAngles(const Real _x,const Real _y,const Real _z) noex
   Real cy = cosf(radians(_y/2.0f));
   Real cz = cosf(radians(_z/2.0f));
 
-  m_s=cx*cy*cz + sx*sy*sz,
-  m_x=sx*cy*cz - cx*sy*sz,
-  m_y=cx*sy*cz + sx*cy*sz,
+  m_s=cx*cy*cz + sx*sy*sz;
+  m_x=sx*cy*cz - cx*sy*sz;
+  m_y=cx*sy*cz + sx*cy*sz;
   m_z=cx*cy*sz - sx*sy*cz;
 }
 
@@ -291,9 +298,9 @@ io_p.set(point.m_x, point.m_y, point.m_z);
 
 void Quaternion::toAxisAngle(Vec3& o_axis,Real &o_angle) noexcept
 {
-  o_angle = degrees(static_cast<Real>(acos( m_s ) * 2.0f));
-  Real sinA = static_cast<Real>(sqrt( 1.0f - m_s * m_s ));
-  if( fabs( sinA ) < 0.0005f )
+  o_angle = degrees(static_cast<Real>(acosf( m_s ) * 2.0f));
+  Real sinA = static_cast<Real>(sqrtf( 1.0f - m_s * m_s ));
+  if( fabsf( sinA ) < 0.0005f )
   {
     sinA = 1.0f;
   }
