@@ -54,7 +54,7 @@ void Vec2::null() noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Real& Vec2::operator[](const size_t &_i) noexcept
 {
-	NGL_ASSERT(_i >=0 || _i<=2);
+  NGL_ASSERT( _i<=2)
 	return (&m_x)[_i];
 }
 
@@ -68,30 +68,34 @@ Vec2 Vec2::operator-() const noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::operator+=(const Vec2& _v  ) noexcept
+Vec2 & Vec2::operator+=(const Vec2& _v  ) noexcept
 {
 	m_x+=_v.m_x;
 	m_y+=_v.m_y;
+  return *this;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::operator/=(Real _v  ) noexcept
+Vec2 & Vec2::operator/=(Real _v  ) noexcept
 {
-  NGL_ASSERT(_v !=0.0);
+  NGL_ASSERT(_v !=0.0f)
 	m_x/=_v;
 	m_y/=_v;
+  return *this;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::operator*=(Real _v) noexcept
+Vec2 & Vec2::operator*=(Real _v) noexcept
 {
 	m_x*=_v;
 	m_y*=_v;
+  return *this;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Vec2::operator-=(const Vec2& _v ) noexcept
+Vec2 & Vec2::operator-=(const Vec2& _v ) noexcept
 {
 	m_x-=_v.m_x;
 	m_y-=_v.m_y;
+  return *this;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -143,6 +147,16 @@ Vec2 Vec2::operator/( const Vec2& _v )const noexcept
 	return Vec2(m_x/_v.m_x,	m_y/_v.m_y	);
 }
 
+
+//----------------------------------------------------------------------------------------------------------------------
+Vec2& Vec2::operator/=( const Vec2& _v ) noexcept
+{
+  m_x/=_v.m_x;
+  m_y/=_v.m_y;
+  return *this;
+}
+
+
 //----------------------------------------------------------------------------------------------------------------------
 Vec2 Vec2::operator *(Real _i )const noexcept
 {
@@ -163,14 +177,10 @@ Vec2 & Vec2::operator=(const Vec2& _v) noexcept
 void Vec2::normalize() noexcept
 {
   Real len=sqrtf(m_x*m_x+m_y*m_y);
-  NGL_ASSERT(len!=0.0);
+  NGL_ASSERT(len!=0.0f)
   m_x/=len;
   m_y/=len;
 }
-
-
-
-
 
 
 Real Vec2::dot(const Vec2& _v )const noexcept

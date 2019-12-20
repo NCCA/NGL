@@ -86,6 +86,75 @@ class TestVec4(unittest.TestCase):
     # alas in is a reserved work in python so we use inV
     self.assertTrue(c==pyngl.Vec4.inV())
 
+  def testAdd(self) :
+    a=pyngl.Vec4(1.0,2.0,3.0,1.0)
+    b=pyngl.Vec4(4.0,5.0,6.0,2.0)
+    c=a+b
+    self.assertAlmostEquals(c.m_x,5.0,delta=0.001)
+    self.assertAlmostEquals(c.m_y,7.0,delta=0.001)
+    self.assertAlmostEquals(c.m_z,9.0,delta=0.001)
+    self.assertAlmostEquals(c.m_w,1.0,delta=0.001)
+
+  def testAddEqual(self) :
+    a=pyngl.Vec4(1.0,2.0,3.0,0.0)
+    b=pyngl.Vec4(4.0,5.0,6.0,1.0)
+    a+=b
+    self.assertAlmostEquals(a.m_x,5.0,delta=0.001)
+    self.assertAlmostEquals(a.m_y,7.0,delta=0.001)
+    self.assertAlmostEquals(a.m_z,9.0,delta=0.001)
+    self.assertAlmostEquals(a.m_w,0.0,delta=0.001)
+
+  def testMinus(self) :
+    a=pyngl.Vec4(1.0,2.0,3.0,1.0)
+    b=pyngl.Vec4(4.0,5.0,6.0,2.0)
+    c=a-b
+    self.assertAlmostEquals(c.m_x,-3.0,delta=0.001)
+    self.assertAlmostEquals(c.m_y,-3.0,delta=0.001)
+    self.assertAlmostEquals(c.m_z,-3.0,delta=0.001)
+    self.assertAlmostEquals(c.m_w,1.0,delta=0.001)
+
+  def testMinusEqual(self) :
+    a=pyngl.Vec4(1.0,2.0,3.0,0.0)
+    b=pyngl.Vec4(4.0,5.0,6.0,2.0)
+    a-=b
+    self.assertAlmostEquals(a.m_x,-3.0,delta=0.001)
+    self.assertAlmostEquals(a.m_y,-3.0,delta=0.001)
+    self.assertAlmostEquals(a.m_z,-3.0,delta=0.001)
+    self.assertAlmostEquals(a.m_w, 0.0,delta=0.001)
+
+  def testMultiplyFloat(self) :
+    a=pyngl.Vec4(1.0,2.0,3.0,1.0)
+    b=a*2.0
+    self.assertAlmostEquals(b.m_x,2.0,delta=0.001)
+    self.assertAlmostEquals(b.m_y,4.0,delta=0.001)
+    self.assertAlmostEquals(b.m_z,6.0,delta=0.001)
+    self.assertAlmostEquals(b.m_w,1.0,delta=0.001)
+
+  def testMultiplyEqualFloat(self) :
+    a=pyngl.Vec4(1.0,2.0,3.0,0.0)
+    a*=2.0
+    self.assertAlmostEquals(a.m_x,2.0,delta=0.001)
+    self.assertAlmostEquals(a.m_y,4.0,delta=0.001)
+    self.assertAlmostEquals(a.m_z,6.0,delta=0.001)
+    self.assertAlmostEquals(a.m_w,0.0,delta=0.001)
+
+  def testDivideFloat(self) :
+    a=pyngl.Vec4(1.0,2.0,3.0,1.0)
+    b=a/2.0
+    self.assertAlmostEquals(b.m_x,0.5,delta=0.001)
+    self.assertAlmostEquals(b.m_y,1.0,delta=0.001)
+    self.assertAlmostEquals(b.m_z,1.5,delta=0.001)
+    self.assertAlmostEquals(b.m_w,1.0,delta=0.001)
+
+  def testDivideEqualFloat(self) :
+    a=pyngl.Vec4(1.0,2.0,3.0,0.0)
+    a/=2.0
+    self.assertAlmostEquals(a.m_x,0.5,delta=0.001)
+    self.assertAlmostEquals(a.m_y,1.0,delta=0.001)
+    self.assertAlmostEquals(a.m_z,1.5,delta=0.001)
+    self.assertAlmostEquals(a.m_w,0.0,delta=0.001)
+
+
   def testSizeof(self):
     test=pyngl.Vec4()
     self.assertTrue( test.sizeof()==4*ctypes.sizeof(ctypes.c_float))

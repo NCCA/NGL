@@ -82,7 +82,7 @@ public:
   m_x(_v.m_x),
   m_y(_v.m_y),
   m_z(_v.m_z),
-  m_w(_w){;}
+  m_w(_w){}
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief initialise the constructor from 3 or 4 Real
@@ -95,7 +95,7 @@ public:
    m_x(_x),
    m_y(_y),
    m_z(_z),
-   m_w(_w){;}
+   m_w(_w){}
 #ifdef USEGLM
   Vec4( const glm::vec4 & _v)  noexcept :
         m_x(_v.x),m_y(_v.y),m_z(_v.z),m_w(_v.w){;}
@@ -177,13 +177,13 @@ public:
   /// @brief += operator add vector v to current vector
   /// @param[in]  &_v vector to add
   //----------------------------------------------------------------------------------------------------------------------
-  void operator+=( const Vec4& _v) noexcept;
+  Vec4& operator+=( const Vec4& _v) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief -= operator this-=v
   /// @param[in]  &_v vector to subtract
   //----------------------------------------------------------------------------------------------------------------------
-  void operator-=(const Vec4& _v ) noexcept;
+  Vec4& operator-=(const Vec4& _v ) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief this * i for each element
@@ -211,13 +211,14 @@ public:
   /// @param[in] _v the scalar to divide by
   /// sets the vector to vector V(x/v,y/v,z/v,w)
   //----------------------------------------------------------------------------------------------------------------------
-  void operator/=(Real _v) noexcept;
+  Vec4& operator/=(Real _v) noexcept;
+  Vec4& operator/=(const Vec4 &_v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief multiply this vector components by a scalar
   /// @param[in] _v the scalar to multiply by
   /// sets the vector to vector V(x*v,y*v,z*v,w)
   //----------------------------------------------------------------------------------------------------------------------
-  void operator*=( Real _v) noexcept;
+  Vec4& operator*=( Real _v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief subtraction operator subtract vevtor-vector
   /// @param[in]  &_v the value to sub

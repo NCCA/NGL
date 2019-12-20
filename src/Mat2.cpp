@@ -190,9 +190,9 @@ const Mat2& Mat2::transpose() noexcept
 {
   Mat2 tmp(*this);
 
-  for(int row=0; row<3; ++row)
+  for(int row=0; row<2; ++row)
 	{
-    for(int col=0; col<3; ++col)
+    for(int col=0; col<2; ++col)
 		{
 			m_m[row][col]=tmp.m_m[col][row];
 		}

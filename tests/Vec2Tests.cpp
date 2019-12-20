@@ -94,7 +94,6 @@ TEST(Vec2,SubScript)
 
   EXPECT_FLOAT_EQ(test[0], 1.0f);
   EXPECT_FLOAT_EQ(test[1],2.0f);
-
 }
 
 
@@ -103,7 +102,6 @@ TEST(Vec2,FloatCtor)
 {
   ngl::Vec2 test(1.0f,2.0f);
   ngl::Vec2 result(1.0f,2.0f);
-
   EXPECT_TRUE(test == result);
 }
 
@@ -124,7 +122,6 @@ TEST(Vec2,AssignOperator)
   EXPECT_TRUE(copy == result);
   EXPECT_FLOAT_EQ(test[0], copy[0]);
   EXPECT_FLOAT_EQ(test[1], copy[1]);
-
 }
 
 TEST(Vec2,fromGLM)
@@ -136,7 +133,7 @@ TEST(Vec2,fromGLM)
 }
 
 
-TEST(vec2,toGLM)
+TEST(Vec2,toGLM)
 {
   ngl::Vec2 f(0.4f,0.2f);
   auto r=f.toGLM();
@@ -145,11 +142,103 @@ TEST(vec2,toGLM)
 
 }
 
-TEST(vec2,setGLM)
+TEST(Vec2,setGLM)
 {
   ngl::Vec2 f;
   f.set(glm::vec2(0.4f,0.2f));
   EXPECT_FLOAT_EQ(0.4f,f[0]);
   EXPECT_FLOAT_EQ(0.2f,f[1]);
 
+}
+
+
+TEST(Vec2,add)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  ngl::Vec2 b(2.0f,3.0f);
+  auto c=a+b;
+  EXPECT_FLOAT_EQ(c.m_x,3.0f);
+  EXPECT_FLOAT_EQ(c.m_y,5.0f);
+}
+
+
+TEST(Vec2,addEqual)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  ngl::Vec2 b(2.0f,3.0f);
+  a+=b;
+  EXPECT_FLOAT_EQ(a.m_x,3.0f);
+  EXPECT_FLOAT_EQ(a.m_y,5.0f);
+}
+
+TEST(Vec2,subtract)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  ngl::Vec2 b(2.0f,3.0f);
+  auto c=a-b;
+  EXPECT_FLOAT_EQ(c.m_x,-1.0f);
+  EXPECT_FLOAT_EQ(c.m_y,-1.0f);
+}
+
+
+TEST(Vec2,subtractEqual)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  ngl::Vec2 b(2.0f,3.0f);
+  a-=b;
+  EXPECT_FLOAT_EQ(a.m_x,-1.0f);
+  EXPECT_FLOAT_EQ(a.m_y,-1.0f);
+}
+
+
+TEST(Vec2,multiplyFloat)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  auto c=a*2.0f;
+  EXPECT_FLOAT_EQ(c.m_x,2.0f);
+  EXPECT_FLOAT_EQ(c.m_y,4.0f);
+}
+
+
+TEST(Vec2,multiplyFloatEqual)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  a*=2.0f;
+  EXPECT_FLOAT_EQ(a.m_x,2.0f);
+  EXPECT_FLOAT_EQ(a.m_y,4.0f);
+}
+
+TEST(Vec2,divideFloatEqual)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  a/=2.0f;
+  EXPECT_FLOAT_EQ(a.m_x,0.5f);
+  EXPECT_FLOAT_EQ(a.m_y,1.0f);
+}
+
+TEST(Vec2,divideFloat)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  auto b=a/2.0f;
+  EXPECT_FLOAT_EQ(b.m_x,0.5f);
+  EXPECT_FLOAT_EQ(b.m_y,1.0f);
+}
+
+
+TEST(Vec2,divideVec)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  ngl::Vec2 b(2.0f,2.0f);
+  auto c=a/b;
+  EXPECT_FLOAT_EQ(c.m_x,0.5f);
+  EXPECT_FLOAT_EQ(c.m_y,1.0f);
+}
+
+TEST(Vec2,divideEqualVec)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  ngl::Vec2 b(2.0f,2.0f);
+  a/=b;
+  EXPECT_FLOAT_EQ(a.m_x,0.5f);
+  EXPECT_FLOAT_EQ(a.m_y,1.0f);
 }

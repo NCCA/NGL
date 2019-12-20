@@ -67,7 +67,7 @@ void Vec3::null() noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Real& Vec3::operator[](const size_t & _i ) noexcept
 {
-	NGL_ASSERT(_i >=0 || _i<=3);
+  NGL_ASSERT( _i<=3)
 	return (&m_x)[_i];
 }
 
@@ -85,34 +85,49 @@ Vec3 Vec3::operator-()  noexcept
 
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec3::operator+=(const Vec3& _v) noexcept
+Vec3& Vec3::operator+=(const Vec3& _v) noexcept
 {
 	m_x+=_v.m_x;
 	m_y+=_v.m_y;
 	m_z+=_v.m_z;
+  return *this;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec3::operator/=(Real _v) noexcept
+Vec3& Vec3::operator/=(Real _v) noexcept
 {
-  NGL_ASSERT(_v !=0.0f);
+  NGL_ASSERT(_v !=0.0f)
 	m_x/=_v;
 	m_y/=_v;
 	m_z/=_v;
+  return  *this;
 }
+
+
+Vec3& Vec3::operator/=(const Vec3 &_v) noexcept
+{
+  NGL_ASSERT(_v.m_x !=0.0f && _v.m_y !=0.0f && _v.m_z !=0.0f)
+  m_x/=_v.m_x;
+  m_y/=_v.m_y;
+  m_z/=_v.m_z;
+  return  *this;
+}
+
 //----------------------------------------------------------------------------------------------------------------------
-void Vec3::operator*=(Real _v) noexcept
+Vec3& Vec3::operator*=(Real _v) noexcept
 {
 	m_x*=_v;
 	m_y*=_v;
 	m_z*=_v;
+  return *this;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Vec3::operator-=(const Vec3& _v) noexcept
+Vec3 & Vec3::operator-=(const Vec3& _v) noexcept
 {
 	m_x-=_v.m_x;
 	m_y-=_v.m_y;
 	m_z-=_v.m_z;
+  return *this;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -210,7 +225,7 @@ Vec3 Vec3::cross( const Vec3& _v )const noexcept
 void Vec3::normalize() noexcept
 {
   Real len=sqrtf(m_x*m_x+m_y*m_y+m_z*m_z);
-  NGL_ASSERT(len!=0.0f);
+  NGL_ASSERT(len!=0.0f)
   m_x/=len;
   m_y/=len;
   m_z/=len;

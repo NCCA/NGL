@@ -190,3 +190,110 @@ TEST(Vec3,setGLM)
   EXPECT_FLOAT_EQ(0.1f,f[2]);
 
 }
+
+
+
+TEST(Vec3,add)
+{
+  ngl::Vec3 a(1.0f,2.0f,3.0f);
+  ngl::Vec3 b(4.0f,5.0f,6.0f);
+  auto c=a+b;
+  EXPECT_FLOAT_EQ(c.m_x,5.0f);
+  EXPECT_FLOAT_EQ(c.m_y,7.0f);
+  EXPECT_FLOAT_EQ(c.m_z,9.0f);
+}
+
+
+TEST(Vec3,addEqual)
+{
+  ngl::Vec3 a(1.0f,2.0f,3.0f);
+  ngl::Vec3 b(4.0f,5.0f,6.0f);
+  a+=b;
+  EXPECT_FLOAT_EQ(a.m_x,5.0f);
+  EXPECT_FLOAT_EQ(a.m_y,7.0f);
+  EXPECT_FLOAT_EQ(a.m_z,9.0f);
+}
+
+TEST(Vec3,subtract)
+{
+  ngl::Vec3 a(1.0f,2.0f,3.0f);
+  ngl::Vec3 b(4.0f,5.0f,6.0f);
+  auto c=a-b;
+  EXPECT_FLOAT_EQ(c.m_x,-3.0f);
+  EXPECT_FLOAT_EQ(c.m_y,-3.0f);
+  EXPECT_FLOAT_EQ(c.m_z,-3.0f);
+}
+
+
+TEST(Vec3,subtractEqual)
+{
+  ngl::Vec3 a(1.0f,2.0f,3.0f);
+  ngl::Vec3 b(4.0f,5.0f,6.0f);
+  a-=b;
+  EXPECT_FLOAT_EQ(a.m_x,-3.0f);
+  EXPECT_FLOAT_EQ(a.m_y,-3.0f);
+  EXPECT_FLOAT_EQ(a.m_z,-3.0f);
+}
+
+
+TEST(Vec3,multiplyFloat)
+{
+  ngl::Vec3 a(1.0f,2.0f,3.0f);
+  auto c=a*2.0f;
+  EXPECT_FLOAT_EQ(c.m_x,2.0f);
+  EXPECT_FLOAT_EQ(c.m_y,4.0f);
+  EXPECT_FLOAT_EQ(c.m_z,6.0f);
+}
+
+
+TEST(Vec3,multiplyFloatEqual)
+{
+  ngl::Vec3 a(1.0f,2.0f,3.0f);
+  a*=2.0f;
+  EXPECT_FLOAT_EQ(a.m_x,2.0f);
+  EXPECT_FLOAT_EQ(a.m_y,4.0f);
+  EXPECT_FLOAT_EQ(a.m_z,6.0f);
+}
+
+TEST(Vec3,divideFloatEqual)
+{
+  ngl::Vec3 a(1.0f,2.0f,3.0f);
+  a/=2.0f;
+  EXPECT_FLOAT_EQ(a.m_x,0.5f);
+  EXPECT_FLOAT_EQ(a.m_y,1.0f);
+  EXPECT_FLOAT_EQ(a.m_z,1.5f);
+
+}
+
+TEST(Vec3,divideFloat)
+{
+  ngl::Vec3 a(1.0f,2.0f,3.0f);
+  auto b=a/2.0f;
+  EXPECT_FLOAT_EQ(b.m_x,0.5f);
+  EXPECT_FLOAT_EQ(b.m_y,1.0f);
+  EXPECT_FLOAT_EQ(b.m_z,1.5f);
+
+}
+
+
+TEST(Vec3,divideVec)
+{
+  ngl::Vec3 a(1.0f,2.0f,3.0f);
+  ngl::Vec3 b(2.0f);
+  auto c=a/b;
+  EXPECT_FLOAT_EQ(c.m_x,0.5f);
+  EXPECT_FLOAT_EQ(c.m_y,1.0f);
+  EXPECT_FLOAT_EQ(c.m_z,1.5f);
+}
+
+TEST(Vec3,divideEqualVec)
+{
+  ngl::Vec3 a(1.0f,2.0f,3.0f);
+  ngl::Vec3 b(2.0f,2.0f,2.0f);
+  a/=b;
+  EXPECT_FLOAT_EQ(a.m_x,0.5f);
+  EXPECT_FLOAT_EQ(a.m_y,1.0f);
+  EXPECT_FLOAT_EQ(a.m_z,1.5f);
+}
+
+

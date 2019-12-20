@@ -21,6 +21,7 @@ namespace ngl
 
       py::class_<Vec3>(m, "Vec3")
           .def(py::init<>())
+          .def(py::init<Real>())
           .def(py::init<Real,Real,Real>())
           .def(py::init<const Vec3 &>())
           .def(py::init<const glm::vec3 &>())
@@ -60,6 +61,7 @@ namespace ngl
           .def(py::self / ngl::Real())
           .def(py::self / py::self)
           .def(py::self /= ngl::Real())
+          .def(py::self /= py::self)
           .def(py::self *= ngl::Real())
           .def(py::self * ngl::Mat3())
           .def("__neg__", py::overload_cast<> ( &Vec3::operator- ))

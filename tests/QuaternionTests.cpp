@@ -129,7 +129,7 @@ TEST(Quaternion,normalize)
   q1.normalise();
   //0.0347298 + 0.0801457i + 0.98045j - 0.176321k
 
-  ASSERT_NEAR(q1.getS(),0.0347298,0.001f);
+  ASSERT_NEAR(q1.getS(),0.0347298f,0.001f);
   ASSERT_NEAR(q1.getX(),0.0801457f,0.001f);
   ASSERT_NEAR(q1.getY(),0.98045f,0.001f);
   ASSERT_NEAR(q1.getZ(),-0.176321f,0.001f);

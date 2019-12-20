@@ -77,7 +77,7 @@ void Vec4::null() noexcept
 //----------------------------------------------------------------------------------------------------------------------
 Real& Vec4::operator[](const size_t  &_i ) noexcept
 {
-	NGL_ASSERT(_i >=0 && _i<=3);
+  NGL_ASSERT(_i<=3)
 	return (&m_x)[_i];
 }
 
@@ -129,34 +129,48 @@ Vec4 Vec4::cross(const Vec4& _v )const noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::operator+=( const Vec4& _v) noexcept
+Vec4& Vec4::operator+=( const Vec4& _v) noexcept
 {
 	m_x+=_v.m_x;
 	m_y+=_v.m_y;
 	m_z+=_v.m_z;
+  return *this;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::operator/=(Real _v) noexcept
+Vec4& Vec4::operator/=(Real _v) noexcept
 {
-	NGL_ASSERT(_v !=0.0f);
+  NGL_ASSERT(_v !=0.0f)
 	m_x/=_v;
 	m_y/=_v;
 	m_z/=_v;
+  return *this;
+}
+
+
+Vec4& Vec4::operator/=(const Vec4 &_v) noexcept
+{
+  NGL_ASSERT(_v.m_x !=0.0f && _v.m_y !=0.0f && _v.m_z !=0.0f)
+  m_x/=_v.m_x;
+  m_y/=_v.m_y;
+  m_z/=_v.m_y;
+  return *this;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::operator*=(Real _v) noexcept
+Vec4& Vec4::operator*=(Real _v) noexcept
 {
 	m_x*=_v;
 	m_y*=_v;
 	m_z*=_v;
+  return *this;
 }
 //----------------------------------------------------------------------------------------------------------------------
-void Vec4::operator-=( const Vec4& _v) noexcept
+Vec4& Vec4::operator-=( const Vec4& _v) noexcept
 {
 	m_x-=_v.m_x;
 	m_y-=_v.m_y;
 	m_z-=_v.m_z;
+  return *this;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

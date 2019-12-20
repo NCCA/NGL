@@ -22,8 +22,22 @@ namespace ngl
         .def("lengthSquared", &Vec2::lengthSquared)
         .def(py::self == py::self)
         .def(py::self != py::self)
+        .def(py::self + py::self)
+        .def(py::self - py::self)
+        .def(py::self / py::self)
+        .def(py::self += py::self)
+        .def(py::self -= py::self)
+        .def(py::self /= py::self)
+        .def(py::self * float())
+        .def(py::self *= float())
+        .def(py::self / float())
+        .def(py::self /= float())
         .def_readwrite("m_x", &Vec2::m_x)
         .def_readwrite("m_y", &Vec2::m_y)
+        .def("__repr__",
+                [](const Vec2 &v) {
+                    return "["+std::to_string(v.m_x)+","+
+                        std::to_string(v.m_y)+"]";})
         .def_static("sizeof", [](){return sizeof(Vec2);}  )
 
 

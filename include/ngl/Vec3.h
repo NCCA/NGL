@@ -155,12 +155,12 @@ public:
   /// @brief += operator add Vec3 v to current Vec3
   /// @param[in]  &_v Vec3 to add
   //----------------------------------------------------------------------------------------------------------------------
-  void operator+=(const Vec3& _v ) noexcept;
+  Vec3& operator+=(const Vec3& _v ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief -= operator this-=v
   /// @param[in]  &_v Vec3 to subtract
   //----------------------------------------------------------------------------------------------------------------------
-  void operator-=( const Vec3& _v ) noexcept;
+  Vec3& operator-=( const Vec3& _v ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief this * i for each element
   /// @param[in]  _i the scalar to mult by
@@ -184,13 +184,15 @@ public:
   /// @param[in] _v the scalar to divide by
   /// sets the Vec3 to Vec3 V(x/v,y/v,z/v,w)
   //----------------------------------------------------------------------------------------------------------------------
-  void operator/=( Real _v ) noexcept;
+  Vec3& operator/=( Real _v ) noexcept;
+  Vec3& operator/=(const Vec3 &_v) noexcept;
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief multiply this Vec3 components by a scalar
   /// @param[in] _v the scalar to multiply by
   /// sets the Vec3 to Vec3 V(x*v,y*v,z*v,w)
   //----------------------------------------------------------------------------------------------------------------------
-  void operator*=( Real _v ) noexcept;
+  Vec3& operator*=( Real _v ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief subtraction operator subtract vevtor-Vec3
   /// @param[in]  &_v the value to sub
