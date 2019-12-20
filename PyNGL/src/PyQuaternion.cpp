@@ -10,6 +10,7 @@ namespace ngl
   void pyInitQuaternion(py::module & m)
   {
     py::class_<Quaternion>(m, "Quaternion")
+        .def(py::init<>())
         .def(py::init<Real,Real,Real,Real>())
         .def(py::init<const Mat4 &>())
         .def(py::init<const Vec3 &>())

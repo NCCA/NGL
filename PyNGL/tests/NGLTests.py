@@ -2,12 +2,16 @@
 from __future__ import print_function
 import unittest
 import sys
+if sys.version_info.major == 3 :
+  import pyngl3 as pyngl
+else :
+  import pyngl
+
 import argparse
 
 
 def setup():
   import glfw
-  import pyngl
   if not glfw.init():
     print("error with glfw init")
     sys.exit()
@@ -44,7 +48,7 @@ if __name__ == '__main__':
     setup()
     # gl only tests
     from ShaderLibTests import *
-    from VAOPrimitivesTests import *
+    #from VAOPrimitivesTests import *
   # non GL tests
   from Mat3Test import *
   from Mat4Test import *
@@ -54,6 +58,7 @@ if __name__ == '__main__':
   from ObjTest import *
   from UtilTest import *
   from RandomTest import *
+  from QuaternionTest import *
   if len(sys.argv) > 1 :
     unittest.main(argv=sys.argv[1:])
   else :

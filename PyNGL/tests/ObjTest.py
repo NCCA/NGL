@@ -1,7 +1,12 @@
 #!/usr/bin/python
+from __future__ import print_function
+import sys
+if sys.version_info.major == 3 :
+  import pyngl3 as pyngl
+else :
+  import pyngl
 
 import unittest
-import pyngl
 import os
 # Note all pyngl types use internal fuzzy float equality operators
 
@@ -24,7 +29,7 @@ class TestObj(unittest.TestCase):
         with open(file,'r') as f :
           self.assertTrue(True)
       except IOError :
-          print file+' not found'
+          print( '{} not found'.format(file))
           self.assertTrue(False)
 
   def testDefaultCtor(self) :
@@ -37,7 +42,7 @@ class TestObj(unittest.TestCase):
   def testLoadValid(self) :
     a=pyngl.Obj()
     for file in validfiles :
-      self.assertTrue(a.load(file,pyngl.CalcBB.True))
+      self.assertTrue(a.load(file))
       self.assertTrue(a.isLoaded())
 
   def testLoadInvalidValid(self) :

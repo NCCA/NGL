@@ -60,9 +60,12 @@ extern void pyInitVAOFactory(py::module & m);
 extern void pyInitShader(py::module & m);
 extern void pyInitShaderProgram(py::module & m);
 
-
-PYBIND11_MODULE(pyngl,m)
-{
+#ifdef PYTHON3BUILD
+  PYBIND11_MODULE(pyngl3,m)
+#else
+  PYBIND11_MODULE(pyngl,m)
+#endif
+  {
 //    py::module m("pyngl", "pyngl module ");
     py::bind_vector<std::vector<GLuint>>(m,"VectorUint");
 
