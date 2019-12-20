@@ -215,6 +215,7 @@ inline bool operator==(const ngl::Mat2 &_m1 , const ngl::Mat2 &_m2)
   }
   return true;
 }
+
 }// end of namespace
 
 #endif

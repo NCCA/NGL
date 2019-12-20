@@ -50,6 +50,7 @@ if __name__ == '__main__':
     from ShaderLibTests import *
     #from VAOPrimitivesTests import *
   # non GL tests
+  from Mat2Test import *
   from Mat3Test import *
   from Mat4Test import *
   from Vec2Test import *

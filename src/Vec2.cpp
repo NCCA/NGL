@@ -16,6 +16,7 @@
 */
 #include "Vec2.h"
 #include "Vec4.h"
+#include "Mat2.h"
 #include "NGLassert.h"
 #include <cmath>
 //----------------------------------------------------------------------------------------------------------------------
@@ -202,6 +203,14 @@ Real Vec2::length() const noexcept
 {
   return sqrtf((m_x*m_x)+(m_y*m_y));
 }
+
+
+Vec2 Vec2::operator*( const Mat2 &_m )const noexcept
+{
+  return Vec2(m_x*_m.m_00 + m_y*_m.m_10 ,
+              m_x*_m.m_01 + m_y*_m.m_11 );
+}
+
 
 
 } // end namspace ngl

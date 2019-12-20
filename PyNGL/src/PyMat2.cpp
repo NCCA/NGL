@@ -16,6 +16,7 @@ namespace ngl
   {
     py::class_<Mat2>(m, "Mat2")
         .def(py::init<>())
+        .def(py::init<const Mat2&>())
         .def(py::init<Real,Real,Real,Real>())
         .def(py::init<Real>())
         .def("null",&Mat2::null)
@@ -31,6 +32,8 @@ namespace ngl
         .def(py::self + py::self)
         .def(py::self += py::self)
         .def(py::self * Real())
+        .def(py::self * Vec2())
+
         //.def(Real() * py::self)
         .def(py::self *= Real())
         .def(py::self * Vec2())

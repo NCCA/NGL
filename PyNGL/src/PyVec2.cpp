@@ -4,6 +4,7 @@
 #include <pybind11/cast.h>
 
 #include "Vec2.h"
+#include "Mat2.h"
 namespace py = pybind11;
 namespace ngl
 {
@@ -32,6 +33,8 @@ namespace ngl
         .def(py::self *= float())
         .def(py::self / float())
         .def(py::self /= float())
+        .def(py::self * Mat2())
+
         .def_readwrite("m_x", &Vec2::m_x)
         .def_readwrite("m_y", &Vec2::m_y)
         .def("__repr__",
