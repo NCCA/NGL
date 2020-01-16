@@ -117,6 +117,7 @@ class NGL_DLLEXPORT AbstractMesh
 
 public :
     enum class  CalcBB : bool {True=true,False=false };
+    enum class  ResetVAO : bool {True=true,False=false };
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Method to load the file in
@@ -184,7 +185,7 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   //// @brief create a VAO from the current mesh data
   //----------------------------------------------------------------------------------------------------------------------
-  virtual void createVAO() noexcept;
+  virtual void createVAO(ResetVAO _reset=ResetVAO::False) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the texture id
   /// @returns the texture id

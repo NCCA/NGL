@@ -212,15 +212,25 @@ struct VertData
 };
 
 
-void AbstractMesh::createVAO() noexcept
+void AbstractMesh::createVAO(ResetVAO _reset) noexcept
 {
-	// if we have already created a VBO just return.
-	if(m_vao == true)
-	{
-    msg->addWarning("VAO exist so returning");
-		return;
-	}
-// else allocate space as build our VAO
+  if(_reset == AbstractMesh::ResetVAO::False)
+  {
+    // if we have already created a VBO just return.
+    if(m_vao == true)
+    {
+      msg->addWarning("VAO exist so returning");
+      return;
+    }
+  }
+  else // need to delete VAO if existing amd reset
+  {
+    if(m_vao == true)
+    {
+      msg->addWarning("Creating new VAO");
+    }
+  }
+  // else allocate space as build our VAO
 	m_dataPackType=0;
 	if(isTriangular())
 	{
