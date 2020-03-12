@@ -161,6 +161,14 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   void loadBinary( const std::string &_name, const std::string &_fName,const GLenum _type ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
+  /// @brief load a VBO from an Obj file
+  /// @param[in] _name the name of the VBO to be stored as ref to this object
+  /// @param[in] _fName the name of the file to load.
+  /// @param[in] _type the draw mode type
+  //----------------------------------------------------------------------------------------------------------------------
+  void loadObj( const std::string &_name, const std::string &_fName,const GLenum _type=GL_TRIANGLES ) noexcept;
+
+  //----------------------------------------------------------------------------------------------------------------------
   /// @brief clear the VAO elements created (is also called by dtor) This is usefull if you
   /// don't want the default primitives
   //----------------------------------------------------------------------------------------------------------------------

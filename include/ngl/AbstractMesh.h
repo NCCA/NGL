@@ -186,6 +186,8 @@ public :
   //// @brief create a VAO from the current mesh data
   //----------------------------------------------------------------------------------------------------------------------
   virtual void createVAO(ResetVAO _reset=ResetVAO::False) noexcept;
+  /// @brief unallocate the VAO so we can move it (for example to the prim class)
+  std::unique_ptr <AbstractVAO> moveVAO() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the texture id
   /// @returns the texture id

@@ -338,8 +338,13 @@ void AbstractMesh::createVAO(ResetVAO _reset) noexcept
   m_vbo=true;
   // create a new bbox based on the new object size
   m_ext.reset(new BBox(m_minX,m_maxX,m_minY,m_maxY,m_minZ,m_maxZ));
+}
 
-
+std::unique_ptr <AbstractVAO> AbstractMesh::moveVAO() noexcept
+{
+  m_vao=false;
+  m_vbo=false;
+  return std::move(m_vaoMesh);
 }
 
 void AbstractMesh::bindVAO() const noexcept

@@ -22,6 +22,7 @@
 #include <iostream>
 #include "VAOFactory.h"
 #include "SimpleVAO.h"
+#include "Obj.h"
 //----------------------------------------------------------------------------------------------------------------------
 /// @file VAOPrimitives.cpp
 /// @brief implementation files for VAOPrimitives class
@@ -906,6 +907,11 @@ void VAOPrimitives::addToPrimitives(const std::string &_name, std::unique_ptr<Ab
 
 }
 
-
+void VAOPrimitives::loadObj( const std::string &_name, const std::string &_fName,const GLenum _type ) noexcept
+{
+  Obj obj(_fName,Obj::CalcBB::False);
+  obj.createVAO();
+  addToPrimitives(_name,obj.moveVAO());
+}
 
 } // end ngl namespace

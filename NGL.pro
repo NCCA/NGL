@@ -1,8 +1,8 @@
 TEMPLATE=subdirs
 # if on mac and linux build all projects
 macx|linux {
-    #SUBDIRS= NGL PyNGL tests/NGLTests.pro PyNGL/tests/PyTests.pro
-    SUBDIRS = NGL PyNGL/PyNGL.pro PyNGL/PyNGL3.pro tests
+    SUBDIRS= NGL/NGL.pro PyNGL tests/NGLTests.pro PyNGL/tests/PyTests.pro
+    #SUBDIRS = NGL PyNGL/PyNGL.pro PyNGL/PyNGL3.pro tests
     NGL.subdir= NGL/
     PyNGL.subdir =PyNGL/
     tests.subdir=tests/NGLTests.pro
