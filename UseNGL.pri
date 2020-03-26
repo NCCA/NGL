@@ -1,7 +1,7 @@
 #This file is included in any project that requires NGL it will be searched for
 #in the default $(HOME)/NGL/  directory if this can't be found the environment variable $NGLDIR will be searched for and this will be used.
 
-CONFIG+=c++14
+CONFIG+=c++17
 macx:CONFIG-=app_bundle
 # get rid of annoying mac OpenGL warnings (bloody apple!)
 macx:DEFINES+=GL_SILENCE_DEPRECATION
@@ -21,7 +21,8 @@ isEmpty(NGLPATH){ # note brace must be here
   NGLBASE=$$(HOME)/NGL
         win32:{
             NGLBASE=$(HOMEDRIVE)\$(HOMEPATH)\NGL
-            message("under windows base dir is" $${BASE_DIR})
+            #NGLBASE=$$system(powershell -ExecutionPolicy Bypass -Command "echo $home'\NGL\'" )
+            message("under windows base dir is" $${NGLBASE})
 
 }
 
@@ -29,8 +30,6 @@ isEmpty(NGLPATH){ # note brace must be here
 else{ # note brace must be here
 	NGLBASE=$$(NGLDIR)
 }
-
-message($${NGLBASE})
 
 # use this to suppress some warning
 unix*:QMAKE_CXXFLAGS_WARN_ON += "-Wno-unused-parameter"
@@ -77,6 +76,8 @@ win32: {
         LIBS += -L$$(HOMEDRIVE)\\$$(HOMEPATH)\NGL\lib -lNGL
         DEFINES+=NO_DLL
         INCLUDEPATH += $$(HOMEDRIVE)\\$$(HOMEPATH)\vcpkg\installed\x86-windows\include
+      	INCLUDEPATH += $$(HOMEDRIVE)\\$$(HOMEPATH)\vcpkg\installed\x64-windows\include
+
 }
 
 ios {

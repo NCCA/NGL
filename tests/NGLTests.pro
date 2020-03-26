@@ -19,12 +19,14 @@ QT+=gui opengl core
 NGLPATH=$$(NGLDIR)
 
 isEmpty(NGLPATH){ # note brace must be here
-  message("including $HOME/NGL")
   unix{
+          message("including $HOME/NGL")
         include($(HOME)/NGL/UseNGL.pri)
   }
   win32{
-    include($$(HOMEDRIVE)\\$$(HOMEPATH)\\NGL\\UseNGL.pri)
+    BASE_DIR=$$system(powershell -ExecutionPolicy Bypass -Command "echo $home'\NGL\'" )
+    include($${BASE_DIR}\UseNGL.pri)
+
   }
 }
 else{ # note brace must be here

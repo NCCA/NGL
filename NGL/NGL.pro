@@ -17,6 +17,7 @@ isEmpty(NGLPATH){ # note brace must be here
         linux*|macx:BASE_DIR=$$(HOME)/NGL
         win32:{
             BASE_DIR=$(HOMEDRIVE)\$(HOMEPATH)\NGL
+            #BASE_DIR=$$system(powershell -ExecutionPolicy Bypass -Command "echo $home'\NGL\'" )
             message("under windows base dir is" $${BASE_DIR})
             }
 }
@@ -147,6 +148,7 @@ contains(QT_ARCH, i386) {
 else {
     message("64-bit build")
 	INCLUDEPATH += $$(HOMEDRIVE)\\$$(HOMEPATH)\vcpkg\installed\x64-windows\include
+	INCLUDEPATH += $$(HOMEDRIVE)\\$$(HOMEPATH)\vcpkg\installed\x86-windows\include
 
 }
 
