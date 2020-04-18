@@ -8,8 +8,8 @@ if(DEFINED ENV{NGLDIR})
 elseif(NOT DEFINED ENV{NGLDIR})
     #$ENV{HOME} gives you backslashes on windows so default to C drive root
     if(WIN32)
-        message("setting NGLROOT to C:/NGL/")
-        set(NGLROOT C:/NGL/)
+        file (TO_CMAKE_PATH $ENV{HOMEDRIVE}/$ENV{HOMEPATH}/NGL NGLROOT)
+        message("setting NGLROOT to " ${NGLROOT})
     else()
         message("setting NGLROOT to " $ENV{HOME}/NGL/)
         set(NGLROOT $ENV{HOME}/NGL/)
@@ -20,9 +20,9 @@ endif()
 if(WIN32)
     #Not defined in msvc compiler for cmaths so must set definition manually here
     add_definitions(-D_USE_MATH_DEFINES)
+
     #Need to define this when building shared library or suffer dllimport errors
     add_definitions(-DBUILDING_DLL)
-    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.0\\msvc2017_64")
 else()
     #Not a defined option for msvc - fine for gcc and clang
     set(CMAKE_CXX_FLAGS "-Wno-register")
@@ -36,6 +36,14 @@ include_directories(${NGLROOT}/src/shaders)
 include_directories(${NGLROOT}/include/fmt)
 include_directories(${NGLROOT}/gl3w)
 include_directories(/usr/local/include/)
+if(WIN32)
+    file (TO_CMAKE_PATH $ENV{HOMEDRIVE}/$ENV{HOMEPATH}/vcpkg/installed/x64-windows/include VCPKG64)
+    file (TO_CMAKE_PATH $ENV{HOMEDRIVE}/$ENV{HOMEPATH}/vcpkg/installed/x86-windows/include VCPKG86)
+    include_directories(${VCPKG64})
+    include_directories(${VCPKG86})
+        
+endif()
+
 # Set to C++ 14
 set(CMAKE_CXX_STANDARD 14)
 # define this if you want to include the stanford data sets

@@ -6,6 +6,7 @@
 #include <vector>
 #include <ostream>
 #include <atomic>
+#include <future>
 #include <memory>
 #include "fmt/format.h"
 #include "MessageQueue/AbstractMessageConsumer.h"
@@ -41,10 +42,12 @@ class NGLMessage
     static void sendClearTerminal();
     static size_t numMessages()  {return s_messageQueue.size();}
     static void startMessageConsumer();
-    static void stopMessageConsumer(){ s_consuming.clear();}
+    static void stopMessageConsumer(){ s_consuming=false;}
+    static void restartMessageConsumer(){ s_consuming=true;}
+
 
     static bool startServer();
-    static void stopServer(){ s_server.clear();}
+    static void stopServer();
     void operator <<(const char *msg);
     static void clearMessageQueue();
     void setFilename(const std::string &_fname);
@@ -54,10 +57,10 @@ class NGLMessage
     static Colours s_currentColour;
     static CommunicationMode s_comMode;
     static std::vector <Message> s_messageQueue;
-    static std::atomic_flag	 s_consuming;
+    static bool	 s_consuming;
     static std::atomic_flag	 s_server;
     static std::unique_ptr<AbstractMessageConsumer> m_consumer;
-
+    static std::future<void> s_futureExit;
 };
 
 

@@ -96,10 +96,10 @@ bool ShaderLib::loadShader(const std::string &_shaderName, const std::string &_v
 void ShaderLib::reset() noexcept
 {
   msg->addMessage("Closing down shader manager");
-  for(auto programs : m_shaderPrograms)
-    delete programs.second;
   for(auto shader : m_shaders)
     delete shader.second;
+  for(auto programs : m_shaderPrograms)
+    delete programs.second;
 }
 
 

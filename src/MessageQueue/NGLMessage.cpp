@@ -2,6 +2,7 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
+#include <future>
 #include <iostream>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -16,12 +17,14 @@
 namespace ngl
 {
   std::vector <Message> NGLMessage::s_messageQueue;
-  std::atomic_flag NGLMessage::s_consuming=ATOMIC_FLAG_INIT;
+  bool NGLMessage::s_consuming=false;
   std::atomic_flag NGLMessage::s_server=ATOMIC_FLAG_INIT;
   std::unique_ptr<AbstractMessageConsumer> NGLMessage::m_consumer=std::make_unique<StdErrConsumer>();
   NGLMessage::Mode NGLMessage::s_mode=Mode::CLIENT;
   static std::mutex g_messageQueueLock;
   static std::mutex g_serverLock;
+  std::promise<void> g_exitSignal;
+  std::future<void> NGLMessage::s_futureExit;
   bool NGLMessage::s_active=true;
   CommunicationMode NGLMessage::s_comMode=CommunicationMode::STDERR;
   Colours NGLMessage::s_currentColour=Colours::NORMAL;
@@ -29,8 +32,10 @@ namespace ngl
   {
     s_mode=_mode;
     s_comMode=_comMode;
-    s_consuming.test_and_set();
+    s_consuming=true;
     s_server.test_and_set();
+    s_futureExit = g_exitSignal.get_future();
+
     switch (s_comMode)
     {
       case CommunicationMode::STDERR : m_consumer=std::make_unique<StdErrConsumer>(); s_mode=Mode::CLIENTSERVER; break;
@@ -48,7 +53,7 @@ namespace ngl
   }
 
 
-  NGLMessage::~NGLMessage()
+  NGLMessage::~NGLMessage() noexcept
   {
   }
 
@@ -126,17 +131,16 @@ namespace ngl
     {
       std::thread t([]()
       {
-        while(s_consuming.test_and_set())
+        while(s_futureExit.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout)
         {
           std::lock_guard<std::mutex> lock(g_messageQueueLock);
-          if(s_messageQueue.size() !=0)
+          if(s_messageQueue.size() !=0 && s_consuming)
           {
             auto msg=s_messageQueue.back();
             s_messageQueue.pop_back();
             m_consumer->consume(msg);
           }
         }
-
       });
       s_active=true;
       t.detach();
@@ -177,7 +181,12 @@ namespace ngl
   }
 
 
+  void NGLMessage::stopServer()
+  {
+    s_server.clear();
+    g_exitSignal.set_value();
 
+  }
 
 
 }
