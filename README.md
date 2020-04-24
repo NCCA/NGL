@@ -21,8 +21,7 @@ NGL depends upon the following libraries
 
 ## Building
 
-
-It needs to be built using QtCreator or CMake for Windows build instructions read [Windows.md](Windows.md).
+It needs to be built using QtCreator or CMake for Windows build instructions read [Windows.md](Windows.md). A brief guide for setting up with Ubuntu can be found here [UBUNTU.md](UBUNTU.md)
 
 Note this is now being built using C++ 14 and will use many C++ 14 features so make sure you have a modern compiler such as clang++ or g++ >4.8
 

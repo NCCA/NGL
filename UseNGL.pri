@@ -45,7 +45,10 @@ DEFINES +=NGL_DEBUG
 QMAKE_RPATHDIR+=L$${NGLBASE}/lib
 # added for university build
 INCLUDEPATH+=/public/devel/include
+unix:INCLUDEPATH+=$$(HOME)/vcpkg/installed/x64-linux/include
 unix:LIBS += -L/usr/local/lib
+unix:LIBS+= -L$$(HOME)/vcpkg/installed/x64-linux/lib
+
 # add the ngl lib note the { } for the environment variable QMake variable's value at time qmake is run 
 unix:LIBS +=  -L$${NGLBASE}/lib -l NGL
 

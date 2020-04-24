@@ -107,7 +107,9 @@ unix:{
 	QMAKE_LFLAGS_SONAME=
     QMAKE_CXXFLAGS_WARN_ON += -Wno-builtin-macro-redefined -isystem
 	INCLUDEPATH+=/usr/local/include
+	INCLUDEPATH+=$$(HOME)/vcpkg/installed/x64-linux/include
 	LIBS += -L/usr/local/lib
+	LIBS+= -L$$(HOME)/vcpkg/installed/x64-linux/lib
 	linux*:LIBS+= -L/usr/lib64 -lGL  -lX11
 	QMAKE_CXXFLAGS+=  -march=native
 
