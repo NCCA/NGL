@@ -105,7 +105,6 @@ set(SOURCES
     ${NGLROOT}/include/ngl/SimpleVAO.h
     ${NGLROOT}/include/ngl/AbstractVAO.h
     ${NGLROOT}/include/ngl/MultiBufferVAO.h
-    ${NGLROOT}/include/ngl/Singleton.h
     ${NGLROOT}/include/ngl/Util.h
     ${NGLROOT}/include/ngl/Types.h
     ${NGLROOT}/include/ngl/Texture.h
