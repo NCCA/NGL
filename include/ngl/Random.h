@@ -21,7 +21,6 @@
 /// @brief an encapsulation of the std::random classes
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
-#include "Singleton.h"
 #include "Vec4.h"
 
 #include <unordered_map>
@@ -62,12 +61,11 @@ namespace ngl
 
 
 
-class NGL_DLLEXPORT Random : public  Singleton<Random>
+class NGL_DLLEXPORT Random 
 {
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief we are a friend with singelton so we can assess the template methods
 //----------------------------------------------------------------------------------------------------------------------
-friend class Singleton<Random>;
 friend class Colour;
 friend class Vec4;
 

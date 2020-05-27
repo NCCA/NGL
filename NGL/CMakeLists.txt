@@ -1,12 +1,21 @@
-cmake_minimum_required(VERSION 3.1)
-if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-      CACHE STRING "")
-endif()
+cmake_minimum_required(VERSION 3.2)
+# message("Testing  for vcpkg current =" $ENV{VCPKG_ROOT})
+# set(CMAKE_PREFIX_PATH "$ENV{HOME}/vcpkg/installed/x64-linux/share" )
+# if(NOT DEFINED CMAKE_TOOLCHAIN_FILE AND DEFINED $ENV{VCPKG_ROOT})
+#   set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+# else()
+#     message(FATAL_ERROR "NGL:: VCPKG_ROOT environment variable not set")
+# endif()
+
 
 # Name of the project
-project(NGL)
-message("doing check")
+project(NGLLIB VERSION 8.0 LANGUAGES CXX C)
+# Required Packages
+find_package(glm CONFIG REQUIRED)
+find_package(GTest CONFIG REQUIRED)
+find_package(glfw3 CONFIG REQUIRED)
+
+
 if(DEFINED ENV{NGLDIR})
     message("found define NGLDIR as " $ENV{NGLDIR})
     set(NGLROOT $ENV{NGLDIR})
@@ -20,6 +29,7 @@ elseif(NOT DEFINED ENV{NGLDIR})
         set(NGLROOT $ENV{HOME}/NGL/)
     endif()
 endif()
+
 
 
 if(WIN32)
@@ -40,22 +50,22 @@ include_directories(${NGLROOT}/src/ngl)
 include_directories(${NGLROOT}/src/shaders)
 include_directories(${NGLROOT}/include/fmt)
 include_directories(${NGLROOT}/gl3w)
-include_directories(/usr/local/include/)
-if(WIN32)
-    file (TO_CMAKE_PATH $ENV{HOMEDRIVE}/$ENV{HOMEPATH}/vcpkg/installed/x64-windows/include VCPKG64)
-    file (TO_CMAKE_PATH $ENV{HOMEDRIVE}/$ENV{HOMEPATH}/vcpkg/installed/x86-windows/include VCPKG86)
-    include_directories(${VCPKG64})
-    include_directories(${VCPKG86})
-        
-endif()
+#include_directories(/usr/local/include/)
 
-# Set to C++ 14
-set(CMAKE_CXX_STANDARD 14)
+#if(WIN32)
+#    file (TO_CMAKE_PATH $ENV{HOMEDRIVE}/$ENV{HOMEPATH}/vcpkg/installed/x64-windows/include VCPKG64)
+#    file (TO_CMAKE_PATH $ENV{HOMEDRIVE}/$ENV{HOMEPATH}/vcpkg/installed/x86-windows/include VCPKG86)
+#    include_directories(${VCPKG64})
+#    include_directories(${VCPKG86})
+#endif()
+
+# Set to C++ 17
+set(CMAKE_CXX_STANDARD 17)
 # define this if you want to include the stanford data sets
 # these are very big and make compilation time huge
 add_definitions(-DADDLARGEMODELS)
 #This defines the image lib to use by default use QIMAGE, I need to fix this for the others
-add_definitions(-DUSEQIMAGE)
+add_definitions(-DUSEOPENIMAGEIO)
 #This defines that we are using the header only version of the fmt lib
 add_definitions(-DFMT_HEADER_ONLY)
 add_definitions(-DUSEGLM)
@@ -90,7 +100,7 @@ set(SOURCES
     ${NGLROOT}/src/createDefaultVAOs.cpp
     ${NGLROOT}/src/Vec3.cpp
     ${NGLROOT}/src/Vec2.cpp
-    ${NGLROOT}/src/Text.cpp
+    # ${NGLROOT}/src/Text.cpp
     ${NGLROOT}/src/Mat3.cpp
     ${NGLROOT}/src/Mat2.cpp
     ${NGLROOT}/src/NGLStream.cpp
@@ -133,7 +143,7 @@ set(SOURCES
     ${NGLROOT}/include/ngl/AABB.h
     ${NGLROOT}/include/ngl/Vec3.h
     ${NGLROOT}/include/ngl/Vec2.h
-    ${NGLROOT}/include/ngl/Text.h
+    #${NGLROOT}/include/ngl/Text.h
     ${NGLROOT}/include/ngl/Mat3.h
     ${NGLROOT}/include/ngl/Mat2.h
     ${NGLROOT}/include/ngl/pystring.h
@@ -155,19 +165,19 @@ set(SOURCES
 
 
 # see what platform we are on and set platform defines
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    find_library(MACGL OpenGL)
-    set(EXTRALIBS  ${MACGL})
+# if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+#     find_library(MACGL OpenGL)
+#     set(EXTRALIBS  ${MACGL})
 
 
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-endif()
+# elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+# endif()
 
 
 
 # as NGL uses Qt we need to define this flag
 # NGL also needs the OpenGL framework from Qt so add it
-find_package(Qt5OpenGL)
+#find_package(Qt5OpenGL)
 
 # add exe and link libs this must be after the other defines
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NGLROOT}/lib)
@@ -175,6 +185,6 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${NGLROOT}/lib/
 
 add_library(NGL SHARED ${SOURCES})
 
-target_link_libraries(NGL Qt5::OpenGL)
+#target_link_libraries(NGL Qt5::OpenGL)
 target_link_libraries(NGL ${PROJECT_LINK_LIBS} ${EXTRALIBS})
-
+target_link_libraries(NGL PRIVATE glm )

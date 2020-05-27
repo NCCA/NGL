@@ -22,7 +22,6 @@
 
 #include "Shader.h"
 #include "ShaderProgram.h"
-#include "Singleton.h"
 #include "Types.h"
 #include "Mat2.h"
 #include "Mat3.h"
@@ -54,9 +53,8 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 
 
-class NGL_DLLEXPORT ShaderLib : public  Singleton<ShaderLib>
+class NGL_DLLEXPORT ShaderLib 
 {
-  friend class Singleton<ShaderLib>;
 
 public :
   enum class MatrixTranspose : bool {TransposeOn=GL_TRUE,TransposeOff=GL_FALSE};

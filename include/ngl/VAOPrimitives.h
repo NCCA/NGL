@@ -18,7 +18,6 @@
 #define VAOPRIMITIVES_H_
 
 // must include types.h first for Real
-#include "Singleton.h"
 #include "Types.h"
 #include "Vec3.h"
 #include "AbstractVAO.h"
@@ -66,10 +65,9 @@ const static auto * bunny="bunny";
 const static auto * dragon="dragon";
 const static auto * buddah="buddah";
 #endif
-class NGL_DLLEXPORT VAOPrimitives : public  Singleton<VAOPrimitives>
+class NGL_DLLEXPORT VAOPrimitives
 {
 
-  friend class Singleton<VAOPrimitives>;
   friend class Vec3;
 public :
   //----------------------------------------------------------------------------------------------------------------------
