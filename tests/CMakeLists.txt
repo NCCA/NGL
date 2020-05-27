@@ -1,10 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
-
-if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-      CACHE STRING "")
-endif()
-
+cmake_minimum_required(VERSION 3.2)
 
 if(DEFINED ENV{NGLDIR})
     message("found define NGLDIR as " $ENV{NGLDIR})
@@ -24,8 +18,11 @@ elseif(NOT DEFINED ENV{NGLDIR})
 endif()
 
 # Name of the project
-set(PROJECT_NAME NGLTests)
-project(${PROJECT_NAME})
+set(EXE_NAME NGLTests)
+project(NGLTestBuild)
+# Set to C++ 17
+set(CMAKE_CXX_STANDARD 17)
+
 find_package(GTest )
 #Bring the headers into the project (local ones)
 include_directories(include ${NGLROOT}/include ${NGLROOT}/gl3w ${NGLROOT}/include/fmt )
@@ -62,7 +59,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	set ( PROJECT_LINK_LIBS -lNGL ${MACGL} -L/usr/local/lib/ -lgtest)
 
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	set ( PROJECT_LINK_LIBS -lNGL -lGL -lpthread )
+	set ( PROJECT_LINK_LIBS -L/home/jmacey/NGL/lib -lNGL -lGL -lpthread )
 endif()
 
 
@@ -74,14 +71,14 @@ add_definitions(-DADDLARGEMODELS)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_definitions(-O2) 
+# add exe and link libs that must be after the other defines
+add_executable(${EXE_NAME} ${SOURCES})
 
 
 # now add NGL specific values
 link_directories( ${NGLROOT}/lib )
 find_package(glfw3 CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
+target_link_libraries(${EXE_NAME} PRIVATE glfw PRIVATE GTest::gtest ${PROJECT_LINK_LIBS} )
 
-# add exe and link libs that must be after the other defines
-add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ${PROJECT_LINK_LIBS} PRIVATE GTest::gtest )
+#target_link_libraries(${EXE_NAME} ${PROJECT_LINK_LIBS} )
 

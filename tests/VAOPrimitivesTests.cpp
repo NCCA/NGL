@@ -4,6 +4,7 @@
 #include <ngl/SimpleVAO.h>
 #include <ngl/VAOFactory.h>
 #include <array>
+/*
 TEST(VAOPrimitives,instance)
 {
   auto prim = ngl::VAOPrimitives::instance();
@@ -134,4 +135,9 @@ TEST(VAOPrimitives,clear)
   for(auto m : meshes)
     EXPECT_FALSE(prim->getVAOFromName(m) !=nullptr);
 
+}
+*/
+TEST(VAOPrimitives,sortThis)
+{
+  EXPECT_TRUE(1==2);
 }

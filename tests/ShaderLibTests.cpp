@@ -1,7 +1,10 @@
 #include <gtest/gtest.h>
 #include <ngl/ShaderLib.h>
-
-
+TEST(ShaderLib,fixthis)
+{
+  EXPECT_TRUE(1==2);
+}
+/*
 TEST(ShaderLib,instance)
 {
   auto shader = ngl::ShaderLib::instance();
@@ -215,3 +218,4 @@ TEST(ShaderLib,editShader)
 
 
 }
+*/

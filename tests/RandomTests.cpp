@@ -11,7 +11,11 @@
 // in these cases I will use a different seed each time which may also help to show up issues
 // in all cases I will just see if I get the range I need.
 
-
+TEST(Random,fixthis)
+{
+    EXPECT_TRUE(1==2);
+}
+/*
 TEST(Random,instance)
 {
     auto rng=ngl::Random::instance();

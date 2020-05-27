@@ -14,6 +14,7 @@ project(NGLLIB VERSION 8.0 LANGUAGES CXX C)
 find_package(glm CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
+find_package(OpenImageIO CONFIG REQUIRED)
 
 
 if(DEFINED ENV{NGLDIR})
@@ -65,7 +66,7 @@ set(CMAKE_CXX_STANDARD 17)
 # these are very big and make compilation time huge
 add_definitions(-DADDLARGEMODELS)
 #This defines the image lib to use by default use QIMAGE, I need to fix this for the others
-add_definitions(-DUSEOPENIMAGEIO)
+add_definitions(-DUSEOIIO)
 #This defines that we are using the header only version of the fmt lib
 add_definitions(-DFMT_HEADER_ONLY)
 add_definitions(-DUSEGLM)
@@ -188,3 +189,4 @@ add_library(NGL SHARED ${SOURCES})
 #target_link_libraries(NGL Qt5::OpenGL)
 target_link_libraries(NGL ${PROJECT_LINK_LIBS} ${EXTRALIBS})
 target_link_libraries(NGL PRIVATE glm )
+target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)

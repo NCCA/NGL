@@ -5,8 +5,8 @@
 
 TEST(NGLInit,construct)
 {
-  auto init=ngl::NGLInit::instance();
-  EXPECT_TRUE(init !=nullptr);
+//  auto init=ngl::NGLInit::instance();
+  EXPECT_TRUE(nullptr !=nullptr);
   int major,minor;
   glGetIntegerv(GL_MAJOR_VERSION,&major);
   glGetIntegerv(GL_MINOR_VERSION, &minor);
