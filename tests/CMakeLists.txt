@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.1)
 
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      CACHE STRING "")
+endif()
+
+
 if(DEFINED ENV{NGLDIR})
     message("found define NGLDIR as " $ENV{NGLDIR})
     set(NGLROOT $ENV{NGLDIR})
@@ -21,13 +27,14 @@ endif()
 set(PROJECT_NAME NGLTests)
 project(${PROJECT_NAME})
 find_package(GTest )
-find_package(glfw )
 #Bring the headers into the project (local ones)
 include_directories(include ${NGLROOT}/include ${NGLROOT}/gl3w ${NGLROOT}/include/fmt )
 # use C++ 17
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 add_definitions(-DUSEGLM -DGLM_ENABLE_EXPERIMENTAL)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -g")
+ enable_testing()
+find_package(GTest CONFIG REQUIRED)
 
 #the file(GLOB...) allows for wildcard additions of our src dir
 set(SOURCES 
@@ -48,7 +55,6 @@ set(SOURCES
 			${PROJECT_SOURCE_DIR}/QuaternionTests.cpp
 )
 
-
 # see what platform we are on and set platform defines
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	message("Mac build")
@@ -56,7 +62,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	set ( PROJECT_LINK_LIBS -lNGL ${MACGL} -L/usr/local/lib/ -lgtest)
 
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	set ( PROJECT_LINK_LIBS -lNGL -lGL -lpthread -lgtest)
+	set ( PROJECT_LINK_LIBS -lNGL -lGL -lpthread )
 endif()
 
 
@@ -72,8 +78,10 @@ add_definitions(-O2)
 
 # now add NGL specific values
 link_directories( ${NGLROOT}/lib )
+find_package(glfw3 CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
 
 # add exe and link libs that must be after the other defines
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ${PROJECT_LINK_LIBS}  glfw)
+target_link_libraries(${PROJECT_NAME} ${PROJECT_LINK_LIBS} PRIVATE GTest::gtest )
 
