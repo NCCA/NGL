@@ -128,17 +128,18 @@ void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int
 
   #endif
   #if defined(USEOIIO)
+    using namespace OIIO;
 
-    OpenImageIO::ImageOutput *out = OpenImageIO::ImageOutput::create (_fname.c_str());
-    OpenImageIO::ImageSpec spec (realWidth, realHeight, size, OpenImageIO::TypeDesc::UINT8);
+    auto out = ImageOutput::create (_fname.c_str());
+    ImageSpec spec (realWidth, realHeight, size, TypeDesc::UINT8);
     int scanlinesize = realWidth * size;
     out->open (_fname.c_str(), spec);
     // note this flips the image vertically on writing
     // (see http://www.openimageio.org/openimageio.pdf pg 20 for details)
-    out->write_image (OpenImageIO::TypeDesc::UINT8,
+    out->write_image (TypeDesc::UINT8,
                       data.get() + (realHeight-1)*scanlinesize,
-                      OpenImageIO::AutoStride,
-                      -scanlinesize,OpenImageIO::AutoStride);
+                      AutoStride,
+                      -scanlinesize,AutoStride);
     out->close ();
   #endif
   #if defined(USEIMAGEMAGIC)
@@ -265,15 +266,17 @@ bool Image::load( const std::string &_fname  ) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 bool Image::load( const std::string &_fname  ) noexcept
 {
+  using namespace OIIO;
+
 #ifdef IMAGE_DEBUG_ON
  msg->addMessage("loading with OpenImageIO");;
 #endif
-  OpenImageIO::ImageInput *in = OpenImageIO::ImageInput::open (_fname.data());
+  auto in = ImageInput::open (_fname.data());
   if (! in)
   {
     return false;
   }
-  const OpenImageIO::ImageSpec &spec = in->spec();
+  auto spec = in->spec();
   m_width = spec.width;
   m_height = spec.height;
   m_channels = spec.nchannels;
@@ -284,14 +287,13 @@ bool Image::load( const std::string &_fname  ) noexcept
   m_data.reset(new unsigned char[ m_width*m_height*m_channels]);
   // this will read an flip the pixel for OpenGL
   int scanlinesize = spec.width * spec.nchannels * sizeof(m_data[0]);
-  in->read_image (OpenImageIO::TypeDesc::UINT8,
+  in->read_image (TypeDesc::UINT8,
   (char *)m_data.get() + (m_height-1)*scanlinesize, // offset to last
-  OpenImageIO::AutoStride, // default x stride
+  AutoStride, // default x stride
   -scanlinesize, // special y stride
-  OpenImageIO::AutoStride); // default z stride
+  AutoStride); // default z stride
   //in->read_image (OpenImageIO::TypeDesc::UINT8, &m_data[0]);
   in->close ();
-  delete in;
   return true;
 }
 
