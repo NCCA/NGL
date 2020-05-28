@@ -10,10 +10,11 @@ cmake_minimum_required(VERSION 3.2)
 
 # Name of the project
 project(NGLLIB VERSION 8.0 LANGUAGES CXX C)
+
 # Required Packages
 find_package(glm CONFIG REQUIRED)
-find_package(GTest CONFIG REQUIRED)
-find_package(glfw3 CONFIG REQUIRED)
+#find_package(GTest CONFIG REQUIRED)
+#find_package(glfw3 CONFIG REQUIRED)
 find_package(OpenImageIO CONFIG REQUIRED)
 
 
@@ -36,9 +37,8 @@ endif()
 if(WIN32)
     #Not defined in msvc compiler for cmaths so must set definition manually here
     add_definitions(-D_USE_MATH_DEFINES)
-
-    #Need to define this when building shared library or suffer dllimport errors
-    add_definitions(-DBUILDING_DLL)
+    add_definitions(-DNOMINMAX)
+    add_definitions(-DNO_DLL)
 else()
     #Not a defined option for msvc - fine for gcc and clang
     set(CMAKE_CXX_FLAGS "-Wno-register")
@@ -51,14 +51,6 @@ include_directories(${NGLROOT}/src/ngl)
 include_directories(${NGLROOT}/src/shaders)
 include_directories(${NGLROOT}/include/fmt)
 include_directories(${NGLROOT}/gl3w)
-#include_directories(/usr/local/include/)
-
-#if(WIN32)
-#    file (TO_CMAKE_PATH $ENV{HOMEDRIVE}/$ENV{HOMEPATH}/vcpkg/installed/x64-windows/include VCPKG64)
-#    file (TO_CMAKE_PATH $ENV{HOMEDRIVE}/$ENV{HOMEPATH}/vcpkg/installed/x86-windows/include VCPKG86)
-#    include_directories(${VCPKG64})
-#    include_directories(${VCPKG86})
-#endif()
 
 # Set to C++ 17
 set(CMAKE_CXX_STANDARD 17)
@@ -183,9 +175,11 @@ set(SOURCES
 # add exe and link libs this must be after the other defines
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NGLROOT}/lib)
 SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${NGLROOT}/lib/libNGL*")
-
-add_library(NGL SHARED ${SOURCES})
-
+if(WIN32)
+    add_library(NGL STATIC ${SOURCES})
+else()
+    add_library(NGL SHARED ${SOURCES})
+endif()
 #target_link_libraries(NGL Qt5::OpenGL)
 target_link_libraries(NGL ${PROJECT_LINK_LIBS} ${EXTRALIBS})
 target_link_libraries(NGL PRIVATE glm )

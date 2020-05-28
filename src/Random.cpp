@@ -48,7 +48,7 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 void Random::setSeed()
 {
-  m_generator.seed(static_cast<unsigned int>(std::time(nullptr)));
+   m_generator.seed(static_cast<unsigned int>(std::time(nullptr))); 
 }
 
 

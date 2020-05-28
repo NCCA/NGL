@@ -20,7 +20,6 @@ cmake_minimum_required(VERSION 3.2)
 #-------------------------------------------------------------------------------------------
 
 project(AllNGL VERSION 8.0 LANGUAGES CXX C)
-
 add_subdirectory(NGL)
 add_subdirectory(tests)
 #if(!WIN32)
