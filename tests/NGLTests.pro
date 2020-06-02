@@ -51,7 +51,7 @@ LIBS+=-lgtest
 }
 
 macx{
-      LIBS+= -framework OpenGL -framework IOKit -Cocoa -framework CoreVideo
+      LIBS+= -framework OpenGL -framework IOKit -framework Cocoa -framework CoreVideo
       DEFINES+=GLFW_USE_MENUBAR
       DEFINES+=GLFW_USE_RETINA
       CONFIG-=app_bundle

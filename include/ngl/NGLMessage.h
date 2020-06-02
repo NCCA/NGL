@@ -31,7 +31,7 @@ class NGLMessage
 
     NGLMessage(Mode _mode,CommunicationMode _comMode=CommunicationMode::STDERR);
     NGLMessage(const FromFilename &_fname);
-    ~NGLMessage();
+    ~NGLMessage() noexcept;
     static bool isActive()  {return s_active;}
     static Mode getMode()   {return s_mode;}
     static void addMessage(const std::string &_message,Colours _c=Colours::NORMAL,TimeFormat _timeFormat=TimeFormat::TIME);
@@ -60,7 +60,7 @@ class NGLMessage
     static bool	 s_consuming;
     static std::atomic_flag	 s_server;
     static std::unique_ptr<AbstractMessageConsumer> m_consumer;
-    static std::future<void> s_futureExit;
+    static std::future<bool> s_futureExit;
 };
 
 
