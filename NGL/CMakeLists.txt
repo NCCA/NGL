@@ -39,6 +39,9 @@ if(WIN32)
     add_definitions(-D_USE_MATH_DEFINES)
     add_definitions(-DNOMINMAX)
     add_definitions(-DNO_DLL)
+elseif(APPLE)
+    # get rid of OpenGL warnings 
+    add_definitions(-DGL_SILENCE_DEPRECATION)
 else()
     #Not a defined option for msvc - fine for gcc and clang
     set(CMAKE_CXX_FLAGS "-Wno-register")
@@ -158,19 +161,15 @@ set(SOURCES
 
 
 # see what platform we are on and set platform defines
-# if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-#     find_library(MACGL OpenGL)
-#     set(EXTRALIBS  ${MACGL})
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+     message("Doing mac OpenGL")
+     find_library(MACGL OpenGL)
+    set(EXTRALIBS  ${MACGL})
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+endif()
 
 
-# elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-# endif()
 
-
-
-# as NGL uses Qt we need to define this flag
-# NGL also needs the OpenGL framework from Qt so add it
-#find_package(Qt5OpenGL)
 
 # add exe and link libs this must be after the other defines
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NGLROOT}/lib)
@@ -181,6 +180,6 @@ else()
     add_library(NGL SHARED ${SOURCES})
 endif()
 #target_link_libraries(NGL Qt5::OpenGL)
-target_link_libraries(NGL ${PROJECT_LINK_LIBS} ${EXTRALIBS})
+target_link_libraries(NGL ${PROJECT_LINK_LIBS} PRIVATE ${EXTRALIBS})
 target_link_libraries(NGL PRIVATE glm )
 target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)

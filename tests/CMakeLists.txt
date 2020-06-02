@@ -96,8 +96,20 @@ find_package(glfw3 CONFIG REQUIRED)
 target_link_libraries(${EXE_NAME} PRIVATE glfw PRIVATE GTest::gtest  )
 target_link_libraries(${EXE_NAME} PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
 
+# see what platform we are on and set platform defines
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+     message("Doing mac OpenGL")
+     find_library(MACGL OpenGL)
+    set(EXTRALIBS  ${MACGL})
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+endif()
+
+
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	target_link_libraries( ${EXE_NAME} PRIVATE  $(HOMEDRIVE)\\$(HOMEPATH)\\NGL\\lib\\NGL.lib )
+else()
+target_link_libraries( ${EXE_NAME} PRIVATE  NGL PRIVATE ${EXTRALIBS} )
+
 endif()
 
 #target_link_libraries(${EXE_NAME} ${PROJECT_LINK_LIBS} )
