@@ -114,7 +114,7 @@ NGLInit::NGLInit()
     exit(EXIT_FAILURE);
   }
 #endif
-  initMessageSystem();
+  //initMessageSystem();
   msg->drawLine(Colours::YELLOW);
   msg->addMessage("NGL configured with ",Colours::NORMAL,TimeFormat::TIME);
   msg->addMessage(fmt::format("OpenGL {0}",glGetString(GL_VERSION)));

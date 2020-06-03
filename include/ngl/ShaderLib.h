@@ -32,6 +32,7 @@
 #endif
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -394,7 +395,7 @@ public :
   /// @brief method to return the specified shader object
   /// @param _shaderName the name of the shader to return
   //----------------------------------------------------------------------------------------------------------------------
-  static ngl::Shader* getShader(const std::string &_shaderName) noexcept;
+  static std::shared_ptr<ngl::Shader> getShader(const std::string &_shaderName) noexcept;
   static void setUniformBuffer(const std::string &_uniformBlockName, size_t _size, void *_data);
 
 protected:
@@ -426,25 +427,25 @@ protected:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a map of shader Programs using name as key to shader pointer
   //----------------------------------------------------------------------------------------------------------------------
-  static std::unordered_map <std::string,ShaderProgram *> m_shaderPrograms;
+  static std::unordered_map <std::string,std::shared_ptr<ShaderProgram>> m_shaderPrograms;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief map of shaders using name as key
   //----------------------------------------------------------------------------------------------------------------------
-  static std::unordered_map <std::string,Shader *> m_shaders;
+  static std::unordered_map <std::string,std::shared_ptr<Shader >> m_shaders;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief null ShaderProgram so we can return when shader not know;
   //----------------------------------------------------------------------------------------------------------------------
-  static ShaderProgram *m_nullProgram;
+  static std::shared_ptr<ShaderProgram> m_nullProgram;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the name of the currently active shader
-  //----------------------------------------------------------------------------------------------------------------------
+  //    ----------------------------------------------------------------------------------------------------------------------
   static std::string m_currentShader;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  flag to indicate the debug state
   //----------------------------------------------------------------------------------------------------------------------
  static  bool m_debugState;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief  the nunmber of shaders loaded
+  /// @brief  the number of shaders loaded
   //----------------------------------------------------------------------------------------------------------------------
   static unsigned int m_numShaders;
   

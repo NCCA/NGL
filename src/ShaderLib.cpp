@@ -35,11 +35,11 @@
 namespace ngl
 {
 
-std::unordered_map <std::string,ShaderProgram *> ShaderLib::m_shaderPrograms;
+std::unordered_map <std::string,std::shared_ptr<ShaderProgram >> ShaderLib::m_shaderPrograms;
 
-std::unordered_map <std::string,Shader *> ShaderLib::m_shaders;
+std::unordered_map <std::string,std::shared_ptr<Shader >> ShaderLib::m_shaders;
 
-ShaderProgram *ShaderLib::m_nullProgram=new ShaderProgram("NULL");
+std::shared_ptr<ShaderProgram> ShaderLib::m_nullProgram = std::make_shared<ShaderProgram>("NULL"); //=new ShaderProgram("NULL");
 std::string ShaderLib::m_currentShader="NULL";
 bool ShaderLib::m_debugState=true;
 unsigned int ShaderLib::m_numShaders=0;
@@ -121,11 +121,8 @@ bool ShaderLib::loadShader(const std::string &_shaderName, const std::string &_v
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::reset() noexcept
 {
-  msg->addMessage("Closing down shader manager");
-  for(auto shader : m_shaders)
-    delete shader.second;
-  for(auto programs : m_shaderPrograms)
-    delete programs.second;
+  m_shaders.clear();
+  m_shaderPrograms.clear();
 }
 
 
@@ -157,7 +154,7 @@ GLint ShaderLib::getAttribLocation( const std::string &_shaderName,   const std:
 //----------------------------------------------------------------------------------------------------------------------
 ShaderLib::ShaderLib()  noexcept
 {
- m_debugState=false;
+/* m_debugState=false;
  m_numShaders=0;
  m_nullProgram = new ShaderProgram("NULL");
  m_currentShader="NULL";
@@ -167,6 +164,7 @@ ShaderLib::ShaderLib()  noexcept
  loadDiffuseShaders();
  loadCheckerShaders();
  m_debugState=true;
+*/
 }
 //----------------------------------------------------------------------------------------------------------------------
 GLuint ShaderLib::getShaderID(const std::string &_shaderName) noexcept
@@ -185,9 +183,9 @@ GLuint ShaderLib::getShaderID(const std::string &_shaderName) noexcept
   return value;
 }
 
-ngl::Shader* ShaderLib::getShader(const std::string &_shaderName) noexcept
+std::shared_ptr<ngl::Shader> ShaderLib::getShader(const std::string &_shaderName) noexcept
 {
-  ngl::Shader* shaderPointer;
+  std::shared_ptr<ngl::Shader> shaderPointer;
   auto shader=m_shaders.find(_shaderName.data());
   // make sure we have a valid shader and program
   if(shader!=m_shaders.end() )
@@ -204,7 +202,7 @@ ngl::Shader* ShaderLib::getShader(const std::string &_shaderName) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::attachShader(const std::string &_name, ShaderType _type , ErrorExit _exitOnError) noexcept
 {
-  m_shaders[_name.data()]= new Shader(_name,_type,_exitOnError);
+  m_shaders[_name.data()]= std::make_shared< Shader>(_name,_type,_exitOnError);
   if(m_debugState==true)
     msg->addMessage(fmt::format("just attached {0} to ngl::ShaderLib",_name.data()));
 }
@@ -248,7 +246,7 @@ void ShaderLib::createShaderProgram(const std::string &_name , ErrorExit _exitOn
 {
   if(m_debugState)
     msg->addMessage(fmt::format("creating empty ShaderProgram {0}",_name.data()));
- m_shaderPrograms[_name.data()]= new ShaderProgram(_name,_exitOnError);
+ m_shaderPrograms[_name.data()]= std::make_shared< ShaderProgram>(_name,_exitOnError);
 }
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::attachShaderToProgram(const std::string &_program, const std::string &_shader   ) noexcept
@@ -262,7 +260,7 @@ void ShaderLib::attachShaderToProgram(const std::string &_program, const std::st
   if(shader!=m_shaders.end() && program !=m_shaderPrograms.end())
   {
     // now attach the shader to the program
-    program->second->attachShader(shader->second);
+    program->second->attachShader(shader->second.get());
     // now increment the shader ref count so we know if how many references
     shader->second->incrementRefCount();
 

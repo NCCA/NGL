@@ -45,11 +45,11 @@ ShaderProgram::ShaderProgram(const std::string &_name, ErrorExit _exitOnError) n
 ShaderProgram::~ShaderProgram()
 {
   if(m_debugState ==true)
-    msg->addMessage(fmt::format("removing ShaderProgram {0}", m_programName));
+    std::cerr<<fmt::format("removing ShaderProgram {0}\n", m_programName);
   glDeleteProgram(m_programID);
   for(auto & block : m_registeredUniformBlocks)
   {
-    msg->addMessage(fmt::format("removing UniformBlock Buffers {0}",block.second.name));
+    std::cerr<<fmt::format("removing UniformBlock Buffers {0}",block.second.name);
     glDeleteBuffers(1,&block.second.buffer);
   }
 

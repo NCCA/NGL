@@ -76,7 +76,7 @@ Shader::Shader(const std::string &_name,  ShaderType _type , ErrorExit _exitOnEr
 }
 Shader::~Shader()
 {
- // msg->addMessage(fmt::format("removing shader {0}",m_name),Colours::WHITE,TimeFormat::NONE);
+  std::cerr<<fmt::format("removing shader {0} \n",m_name);//,Colours::WHITE,TimeFormat::NONE);
   glDeleteShader(m_shaderHandle);
 }
 

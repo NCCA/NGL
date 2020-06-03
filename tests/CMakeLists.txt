@@ -113,6 +113,6 @@ target_link_libraries( ${EXE_NAME} PRIVATE  NGL PRIVATE ${EXTRALIBS} )
 
 endif()
 
-gtest_discover_tests(${EXE_NAME})
+#gtest_discover_tests(${EXE_NAME})
 #target_link_libraries(${EXE_NAME} ${PROJECT_LINK_LIBS} )
 
