@@ -4,7 +4,7 @@
 #include <thread>
 #include <ngl/NGLMessage.h>
 
-
+/*
 TEST(NGLMessage,defaultctor)
 {
    {
@@ -187,7 +187,7 @@ TEST(NGLMessage,fileConsumerChangeFileName)
 }
 
 */
-
+/*
 TEST(NGLMessage,testMultiThread)
 {
   ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT,ngl::CommunicationMode::NULLCONSUMER);
@@ -232,3 +232,4 @@ TEST(NGLMessage,testoperator)
 
 }
 
+*/

@@ -100,7 +100,8 @@ target_link_libraries(${EXE_NAME} PRIVATE OpenImageIO::OpenImageIO OpenImageIO::
 # see what platform we are on and set platform defines
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
      message("Doing mac OpenGL")
-     find_library(MACGL OpenGL)
+		 find_library(MACGL OpenGL)
+		 add_definitions(-DGL_SILENCE_DEPRECATION)
     set(EXTRALIBS  ${MACGL})
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif()

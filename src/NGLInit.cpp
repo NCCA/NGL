@@ -71,6 +71,7 @@ void NGLInit::initalize()
   VAOFactory::registerVAOCreator(multiBufferVAO,MultiBufferVAO::create);
   VAOFactory::registerVAOCreator(simpleIndexVAO,SimpleIndexVAO::create);
   ShaderLib::loadDefaultShaders();
+  VAOPrimitives::createDefaultVAOs();
  
 }
 void NGLInit::setCommunicationMode(ngl::CommunicationMode _mode)
@@ -91,7 +92,7 @@ void NGLInit::initMessageSystem()
   std::this_thread::sleep_for(std::chrono::milliseconds(20));
 
 }
-NGLInit::NGLInit()
+NGLInit::NGLInit() 
 {
 
 #if defined(USINGIOS_) || !defined(__APPLE__)
@@ -127,7 +128,7 @@ NGLInit::NGLInit()
   ShaderLib::loadDefaultShaders();
 }
 //----------------------------------------------------------------------------------------------------------------------
-NGLInit::~NGLInit()
+NGLInit::~NGLInit() noexcept
 {
   //msg->stopMessageConsumer();
 }
