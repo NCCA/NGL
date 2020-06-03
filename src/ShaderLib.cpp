@@ -35,11 +35,13 @@
 namespace ngl
 {
 
+
+std::shared_ptr<ShaderProgram> ShaderLib::m_nullProgram = std::make_shared<ShaderProgram>("NULL"); //=new ShaderProgram("NULL");
+
 std::unordered_map <std::string,std::shared_ptr<ShaderProgram >> ShaderLib::m_shaderPrograms;
 
 std::unordered_map <std::string,std::shared_ptr<Shader >> ShaderLib::m_shaders;
 
-std::shared_ptr<ShaderProgram> ShaderLib::m_nullProgram = std::make_shared<ShaderProgram>("NULL"); //=new ShaderProgram("NULL");
 std::string ShaderLib::m_currentShader="NULL";
 bool ShaderLib::m_debugState=true;
 unsigned int ShaderLib::m_numShaders=0;
@@ -52,6 +54,7 @@ void ShaderLib::loadDefaultShaders()
     return;
   else
   {
+    m_shaderPrograms["NULL"]=m_nullProgram;
     loadTextShaders();
     loadColourShaders();
     loadDiffuseShaders();

@@ -17,16 +17,16 @@ elseif(NOT DEFINED ENV{NGLDIR})
 endif()
 
 # Name of the project
-set(EXE_NAME NGLTests)
 project(NGLTestBuild)
 # Set to C++ 17
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(GTest CONFIG REQUIRED)
 include(GoogleTest)
+enable_testing()
+
 find_package(glfw3 CONFIG REQUIRED)
 find_package(OpenImageIO CONFIG REQUIRED)
-enable_testing()
 
 #Bring the headers into the project (local ones)
 include_directories(include ${NGLROOT}/include ${NGLROOT}/gl3w ${NGLROOT}/include/fmt )
@@ -90,12 +90,12 @@ endif()
 
 # now add NGL specific values
 # add exe and link libs that must be after the other defines
-add_executable(${EXE_NAME} ${SOURCES})
+add_executable(NGLTests ${SOURCES})
 
 link_directories( ${NGLROOT}/lib )
 find_package(glfw3 CONFIG REQUIRED)
-target_link_libraries(${EXE_NAME} PRIVATE glfw PRIVATE GTest::gtest  )
-target_link_libraries(${EXE_NAME} PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+target_link_libraries(NGLTests PRIVATE glfw PRIVATE GTest::gtest  )
+target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
 
 # see what platform we are on and set platform defines
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -108,12 +108,22 @@ endif()
 
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	target_link_libraries( ${EXE_NAME} PRIVATE  $(HOMEDRIVE)\\$(HOMEPATH)\\NGL\\lib\\NGL.lib )
+	target_link_libraries( NGLTests PRIVATE  $(HOMEDRIVE)\\$(HOMEPATH)\\NGL\\lib\\NGL.lib )
 else()
-target_link_libraries( ${EXE_NAME} PRIVATE  NGL PRIVATE ${EXTRALIBS} )
+target_link_libraries(NGLTests PRIVATE  NGL PRIVATE ${EXTRALIBS} )
 
 endif()
 
-#gtest_discover_tests(${EXE_NAME})
-#target_link_libraries(${EXE_NAME} ${PROJECT_LINK_LIBS} )
+#target_link_libraries(${NGLTests} ${PROJECT_LINK_LIBS} )
+gtest_discover_tests(NGLTests)
 
+
+add_custom_target(CopyTestfiles ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_CURRENT_SOURCE_DIR}/files
+		${CMAKE_BINARY_DIR}/tests/files
+		COMMENT "Copy Test files to build directory"
+		)
+		
+#gtest_add_tests(TARGET NGLTests TEST_PREFIX Vec3.)
+#add_test(NAME monolithic COMMAND NGLTests)
