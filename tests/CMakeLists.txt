@@ -23,6 +23,7 @@ project(NGLTestBuild)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(GTest CONFIG REQUIRED)
+include(GoogleTest)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(OpenImageIO CONFIG REQUIRED)
 enable_testing()
@@ -112,5 +113,6 @@ target_link_libraries( ${EXE_NAME} PRIVATE  NGL PRIVATE ${EXTRALIBS} )
 
 endif()
 
+gtest_discover_tests(${EXE_NAME})
 #target_link_libraries(${EXE_NAME} ${PROJECT_LINK_LIBS} )
 

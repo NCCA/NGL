@@ -50,6 +50,7 @@ void Environment::SetUp()
       glfwMakeContextCurrent(window);
       // whilst we will do this in a test, best to make sure we have a valid context here
       // incase we run isolated tests on just GL elements
+       ngl::NGLInit::initalize();
 //      ngl::NGLInit::instance()->setCommunicationMode(ngl::CommunicationMode::STDERR);
   }
 

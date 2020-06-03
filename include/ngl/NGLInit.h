@@ -43,8 +43,10 @@ namespace ngl
 class   NGL_DLLEXPORT NGLInit 
 {
   public :
+    static void initalize();
     static void initMessageSystem();
     void setCommunicationMode(ngl::CommunicationMode _mode );
+    ~NGLInit() noexcept;
   protected :
     //----------------------------------------------------------------------------------------------------------------------
     ///  @brief dtor
@@ -54,7 +56,6 @@ class   NGL_DLLEXPORT NGLInit
     //----------------------------------------------------------------------------------------------------------------------
     ///  @brief dtor
     //----------------------------------------------------------------------------------------------------------------------
-    ~NGLInit() noexcept;
 
 };
 } // end GL namespace
