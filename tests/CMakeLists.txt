@@ -17,7 +17,7 @@ elseif(NOT DEFINED ENV{NGLDIR})
 endif()
 
 # Name of the project
-project(NGLTestBuild)
+project(NGLTestBuild VERSION 8.0 LANGUAGES CXX)
 # Set to C++ 17
 set(CMAKE_CXX_STANDARD 17)
 

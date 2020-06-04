@@ -1,8 +1,8 @@
+#include <ngl/NGLInit.h>
+#include <GLFW/glfw3.h>
 #include <gtest/gtest.h>
 #include <array>
 #include <string>
-#include <GLFW/glfw3.h>
-#include <ngl/NGLInit.h>
 #ifndef WIN32
     #include <getopt.h>
 #endif

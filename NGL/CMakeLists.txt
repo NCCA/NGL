@@ -9,7 +9,7 @@ cmake_minimum_required(VERSION 3.2)
 
 
 # Name of the project
-project(NGLLIB VERSION 8.0 LANGUAGES CXX C)
+project(NGLLIB VERSION 8.0 LANGUAGES CXX )
 
 # Required Packages
 find_package(glm CONFIG REQUIRED)
