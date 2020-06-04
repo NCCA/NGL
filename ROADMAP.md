@@ -32,4 +32,6 @@ We need to begin the designing the code to allow multiple graphics API's such as
 
 Will begin to make python 3 the default python API and make the interface more pythonic (and more python 3 so return iterators / objects etc). Will still retain python 2 bindings for now.
 
+## Remove RapidXML for point bake
 
+Use JSON instead, will need to re-write the demo code
