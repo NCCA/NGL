@@ -16,6 +16,8 @@ find_package(glm CONFIG REQUIRED)
 #find_package(GTest CONFIG REQUIRED)
 #find_package(glfw3 CONFIG REQUIRED)
 find_package(OpenImageIO CONFIG REQUIRED)
+find_package(IlmBase CONFIG REQUIRED)
+find_package(OpenEXR CONFIG REQUIRED)
 
 
 if(DEFINED ENV{NGLDIR})
@@ -182,5 +184,5 @@ endif()
 #target_link_libraries(NGL Qt5::OpenGL)
 target_link_libraries(NGL ${PROJECT_LINK_LIBS} PRIVATE ${EXTRALIBS})
 target_link_libraries(NGL PRIVATE glm )
-target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO)
 

@@ -94,8 +94,11 @@ add_executable(NGLTests ${SOURCES})
 
 link_directories( ${NGLROOT}/lib )
 find_package(glfw3 CONFIG REQUIRED)
+find_package(OpenEXR CONFIG REQUIRED)
+
 target_link_libraries(NGLTests PRIVATE glfw PRIVATE GTest::gtest  )
-target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+#target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO)
 
 # see what platform we are on and set platform defines
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
