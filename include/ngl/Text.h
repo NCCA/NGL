@@ -42,8 +42,8 @@
 #include "VAOFactory.h"
 #include "SimpleVAO.h"
 #include <memory>
-#include <QFont>
-#include <QString>
+//#include <QFont>
+//#include <QString>
 #include "Mat4.h"
 
 namespace ngl
@@ -71,7 +71,7 @@ public:
   /// need a new Text class for each different type of text / font
   /// @param[in] _f the font to use for drawing the text
   //----------------------------------------------------------------------------------------------------------------------
-  Text( const QFont &_f ) noexcept;
+  //Text( const QFont &_f ) noexcept;
   #ifdef PYTHONBUILD
     Text(const std::string &_name, int _size) : Text(QFont(_name.c_str(),_size)) {}
   #endif
@@ -92,7 +92,6 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   void renderText( float _x, float _y,  const char *_text ) const noexcept;
   void renderText(float _x, float _y, const std::string &_text ) const noexcept;
-  void renderText(float _x, float _y, const QString &_text ) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the size of the screen to scale our font to fit correctly
@@ -123,7 +122,7 @@ protected:
   /// to render according to the Qt Docs a hash has faster lookups than QMap
   /// so using this
   //----------------------------------------------------------------------------------------------------------------------
-  QHash <char,FontChar> m_characters;
+ // QHash <char,FontChar> m_characters;
 };
 
 }

@@ -4,16 +4,13 @@
 cmake_minimum_required(VERSION 3.2)
 #-------------------------------------------------------------------------------------------
 # I'm going to use vcpk in most cases for our install of 3rd party libs
-# this is going to check the environment variable for VCPKG_ROOT and must be done before starting
-# the project as the variables will be used and chached.
+# this is going to check the environment variable for CMAKE_TOOLCHAIN_FILE and this must point to where
+# vcpkg.cmake is in the University this is set in your .bash_profile to
+# export CMAKE_TOOLCHAIN_FILE=/public/devel/2020/vcpkg/scripts/buildsystems/vcpkg.cmake
 #-------------------------------------------------------------------------------------------
-
-# message("Testing  for vcpkg current =" $ENV{VCPKG_ROOT})
-# if(NOT DEFINED CMAKE_TOOLCHAIN_FILE AND DEFINED ENV{VCPKG_ROOT})
-#   set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
-# else()
-#     message(FATAL_ERROR "VCPKG_ROOT environment variable not set")
-# endif()
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE AND DEFINED ENV{CMAKE_TOOLCHAIN_FILE})
+   set(CMAKE_TOOLCHAIN_FILE $ENV{CMAKE_TOOLCHAIN_FILE})
+endif()
 
 #-------------------------------------------------------------------------------------------
 # Setup the project and languages required. Note version number is NGL version
@@ -21,7 +18,7 @@ cmake_minimum_required(VERSION 3.2)
 
 project(AllNGL VERSION 8.0 LANGUAGES CXX C)
 add_subdirectory(NGL)
-add_subdirectory(tests)
+#add_subdirectory(tests)
 #if(!WIN32)
 #    add_subdirectory(PyNGL)
 #endif()
