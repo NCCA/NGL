@@ -18,7 +18,8 @@ endif()
 
 project(AllNGL VERSION 8.0 LANGUAGES CXX C)
 add_subdirectory(NGL)
-#add_subdirectory(tests)
+add_subdirectory(tests)
+add_subdirectory(PyNGL)
 #if(!WIN32)
-#    add_subdirectory(PyNGL)
+#    
 #endif()

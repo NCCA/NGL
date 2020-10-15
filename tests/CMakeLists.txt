@@ -1,20 +1,4 @@
 cmake_minimum_required(VERSION 3.2)
-if(DEFINED ENV{NGLDIR})
-    message("found define NGLDIR as " $ENV{NGLDIR})
-    set(NGLROOT $ENV{NGLDIR})
-elseif(NOT DEFINED ENV{NGLDIR})
-    #$ENV{HOME} gives you backslashes on windows so default to C drive root
-    if(WIN32)
-        file (TO_CMAKE_PATH $ENV{HOMEDRIVE}/$ENV{HOMEPATH}/NGL NGLROOT)
-		message("setting NGLROOT to " ${NGLROOT})
-		set(CMAKE_TOOLCHAIN_FILE "$ENV{HOMEDRIVE}/$ENV{HOMEPATH}/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
-		set(CMAKE_GENERATOR_PLATFORM x64)
-	
-	else()
-        message("setting NGLROOT to " $ENV{HOME}/NGL/)
-        set(NGLROOT $ENV{HOME}/NGL/)
-    endif()
-endif()
 
 # Name of the project
 project(NGLTestBuild VERSION 8.0 LANGUAGES CXX)
@@ -27,9 +11,13 @@ enable_testing()
 
 find_package(glfw3 CONFIG REQUIRED)
 find_package(OpenImageIO CONFIG REQUIRED)
+find_package(IlmBase CONFIG REQUIRED)
+find_package(OpenEXR CONFIG REQUIRED)
+find_package(glm CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
 
 #Bring the headers into the project (local ones)
-include_directories(include ${NGLROOT}/include ${NGLROOT}/gl3w ${NGLROOT}/include/fmt )
+include_directories(include ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/gl3w  )
 add_definitions(-DUSEGLM -DGLM_ENABLE_EXPERIMENTAL)
 # define this if you want to include the stanford data sets
 # these are very big and make compilation time huge

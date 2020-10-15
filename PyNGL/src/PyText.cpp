@@ -11,8 +11,9 @@ namespace ngl
   void pyInitText(py::module & m)
   {
     py::class_<Text>(m, "Text")
-        .def(py::init< const QFont &>())
-        .def(py::init< const std::string &, int  >())
+# warning fix this with freetype
+//        .def(py::init< const QFont &>())
+//        .def(py::init< const std::string &, int  >())
         .def("renderText", py::overload_cast<float,float,const std::string &  >(&Text::renderText , py::const_ ))
         .def("setScreenSize",&Text::setScreenSize)
         .def("setColour",py::overload_cast<float,float,float>(&Text::setColour))

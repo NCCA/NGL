@@ -72,8 +72,9 @@ public:
   /// @param[in] _f the font to use for drawing the text
   //----------------------------------------------------------------------------------------------------------------------
   //Text( const QFont &_f ) noexcept;
-  #ifdef PYTHONBUILD
-    Text(const std::string &_name, int _size) : Text(QFont(_name.c_str(),_size)) {}
+  #ifdef PYTHONBUILD 
+  #warning fix this
+    Text(const std::string &_name, int _size) {} //: Text(QFont(_name.c_str(),_size)) {}
   #endif
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor will clean / remove textures and VAO's for the class
