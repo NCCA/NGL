@@ -48,7 +48,7 @@ unsigned int nearestPowerOfTwo ( unsigned int _num )
     return j << 1;
 }
 // end citation
-#warning re-write to use freetype2
+// re-write to use freetype2
 //---------------------------------------------------------------------------
 
 // Text::Text( const QFont &_f)  noexcept
