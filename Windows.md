@@ -19,8 +19,13 @@ Once vcpkg is installed the following libraries need to be added.
 ```
 cd vcpkg
 .\vcpkg install gtest:x64-windows
-.\vcpkg install glm
+.\vcpkg install glm:x64-windows
 .\vcpkg install glfw3:x64-windows
+.\vcpkg install openimageio:x64-windows
+.\vcpkg install rapidjson:x64-windows
+.\vcpkg install rapidxml:x64-windows
+.\vcpkg install fmt:x64-windows
+
 ```
 
 ## Install Qt 
