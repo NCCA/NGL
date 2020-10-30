@@ -66,48 +66,7 @@ else()
 endif()
 
 install(TARGETS NGL DESTINATION lib)
-install(FILES     ${CMAKE_SOURCE_DIR}/include/ngl/Vec4.h
-${CMAKE_SOURCE_DIR}/include/ngl/VAOPrimitives.h
-${CMAKE_SOURCE_DIR}/include/ngl/VAOFactory.h
-${CMAKE_SOURCE_DIR}/include/ngl/SimpleIndexVAO.h
-${CMAKE_SOURCE_DIR}/include/ngl/SimpleVAO.h
-${CMAKE_SOURCE_DIR}/include/ngl/AbstractVAO.h
-${CMAKE_SOURCE_DIR}/include/ngl/MultiBufferVAO.h
-${CMAKE_SOURCE_DIR}/include/ngl/Util.h
-${CMAKE_SOURCE_DIR}/include/ngl/Types.h
-${CMAKE_SOURCE_DIR}/include/ngl/Texture.h
-${CMAKE_SOURCE_DIR}/include/ngl/ShaderLib.h
-${CMAKE_SOURCE_DIR}/include/ngl/RibExport.h
-${CMAKE_SOURCE_DIR}/include/ngl/Transformation.h
-${CMAKE_SOURCE_DIR}/include/ngl/Quaternion.h
-${CMAKE_SOURCE_DIR}/include/ngl/Obj.h
-${CMAKE_SOURCE_DIR}/include/ngl/NGLassert.h
-${CMAKE_SOURCE_DIR}/include/ngl/Mat4.h
-${CMAKE_SOURCE_DIR}/include/ngl/NGLInit.h
-${CMAKE_SOURCE_DIR}/include/ngl/BezierCurve.h
-${CMAKE_SOURCE_DIR}/include/ngl/NCCABinMesh.h
-${CMAKE_SOURCE_DIR}/include/ngl/BBox.h
-${CMAKE_SOURCE_DIR}/include/ngl/AbstractMesh.h
-${CMAKE_SOURCE_DIR}/include/ngl/Random.h
-${CMAKE_SOURCE_DIR}/include/ngl/NCCAPointBake.h
-${CMAKE_SOURCE_DIR}/include/ngl/Shader.h
-${CMAKE_SOURCE_DIR}/include/ngl/ShaderProgram.h
-${CMAKE_SOURCE_DIR}/include/ngl/Plane.h
-${CMAKE_SOURCE_DIR}/include/ngl/AABB.h
-${CMAKE_SOURCE_DIR}/include/ngl/Vec3.h
-${CMAKE_SOURCE_DIR}/include/ngl/Vec2.h
-${CMAKE_SOURCE_DIR}/include/ngl/Text.h
-${CMAKE_SOURCE_DIR}/include/ngl/Mat3.h
-${CMAKE_SOURCE_DIR}/include/ngl/Mat2.h
-${CMAKE_SOURCE_DIR}/include/ngl/pystring.h
-${CMAKE_SOURCE_DIR}/include/ngl/Image.h
-${CMAKE_SOURCE_DIR}/include/ngl/NGLStream.h
-${CMAKE_SOURCE_DIR}/include/ngl/NGLStream.h
-${CMAKE_SOURCE_DIR}/include/ngl/MessageQueue/AbstractMessageConsumer.h 
-${CMAKE_SOURCE_DIR}/include/ngl/MessageQueue/FileConsumer.h 
-${CMAKE_SOURCE_DIR}/include/ngl/MessageQueue/STDERRConsumer.h 
-${CMAKE_SOURCE_DIR}/include/ngl/MessageQueue/STDOutConsumer.h    
- DESTINATION include)
+install(DIRECTORY   ${CMAKE_SOURCE_DIR}/include/ngl/ DESTINATION include/ngl)
 
 
 
