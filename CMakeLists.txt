@@ -36,10 +36,10 @@ set(CMAKE_CXX_EXTENSIONS ON)
 
 if(WIN32)
     # Not defined in msvc compiler for cmaths so must set definition manually here
-    add_definitions(-D_USE_MATH_DEFINES)
-    add_definitions(-DNOMINMAX)
+    add_compile_definitions(_USE_MATH_DEFINES)
+    add_compile_definitions(NOMINMAX)
     # Need to define this when building shared library or suffer dllimport errors
-    add_definitions(-DBUILDING_DLL)
+    add_compile_definitions(BUILDING_DLL)
     
 else()
     #Not a defined option for msvc - fine for gcc and clang
@@ -54,11 +54,11 @@ include_directories(${CMAKE_SOURCE_DIR}/src/shaders)
 include_directories(${CMAKE_SOURCE_DIR}/gl3w)
 include_directories(/usr/local/include/)
 
-add_definitions(-DADDLARGEMODELS)
+add_compile_definitions(ADDLARGEMODELS)
 #This defines the image lib to use by default use QIMAGE, I need to fix this for the others
-add_definitions(-DUSEOIIO)
-add_definitions(-DUSEGLM)
-add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
+add_compile_definitions(USEOIIO)
+add_compile_definitions(USEGLM)
+add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
 if(WIN32)
   add_library(NGL STATIC)
 else()
