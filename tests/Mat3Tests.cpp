@@ -125,7 +125,7 @@ TEST(Mat3,rotateY)
   test.rotateY(25.0f);
   ngl::Mat3 result(0.906308f,0.0f,-0.422618f,0.0f,1.0f,0.0f,0.422618f,0.0f,0.906308f);
   EXPECT_TRUE(test == result);
-  auto res=glm::mat3(glm::rotate(glm::mat4(1.0f), glm::radians(35.0f), glm::vec3(0, 1, 0)));
+  auto res=glm::mat3(glm::rotate(glm::mat4(1.0f), glm::radians(25.0f), glm::vec3(0, 1, 0)));
   for(size_t i=0; i<9; ++i)
   {
     EXPECT_FLOAT_EQ(glm::value_ptr(res)[i],test.m_openGL[i]);
