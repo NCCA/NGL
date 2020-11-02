@@ -5,6 +5,8 @@
 #include <string>
 #include <sstream>
 #include <glm/mat4x4.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 std::string print(const ngl::Mat4 &_m)
 {
@@ -110,6 +112,12 @@ TEST(Mat4,rotateX)
   // ngl::Mat4 result(1.000000f, 0.000000f, 0.000000f, 0.000000f, 0.000000f, 0.707107f, 0.707107f, 0.000000f, 0.000000f, -0.707107f, 0.707107f, 0.000000f, 0.000000f, 0.000000f, 0.000000f, 1.000000f);
   // std::cout<<print(result)<<'\n'<<print(test)<<'\n';
   EXPECT_TRUE(test == result);
+  
+  auto res=glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), glm::vec3(1, 0, 0));
+  for(size_t i=0; i<16; ++i)
+  {
+    EXPECT_FLOAT_EQ(glm::value_ptr(res)[i],test.m_openGL[i]);
+  }
 }
 
 TEST(Mat4,rotateY)
@@ -118,6 +126,11 @@ TEST(Mat4,rotateY)
   test.rotateY(25.0f);
   ngl::Mat4 result(0.906308f,0,-0.422618f,0,0,1,0,0,0.422618f,0,0.906308f,0,0,0,0,1);
   EXPECT_TRUE(test == result);
+  auto res=glm::rotate(glm::mat4(1.0f), glm::radians(25.0f), glm::vec3(0, 1, 0));
+  for(size_t i=0; i<16; ++i)
+  {
+    EXPECT_FLOAT_EQ(glm::value_ptr(res)[i],test.m_openGL[i]);
+  }
 }
 
 TEST(Mat4,rotateZ)
@@ -126,6 +139,11 @@ TEST(Mat4,rotateZ)
   test.rotateZ(-36.0f);
   ngl::Mat4 result(0.809017f,-0.587785f,0,0,0.587785f,0.809017f,0,0,0,0,1,0,0,0,0,1);
   EXPECT_TRUE(test == result);
+  auto res=glm::rotate(glm::mat4(1.0f), glm::radians(-36.0f), glm::vec3(0, 0, 1));
+  for(size_t i=0; i<16; ++i)
+  {
+    EXPECT_FLOAT_EQ(glm::value_ptr(res)[i],test.m_openGL[i]);
+  }
 }
 
 TEST(Mat4,Mat4xMat4)
