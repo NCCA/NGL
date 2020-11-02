@@ -437,8 +437,8 @@ void Mat4::rotateX( const Real _deg) noexcept
   Real sr = sinf( beta );
   Real cr = cosf( beta );
   m_11 =  cr;
-	m_12 = -sr;
-	m_21 =  sr;
+	m_12 =  sr;
+	m_21 = -sr;
 	m_22 =  cr;
 }
 
@@ -449,9 +449,9 @@ void Mat4::rotateY( const Real _deg ) noexcept
   Real sr = sinf( beta );
   Real cr = cosf( beta );
   m_00 =  cr;
-	m_02 =  sr;
-	m_20 = -sr;
-	m_22 =  cr;
+  m_02 = -sr;
+  m_20 =  sr;
+  m_22 =  cr;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -461,9 +461,9 @@ void Mat4::rotateZ(const Real _deg ) noexcept
   Real sr = sinf( beta );
   Real cr = cosf( beta );
   m_00 =  cr;
-	m_01 = -sr;
-	m_10 =  sr;
-	m_11 =  cr;
+  m_01 =  sr;
+  m_10 = -sr;
+  m_11 =  cr;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

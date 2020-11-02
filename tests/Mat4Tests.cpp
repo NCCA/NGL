@@ -107,6 +107,8 @@ TEST(Mat4,rotateX)
   ngl::Mat4 test;
   test.rotateX(45.0f);
   ngl::Mat4 result(1,0,0,0,0,0.707107f,0.707107f,0,0,-0.707107f,0.707107f,0,0,0,0,1);
+  // ngl::Mat4 result(1.000000f, 0.000000f, 0.000000f, 0.000000f, 0.000000f, 0.707107f, 0.707107f, 0.000000f, 0.000000f, -0.707107f, 0.707107f, 0.000000f, 0.000000f, 0.000000f, 0.000000f, 1.000000f);
+  // std::cout<<print(result)<<'\n'<<print(test)<<'\n';
   EXPECT_TRUE(test == result);
 }
 

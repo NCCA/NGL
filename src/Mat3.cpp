@@ -281,8 +281,8 @@ void Mat3::rotateX( Real _deg) noexcept
   Real sr = sinf( beta );
   Real cr = cosf( beta );
 	m_11 =  cr;
-	m_12 = -sr;
-	m_21 =  sr;
+	m_12 =  sr;
+	m_21 = -sr;
 	m_22 =  cr;
 }
 
@@ -293,8 +293,8 @@ void Mat3::rotateY(Real _deg) noexcept
   Real sr = sinf( beta );
   Real cr = cosf( beta );
 	m_00 =  cr;
-	m_02 =  sr;
-	m_20 = -sr;
+	m_02 = -sr;
+	m_20 =  sr;
 	m_22 =  cr;
 }
 
@@ -305,8 +305,8 @@ void Mat3::rotateZ( Real _deg) noexcept
   Real sr = sinf( beta );
   Real cr = cosf( beta );
 	m_00 =  cr;
-	m_01 = -sr;
-	m_10 =  sr;
+	m_01 =  sr;
+	m_10 = -sr;
 	m_11 =  cr;
 }
 

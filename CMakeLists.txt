@@ -32,7 +32,7 @@ find_package(RapidJSON CONFIG REQUIRED)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
-
+option(ENABLE_FAST_MATH ON)
 
 if(WIN32)
     # Not defined in msvc compiler for cmaths so must set definition manually here
