@@ -267,10 +267,11 @@ bool Image::load( const std::string &_fname  ) noexcept
 bool Image::load( const std::string &_fname  ) noexcept
 {
   using namespace OIIO;
-
+  
 #ifdef IMAGE_DEBUG_ON
  msg->addMessage("loading with OpenImageIO");;
 #endif
+  
   auto in = ImageInput::open (_fname.data());
   if (! in)
   {

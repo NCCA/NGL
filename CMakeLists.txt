@@ -179,7 +179,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BUILD_DIR})
 
 target_link_libraries(NGL PRIVATE glm)
 target_link_libraries(NGL PRIVATE fmt::fmt-header-only)
-target_link_libraries(NGL ${PROJECT_LINK_LIBS} ${EXTRALIBS})
+target_link_libraries(NGL PRIVATE ${EXTRALIBS})
 target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
 if(UNIX)
    target_link_libraries(NGL PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
