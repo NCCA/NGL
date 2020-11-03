@@ -12,18 +12,10 @@
 // in all cases I will just see if I get the range I need.
 
 
-TEST(Random,instance)
-{
-    auto rng=ngl::Random::instance();
-    EXPECT_TRUE(rng!=nullptr);
-}
-
-
 TEST(Random,vec2)
 {
-    auto rng=ngl::Random::instance();
-    rng->setSeed();
-    auto v=rng->getRandomVec2();
+    ngl::Random::setSeed();
+    auto v=ngl::Random::getRandomVec2();
     EXPECT_TRUE(v.m_x>=-1.0f && v.m_x<=1.0f);
     EXPECT_TRUE(v.m_y>=-1.0f && v.m_y<=1.0f);
 }
@@ -31,9 +23,8 @@ TEST(Random,vec2)
 
 TEST(Random,vec3)
 {
-    auto rng=ngl::Random::instance();
-    rng->setSeed();
-    auto v=rng->getRandomVec3();
+    ngl::Random::setSeed();
+    auto v=ngl::Random::getRandomVec3();
     EXPECT_TRUE(v.m_x>=-1.0f && v.m_x<=1.0f);
     EXPECT_TRUE(v.m_y>=-1.0f && v.m_y<=1.0f);
     EXPECT_TRUE(v.m_z>=-1.0f && v.m_z<=1.0f);
@@ -42,9 +33,8 @@ TEST(Random,vec3)
 
 TEST(Random,point)
 {
-    auto rng=ngl::Random::instance();
-    rng->setSeed();
-    auto v=rng->getRandomPoint(20,20,20);
+    ngl::Random::setSeed();
+    auto v=ngl::Random::getRandomPoint(20,20,20);
     EXPECT_TRUE(v.m_x>=-20.0f && v.m_x<=20.0f);
     EXPECT_TRUE(v.m_y>=-20.0f && v.m_y<=20.0f);
     EXPECT_TRUE(v.m_z>=-20.0f && v.m_z<=20.0f);
@@ -52,9 +42,8 @@ TEST(Random,point)
 
 TEST(Random,vec4)
 {
-    auto rng=ngl::Random::instance();
-    rng->setSeed();
-    auto v=rng->getRandomVec4();
+    ngl::Random::setSeed();
+    auto v=ngl::Random::getRandomVec4();
     EXPECT_TRUE(v.m_x>=-1.0f && v.m_x<=1.0f);
     EXPECT_TRUE(v.m_y>=-1.0f && v.m_y<=1.0f);
     EXPECT_TRUE(v.m_z>=-1.0f && v.m_z<=1.0f);
@@ -64,59 +53,53 @@ TEST(Random,vec4)
 
 TEST(Random,randomNumberDefault)
 {
-    auto rng=ngl::Random::instance();
-    rng->setSeed();
-    auto v=rng->randomNumber();
+    ngl::Random::setSeed();
+    auto v=ngl::Random::randomNumber();
     EXPECT_TRUE(v>=-1.0f && v<=1.0f);
 }
 
 TEST(Random,randomNumberParam)
 {
-    auto rng=ngl::Random::instance();
-    rng->setSeed();
-    auto v=rng->randomNumber(2000.0);
+    ngl::Random::setSeed();
+    auto v=ngl::Random::randomNumber(2000.0);
     EXPECT_TRUE(v>=-2000.0f && v<=2000.0f);
 }
 
 TEST(Random,randomPositiveNumberDefault)
 {
-    auto rng=ngl::Random::instance();
-    rng->setSeed();
-    auto v=rng->randomPositiveNumber();
+    ngl::Random::setSeed();
+    auto v=ngl::Random::randomPositiveNumber();
     EXPECT_TRUE(v>=0.0f && v<=1.0f);
 }
 
 TEST(Random,randomPositiveNumberParam)
 {
-    auto rng=ngl::Random::instance();
-    rng->setSeed();
-    auto v=rng->randomPositiveNumber(2000.0);
+    ngl::Random::setSeed();
+    auto v=ngl::Random::randomPositiveNumber(2000.0);
     EXPECT_TRUE(v>=0.0f && v<=2000.0f);
 }
 
 
-/*
+
 TEST(Random,addIntGenerator)
 {
-    auto rng=ngl::Random::instance();
-    rng->setSeed();
+    ngl::Random::setSeed();
     auto dist=std::uniform_int_distribution<int>(-100,100);
-    rng->addIntGenerator("test",dist);
-    auto test=rng->getIntFromGeneratorName("test");
+    ngl::Random::addIntGenerator("test",dist);
+    auto test=ngl::Random::getIntFromGeneratorName("test");
     EXPECT_TRUE(test>=-100 && test <=100);
 }
 
 
 TEST(Random,addFloatGenerator)
 {
-    auto rng=ngl::Random::instance();
-    rng->setSeed();
+    ngl::Random::setSeed();
     auto dist=std::uniform_real_distribution<float>(0.0f,5.0f);
-    rng->addFloatGenerator("test",dist);
-    auto test=rng->getFloatFromGeneratorName("test");
+    ngl::Random::addFloatGenerator("test",dist);
+    auto test=ngl::Random::getFloatFromGeneratorName("test");
     EXPECT_TRUE(test>=0.0f && test <=5.0f);
 }
-*/
+
 
 
 

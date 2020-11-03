@@ -5,6 +5,8 @@
 #include <string>
 #include <sstream>
 #include <glm/mat4x4.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 std::string print(const ngl::Mat4 &_m)
 {
@@ -104,28 +106,46 @@ TEST(Mat4,scale)
 
 TEST(Mat4,rotateX)
 {
-  ngl::Mat4 test;
-  test.rotateX(45.0f);
-  ngl::Mat4 result(1,0,0,0,0,0.707107f,0.707107f,0,0,-0.707107f,0.707107f,0,0,0,0,1);
-  EXPECT_TRUE(test == result);
+  for(float r=-360.0f; r<360.0f; r+=1.0f)
+  {
+    ngl::Mat4 test;
+    test.rotateX(r);
+    
+    auto res=glm::rotate(glm::mat4(1.0f), glm::radians(r), glm::vec3(1, 0, 0));
+    for(size_t i=0; i<16; ++i)
+    {
+      EXPECT_NEAR(glm::value_ptr(res)[i],test.m_openGL[i],0.000001f);
+    }
+  }
 }
 
 TEST(Mat4,rotateY)
 {
-  ngl::Mat4 test;
-  test.rotateY(25.0f);
-  ngl::Mat4 result(0.906308f,0,-0.422618f,0,0,1,0,0,0.422618f,0,0.906308f,0,0,0,0,1);
-  EXPECT_TRUE(test == result);
+  for(float r=-360.0f; r<360.0f; r+=1.0f)
+  {
+    ngl::Mat4 test;
+    test.rotateY(r);
+    auto res=glm::rotate(glm::mat4(1.0f), glm::radians(r), glm::vec3(0, 1, 0));
+    for(size_t i=0; i<16; ++i)
+    {
+      EXPECT_NEAR(glm::value_ptr(res)[i],test.m_openGL[i],0.000001f);
+    }
+  }
 }
-
 TEST(Mat4,rotateZ)
 {
-  ngl::Mat4 test;
-  test.rotateZ(-36.0f);
-  ngl::Mat4 result(0.809017f,-0.587785f,0,0,0.587785f,0.809017f,0,0,0,0,1,0,0,0,0,1);
-  EXPECT_TRUE(test == result);
-}
+  for(float r=-360.0f; r<360.0f; r+=1.0f)
+  {
 
+    ngl::Mat4 test;
+    test.rotateZ(r);
+    auto res=glm::rotate(glm::mat4(1.0f), glm::radians(r), glm::vec3(0, 0, 1));
+    for(size_t i=0; i<16; ++i)
+    {
+      EXPECT_NEAR(glm::value_ptr(res)[i],test.m_openGL[i],0.000001f);
+    }
+  }
+}
 TEST(Mat4,Mat4xMat4)
 {
   ngl::Mat4 t1;
@@ -135,6 +155,7 @@ TEST(Mat4,Mat4xMat4)
   ngl::Mat4 test=t2*t1;
   ngl::Mat4 result(0.819152f,0,-0.573577f,0,0.40558f,0.707107f,0.579228f,0,0.40558f,-0.707107f,0.579228f,0,0,0,0,1);
   EXPECT_TRUE(test == result);
+
 }
 
 TEST(Mat4,Mat4xeuqals)

@@ -21,7 +21,6 @@
 /// @brief an encapsulation of the std::random classes
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
-#include "Singleton.h"
 #include "Vec4.h"
 
 #include <unordered_map>
@@ -62,40 +61,43 @@ namespace ngl
 
 
 
-class NGL_DLLEXPORT Random : public  Singleton<Random>
+class NGL_DLLEXPORT Random 
 {
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief we are a friend with singelton so we can assess the template methods
 //----------------------------------------------------------------------------------------------------------------------
-friend class Singleton<Random>;
 friend class Colour;
 friend class Vec4;
 
 public :
 
+  Random()=delete;
+  ~Random()=delete;
+  Random(const Random &)=delete;
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the seed using std::time(NULL)
   //----------------------------------------------------------------------------------------------------------------------
-  void setSeed();
+  static void setSeed();
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the seed using a param value
   /// @param _value the seed value
   //----------------------------------------------------------------------------------------------------------------------
-  void setSeed( unsigned int _value );
+  static void setSeed( unsigned int _value );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief gets a pre-generated Real value for a genetator
   /// @param _name the name of the generator to use for the number
   /// @brief returns a random number created by the generator or 0
   /// if the generator is not found
   //----------------------------------------------------------------------------------------------------------------------
-  Real getFloatFromGeneratorName( const std::string &_name);
+  static Real getFloatFromGeneratorName( const std::string &_name);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief gets a pre-generated int value for a genetator
   /// @param _name the name of the generator to use for the number
   /// @brief returns a random number created by the generator or 0
   /// if the generator is not found
   //----------------------------------------------------------------------------------------------------------------------
-  int getIntFromGeneratorName(const std::string &_name);
+  static int getIntFromGeneratorName(const std::string &_name);
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief add a generator to the int generators
@@ -103,40 +105,40 @@ public :
   /// @param _dist the distribution to add
   //----------------------------------------------------------------------------------------------------------------------
 
-  void addIntGenerator(const std::string &_name,std::uniform_int_distribution<int> &_dist);
+  static void addIntGenerator(const std::string &_name,std::uniform_int_distribution<int> &_dist);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief add a generator to the float generators
   /// @param _name the name of the generator to use for the number
   /// @param _dist the distribution to add
   //----------------------------------------------------------------------------------------------------------------------
-  void addFloatGenerator(const std::string &_name,std::uniform_real_distribution<float> &_dist);
+  static void addFloatGenerator(const std::string &_name,std::uniform_real_distribution<float> &_dist);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a random vector with componets ranged from +/- 1
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 getRandomVec4();
+  static Vec4 getRandomVec4();
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a random vector with componets ranged from +/- 1 and Normalized
   //----------------------------------------------------------------------------------------------------------------------
-  Vec4 getRandomNormalizedVec4();
+  static Vec4 getRandomNormalizedVec4();
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a random vector with componets ranged from +/- 1
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getRandomVec3();
+  static Vec3 getRandomVec3();
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a random vector with componets ranged from +/- 1 and Normalized
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getRandomNormalizedVec3();
+  static Vec3 getRandomNormalizedVec3();
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a random vector with componets ranged from +/- 1
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 getRandomVec2();
+  static Vec2 getRandomVec2();
 
-  Vec3 getRandomColour3();
-  Vec4 getRandomColour4();
+  static Vec3 getRandomColour3();
+  static Vec4 getRandomColour4();
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a random vector with componets ranged from +/- 1 and Normalized
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 getRandomNormalizedVec2();
+  static Vec2 getRandomNormalizedVec2();
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a random point in 3D space defaults to +/- 1 else user defined range
@@ -145,21 +147,21 @@ public :
   /// @param  _zRange the +/-z range
   /// @returns a random point
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getRandomPoint( Real _xRange=1.0, Real _yRange=1.0, Real _zRange=1.0 );
+  static Vec3 getRandomPoint( Real _xRange=1.0, Real _yRange=1.0, Real _zRange=1.0 );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a replacement for the old RandomNumber func
   /// this is basically a convinience function
   /// @param _mult an optional multiplyer for the output
   /// @returns (uniform_random(-1-0-+1) * _mult)
   //----------------------------------------------------------------------------------------------------------------------
-  Real randomNumber(Real _mult=1);
+  static Real randomNumber(Real _mult=1);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a replacement for the old ReandomPosNum
   /// this is basically a convinience function
   /// @param _mult an optional multiplyer for the output
   /// @returns (uniform_random(0-1) * _mult)
   //----------------------------------------------------------------------------------------------------------------------
-  Real randomPositiveNumber(  Real _mult=1  );
+  static Real randomPositiveNumber(  Real _mult=1  );
 
   protected :
 
@@ -168,20 +170,16 @@ public :
   /// all we need to do is replace this one define to use any of the other boost rng
   /// engines.
 
-  std::mt19937 m_generator;
+  static std::mt19937 m_generator;
   //----------------------------------------------------------------------------------------------------------------------
 
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief ctor hidden in protected as we are a singleton class
-  //----------------------------------------------------------------------------------------------------------------------
-  Random();
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief our map to hold the generator data basically we are going to hold
   /// a name / function pair, and this function will be called returning a Real
   /// value
   //----------------------------------------------------------------------------------------------------------------------
-  std::unordered_map<std::string, std::uniform_real_distribution<Real>> m_floatGenerators;
-  std::unordered_map<std::string, std::uniform_int_distribution<int>> m_intGenerators;
+  static std::unordered_map<std::string, std::uniform_real_distribution<Real>> m_floatGenerators;
+  static std::unordered_map<std::string, std::uniform_int_distribution<int>> m_intGenerators;
 
 };
 

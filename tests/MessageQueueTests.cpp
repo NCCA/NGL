@@ -98,7 +98,7 @@ TEST(NGLMessage,nullConsumer)
   EXPECT_TRUE(message.numMessages()==0);
 }
 
-/*
+
 TEST(NGLMessage,fileConsumer)
 {
   ngl::NGLMessage message(ngl::NGLMessage::Mode::SERVER,ngl::CommunicationMode::FILE);
@@ -156,7 +156,7 @@ TEST(NGLMessage,fileConsumerFromFileName)
   ngl::NGLMessage::stopMessageConsumer();
   EXPECT_TRUE(message.numMessages()==0);
 }
-*/
+
 /*
 TEST(NGLMessage,fileConsumerChangeFileName)
 {
@@ -186,7 +186,7 @@ TEST(NGLMessage,fileConsumerChangeFileName)
   EXPECT_TRUE(message.numMessages()==0);
 }
 
-
+*/
 
 TEST(NGLMessage,testMultiThread)
 {
@@ -220,7 +220,7 @@ TEST(NGLMessage,testMultiThread)
   ngl::NGLMessage::stopMessageConsumer();
   EXPECT_TRUE(message.numMessages()==0);
 }
-*/
+
 TEST(NGLMessage,testoperator)
 {
   ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT);
@@ -231,3 +231,4 @@ TEST(NGLMessage,testoperator)
 
 
 }
+

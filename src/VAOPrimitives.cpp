@@ -30,6 +30,7 @@
 namespace ngl
 {
 
+std::unordered_map <std::string,std::unique_ptr<AbstractVAO>> VAOPrimitives::m_createdVAOs;
 
 //----------------------------------------------------------------------------------------------------------------------
 VAOPrimitives::VAOPrimitives() noexcept
@@ -39,7 +40,7 @@ VAOPrimitives::VAOPrimitives() noexcept
 
 VAOPrimitives::~VAOPrimitives()
 {
-  clear();
+    clear();
 }
 
 //----------------------------------------------------------------------------------------------------------------------

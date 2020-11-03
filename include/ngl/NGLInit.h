@@ -21,7 +21,6 @@
 /// @brief basic class to initialise the NGL library
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
-#include "Singleton.h"
 #include "Types.h"
 #include "VAOPrimitives.h"
 #include "NGLMessage.h"
@@ -41,12 +40,13 @@ namespace ngl
 /// @example GraphicsLibInitExample/GraphicsLibInitExample.cpp
 //----------------------------------------------------------------------------------------------------------------------
 
-class   NGL_DLLEXPORT NGLInit : public  Singleton<NGLInit>
+class   NGL_DLLEXPORT NGLInit 
 {
-  friend class Singleton<NGLInit>;
   public :
+    static void initalize();
     static void initMessageSystem();
     void setCommunicationMode(ngl::CommunicationMode _mode );
+    ~NGLInit() noexcept;
   protected :
     //----------------------------------------------------------------------------------------------------------------------
     ///  @brief dtor
@@ -56,7 +56,6 @@ class   NGL_DLLEXPORT NGLInit : public  Singleton<NGLInit>
     //----------------------------------------------------------------------------------------------------------------------
     ///  @brief dtor
     //----------------------------------------------------------------------------------------------------------------------
-    ~NGLInit() noexcept;
 
 };
 } // end GL namespace

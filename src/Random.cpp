@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2009 Rob Bateman / Jon Macey
+  Copyright (C) 2009  Jon Macey
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,11 +27,28 @@ namespace ngl
 {
   constexpr auto RandomFloat="RandomFloat";
   constexpr auto RandomPositiveFloat="RandomPositiveFloat";
+  std::mt19937 Random::m_generator;
+  // because of C++ 11 we can now use lambda expressions to init static members so we don't need a ctor
+  std::unordered_map<std::string, std::uniform_real_distribution<Real>> Random::m_floatGenerators = []
+  {
+    std::unordered_map<std::string, std::uniform_real_distribution<Real>> gen;
+  // first create a simple uniform real distrib
+  std::uniform_real_distribution<Real> MinusPlusOneFloatDistrib(-1.0f, 1.0f);
+  gen[RandomFloat] =MinusPlusOneFloatDistrib;
+  // same for below but using 0-1 for distrib
+  std::uniform_real_distribution<Real> ZeroOneFloatDistrib(0.0f, 1.0f);
+  gen[RandomPositiveFloat] =ZeroOneFloatDistrib;
+  return gen;
+  }();
+
+
+
+  std::unordered_map<std::string, std::uniform_int_distribution<int>> Random::m_intGenerators;
 
 //----------------------------------------------------------------------------------------------------------------------
 void Random::setSeed()
 {
-  m_generator.seed(static_cast<unsigned int>(std::time(nullptr)));
+   m_generator.seed(static_cast<unsigned int>(std::time(nullptr))); 
 }
 
 
@@ -41,19 +58,6 @@ void Random::setSeed(unsigned int _value)
   m_generator.seed(_value);
 }
 
-
-//----------------------------------------------------------------------------------------------------------------------
-Random::Random()
-{
-  // we have two default generators built in
-
-  // first create a simple uniform real distrib
-  std::uniform_real_distribution<Real> MinusPlusOneFloatDistrib(-1.0f, 1.0f);
-  m_floatGenerators[RandomFloat] =MinusPlusOneFloatDistrib;
-  // same for below but using 0-1 for distrib
-  std::uniform_real_distribution<Real> ZeroOneFloatDistrib(0.0f, 1.0f);
-  m_floatGenerators[RandomPositiveFloat] =ZeroOneFloatDistrib;
-}
 
 
 //----------------------------------------------------------------------------------------------------------------------

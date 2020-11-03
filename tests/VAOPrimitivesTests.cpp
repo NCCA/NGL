@@ -4,11 +4,7 @@
 #include <ngl/SimpleVAO.h>
 #include <ngl/VAOFactory.h>
 #include <array>
-TEST(VAOPrimitives,instance)
-{
-  auto prim = ngl::VAOPrimitives::instance();
-  EXPECT_TRUE(prim !=nullptr);
-}
+
 
 static std::array<const char *,11> meshes={{
  ngl::teapot,ngl::octahedron,ngl::dodecahedron,
@@ -18,18 +14,18 @@ static std::array<const char *,11> meshes={{
 
 TEST(VAOPrimitives,getCreatedIDs)
 {
-  auto prim = ngl::VAOPrimitives::instance();
+
   for(auto m : meshes)
-    EXPECT_TRUE(prim->getVAOFromName(m) !=nullptr);
+    EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName(m) !=nullptr);
 
 }
 
 TEST(VAOPrimitives,checkCreated)
 {
-  auto prim = ngl::VAOPrimitives::instance();
+
   for(auto m : meshes)
   {
-    ngl::SimpleVAO *vao=  reinterpret_cast<ngl::SimpleVAO *>(prim->getVAOFromName(m));
+    ngl::SimpleVAO *vao=  reinterpret_cast<ngl::SimpleVAO *>(ngl::VAOPrimitives::getVAOFromName(m));
     vao->bind();
     EXPECT_TRUE(vao->getBufferID(0) >0);
     vao->unbind();
@@ -66,11 +62,11 @@ TEST(VAOPrimitives,checkADD)
    vao->setNumIndices(verts.size());
   // now unbind
    vao->unbind();
-   auto prim = ngl::VAOPrimitives::instance();
-   prim->addToPrimitives("test",std::move(vao));
-   EXPECT_TRUE(prim->getVAOFromName("test") !=nullptr);
+ 
+   ngl::VAOPrimitives::addToPrimitives("test",std::move(vao));
+   EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName("test") !=nullptr);
 
-   ngl::SimpleVAO *v=  reinterpret_cast<ngl::SimpleVAO *>(prim->getVAOFromName("test"));
+   ngl::SimpleVAO *v=  reinterpret_cast<ngl::SimpleVAO *>(ngl::VAOPrimitives::getVAOFromName("test"));
    v->bind();
    EXPECT_TRUE(v->getBufferID(0) >0);
    v->unbind();
@@ -79,59 +75,59 @@ TEST(VAOPrimitives,checkADD)
 
 TEST(VAOPrimitives,createSphere)
 {
-  auto prim = ngl::VAOPrimitives::instance();
-  prim->createSphere("sphere",1.0,200);
-  EXPECT_TRUE(prim->getVAOFromName("sphere") !=nullptr);
+
+  ngl::VAOPrimitives::createSphere("sphere",1.0,200);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName("sphere") !=nullptr);
 }
 
 TEST(VAOPrimitives,createLineGrid)
 {
-  auto prim = ngl::VAOPrimitives::instance();
-  prim->createLineGrid("grid",100,100,1000);
-  EXPECT_TRUE(prim->getVAOFromName("grid") !=nullptr);
+
+  ngl::VAOPrimitives::createLineGrid("grid",100,100,1000);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName("grid") !=nullptr);
 }
 
 TEST(VAOPrimitives,createTrianglePlane)
 {
-  auto prim = ngl::VAOPrimitives::instance();
-  prim->createTrianglePlane("plane",100,100,1000,1000,ngl::Vec3::up());
-  EXPECT_TRUE(prim->getVAOFromName("plane") !=nullptr);
+
+  ngl::VAOPrimitives::createTrianglePlane("plane",100,100,1000,1000,ngl::Vec3::up());
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName("plane") !=nullptr);
 }
 
 TEST(VAOPrimitives,createCylinder)
 {
-  auto prim = ngl::VAOPrimitives::instance();
-  prim->createCylinder("cylinder",1.0f,2.0f,100,100);
-  EXPECT_TRUE(prim->getVAOFromName("cylinder") !=nullptr);
+
+  ngl::VAOPrimitives::createCylinder("cylinder",1.0f,2.0f,100,100);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName("cylinder") !=nullptr);
 }
 
 TEST(VAOPrimitives,createTorus)
 {
-  auto prim = ngl::VAOPrimitives::instance();
-  prim->createCylinder("torus",1.0f,2.0f,100,100);
-  EXPECT_TRUE(prim->getVAOFromName("torus") !=nullptr);
+
+  ngl::VAOPrimitives::createCylinder("torus",1.0f,2.0f,100,100);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName("torus") !=nullptr);
 }
 
 TEST(VAOPrimitives,createCone)
 {
-  auto prim = ngl::VAOPrimitives::instance();
-  prim->createCone("cone",1.0f,2.0f,100,100);
-  EXPECT_TRUE(prim->getVAOFromName("cone") !=nullptr);
+
+  ngl::VAOPrimitives::createCone("cone",1.0f,2.0f,100,100);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName("cone") !=nullptr);
 }
 
 TEST(VAOPrimitives,createCapsule)
 {
-  auto prim = ngl::VAOPrimitives::instance();
-  prim->createCapsule("capsule",1.0f,2.0f,100);
-  EXPECT_TRUE(prim->getVAOFromName("capsule") !=nullptr);
+
+  ngl::VAOPrimitives::createCapsule("capsule",1.0f,2.0f,100);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName("capsule") !=nullptr);
 }
 
 
 TEST(VAOPrimitives,clear)
 {
-  auto prim = ngl::VAOPrimitives::instance();
-  prim->clear();
+
+  ngl::VAOPrimitives::clear();
   for(auto m : meshes)
-    EXPECT_FALSE(prim->getVAOFromName(m) !=nullptr);
+    EXPECT_FALSE(ngl::VAOPrimitives::getVAOFromName(m) !=nullptr);
 
 }

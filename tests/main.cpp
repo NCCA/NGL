@@ -1,8 +1,8 @@
+#include <ngl/NGLInit.h>
+#include <GLFW/glfw3.h>
 #include <gtest/gtest.h>
 #include <array>
 #include <string>
-#include <ngl/NGLInit.h>
-#include <GLFW/glfw3.h>
 #ifndef WIN32
     #include <getopt.h>
 #endif
@@ -50,7 +50,8 @@ void Environment::SetUp()
       glfwMakeContextCurrent(window);
       // whilst we will do this in a test, best to make sure we have a valid context here
       // incase we run isolated tests on just GL elements
-      ngl::NGLInit::instance()->setCommunicationMode(ngl::CommunicationMode::STDERR);
+       ngl::NGLInit::initalize();
+//      ngl::NGLInit::instance()->setCommunicationMode(ngl::CommunicationMode::STDERR);
   }
 
 }
@@ -97,7 +98,7 @@ int main(int argc, char **argv)
   {
     std::cerr<<"excluding tests\n";
     ::testing::GTEST_FLAG(filter) = "-ShaderLib.*:VAOPrimitives.*:NGLInit*:NGLMessage*";
-    ngl::NGLInit::initMessageSystem();
+    //ngl::NGLInit::initMessageSystem();
   }
   return RUN_ALL_TESTS();
 }

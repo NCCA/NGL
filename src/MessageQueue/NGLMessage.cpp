@@ -23,15 +23,13 @@ namespace ngl
   NGLMessage::Mode NGLMessage::s_mode=Mode::CLIENT;
   static std::mutex g_messageQueueLock;
   static std::mutex g_serverLock;
-  std::promise<bool> g_exitSignal;
-  std::future<bool> NGLMessage::s_futureExit;
+  std::promise<void> g_exitSignal;
+  std::future<void> NGLMessage::s_futureExit;
   bool NGLMessage::s_active=true;
   CommunicationMode NGLMessage::s_comMode=CommunicationMode::STDERR;
   Colours NGLMessage::s_currentColour=Colours::NORMAL;
   NGLMessage::NGLMessage(Mode _mode,CommunicationMode _comMode)
   {
-    g_exitSignal.set_value(false);
-    g_exitSignal = std::promise<bool>();
     s_mode=_mode;
     s_comMode=_comMode;
     s_consuming=true;
@@ -186,8 +184,8 @@ namespace ngl
   void NGLMessage::stopServer()
   {
     s_server.clear();
-    g_exitSignal.set_value(false);
-    g_exitSignal = std::promise<bool>();
+    g_exitSignal.set_value();
+
   }
 
 

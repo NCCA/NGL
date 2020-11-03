@@ -22,7 +22,6 @@
 
 #include "Shader.h"
 #include "ShaderProgram.h"
-#include "Singleton.h"
 #include "Types.h"
 #include "Mat2.h"
 #include "Mat3.h"
@@ -33,6 +32,7 @@
 #endif
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -54,63 +54,64 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 
 
-class NGL_DLLEXPORT ShaderLib : public  Singleton<ShaderLib>
+class NGL_DLLEXPORT ShaderLib 
 {
-  friend class Singleton<ShaderLib>;
 
 public :
   enum class MatrixTranspose : bool {TransposeOn=GL_TRUE,TransposeOff=GL_FALSE};
+  static void loadDefaultShaders();
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create an empty ShaderProgram for us to attach shaders etc to
   /// @param _name the name of the ShaderProgram to link
   //----------------------------------------------------------------------------------------------------------------------
-  void createShaderProgram(const std::string &_name  , ErrorExit _exitOnError=ErrorExit::ON) noexcept;
+  static void createShaderProgram(const std::string &_name  , ErrorExit _exitOnError=ErrorExit::ON) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief attatch a Shader to the ShaderProgram referenced by _name
   /// @param _name the name of the ShaderProgram to attach
   //----------------------------------------------------------------------------------------------------------------------
-  void attachShader(const std::string &_name, ShaderType _type , ErrorExit _exitOnError=ErrorExit::ON) noexcept;
+  static void attachShader(const std::string &_name, ShaderType _type , ErrorExit _exitOnError=ErrorExit::ON) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief attatch a Shader to the ShaderProgram referenced by _name
   /// @param _program the name of the ShaderProgram to attach to
   /// @param _shader the name of the Shader to attach to Program
   //----------------------------------------------------------------------------------------------------------------------
 
-  void attachShaderToProgram( const std::string &_program, const std::string &_shader ) noexcept;
+  static void attachShaderToProgram( const std::string &_program, const std::string &_shader ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the Program ID of the GL Program by name
   /// @param _name the name of the ShaderProgram to find
   /// @returns the id of the program found or -1 on error
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getProgramID(  const std::string &_name ) noexcept;
+  static GLuint getProgramID(  const std::string &_name ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief compile the shader from _name
   /// @param _name the name of the ShaderProgram to compile
   //----------------------------------------------------------------------------------------------------------------------
-  bool compileShader(const std::string &_name ) noexcept;
+  static bool compileShader(const std::string &_name ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief link the program Object  from _name
   /// @param _name the name of the ShaderProgram to link
   //----------------------------------------------------------------------------------------------------------------------
-  bool linkProgramObject( const std::string &_name ) noexcept;
+  static bool linkProgramObject( const std::string &_name ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief toggle debug mode
   //----------------------------------------------------------------------------------------------------------------------
-  void toggleDebug()  noexcept{ m_debugState ^=true;}
+  static void toggleDebug()  noexcept{ m_debugState ^=true;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set active shader to name (if not found sets glProgramObject(0)
   /// @param _name the name of the ShaderProgram to use
   //----------------------------------------------------------------------------------------------------------------------
-  void use( const std::string &_name ) noexcept;
+  static void use( const std::string &_name ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief edit the shader source
   /// @param _name the name of the ShaderProgram to use
   //----------------------------------------------------------------------------------------------------------------------
-  bool editShader(const std::string &_shader, const std::string &_toFind, const std::string &_edit );
+  static bool editShader(const std::string &_shader, const std::string &_toFind, const std::string &_edit );
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief reset all edits
   //----------------------------------------------------------------------------------------------------------------------
-  void resetEdits(const std::string &_shader);
+  static void resetEdits(const std::string &_shader);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief bind an attribute at index by name
   /// @param _programName  the name of the ShaderProgram to use
@@ -118,7 +119,7 @@ public :
   /// @param _attribName the name of the attribute in the shader to be bound to this index
   /// @note if using glsl > 400 we can use layout qualifiers and don't need this
   //----------------------------------------------------------------------------------------------------------------------
-  void bindAttribute( const std::string &_programName, GLuint _index, const std::string &_attribName ) noexcept;
+  static void bindAttribute( const std::string &_programName, GLuint _index, const std::string &_attribName ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief fragment shader output location
   /// @param _programName  the name of the ShaderProgram to use
@@ -126,20 +127,8 @@ public :
   /// @param _attribName the name of the attribute in the shader to be bound to this index
   /// @note if using glsl > 420 we can use layout qualifiers and don't need this
   //----------------------------------------------------------------------------------------------------------------------
-  void bindFragDataLocation( const std::string &_programName, GLuint _index, const std::string &_attribName ) noexcept;
+  static void bindFragDataLocation( const std::string &_programName, GLuint _index, const std::string &_attribName ) noexcept;
 
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief accessor to the shader program using the subscript operatoir
-  /// @param _name  the name of the ShaderProgram to use
-  /// @returns a ShaderProgram if name exist else null shader program
-  //----------------------------------------------------------------------------------------------------------------------
-  ShaderProgram * operator[] (const std::string &_name)  noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief accessor to the shader program using the subscript operatoir
-  /// @param _name  the name of the ShaderProgram to use
-  /// @returns a ShaderProgram if name exist else null shader program
-  //----------------------------------------------------------------------------------------------------------------------
-  ShaderProgram * operator[] (const char *_name) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to load shaders
   /// @param[in] _shaderName the name of the shader to be stored in the Manager
@@ -148,97 +137,97 @@ public :
   /// @param[in] _geo an optional geo shader to load
   /// @param[in] _exitOnError exit if there is an error in the shader
   //----------------------------------------------------------------------------------------------------------------------
-  bool loadShader(const std::string &_shaderName, const std::string &_vert, const std::string &_frag,
+  static bool loadShader(const std::string &_shaderName, const std::string &_vert, const std::string &_frag,
                   const std::string &_geo, ErrorExit _exitOnError=ErrorExit::ON ) noexcept;
-  bool loadShader(const std::string &_shaderName, const std::string &_vert, const std::string &_frag,
+  static bool loadShader(const std::string &_shaderName, const std::string &_vert, const std::string &_frag,
                   ErrorExit _exitOnError=ErrorExit::ON ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to load multiple shaders from a json file
   /// @param[in] _shaderName the name of the json resource file
-  bool loadFromJson(const std::string &_fname) noexcept;
-  void setJsonUniform(const std::string &_name, const std::string &_type, const std::string &_value);
+  static bool loadFromJson(const std::string &_fname) noexcept;
+  static void setJsonUniform(const std::string &_name, const std::string &_type, const std::string &_value);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Toggle debug mode on
   //----------------------------------------------------------------------------------------------------------------------
-  void debugOn()  noexcept{ m_debugState=true; }
+  static void debugOn()  noexcept{ m_debugState=true; }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Toggle debug mode off
   //----------------------------------------------------------------------------------------------------------------------
-  void debugOff() noexcept {   m_debugState=false; }
+  static void debugOff() noexcept {   m_debugState=false; }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the number of shaders stored
   /// @returns the number of shaders
   //----------------------------------------------------------------------------------------------------------------------
-  size_t getNumShaders() const noexcept{ return m_shaders.size();}
+  static size_t getNumShaders()  noexcept{ return m_shaders.size();}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief print the properties of the currently active shader
   //----------------------------------------------------------------------------------------------------------------------
-  void printProperties() const noexcept;
+  static void printProperties()  noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief reset the Shader manager which will delete all shader objects
   //----------------------------------------------------------------------------------------------------------------------
-  void reset() noexcept;
+  static void reset() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the current shader name
   //----------------------------------------------------------------------------------------------------------------------
-  std::string  getCurrentShaderName() const {return m_currentShader;}
+  static std::string  getCurrentShaderName()  {return m_currentShader;}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief return the index to the shader attribute location
   /// @param _shaderName the name of the shader program
   /// @param _paramName the name of the parameter to find
   /// @returns the Attrib index location
   //----------------------------------------------------------------------------------------------------------------------
-  GLint getAttribLocation(const std::string &_shaderName,const std::string &_paramName ) noexcept;
+  static GLint getAttribLocation(const std::string &_shaderName,const std::string &_paramName ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Load shader source from text file the path will be relative from current dir
   /// unless a full path is specified
   /// @param _shaderName the name of the shader program
   /// @param _sourceFile the path of the file to load
   //----------------------------------------------------------------------------------------------------------------------
-  void loadShaderSource(std::string _shaderName, std::string _sourceFile) noexcept;
+  static void loadShaderSource(std::string _shaderName, std::string _sourceFile) noexcept;
 
    //----------------------------------------------------------------------------------------------------------------------
   /// @brief load shader from a C string, useful for including code in headers etc
   /// @param _shaderName the name of the shader program
   /// @param _string the text array of shader data
   //----------------------------------------------------------------------------------------------------------------------
-  void loadShaderSourceFromString(const std::string &_shaderName, const std::string &_string ) noexcept;
+  static void loadShaderSourceFromString(const std::string &_shaderName, const std::string &_string ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief use the null program (this will turn off any shaders), if using some drivers this
   /// will go to the fixed function pipeline
   //----------------------------------------------------------------------------------------------------------------------
-  void useNullProgram() noexcept;
+  static void useNullProgram() noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief grab the index of the unifrom block, this may not be supported on all GPU's
   /// @param _uniformBlockName the name of the block to get the index for
   /// @returns the index of the block or -1 on error
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getUniformBlockIndex(const std::string &_uniformBlockName  ) const noexcept;
+  static GLuint getUniformBlockIndex(const std::string &_uniformBlockName  )  noexcept;
  //----------------------------------------------------------------------------------------------------------------------
   /// @brief register a uniform so we don't have to call glGet functions when using
   /// @param[in] _shaderName the name of the shader to set the param for
   /// @param[in] _uniformName the name of the uniform to register
   //----------------------------------------------------------------------------------------------------------------------
-  void registerUniform( const std::string &_shaderName, const std::string &_uniformName  ) noexcept;
+  static void registerUniform( const std::string &_shaderName, const std::string &_uniformName  ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief will parse the shader source and find any uniforms it can and register them
   /// @param[in] _shaderName the name of the shader to set the param for
   //----------------------------------------------------------------------------------------------------------------------
 
-  void autoRegisterUniforms( const std::string &_shaderName ) noexcept;
+  static void autoRegisterUniforms( const std::string &_shaderName ) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief debug print any registered uniforms
   //----------------------------------------------------------------------------------------------------------------------
-  void printRegisteredUniforms(const std::string &_shader) const  noexcept;
+  static void printRegisteredUniforms(const std::string &_shader)   noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,Real _v0) noexcept;
-  void getUniform(const std::string &_paramName, Real &o_v0) noexcept;
+  static void setUniform(const std::string &_paramName,Real _v0) noexcept;
+  static void getUniform(const std::string &_paramName, Real &o_v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -246,9 +235,9 @@ public :
   /// @param[in] _v0 the float value of the parameter to set
   /// @param[in] _v1 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,Real _v0,Real _v1) noexcept;
-  void getUniform(const std::string &_paramName, Real &o_v0,Real &o_v1) noexcept;
-  void getUniform(const std::string &_paramName, Vec2 &o_v3)  noexcept;
+  static void setUniform(const std::string &_paramName,Real _v0,Real _v1) noexcept;
+  static void getUniform(const std::string &_paramName, Real &o_v0,Real &o_v1) noexcept;
+  static void getUniform(const std::string &_paramName, Vec2 &o_v3)  noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -257,9 +246,9 @@ public :
   /// @param[in] _v1 the float value of the parameter to set
   /// @param[in] _v2 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,Real _v0,Real _v1,Real _v2) noexcept;
-  void getUniform(const std::string &_paramName, Real &o_v0,Real &o_v1, Real &o_v2)  noexcept;
-  void getUniform(const std::string &_paramName, Vec3 &o_v)  noexcept;
+  static void setUniform(const std::string &_paramName,Real _v0,Real _v1,Real _v2) noexcept;
+  static void getUniform(const std::string &_paramName, Real &o_v0,Real &o_v1, Real &o_v2)  noexcept;
+  static void getUniform(const std::string &_paramName, Vec3 &o_v)  noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -269,16 +258,16 @@ public :
   /// @param[in] _v2 the float value of the parameter to set
   /// @param[in] _v3 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,Real _v0,Real _v1,Real _v2,Real _v3) noexcept;
-  void getUniform(const std::string &_paramName, Real &o_v0,Real &o_v1, Real &o_v2, Real &o_v3)  noexcept;
-  void getUniform(const std::string &_paramName, Vec4 &o_v)  noexcept;
+  static void setUniform(const std::string &_paramName,Real _v0,Real _v1,Real _v2,Real _v3) noexcept;
+  static void getUniform(const std::string &_paramName, Real &o_v0,Real &o_v1, Real &o_v2, Real &o_v3)  noexcept;
+  static void getUniform(const std::string &_paramName, Vec4 &o_v)  noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the int value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,GLint _v0) noexcept;
+  static void setUniform(const std::string &_paramName,GLint _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -286,7 +275,7 @@ public :
   /// @param[in] _v0 the int value of the parameter to set
   /// @param[in] _v1 the int value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,GLint _v0,GLint _v1) noexcept;
+  static void setUniform(const std::string &_paramName,GLint _v0,GLint _v1) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -295,7 +284,7 @@ public :
   /// @param[in] _v1 the int value of the parameter to set
   /// @param[in] _v2 the int value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,GLint _v0,GLint _v1,GLint _v2) noexcept;
+  static void setUniform(const std::string &_paramName,GLint _v0,GLint _v1,GLint _v2) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -305,57 +294,57 @@ public :
   /// @param[in] _v2 the int value of the parameter to set
   /// @param[in] _v3 the int value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,GLint _v0,GLint _v1,GLint _v2,GLint _v3) noexcept;
+  static void setUniform(const std::string &_paramName,GLint _v0,GLint _v1,GLint _v2,GLint _v3) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,Vec2 _v0) noexcept;
+  static void setUniform(const std::string &_paramName,Vec2 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,Vec3 _v0) noexcept;
+  static void setUniform(const std::string &_paramName,Vec3 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec4 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,Vec4 _v0) noexcept;
+  static void setUniform(const std::string &_paramName,Vec4 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat2 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,Mat2 _v0) noexcept;
-  void getUniform(const std::string &_paramName,Mat2 &_v0) noexcept;
+  static void setUniform(const std::string &_paramName,Mat2 _v0) noexcept;
+  static void getUniform(const std::string &_paramName,Mat2 &_v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,Mat3 _v0) noexcept;
-  void getUniform(const std::string &_paramName,Mat3 &_v0) noexcept;
+  static void setUniform(const std::string &_paramName,Mat3 _v0) noexcept;
+  static void getUniform(const std::string &_paramName,Mat3 &_v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat4 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,Mat4 _v0) noexcept;
-  void getUniform(const std::string &_paramName,Mat4 &_v0) noexcept;
+  static void setUniform(const std::string &_paramName,Mat4 _v0) noexcept;
+  static void getUniform(const std::string &_paramName,Mat4 &_v0) noexcept;
 
   // compatability functions to make it easier to use GLM
-  void setUniformMatrix2fv(const std::string &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::TransposeOff) noexcept;
-  void setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::TransposeOff) noexcept;
-  void setUniformMatrix3fv(const std::string &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::TransposeOff) noexcept;
+  static void setUniformMatrix2fv(const std::string &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::TransposeOff) noexcept;
+  static void setUniformMatrix4fv(const std::string &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::TransposeOff) noexcept;
+  static void setUniformMatrix3fv(const std::string &_paramName,const GLfloat *_value, MatrixTranspose _transpose=MatrixTranspose::TransposeOff) noexcept;
 
 #ifdef USEGLM
   //----------------------------------------------------------------------------------------------------------------------
@@ -364,35 +353,35 @@ public :
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,glm::vec2 _v0) noexcept;
+  static void setUniform(const std::string &_paramName,glm::vec2 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,glm::vec3 _v0) noexcept;
+  static void setUniform(const std::string &_paramName,glm::vec3 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec4 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,glm::vec4 _v0) noexcept;
+  static void setUniform(const std::string &_paramName,glm::vec4 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,glm::mat3 _v0) noexcept;
+  static void setUniform(const std::string &_paramName,glm::mat3 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat4 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setUniform(const std::string &_paramName,glm::mat4 _v0) noexcept;
+  static void setUniform(const std::string &_paramName,glm::mat4 _v0) noexcept;
 
 #endif
 
@@ -400,65 +389,67 @@ public :
   /// @brief method to return a shader ID
   /// @param _shaderName the name of the shader who's ID to return
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getShaderID(const std::string &_shaderName) noexcept;
+  static GLuint getShaderID(const std::string &_shaderName) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to return the specified shader object
   /// @param _shaderName the name of the shader to return
   //----------------------------------------------------------------------------------------------------------------------
-  ngl::Shader* getShader(const std::string &_shaderName) noexcept;
-  void setUniformBuffer(const std::string &_uniformBlockName, size_t _size, void *_data);
+  static std::shared_ptr<ngl::Shader> getShader(const std::string &_shaderName) noexcept;
+  static void setUniformBuffer(const std::string &_uniformBlockName, size_t _size, void *_data);
 
 protected:
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  get shader type from string (used for json parsing)
   //----------------------------------------------------------------------------------------------------------------------
-  ShaderType getShaderType(const std::string &type) noexcept;
+  static ShaderType getShaderType(const std::string &type) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  this will load the pre-defined text rendering shaders
   /// these are stored in the file src/shaders/TextShaders.h
   //----------------------------------------------------------------------------------------------------------------------
-  void loadTextShaders() noexcept;
+  static void loadTextShaders() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  this will load the pre-defined text rendering shaders
   /// these are stored in the file src/shaders/ColourShaders.h
   //----------------------------------------------------------------------------------------------------------------------
-  void loadColourShaders() noexcept;
+  static void loadColourShaders() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  this will load the pre-defined text rendering shaders
   /// these are stored in the file src/shaders/DiffuseShaders.h
   //----------------------------------------------------------------------------------------------------------------------
-  void loadDiffuseShaders() noexcept;
+  static void loadDiffuseShaders() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  this will load the pre-defined text rendering shaders
   /// these are stored in the file src/shaders/ToonShaders.h
   //----------------------------------------------------------------------------------------------------------------------
-  void loadCherckerShaders() noexcept;
+  static void loadCheckerShaders() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a map of shader Programs using name as key to shader pointer
   //----------------------------------------------------------------------------------------------------------------------
-  std::unordered_map <std::string,ShaderProgram *> m_shaderPrograms;
+  static std::unordered_map <std::string,std::shared_ptr<ShaderProgram>> m_shaderPrograms;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief map of shaders using name as key
   //----------------------------------------------------------------------------------------------------------------------
-  std::unordered_map <std::string,Shader *> m_shaders;
+  static std::unordered_map <std::string,std::shared_ptr<Shader >> m_shaders;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief null ShaderProgram so we can return when shader not know;
   //----------------------------------------------------------------------------------------------------------------------
-  ShaderProgram *m_nullProgram;
+  static std::shared_ptr<ShaderProgram> m_nullProgram;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the name of the currently active shader
-  //----------------------------------------------------------------------------------------------------------------------
-  std::string m_currentShader;
+  //    ----------------------------------------------------------------------------------------------------------------------
+  static std::string m_currentShader;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  flag to indicate the debug state
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_debugState;
+ static  bool m_debugState;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief  the nunmber of shaders loaded
+  /// @brief  the number of shaders loaded
   //----------------------------------------------------------------------------------------------------------------------
-  unsigned int m_numShaders;
+  static unsigned int m_numShaders;
+  
+  static bool m_defaultShadersLoaded;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief default ctor private as a singleton
   //----------------------------------------------------------------------------------------------------------------------
