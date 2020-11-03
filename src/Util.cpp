@@ -234,10 +234,10 @@ NGL_DLLEXPORT Mat4 ortho(Real _left, Real _right, Real _bottom, Real _top, Real 
 
 NGL_DLLEXPORT Mat4 ortho(Real _left, Real _right, Real _bottom, Real _top) noexcept
 {
-  Mat4 result(1);
-  result.m_00= Real(2) / (_right - _left);
-  result.m_11= Real(2) / (_top - _bottom);
-  result.m_22= - Real(1);
+  Mat4 result(1.0);
+  result.m_00= 2.0f / (_right - _left);
+  result.m_11= 2.0f / (_top - _bottom);
+  result.m_22= - 1.0f;
   result.m_30= - (_right + _left) / (_right - _left);
   result.m_31= - (_top + _bottom) / (_top - _bottom);
   return result;

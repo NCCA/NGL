@@ -41,10 +41,9 @@
 #include "Vec2.h"
 #include "VAOFactory.h"
 #include "SimpleVAO.h"
-#include <memory>
-//#include <QFont>
-//#include <QString>
 #include "Mat4.h"
+#include <memory>
+#include <unordered_map>
 
 namespace ngl
 {
@@ -57,10 +56,15 @@ namespace ngl
   //----------------------------------------------------------------------------------------------------------------------
   struct FontChar
   {
-    int width; /// @brief the width of the font
+    int sizex;
+    int sizey;
+    int  bearingx;
+    int bearingy;
+    unsigned int advance;
     GLuint textureID; /// @brief the texture id of the font billboard
-    std::shared_ptr<AbstractVAO> vao; /// a vao for the font
+  //  std::shared_ptr<AbstractVAO> vao; /// a vao for the font
   };
+
 
 class NGL_DLLEXPORT Text
 {
@@ -71,12 +75,8 @@ public:
   /// need a new Text class for each different type of text / font
   /// @param[in] _f the font to use for drawing the text
   //----------------------------------------------------------------------------------------------------------------------
-  //Text( const QFont &_f ) noexcept;
-  #ifdef PYTHONBUILD 
-  #warning fix this
-    Text(const std::string &_name, int _size) {} //: Text(QFont(_name.c_str(),_size)) {}
-  #endif
-  //----------------------------------------------------------------------------------------------------------------------
+    Text(const std::string &_name, int _size);
+ //---------------------------------------------------------------------------------------------------------------------
   /// @brief dtor will clean / remove textures and VAO's for the class
   //----------------------------------------------------------------------------------------------------------------------
   ~Text();
@@ -116,14 +116,17 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   void setColour( Real _r, Real _g,  Real _b  ) noexcept;
 
-  void setTransform(float _x, float _y) noexcept;
+
+  
+
 protected:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a hash to store our FontChar data looked up by the char we want
   /// to render according to the Qt Docs a hash has faster lookups than QMap
   /// so using this
   //----------------------------------------------------------------------------------------------------------------------
- // QHash <char,FontChar> m_characters;
+  std::unordered_map <char,FontChar> m_characters;
+  std::unique_ptr<AbstractVAO> m_texVAO;
 };
 
 }

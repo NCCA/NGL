@@ -21,6 +21,8 @@ project(AllNGL VERSION 8.0 LANGUAGES CXX C)
 find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(OpenImageIO CONFIG REQUIRED)
+find_package(freetype CONFIG REQUIRED)
+
 if(UNIX)
     find_package(IlmBase CONFIG REQUIRED)
     find_package(OpenEXR CONFIG REQUIRED)
@@ -67,6 +69,8 @@ endif()
 
 install(TARGETS NGL DESTINATION lib)
 install(DIRECTORY   ${CMAKE_SOURCE_DIR}/include/ngl/ DESTINATION include/ngl)
+install(FILES   ${CMAKE_SOURCE_DIR}/gl3w/gl3w.h DESTINATION include/ngl)
+install(FILES   ${CMAKE_SOURCE_DIR}/gl3w/glcorearb.h DESTINATION include/ngl)
 
 
 
@@ -181,12 +185,15 @@ target_link_libraries(NGL PRIVATE glm)
 target_link_libraries(NGL PRIVATE fmt::fmt-header-only)
 target_link_libraries(NGL PRIVATE ${EXTRALIBS})
 target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+target_link_libraries(NGL PRIVATE freetype)
+
 if(UNIX)
    target_link_libraries(NGL PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
    target_link_libraries(NGL PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
 endif()
 target_include_directories(NGL PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 target_include_directories(NGL PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
+
 
 #################################################################
 # Tests
@@ -227,6 +234,8 @@ if(UNIX)
 endif()
 target_include_directories(NGLTests PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 target_include_directories(NGLTests PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
+target_link_libraries(NGLTests PRIVATE freetype)
+
 
 
 # see what platform we are on and set platform defines
@@ -425,6 +434,9 @@ target_link_libraries(pyngl PRIVATE glm)
 target_link_libraries(pyngl PRIVATE fmt::fmt-header-only)
 target_link_libraries(pyngl ${PROJECT_LINK_LIBS} ${EXTRALIBS})
 target_link_libraries(pyngl PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+target_link_libraries(pyngl PRIVATE freetype)
+
+
 #target_link_libraries(pyngl PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
 #target_link_libraries(pyngl PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
 target_include_directories(pyngl PRIVATE ${RAPIDXML_INCLUDE_DIRS})
