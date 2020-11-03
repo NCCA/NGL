@@ -69,18 +69,13 @@ A simple scene using all of the built in VAO primitives, this has approx 350,000
 
 ![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Camera.png)
 
-This demonstrates the use of the ngl::Camera class as well as showing how the camera is actually made up of a simple series of matrices
+This demonstrates how to create a simple Camera class as well as showing how the camera is actually made up of a simple series of matrices. This demo also demonstrates the ngl::TextClass
 
 ## [Matrix Stack](https://github.com/NCCA/MatrixStack)
 ![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/MatrixStack.png)
 
 This demo implements a matrix stack similar to the immediate mode OpenGL push / pop matrix functionality. It can be extended to replicate basic immediate mode OpenGL pipeline functions with modern OpenGL rendering.
 
-## [SDLNGL](https://github.com/NCCA/SDLTTF)
-![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/TTFText.png)
-
-As the ngl::Text class is reliant upon QFont at present this class is a drop in replacement using  [sdl-ttf] (https://www.libsdl.org/projects/SDL_ttf/)
-eventually all of this will be merged into the core ngl with compile time flags to choose the text rendering engine.
 
 ## [using ngl::lookAt and ngl::perspective](https://github.com/NCCA/LookAtDemos)
 ![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/lookat.png)

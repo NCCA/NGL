@@ -38,7 +38,7 @@
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
-void NGLInit::initalize()
+void NGLInit::initialize()
 {
   #if defined(USINGIOS_) || !defined(__APPLE__)
   if (gl3wInit())

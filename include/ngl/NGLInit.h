@@ -43,7 +43,7 @@ namespace ngl
 class   NGL_DLLEXPORT NGLInit 
 {
   public :
-    static void initalize();
+    static void initialize();
     static void initMessageSystem();
     void setCommunicationMode(ngl::CommunicationMode _mode );
     ~NGLInit() noexcept;
