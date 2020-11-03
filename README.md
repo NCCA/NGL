@@ -1,6 +1,6 @@
 # NGL the NCCA Graphics Library
 
-## NGL 7 master branch 
+## NGL 8 master branch 
 
 For the current build status see our CI logs here 
 
@@ -15,15 +15,20 @@ For the current build status see our CI logs here
 
 NGL depends upon the following libraries
 
-- Qt (Used by default for QImage and Font support), these can be removed and use other libraries such as OpenImageIO or ImageMagick
+- [OpenImageIO](https://github.com/OpenImageIO/oiio) For image reading and writing. 
 - [GLM](https://glm.g-truc.net/0.9.9/index.html) this is a header only library and can be copied to /usr/local/include This is a compatibility layer and can be removed by commenting out the  USEGLM define in the Qt projects.
 - [glfw3](https://www.glfw.org/) is used to create an OpenGL context for the unit tests, if you don't want to install this just don't build the unit tests.  
+- [gtest](https://github.com/google/googletest) for Unit testing if you are building the tests.
+- [cmake](https://cmake.org/) for building of NGL and all demos.
+
+To install all the dependencies I use [vcpkg](https://github.com/microsoft/vcpkg) depending upon your platform you can read what to install in the detailed instructions below.
+
 
 ## Building
 
-It needs to be built using QtCreator or CMake for Windows build instructions read [Windows.md](Windows.md). A brief guide for setting up with Ubuntu can be found here [UBUNTU.md](UBUNTU.md)
+It needs to be built using QtCreator or CMake for Windows build instructions read [Windows.md](Windows.md). A brief guide for setting up with Ubuntu can be found here [UBUNTU.md](UBUNTU.md) and [Mac OSX](Mac.md)
 
-Note this is now being built using C++ 14 and will use many C++ 14 features so make sure you have a modern compiler such as clang++ or g++ >4.8
+Note this is now being built using C++ 17 and will use many C++ 17 features so make sure you have a modern compiler such as clang++ or g++ >4.8
 
 For more info check out the website here
 
