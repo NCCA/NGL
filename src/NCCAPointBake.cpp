@@ -16,7 +16,7 @@
 */
 
 #include "NCCAPointBake.h"
-#include "rapidxml/rapidxml.hpp"
+#include <rapidxml/rapidxml.hpp>
 #include "pystring.h"
 #include <iostream>
 #include <cstring>
