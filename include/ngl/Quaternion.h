@@ -315,6 +315,11 @@ class NGL_DLLEXPORT Quaternion
 
 }
 
+inline ngl::Quaternion operator*( ngl::Real _s, const ngl::Quaternion &_lhs) noexcept
+{
+  return ngl::Quaternion(_lhs.m_s*_s, _lhs.m_x*_s, _lhs.m_y*_s, _lhs.m_z*_s);
+}
+
 #include "Mat4.h"
 
 #endif
