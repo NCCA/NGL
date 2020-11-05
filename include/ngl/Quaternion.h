@@ -301,7 +301,6 @@ class NGL_DLLEXPORT Quaternion
   //----------------------------------------------------------------------------------------------------------------------
   Mat4 toMat4Transpose() const noexcept;
 
-  protected :
   /// @brief  the quaternion data for the scalar real part
   Real m_s=1.0f;
   /// @brief  the quaternion data for x

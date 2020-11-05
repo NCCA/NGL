@@ -275,6 +275,19 @@ TEST(Quaternion,fromAxisAngle)
   ASSERT_NEAR(q.getZ(),gq.z,0.001f);
 }
 
+
+TEST(Quaternion,toAxisAngle)
+{
+  ngl::Quaternion q;
+  q.fromAxisAngle({1,0,0},45.0f);
+  ngl::Vec3 axis;
+  float angle;
+  q.toAxisAngle(axis,angle);
+
+  ASSERT_FLOAT_EQ(angle,45.0f);
+  ASSERT_TRUE(axis == ngl::Vec3(1,0,0));
+}
+
 TEST(Quaternion,toMat4)
 {
   ngl::Quaternion q;
@@ -287,5 +300,28 @@ TEST(Quaternion,toMat4)
   {
     EXPECT_NEAR(glm::value_ptr(m2)[i],m1.m_openGL[i],0.000001f);
   }
- 
+}
+
+
+TEST(Quaternion,SLERP)
+{
+  ngl::Quaternion start(ngl::Vec3(45.0f,90.0f,80.0f));
+  ngl::Quaternion end(ngl::Vec3(-300.0f,270.0f,360.0f));
+
+  glm::quat gstart(glm::vec3(45.0f,90.0f,80.0f));
+  glm::quat gend(glm::vec3(-300.0f,270.0f,360.0f));
+
+  for(float i=0.0f; i<=1.0f; i+=0.1f)
+  {
+    auto s1=ngl::Quaternion::slerp(start,end,i);
+    glm::quat s2=glm::slerp(gstart,gend,i);
+    ASSERT_NEAR(s1.m_s,s2.w,0.001f);
+    ASSERT_NEAR(s1.m_x,s2.x,0.001f);
+    ASSERT_NEAR(s1.m_y,s2.y,0.001f);
+    ASSERT_NEAR(s1.m_z,s2.z,0.001f);
+    
+  }
+
+
+
 }
