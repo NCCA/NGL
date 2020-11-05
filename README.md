@@ -91,21 +91,18 @@ Interactive demos are [here](https://nccastaff.bournemouth.ac.uk/jmacey/WebGL/Lo
 Simple demo showing how to use the ngl::Light class for point lighting
 [WebGL version](https://nccastaff.bournemouth.ac.uk/jmacey/WebGL/Lights/)
 
-## [SpotLight](https://github.com/NCCA/SpotLight)
-![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Spotlight.png)
 
-This demo show the ngl::SpotLight class in action
-[interactive webgl demo](https://nccastaff.bournemouth.ac.uk/jmacey/WebGL/Spotlights/)
+## [VertexArrayObject](https://github.com/NCCA/VertexArrayObject)
+![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/VAO.png)
+
+A series of demos to show how to create a VertexArrayObject from different types of data. There are examples of how to create a simple boid shape as I was getting fed up of flocking teapots!
 
 ## [ShadingModels](https://github.com/NCCA/ShadingModels)
 ![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Shading.png)
 
 A series of examples to demonstrate different shaders and techniques in glsl. Eventually I'm going to replace all of this with a simpler demo as most of the code in these examples is very similar.
 
-## [VertexArrayObject](https://github.com/NCCA/VertexArrayObject)
-![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/VAO.png)
 
-A series of demos to show how to create a VertexArrayObject from different types of data. There are examples of how to create a simple boid shape as I was getting fed up of flocking teapots!
 
 ## [Demo showing how to use ngl::VertexArrayObject](https://github.com/NCCA/KleinBottle)
 ![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Klein.png)
