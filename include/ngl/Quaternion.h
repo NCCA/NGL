@@ -213,6 +213,16 @@ class NGL_DLLEXPORT Quaternion
   /// @returns the conjugate of the current quaternion
   //----------------------------------------------------------------------------------------------------------------------
   Quaternion inverse()const  noexcept;
+
+
+//----------------------------------------------------------------------------------------------------------------------
+  /// @brief  dot product of the quaternion
+  /// @returns product
+  //----------------------------------------------------------------------------------------------------------------------
+  float dot(const Quaternion &_lhs)const  noexcept;
+
+  static float dot(const Quaternion &_lhs, const Quaternion &_rhs)  noexcept;
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  conjugate negate the vector part but for the current vector -
   /// @returns the conjugate of the current quaternion
@@ -236,7 +246,11 @@ class NGL_DLLEXPORT Quaternion
   /// @param [in]  _q2  -  the second quaternion
   /// @param [in]  _t  -  the interpolating t value
   //----------------------------------------------------------------------------------------------------------------------
-  static Quaternion slerp(const Quaternion &_q1,const Quaternion &_q2,const Real &_t) noexcept;
+  static Quaternion slerp( Quaternion _q1, Quaternion _q2, Real _t) noexcept;
+
+  static Quaternion qlerp( Quaternion _q1, Quaternion _q2, Real _t) noexcept;
+
+  void negate();
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  operator to allow a quat to be multiplied by a vector

@@ -22,7 +22,7 @@
 
 #include "Quaternion.h"
 #include "Util.h"
-
+#include <algorithm>
 namespace ngl
 {
 
@@ -223,7 +223,15 @@ Vec4 Quaternion::operator* (const Vec4 &_vec) const noexcept
 	return Vec4(point.m_x,point.m_y,point.m_z,1.0);
 }
 
+float Quaternion::dot(const Quaternion &_lhs)const  noexcept
+{
+  return m_x * _lhs.m_x + m_y * _lhs.m_y + m_z * _lhs.m_z + m_s * _lhs.m_s;
+}
 
+float Quaternion::dot(const Quaternion &_lhs, const Quaternion &_rhs) noexcept
+{
+  return _rhs.m_x * _lhs.m_x + _rhs.m_y * _lhs.m_y + _rhs.m_z * _lhs.m_z + _rhs.m_s * _lhs.m_s;
+}
 
 
 void Quaternion::rotateX(Real _angle) noexcept
@@ -309,69 +317,49 @@ void Quaternion::toAxisAngle(Vec3& o_axis,Real &o_angle) noexcept
   o_axis.m_z = m_z / sinA;
 }
 
-Quaternion Quaternion::slerp(const Quaternion &_q1, const Quaternion &_q2, const Real &_t) noexcept
+Quaternion Quaternion::qlerp( Quaternion _v0, Quaternion _v1, Real _t) noexcept
 {
-  // based on the http://ggt.sourceforge.net/ gmtl version from assimp
-  //Quaternion out;
 
-  Real dot = (_q1.m_x * _q2.m_x) + (_q1.m_y * _q2.m_y) + (_q1.m_z * _q2.m_z )+ (_q1.m_s * _q2.m_s);
+  // converts to Vec4 to lerp
+  ngl::Vec4 start(_v0.m_x,_v0.m_y,_v0.m_z,_v0.m_s);
+  ngl::Vec4 end(_v1.m_x,_v1.m_y,_v1.m_z,_v1.m_s);
+  auto interp = lerp(start,end,_t);
+  interp.normalize();
+  return Quaternion(interp.m_w,interp.m_x,interp.m_y,interp.m_z);
+}
 
-  // adjust signs (if necessary)
-  Quaternion end = _q2;
-  if( dot < 0.0f)
+
+void Quaternion::negate()
+{
+  m_s=-m_s;
+  m_x=-m_x;
+  m_y=-m_y;
+  m_z=-m_z;
+
+}
+
+Quaternion Quaternion::slerp( Quaternion _v0,  Quaternion _v1,  Real _t) noexcept
+{
+
+  float dotp = dot(_v0,_v1);
+  constexpr float thereshold=0.9995f;
+  if( dotp < 0.0f)
   {
-    dot = -dot;
-    end.m_x = -end.m_x;   // Reverse all signs
-    end.m_y = -end.m_y;
-    end.m_z = -end.m_z;
-    end.m_s = -end.m_s;
+    dotp = -dotp;
+    _v1.negate();
   }
 
-  const float DOT_THRESHOLD = 0.9995f;
-  if (dot > DOT_THRESHOLD) 
+  // quicker to do linear interp here as they are now close
+  if(dotp > thereshold)
   {
-  
-      ngl::Quaternion result = _q1 + (end - _q1)*_t;
-      result.normalise();
-      return result;
+    return Quaternion::qlerp(_v0,_v1,_t);
   }
-  // Since dot is in range [0, DOT_THRESHOLD], acos is safe
-  float theta_0 = acosf(dot);        // theta_0 = angle between input vectors
-  float theta = theta_0*_t;          // theta = angle between v0 and result
-  float sin_theta = sinf(theta);     // compute this value only once
-  float sin_theta_0 = sinf(theta_0); // compute this value only once
-
-  float s0 = cosf(theta) - dot * sin_theta / sin_theta_0;  // == sin(theta_0 - theta) / sin(theta_0)
-  float s1 = sin_theta / sin_theta_0;
-  
-  return ( _q1*s0) + ( end* s1);
-/*
-
-  // Calculate coefficients
-  Real sclp, sclq;
-  if( (1.0f - dot) > 0.0001f) // 0.0001 -> some epsilon
-  {
-    // Standard case (slerp)
-    Real omega, sinom;
-    omega = acosf( dot); // extract theta from dot product's cos theta
-    sinom = sinf( omega);
-    sclp  = sinf( (1.0f - _t) * omega) / sinom;
-    sclq  = sinf( _t * omega) / sinom;
-  }
-  else
-  {
-    // Very close, do linear interp (because it's faster)
-    sclp = 1.0f - _t;
-    sclq = _t;
-  }
-
-  out.m_x = sclp * _q1.m_x + sclq * end.m_x;
-  out.m_y = sclp * _q1.m_y + sclq * end.m_y;
-  out.m_z = sclp * _q1.m_z + sclq * end.m_z;
-  out.m_s = sclp * _q1.m_s + sclq * end.m_s;
-  */
-  //out.normalise();
-  //return out;
+  dotp = std::clamp(dotp,-1.0f,1.0f);
+  float theta_0 =acosf(dotp);
+  float theta = theta_0*_t;
+  Quaternion v2 = _v1 - _v0 * dotp;
+  v2.normalise();
+  return _v0 * cosf(theta) + v2 * sin(theta);
 }
 
 
