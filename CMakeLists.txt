@@ -35,7 +35,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 option(ENABLE_FAST_MATH ON)
-
+add_compile_definitions(NGL_DEBUG)
 if(WIN32)
     # Not defined in msvc compiler for cmaths so must set definition manually here
     add_compile_definitions(_USE_MATH_DEFINES)
@@ -224,7 +224,7 @@ ${CMAKE_SOURCE_DIR}/tests/Vec3Tests.cpp
 ${CMAKE_SOURCE_DIR}/tests/RandomTests.cpp
 ${CMAKE_SOURCE_DIR}/tests/QuaternionTests.cpp
 )
-
+add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
 target_link_libraries(NGLTests PRIVATE glfw PRIVATE GTest::gtest  )
 
 target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)

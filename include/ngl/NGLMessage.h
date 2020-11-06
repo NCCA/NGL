@@ -31,7 +31,7 @@ class NGLMessage
 
     NGLMessage(Mode _mode,CommunicationMode _comMode=CommunicationMode::STDERR);
     NGLMessage(const FromFilename &_fname);
-    ~NGLMessage();
+    ~NGLMessage() noexcept;
     static bool isActive()  {return s_active;}
     static Mode getMode()   {return s_mode;}
     static void addMessage(const std::string &_message,Colours _c=Colours::NORMAL,TimeFormat _timeFormat=TimeFormat::TIME);
