@@ -158,6 +158,7 @@ So far it has not been tested under windows and the button mappings may be diffe
 
 This demo demonstrates the different interpolation templates in ngl, see this [blog post](http://jonmacey.blogspot.co.uk/2010/11/interpolation.html)
 
+
 ## [QuatSlerp](https://github.com/NCCA/QuatSlerp)
 
 ![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/SLERP.png)
