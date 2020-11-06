@@ -312,28 +312,48 @@ void Quaternion::toAxisAngle(Vec3& o_axis,Real &o_angle) noexcept
 Quaternion Quaternion::slerp(const Quaternion &_q1, const Quaternion &_q2, const Real &_t) noexcept
 {
   // based on the http://ggt.sourceforge.net/ gmtl version from assimp
-  Quaternion out;
-  // calc cosine theta
-  Real cosom = _q1.m_x * _q2.m_x + _q1.m_y * _q2.m_y + _q1.m_z * _q2.m_z + _q1.m_s * _q2.m_s;
+  //Quaternion out;
+
+  Real dot = (_q1.m_x * _q2.m_x) + (_q1.m_y * _q2.m_y) + (_q1.m_z * _q2.m_z )+ (_q1.m_s * _q2.m_s);
 
   // adjust signs (if necessary)
   Quaternion end = _q2;
-  if( cosom < 0.0f)
+  if( dot < 0.0f)
   {
-    cosom = -cosom;
+    dot = -dot;
     end.m_x = -end.m_x;   // Reverse all signs
     end.m_y = -end.m_y;
     end.m_z = -end.m_z;
     end.m_s = -end.m_s;
   }
 
+  const float DOT_THRESHOLD = 0.9995f;
+  if (dot > DOT_THRESHOLD) 
+  {
+  
+      ngl::Quaternion result = _q1 + (end - _q1)*_t;
+      result.normalise();
+      return result;
+  }
+  // Since dot is in range [0, DOT_THRESHOLD], acos is safe
+  float theta_0 = acosf(dot);        // theta_0 = angle between input vectors
+  float theta = theta_0*_t;          // theta = angle between v0 and result
+  float sin_theta = sinf(theta);     // compute this value only once
+  float sin_theta_0 = sinf(theta_0); // compute this value only once
+
+  float s0 = cosf(theta) - dot * sin_theta / sin_theta_0;  // == sin(theta_0 - theta) / sin(theta_0)
+  float s1 = sin_theta / sin_theta_0;
+  
+  return ( _q1*s0) + ( end* s1);
+/*
+
   // Calculate coefficients
   Real sclp, sclq;
-  if( (1.0f - cosom) > 0.0001f) // 0.0001 -> some epsillon
+  if( (1.0f - dot) > 0.0001f) // 0.0001 -> some epsilon
   {
     // Standard case (slerp)
     Real omega, sinom;
-    omega = acosf( cosom); // extract theta from dot product's cos theta
+    omega = acosf( dot); // extract theta from dot product's cos theta
     sinom = sinf( omega);
     sclp  = sinf( (1.0f - _t) * omega) / sinom;
     sclq  = sinf( _t * omega) / sinom;
@@ -349,7 +369,9 @@ Quaternion Quaternion::slerp(const Quaternion &_q1, const Quaternion &_q2, const
   out.m_y = sclp * _q1.m_y + sclq * end.m_y;
   out.m_z = sclp * _q1.m_z + sclq * end.m_z;
   out.m_s = sclp * _q1.m_s + sclq * end.m_s;
-  return out;
+  */
+  //out.normalise();
+  //return out;
 }
 
 
