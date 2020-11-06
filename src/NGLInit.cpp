@@ -87,10 +87,10 @@ void NGLInit::setCommunicationMode(ngl::CommunicationMode _mode)
 
 void NGLInit::initMessageSystem()
 {
-/*  msg=std::make_unique<NGLMessage>(NGLMessage(NGLMessage::Mode::CLIENTSERVER,CommunicationMode::STDERR));
+  msg=std::make_unique<NGLMessage>(NGLMessage(NGLMessage::Mode::CLIENTSERVER,CommunicationMode::STDERR));
   msg->startMessageConsumer();
   std::this_thread::sleep_for(std::chrono::milliseconds(20));
-*/
+
 }
 NGLInit::NGLInit() 
 {
