@@ -22,11 +22,6 @@ find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(OpenImageIO CONFIG REQUIRED)
 find_package(freetype CONFIG REQUIRED)
-
-if(UNIX)
-    find_package(IlmBase CONFIG REQUIRED)
-    find_package(OpenEXR CONFIG REQUIRED)
-endif()
 find_path(RAPIDXML_INCLUDE_DIRS "rapidxml/rapidxml.hpp")
 find_package(RapidJSON CONFIG REQUIRED)
 
@@ -170,8 +165,6 @@ target_sources(NGL PRIVATE
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     find_library(MACGL OpenGL)
     set(EXTRALIBS  ${MACGL})
-
-
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif()
 
@@ -180,7 +173,6 @@ endif()
 
 # add exe and link libs this must be after the other defines
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BUILD_DIR})
-#SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_SOURCE_DIR}/lib/libNGL*")
 
 
 target_link_libraries(NGL PRIVATE glm)
@@ -188,11 +180,6 @@ target_link_libraries(NGL PRIVATE fmt::fmt-header-only)
 target_link_libraries(NGL PRIVATE ${EXTRALIBS})
 target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
 target_link_libraries(NGL PRIVATE freetype)
-
-if(UNIX)
-   target_link_libraries(NGL PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
-   target_link_libraries(NGL PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
-endif()
 target_include_directories(NGL PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 target_include_directories(NGL PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
 
@@ -230,10 +217,6 @@ add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
 target_link_libraries(NGLTests PRIVATE glfw PRIVATE GTest::gtest  )
 
 target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
-if(UNIX)
-   target_link_libraries(NGLTests PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
-   target_link_libraries(NGLTests PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
-endif()
 target_include_directories(NGLTests PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 target_include_directories(NGLTests PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
 target_link_libraries(NGLTests PRIVATE freetype)
@@ -437,10 +420,6 @@ target_link_libraries(pyngl PRIVATE fmt::fmt-header-only)
 target_link_libraries(pyngl ${PROJECT_LINK_LIBS} ${EXTRALIBS})
 target_link_libraries(pyngl PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
 target_link_libraries(pyngl PRIVATE freetype)
-
-
-#target_link_libraries(pyngl PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
-#target_link_libraries(pyngl PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
 target_include_directories(pyngl PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 target_include_directories(pyngl PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
 endif()

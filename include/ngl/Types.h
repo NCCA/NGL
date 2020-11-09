@@ -57,7 +57,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 #ifdef _WIN32
     #pragma warning( disable :  5045 )
-
+    #pragma warning(disable : 4251) // dll interface warning for STL
   #ifdef BUILDING_DLL
     #define NGL_DLLEXPORT __declspec(dllexport)
   #else
