@@ -163,8 +163,12 @@ target_sources(NGL PRIVATE
 
 # see what platform we are on and set platform defines
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    find_package(IlmBase CONFIG REQUIRED)
+    find_package(OpenEXR CONFIG REQUIRED)
     find_library(MACGL OpenGL)
     set(EXTRALIBS  ${MACGL})
+    target_link_libraries(NGL PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
+    target_link_libraries(NGL PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif()
 
