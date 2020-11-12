@@ -259,7 +259,6 @@ add_custom_target(CopyTestfiles ALL
 		)
       
       
-#############################################################
 # PyNGL
 #############################################################
 
@@ -267,8 +266,9 @@ if(DEFINED BUILD_PYNGL)
 
 add_library(pyngl SHARED)
 
-find_package( PythonInterp 3 REQUIRED )
-find_package( PythonLibs 3 REQUIRED )
+add_compile_definitions(PYTHONBUILD)
+find_package( PythonInterp 2 REQUIRED )
+find_package( PythonLibs 2 REQUIRED )
 find_package(pybind11 CONFIG REQUIRED)
 set(PYSOURCEDIR ${CMAKE_SOURCE_DIR}/PyNGL/src)
 include_directories(${CMAKE_SOURCE_DIR}/PyNGL/)
@@ -418,7 +418,7 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_SOURCE_
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
 
-target_link_libraries(pyngl PRIVATE mylib pybind11::embed pybind11::module pybind11::pybind11)
+target_link_libraries(pyngl PRIVATE  pybind11::embed pybind11::module pybind11::pybind11)
 target_link_libraries(pyngl PRIVATE glm)
 target_link_libraries(pyngl PRIVATE fmt::fmt-header-only)
 target_link_libraries(pyngl ${PROJECT_LINK_LIBS} ${EXTRALIBS})
@@ -426,4 +426,11 @@ target_link_libraries(pyngl PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenIm
 target_link_libraries(pyngl PRIVATE freetype)
 target_include_directories(pyngl PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 target_include_directories(pyngl PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
+
+install(TARGETS pyngl DESTINATION lib CONFIGURATIONS Release)
+install(TARGETS pyngl DESTINATION lib)
+
+
 endif()
+
+
