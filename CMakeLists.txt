@@ -415,8 +415,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY${CMAKE_SOURCE_DIR}/lib)
 SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_SOURCE_DIR}/lib/pyngl.so")
 
 
-set(CMAKE_SHARED_LIBRARY_PREFIX "")
-set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
+set_target_properties(pyngl PROPERTIES PREFIX "")
 
 target_link_libraries(pyngl PRIVATE  pybind11::embed pybind11::module pybind11::pybind11)
 target_link_libraries(pyngl PRIVATE glm)
