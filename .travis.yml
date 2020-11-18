@@ -20,12 +20,10 @@ before_install:
 
 install:
     - sudo apt-get --yes install qt55base git xorg-dev
-    - git clone https://github.com/g-truc/glm && sudo cp -r glm/glm /usr/include 
-    - git clone https://github.com/glfw/glfw && mkdir build && cd build && cmake cmake -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF ../glfw && make -j2 && sudo make install
-    - git clone https://github.com/google/googletest && cd googletest && mkdir build && cd build && cmake .. && make -j2 && sudo make install
     # C++14
     - sudo apt-get install -qq g++-6
     - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
+    - git clone https://github.com/microsoft/vcpkg && cd vcpkg && ./bootstrap-vcpkg.sh && ./vcpkg install glfw3 openimageio  gtest  freetype glm  rapidjson rapidxml 
     
 
 language : cpp
@@ -36,7 +34,6 @@ compiler:
 
 script :
   - cd /home/travis/build/NCCA/NGL
-  - NGLDIR=/home/travis/build/NCCA/NGL cmake   -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" CMakeLists.txt  && make -j2
-  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/travis/build/NCCA/NGL/lib
-  - cd /home/travis/build/NCCA/NGL/tests
+  - mkdir build && cd build &&
+  - cmake   -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" -DCMAKE_TOOLCHAIN_FILE=/home/travis/build/NCCA/vcpkg/scripts/scripts/buildsystems/vcpkg.cmake ..  && make -j2
   - ./NGLTests -g
