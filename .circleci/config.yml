@@ -17,7 +17,7 @@ jobs:
 
       - run :
           name : Install vcpkg
-          command : 'git clone https://github.com/microsoft/vcpkg && cd vcpkg && ./bootstrap-vcpkg.sh && ./vcpkg install glfw3 openimageio  gtest  freetype glm  rapidjson rapidxm '
+          command : 'export CMAKE_BUILD_PARALLEL_LEVEL=2 && git clone https://github.com/microsoft/vcpkg && cd vcpkg && ./bootstrap-vcpkg.sh && ./vcpkg install glfw3 openimageio  gtest  freetype glm  rapidjson rapidxm '
       
       - run : 
           name : Build NGL
