@@ -35,5 +35,5 @@ compiler:
 script :
   - cd /home/travis/build/NCCA/NGL
   - mkdir build && cd build &&
-  - cmake   -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" -DCMAKE_TOOLCHAIN_FILE=/home/travis/build/NCCA/vcpkg/scripts/scripts/buildsystems/vcpkg.cmake ..  && make -j2
+  - cmake   -DQt5OpenGL_DIR="/opt/qt55/lib/cmake/Qt5OpenGL" -DCMAKE_TOOLCHAIN_FILE=/home/travis/build/NCCA/vcpkg/scripts/buildsystems/vcpkg.cmake ..  && make -j2
   - ./NGLTests -g
