@@ -4,6 +4,7 @@
 #include <pybind11/cast.h>
 
 #include "MultiBufferVAO.h"
+#include "Vec3.h"
 namespace py = pybind11;
 namespace ngl
 {

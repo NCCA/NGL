@@ -352,7 +352,7 @@ Quaternion Quaternion::slerp( Quaternion _v0,  Quaternion _v1,  Real _t) noexcep
   // quicker to do linear interp here as they are now close
   if(dotp > thereshold)
   {
-    return Quaternion::qlerp(_v0,_v1,_t);
+    return lerp(_v0,_v1,_t);
   }
   dotp = std::clamp(dotp,-1.0f,1.0f);
   float theta_0 =acosf(dotp);

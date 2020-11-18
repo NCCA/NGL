@@ -163,8 +163,12 @@ target_sources(NGL PRIVATE
 
 # see what platform we are on and set platform defines
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    find_package(IlmBase CONFIG REQUIRED)
+    find_package(OpenEXR CONFIG REQUIRED)
     find_library(MACGL OpenGL)
     set(EXTRALIBS  ${MACGL})
+    target_link_libraries(NGL PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
+    target_link_libraries(NGL PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif()
 
@@ -255,7 +259,6 @@ add_custom_target(CopyTestfiles ALL
 		)
       
       
-#############################################################
 # PyNGL
 #############################################################
 
@@ -263,8 +266,9 @@ if(DEFINED BUILD_PYNGL)
 
 add_library(pyngl SHARED)
 
-find_package( PythonInterp 3 REQUIRED )
-find_package( PythonLibs 3 REQUIRED )
+add_compile_definitions(PYTHONBUILD)
+find_package( PythonInterp 2 REQUIRED )
+find_package( PythonLibs 2 REQUIRED )
 find_package(pybind11 CONFIG REQUIRED)
 set(PYSOURCEDIR ${CMAKE_SOURCE_DIR}/PyNGL/src)
 include_directories(${CMAKE_SOURCE_DIR}/PyNGL/)
@@ -411,10 +415,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY${CMAKE_SOURCE_DIR}/lib)
 SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_SOURCE_DIR}/lib/pyngl.so")
 
 
-set(CMAKE_SHARED_LIBRARY_PREFIX "")
-set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
+set_target_properties(pyngl PROPERTIES PREFIX "")
 
-target_link_libraries(pyngl PRIVATE mylib pybind11::embed pybind11::module pybind11::pybind11)
+target_link_libraries(pyngl PRIVATE  pybind11::embed pybind11::module pybind11::pybind11)
 target_link_libraries(pyngl PRIVATE glm)
 target_link_libraries(pyngl PRIVATE fmt::fmt-header-only)
 target_link_libraries(pyngl ${PROJECT_LINK_LIBS} ${EXTRALIBS})
@@ -422,4 +425,11 @@ target_link_libraries(pyngl PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenIm
 target_link_libraries(pyngl PRIVATE freetype)
 target_include_directories(pyngl PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 target_include_directories(pyngl PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
+
+install(TARGETS pyngl DESTINATION lib CONFIGURATIONS Release)
+install(TARGETS pyngl DESTINATION lib)
+
+
 endif()
+
+
