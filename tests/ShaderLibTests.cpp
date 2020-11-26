@@ -203,4 +203,7 @@ TEST(ShaderLib,editShader)
   EXPECT_TRUE(ngl::ShaderLib::compileShader(Vertex))<<"error compiling vert shader";
   EXPECT_TRUE(ngl::ShaderLib::compileShader(Fragment))<<"error compiling vert shader";
   EXPECT_TRUE(ngl::ShaderLib::linkProgramObject(shaderName));
+  EXPECT_TRUE(ngl::ShaderLib::linkProgramObject(shaderName))<<"First Link";
+  ngl::ShaderLib::use(shaderName);
+  EXPECT_TRUE(ngl::ShaderLib::getCurrentShaderName()==shaderName);
 }

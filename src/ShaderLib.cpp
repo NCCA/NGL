@@ -24,7 +24,7 @@
 #include "ColourShaders.h"
 #include "DiffuseShaders.h"
 #include "CheckerShaders.h"
-#include "rapidjson/document.h"
+#include <rapidjson/document.h>
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -417,6 +417,7 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
   }
   std::unique_ptr<std::string> source( new std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>()) );
   file.close();
+  //smsg->addMessage(fmt::format("loaded json\n {}",source));
   // we need a mutable string for parsing so copy to a char * buffer
 
   std::unique_ptr<char []> buffer(new char[source->size()]);

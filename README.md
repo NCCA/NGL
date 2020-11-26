@@ -102,8 +102,6 @@ A series of demos to show how to create a VertexArrayObject from different types
 
 A series of examples to demonstrate different shaders and techniques in glsl. Eventually I'm going to replace all of this with a simpler demo as most of the code in these examples is very similar.
 
-
-
 ## [Demo showing how to use ngl::VertexArrayObject](https://github.com/NCCA/KleinBottle)
 ![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Klein.png)
 

@@ -37,9 +37,28 @@
 
 namespace ngl
 {
+
+
+void waitForMessages()
+{
+  std::cerr<<"flusing message queue\n";
+//  msg->stopServer();
+  while(ngl::NGLMessage::numMessages() !=0)
+  {
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  
+  }
+  msg->stopServer();
+  //while(msg->isActive())
+  {
+ //     std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  }
+}
+
 //----------------------------------------------------------------------------------------------------------------------
 void NGLInit::initialize()
 {
+  std::atexit(waitForMessages);
   #if defined(USINGIOS_) || !defined(__APPLE__)
   if (gl3wInit())
   {
@@ -89,7 +108,7 @@ void NGLInit::initMessageSystem()
 {
   msg=std::make_unique<NGLMessage>(NGLMessage(NGLMessage::Mode::CLIENTSERVER,CommunicationMode::STDERR));
   msg->startMessageConsumer();
-  std::this_thread::sleep_for(std::chrono::milliseconds(20));
+//  std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 }
 NGLInit::NGLInit() 
@@ -115,7 +134,7 @@ NGLInit::NGLInit()
     exit(EXIT_FAILURE);
   }
 #endif
-  //initMessageSystem();
+  initMessageSystem();
   msg->drawLine(Colours::YELLOW);
   msg->addMessage("NGL configured with ",Colours::NORMAL,TimeFormat::TIME);
   msg->addMessage(fmt::format("OpenGL {0}",glGetString(GL_VERSION)));
@@ -130,7 +149,7 @@ NGLInit::NGLInit()
 //----------------------------------------------------------------------------------------------------------------------
 NGLInit::~NGLInit() noexcept
 {
-  //msg->stopMessageConsumer();
+  msg->stopMessageConsumer();
 }
 
 
