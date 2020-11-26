@@ -1,6 +1,7 @@
 #include "MultiBufferVAO.h"
 #include <iostream>
 #include <NGLassert.h>
+
 namespace ngl
 {
   MultiBufferVAO::~MultiBufferVAO()

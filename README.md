@@ -238,11 +238,6 @@ This demonstrates a simple spring using RK4 integration as shown [here](http://g
 
 A demonstration of affine transforms using matrices (mainly used for teaching maths)
 
-## [FrustumCull](https://github.com/NCCA/FrustumCull)
-![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Frustrum.png)
-
-Added frustum culling to the ngl::Camera class, this demo shows how to use it, most of the code is based on the article [here](http://www.lighthouse3d.com/tutorials/view-frustum-culling/)
-
 ## [Geometry Shaders](https://github.com/NCCA/GeometryShaders)
 ![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/GeoShader.png)
 
@@ -273,6 +268,11 @@ This demo uses the ngl::Obj and ngl::VertexArrayObject classes to read in a mesh
 
 A number of demos showing how to use Frame buffer objects, including real time shadows and render to FBO demos
 
+## [RVO2NGL](https://github.com/NCCA/RVO2NGL)
+![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/RVO2.png)
+
+A number of demos showing how to use the [RVO2](http://gamma.cs.unc.edu/RVO2/) Reciprocal Collision Avoidance for Real-Time Multi-Agent Simulation library with NGL.
+
 ## [Bullet Physics and NGL](https://github.com/NCCA/BulletNGL)
 ![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Bullet.png)
 
@@ -287,31 +287,10 @@ Using the Bullet Physics with NGL, the demo has basic wrappers for the Physics w
 An interactive WebGL demo is [here](https://nccastaff.bournemouth.ac.uk/jmacey/WebGL/BulletTower/)
 For more details read the user [guide](http://bulletphysics.org/wordpress/) of Bullet.
 
-
-## [ODE NGL](https://github.com/NCCA/ODENGL)
-![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/ODENGL.png)
-
-Using the ODE Physics engine 
-
-
-## [Using the Kinect with NGL](https://github.com/NCCA/KinectMDI)
-![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Kinect.png)
-
-This demo shows how to use the kinect with the OpenKinect drivers and Qt / ngl. The code base is a modified version of my Qt Kinect Reference design which can be seen here. You will need to install the libfreenect drivers
-
-
-## [Using the Kinect with NGL and OpenCV](https://github.com/NCCA/OpenCVKinect)
-![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/OpenCV.png)
-
-This demo shows how to use the kinect with the OpenKinect drivers and Qt / ngl. The code base is a modified version of my Qt Kinect Reference design which can be seen here. You will need to install the libfreenect drivers
-
-This has issues on the mac due to the C++ compiler and OpenCV
-
 ## [Sponza Demo](https://github.com/NCCA/Sponza)
 ![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Sponza.png)
 
 A basic framework to load a Wavefront OBJ file with groups and an MTL file with textures and draw the scene as efficiently as possible. The source contains the models and textures from here and is quite large
-
 
 For a detailed look at how this work see the following blog posts
 
@@ -320,16 +299,6 @@ For a detailed look at how this work see the following blog posts
 [The mtl Class](http://jonmacey.blogspot.co.uk/2012/11/sponza-demo-pt-2-mtl-class.html)
 
 [GroupedObj class](http://jonmacey.blogspot.co.uk/2012/11/sponza-demo-pt-3-groupedobj-class.html)
-
-## [Sponza Oculus Rift Demo](https://github.com/NCCA/SponzaRift)
-![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Oculus.png)
-
-This builds on the original sponza demo and adds oculus rift support, this is very much 
-work in progress and needs quite a bit of tidying up.
-
-You will need to install the oculus SDK and adjust the path in the .pro file to get it working.
-
-This version also loads the binary Model and Material file, you may have to re-create this using the save and load methods as the binary file may not transfer to different operating systems.
 
 ## [Box2D Demo](https://github.com/NCCA/Box2D)
 ![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Box2D.png)

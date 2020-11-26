@@ -97,7 +97,7 @@ int main(int argc, char **argv)
   if(useOpenGL == false)
   {
     std::cerr<<"excluding tests\n";
-    ::testing::GTEST_FLAG(filter) = "-ShaderLib.*:VAOPrimitives.*:NGLInit*:NGLMessage*";
+    ::testing::GTEST_FLAG(filter) = "-ShaderLib.*:VAOPrimitives.*:NGLInit*: NGLMessage*";
     //ngl::NGLInit::initMessageSystem();
   }
   return RUN_ALL_TESTS();
