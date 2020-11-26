@@ -4,7 +4,7 @@
 #include <thread>
 #include <ngl/NGLMessage.h>
 
-/*
+
 TEST(NGLMessage,defaultctor)
 {
    {
@@ -98,7 +98,7 @@ TEST(NGLMessage,nullConsumer)
   EXPECT_TRUE(message.numMessages()==0);
 }
 
-
+/*
 TEST(NGLMessage,fileConsumer)
 {
   ngl::NGLMessage message(ngl::NGLMessage::Mode::SERVER,ngl::CommunicationMode::FILE);
@@ -157,7 +157,7 @@ TEST(NGLMessage,fileConsumerFromFileName)
   EXPECT_TRUE(message.numMessages()==0);
 }
 
-/*
+
 TEST(NGLMessage,fileConsumerChangeFileName)
 {
   ngl::NGLMessage message(ngl::NGLMessage::FromFilename("testFromFilename.out"));
@@ -186,7 +186,7 @@ TEST(NGLMessage,fileConsumerChangeFileName)
   EXPECT_TRUE(message.numMessages()==0);
 }
 
-
+/*
 TEST(NGLMessage,testMultiThread)
 {
   ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT,ngl::CommunicationMode::NULLCONSUMER);
@@ -219,7 +219,7 @@ TEST(NGLMessage,testMultiThread)
   ngl::NGLMessage::stopMessageConsumer();
   EXPECT_TRUE(message.numMessages()==0);
 }
-
+*/
 TEST(NGLMessage,testoperator)
 {
   ngl::NGLMessage message(ngl::NGLMessage::Mode::CLIENT);
@@ -230,5 +230,3 @@ TEST(NGLMessage,testoperator)
 
 
 }
-
-*/
