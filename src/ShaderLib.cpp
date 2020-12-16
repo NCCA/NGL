@@ -415,15 +415,14 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
       msg->addError(fmt::format("error opening json file {0}",_fname.data()));
       exit(EXIT_FAILURE);
   }
-  std::unique_ptr<std::string> source( new std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>()) );
+  std::string jsonsource=std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
   file.close();
-  //smsg->addMessage(fmt::format("loaded json\n {}",source));
+  //msg->addMessage(fmt::format("loaded json\n {}",source));
   // we need a mutable string for parsing so copy to a char * buffer
-
-  std::unique_ptr<char []> buffer(new char[source->size()]);
-  memcpy(buffer.get(), source->c_str(), source->size());
+  std::unique_ptr<char []> buffer(new char[jsonsource.size()]);
+  memcpy(buffer.get(), jsonsource.c_str(), jsonsource.size());
   // null terminate the string!
-  buffer[source->size()]='\0';
+  buffer[jsonsource.size()]='\0';
 
   rj::Document doc;
 
@@ -544,8 +543,6 @@ bool ShaderLib::loadFromJson(const std::string &_fname)  noexcept
        setJsonUniform(name,type,value);
       }
     }
-
-
 
     msg->drawLine();
     msg->addMessage("**********************DONE********************");
