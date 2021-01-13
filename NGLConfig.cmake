@@ -12,7 +12,6 @@ add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
 
 # see what platform we are on and set platform defines
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	message("Mac build")
 	find_library(MACGL OpenGL)
 	set(EXTRALIBS  ${MACGL})
   add_definitions(-DGL_SILENCE_DEPRICATION)
@@ -25,13 +24,12 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	link_libraries($ENV{HOMEDRIVE}/$ENV{HOMEPATH}/NGL/lib/NGL.lib)
 	add_compile_definitions(_USE_MATH_DEFINES)
 	add_compile_definitions(NOMINMAX)
-	
 	# Need to define this when building shared library or suffer dllimport errors
 	add_compile_definitions(BUILDING_DLL)
 endif()
 
 # now add NGL specific values
-link_directories($ENV{HOME}/NGL/lib )
+link_directories($ENV{HOME}/NGL/lib)
 
 # add exe and link libs that must be after the other defines
 link_libraries(OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)

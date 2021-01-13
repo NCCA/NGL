@@ -25,6 +25,8 @@ cd vcpkg
 .\vcpkg install rapidjson:x64-windows
 .\vcpkg install rapidxml:x64-windows
 .\vcpkg install fmt:x64-windows
+.\vcpkg install freetype:x64-windows
+# optional if building the python bindings
 .\vcpkg install pybind11:x64-windows
 
 
