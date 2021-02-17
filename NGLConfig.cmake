@@ -33,7 +33,7 @@ link_directories($ENV{HOME}/NGL/lib)
 
 # add exe and link libs that must be after the other defines
 link_libraries(OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
-link_libraries( ${PROJECT_LINK_LIBS}  Qt5::Widgets fmt::fmt-header-only freetype )
+link_libraries( ${PROJECT_LINK_LIBS}  fmt::fmt-header-only freetype )
 
 if(IlmBase_Found)
     link_libraries(IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
