@@ -70,6 +70,7 @@ install(TARGETS NGL DESTINATION lib)
 install(DIRECTORY   ${CMAKE_SOURCE_DIR}/include/ngl/ DESTINATION include/ngl)
 install(FILES   ${CMAKE_SOURCE_DIR}/gl3w/gl3w.h DESTINATION include/ngl)
 install(FILES   ${CMAKE_SOURCE_DIR}/gl3w/glcorearb.h DESTINATION include/ngl)
+install(FILES   ${CMAKE_SOURCE_DIR}/NGLConfig.cmake DESTINATION ./)
 
 
 
