@@ -30,7 +30,7 @@ export CMAKE_MODULE_PATH=/opt/qt/5.12.3/gcc_64/lib/cmake
 export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:~/NGL
 ```
 
-Now all NGL demos can be build using
+Now all NGL demos can be built using
 
 ```
 cd [demodir]
