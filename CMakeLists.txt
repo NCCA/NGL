@@ -178,7 +178,7 @@ endif()
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BUILD_DIR})
 
 
-target_link_libraries(NGL PRIVATE glm)
+target_link_libraries(NGL PRIVATE glm::glm)
 target_link_libraries(NGL PRIVATE fmt::fmt-header-only)
 target_link_libraries(NGL PRIVATE ${EXTRALIBS})
 target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
@@ -423,9 +423,9 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_SOURCE_
 set_target_properties(pyngl PROPERTIES PREFIX "")
 
 target_link_libraries(pyngl PRIVATE  pybind11::embed pybind11::module pybind11::pybind11)
-target_link_libraries(pyngl PRIVATE glm)
+target_link_libraries(pyngl PRIVATE glm::glm)
 target_link_libraries(pyngl PRIVATE fmt::fmt-header-only)
-target_link_libraries(pyngl ${PROJECT_LINK_LIBS} ${EXTRALIBS})
+target_link_libraries(pyngl PRIVATE ${PROJECT_LINK_LIBS} ${EXTRALIBS})
 target_link_libraries(pyngl PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
 target_link_libraries(pyngl PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
 target_link_libraries(pyngl PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
