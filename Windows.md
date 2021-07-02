@@ -57,12 +57,13 @@ Finally in the kits tab select the new compiler as the default compiler for the 
 
 NGL can now be cloned and installed as with Mac and Linux. It is important that when building the demos they are build as release or debug for everything. For example NGL build as debug must have the demo programs build as debug as well. Also this will require the correct version of the vcpkg libs to be installed as well for both debug and release.
 
-For a simple Command line build do the following in the Visual Studio shell not you will need to change the paths for your own install of vcpkg and home directories
+For a simple Command line build do the following in the Visual Studio Powershell note you will need to change the paths for your own install of vcpkg and home directories if not standard ~/ ones.
 
 ```
-cd NGL
+git clone git@github.com:/NCCA/NGL ~/NGLBuild
+cd NGLBuild
 mkdir build
-cmake -DCMAKE_TOOLCHAIN_FILE=c:\Users\jpmac\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_INSTALL_PREFIX:PATH=C:\Users\jpmac\NGL  -DCMAKE_BUILD_TYPE=Debug  ..
+cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX:PATH=~/NGL  -DCMAKE_BUILD_TYPE=Debug  ..
 
 cmake --build .
 
