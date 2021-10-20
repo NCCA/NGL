@@ -302,4 +302,50 @@ bool Image::load( const std::string &_fname  ) noexcept
 #endif // end USEOIIO
 
 
+#ifdef USEBUILTINIMAGE
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "../3rdparty/stb_image.h"
+bool Image::load( const std::string &_fname  ) noexcept
+{
+const char *fname=_fname.c_str();
+int w,h,ch;
+stbi_set_flip_vertically_on_load(true);  
+
+unsigned char *img = stbi_load(fname, &w, &h, &ch, 0);
+std::cout<<"Loading "<<fname<<" w "<<w<<" h "<<h<<" ch "<<ch<<'\n';
+
+if(img != NULL)
+{
+  m_width=w;
+  m_height=h;
+  m_channels=ch;
+ if(m_channels==3)
+    m_format=GL_RGB;
+  else if(m_channels==4)
+    m_format=GL_RGBA;
+  m_data.reset(new unsigned char[ m_width*m_height*m_channels]);
+  //for(size_t i=0; i<m_width*10; ++i)
+  //  std::cout<<static_cast<int>(img[i]);
+  //std::cout<<'\n';
+  memcpy(m_data.get(),img,m_width*m_height*m_channels);
+  // for(size_t i=0; i<m_width*m_height*m_channels; i+=m_channels)
+  // {
+  //     m_data[i]=255;
+  //     m_data[i+1]=0;
+  //     m_data[i+2]=0;
+  //     m_data[i+3]=255;
+      
+  // }
+  return true;
+}
+else
+{
+  std::cerr<<"Image load failed\n";
+  return false;
+}
+
+
+}
+#endif
 } // end of namespace
