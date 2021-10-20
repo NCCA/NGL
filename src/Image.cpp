@@ -313,36 +313,58 @@ int w,h,ch;
 stbi_set_flip_vertically_on_load(true);  
 
 unsigned char *img = stbi_load(fname, &w, &h, &ch, 0);
-std::cout<<"Loading "<<fname<<" w "<<w<<" h "<<h<<" ch "<<ch<<'\n';
-
+#ifdef IMAGE_DEBUG_ON
+  msg->addMessage("loading with Internal Image Libs");
+#endif
 if(img != NULL)
 {
+//  std::cout<<"Loading "<<fname<<" w "<<w<<" h "<<h<<" ch "<<ch<<'\n';
+  msg->addMessage(fmt::format("loaded {} Width {} Height {} Channels {}",fname,w,h,ch));
   m_width=w;
   m_height=h;
   m_channels=ch;
- if(m_channels==3)
+  if(m_channels==3)
     m_format=GL_RGB;
   else if(m_channels==4)
     m_format=GL_RGBA;
   m_data.reset(new unsigned char[ m_width*m_height*m_channels]);
-  //for(size_t i=0; i<m_width*10; ++i)
-  //  std::cout<<static_cast<int>(img[i]);
-  //std::cout<<'\n';
   memcpy(m_data.get(),img,m_width*m_height*m_channels);
-  // for(size_t i=0; i<m_width*m_height*m_channels; i+=m_channels)
-  // {
-  //     m_data[i]=255;
-  //     m_data[i+1]=0;
-  //     m_data[i+2]=0;
-  //     m_data[i+3]=255;
-      
-  // }
-  return true;
 }
 else
 {
-  std::cerr<<"Image load failed\n";
-  return false;
+  msg->addError("Image load failed this version only supports PNG,JPEG,GIF,TGA,BMP ");
+  msg->addError("Have generated a Red Checkerboard pattern instead.");
+  m_width=1024;
+  m_height=1024;
+  m_channels=3;
+  m_format=GL_RGB;
+  m_data.reset(new unsigned char[ m_width*m_height*m_channels]);
+  size_t index=0;
+  constexpr float checkSize=20;
+  for(size_t y=0; y<m_height; ++y)
+	{
+    for(size_t x=0; x<m_width; ++x)
+		{
+      //index=(y * m_width) + x ;
+    float v = floor( checkSize * x/m_width ) +floor( checkSize * y/m_height );
+    if( fmod( v, 2.0f ) < 1.0f )
+      {
+        m_data[index]=255;
+        m_data[index+1]=0;
+        m_data[index+2]=0;
+        index+=3;
+      }
+    else
+      {
+        m_data[index]=255;
+        m_data[index+1]=255;
+        m_data[index+2]=255;
+        index+=3;
+      }
+		}
+	}
+ 
+  return true;
 }
 
 
