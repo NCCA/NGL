@@ -27,6 +27,7 @@ find_package(OpenEXR CONFIG )
 find_package(freetype CONFIG REQUIRED)
 find_path(RAPIDXML_INCLUDE_DIRS "rapidxml/rapidxml.hpp")
 find_package(RapidJSON CONFIG REQUIRED)
+find_package(OpenMP) # now needed for boost mpi used by openimageio
 
 # Set to C++ 17
 set(CMAKE_CXX_STANDARD 17)
@@ -251,7 +252,9 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	target_link_libraries( NGLTests PRIVATE $(ConfigurationName)/NGL.lib )
 else()
 target_link_libraries(NGLTests PRIVATE  NGL PRIVATE ${EXTRALIBS} )
-
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(NGLTests  PRIVATE  OpenMP::OpenMP_CXX)
+endif()
 endif()
 
 gtest_discover_tests(NGLTests)
