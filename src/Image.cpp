@@ -346,8 +346,7 @@ else
     for(size_t x=0; x<m_width; ++x)
 		{
       //index=(y * m_width) + x ;
-    float v = floor( checkSize * x/m_width ) +floor( checkSize * y/m_height );
-    if( fmod( v, 2.0f ) < 1.0f )
+    if( fmod( floor( checkSize * x/m_width ) +floor( checkSize * y/m_height ), 2.0f ) < 1.0f )
       {
         m_data[index]=255;
         m_data[index+1]=0;
@@ -364,9 +363,9 @@ else
 		}
 	}
  
-  return true;
 }
 
+return true;
 
 }
 #endif
