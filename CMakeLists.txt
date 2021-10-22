@@ -45,6 +45,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 option(ENABLE_FAST_MATH ON)
 add_compile_definitions(NGL_DEBUG)
+if (MSVC)
+    add_compile_options(/W3 ) # /W4 is too noisy
+else()
+    add_compile_options(-Wall -Wextra -pedantic)# -Werror)
+endif()
+
 if(WIN32)
     # Not defined in msvc compiler for cmaths so must set definition manually here
     add_compile_definitions(_USE_MATH_DEFINES)
