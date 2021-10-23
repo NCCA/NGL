@@ -20,14 +20,24 @@ project(AllNGL VERSION 8.0 LANGUAGES CXX C)
 
 find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
-find_package(OpenImageIO CONFIG REQUIRED)
-find_package(libheif CONFIG REQUIRED)
-find_package(IlmBase CONFIG )
-find_package(OpenEXR CONFIG )
+
+find_package(OpenImageIO)
+if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
+    message("Found OpenImageIO so using that")
+    add_compile_definitions(USEOIIO)
+    find_package(IlmBase CONFIG )
+    find_package(OpenEXR CONFIG )
+else()
+    message("Using Simpler Built-in Image Loaders only PNG,TIFF and EXR supported")
+    add_compile_definitions(USEBUILTINIMAGE)
+
+endif() # end of using OpenImageIO
+
+
+
 find_package(freetype CONFIG REQUIRED)
 find_path(RAPIDXML_INCLUDE_DIRS "rapidxml/rapidxml.hpp")
 find_package(RapidJSON CONFIG REQUIRED)
-find_package(OpenMP) # now needed for boost mpi used by openimageio
 
 # Set to C++ 17
 set(CMAKE_CXX_STANDARD 17)
@@ -35,6 +45,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 option(ENABLE_FAST_MATH ON)
 add_compile_definitions(NGL_DEBUG)
+if (MSVC)
+    add_compile_options(/W3 ) # /W4 is too noisy
+else()
+    add_compile_options(-Wall -Wextra -pedantic)# -Werror)
+endif()
+
 if(WIN32)
     # Not defined in msvc compiler for cmaths so must set definition manually here
     add_compile_definitions(_USE_MATH_DEFINES)
@@ -57,7 +73,6 @@ include_directories(/usr/local/include/)
 
 add_compile_definitions(ADDLARGEMODELS)
 #This defines the image lib to use by default use QIMAGE, I need to fix this for the others
-add_compile_definitions(USEOIIO)
 add_compile_definitions(USEGLM)
 add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
 if(WIN32)
@@ -72,8 +87,12 @@ install(TARGETS NGL DESTINATION lib)
 install(DIRECTORY   ${CMAKE_SOURCE_DIR}/include/ngl/ DESTINATION include/ngl)
 install(FILES   ${CMAKE_SOURCE_DIR}/gl3w/gl3w.h DESTINATION include/ngl)
 install(FILES   ${CMAKE_SOURCE_DIR}/gl3w/glcorearb.h DESTINATION include/ngl)
-install(FILES   ${CMAKE_SOURCE_DIR}/NGLConfig.cmake DESTINATION ./)
 
+if ( NO_OIIO)
+    install(FILES   ${CMAKE_SOURCE_DIR}/NGLConfigNOOIIO.cmake RENAME NGLConfig.cmake DESTINATION ./)
+else()
+    install(FILES   ${CMAKE_SOURCE_DIR}/NGLConfig.cmake DESTINATION ./)
+endif()
 
 
 target_sources(NGL PRIVATE
@@ -183,10 +202,11 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BUILD_DIR})
 target_link_libraries(NGL PRIVATE glm::glm)
 target_link_libraries(NGL PRIVATE fmt::fmt-header-only)
 target_link_libraries(NGL PRIVATE ${EXTRALIBS})
-target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util heif)
-target_link_libraries(NGL PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
-target_link_libraries(NGL PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
-
+if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
+    target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+    target_link_libraries(NGL PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
+    target_link_libraries(NGL PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
+endif()
 
 target_link_libraries(NGL PRIVATE freetype)
 target_include_directories(NGL PRIVATE ${RAPIDXML_INCLUDE_DIRS})
@@ -224,10 +244,11 @@ ${CMAKE_SOURCE_DIR}/tests/QuaternionTests.cpp
 )
 add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
 target_link_libraries(NGLTests PRIVATE glfw PRIVATE GTest::gtest  )
-
-target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util heif) 
-target_link_libraries(NGLTests PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
-target_link_libraries(NGLTests PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
+if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
+    target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+    target_link_libraries(NGLTests PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
+    target_link_libraries(NGLTests PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
+endif()
 target_include_directories(NGLTests PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 target_include_directories(NGLTests PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
 target_link_libraries(NGLTests PRIVATE freetype)
@@ -252,9 +273,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	target_link_libraries( NGLTests PRIVATE $(ConfigurationName)/NGL.lib )
 else()
 target_link_libraries(NGLTests PRIVATE  NGL PRIVATE ${EXTRALIBS} )
-if(OpenMP_CXX_FOUND)
-    target_link_libraries(NGLTests  PRIVATE  OpenMP::OpenMP_CXX)
-endif()
+
 endif()
 
 gtest_discover_tests(NGLTests)
@@ -430,10 +449,11 @@ target_link_libraries(pyngl PRIVATE  pybind11::embed pybind11::module pybind11::
 target_link_libraries(pyngl PRIVATE glm::glm)
 target_link_libraries(pyngl PRIVATE fmt::fmt-header-only)
 target_link_libraries(pyngl PRIVATE ${PROJECT_LINK_LIBS} ${EXTRALIBS})
-target_link_libraries(pyngl PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
-target_link_libraries(pyngl PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
-target_link_libraries(pyngl PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
-
+if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
+    target_link_libraries(pyngl PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+    target_link_libraries(pyngl PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
+    target_link_libraries(pyngl PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
+endif()
 
 
 target_link_libraries(pyngl PRIVATE freetype)
@@ -445,5 +465,4 @@ install(TARGETS pyngl DESTINATION lib)
 
 
 endif()
-
 

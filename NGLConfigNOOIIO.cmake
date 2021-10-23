@@ -1,11 +1,6 @@
 set(NGL_Found,1)
 find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
-find_package(OpenImageIO )
-if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
-	find_package(IlmBase CONFIG )
-	find_package(OpenEXR CONFIG )
-endif()
 
 
 find_package(freetype CONFIG REQUIRED)
@@ -51,14 +46,5 @@ endif()
 # now add NGL specific values
 link_directories(${NGL_HOME}/lib)
 
-# add exe and link libs that must be after the other defines
-if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
-	link_libraries(OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
-	if(IlmBase_Found)
-			link_libraries(IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
-	endif()
-	if(OpenEXR_Found)
-			link_libraries(OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
-	endif()
-endif()
 link_libraries( ${PROJECT_LINK_LIBS}  fmt::fmt-header-only freetype glm::glm)
+
