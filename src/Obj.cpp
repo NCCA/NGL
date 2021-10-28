@@ -279,9 +279,10 @@ bool Obj::parseVertex(std::vector<std::string> &_tokens) noexcept
     m_verts.push_back({x,y,z});
     ++m_currentVertexOffset;
   }
-  catch (std::invalid_argument)
+  catch (std::invalid_argument &arg)
   {
-    msg->addError("problem converting Obj file vertex");
+    msg->addError("problem converting Obj file vertex ");
+    msg->addError(arg.what());
     parsedOK=false;
   }
   return parsedOK;
@@ -298,9 +299,10 @@ bool Obj::parseNormal(std::vector<std::string> &_tokens) noexcept
     m_norm.push_back({x,y,z});
     ++m_currentNormalOffset;
   }
-  catch (std::invalid_argument)
+  catch (std::invalid_argument &arg)
   {
     msg->addError("problem converting Obj file normals");
+    msg->addError(arg.what());
     parsedOK=false;
   }
   return parsedOK;
@@ -323,9 +325,11 @@ bool Obj::parseUV(std::vector<std::string> &_tokens) noexcept
     m_uv.push_back({x,y,z});
     ++m_currentUVOffset;
   }
-  catch (std::invalid_argument)
+ catch (std::invalid_argument &arg)
   {
     msg->addError("problem converting Obj file UV's");
+    msg->addError(arg.what());
+
     parsedOK=false;
   }
   return parsedOK;
@@ -380,9 +384,10 @@ bool Obj::parseFaceVertex(std::vector<std::string> &_tokens) noexcept
       }
       f.m_vert.push_back(static_cast<uint32_t>(idx));
     }
-    catch (std::invalid_argument)
+    catch (std::invalid_argument &arg)
     {
       msg->addError("problem converting Obj file face");
+      msg->addError(arg.what());
       parsedOK=false;
     }
   }
@@ -421,9 +426,10 @@ bool Obj::parseFaceVertexNormal(std::vector<std::string> &_tokens) noexcept
       f.m_norm.push_back(static_cast<uint32_t>(idx));
 
     }
-    catch (std::invalid_argument)
+    catch (std::invalid_argument &arg)
     {
       msg->addError("problem converting Obj file face");
+      msg->addError(arg.what());
       parsedOK=false;
     }
   }
@@ -462,9 +468,10 @@ bool Obj::parseFaceVertexUV(std::vector<std::string> &_tokens) noexcept
       f.m_uv.push_back(static_cast<uint32_t>(idx));
 
     }
-    catch (std::invalid_argument)
+    catch (std::invalid_argument &arg)
     {
       msg->addError("problem converting Obj file face");
+      msg->addError(arg.what());
       parsedOK=false;
     }
   }
@@ -512,9 +519,10 @@ bool Obj::parseFaceVertexNormalUV(std::vector<std::string> &_tokens) noexcept
       }
       f.m_norm.push_back(static_cast<uint32_t>(idx));
     }
-    catch (std::invalid_argument)
+    catch (std::invalid_argument &arg)
     {
       msg->addError("problem converting Obj file face");
+      msg->addError(arg.what());
       parsedOK=false;
     }
   }

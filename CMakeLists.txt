@@ -48,7 +48,7 @@ add_compile_definitions(NGL_DEBUG)
 if (MSVC)
     add_compile_options(/W3 ) # /W4 is too noisy
 else()
-    add_compile_options(-Wall -Wextra -pedantic)# -Werror)
+    add_compile_options(-Wall -Wextra  -fms-extensions)# -pedantic -Werror)
 endif()
 
 if(WIN32)
