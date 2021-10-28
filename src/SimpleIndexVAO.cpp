@@ -112,7 +112,7 @@ namespace ngl
 #endif
 
 
-  Real * SimpleIndexVAO::mapBuffer(unsigned int _index, GLenum _accessMode)
+  Real * SimpleIndexVAO::mapBuffer([[maybe_unused]] unsigned int _index, GLenum _accessMode)
   {
     Real *ptr=nullptr;
     bind();

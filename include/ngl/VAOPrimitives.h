@@ -50,20 +50,20 @@ struct vertData
     ngl::Real v;
 };
 
-const static auto * teapot="teapot";
-const static auto * octahedron="octahedron";
-const static auto * dodecahedron="dodecahedron";
-const static auto * icosahedron="icosahedron";
-const static auto * tetrahedron="tetrahedron";
-const static auto * football="football";
-const static auto * cube="cube";
-const static auto * troll="troll";
+[[maybe_unused]]  const static auto * teapot="teapot";
+[[maybe_unused]] const static auto * octahedron="octahedron";
+[[maybe_unused]] const static auto * dodecahedron="dodecahedron";
+[[maybe_unused]] const static auto * icosahedron="icosahedron";
+[[maybe_unused]] const static auto * tetrahedron="tetrahedron";
+[[maybe_unused]] const static auto * football="football";
+[[maybe_unused]] const static auto * cube="cube";
+[[maybe_unused]] const static auto * troll="troll";
 /// @note these data sets are huge and compilation takes a
 /// long time hence only enable if needed
 #ifdef ADDLARGEMODELS
-const static auto * bunny="bunny";
-const static auto * dragon="dragon";
-const static auto * buddah="buddah";
+  [[maybe_unused]] const static auto * bunny="bunny";
+  [[maybe_unused]] const static auto * dragon="dragon";
+  [[maybe_unused]] const static auto * buddah="buddah";
 #endif
 class NGL_DLLEXPORT VAOPrimitives
 {
@@ -162,9 +162,8 @@ public :
   /// @brief load a VBO from an Obj file
   /// @param[in] _name the name of the VBO to be stored as ref to this object
   /// @param[in] _fName the name of the file to load.
-  /// @param[in] _type the draw mode type
   //----------------------------------------------------------------------------------------------------------------------
-  static void loadObj( const std::string &_name, const std::string &_fName,const GLenum _type=GL_TRIANGLES ) noexcept;
+  static void loadObj( const std::string &_name, const std::string &_fName) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create the default VAO's this is done by the ctor anyway but can be called
   /// if the clear method is called. Note you will need to incude VAOHeaders in the client side

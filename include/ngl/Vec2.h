@@ -247,6 +247,8 @@ public :
 #pragma pack(push,1)
 
 #ifndef BUILDING_DOCS
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
   union
   {
     struct
@@ -278,6 +280,7 @@ public :
 #endif
 
 };
+#pragma GCC diagnostic pop
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief scalar * vector operator

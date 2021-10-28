@@ -547,7 +547,7 @@ TEST(Obj,passbyref)
   auto countVerts=[&count](const  ngl::Obj &_o)
   {
     auto data=_o.getVertexList();
-    for(auto f : data)
+    for([[maybe_unused]] auto f : data)
     {
       ++count;
     }

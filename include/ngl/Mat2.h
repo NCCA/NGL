@@ -157,6 +157,8 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
 
 #ifndef BUILDING_DOCS
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 #pragma pack(push,1)
 
   union
@@ -199,8 +201,9 @@ public :
       #ifndef BUILDING_DOCS
     };
 #pragma pack(pop)
-
    };
+#pragma GCC diagnostic pop
+
 #endif
   }; // end of class
 // free function for matrix comparison use in unit tests etc

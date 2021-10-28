@@ -232,6 +232,8 @@ public :
  //----------------------------------------------------------------------------------------------------------------------
 
 #ifndef BUILDING_DOCS
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 #pragma pack(push,1)
 
   union
@@ -298,6 +300,8 @@ public :
 
    };
 #endif
+#pragma GCC diagnostic pop
+
   }; // end of class
 // free function for matrix comparison use in unit tests etc
 inline bool operator==(const ngl::Mat3 &_m1 , const ngl::Mat3 &_m2)

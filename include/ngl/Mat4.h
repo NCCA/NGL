@@ -294,6 +294,8 @@ public :
  friend class Quaternion;
  friend class Camera;
  //----------------------------------------------------------------------------------------------------------------------
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 #pragma pack(push,1)
 
   union
@@ -338,6 +340,7 @@ public :
    };
 #pragma pack(pop)
   }; // end of class
+#pragma GCC diagnostic pop
 
 
 // free function for matrix comparison use in unit tests etc

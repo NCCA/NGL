@@ -908,7 +908,7 @@ void VAOPrimitives::addToPrimitives(const std::string &_name, std::unique_ptr<Ab
 
 }
 
-void VAOPrimitives::loadObj( const std::string &_name, const std::string &_fName,const GLenum _type ) noexcept
+void VAOPrimitives::loadObj( const std::string &_name, const std::string &_fName) noexcept
 {
   Obj obj(_fName,Obj::CalcBB::False);
   obj.createVAO();

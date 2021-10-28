@@ -335,6 +335,8 @@ public:
 /// anonymous unions public whereas clang++ complains see this post
 /// http://jonmacey.blogspot.com/2011/03/anonymous-union-struct-weirdness.html
 public :
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 #pragma pack(push,1)
 
   union
@@ -366,6 +368,7 @@ public :
   };
 
 };
+#pragma GCC diagnostic pop
 
 
 
