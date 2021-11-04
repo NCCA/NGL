@@ -1,10 +1,11 @@
 set(NGL_Found,1)
 find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
-find_package(OpenImageIO )
+find_package(OpenImageIO CONFIG)
 if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
 	find_package(IlmBase CONFIG )
 	find_package(OpenEXR CONFIG )
+  find_package(OpenMP)
 endif()
 
 
@@ -33,11 +34,13 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	find_library(MACGL OpenGL)
 	include_directories(include ${NGL_HOME}/include)
 	set(EXTRALIBS  ${MACGL})
+
   add_definitions(-DGL_SILENCE_DEPRECATION)
 	set ( PROJECT_LINK_LIBS ${MACGL} NGL)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	include_directories(include ${NGL_HOME}/include)
 	set ( PROJECT_LINK_LIBS -lGL NGL)
+	set(EXTRALIBS OpenMP::OpenMP_CXX)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
  	include_directories(include ${NGL_HOME}/include)
 	link_directories(${NGL_HOME}/lib)	
@@ -46,6 +49,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	add_compile_definitions(NOMINMAX)
 	# Need to define this when building shared library or suffer dllimport errors
 	add_compile_definitions(BUILDING_DLL)
+	set(EXTRALIBS OpenMP::OpenMP_CXX)
 endif()
 
 # now add NGL specific values
@@ -53,7 +57,7 @@ link_directories(${NGL_HOME}/lib)
 
 # add exe and link libs that must be after the other defines
 if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
-	link_libraries(OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+	link_libraries(OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util )
 	if(IlmBase_Found)
 			link_libraries(IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
 	endif()
