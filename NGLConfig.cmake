@@ -1,10 +1,11 @@
 set(NGL_Found,1)
 find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
-find_package(OpenImageIO )
+find_package(OpenImageIO CONFIG)
 if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
 	find_package(IlmBase CONFIG )
 	find_package(OpenEXR CONFIG )
+  find_package(OpenMP)
 endif()
 
 
@@ -53,7 +54,7 @@ link_directories(${NGL_HOME}/lib)
 
 # add exe and link libs that must be after the other defines
 if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
-	link_libraries(OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+	link_libraries(OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util OpenMP::OpenMP_CXX)
 	if(IlmBase_Found)
 			link_libraries(IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
 	endif()
