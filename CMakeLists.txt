@@ -299,19 +299,18 @@ add_custom_target(CopyTestfiles ALL
 #############################################################
 
 if(DEFINED BUILD_PYNGL)
+# add pybind subdirectory 
+add_subdirectory(pybind11)
 
-add_library(pyngl SHARED)
+#add_library(pyngl SHARED)
 
 add_compile_definitions(PYTHONBUILD)
-#find_package( PythonInterp 3 REQUIRED )
-#find_package( PythonLibs 3 REQUIRED )
-#find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
-find_package(pybind11 CONFIG REQUIRED)
+
 
 set(PYSOURCEDIR ${CMAKE_SOURCE_DIR}/PyNGL/src)
 include_directories(${CMAKE_SOURCE_DIR}/PyNGL/)
 include_directories(${PYTHON_INCLUDE_DIRS})
-
+pybind11_add_module(pyngl)
 
 target_sources(pyngl PRIVATE
    ${CMAKE_SOURCE_DIR}/src/Vec4.cpp
@@ -445,18 +444,14 @@ endif()
 
 if(WIN32)
     add_definitions( -D_USE_MATH_DEFINES)
+    set(EXTRALIBS  OpenMP::OpenMP_CXX)
 endif()
-
 
 
 # add exe and link libs this must be after the other defines
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY${CMAKE_SOURCE_DIR}/lib)
 SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_SOURCE_DIR}/lib/pyngl.so")
 
-
-set_target_properties(pyngl PROPERTIES PREFIX "")
-
-target_link_libraries(pyngl PRIVATE   pybind11::lto pybind11::module )
 target_link_libraries(pyngl PRIVATE glm::glm)
 target_link_libraries(pyngl PRIVATE fmt::fmt-header-only)
 target_link_libraries(pyngl PRIVATE ${PROJECT_LINK_LIBS} ${EXTRALIBS})
@@ -466,14 +461,11 @@ if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
     target_link_libraries(pyngl PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
 endif()
 
-
 target_link_libraries(pyngl PRIVATE freetype)
 target_include_directories(pyngl PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 target_include_directories(pyngl PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
 
 install(TARGETS pyngl DESTINATION lib CONFIGURATIONS Release)
 install(TARGETS pyngl DESTINATION lib)
-
-
 endif()
 
