@@ -40,7 +40,7 @@ namespace ngl
       msg->addWarning("Warning trying to set attribute on Unbound VOA");
     }
     // set and enable the generic vertex attribute
-    glVertexAttribPointer(_id,_size,_type,_normalise,_stride,static_cast<Real *>(NULL)  + _dataOffset);//   ((Real *)NULL + (_dataOffset)));
+    glVertexAttribPointer(_id,_size,_type,_normalise,_stride,static_cast<Real *>(0)  + _dataOffset);//   ((Real *)NULL + (_dataOffset)));
     glEnableVertexAttribArray(_id);
   }
 

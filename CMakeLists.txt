@@ -20,7 +20,6 @@ project(AllNGL VERSION 8.0 LANGUAGES CXX C)
 
 find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
-
 find_package(OpenImageIO)
 if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
     message("Found OpenImageIO so using that")
@@ -203,7 +202,7 @@ target_link_libraries(NGL PRIVATE glm::glm)
 target_link_libraries(NGL PRIVATE fmt::fmt-header-only)
 target_link_libraries(NGL PRIVATE ${EXTRALIBS})
 if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
-    target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+    target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO  OpenImageIO_Util::OpenImageIO_Util)
     target_link_libraries(NGL PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
     target_link_libraries(NGL PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
 endif()
@@ -245,7 +244,7 @@ ${CMAKE_SOURCE_DIR}/tests/QuaternionTests.cpp
 add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
 target_link_libraries(NGLTests PRIVATE glfw PRIVATE GTest::gtest  )
 if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
-    target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
+    target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util )
     target_link_libraries(NGLTests PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
     target_link_libraries(NGLTests PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
 endif()
@@ -295,9 +294,11 @@ if(DEFINED BUILD_PYNGL)
 add_library(pyngl SHARED)
 
 add_compile_definitions(PYTHONBUILD)
-find_package( PythonInterp 2 REQUIRED )
-find_package( PythonLibs 2 REQUIRED )
+#find_package( PythonInterp 3 REQUIRED )
+#find_package( PythonLibs 3 REQUIRED )
+#find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 find_package(pybind11 CONFIG REQUIRED)
+
 set(PYSOURCEDIR ${CMAKE_SOURCE_DIR}/PyNGL/src)
 include_directories(${CMAKE_SOURCE_DIR}/PyNGL/)
 include_directories(${PYTHON_INCLUDE_DIRS})
@@ -428,7 +429,7 @@ target_sources(pyngl PRIVATE
 # see what platform we are on and set platform defines
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     find_library(MACGL OpenGL)
-    set(EXTRALIBS  ${MACGL} -lpython2.7)
+    set(EXTRALIBS  ${MACGL})
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif()
 
@@ -445,7 +446,7 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_SOURCE_
 
 set_target_properties(pyngl PROPERTIES PREFIX "")
 
-target_link_libraries(pyngl PRIVATE  pybind11::embed pybind11::module pybind11::pybind11)
+target_link_libraries(pyngl PRIVATE   pybind11::lto pybind11::module )
 target_link_libraries(pyngl PRIVATE glm::glm)
 target_link_libraries(pyngl PRIVATE fmt::fmt-header-only)
 target_link_libraries(pyngl PRIVATE ${PROJECT_LINK_LIBS} ${EXTRALIBS})

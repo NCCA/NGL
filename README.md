@@ -178,10 +178,6 @@ An interactive WebGL [demo](https://nccastaff.bournemouth.ac.uk/jmacey/WebGL/Ray
 An Abstract Octree template to use in your own projects, this code is originally writen by my collegue Dr Xiaosong Yangfor his advanced collision detection lectures and templated and ported to ngl by me.
 Interactive WebGL demo [here](https://nccastaff.bournemouth.ac.uk/jmacey/WebGL/Octree/)
 
-## [Particle Demos](https://github.com/NCCA/ParticleSystem)
-![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/Particles.png)
-
-Simple particle system demos, need to update these and add some more at some stage.
 
 # [ParticleFactory](https://github.com/NCCA/ParticleFactory)
 ![](https://nccastaff.bournemouth.ac.uk/jmacey/GraphicsLib/Demos/ParticleFactory.png)

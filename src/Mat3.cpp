@@ -72,10 +72,13 @@ Mat3::Mat3(Real _00, Real _01, Real _02, Real _10,  Real _11, Real _12,Real _20,
 
 }
 //----------------------------------------------------------------------------------------------------------------------
-Mat3::Mat3(const Mat3& _m) noexcept
-{
-	memcpy(m_m,&_m.m_m,sizeof(m_m));
-}
+// removed as warning: definition of implicit copy assignment operator 
+// for 'Mat3' is deprecated because it has a user-declared copy constructor [-Wdeprecated-copy]
+// Good chance compilers will optimise.
+// Mat3::Mat3(const Mat3& _m) noexcept
+// {
+// 	memcpy(m_m,&_m.m_m,sizeof(m_m));
+// }
 
 
 

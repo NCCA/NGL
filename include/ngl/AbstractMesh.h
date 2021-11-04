@@ -43,15 +43,15 @@ class Face
 {
 public :
   Face()=default;
-  Face(const Face &_f)
-  {
-    m_vert=_f.m_vert;
-    m_uv=_f.m_uv;
-    m_norm=_f.m_norm;
-    m_numVerts=_f.m_numVerts;
-    m_textureCoord=_f.m_textureCoord;
-    m_normals=_f.m_normals;
-  }
+  Face(const Face &_f)=default;
+  // {
+  //   m_vert=_f.m_vert;
+  //   m_uv=_f.m_uv;
+  //   m_norm=_f.m_norm;
+  //   m_numVerts=_f.m_numVerts;
+  //   m_textureCoord=_f.m_textureCoord;
+  //   m_normals=_f.m_normals;
+  // }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the number of vertices in the face
   //----------------------------------------------------------------------------------------------------------------------
