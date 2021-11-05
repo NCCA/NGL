@@ -3,7 +3,7 @@ from __future__ import print_function
 import unittest
 import sys
 if sys.version_info.major == 3 :
-  import pyngl3 as pyngl
+  import pyngl as pyngl
 else :
   import pyngl
 
@@ -26,7 +26,7 @@ def setup():
 
   # Make the window's context current
   glfw.make_context_current(window)
-  pyngl.NGLInit.instance().setCommunicationMode(pyngl.CommunicationMode.STDOUT);
+  #pyngl.NGLInit.setCommunicationMode(pyngl.CommunicationMode.STDOUT);
 
 
 

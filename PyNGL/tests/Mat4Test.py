@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import sys 
 if sys.version_info.major == 3 :
-  import pyngl3 as pyngl
+  import pyngl as pyngl
 else :
   import pyngl
 

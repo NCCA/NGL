@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import sys
 if sys.version_info.major == 3 :
-  import pyngl3 as pyngl
+  import pyngl as pyngl
 else :
   import pyngl
 
@@ -89,77 +89,77 @@ class TestVec3(unittest.TestCase):
     a=pyngl.Vec3(1.0,2.0,3.0)
     b=pyngl.Vec3(4.0,5.0,6.0)
     c=a+b
-    self.assertAlmostEquals(c.m_x,5.0,delta=0.001)
-    self.assertAlmostEquals(c.m_y,7.0,delta=0.001)
-    self.assertAlmostEquals(c.m_z,9.0,delta=0.001)
+    self.assertAlmostEqual(c.m_x,5.0,delta=0.001)
+    self.assertAlmostEqual(c.m_y,7.0,delta=0.001)
+    self.assertAlmostEqual(c.m_z,9.0,delta=0.001)
 
   def testAddEqual(self) :
     a=pyngl.Vec3(1.0,2.0,3.0)
     b=pyngl.Vec3(4.0,5.0,6.0)
     a+=b
-    self.assertAlmostEquals(a.m_x,5.0,delta=0.001)
-    self.assertAlmostEquals(a.m_y,7.0,delta=0.001)
-    self.assertAlmostEquals(a.m_z,9.0,delta=0.001)
+    self.assertAlmostEqual(a.m_x,5.0,delta=0.001)
+    self.assertAlmostEqual(a.m_y,7.0,delta=0.001)
+    self.assertAlmostEqual(a.m_z,9.0,delta=0.001)
 
   def testMinus(self) :
     a=pyngl.Vec3(1.0,2.0,3.0)
     b=pyngl.Vec3(4.0,5.0,6.0)
     c=a-b
-    self.assertAlmostEquals(c.m_x,-3.0,delta=0.001)
-    self.assertAlmostEquals(c.m_y,-3.0,delta=0.001)
-    self.assertAlmostEquals(c.m_z,-3.0,delta=0.001)
+    self.assertAlmostEqual(c.m_x,-3.0,delta=0.001)
+    self.assertAlmostEqual(c.m_y,-3.0,delta=0.001)
+    self.assertAlmostEqual(c.m_z,-3.0,delta=0.001)
 
   def testMinusEqual(self) :
     a=pyngl.Vec3(1.0,2.0,3.0)
     b=pyngl.Vec3(4.0,5.0,6.0)
     a-=b
-    self.assertAlmostEquals(a.m_x,-3.0,delta=0.001)
-    self.assertAlmostEquals(a.m_y,-3.0,delta=0.001)
-    self.assertAlmostEquals(a.m_z,-3.0,delta=0.001)
+    self.assertAlmostEqual(a.m_x,-3.0,delta=0.001)
+    self.assertAlmostEqual(a.m_y,-3.0,delta=0.001)
+    self.assertAlmostEqual(a.m_z,-3.0,delta=0.001)
 
   def testMultiplyFloat(self) :
     a=pyngl.Vec3(1.0,2.0,3.0)
     b=a*2.0
-    self.assertAlmostEquals(b.m_x,2.0,delta=0.001)
-    self.assertAlmostEquals(b.m_y,4.0,delta=0.001)
-    self.assertAlmostEquals(b.m_z,6.0,delta=0.001)
+    self.assertAlmostEqual(b.m_x,2.0,delta=0.001)
+    self.assertAlmostEqual(b.m_y,4.0,delta=0.001)
+    self.assertAlmostEqual(b.m_z,6.0,delta=0.001)
 
   def testMultiplyEqualFloat(self) :
     a=pyngl.Vec3(1.0,2.0,3.0)
     a*=2.0
-    self.assertAlmostEquals(a.m_x,2.0,delta=0.001)
-    self.assertAlmostEquals(a.m_y,4.0,delta=0.001)
-    self.assertAlmostEquals(a.m_z,6.0,delta=0.001)
+    self.assertAlmostEqual(a.m_x,2.0,delta=0.001)
+    self.assertAlmostEqual(a.m_y,4.0,delta=0.001)
+    self.assertAlmostEqual(a.m_z,6.0,delta=0.001)
 
   def testDivideFloat(self) :
     a=pyngl.Vec3(1.0,2.0,3.0)
     b=a/2.0
-    self.assertAlmostEquals(b.m_x,0.5,delta=0.001)
-    self.assertAlmostEquals(b.m_y,1.0,delta=0.001)
-    self.assertAlmostEquals(b.m_z,1.5,delta=0.001)
+    self.assertAlmostEqual(b.m_x,0.5,delta=0.001)
+    self.assertAlmostEqual(b.m_y,1.0,delta=0.001)
+    self.assertAlmostEqual(b.m_z,1.5,delta=0.001)
 
   def testDivideEqualFloat(self) :
     a=pyngl.Vec3(1.0,2.0,3.0)
     a/=2.0
-    self.assertAlmostEquals(a.m_x,0.5,delta=0.001)
-    self.assertAlmostEquals(a.m_y,1.0,delta=0.001)
-    self.assertAlmostEquals(a.m_z,1.5,delta=0.001)
+    self.assertAlmostEqual(a.m_x,0.5,delta=0.001)
+    self.assertAlmostEqual(a.m_y,1.0,delta=0.001)
+    self.assertAlmostEqual(a.m_z,1.5,delta=0.001)
 
   def testDivideVec(self) :
     a=pyngl.Vec3(1.0,2.0,3.0)
     b=pyngl.Vec3(2.0)
     c=a/b
-    self.assertAlmostEquals(c.m_x,0.5,delta=0.001)
-    self.assertAlmostEquals(c.m_y,1.0,delta=0.001)
-    self.assertAlmostEquals(c.m_z,1.5,delta=0.001)
+    self.assertAlmostEqual(c.m_x,0.5,delta=0.001)
+    self.assertAlmostEqual(c.m_y,1.0,delta=0.001)
+    self.assertAlmostEqual(c.m_z,1.5,delta=0.001)
 
   def testDivideEqualVec(self) :
     a=pyngl.Vec3(1.0,2.0,3.0)
     b=pyngl.Vec3(2.0,2.0,2.0)
     a/=b
-    self.assertAlmostEquals(a.m_x,0.5,delta=0.001)
-    self.assertAlmostEquals(a.m_y,1.0,delta=0.001)
-    self.assertAlmostEquals(a.m_z,1.5,delta=0.001)
+    self.assertAlmostEqual(a.m_x,0.5,delta=0.001)
+    self.assertAlmostEqual(a.m_y,1.0,delta=0.001)
+    self.assertAlmostEqual(a.m_z,1.5,delta=0.001)
 
 
 

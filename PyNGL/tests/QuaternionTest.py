@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import sys
 if sys.version_info.major == 3 :
-  import pyngl3 as pyngl
+  import pyngl as pyngl
 else :
   import pyngl
 
@@ -68,48 +68,48 @@ class TestQuaternion(unittest.TestCase):
     q1=pyngl.Quaternion(-math.sin(math.pi),3.0,4.0,3.0)
     q2=pyngl.Quaternion(4.0,3.9,-1.0,-3.0)
     res=q1*q2
-    self.assertAlmostEquals( res.getS(),1.3,delta=0.001)
-    self.assertAlmostEquals( res.getX(),3.0,delta=0.001)
-    self.assertAlmostEquals( res.getY(),36.7,delta=0.001)
-    self.assertAlmostEquals( res.getZ(),-6.60,delta=0.001)
+    self.assertAlmostEqual( res.getS(),1.3,delta=0.001)
+    self.assertAlmostEqual( res.getX(),3.0,delta=0.001)
+    self.assertAlmostEqual( res.getY(),36.7,delta=0.001)
+    self.assertAlmostEqual( res.getZ(),-6.60,delta=0.001)
 
   def testMultiplyEqualQuat(self):
     q1=pyngl.Quaternion(-math.sin(math.pi),3.0,4.0,3.0)
     q2=pyngl.Quaternion(4.0,3.9,-1.0,-3.0)
     q1*=q2
-    self.assertAlmostEquals( q1.getS(),1.3,delta=0.001)
-    self.assertAlmostEquals( q1.getX(),3.0,delta=0.001)
-    self.assertAlmostEquals( q1.getY(),36.7,delta=0.001)
-    self.assertAlmostEquals( q1.getZ(),-6.60,delta=0.001)
+    self.assertAlmostEqual( q1.getS(),1.3,delta=0.001)
+    self.assertAlmostEqual( q1.getX(),3.0,delta=0.001)
+    self.assertAlmostEqual( q1.getY(),36.7,delta=0.001)
+    self.assertAlmostEqual( q1.getZ(),-6.60,delta=0.001)
 
 
   def testMagnitude(self):
     q1=pyngl.Quaternion(1.3,3.0,36.7,-6.6)
-    self.assertAlmostEquals(q1.magnitude(),37.4381,delta=0.01)
+    self.assertAlmostEqual(q1.magnitude(),37.4381,delta=0.01)
 
   def testNormalise(self):
     q1=pyngl.Quaternion(1.3,3.0,36.7,-6.6)
     q1.normalise()
-    self.assertAlmostEquals( q1.getS(),0.0347298,delta=0.001)
-    self.assertAlmostEquals( q1.getX(),0.0801457,delta=0.001)
-    self.assertAlmostEquals( q1.getY(),0.98045,delta=0.001)
-    self.assertAlmostEquals( q1.getZ(),-0.176321,delta=0.001)
+    self.assertAlmostEqual( q1.getS(),0.0347298,delta=0.001)
+    self.assertAlmostEqual( q1.getX(),0.0801457,delta=0.001)
+    self.assertAlmostEqual( q1.getY(),0.98045,delta=0.001)
+    self.assertAlmostEqual( q1.getZ(),-0.176321,delta=0.001)
 
   def testConjugate(self):
     q1=pyngl.Quaternion(1.3,3.0,36.7,-6.6)
     q1=q1.conjugate()
-    self.assertAlmostEquals( q1.getS(),1.3,delta=0.001)
-    self.assertAlmostEquals( q1.getX(),-3.0,delta=0.001)
-    self.assertAlmostEquals( q1.getY(),-36.7,delta=0.001)
-    self.assertAlmostEquals( q1.getZ(),6.6,delta=0.001)
+    self.assertAlmostEqual( q1.getS(),1.3,delta=0.001)
+    self.assertAlmostEqual( q1.getX(),-3.0,delta=0.001)
+    self.assertAlmostEqual( q1.getY(),-36.7,delta=0.001)
+    self.assertAlmostEqual( q1.getZ(),6.6,delta=0.001)
 
   def testInverse(self):
     q1=pyngl.Quaternion(1.3,-3.0,-36.7,6.6)
     q1=q1.inverse()
-    self.assertAlmostEquals( q1.getS(),0.000927816,delta=0.01)
-    self.assertAlmostEquals( q1.getX(),0.00214111,delta=0.01)
-    self.assertAlmostEquals( q1.getY(),0.026193,delta=0.01)
-    self.assertAlmostEquals( q1.getZ(),0.00471045,delta=0.01)
+    self.assertAlmostEqual( q1.getS(),0.000927816,delta=0.01)
+    self.assertAlmostEqual( q1.getX(),0.00214111,delta=0.01)
+    self.assertAlmostEqual( q1.getY(),0.026193,delta=0.01)
+    self.assertAlmostEqual( q1.getZ(),0.00471045,delta=0.01)
 
 
 if __name__ == '__main__':
