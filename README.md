@@ -15,13 +15,16 @@ For the current build status see our CI logs here
 
 NGL depends upon the following libraries
 
-- [OpenImageIO](https://github.com/OpenImageIO/oiio) For image reading and writing. 
 - [GLM](https://glm.g-truc.net/0.9.9/index.html) this is a header only library and can be copied to /usr/local/include This is a compatibility layer and can be removed by commenting out the  USEGLM define in the Qt projects.
 - [glfw3](https://www.glfw.org/) is used to create an OpenGL context for the unit tests, if you don't want to install this just don't build the unit tests.  
 - [gtest](https://github.com/google/googletest) for Unit testing if you are building the tests.
+- [RapidJSON](https://rapidjson.org/) for the Shader Library code.
+- [RapidXML](http://rapidxml.sourceforge.net/) for the Point bake classes.
 - [cmake](https://cmake.org/) for building of NGL and all demos.
 
 To install all the dependencies I use [vcpkg](https://github.com/microsoft/vcpkg) depending upon your platform you can read what to install in the detailed instructions below.
+
+Additionally [OpenImageIO](https://github.com/OpenImageIO/oiio) can be used for image reading and writing. Rather than the build in Stub image loaders. This adds quite a bit more to the build time using vcpkg so only use if you need to support EXR, Tiff and other image formats not supported by the built in one. 
 
 
 ## Building

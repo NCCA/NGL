@@ -1,8 +1,9 @@
-#include <pybind11/pybind11.h>
-#include <pybind11/operators.h>
-#include <pybind11/stl.h>
-#include <pybind11/cast.h>
-#include <pybind11/pytypes.h>
+// #include <pybind11/pybind11.h>
+// #include <pybind11/operators.h>
+// #include <pybind11/stl.h>
+// #include <pybind11/cast.h>
+// #include <pybind11/pytypes.h>
+#include "PyBindIncludes.h"
 
 #include "AbstractVAO.h"
 namespace py = pybind11;

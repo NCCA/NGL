@@ -1,8 +1,9 @@
-#include <pybind11/pybind11.h>
-#include <pybind11/operators.h>
-#include <pybind11/stl.h>
-#include <pybind11/cast.h>
-#include <pybind11/stl_bind.h>
+// #include <pybind11/pybind11.h>
+// #include <pybind11/operators.h>
+// #include <pybind11/stl.h>
+// #include <pybind11/cast.h>
+// #include <pybind11/stl_bind.h>
+#include "PyBindIncludes.h"
 #include <vector>
 #include "Vec2.h"
 #include "Vec3.h"
