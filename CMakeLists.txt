@@ -310,7 +310,7 @@ add_compile_definitions(PYTHONBUILD)
 set(PYSOURCEDIR ${CMAKE_SOURCE_DIR}/PyNGL/src)
 include_directories(${CMAKE_SOURCE_DIR}/PyNGL/)
 include_directories(${PYTHON_INCLUDE_DIRS})
-pybind11_add_module(pyngl)
+pybind11_add_module(pyngl NO_EXTRAS)
 
 target_sources(pyngl PRIVATE
    ${CMAKE_SOURCE_DIR}/src/Vec4.cpp

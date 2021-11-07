@@ -3,7 +3,7 @@
 #include <vector>
 namespace py = pybind11;
 
-PYBIND11_MAKE_OPAQUE(std::vector<uint32_t, std::allocator<uint32_t>>);
+//PYBIND11_MAKE_OPAQUE(std::vector<uint32_t, std::allocator<uint32_t>>);
 
 
 namespace ngl
