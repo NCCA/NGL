@@ -299,11 +299,7 @@ add_custom_target(CopyTestfiles ALL
 #############################################################
 
 if(DEFINED BUILD_PYNGL)
-# add pybind subdirectory 
-add_subdirectory(pybind11)
-
-#add_library(pyngl SHARED)
-
+find_package(pybind11 CONFIG REQUIRED)
 add_compile_definitions(PYTHONBUILD)
 
 
@@ -451,7 +447,7 @@ endif()
 # add exe and link libs this must be after the other defines
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY${CMAKE_SOURCE_DIR}/lib)
 SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_SOURCE_DIR}/lib/pyngl.so")
-
+target_link_libraries(pyngl PRIVATE   pybind11::module)
 target_link_libraries(pyngl PRIVATE glm::glm)
 target_link_libraries(pyngl PRIVATE fmt::fmt-header-only)
 target_link_libraries(pyngl PRIVATE ${PROJECT_LINK_LIBS} ${EXTRALIBS})

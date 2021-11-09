@@ -81,6 +81,7 @@ class NGL_DLLEXPORT AbstractVAO
     /// @brief this method is used to set the data in the VAO, we have a base data type of
     /// VertexData above, but the user can extend this to create custom data types
     //----------------------------------------------------------------------------------------------------------------------
+    
     virtual void setData(const VertexData &_data)=0;
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief this will clean up the VAO and associated data, it is the users responsibility to do this

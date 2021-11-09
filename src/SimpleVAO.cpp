@@ -38,6 +38,7 @@ namespace ngl
 
     void SimpleVAO::setData(size_t _size, const std::vector<float> &_data)
     {
+      std::cout<<"Setting data from Python float"<<_size<<'\n';
         if(m_bound == false)
         {
             msg->addWarning("trying to set VOA data when unbound");
@@ -56,6 +57,7 @@ namespace ngl
 
   void SimpleVAO::setData(size_t _size, const std::vector<Vec3> &_data)
   {
+    std::cout<<"Setting data from Python Vec3"<<_size<<'\n';
     if(m_bound == false)
     {
       msg->addWarning("trying to set VOA data when unbound");
@@ -70,6 +72,7 @@ namespace ngl
     glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>( _size), &_data[0].m_x,GL_STATIC_DRAW);
     m_allocated=true;
   }
+
 
 
 

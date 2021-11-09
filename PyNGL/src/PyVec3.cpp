@@ -74,6 +74,7 @@ namespace ngl
           .def_readwrite("m_z", &Vec3::m_z)
 
           ;
+    
 
   }
 }

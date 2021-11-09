@@ -2,6 +2,9 @@
 
 #include "Vec3.h"
 #include "SimpleVAO.h"
+#include <vector>
+
+
 namespace py = pybind11;
 namespace ngl
 {
