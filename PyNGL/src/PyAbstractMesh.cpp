@@ -3,8 +3,6 @@
 #include <vector>
 namespace py = pybind11;
 
-//PYBIND11_MAKE_OPAQUE(std::vector<uint32_t, std::allocator<uint32_t>>);
-
 
 namespace ngl
 {
@@ -46,10 +44,13 @@ void pyInitAbstractMesh(py::module & m)
 
 
   py::enum_<AbstractMesh::CalcBB>(m, "CalcBB")
-      .value("True",AbstractMesh::CalcBB::True )
-      .value("False",AbstractMesh::CalcBB::False)
+      .value("TRUE",AbstractMesh::CalcBB::True )
+      .value("FALSE",AbstractMesh::CalcBB::False)
     ;
-
+  py::enum_<AbstractMesh::ResetVAO>(m, "ResetVAO")
+      .value("TRUE",AbstractMesh::ResetVAO::True )
+      .value("FALSE",AbstractMesh::ResetVAO::False)
+    ;
   py::class_<Face>(m, "Face")
     .def(py::init<>())
     .def(py::init<const Face &>())
