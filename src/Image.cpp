@@ -281,10 +281,16 @@ bool Image::load( const std::string &_fname  ) noexcept
   m_width = spec.width;
   m_height = spec.height;
   m_channels = spec.nchannels;
+  
   if(m_channels==3)
     m_format=GL_RGB;
   else if(m_channels==4)
     m_format=GL_RGBA;
+  else if(m_channels == 1)
+  {
+    msg->addWarning("loading as greyscale");
+    m_format=GL_RED;
+  }
   m_data.reset(new unsigned char[ m_width*m_height*m_channels]);
   // this will read an flip the pixel for OpenGL
   int scanlinesize = spec.width * spec.nchannels * sizeof(m_data[0]);
