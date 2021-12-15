@@ -57,6 +57,7 @@ class NGL_DLLEXPORT MultiBufferVAO : public AbstractVAO
     /// and then re-set with the new data.
     //----------------------------------------------------------------------------------------------------------------------
     virtual void setData(const VertexData &_data);
+    void setData(size_t _index, const VertexData &_data );
     #ifdef PYTHONBUILD
         void setData(size_t _size, const std::vector<float>  &_data);
         void setData(size_t _size, const std::vector<Vec3>  &_data);

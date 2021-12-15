@@ -54,6 +54,24 @@ namespace ngl
     m_allocated=true;
 
   }
+
+  void MultiBufferVAO::setData(size_t _index, const VertexData &_data )
+  {
+    if(m_bound == false)
+    {
+      msg->addWarning("trying to set VOA data when unbound");
+    }
+    if(_index >= m_vboIDs.size())
+    {
+      msg->addError("Trying to set Buffer data at wrong Index");
+    }
+    glBindBuffer(GL_ARRAY_BUFFER, m_vboIDs[_index]);
+    glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>(_data.m_size), &_data.m_data, _data.m_mode);
+    m_allocated=true;
+  }
+
+
+
 #ifdef PYTHONBUILD
 
   void MultiBufferVAO::setData(size_t _size, const std::vector<float>  &_data)
