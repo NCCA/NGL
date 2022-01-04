@@ -12,6 +12,20 @@ make -j 12
 make install
 ```
 
+## Building PyNGL
+
+To additionally build the pyngl we need to do the following
+
+```
+cmake -DCMAKE_INSTALL_PREFIX:PATH=~/NGL -DBUILD_PYNGL=True ..
+```
+
+However this will use the defauly system python. To use other versions of python such as those installed with pyenv you need to specify the correct python executable.
+
+```
+cmake -DCMAKE_INSTALL_PREFIX:PATH=~/NGL -DPYTHON_EXECUTABLE:FILEPATH=~/.pyenv/shims/python -DBUILD_PYNGL=True ..
+```
+
 ## Building NGL Demos
 
 All of the NGL demos can be build using the same process and setting the CMAKE_PREFIX_PATH to point to the NGL install directory.
