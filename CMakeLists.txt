@@ -46,7 +46,7 @@ set(CMAKE_CXX_EXTENSIONS ON)
 option(ENABLE_FAST_MATH ON)
 add_compile_definitions(NGL_DEBUG)
 if (MSVC)
-    add_compile_options(/W3 ) # /W4 is too noisy
+    add_compile_options(/W3 -wd4068 ) # /W4 is too noisy
 else()
     add_compile_options(-Wall -Wextra -pedantic)# -Werror)
 endif()

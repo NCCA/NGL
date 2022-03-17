@@ -37,6 +37,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
  	include_directories(include ${NGL_HOME}/include)
 	link_directories(${NGL_HOME}/lib)	
 	link_libraries(${NGL_HOME}/lib/NGL.lib)
+	add_compile_options(/W3 -wd4068 ) # /W4 is too noisy
 	add_compile_definitions(_USE_MATH_DEFINES)
 	add_compile_definitions(NOMINMAX)
 	# Need to define this when building shared library or suffer dllimport errors

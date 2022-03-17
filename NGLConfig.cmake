@@ -47,6 +47,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	link_libraries(${NGL_HOME}/lib/NGL.lib)
 	add_compile_definitions(_USE_MATH_DEFINES)
 	add_compile_definitions(NOMINMAX)
+	add_compile_options(/W3 -wd4068 ) # /W4 is too noisy
 	# Need to define this when building shared library or suffer dllimport errors
 	add_compile_definitions(BUILDING_DLL)
 	set(EXTRALIBS OpenMP::OpenMP_CXX)
