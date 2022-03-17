@@ -21,15 +21,14 @@ cd vcpkg
 .\vcpkg install gtest:x64-windows
 .\vcpkg install glm:x64-windows
 .\vcpkg install glfw3:x64-windows
-.\vcpkg install openimageio:x64-windows
 .\vcpkg install rapidjson:x64-windows
 .\vcpkg install rapidxml:x64-windows
 .\vcpkg install fmt:x64-windows
 .\vcpkg install freetype:x64-windows
+# optional if needing OpenImageIO
+.\vcpkg install openimageio:x64-windows
 # optional if building the python bindings
 .\vcpkg install pybind11:x64-windows
-
-
 ```
 
 ## Install Qt 
@@ -60,10 +59,10 @@ NGL can now be cloned and installed as with Mac and Linux. It is important that 
 For a simple Command line build do the following in the Visual Studio Powershell note you will need to change the paths for your own install of vcpkg and home directories if not standard ~/ ones.
 
 ```
-git clone git@github.com:/NCCA/NGL ~/NGLBuild
+git clone git@github.com:/NCCA/NGL NGLBuild
 cd NGLBuild
 mkdir build
-cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX:PATH=~/NGL  -DCMAKE_BUILD_TYPE=Debug  ..
+cmake -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_INSTALL_PREFIX:PATH="$HOME/NGL"  -DCMAKE_BUILD_TYPE=Debug  ..
 
 cmake --build .
 

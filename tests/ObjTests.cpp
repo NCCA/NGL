@@ -313,7 +313,7 @@ std::unique_ptr<ngl::Obj> buildObj()
   a->addNormal({0.000000f,0.000000f,1.000000f});
   a->addNormal({0.000000f,0.000000f,1.000000f});
   ngl::Face f;
-  // f 1/1/1 2/2/2 3/3/3
+  // f 1/1/1 2/2/1 3/3/1
   f.m_vert.push_back(0);
   f.m_vert.push_back(1);
   f.m_vert.push_back(2);

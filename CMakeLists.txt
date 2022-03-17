@@ -20,7 +20,7 @@ project(AllNGL VERSION 8.0 LANGUAGES CXX C)
 
 find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
-
+find_package(OpenMP)
 find_package(OpenImageIO CONFIG)
 if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
     message("Found OpenImageIO so using that")
@@ -278,7 +278,7 @@ endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	link_directories(  )
-	target_link_libraries( NGLTests PRIVATE $(ConfigurationName)/NGL.lib )
+	target_link_libraries( NGLTests PRIVATE ${CMAKE_BINARY_DIR}/NGL.lib )
 else()
 target_link_libraries(NGLTests PRIVATE  NGL PRIVATE ${EXTRALIBS} )
 
@@ -290,7 +290,7 @@ gtest_discover_tests(NGLTests)
 add_custom_target(CopyTestfiles ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${CMAKE_SOURCE_DIR}/tests/files
-		${CMAKE_BINARY_DIR}/$(ConfigurationName)/files
+		${CMAKE_BINARY_DIR}/files
 		COMMENT "Copy Test files to build directory"
 		)
       

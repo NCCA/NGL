@@ -257,7 +257,7 @@ TEST(Mat3,inverse)
 }
 
 
-TEST(Mat3,Vec4xMat3)
+TEST(Mat3,Vec3xMat3)
 {
   ngl::Mat3 t1;
   ngl::Vec3 test(2,1,2);
