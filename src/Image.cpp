@@ -37,6 +37,27 @@ namespace ngl
 
 #define IMAGE_DEBUG_ON 1
 
+void Image::info()
+{
+  #if defined(USEIMAGEMAGIC)
+      msg->addMessage("Using Using Image Magick");
+  #endif
+  #if defined(USEOIIO)
+      msg->addMessage("Using OpenImageIO");
+  #endif
+
+  #if defined(USEQIMAGE)
+      msg->addMessage("Using QImage");
+
+  #endif
+
+  #if defined(USEBUILTINIMAGE)
+   msg->addMessage("Using built in stb-image");
+  #endif
+
+  msg->addMessage("Image Info END");
+}
+
 
 Image::Image(const std::string &_fname)
 {

@@ -105,7 +105,7 @@ public:
   /// @param[in] _uvY the y position in the image
   //----------------------------------------------------------------------------------------------------------------------
   Vec4 getColour(const Real _uvX, const Real _uvY) const noexcept;
-
+  static void info() ;
 private :
 	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief the actual image data loaded packed in r,g,b,(a) format in contiguous memory

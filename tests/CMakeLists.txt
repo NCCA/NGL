@@ -46,6 +46,7 @@ set(SOURCES
 			${PROJECT_SOURCE_DIR}/Vec3Tests.cpp
 			${PROJECT_SOURCE_DIR}/RandomTests.cpp
 			${PROJECT_SOURCE_DIR}/QuaternionTests.cpp
+			${PROJECT_SOURCE_DIR}/ImageTests.cpp
 )
 
 # see what platform we are on and set platform defines
