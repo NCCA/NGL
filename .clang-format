@@ -1,0 +1,32 @@
+﻿---
+BasedOnStyle: Microsoft
+ColumnLimit: 0
+BreakBeforeBraces : Allman
+Standard : Cpp11
+AccessModifierOffset: '2'
+AlignAfterOpenBracket: AlwaysBreak
+AlignConsecutiveAssignments: 'false'
+AlignConsecutiveDeclarations: 'false'
+AlignOperands: 'true'
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: 'true'
+BreakConstructorInitializers: BeforeComma
+ConstructorInitializerAllOnOneLineOrOnePerLine: 'true'
+ConstructorInitializerIndentWidth: '2'
+ContinuationIndentWidth: '2'
+Cpp11BracedListStyle: 'true'
+IndentCaseLabels: 'true'
+IndentWidth: '2'
+NamespaceIndentation: Inner
+SpaceBeforeCpp11BracedList: 'false'
+SpaceBeforeCtorInitializerColon: 'true'
+SpaceBeforeInheritanceColon: 'true'
+SpaceBeforeParens: Never
+SpaceBeforeRangeBasedForLoopColon: 'true'
+SpaceInEmptyParentheses: 'false'
+SpacesInAngles: 'true'
+TabWidth: '2'
+UseTab: Never
+
+...
