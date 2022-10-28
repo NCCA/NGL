@@ -255,47 +255,55 @@ const Mat3 &Mat3::transpose() noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Mat3::rotateX(Real _deg) noexcept
+Mat3 Mat3::rotateX(Real _deg) noexcept
 {
+  Mat3 m;
   Real beta = radians(_deg);
   Real sr = sinf(beta);
   Real cr = cosf(beta);
-  m_11 = cr;
-  m_12 = sr;
-  m_21 = -sr;
-  m_22 = cr;
+  m.m_11 = cr;
+  m.m_12 = sr;
+  m.m_21 = -sr;
+  m.m_22 = cr;
+  return m;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Mat3::rotateY(Real _deg) noexcept
+Mat3 Mat3::rotateY(Real _deg) noexcept
 {
+  Mat3 m;
   Real beta = radians(_deg);
   Real sr = sinf(beta);
   Real cr = cosf(beta);
-  m_00 = cr;
-  m_02 = -sr;
-  m_20 = sr;
-  m_22 = cr;
+  m.m_00 = cr;
+  m.m_02 = -sr;
+  m.m_20 = sr;
+  m.m_22 = cr;
+  return m;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Mat3::rotateZ(Real _deg) noexcept
+Mat3 Mat3::rotateZ(Real _deg) noexcept
 {
+  Mat3 m;
   Real beta = radians(_deg);
   Real sr = sinf(beta);
   Real cr = cosf(beta);
-  m_00 = cr;
-  m_01 = sr;
-  m_10 = -sr;
-  m_11 = cr;
+  m.m_00 = cr;
+  m.m_01 = sr;
+  m.m_10 = -sr;
+  m.m_11 = cr;
+  return m;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void Mat3::scale(Real _x, Real _y, Real _z) noexcept
+Mat3 Mat3::scale(Real _x, Real _y, Real _z) noexcept
 {
-  m_00 = _x;
-  m_11 = _y;
-  m_22 = _z;
+  Mat3 m;
+  m.m_00 = _x;
+  m.m_11 = _y;
+  m.m_22 = _z;
+  return m;
 }
 
 //----------------------------------------------------------------------------------------------------------------------

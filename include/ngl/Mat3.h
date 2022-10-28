@@ -129,31 +129,30 @@ class NGL_DLLEXPORT Mat3
   const Mat3 &transpose() noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set this matrix to a rotation matrix in the X axis for value _deg
+  /// @brief return a new matrix as a rotation X
   /// note the matrix should be set to identity before doing this
   /// @param[in] _deg the value to be rotated by in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void rotateX(Real _deg) noexcept;
+  static Mat3 rotateX(Real _deg) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set this matrix to a rotation matrix in the Y axis for value _deg
-  /// note the matrix should be set to identity before doing this
+  /// @brief returns a new matrix as a rotation in Y
   /// @param[in] _deg the value to be rotated by in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void rotateY(Real _deg) noexcept;
+  static Mat3 rotateY(Real _deg) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set this matrix to a rotation matrix in the Z axis for value _deg
   /// note the matrix should be set to identity before doing this
   /// @param[in] _deg the value to be rotated by in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void rotateZ(Real _deg) noexcept;
+  static Mat3 rotateZ(Real _deg) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the matrix scale values
   /// @param[in] _x the scale value in the _x
   /// @param[in] _y the scale value in the _y
   /// @param[in] _z the scale value in the _z
   //----------------------------------------------------------------------------------------------------------------------
-  void scale(Real _x, Real _y, Real _z) noexcept;
+  static Mat3 scale(Real _x, Real _y, Real _z) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the determinant of the matrix

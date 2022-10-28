@@ -91,16 +91,14 @@ TEST(Mat3, transpose)
 
 TEST(Mat3, scale)
 {
-  ngl::Mat3 test;
-  test.scale(1.0f, 2.0f, 3.0f);
+  ngl::Mat3 test = ngl::Mat3::scale(1.0f, 2.0f, 3.0f);
   ngl::Mat3 result(1, 0, 0, 0, 2, 0, 0, 0, 3);
   EXPECT_TRUE(test == result);
 }
 
 TEST(Mat3, rotateX)
 {
-  ngl::Mat3 test;
-  test.rotateX(45.0f);
+  ngl::Mat3 test = ngl::Mat3::rotateX(45.0f);
   ngl::Mat3 result(1.0f, 0.0f, 0.0f, 0.0f, 0.707107f, 0.707107f, 0.0f, -0.707107f, 0.707107f);
   EXPECT_TRUE(test == result);
 
@@ -113,8 +111,7 @@ TEST(Mat3, rotateX)
 
 TEST(Mat3, rotateY)
 {
-  ngl::Mat3 test;
-  test.rotateY(25.0f);
+  ngl::Mat3 test = ngl::Mat3::rotateY(25.0f);
   ngl::Mat3 result(0.906308f, 0.0f, -0.422618f, 0.0f, 1.0f, 0.0f, 0.422618f, 0.0f, 0.906308f);
   EXPECT_TRUE(test == result);
   auto res = glm::mat3(glm::rotate(glm::mat4(1.0f), glm::radians(25.0f), glm::vec3(0, 1, 0)));
@@ -126,8 +123,7 @@ TEST(Mat3, rotateY)
 
 TEST(Mat3, rotateZ)
 {
-  ngl::Mat3 test;
-  test.rotateZ(-36.0f);
+  ngl::Mat3 test = ngl::Mat3::rotateZ(-36.0f);
   ngl::Mat3 result(0.809017f, -0.587785f, 0.0f, 0.587785f, 0.809017f, 0.0f, 0.0f, 0.0f, 1.0f);
   EXPECT_TRUE(test == result);
   auto res = glm::mat3(glm::rotate(glm::mat4(1.0f), glm::radians(-36.0f), glm::vec3(0, 0, 1)));
@@ -139,10 +135,8 @@ TEST(Mat3, rotateZ)
 
 TEST(Mat3, Mat3xMat3)
 {
-  ngl::Mat3 t1;
-  ngl::Mat3 t2;
-  t1.rotateX(45.0f);
-  t2.rotateY(35.0f);
+  ngl::Mat3 t1 = ngl::Mat3::rotateX(45.0f);
+  ngl::Mat3 t2 = ngl::Mat3::rotateY(35.0f);
   ngl::Mat3 test = t1 * t2;
   ngl::Mat3 result(0.819152f, 0.0f, -0.573577f, 0.40558f, 0.707107f, 0.579228f, 0.40558f, -0.707107f, 0.579228f);
   EXPECT_TRUE(test == result);
@@ -150,10 +144,8 @@ TEST(Mat3, Mat3xMat3)
 
 TEST(Mat3, Mat3xeuqals)
 {
-  ngl::Mat3 test;
-  ngl::Mat3 t2;
-  test.rotateX(45.0f);
-  t2.rotateY(35.0f);
+  ngl::Mat3 test = ngl::Mat3::rotateX(45.0f);
+  ngl::Mat3 t2 = ngl::Mat3::rotateY(35.0f);
   test *= t2;
   ngl::Mat3 result(0.819152f, 0.40558f, -0.40558f, 0, 0.707107f, 0.707107f, 0.573577f, -0.579228f, 0.579228f);
   EXPECT_TRUE(test == result);
@@ -173,10 +165,8 @@ TEST(Mat3, Mat3xeuqals2)
 
 TEST(Mat3, Mat3plusEqual)
 {
-  ngl::Mat3 t1;
-  ngl::Mat3 t2;
-  t1.rotateX(45.0f);
-  t2.rotateY(35.0f);
+  ngl::Mat3 t1 = ngl::Mat3::rotateX(45.0f);
+  ngl::Mat3 t2 = ngl::Mat3::rotateY(35.0f);
   t1 += t2;
   ngl::Mat3 result(1.81915f, 0, -0.573577f, 0, 1.70711f, 0.707107f, 0.573577f, -0.707107f, 1.52626f);
 
@@ -185,11 +175,9 @@ TEST(Mat3, Mat3plusEqual)
 
 TEST(Mat3, Mat3plus)
 {
-  ngl::Mat3 t1;
-  ngl::Mat3 t2;
+  ngl::Mat3 t1 = ngl::Mat3::rotateX(45.0f);
+  ngl::Mat3 t2 = ngl::Mat3::rotateY(35.0f);
   ngl::Mat3 res;
-  t1.rotateX(45.0f);
-  t2.rotateY(35.0f);
   res = t1 + t2;
   ngl::Mat3 result(1.81915f, 0, -0.573577f, 0, 1.70711f, 0.707107f, 0.573577f, -0.707107f, 1.52626f);
 
@@ -244,9 +232,8 @@ TEST(Mat3, inverse)
 
 TEST(Mat3, Vec3xMat3)
 {
-  ngl::Mat3 t1;
+  ngl::Mat3 t1 = ngl::Mat3::rotateX(45.0f);
   ngl::Vec3 test(2, 1, 2);
-  t1.rotateX(45.0f);
   test = test * t1;
   ngl::Vec3 result(2, -0.707107f, 2.12132f);
   EXPECT_TRUE(test == result);
@@ -255,8 +242,7 @@ TEST(Mat3, Vec3xMat3)
 TEST(Mat3, normalMatrix)
 {
   ngl::Mat4 view = ngl::lookAt({2.0f, 2.0f, 2.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f});
-  ngl::Mat4 model;
-  model.scale(0.2f, 1.0f, 0.2f);
+  ngl::Mat4 model = ngl::Mat4::scale(0.2f, 1.0f, 0.2f);
   ngl::Mat3 normalMatrix(view * model);
   normalMatrix.inverse().transpose();
 
