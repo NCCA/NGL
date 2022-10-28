@@ -114,12 +114,6 @@ Mat4::Mat4(Real _m) noexcept
   m_33 = 1.0f;
 }
 //------------------------------------------------------------------------------
-/// @todo replace this with function operator overload ()
-void Mat4::setAtXY(GLint _x, GLint _y, Real _equals) noexcept
-{
-  m_m[_x][_y] = _equals;
-}
-//------------------------------------------------------------------------------
 const Mat4 &Mat4::null() noexcept
 {
   memset(&m_m, 0, sizeof(m_m));
@@ -295,10 +289,10 @@ const Mat4 &Mat4::operator*=(const Real _i) noexcept
 Vec4 Mat4::operator*(const Vec4 &_v) const noexcept
 {
   return Vec4(
-  _v.m_x * m_00 + _v.m_y * m_10 + _v.m_z * m_20 + _v.m_w * m_30,
-  _v.m_x * m_01 + _v.m_y * m_11 + _v.m_z * m_21 + _v.m_w * m_31,
-  _v.m_x * m_02 + _v.m_y * m_12 + _v.m_z * m_22 + _v.m_w * m_32,
-  _v.m_x * m_03 + _v.m_y * m_13 + _v.m_z * m_23 + _v.m_w * m_33);
+    _v.m_x * m_00 + _v.m_y * m_10 + _v.m_z * m_20 + _v.m_w * m_30,
+    _v.m_x * m_01 + _v.m_y * m_11 + _v.m_z * m_21 + _v.m_w * m_31,
+    _v.m_x * m_02 + _v.m_y * m_12 + _v.m_z * m_22 + _v.m_w * m_32,
+    _v.m_x * m_03 + _v.m_y * m_13 + _v.m_z * m_23 + _v.m_w * m_33);
 }
 
 //------------------------------------------------------------------------------
@@ -317,55 +311,65 @@ const Mat4 &Mat4::transpose() noexcept
 }
 
 //------------------------------------------------------------------------------
-void Mat4::rotateX(const Real _deg) noexcept
+Mat4 Mat4::rotateX(const Real _deg) noexcept
 {
+  Mat4 m;
   Real beta = radians(_deg);
   Real sr = sinf(beta);
   Real cr = cosf(beta);
-  m_11 = cr;
-  m_12 = sr;
-  m_21 = -sr;
-  m_22 = cr;
+  m.m_11 = cr;
+  m.m_12 = sr;
+  m.m_21 = -sr;
+  m.m_22 = cr;
+  return m;
 }
 
 //------------------------------------------------------------------------------
-void Mat4::rotateY(const Real _deg) noexcept
+Mat4 Mat4::rotateY(const Real _deg) noexcept
 {
+  Mat4 m;
   Real beta = radians(_deg);
   Real sr = sinf(beta);
   Real cr = cosf(beta);
-  m_00 = cr;
-  m_02 = -sr;
-  m_20 = sr;
-  m_22 = cr;
+  m.m_00 = cr;
+  m.m_02 = -sr;
+  m.m_20 = sr;
+  m.m_22 = cr;
+  return m;
 }
 
 //------------------------------------------------------------------------------
-void Mat4::rotateZ(const Real _deg) noexcept
+Mat4 Mat4::rotateZ(const Real _deg) noexcept
 {
+  Mat4 m;
   Real beta = radians(_deg);
   Real sr = sinf(beta);
   Real cr = cosf(beta);
-  m_00 = cr;
-  m_01 = sr;
-  m_10 = -sr;
-  m_11 = cr;
+  m.m_00 = cr;
+  m.m_01 = sr;
+  m.m_10 = -sr;
+  m.m_11 = cr;
+  return m;
 }
 
 //------------------------------------------------------------------------------
-void Mat4::translate(const Real _x, const Real _y, const Real _z) noexcept
+Mat4 Mat4::translate(const Real _x, const Real _y, const Real _z) noexcept
 {
-  m_30 = _x;
-  m_31 = _y;
-  m_32 = _z;
+  Mat4 m;
+  m.m_30 = _x;
+  m.m_31 = _y;
+  m.m_32 = _z;
+  return m;
 }
 
 //------------------------------------------------------------------------------
-void Mat4::scale(const Real _x, const Real _y, const Real _z) noexcept
+Mat4 Mat4::scale(const Real _x, const Real _y, const Real _z) noexcept
 {
-  m_00 = _x;
-  m_11 = _y;
-  m_22 = _z;
+  Mat4 m;
+  m.m_00 = _x;
+  m.m_11 = _y;
+  m.m_22 = _z;
+  return m;
 }
 
 //------------------------------------------------------------------------------
@@ -409,18 +413,18 @@ Real Mat4::determinant() const noexcept
 {
   // Our matrices are 4.4 only, so we can just write the full formula instead of a complex algorithm.
   return (
-  m_m[0][0] * m_m[1][1] * m_m[2][2] * m_m[3][3] - m_m[0][0] * m_m[1][1] * m_m[2][3] * m_m[3][2] +
-  m_m[0][0] * m_m[1][2] * m_m[2][3] * m_m[3][1] - m_m[0][0] * m_m[1][2] * m_m[2][1] * m_m[3][3] +
-  m_m[0][0] * m_m[1][3] * m_m[2][1] * m_m[3][2] - m_m[0][0] * m_m[1][3] * m_m[2][2] * m_m[3][1] -
-  m_m[1][0] * m_m[2][1] * m_m[3][2] * m_m[0][3] + m_m[1][0] * m_m[2][1] * m_m[0][2] * m_m[3][3] -
-  m_m[1][0] * m_m[3][1] * m_m[0][2] * m_m[2][3] + m_m[1][0] * m_m[3][1] * m_m[2][2] * m_m[0][3] -
-  m_m[1][0] * m_m[0][1] * m_m[2][2] * m_m[3][3] + m_m[1][0] * m_m[0][1] * m_m[3][2] * m_m[2][3] +
-  m_m[2][0] * m_m[3][1] * m_m[0][2] * m_m[1][3] - m_m[2][0] * m_m[3][1] * m_m[1][2] * m_m[0][3] +
-  m_m[2][0] * m_m[0][1] * m_m[1][2] * m_m[3][3] - m_m[2][0] * m_m[0][1] * m_m[3][2] * m_m[1][3] +
-  m_m[2][0] * m_m[1][1] * m_m[3][2] * m_m[0][3] - m_m[2][0] * m_m[1][1] * m_m[0][2] * m_m[3][3] -
-  m_m[3][0] * m_m[0][1] * m_m[1][2] * m_m[2][3] + m_m[3][0] * m_m[0][1] * m_m[2][2] * m_m[1][3] -
-  m_m[3][0] * m_m[1][1] * m_m[2][2] * m_m[0][3] + m_m[3][0] * m_m[1][1] * m_m[0][2] * m_m[2][3] -
-  m_m[3][0] * m_m[2][1] * m_m[0][2] * m_m[1][3] + m_m[3][0] * m_m[2][1] * m_m[1][2] * m_m[0][3]);
+    m_m[0][0] * m_m[1][1] * m_m[2][2] * m_m[3][3] - m_m[0][0] * m_m[1][1] * m_m[2][3] * m_m[3][2] +
+    m_m[0][0] * m_m[1][2] * m_m[2][3] * m_m[3][1] - m_m[0][0] * m_m[1][2] * m_m[2][1] * m_m[3][3] +
+    m_m[0][0] * m_m[1][3] * m_m[2][1] * m_m[3][2] - m_m[0][0] * m_m[1][3] * m_m[2][2] * m_m[3][1] -
+    m_m[1][0] * m_m[2][1] * m_m[3][2] * m_m[0][3] + m_m[1][0] * m_m[2][1] * m_m[0][2] * m_m[3][3] -
+    m_m[1][0] * m_m[3][1] * m_m[0][2] * m_m[2][3] + m_m[1][0] * m_m[3][1] * m_m[2][2] * m_m[0][3] -
+    m_m[1][0] * m_m[0][1] * m_m[2][2] * m_m[3][3] + m_m[1][0] * m_m[0][1] * m_m[3][2] * m_m[2][3] +
+    m_m[2][0] * m_m[3][1] * m_m[0][2] * m_m[1][3] - m_m[2][0] * m_m[3][1] * m_m[1][2] * m_m[0][3] +
+    m_m[2][0] * m_m[0][1] * m_m[1][2] * m_m[3][3] - m_m[2][0] * m_m[0][1] * m_m[3][2] * m_m[1][3] +
+    m_m[2][0] * m_m[1][1] * m_m[3][2] * m_m[0][3] - m_m[2][0] * m_m[1][1] * m_m[0][2] * m_m[3][3] -
+    m_m[3][0] * m_m[0][1] * m_m[1][2] * m_m[2][3] + m_m[3][0] * m_m[0][1] * m_m[2][2] * m_m[1][3] -
+    m_m[3][0] * m_m[1][1] * m_m[2][2] * m_m[0][3] + m_m[3][0] * m_m[1][1] * m_m[0][2] * m_m[2][3] -
+    m_m[3][0] * m_m[2][1] * m_m[0][2] * m_m[1][3] + m_m[3][0] * m_m[2][1] * m_m[1][2] * m_m[0][3]);
 }
 
 //------------------------------------------------------------------------------
@@ -475,8 +479,8 @@ Quaternion Mat4::asQuaternion() const noexcept
   {
     Real S = static_cast< Real >(0.5f / sqrtf(T));
     return Quaternion(
-    static_cast< Real >((m_openGL[6] - m_openGL[9]) * S), static_cast< Real >((m_openGL[8] - m_openGL[2]) * S),
-    static_cast< Real >((m_openGL[1] - m_openGL[4]) * S), static_cast< Real >(0.25f / S));
+      static_cast< Real >((m_openGL[6] - m_openGL[9]) * S), static_cast< Real >((m_openGL[8] - m_openGL[2]) * S),
+      static_cast< Real >((m_openGL[1] - m_openGL[4]) * S), static_cast< Real >(0.25f / S));
   }
   Real BigF = m_openGL[0];
   unsigned char check = 0;
@@ -497,21 +501,21 @@ Quaternion Mat4::asQuaternion() const noexcept
       Real S = static_cast< Real >(sqrtf(1.0f + m_openGL[0] - m_openGL[5] - m_openGL[10]) * 2.0f);
 
       return Quaternion(
-      0.5f / S, (m_openGL[1] + m_openGL[4]) / S, (m_openGL[2] + m_openGL[8]) / S, (m_openGL[6] + m_openGL[9]) / S);
+        0.5f / S, (m_openGL[1] + m_openGL[4]) / S, (m_openGL[2] + m_openGL[8]) / S, (m_openGL[6] + m_openGL[9]) / S);
     }
     case 1:
     {
       Real S = static_cast< Real >(sqrtf(1.0f + m_openGL[5] - m_openGL[0] - m_openGL[10]) * 2.0f);
 
       return Quaternion(
-      (m_openGL[1] + m_openGL[4]) / S, 0.5f / S, (m_openGL[6] + m_openGL[9]) / S, (m_openGL[2] + m_openGL[8]) / S);
+        (m_openGL[1] + m_openGL[4]) / S, 0.5f / S, (m_openGL[6] + m_openGL[9]) / S, (m_openGL[2] + m_openGL[8]) / S);
     }
     case 2:
     {
       Real S = static_cast< Real >(sqrtf(1.0f + m_openGL[10] - m_openGL[0] - m_openGL[5]) * 2.0f);
 
       return Quaternion(
-      (m_openGL[2] + m_openGL[8]) / S, (m_openGL[6] + m_openGL[9]) / S, 0.5f / S, (m_openGL[1] + m_openGL[4]) / S);
+        (m_openGL[2] + m_openGL[8]) / S, (m_openGL[6] + m_openGL[9]) / S, 0.5f / S, (m_openGL[1] + m_openGL[4]) / S);
     }
     default:
     {

@@ -25,7 +25,7 @@
 #include <array>
 #include <ostream>
 #ifdef USEGLM
-  #include <glm/mat3x3.hpp>
+#include <glm/mat3x3.hpp>
 #endif
 
 namespace ngl
@@ -42,12 +42,10 @@ class Vec3;
 /// @date 27/10/11
 //----------------------------------------------------------------------------------------------------------------------
 
-
 class NGL_DLLEXPORT Mat3
 {
-        // added after clang++ build
-public:
-
+  // added after clang++ build
+    public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor will always create an identity matrix
   //----------------------------------------------------------------------------------------------------------------------
@@ -55,36 +53,25 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor passing in value
   //----------------------------------------------------------------------------------------------------------------------
-  Mat3(Real _00,Real _01,Real _02,Real _10,Real _11,Real _12,Real _20,Real _21,Real _22) noexcept;
+  Mat3(Real _00, Real _01, Real _02, Real _10, Real _11, Real _12, Real _20, Real _21, Real _22) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor from mat4 will copy left up and fwd vectors
   //----------------------------------------------------------------------------------------------------------------------
-  Mat3( const Mat4 &_m ) noexcept;
+  Mat3(const Mat4 &_m) noexcept;
 
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief copy ctor with reference object
-  //----------------------------------------------------------------------------------------------------------------------
-  Mat3( const Mat3& _m ) noexcept =default;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor with Real useful for Matrix m=1; for identity or Matrix m=3.5 for uniform scale
   //----------------------------------------------------------------------------------------------------------------------
-  Mat3( const Real _m ) noexcept;
-  #ifdef USEGLM
-    Mat3(const glm::mat3 &_m);
-    glm::mat3 toGLM() const;
-  #endif
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the value at m_m[_x][_y] to _equals
-  /// @param[in]  _x the x index into the array
-  /// @param[in]  _y the y index into the array
-  /// @param[in]  _equals the value to set to
-  //----------------------------------------------------------------------------------------------------------------------
-  void setAtXY( GLint _x,GLint _y,Real _equals ) noexcept;
+  Mat3(const Real _m) noexcept;
+#ifdef USEGLM
+  Mat3(const glm::mat3 &_m);
+  glm::mat3 toGLM() const;
+#endif
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief clear the matrix to all 0
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat3& null() noexcept;
+  const Mat3 &null() noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  make the matrix m the identity matrix \n
@@ -93,60 +80,60 @@ public:
   /// 0 0 1 0 <BR>
   /// 0 0 0 1 <BR>
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat3& identity() noexcept;
+  const Mat3 &identity() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief operator for matrix multiplication
   /// @param[in] _m the matrix to multiply the current one by
   /// @returns this*_m
   //----------------------------------------------------------------------------------------------------------------------
-  Mat3 operator*( const Mat3 &_m  ) const noexcept;
+  Mat3 operator*(const Mat3 &_m) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief operator to mult this matrix by value _m
   /// @param[in] _m the matrix to multiplt
   /// @returns a new matrix this*_m
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat3& operator*=( const Mat3 &_m ) noexcept;
+  const Mat3 &operator*=(const Mat3 &_m) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief operator to add two matrices together
   /// @param[in] _m the matrix to add
   /// @returns this+_m
   //----------------------------------------------------------------------------------------------------------------------
-  Mat3 operator+( const Mat3 &_m ) const noexcept;
+  Mat3 operator+(const Mat3 &_m) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief += operator
   /// @param[in] _m the matrix to add
   /// @returns this+m
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat3& operator+=( const Mat3 &_m ) noexcept;
+  const Mat3 &operator+=(const Mat3 &_m) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief operator to mult matrix by a scalar
   /// @param[in] _i the scalar to multiply by
   /// @returns this*_i
   //----------------------------------------------------------------------------------------------------------------------
-  Mat3 operator*(  Real _i ) const noexcept;
+  Mat3 operator*(Real _i) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief *= operator with a scalar value
   /// @param[in] _i the scalar to multiply by
   /// @returns the matrix*i
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat3& operator*=( Real _i ) noexcept;
+  const Mat3 &operator*=(Real _i) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief multiply this by a Vec3
   /// @param[in] _v the vector to multiply
   /// @returns Vector M*V
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 operator * ( const Vec3 &_v ) const noexcept;
+  Vec3 operator*(const Vec3 &_v) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief method to transpose the matrix
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat3& transpose() noexcept;
+  const Mat3 &transpose() noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set this matrix to a rotation matrix in the X axis for value _deg
   /// note the matrix should be set to identity before doing this
   /// @param[in] _deg the value to be rotated by in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void rotateX( Real _deg) noexcept;
+  void rotateX(Real _deg) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set this matrix to a rotation matrix in the Y axis for value _deg
   /// note the matrix should be set to identity before doing this
@@ -159,14 +146,14 @@ public:
   /// note the matrix should be set to identity before doing this
   /// @param[in] _deg the value to be rotated by in degrees
   //----------------------------------------------------------------------------------------------------------------------
-   void rotateZ( Real _deg ) noexcept;
+  void rotateZ(Real _deg) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the matrix scale values
   /// @param[in] _x the scale value in the _x
   /// @param[in] _y the scale value in the _y
   /// @param[in] _z the scale value in the _z
   //----------------------------------------------------------------------------------------------------------------------
-  void scale( Real _x, Real _y, Real _z ) noexcept;
+  void scale(Real _x, Real _y, Real _z) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the determinant of the matrix
@@ -186,55 +173,58 @@ public:
   /// @param[in] _y part of the axis should be normalised before call
   /// @param[in] _z part of the axis  should be normalised before call
   //----------------------------------------------------------------------------------------------------------------------
-  void euler( Real _angle, Real _x, Real _y, Real _z) noexcept;
+  void euler(Real _angle, Real _x, Real _y, Real _z) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to the openGL matrix
   /// @returns a pointer to m_openGL[0]
   //----------------------------------------------------------------------------------------------------------------------
-  Real * openGL() noexcept{return &m_openGL[0];}
+  Real *openGL() noexcept
+  {
+    return &m_openGL[0];
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the left vector of the matrix (-ve 1st Row)
   /// @returns the up vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getLeftVector() const  noexcept;
+  Vec3 getLeftVector() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the right vector of the matrix (  1nd Row)
   /// @returns the up vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getRightVector() const  noexcept;
+  Vec3 getRightVector() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the up vector of the matrix (2nd Row)
   /// @returns the up vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getUpVector() const  noexcept;
+  Vec3 getUpVector() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the down vector of the matrix ( -ve 2nd Row)
   /// @returns the up vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getDownVector() const  noexcept;
+  Vec3 getDownVector() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the forward vector of the matrix (-ve 3rd Row)
   /// @returns the up vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getForwardVector() const  noexcept;
+  Vec3 getForwardVector() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the back vector of the matrix ( 3nd Row)
   /// @returns the up vector
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getBackVector() const  noexcept;
+  Vec3 getBackVector() const noexcept;
 
-public :
- //----------------------------------------------------------------------------------------------------------------------
- // allow access to some of the other classes
- friend class Transformation;
- friend class Quaternion;
- friend class Camera;
- //----------------------------------------------------------------------------------------------------------------------
+    public:
+  //----------------------------------------------------------------------------------------------------------------------
+  // allow access to some of the other classes
+  friend class Transformation;
+  friend class Quaternion;
+  friend class Camera;
+  //----------------------------------------------------------------------------------------------------------------------
 
 #ifndef BUILDING_DOCS
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
-#pragma pack(push,1)
+#pragma pack(push, 1)
 
   union
   {
@@ -247,12 +237,8 @@ public :
     /// @brief  The matrix in m_openGL 16 Real array format usefull for OpenGL fv formats
     /// mapped to m_m[][] elements and m_xx elements
     //----------------------------------------------------------------------------------------------------------------------
-    //Real m_openGL[9];
-    std::array<Real,9> m_openGL={{
-                                 1.0f,0.0f,0.0f,
-                                 0.0f,1.0f,0.0f,
-                                 0.0f,0.0f,1.0f
-                                 }};
+    // Real m_openGL[9];
+    std::array< Real, 9 > m_openGL = {{1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f}};
 #ifndef BUILDING_DOCS
 
     struct
@@ -294,29 +280,27 @@ public :
       /// @brief  individual matrix element maps to m_m[2][2] or m_openGL[8]
       //----------------------------------------------------------------------------------------------------------------------
       Real m_22;
-      #ifndef BUILDING_DOCS
+#ifndef BUILDING_DOCS
     };
 #pragma pack(pop)
-
-   };
+  };
 #endif
 #pragma GCC diagnostic pop
 
-  }; // end of class
+}; // end of class
 // free function for matrix comparison use in unit tests etc
-inline bool operator==(const ngl::Mat3 &_m1 , const ngl::Mat3 &_m2)
+inline bool operator==(const ngl::Mat3 &_m1, const ngl::Mat3 &_m2)
 {
-  for(size_t i=0; i<_m1.m_openGL.size(); ++i)
+  for(size_t i = 0; i < _m1.m_openGL.size(); ++i)
   {
-    if(!( FCompare(_m1.m_openGL[i] , _m2.m_openGL[i] )))
+    if(!(FCompare(_m1.m_openGL[i], _m2.m_openGL[i])))
     {
       return false;
     }
   }
   return true;
 }
-}// end of namespace
+} // namespace ngl
 
 #endif
 //----------------------------------------------------------------------------------------------------------------------
-

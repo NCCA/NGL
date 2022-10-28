@@ -39,7 +39,7 @@ endif() # end of using OpenImageIO
 
 
 
-#find_package(freetype CONFIG REQUIRED)
+find_package(freetype CONFIG REQUIRED)
 find_path(RAPIDXML_INCLUDE_DIRS "rapidxml/rapidxml.hpp")
 find_package(RapidJSON CONFIG REQUIRED)
 
@@ -220,7 +220,7 @@ if(USE_QT)
     target_link_libraries(NGL PRIVATE Qt${QT_VERSION_MAJOR}::Gui)
 endif()
 
-#target_link_libraries(NGL PRIVATE freetype)
+target_link_libraries(NGL PRIVATE freetype)
 target_include_directories(NGL PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 target_include_directories(NGL PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
 
@@ -257,7 +257,9 @@ ${CMAKE_SOURCE_DIR}/tests/ImageTests.cpp
 )
 add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
 target_link_libraries(NGLTests PRIVATE glfw PRIVATE GTest::gtest  )
-if ( OpenImageIO_FOUND AND NOT NO_OIIO OR NOT USE_QT)
+#if ( OpenImageIO_FOUND AND NOT NO_OIIO OR NOT USE_QT)
+if ( OpenImageIO_FOUND AND  (NOT NO_OIIO AND NOT USE_QT))
+
     target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util )
     target_link_libraries(NGLTests PRIVATE  IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
     target_link_libraries(NGLTests PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
@@ -267,7 +269,7 @@ if(USE_QT)
 endif()
 target_include_directories(NGLTests PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 target_include_directories(NGLTests PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
-#target_link_libraries(NGLTests PRIVATE freetype)
+target_link_libraries(NGLTests PRIVATE freetype)
 
 
 
