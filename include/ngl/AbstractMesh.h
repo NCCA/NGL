@@ -19,18 +19,18 @@
 /// @file AbstractMesh.h
 /// @brief a series of classes used to define an abstract 3D mesh of Faces, Vertex Normals and TexCords
 // must include types.h first for Real and GLEW if required
-#include "Types.h"
+#include "AbstractVAO.h"
 #include "BBox.h"
+#include "NGLassert.h"
 #include "RibExport.h"
 #include "Texture.h"
-#include "NGLassert.h"
+#include "Types.h"
 #include "Vec4.h"
-#include "AbstractVAO.h"
 
-#include <vector>
-#include <string>
 #include <cstdint>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace ngl
 {
@@ -39,40 +39,29 @@ namespace ngl
 /// @brief simple class used to encapsulate a single face of an abstract mesh file
 /// @todo add the ability to have user installable attribute lists
 //----------------------------------------------------------------------------------------------------------------------
-class Face
+struct Face
 {
-public :
-  Face()=default;
-  Face(const Face &_f)=default;
-  // {
-  //   m_vert=_f.m_vert;
-  //   m_uv=_f.m_uv;
-  //   m_norm=_f.m_norm;
-  //   m_numVerts=_f.m_numVerts;
-  //   m_textureCoord=_f.m_textureCoord;
-  //   m_normals=_f.m_normals;
-  // }
-  //----------------------------------------------------------------------------------------------------------------------
+  ///----------------------------------------------------------------------------------------------------------------------
   /// @brief the number of vertices in the face
   //----------------------------------------------------------------------------------------------------------------------
-  size_t m_numVerts=0;
+  size_t m_numVerts = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief The vertices index
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector<uint32_t> m_vert;
+  std::vector< uint32_t > m_vert;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief The texture co-ord index
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector<uint32_t> m_uv;
+  std::vector< uint32_t > m_uv;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the normal index
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector<uint32_t> m_norm;
+  std::vector< uint32_t > m_norm;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief debug flag to turn face on and off
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_textureCoord=false;
-  bool m_normals=false;
+  bool m_textureCoord = false;
+  bool m_normals = false;
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -81,8 +70,7 @@ public :
 //----------------------------------------------------------------------------------------------------------------------
 class IndexRef
 {
-public :
-
+    public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief index into the vert list
   //----------------------------------------------------------------------------------------------------------------------
@@ -101,7 +89,11 @@ public :
   /// @param[in] _n the normal index
   /// @param[in] _t the texture index
   //----------------------------------------------------------------------------------------------------------------------
-  IndexRef(uint32_t _v, uint32_t _n, uint32_t _t ) noexcept :m_v(_v),m_n(_n),m_t(_t) {;}
+  IndexRef(uint32_t _v, uint32_t _n, uint32_t _t) noexcept
+    : m_v(_v), m_n(_n), m_t(_t)
+  {
+    ;
+  }
 };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -115,20 +107,32 @@ public :
 class NGL_DLLEXPORT AbstractMesh
 {
 
-public :
-    enum class  CalcBB : bool {True=true,False=false };
-    enum class  ResetVAO : bool {True=true,False=false };
+    public:
+  enum class CalcBB : bool
+  {
+    True = true,
+    False = false
+  };
+  enum class ResetVAO : bool
+  {
+    True = true,
+    False = false
+  };
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Method to load the file in
   /// @param[in]  &_fname the name of the obj file to load
   //----------------------------------------------------------------------------------------------------------------------
-  virtual bool load(const std::string &_fname,CalcBB _calcBB=CalcBB::True) noexcept =0;
+  virtual bool load(const std::string &_fname, CalcBB _calcBB = CalcBB::True) noexcept = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief default ctor must be called from the child class so our dtor is called
   //----------------------------------------------------------------------------------------------------------------------
-  AbstractMesh() noexcept : m_vbo(false),  m_vao(false), m_ext(nullptr) {;}
-  //AbstractMesh(const AbstractMesh &) =default;
+  AbstractMesh() noexcept
+    : m_vbo(false), m_vao(false), m_ext(nullptr)
+  {
+    ;
+  }
+  // AbstractMesh(const AbstractMesh &) =default;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief destructor this will clear out all the vert data and the vbo if created
   //----------------------------------------------------------------------------------------------------------------------
@@ -152,12 +156,15 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief grab the buffer id of the VAO
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getVAOBufferID() {return m_vaoMesh->getBufferID() ;}
+  GLuint getVAOBufferID()
+  {
+    return m_vaoMesh->getBufferID();
+  }
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief load int a texture and set it as the active texture of the Obj
   /// @param[in] &_fname the name of the file to load
-  void loadTexture(const std::string &_fname ) noexcept;
+  void loadTexture(const std::string &_fname) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief scale the obj by multiplying the actual vertex values by sx,sy and sz
@@ -165,7 +172,7 @@ public :
   /// @param[in] _sy the scale value in y
   /// @param[in] _sz the scale value in z
   //----------------------------------------------------------------------------------------------------------------------
-  void scale( Real _sx, Real _sy, Real _sz ) noexcept;
+  void scale(Real _sx, Real _sy, Real _sz) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a method to set the BBox and center
   //----------------------------------------------------------------------------------------------------------------------
@@ -180,19 +187,22 @@ public :
   /// method to write out the obj mesh to a renderman sub div
   /// @param[in] _ribFile the instance of the RibExport class
   //----------------------------------------------------------------------------------------------------------------------
-  void writeToRibSubdiv( RibExport& _ribFile) const noexcept;
+  void writeToRibSubdiv(RibExport &_ribFile) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   //// @brief create a VAO from the current mesh data
   //----------------------------------------------------------------------------------------------------------------------
-  virtual void createVAO(ResetVAO _reset=ResetVAO::False) noexcept;
+  virtual void createVAO(ResetVAO _reset = ResetVAO::False) noexcept;
   /// @brief unallocate the VAO so we can move it (for example to the prim class)
-  std::unique_ptr <AbstractVAO> moveVAO() noexcept;
+  std::unique_ptr< AbstractVAO > moveVAO() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the texture id
   /// @returns the texture id
   //----------------------------------------------------------------------------------------------------------------------
-  unsigned int getTextureID() const  noexcept{ return m_textureID; }
+  unsigned int getTextureID() const noexcept
+  {
+    return m_textureID;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief map the VBO vertex data
   /// @returns a pointer to the VBO vertex data
@@ -207,25 +217,31 @@ public :
   /// basically this format is the processed binary vbo mesh data as
   /// as packed by the CreateVBO() method is called.
   //----------------------------------------------------------------------------------------------------------------------
-  void saveNCCABinaryMesh( const std::string &_fname ) noexcept;
+  void saveNCCABinaryMesh(const std::string &_fname) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a method to get the current bounding box of the mesh
   /// @returns the bounding box for the loaded mesh;
   //----------------------------------------------------------------------------------------------------------------------
 
-  BBox &getBBox() noexcept{ return *m_ext;  }
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief accessor for the vertex data
-  /// @returns a std::vector containing the vert data
-  //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Vec3> getVertexList() const noexcept{return m_verts;}
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief accessor for the vertex data
-  /// @returns a std::vector containing the vert data
-  //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getVertexAtIndex( uint32_t _i ) const noexcept
+  BBox &getBBox() noexcept
   {
-    //NGL_ASSERT(_i>0 && _i<m_nVerts);
+    return *m_ext;
+  }
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief accessor for the vertex data
+  /// @returns a std::vector containing the vert data
+  //----------------------------------------------------------------------------------------------------------------------
+  std::vector< Vec3 > getVertexList() const noexcept
+  {
+    return m_verts;
+  }
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief accessor for the vertex data
+  /// @returns a std::vector containing the vert data
+  //----------------------------------------------------------------------------------------------------------------------
+  Vec3 getVertexAtIndex(uint32_t _i) const noexcept
+  {
+    // NGL_ASSERT(_i>0 && _i<m_nVerts);
     return m_verts[_i];
   }
 
@@ -233,153 +249,186 @@ public :
   /// @brief accessor for the normals data
   /// @returns a std::vector containing the normal data
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Vec3> getNormalList() const noexcept{return m_norm;}
+  std::vector< Vec3 > getNormalList() const noexcept
+  {
+    return m_norm;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor for the texture co-ordinates data
   /// @returns a std::vector containing the texture cord data
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Vec3> getUVList() const noexcept{return m_uv;}
+  std::vector< Vec3 > getUVList() const noexcept
+  {
+    return m_uv;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor for the Face data
   /// @returns a std::vector containing the face data
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Face> getFaceList() const  noexcept{return m_face;}
+  std::vector< Face > getFaceList() const noexcept
+  {
+    return m_face;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of vertices in the object
   //----------------------------------------------------------------------------------------------------------------------
-  size_t getNumVerts() const  noexcept{return m_verts.size();}
+  size_t getNumVerts() const noexcept
+  {
+    return m_verts.size();
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of normals in the object
   //----------------------------------------------------------------------------------------------------------------------
-  size_t getNumNormals()const  noexcept{return m_norm.size();}
+  size_t getNumNormals() const noexcept
+  {
+    return m_norm.size();
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of texture co-ordinates in the object
   //----------------------------------------------------------------------------------------------------------------------
-  size_t getNumTexCords()const  noexcept{return m_uv.size();}
+  size_t getNumTexCords() const noexcept
+  {
+    return m_uv.size();
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accessor to get the number of faces in the object
   //----------------------------------------------------------------------------------------------------------------------
-  size_t getNumFaces()const  noexcept{return m_face.size();}
-  size_t getMeshSize()const  noexcept{return m_meshSize;}
+  size_t getNumFaces() const noexcept
+  {
+    return m_face.size();
+  }
+  size_t getMeshSize() const noexcept
+  {
+    return m_meshSize;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to get the bounding sphere center
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getSphereCenter() const  noexcept{return m_sphereCenter;}
+  Vec3 getSphereCenter() const noexcept
+  {
+    return m_sphereCenter;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to get the bounding sphere center
   //----------------------------------------------------------------------------------------------------------------------
-  Real getSphereRadius() const  noexcept{return m_sphereRadius;}
+  Real getSphereRadius() const noexcept
+  {
+    return m_sphereRadius;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to get the center
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getCenter() const  noexcept{return m_center;}
+  Vec3 getCenter() const noexcept
+  {
+    return m_center;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief check to see if obj is triangulated as we only support tri or quad objs at the moment
   /// @returns true or false
   //----------------------------------------------------------------------------------------------------------------------
   bool isTriangular() noexcept;
 
-protected :
+    protected:
   friend class NCCAPointBake;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Pointer to the Vertex list
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector<Vec3> m_verts;
+  std::vector< Vec3 > m_verts;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Pointer to the Normal List
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector<Vec3> m_norm;
+  std::vector< Vec3 > m_norm;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Pointer to the Texture co-ord list (note that only x and y are used)
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector<Vec3> m_uv;
+  std::vector< Vec3 > m_uv;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Pointer to the Face list
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector<Face> m_face;
+  std::vector< Face > m_face;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Center of the object
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3 m_center={0,0,0};
+  Vec3 m_center = {0, 0, 0};
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the size of the index array
   //----------------------------------------------------------------------------------------------------------------------
-  size_t m_indexSize=0;
-  size_t m_meshSize=0;
+  size_t m_indexSize = 0;
+  size_t m_meshSize = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief buffers for the VBO in order Vert, Tex, Norm
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint m_vboBuffers=0;
+  GLuint m_vboBuffers = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief id for our vertexArray object
   //----------------------------------------------------------------------------------------------------------------------
-  std::unique_ptr <AbstractVAO> m_vaoMesh;
+  std::unique_ptr< AbstractVAO > m_vaoMesh;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate if a VBO has been created
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_vbo=false;
+  bool m_vbo = false;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate if a VBO has been created
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_vao=false;
+  bool m_vao = false;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate if the VBO vertex data has been mapped
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_vboMapped=false;
+  bool m_vboMapped = false;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate if texture assigned
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_texture=false;
+  bool m_texture = false;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief The openGL id  of the texture for the texture generation
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint m_textureID=0;
+  GLuint m_textureID = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief The Maximum X value in the obj file used to calculate the extents bbox
   //----------------------------------------------------------------------------------------------------------------------
-  Real m_maxX=0.0f;
+  Real m_maxX = 0.0f;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief The Min X value in the obj file used to calculate the extents bbox
   //----------------------------------------------------------------------------------------------------------------------
-  Real m_minX=0.0f;
+  Real m_minX = 0.0f;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  The Max Y value in the obj file used to calculate the extents bbox
   //----------------------------------------------------------------------------------------------------------------------
-  Real m_maxY=0.0f;
+  Real m_maxY = 0.0f;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  The Min Y value in the obj file used to calculate the extents bbox
   //----------------------------------------------------------------------------------------------------------------------
-  Real m_minY=0.0f;
+  Real m_minY = 0.0f;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  The Max Z value in the obj file used to calculate the extents bbox
   //----------------------------------------------------------------------------------------------------------------------
-  Real m_maxZ=0.0f;
+  Real m_maxZ = 0.0f;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  The Min Z value in the obj file used to calculate the extents bbox
   //----------------------------------------------------------------------------------------------------------------------
-  Real m_minZ=0.0f;
+  Real m_minZ = 0.0f;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief   Create a bounding box of the object to store it's extents
   //----------------------------------------------------------------------------------------------------------------------
-  std::unique_ptr <BBox> m_ext;
+  std::unique_ptr< BBox > m_ext;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  determines if the data is Packed as either TRI or QUAD
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint m_dataPackType=0;
+  GLuint m_dataPackType = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  the size of the buffer pack we use this for the saving of bin vbo
   /// but it actually holds the size of the data (3 for just verts 5 verts norms etc)
   //----------------------------------------------------------------------------------------------------------------------
-  unsigned int  m_bufferPackSize=0;
+  unsigned int m_bufferPackSize = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  which type of VBO are we going to draw
   //----------------------------------------------------------------------------------------------------------------------
-  GLenum m_vboDrawType=0;
+  GLenum m_vboDrawType = 0;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  flag to indicate if anything loaded for dtor
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_loaded=false;
+  bool m_loaded = false;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  the center of the bounding sphere
   //----------------------------------------------------------------------------------------------------------------------
@@ -387,11 +436,9 @@ protected :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  the radius of the bounding sphere
   //----------------------------------------------------------------------------------------------------------------------
-  Real m_sphereRadius=0.0f;
-
+  Real m_sphereRadius = 0.0f;
 };
 
 } // end of namespace ngl
-
 
 #endif // end of the class

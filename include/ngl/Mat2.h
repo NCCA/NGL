@@ -22,11 +22,11 @@
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
 #include "Types.h"
+#include "Vec2.h"
 #include <array>
 #include <ostream>
-#include "Vec2.h"
 #ifdef USEGLM
-  #include <glm/mat2x2.hpp>
+#include <glm/mat2x2.hpp>
 #endif
 
 namespace ngl
@@ -40,11 +40,9 @@ namespace ngl
 /// @date 27/10/11
 //----------------------------------------------------------------------------------------------------------------------
 
-
 class NGL_DLLEXPORT Mat2
 {
-public:
-
+    public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor will always create an identity matrix
   //----------------------------------------------------------------------------------------------------------------------
@@ -52,31 +50,20 @@ public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor passing in value
   //----------------------------------------------------------------------------------------------------------------------
-  Mat2(Real _00,Real _01,Real _10,Real _11) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief copy ctor with reference object
-  //----------------------------------------------------------------------------------------------------------------------
-  Mat2( const Mat2& _m ) noexcept =default;
+  Mat2(Real _00, Real _01, Real _10, Real _11) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor with Real useful for Matrix m=1; for identity or Matrix m=3.5 for uniform scale
   //----------------------------------------------------------------------------------------------------------------------
-  Mat2( const Real _m ) noexcept;
-  #ifdef USEGLM
-    Mat2(const glm::mat2 &_m);
-    glm::mat2 toGLM() const;
-  #endif
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set the value at m_m[_x][_y] to _equals
-  /// @param[in]  _x the x index into the array
-  /// @param[in]  _y the y index into the array
-  /// @param[in]  _equals the value to set to
-  //----------------------------------------------------------------------------------------------------------------------
-  void setAtXY( GLint _x,GLint _y,Real _equals ) noexcept;
+  Mat2(const Real _m) noexcept;
+#ifdef USEGLM
+  Mat2(const glm::mat2 &_m);
+  glm::mat2 toGLM() const;
+#endif
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief clear the matrix to all 0
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat2& null() noexcept;
+  const Mat2 &null() noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  make the matrix m the identity matrix \n
@@ -85,81 +72,83 @@ public:
   /// 0 0 1 0 <BR>
   /// 0 0 0 1 <BR>
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat2& identity() noexcept;
+  const Mat2 &identity() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief operator for matrix multiplication
   /// @param[in] _m the matrix to multiply the current one by
   /// @returns this*_m
   //----------------------------------------------------------------------------------------------------------------------
-  Mat2 operator*( const Mat2 &_m  ) const noexcept;
+  Mat2 operator*(const Mat2 &_m) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief operator to mult this matrix by value _m
   /// @param[in] _m the matrix to multiplt
   /// @returns a new matrix this*_m
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat2& operator*=( const Mat2 &_m ) noexcept;
+  const Mat2 &operator*=(const Mat2 &_m) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief operator to add two matrices together
   /// @param[in] _m the matrix to add
   /// @returns this+_m
   //----------------------------------------------------------------------------------------------------------------------
-  Mat2 operator+( const Mat2 &_m ) const noexcept;
+  Mat2 operator+(const Mat2 &_m) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief += operator
   /// @param[in] _m the matrix to add
   /// @returns this+m
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat2& operator+=( const Mat2 &_m ) noexcept;
+  const Mat2 &operator+=(const Mat2 &_m) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief operator to mult matrix by a scalar
   /// @param[in] _i the scalar to multiply by
   /// @returns this*_i
   //----------------------------------------------------------------------------------------------------------------------
-  Mat2 operator*(  Real _i ) const noexcept;
+  Mat2 operator*(Real _i) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief *= operator with a scalar value
   /// @param[in] _i the scalar to multiply by
   /// @returns the matrix*i
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat2& operator*=( Real _i ) noexcept;
+  const Mat2 &operator*=(Real _i) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief multiply this by a Vec3
   /// @param[in] _v the vector to multiply
   /// @returns Vector M*V
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 operator * ( const Vec2 &_v ) const noexcept;
+  Vec2 operator*(const Vec2 &_v) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief method to transpose the matrix
   //----------------------------------------------------------------------------------------------------------------------
-  const Mat2& transpose() noexcept;
+  const Mat2 &transpose() noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief set this matrix to a rotation matrix in the X axis for value _deg
-  /// note the matrix should be set to identity before doing this
+  /// @brief return this matrix as a 2D rotation matrix by _deg
   /// @param[in] _deg the value to be rotated by in degrees
   //----------------------------------------------------------------------------------------------------------------------
-  void rotate( Real _deg) noexcept;
+  static Mat2 rotate(Real _deg) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the matrix scale values
   /// @param[in] _x the scale value in the _x
   /// @param[in] _y the scale value in the _y
   /// @param[in] _z the scale value in the _z
   //----------------------------------------------------------------------------------------------------------------------
-  void scale( Real _x, Real _y) noexcept;
+  static Mat2 scale(Real _x, Real _y) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to the openGL matrix
   /// @returns a pointer to m_openGL[0]
   //----------------------------------------------------------------------------------------------------------------------
-  Real * openGL() noexcept{return &m_openGL[0];}
-public :
+  Real *openGL() noexcept
+  {
+    return &m_openGL[0];
+  }
 
+    public:
   //----------------------------------------------------------------------------------------------------------------------
 
 #ifndef BUILDING_DOCS
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
-#pragma pack(push,1)
+#pragma pack(push, 1)
 
   union
   {
@@ -172,11 +161,8 @@ public :
     /// @brief  The matrix in m_openGL 4 Real array format usefull for OpenGL fv formats
     /// mapped to m_m[][] elements and m_xx elements
     //----------------------------------------------------------------------------------------------------------------------
-    //Real m_openGL[9];
-    std::array<Real,4> m_openGL={{
-                                 1.0f,0.0f,
-                                 0.0f,1.0f
-                                 }};
+    // Real m_openGL[9];
+    std::array< Real, 4 > m_openGL = {{1.0f, 0.0f, 0.0f, 1.0f}};
 #ifndef BUILDING_DOCS
 
     struct
@@ -198,20 +184,20 @@ public :
       /// @brief  individual matrix element maps to m_m[1][1] or m_openGL[3]
       //----------------------------------------------------------------------------------------------------------------------
       Real m_11;
-      #ifndef BUILDING_DOCS
+#ifndef BUILDING_DOCS
     };
 #pragma pack(pop)
-   };
+  };
 #pragma GCC diagnostic pop
 
 #endif
-  }; // end of class
+}; // end of class
 // free function for matrix comparison use in unit tests etc
-inline bool operator==(const ngl::Mat2 &_m1 , const ngl::Mat2 &_m2)
+inline bool operator==(const ngl::Mat2 &_m1, const ngl::Mat2 &_m2)
 {
-  for(size_t i=0; i<_m1.m_openGL.size(); ++i)
+  for(size_t i = 0; i < _m1.m_openGL.size(); ++i)
   {
-    if(!( FCompare(_m1.m_openGL[i] , _m2.m_openGL[i] )))
+    if(!(FCompare(_m1.m_openGL[i], _m2.m_openGL[i])))
     {
       return false;
     }
@@ -219,8 +205,7 @@ inline bool operator==(const ngl::Mat2 &_m1 , const ngl::Mat2 &_m2)
   return true;
 }
 
-}// end of namespace
+} // namespace ngl
 
 #endif
 //----------------------------------------------------------------------------------------------------------------------
-
