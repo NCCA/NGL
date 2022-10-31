@@ -1,6 +1,6 @@
 # NGL the NCCA Graphics Library
 
-## NGL 8 master branch 
+## NGL 9 main branch 
 
 For the current build status see our CI logs here 
 
