@@ -17,11 +17,11 @@ jobs:
 
       - run :
           name : Install vcpkg
-          command : 'export CMAKE_BUILD_PARALLEL_LEVEL=2 && git clone https://github.com/microsoft/vcpkg && cd vcpkg && ./bootstrap-vcpkg.sh && ./vcpkg install glfw3  gtest  freetype glm  rapidjson rapidxml '
+          command : 'export CMAKE_BUILD_PARALLEL_LEVEL=2 && git clone --depth 1  https://github.com/microsoft/vcpkg && cd vcpkg && ./bootstrap-vcpkg.sh && ./vcpkg install glfw3  gtest  freetype glm  rapidjson rapidxml '
       
       - run : 
           name : Build NGL
-          command : 'cd NGL && git checkout master && cd mkdir build && cd build && cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake  -DNO_OIIO=1 .. && make -j2'
+          command : 'cd NGL && git checkout main && cd mkdir build && cd build && cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake  -DNO_OIIO=1 .. && make -j2'
       - run :
           name : NGL c++ Tests
           command : 'cd //root/project/NGL/build && ./NGLTests -g'
