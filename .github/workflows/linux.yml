@@ -1,69 +1,31 @@
-name: linux
+name: BuildNGL
 
 on: [push, pull_request]
 
-permissions:
-  contents: read
-
 jobs:
   build:
-    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        cxx: [ g++-10, clang++-9]
-        build_type: [Debug, Release]
-        std: [17]
-        include:
-          - cxx: g++-8
-            build_type: Debug
-            std: 17
-            install: sudo apt install g++-8
-          - cxx: g++-9
-            build_type: Debug
-            std: 17
-          - cxx: g++-10
-            build_type: Debug
-            std: 17
-          - cxx: g++-11
-            build_type: Debug
-            std: 20
-            install: sudo apt install g++-11
-          - cxx: clang++-8
-            build_type: Debug
-            std: 17
-            cxxflags: -stdlib=libc++
-            install: sudo apt install clang-8 libc++-8-dev libc++abi-8-dev
-          - cxx: clang++-9
-            install: sudo apt install clang-9
-          - cxx: clang++-9
-            build_type: Debug
-            std: 17
-            install: sudo apt install clang-9
-          - cxx: clang++-11
-            build_type: Debug
-            std: 20
-          - cxx: clang++-11
-            build_type: Debug
-            std: 20
-            cxxflags: -stdlib=libc++
-            install: sudo apt install libc++-11-dev libc++abi-11-dev
-
+        platform: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.platform }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    - name: Run vcpkg
+      uses: lukka/run-vcpkg@v4
+      with:
+        vcpkgArguments: 'glfw3  gtest fmt freetype glm  rapidjson rapidxml'
+        vcpkgDirectory: '${{ github.workspace }}/vcpkg'
 
-    - name: Create Build Environment
-      run: |
-        ${{matrix.install}}
-        sudo apt install locales-all
-        cmake -E make_directory ${{runner.workspace}}/build
-    - name: Configure
+        - name: Configure
       working-directory: ${{runner.workspace}}/build
       env:
         CXX: ${{matrix.cxx}}
         CXXFLAGS: ${{matrix.cxxflags}}
       run: |
         cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}}  \
-              -DCMAKE_CXX_STANDARD=${{matrix.std}} -DNO_OIIO=1 \
+               -DNO_OIIO=1 \
                $GITHUB_WORKSPACE
     - name: Build
       working-directory: ${{runner.workspace}}/build
@@ -72,6 +34,5 @@ jobs:
         cmake --build . --config ${{matrix.build_type}} --parallel $threads
     - name: Test
       working-directory: ${{runner.workspace}}/build
-      run: ctest -C ${{matrix.build_type}}
+      run: NGLTests -g
       env:
-        CTEST_OUTPUT_ON_FAILURE: True
