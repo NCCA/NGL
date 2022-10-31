@@ -5,7 +5,6 @@
 For the current build status see our CI logs here 
 
 
-
 [![CircleCI](https://circleci.com/gh/NCCA/NGL.svg?style=svg)](https://circleci.com/gh/NCCA/NGL)
 [Circle CI (g++ latest (8))](https://circleci.com/gh/NCCA)
 
@@ -14,7 +13,9 @@ For the current build status see our CI logs here
 NGL depends upon the following libraries
 
 - [GLM](https://glm.g-truc.net/0.9.9/index.html) this is a header only library and can be copied to /usr/local/include This is a compatibility layer and can be removed by commenting out the  USEGLM define in the Qt projects.
+- [fmt](https://github.com/fmtlib/fmt/) C++ formatting library
 - [glfw3](https://www.glfw.org/) is used to create an OpenGL context for the unit tests, if you don't want to install this just don't build the unit tests.  
+- [freetype](https://freetype.org/) for font loading 
 - [gtest](https://github.com/google/googletest) for Unit testing if you are building the tests.
 - [RapidJSON](https://rapidjson.org/) for the Shader Library code.
 - [RapidXML](http://rapidxml.sourceforge.net/) for the Point bake classes.
