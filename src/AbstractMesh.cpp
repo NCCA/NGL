@@ -219,7 +219,7 @@ void AbstractMesh::createVAO(ResetVAO _reset) noexcept
     // if we have already created a VBO just return.
     if(m_vao == true)
     {
-      msg->addWarning("VAO exist so returning");
+      NGLMessage::addWarning("VAO exist so returning");
       return;
     }
   }
@@ -227,7 +227,7 @@ void AbstractMesh::createVAO(ResetVAO _reset) noexcept
   {
     if(m_vao == true)
     {
-      msg->addWarning("Creating new VAO");
+      NGLMessage::addWarning("Creating new VAO");
     }
   }
   // else allocate space as build our VAO
@@ -239,7 +239,7 @@ void AbstractMesh::createVAO(ResetVAO _reset) noexcept
 	// data is mixed of > quad so exit error
 	if(m_dataPackType == 0)
 	{
-    msg->addError("Can only create VBO from all Triangle or ALL Quad data at present");
+    NGLMessage::addError("Can only create VBO from all Triangle or ALL Quad data at present");
 		exit(EXIT_FAILURE);
 	}
 
@@ -447,7 +447,7 @@ void AbstractMesh::saveNCCABinaryMesh(const std::string &_fname  ) noexcept
   file.open(_fname.data(),std::ios::out | std::ios::binary);
   if (!file.is_open())
   {
-    msg->addError(fmt::format("problems Opening File {0} for reading",_fname.data()));
+    NGLMessage::addError(fmt::format("problems Opening File {0} for reading",_fname.data()));
     return;
   }
   // lets write out our own Magic Number file ID
@@ -501,7 +501,7 @@ void AbstractMesh::calcBoundingSphere() noexcept
 auto size=m_verts.size();
 if( size <=0 )
 {
-  msg->addError("no vertices loaded ");
+  NGLMessage::addError("no vertices loaded ");
 	m_sphereCenter=0;
 	m_sphereRadius=0;
 	return;
@@ -585,7 +585,7 @@ for (auto v : m_verts)
     dist2=dx*dx+dy*dy+dz*dz;
     if(dist2 > newRad2)
     {
-      msg->addWarning(fmt::format("something wrong here error margin {0}",dist2-newRad2));
+      NGLMessage::addWarning(fmt::format("something wrong here error margin {0}",dist2-newRad2));
     }
     m_sphereCenter=newCenter;
     rad=newRad;

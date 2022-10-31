@@ -43,33 +43,32 @@
 */
 
 #ifdef __APPLE__
-  #include <OpenGL/gl3.h>
-  #include <OpenGL/gl3ext.h>
+#include <OpenGL/gl3.h>
+#include <OpenGL/gl3ext.h>
 #else
 
-  #include "gl3w.h"
+#include "gl3w.h"
 #endif
 #include "fmt/format.h"
-
 
 //----------------------------------------------------------------------------------------------------------------------
 // DLL Glue for windows build / apps
 //----------------------------------------------------------------------------------------------------------------------
 #ifdef _WIN32
-    #pragma warning( disable :  5045 )
-    #pragma warning(disable : 4251) // dll interface warning for STL
-  #ifdef BUILDING_DLL
-    #define NGL_DLLEXPORT __declspec(dllexport)
-  #else
-    #define NGL_DLLEXPORT __declspec(dllimport)
-  #endif
-  #ifdef NO_DLL
-    #undef NGL_DLLEXPORT
-    #define NGL_DLLEXPORT
-  #endif
+#pragma warning(disable : 5045)
+#pragma warning(disable : 4251) // dll interface warning for STL
+#ifdef BUILDING_DLL
+#define NGL_DLLEXPORT __declspec(dllexport)
+#else
+#define NGL_DLLEXPORT __declspec(dllimport)
+#endif
+#ifdef NO_DLL
+#undef NGL_DLLEXPORT
+#define NGL_DLLEXPORT
+#endif
 
 #else
-    #define NGL_DLLEXPORT
+#define NGL_DLLEXPORT
 #endif
 #include "NGLMessage.h"
 #include <memory>
@@ -82,7 +81,6 @@
 /// @date 29/10/09 Updated to meet NCCA coding standard
 //----------------------------------------------------------------------------------------------------------------------
 
-
 //----------------------------------------------------------------------------------------------------------------------
 /// @namespace ngl : bundled all the graphics lib code in this namespace to allow several
 /// global namespace enums and variables
@@ -90,47 +88,50 @@
 
 namespace ngl
 {
-extern  std::unique_ptr<NGLMessage> msg;
+
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief Set the PRECISION of all data types
 ///  Set PRECISION to be a GLfloat so we only have to change one value to set the data type
 //----------------------------------------------------------------------------------------------------------------------
 
-using PRECISION=GLfloat;
+using PRECISION = GLfloat;
 
 //----------------------------------------------------------------------------------------------------------------------
 /// create a variable called Real which is the main data type we use (GLfloat for most  cases)
 //----------------------------------------------------------------------------------------------------------------------
 
-using Real=PRECISION;
+using Real = PRECISION;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief define EPSILON for floating point comparison
 //----------------------------------------------------------------------------------------------------------------------
-constexpr float  EPSILON = 0.001f;
+constexpr float EPSILON = 0.001f;
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief FCompare macro used for floating point comparision functions
 //----------------------------------------------------------------------------------------------------------------------
-  #define FCompare(a,b) \
-      ( ((a)-ngl::EPSILON)<(b) && ((a)+ngl::EPSILON)>(b) )
+#define FCompare(a, b) \
+  (((a)-ngl::EPSILON) < (b) && ((a) + ngl::EPSILON) > (b))
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief define unused to quiet Warnings
 //----------------------------------------------------------------------------------------------------------------------
 
- #define NGL_UNUSED(arg) (void)arg;
+#define NGL_UNUSED(arg) (void)arg;
 
-constexpr auto simpleVAO="simpleVAO";
-constexpr auto multiBufferVAO="multiBufferVAO";
-constexpr auto simpleIndexVAO="simpleIndexVAO";
-constexpr auto nglColourShader="nglColourShader";
-constexpr auto nglDiffuseShader="nglDiffuseShader";
-constexpr auto nglCheckerShader="nglCheckerShader";
-constexpr auto nglTextShader="nglTextShader";
-enum class ErrorExit : bool {ON,OFF};
+constexpr auto simpleVAO = "simpleVAO";
+constexpr auto multiBufferVAO = "multiBufferVAO";
+constexpr auto simpleIndexVAO = "simpleIndexVAO";
+constexpr auto nglColourShader = "nglColourShader";
+constexpr auto nglDiffuseShader = "nglDiffuseShader";
+constexpr auto nglCheckerShader = "nglCheckerShader";
+constexpr auto nglTextShader = "nglTextShader";
+enum class ErrorExit : bool
+{
+  ON,
+  OFF
+};
 
-
-}
+} // namespace ngl
 
 #endif
 

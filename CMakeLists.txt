@@ -135,9 +135,7 @@ target_sources(NGL PRIVATE
     ${CMAKE_SOURCE_DIR}/src/Image.cpp
     ${CMAKE_SOURCE_DIR}/src/Types.cpp
     ${CMAKE_SOURCE_DIR}/src/pystring.cpp
-    ${CMAKE_SOURCE_DIR}/src/MessageQueue/AbstractMessageConsumer.cpp 
-    ${CMAKE_SOURCE_DIR}/src/MessageQueue/NGLMessage.cpp 
-    ${CMAKE_SOURCE_DIR}/src/MessageQueue/FileConsumer.cpp 
+    ${CMAKE_SOURCE_DIR}/src/NGLMessage.cpp 
     ${CMAKE_SOURCE_DIR}/gl3w/gl3w.c
     ${CMAKE_SOURCE_DIR}/gl3w/gl3w.h
     ${CMAKE_SOURCE_DIR}/gl3w/glcorearb.h
@@ -178,10 +176,7 @@ target_sources(NGL PRIVATE
     ${CMAKE_SOURCE_DIR}/include/ngl/Image.h
     ${CMAKE_SOURCE_DIR}/include/ngl/NGLStream.h
     ${CMAKE_SOURCE_DIR}/include/ngl/NGLStream.h
-    ${CMAKE_SOURCE_DIR}/include/ngl/MessageQueue/AbstractMessageConsumer.h 
-    ${CMAKE_SOURCE_DIR}/include/ngl/MessageQueue/FileConsumer.h 
-    ${CMAKE_SOURCE_DIR}/include/ngl/MessageQueue/STDERRConsumer.h 
-    ${CMAKE_SOURCE_DIR}/include/ngl/MessageQueue/STDOutConsumer.h    
+    ${CMAKE_SOURCE_DIR}/include/ngl/NGLMessage.h
     ${CMAKE_SOURCE_DIR}/src/shaders/TextShaders.h
     ${CMAKE_SOURCE_DIR}/src/shaders/ColourShaders.h
     ${CMAKE_SOURCE_DIR}/src/shaders/DiffuseShaders.h
@@ -239,7 +234,6 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 add_executable(NGLTests)
 target_sources(NGLTests PRIVATE
 ${CMAKE_SOURCE_DIR}/tests/main.cpp  
-${CMAKE_SOURCE_DIR}/tests/MessageQueueTests.cpp  
 ${CMAKE_SOURCE_DIR}/tests/UtilTests.cpp           
 ${CMAKE_SOURCE_DIR}/tests/Vec4Tests.cpp
 ${CMAKE_SOURCE_DIR}/tests/Mat2Tests.cpp  
@@ -357,9 +351,7 @@ target_sources(pyngl PRIVATE
    ${CMAKE_SOURCE_DIR}/src/Image.cpp
    ${CMAKE_SOURCE_DIR}/src/Types.cpp
    ${CMAKE_SOURCE_DIR}/src/pystring.cpp
-   ${CMAKE_SOURCE_DIR}/src/MessageQueue/AbstractMessageConsumer.cpp 
-   ${CMAKE_SOURCE_DIR}/src/MessageQueue/NGLMessage.cpp 
-   ${CMAKE_SOURCE_DIR}/src/MessageQueue/FileConsumer.cpp 
+   ${CMAKE_SOURCE_DIR}/src/NGLMessage.cpp 
     ${PYSOURCEDIR}/PyAABB.cpp            
     ${PYSOURCEDIR}/PyNGLInit.cpp         
     ${PYSOURCEDIR}/PyText.cpp
@@ -433,10 +425,7 @@ target_sources(pyngl PRIVATE
    ${CMAKE_SOURCE_DIR}/include/ngl/Image.h
    ${CMAKE_SOURCE_DIR}/include/ngl/NGLStream.h
    ${CMAKE_SOURCE_DIR}/include/ngl/NGLStream.h
-   ${CMAKE_SOURCE_DIR}/include/ngl/MessageQueue/AbstractMessageConsumer.h 
-   ${CMAKE_SOURCE_DIR}/include/ngl/MessageQueue/FileConsumer.h 
-   ${CMAKE_SOURCE_DIR}/include/ngl/MessageQueue/STDERRConsumer.h 
-   ${CMAKE_SOURCE_DIR}/include/ngl/MessageQueue/STDOutConsumer.h    
+   ${CMAKE_SOURCE_DIR}/include/ngl/NGLMessage.h
    ${CMAKE_SOURCE_DIR}/src/shaders/TextShaders.h
    ${CMAKE_SOURCE_DIR}/src/shaders/ColourShaders.h
    ${CMAKE_SOURCE_DIR}/src/shaders/DiffuseShaders.h

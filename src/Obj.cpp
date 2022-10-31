@@ -46,7 +46,7 @@ namespace ngl
   {
     if (load(_fname, _calcBB) == false)
     {
-      msg->addError(fmt::format("Error loading file {0} ", _fname.data()));
+      NGLMessage::addError(fmt::format("Error loading file {0} ", _fname.data()));
       exit(EXIT_FAILURE);
     }
   }
@@ -55,7 +55,7 @@ namespace ngl
   {
     if (load(_fname, _calcBB) == false)
     {
-      msg->addError(fmt::format("Error loading file {0} ", _fname.data()));
+      NGLMessage::addError(fmt::format("Error loading file {0} ", _fname.data()));
       exit(EXIT_FAILURE);
     }
     // load texture
@@ -119,7 +119,7 @@ namespace ngl
     std::ofstream out(_fname.data());
     if (out.is_open() != true)
     {
-      msg->addError(fmt::format(" could not open file  {0} for writing ", _fname.data()));
+      NGLMessage::addError(fmt::format(" could not open file  {0} for writing ", _fname.data()));
       return false;
     }
     // write out some comments
@@ -216,7 +216,7 @@ namespace ngl
     std::ifstream in(_fname.data());
     if (in.is_open() != true)
     {
-      msg->addError(fmt::format(" file {0} not found  ", _fname.data()));
+      NGLMessage::addError(fmt::format(" file {0} not found  ", _fname.data()));
       return false;
     }
 
@@ -277,8 +277,8 @@ namespace ngl
     }
     catch (std::invalid_argument &arg)
     {
-      msg->addError("problem converting Obj file vertex ");
-      msg->addError(arg.what());
+      NGLMessage::addError("problem converting Obj file vertex ");
+      NGLMessage::addError(arg.what());
       parsedOK = false;
     }
     return parsedOK;
@@ -297,8 +297,8 @@ namespace ngl
     }
     catch (std::invalid_argument &arg)
     {
-      msg->addError("problem converting Obj file normals");
-      msg->addError(arg.what());
+      NGLMessage::addError("problem converting Obj file normals");
+      NGLMessage::addError(arg.what());
       parsedOK = false;
     }
     return parsedOK;
@@ -322,8 +322,8 @@ namespace ngl
     }
     catch (std::invalid_argument &arg)
     {
-      msg->addError("problem converting Obj file UV's");
-      msg->addError(arg.what());
+      NGLMessage::addError("problem converting Obj file UV's");
+      NGLMessage::addError(arg.what());
 
       parsedOK = false;
     }
@@ -379,8 +379,8 @@ namespace ngl
       }
       catch (std::invalid_argument &arg)
       {
-        msg->addError("problem converting Obj file face");
-        msg->addError(arg.what());
+        NGLMessage::addError("problem converting Obj file face");
+        NGLMessage::addError(arg.what());
         parsedOK = false;
       }
     }
@@ -419,8 +419,8 @@ namespace ngl
       }
       catch (std::invalid_argument &arg)
       {
-        msg->addError("problem converting Obj file face");
-        msg->addError(arg.what());
+        NGLMessage::addError("problem converting Obj file face");
+        NGLMessage::addError(arg.what());
         parsedOK = false;
       }
     }
@@ -459,8 +459,8 @@ namespace ngl
       }
       catch (std::invalid_argument &arg)
       {
-        msg->addError("problem converting Obj file face");
-        msg->addError(arg.what());
+        NGLMessage::addError("problem converting Obj file face");
+        NGLMessage::addError(arg.what());
         parsedOK = false;
       }
     }
@@ -509,8 +509,8 @@ namespace ngl
       }
       catch (std::invalid_argument &arg)
       {
-        msg->addError("problem converting Obj file face");
-        msg->addError(arg.what());
+        NGLMessage::addError("problem converting Obj file face");
+        NGLMessage::addError(arg.what());
         parsedOK = false;
       }
     }

@@ -104,7 +104,6 @@ int main(int argc, char **argv)
   {
     std::cerr << "excluding tests\n";
     ::testing::GTEST_FLAG(filter) = "-ShaderLib.*:VAOPrimitives.*:NGLInit*: NGLMessage*";
-    // ngl::NGLInit::initMessageSystem();
   }
   // testing::internal::CaptureStdout();
   testing::internal::CaptureStderr();

@@ -358,7 +358,7 @@ Mat3 Mat3::inverse() noexcept
   Real det = determinant();
   if(det == 0.0f)
   {
-    msg->addWarning("ngl 0 determinant in Mat3 returning identity matrix");
+    NGLMessage::addWarning("ngl 0 determinant in Mat3 returning identity matrix");
     return Mat3();
   }
   Real invdet = 1 / det;

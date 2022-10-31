@@ -82,7 +82,7 @@ void ShaderProgram::bindAttribute(GLuint _index, const std::string &_attribName)
 {
   if(m_linked == true)
   {
-   msg->addMessage(fmt::format("binding attribute {0} after link ",_attribName.data()));
+   NGLMessage::addMessage(fmt::format("binding attribute {0} after link ",_attribName.data()));
   }
   m_attribs[_attribName.data()]=_index;
   glBindAttribLocation(m_programID,_index,_attribName.data());
@@ -93,7 +93,7 @@ void ShaderProgram::bindFragDataLocation(GLuint _index, const std::string &_attr
 {
   if(m_linked == true)
   {
-    msg->addMessage(fmt::format("binding attribute {0} after link ",_attribName.data()));
+    NGLMessage::addMessage(fmt::format("binding attribute {0} after link ",_attribName.data()));
   }
   m_attribs[_attribName.data()]=_index;
   #ifndef USINGIOS_
@@ -109,7 +109,7 @@ bool ShaderProgram::link() noexcept
   glLinkProgram(m_programID);
   if(m_debugState==true)
   {
-    msg->addMessage(fmt::format("linking Shader {0} ",m_programName.c_str()));
+    NGLMessage::addMessage(fmt::format("linking Shader {0} ",m_programName.c_str()));
   }
   GLint infologLength = 0;
   GLint linkStatus;
@@ -125,10 +125,10 @@ bool ShaderProgram::link() noexcept
 
     glGetProgramInfoLog(m_programID, infologLength, &charsWritten, infoLog.get());
 
-    msg->addMessage(infoLog.get(),Colours::WHITE,TimeFormat::NONE);
+    NGLMessage::addMessage(infoLog.get(),Colours::WHITE,TimeFormat::NONE);
     if( m_linked == false)
     {
-      msg->addError("Program link failed (will exit if errorExit enabled else return false)");
+      NGLMessage::addError("Program link failed (will exit if errorExit enabled else return false)");
       if(m_errorExit==ErrorExit::ON)
         exit(EXIT_FAILURE);
 
@@ -154,7 +154,7 @@ GLint ShaderProgram::getUniformLocation(const char* _name   ) const noexcept
   }
   else
   {
-    msg->addWarning(fmt::format("Uniform {0} not found in Program {1}",_name,m_programName.data()));
+    NGLMessage::addWarning(fmt::format("Uniform {0} not found in Program {1}",_name,m_programName.data()));
   }
   // nasty C lib uses -1 return value for error
   //GLint loc = glGetUniformLocation( m_programID ,_name);
@@ -165,7 +165,7 @@ GLint ShaderProgram::getUniformLocation(const char* _name   ) const noexcept
 void ShaderProgram::printProperties() const noexcept
 {
   printActiveUniforms();
-  msg->addMessage("_______________________________________________________________________________________________________________________",Colours::WHITE,TimeFormat::NONE);
+  NGLMessage::addMessage("_______________________________________________________________________________________________________________________",Colours::WHITE,TimeFormat::NONE);
   printActiveAttributes();
 }
 
@@ -175,7 +175,7 @@ void ShaderProgram::printActiveUniforms() const noexcept
 #ifndef USINGIOS_
     if(m_active !=true)
     {
-      msg->addWarning("calling printActiveUniforms on unbound shader program");
+      NGLMessage::addWarning("calling printActiveUniforms on unbound shader program");
     }
     GLint nUniforms;
     glGetProgramiv(m_programID, GL_ACTIVE_UNIFORMS, &nUniforms);
@@ -184,7 +184,7 @@ void ShaderProgram::printActiveUniforms() const noexcept
     for (GLint i=0; i<nUniforms; ++i)
     {
        glGetActiveUniformName(m_programID, static_cast<GLuint>(i), 256, &l, name);
-       msg->addMessage(fmt::format("Uniform: {0}",name),Colours::WHITE,TimeFormat::NONE);
+       NGLMessage::addMessage(fmt::format("Uniform: {0}",name),Colours::WHITE,TimeFormat::NONE);
     }
 #endif
 
@@ -220,7 +220,7 @@ void ShaderProgram::printActiveAttributes() const noexcept
     default: Type="UNKNOWN";
     }
 
-    msg->addMessage(fmt::format("Attribute {0}, {1} Size : {2} Type : {3}",i,name,size,Type));
+    NGLMessage::addMessage(fmt::format("Attribute {0}, {1} Size : {2} Type : {3}",i,name,size,Type));
 
   }
 }
@@ -238,7 +238,7 @@ void ShaderProgram::setRegisteredUniform1f(const std::string &_varname, float _v
   }
   else
   {
-    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -253,7 +253,7 @@ void ShaderProgram::getRegisteredUniform1f(const std::string &_varname, float &o
   }
   else
   {
-    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -270,7 +270,7 @@ void ShaderProgram::setRegisteredUniform2f(const std::string &_varname, float _v
   }
   else
   {
-    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -301,7 +301,7 @@ void ShaderProgram::setRegisteredUniform3f( const std::string &_varname, float _
   }
   else
   {
-    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -333,7 +333,7 @@ void ShaderProgram::setRegisteredUniform4f( const std::string &_varname, float _
   }
   else
   {
-    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -365,7 +365,7 @@ void ShaderProgram::setRegisteredUniform1i( const std::string &_varname, int _v0
   }
   else
   {
-    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -381,7 +381,7 @@ void ShaderProgram::setRegisteredUniform2i( const std::string &_varname, int _v0
   }
   else
   {
-    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -398,7 +398,7 @@ void ShaderProgram::setRegisteredUniform3i(const std::string &_varname,  int _v0
   }
   else
   {
-    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 }
 
@@ -413,7 +413,7 @@ void ShaderProgram::setRegisteredUniform4i( const std::string &_varname,  int _v
   }
   else
   {
-    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -429,7 +429,7 @@ void ShaderProgram::setRegisteredUniformMatrix3fv( const std::string &_varname,G
   }
   else
   {
-    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -457,7 +457,7 @@ void ShaderProgram::setRegisteredUniformMatrix2fv( const std::string &_varname,G
   }
   else
   {
-    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -485,7 +485,7 @@ void ShaderProgram::setRegisteredUniformMatrix4fv(const std::string &_varname, G
   }
   else
   {
-    ngl::msg->addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
+    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}",_varname, m_programName ));
   }
 
 }
@@ -525,7 +525,7 @@ void ShaderProgram::enableAttribArray( const char* _name) const noexcept
 
   if(index!=m_attribs.end())
   {
-    msg->addMessage(fmt::format("Enable attrib array {0} ",index->second));
+    NGLMessage::addMessage(fmt::format("Enable attrib array {0} ",index->second));
     glEnableVertexAttribArray( index->second  );
   }
 }
@@ -557,7 +557,7 @@ void ShaderProgram::autoRegisterUniformBlocks() noexcept
   GLint nUniforms;
   glGetProgramiv(m_programID, GL_ACTIVE_UNIFORM_BLOCKS, &nUniforms);
   if(m_debugState==true)
-    msg->addMessage(fmt::format("FOUND UNIFORM BLOCKS {0}",nUniforms),Colours::WHITE,TimeFormat::NONE);
+    NGLMessage::addMessage(fmt::format("FOUND UNIFORM BLOCKS {0}",nUniforms),Colours::WHITE,TimeFormat::NONE);
   char name[256];
   uniformBlockData data;
   for (GLint i=0; i<nUniforms; ++i)
@@ -568,7 +568,7 @@ void ShaderProgram::autoRegisterUniformBlocks() noexcept
     data.loc=glGetUniformBlockIndex(m_programID,name);
     glGenBuffers( 1, &data.buffer );
     m_registeredUniformBlocks[name]=data;
-    msg->addMessage(fmt::format("Uniform Block {0} {1} {2}",name,data.loc,data.buffer),Colours::WHITE,TimeFormat::NONE);
+    NGLMessage::addMessage(fmt::format("Uniform Block {0} {1} {2}",name,data.loc,data.buffer),Colours::WHITE,TimeFormat::NONE);
 
 
   }
@@ -808,9 +808,9 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {GL_UNSIGNED_INT_SAMPLER_CUBE,"usamplerCube"},
     {GL_UNSIGNED_INT_SAMPLER_2D_ARRAY,"usampler2DArray"}
   };
-  msg->drawLine();
-  msg->addMessage(fmt::format("Registered Uniforms for shader {0}", m_programName),Colours::WHITE,TimeFormat::NONE);
-  msg->drawLine();
+  NGLMessage::drawLine();
+  NGLMessage::addMessage(fmt::format("Registered Uniforms for shader {0}", m_programName),Colours::WHITE,TimeFormat::NONE);
+  NGLMessage::drawLine();
   for(auto d : m_registeredUniforms)
   {
     std::string type;
@@ -825,9 +825,9 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
       type="unknown type";
     }
     shaderValue=getValueFromShader(d.second);
-    msg->addMessage(fmt::format("Uniform {0} Location -> {1} glsl type : {2}  value {3}",d.first,d.second.loc,type,shaderValue),Colours::WHITE,TimeFormat::NONE);
+    NGLMessage::addMessage(fmt::format("Uniform {0} Location -> {1} glsl type : {2}  value {3}",d.first,d.second.loc,type,shaderValue),Colours::WHITE,TimeFormat::NONE);
   }
-  msg->drawLine();
+  NGLMessage::drawLine();
 }
 
 

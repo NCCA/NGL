@@ -36,7 +36,7 @@ bool NCCABinMesh::load(const std::string &_fname, CalcBB _calcBB) noexcept
   // see if it worked
   if (!file.is_open())
   {
-    msg->addError(fmt::format("problems Opening File {0} ",_fname.data()));
+    NGLMessage::addError(fmt::format("problems Opening File {0} ",_fname.data()));
     return false;
   }
   // lets read in the header and see if the file is valid
@@ -49,7 +49,7 @@ bool NCCABinMesh::load(const std::string &_fname, CalcBB _calcBB) noexcept
   {
     // best close the file and exit
     file.close();
-    msg->addError("this is not an ngl::bin file ");
+    NGLMessage::addError("this is not an ngl::bin file ");
     return false;
   }
   Real m_nVerts,m_nNorm,m_nTex,m_nFaces;

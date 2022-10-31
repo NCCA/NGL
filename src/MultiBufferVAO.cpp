@@ -13,11 +13,11 @@ namespace ngl
   {
     if(m_allocated == false)
     {
-      msg->addWarning("trying to draw an unallocated VOA");
+      NGLMessage::addWarning("trying to draw an unallocated VOA");
     }
     if(m_bound == false)
     {
-      msg->addWarning("trying to draw an unbound VOA");
+      NGLMessage::addWarning("trying to draw an unbound VOA");
     }
     glDrawArrays(m_mode, 0, static_cast<GLsizei>(m_indicesCount));
   }
@@ -42,7 +42,7 @@ namespace ngl
   {
     if(m_bound == false)
     {
-      msg->addWarning("trying to set VOA data when unbound");
+      NGLMessage::addWarning("trying to set VOA data when unbound");
     }
 
     GLuint vboID;
@@ -59,11 +59,11 @@ namespace ngl
   {
     if(m_bound == false)
     {
-      msg->addWarning("trying to set VOA data when unbound");
+      NGLMessage::addWarning("trying to set VOA data when unbound");
     }
     if(_index >= m_vboIDs.size())
     {
-      msg->addError("Trying to set Buffer data at wrong Index");
+      NGLMessage::addError("Trying to set Buffer data at wrong Index");
     }
     glBindBuffer(GL_ARRAY_BUFFER, m_vboIDs[_index]);
     glBufferData(GL_ARRAY_BUFFER,static_cast<GLsizeiptr>(_data.m_size), &_data.m_data, _data.m_mode);
@@ -78,7 +78,7 @@ namespace ngl
   {
     if(m_bound == false)
     {
-      msg->addWarning("trying to set VOA data when unbound");
+      NGLMessage::addWarning("trying to set VOA data when unbound");
     }
 
     GLuint vboID;
@@ -95,12 +95,12 @@ namespace ngl
   {
     if(m_bound == false)
     {
-      msg->addWarning("trying to set VOA data when unbound");
+      NGLMessage::addWarning("trying to set VOA data when unbound");
     }
 
     if(_index >m_vboIDs.size())
     {
-      msg->addError("Trying to set Buffer data at wrong Index");
+      NGLMessage::addError("Trying to set Buffer data at wrong Index");
     }
 
 
@@ -117,7 +117,7 @@ namespace ngl
   {
       if(m_bound == false)
       {
-          msg->addWarning("trying to set VOA data when unbound");
+          NGLMessage::addWarning("trying to set VOA data when unbound");
       }
 
       GLuint vboID;
@@ -134,7 +134,7 @@ namespace ngl
   {
       if(m_bound == false)
       {
-          msg->addWarning("trying to set VOA data when unbound");
+          NGLMessage::addWarning("trying to set VOA data when unbound");
       }
 
       GLuint vboID;
@@ -152,11 +152,11 @@ namespace ngl
   {
       if(m_bound == false)
       {
-          msg->addWarning("trying to set VOA data when unbound");
+          NGLMessage::addWarning("trying to set VOA data when unbound");
       }
       if(_index >m_vboIDs.size())
       {
-        msg->addError("Trying to set Buffer data at wrong Index");
+        NGLMessage::addError("Trying to set Buffer data at wrong Index");
       }
 
       // now we will bind an array buffer to the first one and load the data for the verts
@@ -171,11 +171,11 @@ namespace ngl
   {
       if(m_bound == false)
       {
-          msg->addWarning("trying to set VOA data when unbound");
+          NGLMessage::addWarning("trying to set VOA data when unbound");
       }
       if(_index >m_vboIDs.size())
       {
-        msg->addError("Trying to set Buffer data at wrong Index");
+        NGLMessage::addError("Trying to set Buffer data at wrong Index");
       }
 
       // now we will bind an array buffer to the first one and load the data for the verts

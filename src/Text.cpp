@@ -38,14 +38,14 @@ Text::Text(const std::string &_name, int _size)
   FT_Library ft;
   if (FT_Init_FreeType(&ft))
   {
-      ngl::msg->addError("ERROR::FREETYPE: Could not init FreeType Library \n");
+      ngl::NGLMessage::addError("ERROR::FREETYPE: Could not init FreeType Library \n");
       exit(EXIT_FAILURE);
   }
 
   FT_Face face;
   if (FT_New_Face(ft, _name.c_str(), 0, &face))
   {
-      ngl::msg->addError("ERROR::FREETYPE: Failed to load font");
+      ngl::NGLMessage::addError("ERROR::FREETYPE: Failed to load font");
       exit(EXIT_FAILURE);
   }
   // now set the font size
@@ -63,7 +63,7 @@ Text::Text(const std::string &_name, int _size)
 
   if (FT_Load_Char(face, c, FT_LOAD_RENDER))
   {
-      ngl::msg->addError("ERROR::FREETYTPE: Failed to load Glyph \n");
+      ngl::NGLMessage::addError("ERROR::FREETYTPE: Failed to load Glyph \n");
       exit(EXIT_FAILURE);
   }
   FontChar fc;

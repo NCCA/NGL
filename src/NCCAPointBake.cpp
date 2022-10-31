@@ -45,7 +45,7 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
   std::ifstream xmlFile (_fileName.data() );
 	if(!xmlFile.is_open())
 	{
-    msg->addError(fmt::format("Could not open PointBake file {0} ",_fileName.data()));
+    NGLMessage::addError(fmt::format("Could not open PointBake file {0} ",_fileName.data()));
 		return false;
 	}
 	std::vector<char> buffer((std::istreambuf_iterator<char>(xmlFile)), std::istreambuf_iterator<char>());
@@ -56,32 +56,32 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
 	rootNode=doc.first_node();
 	if(rootNode->name() !=std::string("NCCAPointBake"))
 	{
-    msg->addError(fmt::format("{0} is not a pointbake file ",_fileName.data()));
+    NGLMessage::addError(fmt::format("{0} is not a pointbake file ",_fileName.data()));
 		return false;
 	}
 
   rapidxml::xml_node<> * child=rootNode->first_node("MeshName");
   m_meshName=child->value();
-  msg->addMessage(fmt::format("found mesh{0} ",m_meshName));
+  NGLMessage::addMessage(fmt::format("found mesh{0} ",m_meshName));
 
   try
   {
     child=rootNode->first_node("NumVerts");
     m_nVerts=std::stoul(child->value());
-    msg->addMessage(fmt::format("NumVerts {0}",m_nVerts));
+    NGLMessage::addMessage(fmt::format("NumVerts {0}",m_nVerts));
     child=rootNode->first_node("StartFrame");
     m_startFrame=std::stoul(child->value());
-    msg->addMessage(fmt::format("StartFrame {0}",m_startFrame));;
+    NGLMessage::addMessage(fmt::format("StartFrame {0}",m_startFrame));;
     child=rootNode->first_node("EndFrame");
     m_endFrame=std::stoul(child->value());
-    msg->addMessage(fmt::format("EndFrame {0}",m_endFrame));
+    NGLMessage::addMessage(fmt::format("EndFrame {0}",m_endFrame));
     child=rootNode->first_node("NumFrames");
     m_numFrames=std::stoul(child->value());
-    msg->addMessage(fmt::format("NumFrames  {0}",m_numFrames));
+    NGLMessage::addMessage(fmt::format("NumFrames  {0}",m_numFrames));
   }
   catch (std::invalid_argument)
   {
-    msg->addError("error reading PointBake File");
+    NGLMessage::addError("error reading PointBake File");
     return false;
   }
   //first allocate base pointer [vertex]
@@ -103,7 +103,7 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
   // now traverse each frame and grab the data
   for(child=rootNode->first_node("Frame"); child; child=child->next_sibling())
   {
-    msg->addMessage(fmt::format("doing frame {0}",child->first_attribute("number")->value()));
+    NGLMessage::addMessage(fmt::format("doing frame {0}",child->first_attribute("number")->value()));
     CurrentFrame=std::stoul(child->first_attribute("number")->value());
     CurrentFrame-=m_startFrame;
 
@@ -122,8 +122,8 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
       }
       catch (std::invalid_argument)
       {
-        msg->addError("error converting buffer");
-        msg->addError(fmt::format("{0} size {1} ",lineBuffer,tokens.size()));
+        NGLMessage::addError("error converting buffer");
+        NGLMessage::addError(fmt::format("{0} size {1} ",lineBuffer,tokens.size()));
         return false;
       }
 
@@ -160,7 +160,7 @@ bool NCCAPointBake::loadBinaryPointBake(const std::string &_fileName) noexcept
   // see if it worked
   if (!file.is_open())
   {
-    msg->addError(fmt::format("problems Opening File {0}",_fileName.data()));
+    NGLMessage::addError(fmt::format("problems Opening File {0}",_fileName.data()));
     return false;
   }
   // lets read in the header and see if the file is valid
@@ -173,7 +173,7 @@ bool NCCAPointBake::loadBinaryPointBake(const std::string &_fileName) noexcept
   {
     // best close the file and exit
     file.close();
-    msg->addError("this is not an ngl::binpb file ");
+    NGLMessage::addError("this is not an ngl::binpb file ");
     return false;
   }
 
@@ -185,7 +185,7 @@ bool NCCAPointBake::loadBinaryPointBake(const std::string &_fileName) noexcept
   file.read(reinterpret_cast <char *>(&m_nVerts),sizeof(unsigned int));
   file.read(reinterpret_cast <char *>(&m_startFrame),sizeof(unsigned int));
   file.read(reinterpret_cast <char *>(&m_binFile),sizeof(bool));
-  msg->addMessage("Loaded header\n");
+  NGLMessage::addMessage("Loaded header\n");
 
   m_data.resize(m_numFrames);
   for(unsigned int frame =0; frame<m_numFrames; ++frame)
@@ -210,7 +210,7 @@ bool NCCAPointBake::saveBinaryPointBake(const std::string &_fileName) noexcept
     file.open(_fileName.data(),std::ios::out | std::ios::binary);
     if (!file.is_open())
     {
-      msg->addError(fmt::format("problems Opening File {0} ",_fileName.data()));
+      NGLMessage::addError(fmt::format("problems Opening File {0} ",_fileName.data()));
       return false;
     }
 
@@ -276,11 +276,11 @@ void NCCAPointBake::setMeshToFrame(  const unsigned int _frame) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 bool NCCAPointBake::attachMesh(AbstractMesh *_mesh) noexcept
 {
-  msg->addMessage("doing attach mesh");
+  NGLMessage::addMessage("doing attach mesh");
   if(_mesh->m_verts.size() != m_nVerts)
   {
-    msg->addError(" Mesh can't be attached to this data as vert count does not match");
-    msg->addError(fmt::format("mesh verts {0} file verts {1}",_mesh->m_verts.size(),m_nVerts));
+    NGLMessage::addError(" Mesh can't be attached to this data as vert count does not match");
+    NGLMessage::addError(fmt::format("mesh verts {0} file verts {1}",_mesh->m_verts.size(),m_nVerts));
     return false;
   }
 

@@ -40,7 +40,7 @@ void printInfoLog( const GLuint &_obj)
     infoLog.reset (new char[infologLength]);
     glGetShaderInfoLog(_obj, infologLength, &charsWritten, infoLog.get());
 
-    msg->addError(infoLog.get(),TimeFormat::NONE);
+    NGLMessage::addError(infoLog.get(),TimeFormat::NONE);
 	}
 
 }
@@ -61,7 +61,7 @@ Shader::Shader(const std::string &_name,  ShaderType _type , ErrorExit _exitOnEr
       case ShaderType::TESSEVAL : { m_shaderHandle =glCreateShader(GL_TESS_EVALUATION_SHADER); break; }
       case ShaderType::COMPUTE :
       #if defined(__APPLE__)
-       msg->addError("Apple doesn't support Computer Shaders ");
+       NGLMessage::addError("Apple doesn't support Computer Shaders ");
       #else
         {
           m_shaderHandle =glCreateShader(GL_COMPUTE_SHADER);
@@ -84,7 +84,7 @@ bool Shader::compile() noexcept
 {
   if (m_source.empty() )
   {
-    msg->addError("Warning no shader source loaded");
+    NGLMessage::addError("Warning no shader source loaded");
     return false;
   }
 
@@ -95,10 +95,10 @@ bool Shader::compile() noexcept
   m_compiled=static_cast<bool>(compileStatus);
   if(m_debugState==true)
   {
-    msg->addMessage(fmt::format("Compiling Shader {0}",m_name));
+    NGLMessage::addMessage(fmt::format("Compiling Shader {0}",m_name));
     if( compileStatus == GL_FALSE)
     {
-      msg->addError("Shader compile failed or had warnings ");
+      NGLMessage::addError("Shader compile failed or had warnings ");
       printInfoLog(m_shaderHandle);
       if(m_errorExit==ErrorExit::ON)
         exit(EXIT_FAILURE);
@@ -111,7 +111,7 @@ bool Shader::editShader(const std::string &_toFind, const std::string &_edit)
 {
   if(m_source.length() ==0)
   {
-    msg->addError("No shader source to edit");
+    NGLMessage::addError("No shader source to edit");
     return false;
   }
   if(m_edited !=true )
@@ -123,7 +123,7 @@ bool Shader::editShader(const std::string &_toFind, const std::string &_edit)
   {
     m_source=pystring::replace(m_source,_toFind.data(),_edit.data());
   }
-  //msg->addMessage(m_source,Colours::YELLOW,TimeFormat::NONE);
+  //NGLMessage::addMessage(m_source,Colours::YELLOW,TimeFormat::NONE);
   const char* data=m_source.c_str();
   glShaderSource(m_shaderHandle , 1, &data,nullptr);
   m_compiled=false;
@@ -141,13 +141,13 @@ void Shader::load(const std::string &_name ) noexcept
   // see if we already have some source attached
   if(!m_source.empty())
   {
-    msg->addWarning("deleting existing source code\n");
+    NGLMessage::addWarning("deleting existing source code\n");
     m_source.clear();
   }
   std::ifstream shaderSource(_name.data());
   if (!shaderSource.is_open())
   {
-   msg->addError(fmt::format("File not found {0}",_name.data()));
+   NGLMessage::addError(fmt::format("File not found {0}",_name.data()));
    exit(EXIT_FAILURE);
   }
   // now read in the data
@@ -171,7 +171,7 @@ void Shader::loadFromString(const std::string &_string ) noexcept
   // see if we already have some source attached
   if(m_source.size()!=0)
   {
-    msg->addWarning("deleting existing source code\n");
+    NGLMessage::addWarning("deleting existing source code\n");
     m_source.clear();
   }
 
