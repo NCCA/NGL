@@ -63,8 +63,8 @@ void NGLInit::initialize()
 #endif
   NGLMessage::drawLine(Colours::YELLOW);
   NGLMessage::addMessage("NGL configured with ", Colours::NORMAL, TimeFormat::TIME);
-  NGLMessage::addMessage(fmt::format("OpenGL {0}", glGetString(GL_VERSION)));
-  NGLMessage::addMessage(fmt::format("GLSL version {0}", glGetString(GL_SHADING_LANGUAGE_VERSION)));
+  NGLMessage::addMessage(fmt::format("OpenGL {0}", static_cast< const unsigned char * >(glGetString(GL_VERSION))));
+  NGLMessage::addMessage(fmt::format("GLSL version {0}", static_cast< const unsigned char * >(glGetString(GL_SHADING_LANGUAGE_VERSION))));
   NGLMessage::drawLine(Colours::YELLOW);
 
   VAOFactory::registerVAOCreator(simpleVAO, SimpleVAO::create);
