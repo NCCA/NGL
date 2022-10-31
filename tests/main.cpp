@@ -1,7 +1,7 @@
+#include <ngl/NGLInit.h>
 #include <GLFW/glfw3.h>
 #include <array>
 #include <gtest/gtest.h>
-#include <ngl/NGLInit.h>
 #include <string>
 #ifndef WIN32
 #include <getopt.h>
