@@ -21,7 +21,7 @@ jobs:
       
       - run : 
           name : Build NGL
-          command : 'cd NGL && git checkout main && cd mkdir build && cd build && cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake  -DNO_OIIO=1 .. && make -j2'
+          command : 'cd NGL &&  mkdir build && cd build && cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake  -DNO_OIIO=1 .. && make -j2'
       - run :
           name : NGL c++ Tests
           command : 'cd //root/project/NGL/build && ./NGLTests -g'
