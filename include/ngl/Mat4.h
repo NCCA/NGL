@@ -156,14 +156,14 @@ class NGL_DLLEXPORT Mat4
   /// @param[in] _deg the value to be rotated by in degrees
   /// @returns Mat4
   //----------------------------------------------------------------------------------------------------------------------
-  static Mat4 rotateX(const Real _deg) noexcept;
+  [[nodiscard]] static Mat4 rotateX(const Real _deg) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief return a matrix rotated around the y
   /// note the matrix should be set to identity before doing this
   /// @param[in] _deg the value to be rotated by in degrees
   /// @returns Mat4
   //----------------------------------------------------------------------------------------------------------------------
-  static Mat4 rotateY(const Real _deg) noexcept;
+  [[nodiscard]] static Mat4 rotateY(const Real _deg) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief return a matrix rotated around the Z axis
@@ -171,7 +171,7 @@ class NGL_DLLEXPORT Mat4
   /// @param[in] _deg the value to be rotated by in degrees
   /// @returns Mat4
   //----------------------------------------------------------------------------------------------------------------------
-  static Mat4 rotateZ(const Real _deg) noexcept;
+  [[nodiscard]] static Mat4 rotateZ(const Real _deg) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief return the matrix as a scale
   /// @param[in] _x the scale value in the _x
@@ -179,7 +179,7 @@ class NGL_DLLEXPORT Mat4
   /// @param[in] _z the scale value in the _z
   /// @returns Mat4
   //----------------------------------------------------------------------------------------------------------------------
-  static Mat4 scale(const Real _x, const Real _y, const Real _z) noexcept;
+  [[nodiscard]] static Mat4 scale(const Real _x, const Real _y, const Real _z) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief return a matrix as a translation matrix
   /// @param[in] _x the _x translation value
@@ -187,7 +187,7 @@ class NGL_DLLEXPORT Mat4
   /// @param[in] _z the _z translation value
   /// @returns Mat4
   //----------------------------------------------------------------------------------------------------------------------
-  static Mat4 translate(const Real _x, const Real _y, const Real _z) noexcept;
+  [[nodiscard]] static Mat4 translate(const Real _x, const Real _y, const Real _z) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the determinant of the matrix
   /// @returns the determinat

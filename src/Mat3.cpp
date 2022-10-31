@@ -255,7 +255,7 @@ const Mat3 &Mat3::transpose() noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Mat3 Mat3::rotateX(Real _deg) noexcept
+[[nodiscard]] Mat3 Mat3::rotateX(Real _deg) noexcept
 {
   Mat3 m;
   Real beta = radians(_deg);
@@ -269,7 +269,7 @@ Mat3 Mat3::rotateX(Real _deg) noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Mat3 Mat3::rotateY(Real _deg) noexcept
+[[nodiscard]] Mat3 Mat3::rotateY(Real _deg) noexcept
 {
   Mat3 m;
   Real beta = radians(_deg);
@@ -283,7 +283,7 @@ Mat3 Mat3::rotateY(Real _deg) noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Mat3 Mat3::rotateZ(Real _deg) noexcept
+[[nodiscard]] Mat3 Mat3::rotateZ(Real _deg) noexcept
 {
   Mat3 m;
   Real beta = radians(_deg);
@@ -297,7 +297,7 @@ Mat3 Mat3::rotateZ(Real _deg) noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Mat3 Mat3::scale(Real _x, Real _y, Real _z) noexcept
+[[nodiscard]] Mat3 Mat3::scale(Real _x, Real _y, Real _z) noexcept
 {
   Mat3 m;
   m.m_00 = _x;

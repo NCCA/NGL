@@ -181,7 +181,7 @@ const Mat2 &Mat2::transpose() noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Mat2 Mat2::rotate(Real _deg) noexcept
+[[nodiscard]] Mat2 Mat2::rotate(Real _deg) noexcept
 {
   Mat2 m;
   Real beta = radians(_deg);
@@ -195,7 +195,7 @@ Mat2 Mat2::rotate(Real _deg) noexcept
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-Mat2 Mat2::scale(Real _x, Real _y) noexcept
+[[nodiscard]] Mat2 Mat2::scale(Real _x, Real _y) noexcept
 {
   Mat2 m;
   m.m_00 = _x;
