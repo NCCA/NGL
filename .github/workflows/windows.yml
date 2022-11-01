@@ -29,4 +29,6 @@ jobs:
     - name: Test
       run: |
         cd build/Debug
+        Get-Location
+        ls
         NGLTests.exe -g
