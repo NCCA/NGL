@@ -28,6 +28,5 @@ jobs:
         cmake --build . 
     - name: Test
       run: |
-        cd build
-        cd Debug
-        NGLTests -g
+        cd build/Debug
+        ./NGLTests.exe -g
