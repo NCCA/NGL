@@ -43,13 +43,28 @@ cd vcpkg
 .\vcpkg install gtest
 .\vcpkg install glm
 .\vcpkg install glfw3
-.\vcpkg install openimageio
+.\vcpkg install gl3w
 .\vcpkg install rapidjson
 .\vcpkg install rapidxml
 .\vcpkg install fmt
 .\vcpkg install freetype
+```
+Optionally if you wish the more powerful OpenImageIO image loading / control you can add 
+
+```
+.\vcpkg install openimageio
+```
+
+The cmake file will auto detect this install and use it.
+
+If you wish to install the python binding you can  add 
+
+```
 .\vcpkg install pybind11
 ```
+
+
+
 
 ## Building NGL
 

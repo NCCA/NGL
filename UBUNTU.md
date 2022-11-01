@@ -21,15 +21,21 @@ cd vcpkg
 .\vcpkg install gtest
 .\vcpkg install glm
 .\vcpkg install glfw3
+.\vcpkg install gl3w
+.\vcpkg install rapidjson
+.\vcpkg install rapidxml
+.\vcpkg install fmt
+.\vcpkg install freetype
 ```
 
-
-## Setting up pkg-config
-
-To setup the vcpkg tools for working with pkg-config add the following to the .bashrc
+We can now download and clone the NGL repo.
 
 ```
-export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOME/vcpkg/installed/x64-linux/lib
-
+git clone git@github.com:/NCCA/NGL ~/NGLBuild
+cd NGLBuild
+mkdir build
+cd build
+cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_INSTALL_PREFIX:PATH=~/NGL/  ..
+make -j 12
+make install
 ```
-NGL should now buld.

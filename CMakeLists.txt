@@ -225,6 +225,7 @@ include(GoogleTest)
 enable_testing()
 
 find_package(glfw3 CONFIG REQUIRED)
+
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 add_executable(NGLTests)
@@ -260,6 +261,8 @@ endif()
 target_include_directories(NGLTests PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 target_include_directories(NGLTests PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
 target_link_libraries(NGLTests PRIVATE freetype)
+target_link_libraries(NGLTests PRIVATE unofficial::gl3w::gl3w)
+
 
 
 
