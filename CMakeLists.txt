@@ -290,13 +290,13 @@ target_link_libraries(NGLTests PRIVATE  NGL PRIVATE ${EXTRALIBS} )
 
 endif()
 
-gtest_discover_tests(NGLTests)
+# gtest_discover_tests(NGLTests)
 
 
 add_custom_target(CopyTestfiles ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${CMAKE_SOURCE_DIR}/tests/files
-		${CMAKE_BINARY_DIR}/files
+		${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/files
 		COMMENT "Copy Test files to build directory"
 		)
       

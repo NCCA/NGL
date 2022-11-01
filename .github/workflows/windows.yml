@@ -29,4 +29,5 @@ jobs:
     - name: Test
       run: |
         cd build
+        cd Debug
         NGLTests -g
