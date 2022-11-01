@@ -23,8 +23,8 @@ jobs:
     - name: Build
       run: |
         cd build
-        threads=`nproc`
-        cmake --build .  --parallel $threads
+        
+        cmake --build . 
     - name: Test
       run: |
         cd build

@@ -4,7 +4,7 @@
 
 For the current build status see our CI logs here 
 
-[![linux](https://github.com/NCCA/NGL/actions/workflows/linux.yml/badge.svg?branch=main)](https://github.com/NCCA/NGL/actions/workflows/linux.yml)
+[![linux](https://github.com/NCCA/NGL/actions/workflows/linux.yml/badge.svg?branch=main)](https://github.com/NCCA/NGL/actions/workflows/linux.yml)[![BuildNGL](https://github.com/NCCA/NGL/actions/workflows/mac.yml/badge.svg)](https://github.com/NCCA/NGL/actions/workflows/mac.yml)
 
 [![CircleCI](https://circleci.com/gh/NCCA/NGL.svg?style=svg)](https://circleci.com/gh/NCCA/NGL)
 [Circle CI (g++ latest (8))](https://circleci.com/gh/NCCA)
