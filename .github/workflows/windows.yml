@@ -19,15 +19,14 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DNO_OIIO=1  -DCMAKE_BUILD_TYPE=Debug  ..
+        cmake  -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DNO_OIIO=1  -DCMAKE_BUILD_TYPE=Debug  ..
 
                
     - name: Build
       run: |
-        cd build
-        
+        cd build 
         cmake --build . 
     - name: Test
       run: |
         cd build
-        ./NGLTests -g
+        NGLTests -g
