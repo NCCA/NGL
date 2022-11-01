@@ -7,10 +7,6 @@ jobs:
     runs-on:  macos-latest
     steps:
     - uses: actions/checkout@v2 
-
-    - name : Add System Packages
-      run : |
-        sudo apt-get -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev 
     
     - name: install vcpkg
       run : |
