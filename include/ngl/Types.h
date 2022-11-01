@@ -38,7 +38,7 @@
 #endif
 
 #else
-  #include "gl3w.h"
+  #include <GL/gl3w.h>
 #endif
 */
 
@@ -47,7 +47,7 @@
 #include <OpenGL/gl3ext.h>
 #else
 
-#include "gl3w.h"
+#include <GL/gl3w.h>
 #endif
 #include "fmt/format.h"
 

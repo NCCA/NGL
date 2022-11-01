@@ -17,7 +17,7 @@ jobs:
         git clone --depth 1  https://github.com/microsoft/vcpkg ~/vcpkg 
         cd ~/vcpkg 
         ./bootstrap-vcpkg.sh
-        ./vcpkg install glfw3  gtest fmt freetype glm  rapidjson rapidxml 
+        ./vcpkg install glfw3  gl3w gtest fmt freetype glm  rapidjson rapidxml 
     - name: Configure
       run: |
         mkdir build
