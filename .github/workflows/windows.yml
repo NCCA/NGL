@@ -20,7 +20,6 @@ jobs:
         mkdir build
         cd build
         cmake  -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DNO_OIIO=1  -DCMAKE_BUILD_TYPE=Debug  ..
-
                
     - name: Build
       run: |
@@ -30,6 +29,4 @@ jobs:
       run: |
         cd build
         cd Debug
-        Get-Location
-        ls
-        NGLTests.exe -g
+        ./NGLTests -g
