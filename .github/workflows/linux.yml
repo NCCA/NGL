@@ -8,22 +8,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2 
 
-    # - name : Add System Packages
-    #   run : |
-    #     sudo apt-get -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev 
+    - name : Add System Packages
+      run : |
+        sudo apt-get -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev 
     
-    # - name: install vcpkg
-    #   run : |
-    #     git clone --depth 1  https://github.com/microsoft/vcpkg ~/vcpkg 
-    #     cd ~/vcpkg 
-    #     ./bootstrap-vcpkg.sh
-    #     ./vcpkg install glfw3  gtest fmt freetype glm  rapidjson rapidxml 
+    - name: install vcpkg
+      run : |
+        git clone --depth 1  https://github.com/microsoft/vcpkg ~/vcpkg 
+        cd ~/vcpkg 
+        ./bootstrap-vcpkg.sh
+        ./vcpkg install glfw3  gtest fmt freetype glm  rapidjson rapidxml 
     - name: Configure
       run: |
         mkdir build
         cd build
         pwd
-        cmake  -DNO_OIIO=1 .. \
+        cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 .. \
                
     - name: Build
       working-directory: ${{runner.workspace}}/build
