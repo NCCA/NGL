@@ -1,4 +1,4 @@
-name: BuildNGL
+name: NGL Linux
 
 on: [push, pull_request]
 

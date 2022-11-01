@@ -1,4 +1,4 @@
-name: BuildNGL
+name: NGL Windows
 
 on: [push, pull_request]
 
