@@ -80,7 +80,6 @@ class NGLMessage
   std::string getTimeString(const TimeFormat &_t) const;
   std::string getColourString(const Colours &_colour) const;
   std::string m_timeString = "%I:%M%p";
-  Colours m_activeColour = Colours::NORMAL;
   static Colours s_currentColour;
   static std::ofstream s_logFile;
 };

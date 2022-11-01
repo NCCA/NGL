@@ -20,6 +20,7 @@ project(AllNGL VERSION 8.0 LANGUAGES CXX C)
 
 find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
+find_package(gl3w CONFIG REQUIRED)
 find_package(OpenMP)
 find_package(OpenImageIO CONFIG)
 if ( OpenImageIO_FOUND AND  (NOT NO_OIIO AND NOT USE_QT))
@@ -27,14 +28,14 @@ if ( OpenImageIO_FOUND AND  (NOT NO_OIIO AND NOT USE_QT))
     add_compile_definitions(USEOIIO)
     find_package(IlmBase CONFIG )
     find_package(OpenEXR CONFIG )
-elseif(NO_OIIO)
-    message("Using Simpler Built-in Image Loaders only PNG,TIFF and EXR supported")
-    add_compile_definitions(USEBUILTINIMAGE)
 elseif(USE_QT)
     message("Using Qt for Image and Font to avoid lib png bug")
     add_compile_definitions(USEQIMAGE)
     find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Gui)
     find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui)
+else()
+    message("Using Simpler Built-in Image Loaders only PNG,TIFF and EXR supported")
+    add_compile_definitions(USEBUILTINIMAGE)
 endif() # end of using OpenImageIO
 
 
@@ -72,7 +73,6 @@ endif()
 include_directories(${CMAKE_SOURCE_DIR}/include/ngl)
 include_directories(${CMAKE_SOURCE_DIR}/src/ngl)
 include_directories(${CMAKE_SOURCE_DIR}/src/shaders)
-include_directories(${CMAKE_SOURCE_DIR}/gl3w)
 include_directories(/usr/local/include/)
 
 add_compile_definitions(ADDLARGEMODELS)
@@ -88,8 +88,6 @@ install(TARGETS NGL DESTINATION lib CONFIGURATIONS Release)
 install(TARGETS NGL DESTINATION lib)
 
 install(DIRECTORY   ${CMAKE_SOURCE_DIR}/include/ngl/ DESTINATION include/ngl)
-install(FILES   ${CMAKE_SOURCE_DIR}/gl3w/gl3w.h DESTINATION include/ngl)
-install(FILES   ${CMAKE_SOURCE_DIR}/gl3w/glcorearb.h DESTINATION include/ngl)
 
 if ( NO_OIIO)
     install(FILES   ${CMAKE_SOURCE_DIR}/NGLConfigNOOIIO.cmake RENAME NGLConfig.cmake DESTINATION ./)
@@ -136,9 +134,6 @@ target_sources(NGL PRIVATE
     ${CMAKE_SOURCE_DIR}/src/Types.cpp
     ${CMAKE_SOURCE_DIR}/src/pystring.cpp
     ${CMAKE_SOURCE_DIR}/src/NGLMessage.cpp 
-    ${CMAKE_SOURCE_DIR}/gl3w/gl3w.c
-    ${CMAKE_SOURCE_DIR}/gl3w/gl3w.h
-    ${CMAKE_SOURCE_DIR}/gl3w/glcorearb.h
     ${CMAKE_SOURCE_DIR}/include/ngl/Vec4.h
     ${CMAKE_SOURCE_DIR}/include/ngl/VAOPrimitives.h
     ${CMAKE_SOURCE_DIR}/include/ngl/VAOFactory.h
@@ -204,6 +199,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BUILD_DIR})
 
 target_link_libraries(NGL PRIVATE glm::glm)
 target_link_libraries(NGL PRIVATE fmt::fmt-header-only)
+target_link_libraries(NGL PRIVATE unofficial::gl3w::gl3w)
 target_link_libraries(NGL PRIVATE ${EXTRALIBS})
 if ( OpenImageIO_FOUND AND  (NOT NO_OIIO AND NOT USE_QT))
     find_package(OpenMP)
@@ -385,9 +381,6 @@ target_sources(pyngl PRIVATE
     ${PYSOURCEDIR}/PyVec4.cpp
     ${PYSOURCEDIR}/PyNCCAPointBake.cpp   
     ${PYSOURCEDIR}/PySimpleVAO.cpp
-   ${CMAKE_SOURCE_DIR}/gl3w/gl3w.c
-   ${CMAKE_SOURCE_DIR}/gl3w/gl3w.h
-   ${CMAKE_SOURCE_DIR}/gl3w/glcorearb.h
    ${CMAKE_SOURCE_DIR}/include/ngl/Vec4.h
    ${CMAKE_SOURCE_DIR}/include/ngl/VAOPrimitives.h
    ${CMAKE_SOURCE_DIR}/include/ngl/VAOFactory.h
@@ -451,6 +444,7 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_SOURCE_
 target_link_libraries(pyngl PRIVATE   pybind11::module)
 target_link_libraries(pyngl PRIVATE glm::glm)
 target_link_libraries(pyngl PRIVATE fmt::fmt-header-only)
+target_link_libraries(pyngl PRIVATE unofficial::gl3w::gl3w)
 target_link_libraries(pyngl PRIVATE ${PROJECT_LINK_LIBS} ${EXTRALIBS})
 if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
     target_link_libraries(pyngl PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)

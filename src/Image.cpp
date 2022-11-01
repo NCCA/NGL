@@ -30,6 +30,14 @@
 #include <OpenImageIO/imageio.h>
 #endif
 
+#if defined(USEBUILTINIMAGE)
+#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+
+#include "../3rdparty/stb_image.h"
+#include "../3rdparty/stb_image_write.h"
+#endif
+
 #include <iostream>
 
 namespace ngl
@@ -163,6 +171,17 @@ void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int
   output.depth(16);
   // write the file
   output.write(_fname.c_str());
+#endif
+
+#if defined(USEBUILTINIMAGE)
+
+  stbi_write_png(_fname.c_str(), _width, _height, size, data.get(), _width * size);
+  // Magick::Image output(realWidth, realHeight, size == 3 ? "RGB" : "RGBA", Magick::CharPixel, data.get());
+
+  // // set the output image depth to 16 bit
+  // output.depth(16);
+  // // write the file
+  // output.write(_fname.c_str());
 #endif
 }
 
@@ -318,8 +337,8 @@ bool Image::load(const std::string &_fname) noexcept
 
 #ifdef USEBUILTINIMAGE
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "../3rdparty/stb_image.h"
+// #define STB_IMAGE_IMPLEMENTATION
+// #include "../3rdparty/stb_image.h"
 bool Image::load(const std::string &_fname) noexcept
 {
   const char *fname = _fname.c_str();
@@ -332,7 +351,6 @@ bool Image::load(const std::string &_fname) noexcept
 #endif
   if(img != NULL)
   {
-    //  std::cout<<"Loading "<<fname<<" w "<<w<<" h "<<h<<" ch "<<ch<<'\n';
     NGLMessage::addMessage(fmt::format("loaded {} Width {} Height {} Channels {}", fname, w, h, ch));
     m_width = w;
     m_height = h;
