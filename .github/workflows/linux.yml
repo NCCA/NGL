@@ -32,5 +32,6 @@ jobs:
         cmake --build . --config ${{matrix.build_type}} --parallel $threads
     - name: Test
       working-directory: ${{runner.workspace}}/build
-      cd build
-      run: NGLTests -g
+      run: |
+        cd build
+        ./NGLTests -g
