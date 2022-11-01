@@ -4,15 +4,10 @@ on: [push, pull_request]
 
 jobs:
   build:
-    strategy:
-      matrix:
-        platform: [ ubuntu-latest]
-    runs-on: ${{ matrix.platform }}
+    runs-on:  ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-    
+    - uses: actions/checkout@v2 
+
     # - name : Add System Packages
     #   run : |
     #     sudo apt-get -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev 
@@ -24,7 +19,6 @@ jobs:
     #     ./bootstrap-vcpkg.sh
     #     ./vcpkg install glfw3  gtest fmt freetype glm  rapidjson rapidxml 
     - name: Configure
-      working-directory: ${{runner.workspace}}/
       run: |
         mkdir build
         cd build
