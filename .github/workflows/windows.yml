@@ -14,7 +14,7 @@ jobs:
         git clone --depth 1  https://github.com/microsoft/vcpkg $HOME/vcpkg 
         cd $HOME/vcpkg 
         bootstrap-vcpkg.bat
-        vcpkg install glfw3 gtest fmt freetype glm  rapidjson rapidxml  
+        vcpkg install glfw3:x64-windows gtest:x64-windows fmt:x64-windows freetype:x64-windows glm:x64-windows  rapidjson:x64-windows rapidxml:x64-windows  
     - name: Configure
       run: |
         mkdir build
