@@ -1,7 +1,7 @@
-#include <ngl/NGLInit.h>
 #include <GLFW/glfw3.h>
 #include <array>
 #include <gtest/gtest.h>
+#include <ngl/NGLInit.h>
 #include <string>
 #ifndef WIN32
 #include <getopt.h>
@@ -56,7 +56,6 @@ void Environment::SetUp()
     // whilst we will do this in a test, best to make sure we have a valid context here
     // incase we run isolated tests on just GL elements
     ngl::NGLInit::initialize();
-    //      ngl::NGLInit::instance()->setCommunicationMode(ngl::CommunicationMode::STDERR);
   }
 }
 
@@ -85,7 +84,7 @@ int main(int argc, char **argv)
   const option longOpts[] = {
     {"noGL", no_argument, nullptr, 'g'}};
 
-  // parse command line arguments to see if we fun GL tests
+  // parse command line arguments to see if we have GL tests
   // can't run these via ssh or CI as no GPU
   while(true)
   {
@@ -98,7 +97,14 @@ int main(int argc, char **argv)
         break;
     }
   }
+#else
+  if(argc > 1)
+  {
+    if(std::string(argv[1]) == "-g")
+      useOpenGL = false;
+  }
 #endif
+
   ::testing::AddGlobalTestEnvironment(new Environment(useOpenGL));
   if(useOpenGL == false)
   {
