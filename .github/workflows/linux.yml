@@ -13,12 +13,12 @@ jobs:
       with:
         submodules: 'recursive'
     - name: Run vcpkg
-      uses: lukka/run-vcpkg@v4
+      uses: lukka/run-vcpkg@v10
       with:
         vcpkgArguments: 'glfw3  gtest fmt freetype glm  rapidjson rapidxml'
         vcpkgDirectory: '${{ github.workspace }}/vcpkg'
 
-        - name: Configure
+    - name: Configure
       working-directory: ${{runner.workspace}}/build
       env:
         CXX: ${{matrix.cxx}}
