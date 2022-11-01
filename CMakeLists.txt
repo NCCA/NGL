@@ -283,8 +283,8 @@ endif()
 
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	link_directories(  )
-	target_link_libraries( NGLTests PRIVATE ${CMAKE_BINARY_DIR}/NGL.lib )
+    message("On Windows " ${CMAKE_BINARY_DIR})
+	target_link_libraries( NGLTests PRIVATE ${CMAKE_BINARY_DIR}/build/NGL.lib )
 else()
 target_link_libraries(NGLTests PRIVATE  NGL PRIVATE ${EXTRALIBS} )
 
