@@ -33,4 +33,4 @@ jobs:
     - name: Test
       working-directory: ${{runner.workspace}}/build
       cd build
-      run: ./NGLTests -g
+      run: NGLTests -g
