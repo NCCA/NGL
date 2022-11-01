@@ -25,13 +25,11 @@ jobs:
         cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 .. \
                
     - name: Build
-      working-directory: ${{runner.workspace}}/build
       run: |
         cd build
         threads=`nproc`
-        cmake --build . --config ${{matrix.build_type}} --parallel $threads
+        cmake --build .  --parallel $threads
     - name: Test
-      working-directory: ${{runner.workspace}}/build
       run: |
         cd build
         ./NGLTests -g
