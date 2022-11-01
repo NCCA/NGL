@@ -26,7 +26,6 @@ jobs:
                
     - name: Build
       run: |
-        cd build
         threads=`nproc`
         cmake --build .  --parallel $threads
     - name: Test
