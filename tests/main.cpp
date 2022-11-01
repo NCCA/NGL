@@ -1,11 +1,10 @@
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 #include <array>
 #include <gtest/gtest.h>
 #include <ngl/NGLInit.h>
 #include <string>
-#ifndef WIN32
-#include <getopt.h>
-#endif
+
 class Environment : public ::testing::Environment
 {
     public:
@@ -78,32 +77,11 @@ int main(int argc, char **argv)
 {
   bool useOpenGL = true;
   testing::InitGoogleTest(&argc, argv);
-
-#ifndef WIN32
-  const char *const shortOpts = "g";
-  const option longOpts[] = {
-    {"noGL", no_argument, nullptr, 'g'}};
-
-  // parse command line arguments to see if we have GL tests
-  // can't run these via ssh or CI as no GPU
-  while(true)
-  {
-    const auto opt = getopt_long(argc, argv, shortOpts, longOpts, nullptr);
-    if(opt == -1) break; // no opts
-    switch(opt)
-    {
-      case 'g':
-        useOpenGL = false;
-        break;
-    }
-  }
-#else
   if(argc > 1)
   {
     if(std::string(argv[1]) == "-g")
       useOpenGL = false;
   }
-#endif
 
   ::testing::AddGlobalTestEnvironment(new Environment(useOpenGL));
   if(useOpenGL == false)
