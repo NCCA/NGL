@@ -12,13 +12,12 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: 'recursive'
-    - name: Run vcpkg
-      uses: lukka/run-vcpkg@v10
-      with:
-        runVcpkgInstall: 'glfw3  gtest fmt freetype glm  rapidjson rapidxml'
-        vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-        vcpkgGitCommitId: e809a42f87565e803b2178a0c11263f462d1800a
-
+    - name: install vcpkg
+      run : |
+        git clone --depth 1  https://github.com/microsoft/vcpkg ~/vcpkg 
+        cd ~/vcpkg 
+        ./bootstrap-vcpkg.sh
+        ./vcpkg install glfw3  gtest fmt freetype glm  rapidjson rapidxml 
     - name: Configure
       working-directory: ${{runner.workspace}}/build
       env:
