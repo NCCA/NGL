@@ -24,7 +24,6 @@ jobs:
     #     ./bootstrap-vcpkg.sh
     #     ./vcpkg install glfw3  gtest fmt freetype glm  rapidjson rapidxml 
     - name: Configure
-    - uses: actions/checkout@v2
       working-directory: ${{runner.workspace}}/build
       run: |
         cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 .. \
