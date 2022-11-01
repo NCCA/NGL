@@ -18,7 +18,8 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake -DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 .. \
+        cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DNO_OIIO=1  -DCMAKE_BUILD_TYPE=Debug  ..
+
                
     - name: Build
       run: |
