@@ -12,6 +12,11 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: 'recursive'
+    
+    - name : Add System Packages
+      run : |
+      sudo apt-get install -y  libglfw3-dev qtbase5-dev  libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev 
+    
     - name: install vcpkg
       run : |
         git clone --depth 1  https://github.com/microsoft/vcpkg ~/vcpkg 
