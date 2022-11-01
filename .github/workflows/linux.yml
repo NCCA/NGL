@@ -26,6 +26,8 @@ jobs:
         CXX: ${{matrix.cxx}}
         CXXFLAGS: ${{matrix.cxxflags}}
       run: |
+        mkdir build 
+        cd build
         cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}}  \
                -DNO_OIIO=1 \
                $GITHUB_WORKSPACE
