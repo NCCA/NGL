@@ -15,7 +15,7 @@ jobs:
     
     - name : Add System Packages
       run : |
-      sudo yum install -y  libglfw3-dev qtbase5-dev  libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev 
+      sudo apt-get -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev 
     
     - name: install vcpkg
       run : |
