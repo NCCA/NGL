@@ -25,12 +25,8 @@ jobs:
         ./vcpkg install glfw3  gtest fmt freetype glm  rapidjson rapidxml 
     - name: Configure
       working-directory: ${{runner.workspace}}/build
-      env:
-        CXX: ${{matrix.cxx}}
-        CXXFLAGS: ${{matrix.cxxflags}}
       run: |
-        cmake -DCMAKE_BUILD_TYPE=${{matrix.build_type}}  \
-               -DNO_OIIO=1 .. \
+        cmake -DNO_OIIO=1 .. \
                
     - name: Build
       working-directory: ${{runner.workspace}}/build
