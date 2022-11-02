@@ -1,4 +1,4 @@
-name: NGL Linux
+name: PyNGL Linux
 
 on: [push, pull_request]
 

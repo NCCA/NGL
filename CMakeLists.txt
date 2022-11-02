@@ -165,11 +165,6 @@ set(HEADERS
 )
 
 if(NOT DEFINED PYNGL_ONLY)
-    install(TARGETS NGL DESTINATION lib CONFIGURATIONS Release)
-    install(TARGETS NGL DESTINATION lib)
-
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ngl/ DESTINATION include/ngl)
-
     if(NO_OIIO)
         install(FILES ${CMAKE_SOURCE_DIR}/NGLConfigNOOIIO.cmake RENAME NGLConfig.cmake DESTINATION ./)
     else()
@@ -183,6 +178,10 @@ if(NOT DEFINED PYNGL_ONLY)
     endif()
 
     target_sources(NGL PRIVATE ${CPP_FILES} ${HEADERS})
+    install(TARGETS NGL DESTINATION lib CONFIGURATIONS Release)
+    install(TARGETS NGL DESTINATION lib)
+
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ngl/ DESTINATION include/ngl)
 
     # see what platform we are on and set platform defines
     if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
