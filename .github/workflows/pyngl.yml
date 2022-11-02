@@ -31,6 +31,9 @@ jobs:
         cmake --build .  --parallel $threads
     - name: Test
       run: |
+        pwd
+        cd ..
         cp build/*.so ./PyNGL/
         cd PyNGL/tests
+        ls
         python -m unittest test_Mat2.py test_Mat3.py test_Mat4.py test_Obj.py test_Quaternion.py test_Random.py test_Util.py test_Vec2.py test_Vec3.py test_Vec4.py
