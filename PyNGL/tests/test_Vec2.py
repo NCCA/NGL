@@ -1,12 +1,9 @@
-#!/usr/bin/python
-import sys
-if sys.version_info.major == 3 :
-  import pyngl as pyngl
-else :
-  import pyngl
-
-import unittest
+#!/usr/bin/env python
 import ctypes
+import sys
+import unittest
+
+import pyngl as pyngl
 
 # Note all pyngl types use internal fuzzy float equality operators
 

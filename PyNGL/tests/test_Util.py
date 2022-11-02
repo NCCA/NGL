@@ -1,16 +1,12 @@
-#!/usr/bin/python
-import sys
-if sys.version_info.major == 3 :
-  import pyngl as pyngl
-else :
-  import pyngl
-
+#!/usr/bin/env python
+import importlib
 import unittest
-import imp
+
+import pyngl as pyngl
+
 try:
-    imp.find_module('glm')
-    useGLM = True
     import glm
+    useGLM = True
 except ImportError:
     useGLM = False
 

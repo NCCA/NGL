@@ -1,12 +1,10 @@
-#!/usr/bin/python
-import sys
-if sys.version_info.major == 3 :
-  import pyngl as pyngl
-else :
-  import pyngl
-
-import unittest
+#!/usr/bin/env python
 import os
+import sys
+import unittest
+
+import pyngl as pyngl
+
 # directory  with test files in (use same as C++ tests for ease)
 sourcedir='../../tests/files/'
 
