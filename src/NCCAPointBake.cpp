@@ -79,7 +79,7 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
     m_numFrames=std::stoul(child->value());
     NGLMessage::addMessage(fmt::format("NumFrames  {0}",m_numFrames));
   }
-  catch (std::invalid_argument)
+  catch (std::invalid_argument const &)
   {
     NGLMessage::addError("error reading PointBake File");
     return false;
@@ -120,7 +120,7 @@ bool NCCAPointBake::loadPointBake(const std::string &_fileName) noexcept
         float z=std::stof(tokens[2]);
         m_data[CurrentFrame][index].set(x,y,z);
       }
-      catch (std::invalid_argument)
+      catch (std::invalid_argument const &)
       {
         NGLMessage::addError("error converting buffer");
         NGLMessage::addError(fmt::format("{0} size {1} ",lineBuffer,tokens.size()));

@@ -1,0 +1,35 @@
+name: NGL Linux
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on:  ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2 
+
+    - name : Add System Packages
+      run : |
+        sudo apt-get -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev python3-devel
+    
+    - name: install vcpkg
+      run : |
+        git clone --depth 1  https://github.com/microsoft/vcpkg ~/vcpkg 
+        cd ~/vcpkg 
+        ./bootstrap-vcpkg.sh
+        ./vcpkg install glfw3  gl3w gtest fmt freetype glm  rapidjson rapidxml 
+    - name: Configure
+      run: |
+        mkdir build
+        cd build
+        cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 -DPYNGL_ONLY=1 .. \
+               
+    - name: Build
+      run: |
+        cd build
+        threads=`nproc`
+        cmake --build .  --parallel $threads
+    - name: Test
+      run: |
+        cd build
+        ls
