@@ -8,6 +8,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2 
 
+    -name : Determine Python versions
+      run : |
+        python -V
+        python3 -V
+
     - name : Add System Packages
       run : |
         sudo apt-get -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev python-dev
