@@ -36,6 +36,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	set(EXTRALIBS  ${MACGL})
 
   add_definitions(-DGL_SILENCE_DEPRECATION)
+	add_definitions(-DGL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED)
 	set ( PROJECT_LINK_LIBS ${MACGL} NGL)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	include_directories(include ${NGL_HOME}/include)
