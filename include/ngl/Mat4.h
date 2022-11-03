@@ -232,7 +232,7 @@ class NGL_DLLEXPORT Mat4
   /// @param[in] _y part of the axis should be normalised before call
   /// @param[in] _z part of the axis  should be normalised before call
   //----------------------------------------------------------------------------------------------------------------------
-  void euler(const Real _angle, const Real _x, const Real _y, const Real _z) noexcept;
+  [[nodiscard]] static Mat4 euler(const Real _angle, const Real _x, const Real _y, const Real _z) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to the openGL matrix
   /// @returns a pointer to m_openGL[0]

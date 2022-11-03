@@ -428,7 +428,7 @@ Real Mat4::determinant() const noexcept
 }
 
 //------------------------------------------------------------------------------
-void Mat4::euler(const Real _angle, const Real _x, const Real _y, const Real _z) noexcept
+Mat4 Mat4::euler(const Real _angle, const Real _x, const Real _y, const Real _z) noexcept
 {
   // Axis and Angle matrix rotation see
   // http://en.wikipedia.org/wiki/Rotation_matrix for more details
@@ -441,16 +441,17 @@ void Mat4::euler(const Real _angle, const Real _x, const Real _y, const Real _z)
   Real x = norm.m_x;
   Real y = norm.m_y;
   Real z = norm.m_z;
-
-  m_m[0][0] = OneMinusCosTheta * (x * x) + cosTheta;
-  m_m[0][1] = OneMinusCosTheta * (x * y) - (z * sinTheta);
-  m_m[0][2] = OneMinusCosTheta * (x * z) + (y * sinTheta);
-  m_m[1][0] = OneMinusCosTheta * (x * y) + (z * sinTheta);
-  m_m[1][1] = OneMinusCosTheta * (y * y) + cosTheta;
-  m_m[1][2] = OneMinusCosTheta * (y * z) - (x * sinTheta);
-  m_m[2][0] = OneMinusCosTheta * (x * z) - (y * sinTheta);
-  m_m[2][1] = OneMinusCosTheta * (y * z) + (x * sinTheta);
-  m_m[2][2] = OneMinusCosTheta * (z * z) + cosTheta;
+  Mat4 m;
+  m.m_m[0][0] = OneMinusCosTheta * (x * x) + cosTheta;
+  m.m_m[0][1] = OneMinusCosTheta * (x * y) - (z * sinTheta);
+  m.m_m[0][2] = OneMinusCosTheta * (x * z) + (y * sinTheta);
+  m.m_m[1][0] = OneMinusCosTheta * (x * y) + (z * sinTheta);
+  m.m_m[1][1] = OneMinusCosTheta * (y * y) + cosTheta;
+  m.m_m[1][2] = OneMinusCosTheta * (y * z) - (x * sinTheta);
+  m.m_m[2][0] = OneMinusCosTheta * (x * z) - (y * sinTheta);
+  m.m_m[2][1] = OneMinusCosTheta * (y * z) + (x * sinTheta);
+  m.m_m[2][2] = OneMinusCosTheta * (z * z) + cosTheta;
+  return m;
 }
 
 void Mat4::as3x3Array(Real _d[9]) const noexcept
