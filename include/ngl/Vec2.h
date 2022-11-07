@@ -25,7 +25,7 @@
 #include "Types.h"
 #include <array>
 #ifdef USEGLM
-  #include <glm/vec2.hpp>
+#include <glm/vec2.hpp>
 #endif
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Vec2.h
@@ -37,7 +37,6 @@
 /// Revision History :
 /// Initial Version 20/6/11
 //----------------------------------------------------------------------------------------------------------------------
-
 
 namespace ngl
 {
@@ -53,56 +52,58 @@ class Mat2;
 class NGL_DLLEXPORT Vec2
 {
 
-public:
-
+    public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief sets the Vec2 component from 3 values
   /// @param[in]  _x the x component
   /// @param[in]  _y the y component
   //----------------------------------------------------------------------------------------------------------------------
-  void set( Real _x, Real _y  ) noexcept;
+  void set(Real _x, Real _y) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set from another  Vec2
   /// @param[in]  _v the Vec2 to set from
   //----------------------------------------------------------------------------------------------------------------------
-  void set(const Vec2& _v ) noexcept;
+  void set(const Vec2 &_v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set from another  Vector
   /// @param[in]  _v the Vec2 to set from
   //----------------------------------------------------------------------------------------------------------------------
-  void set(const Vec4& _v) noexcept;
+  void set(const Vec4 &_v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor
   /// @param[in] _v the value to set
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2( const Vec2& _v)  noexcept :
-        m_x(_v.m_x),
-        m_y(_v.m_y){}
-  #ifdef USEGLM
-    Vec2( const glm::vec2 & _v)  noexcept :
-          m_x(_v.x),
-          m_y(_v.y){}
-    glm::vec2 toGLM() const {return glm::vec2(m_x,m_y);}
-    void set(const glm::vec2 &_r) {m_x=_r.x; m_y=_r.y;}
+  Vec2(const Vec2 &_v) noexcept
+    : m_x(_v.m_x), m_y(_v.m_y)
+  {
+  }
+#ifdef USEGLM
+  Vec2(const glm::vec2 &_v) noexcept
+    : m_x(_v.x), m_y(_v.y)
+  {
+  }
+  glm::vec2 toGLM() const
+  {
+    return glm::vec2(m_x, m_y);
+  }
+  void set(const glm::vec2 &_r)
+  {
+    m_x = _r.x;
+    m_y = _r.y;
+  }
 
-  #endif
-   //----------------------------------------------------------------------------------------------------------------------
+#endif
+  //----------------------------------------------------------------------------------------------------------------------
   /// @brief initialise the constructor from 3 or 4 Real
   /// @param[in]  _x x value
   /// @param[in]  _y y value
   /// @param[in]  _w 1.0f default so acts as a points
   //----------------------------------------------------------------------------------------------------------------------
-   Vec2(Real _x=0.0f, Real _y=0.0f )  noexcept:
-   m_x(_x),
-   m_y(_y){}
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief ctor using a single float all components are set to the value _x
-  /// @param[in] _x the value to set all components
-  //----------------------------------------------------------------------------------------------------------------------
-  Vec2( Real _x  )  noexcept:
-  m_x(_x),
-  m_y(_x){}
+  Vec2(Real _x = 0.0f, Real _y = 0.0f) noexcept
+    : m_x(_x), m_y(_y)
+  {
+  }
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief clears the Vec2 to 0,0,0
@@ -112,26 +113,28 @@ public:
   /// @brief [] index operator to access the index component of the Vec2
   /// @returns  this[x] as a Real
   //----------------------------------------------------------------------------------------------------------------------
-  Real& operator[](const size_t &_i )  noexcept;
+  Real &operator[](const size_t &_i) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief [] index operator to access the index component of the Vec2
   /// @returns  this[x] as a Real
   //----------------------------------------------------------------------------------------------------------------------
 
-  const Real& operator[](const size_t &_i ) const  noexcept{ return m_openGL[_i]; }
-
+  const Real &operator[](const size_t &_i) const noexcept
+  {
+    return m_openGL[_i];
+  }
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief += operator add Vec2 v to current Vec2
   /// @param[in]  &_v Vec2 to add
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 & operator+=(const Vec2 &_v ) noexcept;
+  Vec2 &operator+=(const Vec2 &_v) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief -= operator this-=v
   /// @param[in]  &_v Vec2 to subtract
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 & operator-=( const Vec2& _v ) noexcept;
+  Vec2 &operator-=(const Vec2 &_v) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief returns the length of the vector
@@ -149,49 +152,49 @@ public:
   /// @param[in]  &_v the value to add
   /// @returns the Vec2 + v
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 operator +( const Vec2 &_v  )const noexcept;
+  Vec2 operator+(const Vec2 &_v) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief divide Vec2 components by a scalar
   /// @param[in] _v the scalar to divide by
   /// @returns a Vec2 V(x/v,y/v,z/v,w)
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 operator/( Real _v )const noexcept;
-  Vec2& operator/=( const Vec2& _v ) noexcept;
+  Vec2 operator/(Real _v) const noexcept;
+  Vec2 &operator/=(const Vec2 &_v) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief divide this Vec2 components by a scalar
   /// @param[in] _v the scalar to divide by
   /// sets the Vec2 to Vec2 V(x/v,y/v)
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 & operator/=( Real _v ) noexcept;
+  Vec2 &operator/=(Real _v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief multiply this Vec2 components by a scalar
   /// @param[in] _v the scalar to multiply by
   /// sets the Vec2 to Vec2 V(x*v,y*v)
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 & operator*=( Real _v ) noexcept;
+  Vec2 &operator*=(Real _v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief subtraction operator subtract vevtor-Vec2
   /// @param[in]  &_v the value to sub
   /// @returns this - v
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 operator-( const Vec2& _v  )const noexcept;
+  Vec2 operator-(const Vec2 &_v) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief * operator mult vevtor*Vec2
   /// @param[in]  _v the value to mult
   /// @returns new Vec2 this*v
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 operator*( const Vec2 &_v )const noexcept;
-  Vec2 operator*( const Mat2 &_v )const noexcept;
+  Vec2 operator*(const Vec2 &_v) const noexcept;
+  Vec2 operator*(const Mat2 &_v) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief assignment operator set the current Vec2 to rhs
   /// @param[in] _v the Vec2 to set
   /// @returns a new Vec2
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 &operator =( const Vec2 &_v ) noexcept;
+  Vec2 &operator=(const Vec2 &_v) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief negate the Vec2 components
@@ -202,25 +205,25 @@ public:
   /// @param[in] _v the Vec2 to check against
   /// @returns true or false
   //----------------------------------------------------------------------------------------------------------------------
-  bool operator==( const Vec2 &_v )const noexcept;
+  bool operator==(const Vec2 &_v) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief not equal check
   /// @param[in] _v the Vec2 to check against
   /// @returns true of false
   //----------------------------------------------------------------------------------------------------------------------
-  bool operator!=( const Vec2 &_v )const noexcept;
+  bool operator!=(const Vec2 &_v) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief \ operator div Vec2/Vec2
   /// @param[in]  _v the value to div by
   /// @returns Vec2 / Vec2
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 operator/( const Vec2& _v )const noexcept;
+  Vec2 operator/(const Vec2 &_v) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief this * i for each element
   /// @param[in]  _i the scalar to mult by
   /// @returns Vec2
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2 operator *(  Real _i )const noexcept;
+  Vec2 operator*(Real _i) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Normalize the vector using
   /// \n \f$x=x/\sqrt{x^2+y^2} \f$
@@ -234,17 +237,20 @@ public:
   /// @param[in]  _b vector to dot current vector with
   /// @returns  the dot product
   //----------------------------------------------------------------------------------------------------------------------
-  Real dot( const Vec2 &_b  )const noexcept;
+  Real dot(const Vec2 &_b) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief accesor to the m_openGL matrix returns the address of the 0th element
   //----------------------------------------------------------------------------------------------------------------------
-  Real* openGL() noexcept{return &m_openGL[0];}
+  Real *openGL() noexcept
+  {
+    return &m_openGL[0];
+  }
 
   /// @note I've made this public as some compilers automatically make the
   /// anonymous unions public whereas clang++ complains see this post
   /// http://jonmacey.blogspot.com/2011/03/anonymous-union-struct-weirdness.html
-public :
-#pragma pack(push,1)
+    public:
+#pragma pack(push, 1)
 
 #ifndef BUILDING_DOCS
 #pragma GCC diagnostic push
@@ -267,18 +273,17 @@ public :
     };
 #endif
 #pragma pack(pop)
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief array of four floats mapped to the x,y,z,w components of the Vec2 useful for openGL fv data types
-  /// this is mapped as a union to the following \n
-  /// m_x == m_openGL[0] \n
-  /// m_y == m_openGL[1] \n
-  //----------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief array of four floats mapped to the x,y,z,w components of the Vec2 useful for openGL fv data types
+    /// this is mapped as a union to the following \n
+    /// m_x == m_openGL[0] \n
+    /// m_y == m_openGL[1] \n
+    //----------------------------------------------------------------------------------------------------------------------
 
-  std::array <Real,2> m_openGL;
+    std::array< Real, 2 > m_openGL;
 #ifndef BUILDING_DOCS
   };
 #endif
-
 };
 #pragma GCC diagnostic pop
 
@@ -288,12 +293,10 @@ public :
 /// @param _v the vector value
 /// @returns a vector _k*v
 //----------------------------------------------------------------------------------------------------------------------
-inline Vec2 operator *(Real _k, const Vec2 &_v) noexcept
+inline Vec2 operator*(Real _k, const Vec2 &_v) noexcept
 {
-  return Vec2(_k*_v.m_x, _k*_v.m_y);
+  return Vec2(_k * _v.m_x, _k * _v.m_y);
 }
-
-
 
 } // end namespace ngl
 #endif
