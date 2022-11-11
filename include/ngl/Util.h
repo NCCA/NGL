@@ -20,7 +20,7 @@
 #include "Types.h"
 #include "Vec4.h"
 #include <cmath>
-#include <string>
+#include <string_view>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Util.h
 /// @brief some useful definitions and functions
@@ -30,12 +30,12 @@
 //----------------------------------------------------------------------------------------------------------------------
 constexpr long double operator"" _deg(long double _d)
 {
-    return _d *180.0f / M_PI;
+  return _d * 180.0f / M_PI;
 }
 
 constexpr long double operator"" _rad(long double _d)
 {
-    return (_d /  180.0f) * M_PI;
+  return (_d / 180.0f) * M_PI;
 }
 
 namespace ngl
@@ -49,20 +49,19 @@ namespace ngl
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief  pre-compute the value for value for 2*PI convert to float to suppress windows warning as well
 //----------------------------------------------------------------------------------------------------------------------
-constexpr Real TWO_PI= Real(2*M_PI); //6.28318530717958647692   //360
+constexpr Real TWO_PI = Real(2 * M_PI); // 6.28318530717958647692   //360
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief  pre-compute the value for value for PI based on system M_PI
 //----------------------------------------------------------------------------------------------------------------------
-constexpr Real PI=Real(M_PI); //3.14159265358979323846       //180
+constexpr Real PI = Real(M_PI); // 3.14159265358979323846       //180
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief  pre-compute the value for value for PI/2.0
 //----------------------------------------------------------------------------------------------------------------------
-constexpr Real PI2=Real(M_PI/2.0); //1.57079632679489661923      //90
+constexpr Real PI2 = Real(M_PI / 2.0); // 1.57079632679489661923      //90
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief  pre-compute the value for value for PI/4.0
 //----------------------------------------------------------------------------------------------------------------------
-constexpr Real PI4=Real(M_PI/4.0); //0.785398163397448309615     //45
-
+constexpr Real PI4 = Real(M_PI / 4.0); // 0.785398163397448309615     //45
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief calculates the normal from 3 points and return the new normal as a Vector
@@ -71,7 +70,7 @@ constexpr Real PI4=Real(M_PI/4.0); //0.785398163397448309615     //45
 /// @param[in]  _p3 the third point
 /// @returns  the normal of the 3 points
 //----------------------------------------------------------------------------------------------------------------------
-extern NGL_DLLEXPORT Vec3 calcNormal( const Vec4 &_p1, const Vec4 &_p2,   const Vec4 &_p3   ) noexcept;
+extern NGL_DLLEXPORT Vec3 calcNormal(const Vec4 &_p1, const Vec4 &_p2, const Vec4 &_p3) noexcept;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief calculates the normal from 3 points and return the new normal as a Vector
 /// @param[in]  _p1 the first point
@@ -79,7 +78,7 @@ extern NGL_DLLEXPORT Vec3 calcNormal( const Vec4 &_p1, const Vec4 &_p2,   const 
 /// @param[in]  _p3 the third point
 /// @returns  the normal of the 3 points
 //----------------------------------------------------------------------------------------------------------------------
-extern NGL_DLLEXPORT Vec3 calcNormal( const Vec3 &_p1,  const Vec3 &_p2, const Vec3 &_p3  ) noexcept;
+extern NGL_DLLEXPORT Vec3 calcNormal(const Vec3 &_p1, const Vec3 &_p2, const Vec3 &_p3) noexcept;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief computer a perspective projection matrix similar to the one from the GLM library
 /// this is to help make prorting glm code easier http://glm.g-truc.net/
@@ -89,7 +88,7 @@ extern NGL_DLLEXPORT Vec3 calcNormal( const Vec3 &_p1,  const Vec3 &_p2, const V
 /// @param[in] _zFar the far plane for the projection
 //----------------------------------------------------------------------------------------------------------------------
 
-NGL_DLLEXPORT  Mat4 perspective(Real _fovy,Real  _aspect, Real   _zNear, Real   _zFar) noexcept;
+NGL_DLLEXPORT Mat4 perspective(Real _fovy, Real _aspect, Real _zNear, Real _zFar) noexcept;
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief computer a perspective projection matrix similar to the one from the GLM library
@@ -100,7 +99,7 @@ NGL_DLLEXPORT  Mat4 perspective(Real _fovy,Real  _aspect, Real   _zNear, Real   
 /// @param[in] _zNear the near plane for projection
 /// @param[in] _zFar the far plane for the projection
 //----------------------------------------------------------------------------------------------------------------------
-NGL_DLLEXPORT Mat4 perspectiveFov(Real const & _fov, Real const & _width, Real const & _height, Real const & _zNear, Real const & _zFar) noexcept;
+NGL_DLLEXPORT Mat4 perspectiveFov(Real const &_fov, Real const &_width, Real const &_height, Real const &_zNear, Real const &_zFar) noexcept;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief computer a perspective projection matrix similar to the one from the GLM library
 /// this is to help make prorting glm code easier http://glm.g-truc.net/
@@ -110,7 +109,6 @@ NGL_DLLEXPORT Mat4 perspectiveFov(Real const & _fov, Real const & _width, Real c
 //----------------------------------------------------------------------------------------------------------------------
 NGL_DLLEXPORT Mat4 infinitePerspective(Real _fovy, Real _aspect, Real _zNear) noexcept;
 
-
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief calculate a look at matrix similar to the one from the GLM library
 /// this is to help make porting glm code easier http://glm.g-truc.net/
@@ -118,7 +116,7 @@ NGL_DLLEXPORT Mat4 infinitePerspective(Real _fovy, Real _aspect, Real _zNear) no
 /// @param[in] _center where we are looking at
 /// @param[in] _up the nominal up direction of the camera
 //----------------------------------------------------------------------------------------------------------------------
-NGL_DLLEXPORT Mat4 lookAt(const Vec3  & _eye,const Vec3  & _center,const Vec3  & _up) noexcept;
+NGL_DLLEXPORT Mat4 lookAt(const Vec3 &_eye, const Vec3 &_center, const Vec3 &_up) noexcept;
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief calculate an ortho graphic projection at matrix similar to the one from the GLM library
@@ -161,29 +159,29 @@ NGL_DLLEXPORT Mat4 frustum(Real _left, Real _right, Real _bottom, Real _top, Rea
 /// @param[in]  _project the projection matrix
 /// @param[in] _viewport the viewport extents.
 //----------------------------------------------------------------------------------------------------------------------
-NGL_DLLEXPORT Vec3 unProject(const Vec3 &_win, const Mat4 &_model, const Mat4 &_project, const Vec4 &_viewport ) noexcept;
+NGL_DLLEXPORT Vec3 unProject(const Vec3 &_win, const Mat4 &_model, const Mat4 &_project, const Vec4 &_viewport) noexcept;
 
-NGL_DLLEXPORT Vec3 project(const Vec3 &_pos, const Mat4 &_model, const Mat4 &_project, const Vec4 &_viewport ) noexcept;
+NGL_DLLEXPORT Vec3 project(const Vec3 &_pos, const Mat4 &_model, const Mat4 &_project, const Vec4 &_viewport) noexcept;
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief converts Degrees to Radians
 /// @param[in]  _deg the angle to convert
 /// @returns the angle in Radians
 //----------------------------------------------------------------------------------------------------------------------
-extern NGL_DLLEXPORT Real radians(const Real _deg ) noexcept;
+extern NGL_DLLEXPORT Real radians(const Real _deg) noexcept;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief converts Radians to Degrees
 /// @param[in]  _rad the angle in radians
 /// @returns the angle in Degrees
 //----------------------------------------------------------------------------------------------------------------------
-extern NGL_DLLEXPORT Real degrees( const Real _rad ) noexcept;
+extern NGL_DLLEXPORT Real degrees(const Real _rad) noexcept;
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief returns if value is a power of 2
 /// @param[in]  _x value to check
 /// @returns true if a power of 2
 //----------------------------------------------------------------------------------------------------------------------
-extern NGL_DLLEXPORT bool isPowerOfTwo (unsigned int _x) noexcept;
+extern NGL_DLLEXPORT bool isPowerOfTwo(unsigned int _x) noexcept;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief rounds up the value to next power of 2
 /// @param[in]  _x value to round
@@ -192,13 +190,12 @@ extern NGL_DLLEXPORT bool isPowerOfTwo (unsigned int _x) noexcept;
 
 extern NGL_DLLEXPORT unsigned int nextPow2(unsigned int _x) noexcept;
 
-
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief check for openGL errors and print out.
 /// @param[in]  _file the current file where the error occured
 /// @param[in]  _line the line number
 //----------------------------------------------------------------------------------------------------------------------
-extern NGL_DLLEXPORT void NGLCheckGLError(const std::string  &_file, const int _line ) noexcept;
+extern NGL_DLLEXPORT void NGLCheckGLError(std::string_view _file, const int _line) noexcept;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief a simple template function for Linear Interpolation requires that any classes have
 ///    + - and * scalar (i.e. Real) overloaded operators
@@ -207,32 +204,33 @@ extern NGL_DLLEXPORT void NGLCheckGLError(const std::string  &_file, const int _
 /// @param [in] _b the template value for the first parameter
 /// @param [in] _t the value for the blend between _a and _b must be between 0 - 1
 //----------------------------------------------------------------------------------------------------------------------
-template <typename T> T lerp(T _a, T _b, Real _t) noexcept
+template < typename T >
+T lerp(T _a, T _b, Real _t) noexcept
 {
-	//T p;
-	//p=_a+(_b-_a)*_t;
-  //return p;
-  // More cache efficient version as both _a's are loaded in the same cache line
-  // see Rob lecture.
-  return _a-(_a-_b)*_t;
+  // T p;
+  // p=_a+(_b-_a)*_t;
+  // return p;
+  //  More cache efficient version as both _a's are loaded in the same cache line
+  //  see Rob lecture.
+  return _a - (_a - _b) * _t;
 }
 
-template <typename T> T trigInterp(T _a, T _b, Real _t ) noexcept
+template < typename T >
+T trigInterp(T _a, T _b, Real _t) noexcept
 {
-  Real angle=radians(90.0f*_t);
-  return _a*cos(angle)*cos(angle)+_b*sin(angle)*sin(angle);
+  Real angle = radians(90.0f * _t);
+  return _a * cos(angle) * cos(angle) + _b * sin(angle) * sin(angle);
 }
 
-template <typename T> T cubic( T _a, T _b,Real _t) noexcept
+template < typename T >
+T cubic(T _a, T _b, Real _t) noexcept
 {
-  Real v1=(2.0f*_t*_t*_t)-3.0f*(_t*_t)+1.0f;
-  Real v2=-(2.0f*_t*_t*_t)+3.0f*(_t*_t);
-  return (_a*v1)+(_b*v2);
+  Real v1 = (2.0f * _t * _t * _t) - 3.0f * (_t * _t) + 1.0f;
+  Real v2 = -(2.0f * _t * _t * _t) + 3.0f * (_t * _t);
+  return (_a * v1) + (_b * v2);
 }
 
-
-
-}
+} // namespace ngl
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------

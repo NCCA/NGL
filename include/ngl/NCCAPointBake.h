@@ -24,8 +24,8 @@
 #include "Obj.h"
 #include "Types.h"
 #include "Vec4.h"
+#include <string_view>
 #include <vector>
-#include <string>
 
 namespace ngl
 {
@@ -37,16 +37,16 @@ namespace ngl
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <NCCAPointBake>
-	<MeshName> The name of the mesh exported </MeshName>
-	<NumVerts> the number of verts </NumVerts>
-	<StartFrame> start frame from export </StartFrame>
-	<EndFrame> end frame from export </EndFrame>
-	<NumFrames> Total number of frames </NumFrame>
-	<TranslateMode> if data for translations are absolute or relative </TranslateMode>
-	<Frame number="0">
-		<Vertex number="0" attrib="translate"> 2.145875 9.490916 33.391218 </Vertex>
-		etc
-	</Frame>
+  <MeshName> The name of the mesh exported </MeshName>
+  <NumVerts> the number of verts </NumVerts>
+  <StartFrame> start frame from export </StartFrame>
+  <EndFrame> end frame from export </EndFrame>
+  <NumFrames> Total number of frames </NumFrame>
+  <TranslateMode> if data for translations are absolute or relative </TranslateMode>
+  <Frame number="0">
+    <Vertex number="0" attrib="translate"> 2.145875 9.490916 33.391218 </Vertex>
+    etc
+  </Frame>
 </NCCAPointBake>
 @endverbatim
  **/
@@ -57,12 +57,13 @@ namespace ngl
 
 class NGL_DLLEXPORT NCCAPointBake
 {
-friend class AbstractMesh;
-public :
+  friend class AbstractMesh;
+
+    public:
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief ctor for the clip
   //----------------------------------------------------------------------------------------------------------------------
-  NCCAPointBake()=default;
+  NCCAPointBake() = default;
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief the dtor erases all clip data allocated and also destroys the Obj reference held in the clip
   //----------------------------------------------------------------------------------------------------------------------
@@ -71,28 +72,28 @@ public :
   /// @brief   ctor using a clip and an obj
   /// @param[in] _fileName the name of the bake file to load
   //----------------------------------------------------------------------------------------------------------------------
-  NCCAPointBake(const std::string &_fileName ) noexcept;
+  NCCAPointBake(std::string_view _fileName) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  Set the current Frame and map the clip for that frame to the obj
   /// @param[in] frame the frame to set
   //----------------------------------------------------------------------------------------------------------------------
-  void setFrame(const size_t frame ) noexcept;
+  void setFrame(const size_t frame) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to load a point baked file
   /// @param[in] _fileName the file to load
   //----------------------------------------------------------------------------------------------------------------------
-  bool loadPointBake(const std::string &_fileName) noexcept;
+  bool loadPointBake(std::string_view _fileName) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to load a binary point baked file
   /// @param[in] _fileName the file to load
   //----------------------------------------------------------------------------------------------------------------------
-  bool loadBinaryPointBake(const std::string &_fileName) noexcept;
+  bool loadBinaryPointBake(std::string_view _fileName) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to save a binary point baked file basically re-ordered data only
   /// @param[in] _fileName the file to load
   //----------------------------------------------------------------------------------------------------------------------
-  bool saveBinaryPointBake( const std::string &_fileName) noexcept;
+  bool saveBinaryPointBake(std::string_view _fileName) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to attach a mesh to the data
   /// this method will check for basic vetex compatibility and then re-order the data
@@ -105,53 +106,61 @@ public :
   /// @brief  set the attached mesh to the current frame
   /// @param[in] _frame the frame to set the mesh to
   //----------------------------------------------------------------------------------------------------------------------
-  void setMeshToFrame( const unsigned int _frame) noexcept;
+  void setMeshToFrame(const unsigned int _frame) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  return the number of Frames loaded from the PointBake file
   /// @returns the number of frames
   //----------------------------------------------------------------------------------------------------------------------
-  size_t getNumFrames() const  noexcept{return m_numFrames-1;}
+  size_t getNumFrames() const noexcept
+  {
+    return m_numFrames - 1;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  return the number of verts loaded from the PointBake file
   /// @returns the number of verts
   //----------------------------------------------------------------------------------------------------------------------
-  size_t getNumVerts() const  noexcept{return m_nVerts;}
+  size_t getNumVerts() const noexcept
+  {
+    return m_nVerts;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  get a Raw data pointer to the un-sorted PointBake data
   /// @returns a pointer to the data
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector < std::vector<Vec3> > & getRawDataPointer()   noexcept{return m_data;}
+  std::vector< std::vector< Vec3 > > &getRawDataPointer() noexcept
+  {
+    return m_data;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  get a Raw data pointer to the un-sorted PointBake for a particular frame
   /// @param[in] _f the frame to access
   /// @returns a pointer to the data at frame _f
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector<Vec3> & getRawDataPointerAtFrame(unsigned int _f) noexcept;
+  std::vector< Vec3 > &getRawDataPointerAtFrame(unsigned int _f) noexcept;
 
-
-protected :
+    protected:
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief method to create the vertorder container with the correct vertex order in place to match
   /// that of the obj file
   //----------------------------------------------------------------------------------------------------------------------
-    void reorderVerts() noexcept;
+  void reorderVerts() noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the number of frames in the clip file
   //----------------------------------------------------------------------------------------------------------------------
-  size_t m_numFrames=0;
+  size_t m_numFrames = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief Current active frame when animating
   //----------------------------------------------------------------------------------------------------------------------
-  size_t m_currFrame=0;
+  size_t m_currFrame = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  The actual data of the clip stored per vertex in sequence v0 - vn and then per frame frame
   /// index is always frame 0- endframe despite the start / end values in the clip file
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector < std::vector<Vec3> > m_data;
-   //----------------------------------------------------------------------------------------------------------------------
+  std::vector< std::vector< Vec3 > > m_data;
+  //----------------------------------------------------------------------------------------------------------------------
   /// @brief  Number of verts in the actual clip
   //----------------------------------------------------------------------------------------------------------------------
-  size_t m_nVerts=0;
+  size_t m_nVerts = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  the name of the mesh
   //----------------------------------------------------------------------------------------------------------------------
@@ -159,25 +168,23 @@ protected :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the start frame
   //----------------------------------------------------------------------------------------------------------------------
-  size_t m_startFrame=0;
+  size_t m_startFrame = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the end frame
   //----------------------------------------------------------------------------------------------------------------------
-  size_t m_endFrame=0;
+  size_t m_endFrame = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief pointer to mesh attatched to data
   //----------------------------------------------------------------------------------------------------------------------
-  AbstractMesh *m_mesh=nullptr;
+  AbstractMesh *m_mesh = nullptr;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate if we have a binary or xml based file loaded
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_binFile=false;
+  bool m_binFile = false;
 }; // end class
 
 } // end namespace ngl
 
-
 #endif // end include guard
 
 //----------------------------------------------------------------------------------------------------------------------
-

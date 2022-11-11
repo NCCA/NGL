@@ -16,11 +16,12 @@
 */
 
 //#include <QFile>
-#include <fstream>
 #include "Shader.h"
-#include <string> // needed for windows build as get error otherwise
+#include <fstream>
+#include <iostream>
 #include <memory>
 #include <pystring.h>
+#include <string> // needed for windows build as get error otherwise
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Shader.cpp
 /// @brief implementation files for Shader class
@@ -29,60 +30,81 @@
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
-void printInfoLog( const GLuint &_obj)
+void printInfoLog(const GLuint &_obj)
 {
-	GLint infologLength = 0;
-	GLint charsWritten  = 0;
-  std::unique_ptr<char []> infoLog;
-  glGetShaderiv(_obj, GL_INFO_LOG_LENGTH,&infologLength);
+  GLint infologLength = 0;
+  GLint charsWritten = 0;
+  std::unique_ptr< char[] > infoLog;
+  glGetShaderiv(_obj, GL_INFO_LOG_LENGTH, &infologLength);
   if(infologLength > 0)
   {
-    infoLog.reset (new char[infologLength]);
+    infoLog.reset(new char[infologLength]);
     glGetShaderInfoLog(_obj, infologLength, &charsWritten, infoLog.get());
 
-    NGLMessage::addError(infoLog.get(),TimeFormat::NONE);
-	}
-
+    NGLMessage::addError(infoLog.get(), TimeFormat::NONE);
+  }
 }
 
-
-Shader::Shader(const std::string &_name,  ShaderType _type , ErrorExit _exitOnError) noexcept
+Shader::Shader(std::string_view _name, ShaderType _type, ErrorExit _exitOnError) noexcept
 {
-  m_name=_name;
+  m_name = _name;
   m_shaderType = _type;
-  m_errorExit=_exitOnError;
-  switch (_type)
+  m_errorExit = _exitOnError;
+  switch(_type)
   {
-    case ShaderType::VERTEX : { m_shaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
-    case ShaderType::FRAGMENT : { m_shaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
-    #ifndef USINGIOS_
-      case ShaderType::GEOMETRY : { m_shaderHandle = glCreateShader(GL_GEOMETRY_SHADER); break; }
-      case ShaderType::TESSCONTROL : { m_shaderHandle =glCreateShader(GL_TESS_CONTROL_SHADER); break; }
-      case ShaderType::TESSEVAL : { m_shaderHandle =glCreateShader(GL_TESS_EVALUATION_SHADER); break; }
-      case ShaderType::COMPUTE :
-      #if defined(__APPLE__)
-       NGLMessage::addError("Apple doesn't support Computer Shaders ");
-      #else
-        {
-          m_shaderHandle =glCreateShader(GL_COMPUTE_SHADER);
-        }
-      #endif
+    case ShaderType::VERTEX:
+    {
+      m_shaderHandle = glCreateShader(GL_VERTEX_SHADER);
       break;
-    #endif
-    case ShaderType::NONE :{;}
+    }
+    case ShaderType::FRAGMENT:
+    {
+      m_shaderHandle = glCreateShader(GL_FRAGMENT_SHADER);
+      break;
+    }
+#ifndef USINGIOS_
+    case ShaderType::GEOMETRY:
+    {
+      m_shaderHandle = glCreateShader(GL_GEOMETRY_SHADER);
+      break;
+    }
+    case ShaderType::TESSCONTROL:
+    {
+      m_shaderHandle = glCreateShader(GL_TESS_CONTROL_SHADER);
+      break;
+    }
+    case ShaderType::TESSEVAL:
+    {
+      m_shaderHandle = glCreateShader(GL_TESS_EVALUATION_SHADER);
+      break;
+    }
+    case ShaderType::COMPUTE:
+#if defined(__APPLE__)
+      NGLMessage::addError("Apple doesn't support Computer Shaders ");
+#else
+    {
+      m_shaderHandle = glCreateShader(GL_COMPUTE_SHADER);
+    }
+#endif
+      break;
+#endif
+    case ShaderType::NONE:
+    {
+      ;
+    }
   }
   m_compiled = false;
-  m_refCount=0;
+  m_refCount = 0;
 }
 Shader::~Shader()
 {
-  std::cerr<<fmt::format("removing shader {0} \n",m_name);//,Colours::WHITE,TimeFormat::NONE);
+  std::cerr << fmt::format("removing shader {0} \n", m_name); //,Colours::WHITE,TimeFormat::NONE);
   glDeleteShader(m_shaderHandle);
 }
 
 bool Shader::compile() noexcept
 {
-  if (m_source.empty() )
+  if(m_source.empty())
   {
     NGLMessage::addError("Warning no shader source loaded");
     return false;
@@ -91,52 +113,51 @@ bool Shader::compile() noexcept
   glCompileShader(m_shaderHandle);
 
   GLint compileStatus = 0;
-  glGetShaderiv(m_shaderHandle, GL_COMPILE_STATUS,&compileStatus);
-  m_compiled=static_cast<bool>(compileStatus);
-  if(m_debugState==true)
+  glGetShaderiv(m_shaderHandle, GL_COMPILE_STATUS, &compileStatus);
+  m_compiled = static_cast< bool >(compileStatus);
+  if(m_debugState == true)
   {
-    NGLMessage::addMessage(fmt::format("Compiling Shader {0}",m_name));
-    if( compileStatus == GL_FALSE)
+    NGLMessage::addMessage(fmt::format("Compiling Shader {0}", m_name));
+    if(compileStatus == GL_FALSE)
     {
       NGLMessage::addError("Shader compile failed or had warnings ");
       printInfoLog(m_shaderHandle);
-      if(m_errorExit==ErrorExit::ON)
+      if(m_errorExit == ErrorExit::ON)
         exit(EXIT_FAILURE);
     }
   }
   return m_compiled;
 }
 
-bool Shader::editShader(const std::string &_toFind, const std::string &_edit)
+bool Shader::editShader(std::string_view _toFind, std::string_view _edit)
 {
-  if(m_source.length() ==0)
+  if(m_source.length() == 0)
   {
     NGLMessage::addError("No shader source to edit");
     return false;
   }
-  if(m_edited !=true )
+  if(m_edited != true)
   {
-    m_source=pystring::replace(m_originalSource,_toFind.data(),_edit.data());
-    m_edited=true;
+    m_source = pystring::replace(m_originalSource, _toFind.data(), _edit.data());
+    m_edited = true;
   }
   else
   {
-    m_source=pystring::replace(m_source,_toFind.data(),_edit.data());
+    m_source = pystring::replace(m_source, _toFind.data(), _edit.data());
   }
-  //NGLMessage::addMessage(m_source,Colours::YELLOW,TimeFormat::NONE);
-  const char* data=m_source.c_str();
-  glShaderSource(m_shaderHandle , 1, &data,nullptr);
-  m_compiled=false;
+  // NGLMessage::addMessage(m_source,Colours::YELLOW,TimeFormat::NONE);
+  const char *data = m_source.c_str();
+  glShaderSource(m_shaderHandle, 1, &data, nullptr);
+  m_compiled = false;
   return true;
 }
 
 void Shader::resetEdits()
 {
-  m_edited=false;
+  m_edited = false;
 }
 
-
-void Shader::load(const std::string &_name ) noexcept
+void Shader::load(std::string_view _name) noexcept
 {
   // see if we already have some source attached
   if(!m_source.empty())
@@ -145,46 +166,46 @@ void Shader::load(const std::string &_name ) noexcept
     m_source.clear();
   }
   std::ifstream shaderSource(_name.data());
-  if (!shaderSource.is_open())
+  if(!shaderSource.is_open())
   {
-   NGLMessage::addError(fmt::format("File not found {0}",_name.data()));
-   exit(EXIT_FAILURE);
+    NGLMessage::addError(fmt::format("File not found {0}", _name.data()));
+    exit(EXIT_FAILURE);
   }
   // now read in the data
-  m_source =  std::string((std::istreambuf_iterator<char>(shaderSource)), std::istreambuf_iterator<char>());
+  m_source = std::string((std::istreambuf_iterator< char >(shaderSource)), std::istreambuf_iterator< char >());
   shaderSource.close();
   // glShaderSource needs null terminated const char *
-  m_source+='\0';
-  m_originalSource=m_source;
-  const char* data=m_source.c_str();
-  glShaderSource(m_shaderHandle , 1, &data,nullptr);
-  m_compiled=false;
+  m_source += '\0';
+  m_originalSource = m_source;
+  const char *data = m_source.c_str();
+  glShaderSource(m_shaderHandle, 1, &data, nullptr);
+  m_compiled = false;
 
-  if (m_debugState == true)
+  if(m_debugState == true)
   {
     printInfoLog(m_shaderHandle);
   }
 }
 
-void Shader::loadFromString(const std::string &_string ) noexcept
+void Shader::loadFromString(std::string_view _string) noexcept
 {
   // see if we already have some source attached
-  if(m_source.size()!=0)
+  if(m_source.size() != 0)
   {
     NGLMessage::addWarning("deleting existing source code\n");
     m_source.clear();
   }
 
   // we need this for the check in the compile bit
-  m_source=_string;
-  const char* data=m_source.c_str();
+  m_source = _string;
+  const char *data = m_source.data();
 
-  glShaderSource(m_shaderHandle , 1, &data,nullptr);
-  m_compiled=false;
- if (m_debugState == true)
+  glShaderSource(m_shaderHandle, 1, &data, nullptr);
+  m_compiled = false;
+  if(m_debugState == true)
   {
     printInfoLog(m_shaderHandle);
   }
 }
 
-} // end ngl namespace
+} // namespace ngl

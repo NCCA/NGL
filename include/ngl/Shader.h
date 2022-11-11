@@ -19,15 +19,23 @@
 
 #include "Types.h"
 
-#include <iostream>
-#include <cstdlib>
+#include <string>
+#include <string_view>
 namespace ngl
 {
 
-
 /// @enum Type of shader this object is
 // for c++ 11 use enum class at present internal only
-enum  class ShaderType : char {VERTEX,FRAGMENT,GEOMETRY,TESSCONTROL,TESSEVAL,COMPUTE,NONE};
+enum class ShaderType : char
+{
+  VERTEX,
+  FRAGMENT,
+  GEOMETRY,
+  TESSCONTROL,
+  TESSEVAL,
+  COMPUTE,
+  NONE
+};
 /// @class Shader
 /// @brief and encapsulation of an OpenGL Shader object with
 /// associations for source code, etc.
@@ -39,13 +47,13 @@ enum  class ShaderType : char {VERTEX,FRAGMENT,GEOMETRY,TESSCONTROL,TESSEVAL,COM
 
 class NGL_DLLEXPORT Shader
 {
-public :
+    public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor
   /// @param _name the name of the program object
   /// @param[in] _type the type of shader we are building
   //----------------------------------------------------------------------------------------------------------------------
-  Shader( const std::string &_name,  ShaderType _type , ErrorExit _exitOnError=ErrorExit::ON) noexcept;
+  Shader(std::string_view _name, ShaderType _type, ErrorExit _exitOnError = ErrorExit::ON) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor, will clean up shader source and remove shader from GL
   //----------------------------------------------------------------------------------------------------------------------
@@ -59,41 +67,63 @@ public :
   /// if source is already loaded it will re-load and re-attached
   /// @param _name the file name for the source we are loading
   //----------------------------------------------------------------------------------------------------------------------
-  void load( const std::string &_name ) noexcept;
-   //----------------------------------------------------------------------------------------------------------------------
-  void loadFromString(const std::string &_string  ) noexcept;
+  void load(std::string_view _name) noexcept;
+  //----------------------------------------------------------------------------------------------------------------------
+  void loadFromString(std::string_view _string) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief toggle the debug state
   //----------------------------------------------------------------------------------------------------------------------
-  void toggleDebug() noexcept {m_debugState ^=true;}
+  void toggleDebug() noexcept
+  {
+    m_debugState ^= true;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the shader handle for this shader
   /// @return the hand for this shader
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getShaderHandle()const noexcept {return m_shaderHandle;}
+  GLuint getShaderHandle() const noexcept
+  {
+    return m_shaderHandle;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief increment the shader ref count so we can see how many
   /// program objects are using this shader
   //----------------------------------------------------------------------------------------------------------------------
-  void incrementRefCount() noexcept { ++m_refCount;}
+  void incrementRefCount() noexcept
+  {
+    ++m_refCount;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief decrement the reference counteer
   //----------------------------------------------------------------------------------------------------------------------
-  void decrementRefCount() noexcept { --m_refCount;}
+  void decrementRefCount() noexcept
+  {
+    --m_refCount;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief return the number of ProgramObjects referencing this shader
   /// @returns the number of references
   //----------------------------------------------------------------------------------------------------------------------
-  int getRefCount()const  noexcept { return m_refCount; }
+  int getRefCount() const noexcept
+  {
+    return m_refCount;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the shader source
   /// @returns the shader source
   //----------------------------------------------------------------------------------------------------------------------
-  const std::string  getShaderSource() const noexcept {return m_source;}
-  bool isCompiled() const noexcept {return m_compiled;}
-  bool editShader(const std::string &_toFind, const std::string &_edit);
+  std::string_view getShaderSource() const noexcept
+  {
+    return m_source;
+  }
+  bool isCompiled() const noexcept
+  {
+    return m_compiled;
+  }
+  bool editShader(std::string_view _toFind, std::string_view _edit);
   void resetEdits();
-private :
+
+    private:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the text name of this Shader used in the search for shader
   //----------------------------------------------------------------------------------------------------------------------
@@ -109,12 +139,12 @@ private :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate is the shader has been edited
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_edited=false;
+  bool m_edited = false;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate if the shader has been compiled
   /// this will get channged on re-load of source to false
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_compiled=false;
+  bool m_compiled = false;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief what type of shader we are
   //----------------------------------------------------------------------------------------------------------------------
@@ -126,16 +156,15 @@ private :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate the debug state
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_debugState=true;
+  bool m_debugState = true;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate the errorExit state
   //----------------------------------------------------------------------------------------------------------------------
-  ErrorExit  m_errorExit=ErrorExit::ON;
+  ErrorExit m_errorExit = ErrorExit::ON;
   //----------------------------------------------------------------------------------------------------------------------  //----------------------------------------------------------------------------------------------------------------------
   /// @brief number of ProgramObjects referencing this shader
   //----------------------------------------------------------------------------------------------------------------------
   int m_refCount;
-
 };
-} // end NGL namespace
+} // namespace ngl
 #endif

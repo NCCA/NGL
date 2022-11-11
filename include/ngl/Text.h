@@ -17,7 +17,6 @@
 #ifndef TEXT_H_
 #define TEXT_H_
 
-
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Text.h
 /// @brief Basic text rendering for OpenGL 3.x
@@ -37,46 +36,45 @@
 //----------------------------------------------------------------------------------------------------------------------
 // must include types.h first for Real and GLEW if required
 
-#include "Types.h"
-#include "Vec2.h"
-#include "VAOFactory.h"
-#include "SimpleVAO.h"
 #include "Mat4.h"
+#include "SimpleVAO.h"
+#include "Types.h"
+#include "VAOFactory.h"
+#include "Vec2.h"
 #include <memory>
 #include <unordered_map>
 
 namespace ngl
 {
 
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief a structure to hold the font char texture id
-  /// and the vao. The vao for each font will be a different size
-  /// need to investigate is a scale would be quicker / more efficient
-  /// than storing multiple billboards (some will be the same size)
-  //----------------------------------------------------------------------------------------------------------------------
-  struct FontChar
-  {
-    int sizex;
-    int sizey;
-    int  bearingx;
-    int bearingy;
-    unsigned int advance;
-    GLuint textureID; /// @brief the texture id of the font billboard
+//----------------------------------------------------------------------------------------------------------------------
+/// @brief a structure to hold the font char texture id
+/// and the vao. The vao for each font will be a different size
+/// need to investigate is a scale would be quicker / more efficient
+/// than storing multiple billboards (some will be the same size)
+//----------------------------------------------------------------------------------------------------------------------
+struct FontChar
+{
+  int sizex;
+  int sizey;
+  int bearingx;
+  int bearingy;
+  unsigned int advance;
+  GLuint textureID; /// @brief the texture id of the font billboard
   //  std::shared_ptr<AbstractVAO> vao; /// a vao for the font
-  };
-
+};
 
 class NGL_DLLEXPORT Text
 {
-public:
+    public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief ctor must pass in a ready constructed QFont make sure the size and emphasis
   /// is set before doing this as you can't modify the font after construction and you will
   /// need a new Text class for each different type of text / font
   /// @param[in] _f the font to use for drawing the text
   //----------------------------------------------------------------------------------------------------------------------
-    Text(const std::string &_name, int _size);
- //---------------------------------------------------------------------------------------------------------------------
+  Text(std::string_view _name, int _size);
+  //---------------------------------------------------------------------------------------------------------------------
   /// @brief dtor will clean / remove textures and VAO's for the class
   //----------------------------------------------------------------------------------------------------------------------
   ~Text();
@@ -91,8 +89,8 @@ public:
   /// @param[in] _y the y position of the text in screen space
   /// @param[in] _text the text to draw (this is limited to ASCII chars ' '->'~' at present but unicode will be done soon
   //----------------------------------------------------------------------------------------------------------------------
-  void renderText( float _x, float _y,  const char *_text ) const noexcept;
-  void renderText(float _x, float _y, const std::string &_text ) const noexcept;
+  void renderText(float _x, float _y, const char *_text) const noexcept;
+  void renderText(float _x, float _y, std::string_view _text) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the size of the screen to scale our font to fit correctly
@@ -102,40 +100,32 @@ public:
   /// @param[in] _w the current width of the screen
   /// @param[in] _h the current height of the screen
   //----------------------------------------------------------------------------------------------------------------------
-  void setScreenSize( int _w, int _h  ) noexcept;
+  void setScreenSize(int _w, int _h) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the colour of the font from an Colour
   /// @param[in] _c the colour to set for the font (alpha is overridden by the texture)
   //----------------------------------------------------------------------------------------------------------------------
-  void setColour( const Vec3 &_c  ) noexcept;
+  void setColour(const Vec3 &_c) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the colour of the font from three floats as a convenience method
   /// @param[in] _r the red component of the colour for the font
   /// @param[in] _g the green component of the colour for the font
   /// @param[in] _b the blue component of the colour for the font
   //----------------------------------------------------------------------------------------------------------------------
-  void setColour( Real _r, Real _g,  Real _b  ) noexcept;
+  void setColour(Real _r, Real _g, Real _b) noexcept;
 
-
-  
-
-protected:
+    protected:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a hash to store our FontChar data looked up by the char we want
   /// to render according to the Qt Docs a hash has faster lookups than QMap
   /// so using this
   //----------------------------------------------------------------------------------------------------------------------
-  std::unordered_map <char,FontChar> m_characters;
-  std::unique_ptr<AbstractVAO> m_texVAO;
+  std::unordered_map< char, FontChar > m_characters;
+  std::unique_ptr< AbstractVAO > m_texVAO;
 };
 
-}
+} // namespace ngl
 
 #endif
-
-
-
-
-
 
 //----------------------------------------------------------------------------------------------------------------------

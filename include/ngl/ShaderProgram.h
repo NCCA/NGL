@@ -17,14 +17,15 @@
 
 #ifndef SHADER_PROGRAM_H_
 #define SHADER_PROGRAM_H_
-#include "Shader.h"
-#include "Types.h"
-#include "Util.h"
 #include "Mat2.h"
 #include "Mat3.h"
 #include "Mat4.h"
-#include <vector>
+#include "Shader.h"
+#include "Types.h"
+#include "Util.h"
+#include <string_view>
 #include <unordered_map>
+#include <vector>
 
 //----------------------------------------------------------------------------------------------------------------------
 ///  @class ShaderProgram  "ShaderProgram.h"
@@ -39,13 +40,13 @@ namespace ngl
 
 class NGL_DLLEXPORT ShaderProgram
 {
-public :
+    public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief create an OpenGL shader program
   /// it is initially empty and just has a name for id
   /// @param _name the name of the Program Object
   //----------------------------------------------------------------------------------------------------------------------
-  ShaderProgram(const std::string &_name, ErrorExit _exitOnError=ErrorExit::ON ) noexcept;
+  ShaderProgram(std::string_view _name, ErrorExit _exitOnError = ErrorExit::ON) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief dtor
   //----------------------------------------------------------------------------------------------------------------------
@@ -67,19 +68,19 @@ public :
   /// @param _shader the Shader object to attach
   /// \note we can attach many shaders to the ProgramObject.
   //----------------------------------------------------------------------------------------------------------------------
-  void attachShader( Shader *_shader ) noexcept;
+  void attachShader(Shader *_shader) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief bind an attribute in the Program object to _index using attribname
   /// @param _index the index number we wish to bind to
   /// @param _attribName the name of the attribute we wish to use
   //----------------------------------------------------------------------------------------------------------------------
-  void bindAttribute(GLuint index, const std::string &_attribName ) noexcept;
+  void bindAttribute(GLuint index, std::string_view _attribName) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief bind fragment output location in the Program object to _index using attribname
   /// @param _index the index number we wish to bind to
   /// @param _attribName the name of the attribute we wish to use
   //----------------------------------------------------------------------------------------------------------------------
-  void bindFragDataLocation(GLuint index, const std::string &_attribName ) noexcept;
+  void bindFragDataLocation(GLuint index, std::string_view _attribName) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief link our program object with the attatched shaders
@@ -90,13 +91,16 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the ProgramID for the Program
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getID() const noexcept{return m_programID;}
+  GLuint getID() const noexcept
+  {
+    return m_programID;
+  }
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  returns the ID of the uniform attribute called 'name'.
   /// @return the uniform variable id
   //----------------------------------------------------------------------------------------------------------------------
-  GLint getUniformLocation( const char* _name) const noexcept;
+  GLint getUniformLocation(const char *_name) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief   lists the available uniforms for the shader (this was a pain because the compiler quietly gets rid of unused uniforms).
@@ -121,8 +125,8 @@ public :
   /// @param  _varname - name of the uniform variable
   /// @param  _v0 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform1f(const std::string &_varname, float _v0 ) const noexcept;
-  void getRegisteredUniform1f(const std::string &_varname, float &o_v0 ) const noexcept;
+  void setRegisteredUniform1f(std::string_view _varname, float _v0) const noexcept;
+  void getRegisteredUniform1f(std::string_view _varname, float &o_v0) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single float
@@ -130,8 +134,8 @@ public :
   /// @param  _v0 - new value for the variable
   /// @param  _v1 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform2f(const std::string &_varname, float _v0, float _v1 ) const noexcept;
-  void getRegisteredUniform2f(const std::string &_varname, float &o_v0, float &o_v1 ) const noexcept;
+  void setRegisteredUniform2f(std::string_view _varname, float _v0, float _v1) const noexcept;
+  void getRegisteredUniform2f(std::string_view _varname, float &o_v0, float &o_v1) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single float
@@ -140,8 +144,8 @@ public :
   /// @param  _v1 - new value for the variable
   /// @param  _v2 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform3f( const std::string &_varname,float _v0, float _v1, float _v2 ) const noexcept;
-  void getRegisteredUniform3f( const std::string &_varname,float &_v0, float &_v1, float &_v2 ) const noexcept;
+  void setRegisteredUniform3f(std::string_view _varname, float _v0, float _v1, float _v2) const noexcept;
+  void getRegisteredUniform3f(std::string_view _varname, float &_v0, float &_v1, float &_v2) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single float
   /// @param  _varname - name of the uniform variable
@@ -150,14 +154,14 @@ public :
   /// @param  _v2 - new value for the variable
   /// @param  _v3 - new value for the variable
   /////----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform4f(const std::string &_varname, float _v0,float _v1,float _v2, float _v3 ) const noexcept;
-  void getRegisteredUniform4f( const std::string &_varname,float &_v0, float &_v1, float &_v2 , float &o_v3) const noexcept;
+  void setRegisteredUniform4f(std::string_view _varname, float _v0, float _v1, float _v2, float _v3) const noexcept;
+  void getRegisteredUniform4f(std::string_view _varname, float &_v0, float &_v1, float &_v2, float &o_v3) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single int
   /// @param  _varname - name of the uniform variable
   /// @param  _v0 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform1i(const std::string &_varname, int _v0  ) const noexcept;
+  void setRegisteredUniform1i(std::string_view _varname, int _v0) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single int
   /// @param  _varname - name of the uniform variable
@@ -165,7 +169,7 @@ public :
   /// @param  _v1 - new value for the variable
 
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform2i(const std::string &_varname, int _v0, int _v1 ) const noexcept;
+  void setRegisteredUniform2i(std::string_view _varname, int _v0, int _v1) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single int
   /// @param  _varname - name of the uniform variable
@@ -173,7 +177,7 @@ public :
   /// @param  _v1 - new value for the variable
   /// @param  _v2 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform3i(const std::string &_varname, int _v0, int _v1,int _v2 ) const noexcept;
+  void setRegisteredUniform3i(std::string_view _varname, int _v0, int _v1, int _v2) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single int
   /// @param  _varname - name of the uniform variable
@@ -183,7 +187,7 @@ public :
   /// @param  _v3 - new value for the variable
 
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform4i( const std::string &_varname,int _v0, int _v1, int _v2, int _v3 ) const noexcept;
+  void setRegisteredUniform4i(std::string_view _varname, int _v0, int _v1, int _v2, int _v3) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @name  Set Program Matrix Args
   //----------------------------------------------------------------------------------------------------------------------
@@ -195,8 +199,8 @@ public :
   /// @param  _transpose - if true will transpose the matrix values
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformMatrix2fv(const std::string  &_varname, GLsizei _count, bool _transpose, const float* _value ) const noexcept;
-  void getRegisteredUniformMatrix2fv(const std::string  &_varname, ngl::Mat2 &o_value ) const noexcept;
+  void setRegisteredUniformMatrix2fv(std::string_view _varname, GLsizei _count, bool _transpose, const float *_value) const noexcept;
+  void getRegisteredUniformMatrix2fv(std::string_view _varname, ngl::Mat2 &o_value) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets '_varname' as a 3D matrix array
   /// @param  _varname - name of the uniform variable
@@ -204,8 +208,8 @@ public :
   /// @param  _transpose - if true will transpose the matrix values
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformMatrix3fv(const std::string  &_varname, GLsizei _count, bool _transpose, const float* _value ) const noexcept;
-  void getRegisteredUniformMatrix3fv(const std::string  &_varname, ngl::Mat3 &o_value ) const noexcept;
+  void setRegisteredUniformMatrix3fv(std::string_view _varname, GLsizei _count, bool _transpose, const float *_value) const noexcept;
+  void getRegisteredUniformMatrix3fv(std::string_view _varname, ngl::Mat3 &o_value) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets '_varname' as a 4D matrix array
@@ -214,22 +218,22 @@ public :
   /// @param  _transpose - if true will transpose the matrix values
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformMatrix4fv(const std::string  &_varname, GLsizei _count,  bool _transpose, const float* _value ) const noexcept;
-  void getRegisteredUniformMatrix4fv(const std::string  &_varname, ngl::Mat4 &o_value ) const noexcept;
+  void setRegisteredUniformMatrix4fv(std::string_view _varname, GLsizei _count, bool _transpose, const float *_value) const noexcept;
+  void getRegisteredUniformMatrix4fv(std::string_view _varname, ngl::Mat4 &o_value) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  gets the current value of the specified uniform var
   /// @param  _name - name of the uniform variable to retrieve
   /// @param  o_values - the output value
   //----------------------------------------------------------------------------------------------------------------------
-  void getUniformfv( const char* _name, float* o_values ) const noexcept;
+  void getUniformfv(const char *_name, float *o_values) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  gets the current value of the specified uniform var
   /// @param  _name - name of the uniform variable to retrieve
   /// @param  o_values - the output value
   //----------------------------------------------------------------------------------------------------------------------
-  void getUniformiv( const char* _name, int* o_values ) const noexcept;
+  void getUniformiv(const char *_name, int *o_values) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @name   vertex array functions.
@@ -241,13 +245,13 @@ public :
   /// @brief  enables the specified varying array
   /// @param  _name - the name of the varying attr array to enable
   //----------------------------------------------------------------------------------------------------------------------
-  void enableAttribArray(const char* _name ) const noexcept;
+  void enableAttribArray(const char *_name) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  disables the specified varying array
   /// @param  _name - the name of the varying attr array to enable
   //----------------------------------------------------------------------------------------------------------------------
-  void disableAttribArray(const char* _name) const noexcept;
+  void disableAttribArray(const char *_name) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  scan the shader source and find any uniforms and register them
@@ -260,7 +264,7 @@ public :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  debug print the registered uniforms
   //----------------------------------------------------------------------------------------------------------------------
-  void printRegisteredUniforms()const noexcept;
+  void printRegisteredUniforms() const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief bind the fragment shader output
@@ -274,33 +278,35 @@ public :
   /// @returns the id of the block
   //----------------------------------------------------------------------------------------------------------------------
 
-  GLuint getUniformBlockIndex( const std::string &_uniformBlockName  )const noexcept;
+  GLuint getUniformBlockIndex(std::string_view _uniformBlockName) const noexcept;
 
+  void setUniformBuffer(std::string_view _uniformBlockName, size_t _size, void *_data);
+  bool isLinked() const noexcept
+  {
+    return m_linked;
+  }
 
-  void setUniformBuffer(const std::string &_uniformBlockName, size_t _size, void *_data);
-  bool isLinked() const noexcept {return m_linked;}
-
-private :
+    private:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief flag to indicate if the current Program has been linked
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_linked=false;
+  bool m_linked = false;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a list of the shader objects attached to the program
   //----------------------------------------------------------------------------------------------------------------------
-  std::vector <Shader *> m_shaders;
+  std::vector< Shader * > m_shaders;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the program id for this program object
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint m_programID=0;
+  GLuint m_programID = 0;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief debug mode flag
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_debugState=true;
+  bool m_debugState = true;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief errorExit mode flag
   //----------------------------------------------------------------------------------------------------------------------
-  ErrorExit  m_errorExit=ErrorExit::ON;
+  ErrorExit m_errorExit = ErrorExit::ON;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief text name of the current program used in lookup and debugging
   //----------------------------------------------------------------------------------------------------------------------
@@ -308,7 +314,7 @@ private :
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a list of attributes for this object, mapping name to ID number
   //----------------------------------------------------------------------------------------------------------------------
-  std::unordered_map <std::string, GLuint > m_attribs;
+  std::unordered_map< std::string, GLuint > m_attribs;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief this structure holds information about the registered uniforms in the program
   /// id is the uniform location, name is the uniform name, type is the GLenum type
@@ -327,26 +333,25 @@ private :
     std::string name;
     GLuint buffer;
   };
-  std::string getValueFromShader(const uniformData &_d)const noexcept ;
+  std::string getValueFromShader(const uniformData &_d) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a list of uniforms for this object, mapping name to ID number must be added by the user
   /// using the registerUniform method
   //----------------------------------------------------------------------------------------------------------------------
-  std::unordered_map <std::string, uniformData> m_registeredUniforms;
+  std::unordered_map< std::string, uniformData > m_registeredUniforms;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a list of uniform blocks for this object, mapping name to ID number must be added by the user
   /// using the registerUniformBlock method
   //----------------------------------------------------------------------------------------------------------------------
-  std::unordered_map <std::string, uniformBlockData> m_registeredUniformBlocks;
+  std::unordered_map< std::string, uniformBlockData > m_registeredUniformBlocks;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief indicate if this program is the current active program
   //----------------------------------------------------------------------------------------------------------------------
-  bool m_active=false;
+  bool m_active = false;
   //----------------------------------------------------------------------------------------------------------------------
-
 };
-} // end NGL namespace
+} // namespace ngl
 #endif
 //----------------------------------------------------------------------------------------------------------------------
 

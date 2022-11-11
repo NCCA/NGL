@@ -97,14 +97,14 @@ class NGL_DLLEXPORT Random
   /// @brief returns a random number created by the generator or 0
   /// if the generator is not found
   //----------------------------------------------------------------------------------------------------------------------
-  static Real getFloatFromGeneratorName(const std::string &_name);
+  static Real getFloatFromGeneratorName(std::string_view _name);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief gets a pre-generated int value for a genetator
   /// @param _name the name of the generator to use for the number
   /// @brief returns a random number created by the generator or 0
   /// if the generator is not found
   //----------------------------------------------------------------------------------------------------------------------
-  static int getIntFromGeneratorName(const std::string &_name);
+  static int getIntFromGeneratorName(std::string_view _name);
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief add a generator to the int generators
@@ -112,13 +112,13 @@ class NGL_DLLEXPORT Random
   /// @param _dist the distribution to add
   //----------------------------------------------------------------------------------------------------------------------
 
-  static void addIntGenerator(const std::string &_name, std::uniform_int_distribution< int > &_dist);
+  static void addIntGenerator(std::string_view _name, std::uniform_int_distribution< int > &_dist);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief add a generator to the float generators
   /// @param _name the name of the generator to use for the number
   /// @param _dist the distribution to add
   //----------------------------------------------------------------------------------------------------------------------
-  static void addFloatGenerator(const std::string &_name, std::uniform_real_distribution< float > &_dist);
+  static void addFloatGenerator(std::string_view _name, std::uniform_real_distribution< float > &_dist);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a random vector with componets ranged from +/- 1
   //----------------------------------------------------------------------------------------------------------------------

@@ -17,11 +17,12 @@
 #ifndef VAOFACTORY_H_
 #define VAOFACTORY_H_
 
-#include "Types.h"
 #include "AbstractVAO.h"
-#include <unordered_map>
-#include <string>
+#include "Types.h"
 #include <functional>
+#include <string>
+#include <string_view>
+#include <unordered_map>
 namespace ngl
 {
 //----------------------------------------------------------------------------------------------------------------------
@@ -33,42 +34,38 @@ namespace ngl
 /// @date 6/4/16
 //----------------------------------------------------------------------------------------------------------------------
 
-
-
-
 class NGL_DLLEXPORT VAOFactory
 {
-  public :
-    //----------------------------------------------------------------------------------------------------------------------
-    /// @brief Add a new vao creator to our factory
-    /// @param _type the name of the creator function registered
-    /// @param _cb the creator function must pass in a GLenum for the type to create and return an AbstractVAO
-    //----------------------------------------------------------------------------------------------------------------------
-    static void registerVAOCreator(const std::string &_type, std::function<std::unique_ptr< AbstractVAO>(GLenum _mode)> _cb);
-    //----------------------------------------------------------------------------------------------------------------------
-    /// @brief Remove an existing vao creator from the map
-    /// @param _type the name of the creator to remove
-    //----------------------------------------------------------------------------------------------------------------------
-    static void unregisterVAOCreator(const std::string &_type);
-    //----------------------------------------------------------------------------------------------------------------------
-    /// Create an instance of a named VAO from a creator
-    /// @param _type the name of the creator to use from our factory
-    /// @param _mode the initial mode to create (i.e. GL_TRIANGLES etc)
-    /// @returns AbstractAVO *
-    //----------------------------------------------------------------------------------------------------------------------
-    static std::unique_ptr<AbstractVAO> createVAO(const std::string &_type, GLenum _mode=GL_TRIANGLES);
-    //----------------------------------------------------------------------------------------------------------------------
-    /// @brief debug function to list all creators
-    //----------------------------------------------------------------------------------------------------------------------
-    static void listCreators();
-    private :
-    //----------------------------------------------------------------------------------------------------------------------
-    //----------------------------------------------------------------------------------------------------------------------
-      static std::unordered_map<std::string, std::function<std::unique_ptr<AbstractVAO >(GLenum _mode)>> m_vaoCreators;
+    public:
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief Add a new vao creator to our factory
+  /// @param _type the name of the creator function registered
+  /// @param _cb the creator function must pass in a GLenum for the type to create and return an AbstractVAO
+  //----------------------------------------------------------------------------------------------------------------------
+  static void registerVAOCreator(std::string_view _type, std::function< std::unique_ptr< AbstractVAO >(GLenum _mode) > _cb);
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief Remove an existing vao creator from the map
+  /// @param _type the name of the creator to remove
+  //----------------------------------------------------------------------------------------------------------------------
+  static void unregisterVAOCreator(std::string_view _type);
+  //----------------------------------------------------------------------------------------------------------------------
+  /// Create an instance of a named VAO from a creator
+  /// @param _type the name of the creator to use from our factory
+  /// @param _mode the initial mode to create (i.e. GL_TRIANGLES etc)
+  /// @returns AbstractAVO *
+  //----------------------------------------------------------------------------------------------------------------------
+  static std::unique_ptr< AbstractVAO > createVAO(std::string_view _type, GLenum _mode = GL_TRIANGLES);
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief debug function to list all creators
+  //----------------------------------------------------------------------------------------------------------------------
+  static void listCreators();
 
+    private:
+  //----------------------------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------------------
+  static std::unordered_map< std::string, std::function< std::unique_ptr< AbstractVAO >(GLenum _mode) > > m_vaoCreators;
 };
 
-
-}
+} // namespace ngl
 
 #endif

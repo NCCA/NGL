@@ -65,9 +65,9 @@ class NGLMessage
     public:
   static NGLMessage &init();
   void stopServer();
-  static void addMessage(const std::string &_message, Colours _c = Colours::NORMAL, TimeFormat _timeFormat = TimeFormat::TIME);
-  static void addError(const std::string &_message, TimeFormat _timeFormat = TimeFormat::TIME);
-  static void addWarning(const std::string &_message, TimeFormat _timeFormat = TimeFormat::TIME);
+  static void addMessage(std::string_view _message, Colours _c = Colours::NORMAL, TimeFormat _timeFormat = TimeFormat::TIME);
+  static void addError(std::string_view _message, TimeFormat _timeFormat = TimeFormat::TIME);
+  static void addWarning(std::string_view _message, TimeFormat _timeFormat = TimeFormat::TIME);
   static void drawLine(const Colours &_c = Colours::CYAN);
   ~NGLMessage();
 

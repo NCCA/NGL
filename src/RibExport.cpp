@@ -24,34 +24,34 @@ namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-RibExport::RibExport(const std::string &_fileName, bool _oneShot)
+RibExport::RibExport(std::string_view _fileName, bool _oneShot)
 {
-  m_attribCount    = 0;
+  m_attribCount = 0;
   m_transformCount = 0;
-  m_worldCount     = 0;
-  m_ribFileName    = _fileName;
-  m_frameNumber    = 0;
-  m_tabs           = 0;
-  m_isOpen         = false;
-  m_oneShot        = _oneShot;
+  m_worldCount = 0;
+  m_ribFileName = _fileName;
+  m_frameNumber = 0;
+  m_tabs = 0;
+  m_isOpen = false;
+  m_oneShot = _oneShot;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 RibExport::~RibExport()
 {
-  if (m_attribCount != 0)
+  if(m_attribCount != 0)
   {
     NGLMessage::addWarning("Mismatched AttributeBegin / AttributeEnd block");
   }
-  if (m_transformCount != 0)
+  if(m_transformCount != 0)
   {
     NGLMessage::addWarning("Mismatched TransformBegin / TransformEnd block");
   }
-  if (m_worldCount != 0)
+  if(m_worldCount != 0)
   {
     NGLMessage::addWarning("Mismatched WorldBegin / WorldEnd block");
   }
-  if (m_ribFile.is_open())
+  if(m_ribFile.is_open())
   {
     m_ribFile.close();
     m_isOpen = false;
@@ -61,7 +61,7 @@ RibExport::~RibExport()
 // Writes the Comment parameters to
 // the rib file.
 //----------------------------------------------------------------------------------------------------------------------
-void RibExport::comment(const std::string &_sText)
+void RibExport::comment(std::string_view _sText)
 {
   // Append Comment
   m_ribFile << "\n#======================================================\n";
@@ -69,12 +69,11 @@ void RibExport::comment(const std::string &_sText)
   m_ribFile << "#======================================================\n";
 }
 
-
 //----------------------------------------------------------------------------------------------------------------------
 void RibExport::open()
 {
   std::string fName;
-  if (m_oneShot)
+  if(m_oneShot)
   {
     fName = fmt::format("{0}.%03d.{1}", m_ribFileName, m_frameNumber);
   }
@@ -83,9 +82,9 @@ void RibExport::open()
     fName = m_ribFileName;
   }
   m_ribFile.open(fName.c_str(), std::ios::out);
-  if (!m_ribFile.is_open())
+  if(!m_ribFile.is_open())
   {
-    NGLMessage::addError(fmt::format("Problems Opening File {0}",fName));
+    NGLMessage::addError(fmt::format("Problems Opening File {0}", fName));
     std::exit(EXIT_FAILURE);
   }
   m_ribFile << "# Rib file generated using RibExporter\n";
@@ -102,7 +101,7 @@ void RibExport::close()
 //----------------------------------------------------------------------------------------------------------------------
 void RibExport::writeTabs()
 {
-  for (int i = 0; i < m_tabs; ++i)
+  for(int i = 0; i < m_tabs; ++i)
   {
     m_ribFile << "\t";
   }
@@ -168,7 +167,6 @@ void RibExport::writeToFile(std::string _string)
   writeTabs();
   m_ribFile << _string.data() << '\n';
 }
-
 
 //----------------------------------------------------------------------------------------------------------------------
 void RibExport::Translate(const Real _x, const Real _y, const Real _z)
@@ -240,6 +238,6 @@ void RibExport::Torus(const Real _major, const Real _minor, const Real _phiMin, 
   m_ribFile << "Torus " << _major << " " << _minor << " " << _phiMin << " " << _phiMax << " " << _sweep << '\n';
 }
 
-} // end ngl namespace
+} // namespace ngl
 
 //----------------------------------------------------------------------------------------------------------------------

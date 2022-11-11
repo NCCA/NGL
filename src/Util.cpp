@@ -98,7 +98,7 @@ NGL_DLLEXPORT Real degrees( const Real _rad   ) noexcept
 }
 
 
-NGL_DLLEXPORT  void NGLCheckGLError(const std::string &_file, const int _line ) noexcept
+NGL_DLLEXPORT  void NGLCheckGLError(std::string_view _file, const int _line ) noexcept
 {
  //std::cout<<"NGLCheckGLError Called ______________________\n";
  auto errNum = glGetError();
