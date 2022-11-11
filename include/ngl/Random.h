@@ -23,21 +23,31 @@
 // must include types.h first for Real and GLEW if required
 #include "Vec4.h"
 
-#include <unordered_map>
 #include <random>
+#include <unordered_map>
 namespace ngl
 {
 
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief enumerated list of the different distributions we can
-  /// add to the generator,
-  //----------------------------------------------------------------------------------------------------------------------
-  enum  class RANDDIST{ uniform_smallint,uniform_int,uniform_real
-                ,bernoulli_distribution,binomial_distribution,cauchy_distribution
-                ,gamma_distribution,poisson_distribution,geometric_distribution
-                ,triangle_distribution,exponential_distribution,normal_distribution
-                ,lognormal_distribution };
-
+//----------------------------------------------------------------------------------------------------------------------
+/// @brief enumerated list of the different distributions we can
+/// add to the generator,
+//----------------------------------------------------------------------------------------------------------------------
+enum class RANDDIST
+{
+  uniform_smallint,
+  uniform_int,
+  uniform_real,
+  bernoulli_distribution,
+  binomial_distribution,
+  cauchy_distribution,
+  gamma_distribution,
+  poisson_distribution,
+  geometric_distribution,
+  triangle_distribution,
+  exponential_distribution,
+  normal_distribution,
+  lognormal_distribution
+};
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @class Random
@@ -59,21 +69,18 @@ namespace ngl
 /// state of m_generator is modified with the call hence the lack of const methods
 //----------------------------------------------------------------------------------------------------------------------
 
-
-
-class NGL_DLLEXPORT Random 
+class NGL_DLLEXPORT Random
 {
-//----------------------------------------------------------------------------------------------------------------------
-/// @brief we are a friend with singelton so we can assess the template methods
-//----------------------------------------------------------------------------------------------------------------------
-friend class Colour;
-friend class Vec4;
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief we are a friend with singelton so we can assess the template methods
+  //----------------------------------------------------------------------------------------------------------------------
+  friend class Colour;
+  friend class Vec4;
 
-public :
-
-  Random()=delete;
-  ~Random()=delete;
-  Random(const Random &)=delete;
+    public:
+  Random() = delete;
+  ~Random() = delete;
+  Random(const Random &) = delete;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the seed using std::time(NULL)
@@ -83,14 +90,14 @@ public :
   /// @brief set the seed using a param value
   /// @param _value the seed value
   //----------------------------------------------------------------------------------------------------------------------
-  static void setSeed( unsigned int _value );
+  static void setSeed(unsigned int _value);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief gets a pre-generated Real value for a genetator
   /// @param _name the name of the generator to use for the number
   /// @brief returns a random number created by the generator or 0
   /// if the generator is not found
   //----------------------------------------------------------------------------------------------------------------------
-  static Real getFloatFromGeneratorName( const std::string &_name);
+  static Real getFloatFromGeneratorName(const std::string &_name);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief gets a pre-generated int value for a genetator
   /// @param _name the name of the generator to use for the number
@@ -105,13 +112,13 @@ public :
   /// @param _dist the distribution to add
   //----------------------------------------------------------------------------------------------------------------------
 
-  static void addIntGenerator(const std::string &_name,std::uniform_int_distribution<int> &_dist);
+  static void addIntGenerator(const std::string &_name, std::uniform_int_distribution< int > &_dist);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief add a generator to the float generators
   /// @param _name the name of the generator to use for the number
   /// @param _dist the distribution to add
   //----------------------------------------------------------------------------------------------------------------------
-  static void addFloatGenerator(const std::string &_name,std::uniform_real_distribution<float> &_dist);
+  static void addFloatGenerator(const std::string &_name, std::uniform_real_distribution< float > &_dist);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a random vector with componets ranged from +/- 1
   //----------------------------------------------------------------------------------------------------------------------
@@ -147,24 +154,23 @@ public :
   /// @param  _zRange the +/-z range
   /// @returns a random point
   //----------------------------------------------------------------------------------------------------------------------
-  static Vec3 getRandomPoint( Real _xRange=1.0, Real _yRange=1.0, Real _zRange=1.0 );
+  static Vec3 getRandomPoint(Real _xRange = 1.0, Real _yRange = 1.0, Real _zRange = 1.0);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a replacement for the old RandomNumber func
   /// this is basically a convinience function
   /// @param _mult an optional multiplyer for the output
   /// @returns (uniform_random(-1-0-+1) * _mult)
   //----------------------------------------------------------------------------------------------------------------------
-  static Real randomNumber(Real _mult=1);
+  static Real randomNumber(Real _mult = 1);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a replacement for the old ReandomPosNum
   /// this is basically a convinience function
   /// @param _mult an optional multiplyer for the output
   /// @returns (uniform_random(0-1) * _mult)
   //----------------------------------------------------------------------------------------------------------------------
-  static Real randomPositiveNumber(  Real _mult=1  );
+  static Real randomPositiveNumber(Real _mult = 1);
 
-  protected :
-
+    protected:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the generator for rng class where all funcs and distribs are added.
   /// all we need to do is replace this one define to use any of the other boost rng
@@ -178,14 +184,11 @@ public :
   /// a name / function pair, and this function will be called returning a Real
   /// value
   //----------------------------------------------------------------------------------------------------------------------
-  static std::unordered_map<std::string, std::uniform_real_distribution<Real>> m_floatGenerators;
-  static std::unordered_map<std::string, std::uniform_int_distribution<int>> m_intGenerators;
-
+  static std::unordered_map< std::string, std::uniform_real_distribution< Real > > m_floatGenerators;
+  static std::unordered_map< std::string, std::uniform_int_distribution< int > > m_intGenerators;
 };
 
-}// end namespace
+} // namespace ngl
 
 #endif
 //----------------------------------------------------------------------------------------------------------------------
-
-

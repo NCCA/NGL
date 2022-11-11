@@ -66,7 +66,7 @@ void Image::info()
   NGLMessage::addMessage("Image Info END");
 }
 
-Image::Image(const std::string &_fname)
+Image::Image(std::string_view _fname)
 {
   load(_fname);
 }
@@ -127,7 +127,7 @@ Vec4 Image::getColour(const Real _uvX, const Real _uvY) const noexcept
   }
 }
 
-void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int _width, int _height, ImageModes _mode)
+void Image::saveFrameBufferToFile(std::string_view _fname, int _x, int _y, int _width, int _height, ImageModes _mode)
 {
   GLenum format = GL_RGB;
   int size = 3;
@@ -154,11 +154,10 @@ void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int
 #endif
 #if defined(USEOIIO)
   using namespace OIIO;
-
-  auto out = ImageOutput::create(_fname.c_str());
+  auto out = ImageOutput::create(_fname.data());
   ImageSpec spec(realWidth, realHeight, size, TypeDesc::UINT8);
   int scanlinesize = realWidth * size;
-  out->open(_fname.c_str(), spec);
+  out->open(_fname.data(), spec);
   // note this flips the image vertically on writing
   // (see http://www.openimageio.org/openimageio.pdf pg 20 for details)
   out->write_image(TypeDesc::UINT8, data.get() + (realHeight - 1) * scanlinesize, AutoStride, -scanlinesize, AutoStride);
@@ -170,12 +169,12 @@ void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int
   // set the output image depth to 16 bit
   output.depth(16);
   // write the file
-  output.write(_fname.c_str());
+  output.write(_fname.data());
 #endif
 
 #if defined(USEBUILTINIMAGE)
 
-  stbi_write_png(_fname.c_str(), _width, _height, size, data.get(), _width * size);
+  stbi_write_png(_fname.data(), _width, _height, size, data.get(), _width * size);
   // Magick::Image output(realWidth, realHeight, size == 3 ? "RGB" : "RGBA", Magick::CharPixel, data.get());
 
   // // set the output image depth to 16 bit
@@ -190,7 +189,7 @@ void Image::saveFrameBufferToFile(const std::string &_fname, int _x, int _y, int
 //----------------------------------------------------------------------------------------------------------------------
 // Qt Image loading routines
 //----------------------------------------------------------------------------------------------------------------------
-bool Image::load(const std::string &_fName) noexcept
+bool Image::load(std::string_view _fName) noexcept
 {
 #ifdef IMAGE_DEBUG_ON
   NGLMessage::addMessage("loading with QImage");
@@ -255,7 +254,7 @@ bool Image::load(const std::string &_fName) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 // Image Magick Image loading routines
 //----------------------------------------------------------------------------------------------------------------------
-bool Image::load(const std::string &_fname) noexcept
+bool Image::load(std::string_view _fname) noexcept
 {
 #ifdef IMAGE_DEBUG_ON
   NGLMessage::addMessage("loading with ImageMagick");
@@ -292,7 +291,7 @@ bool Image::load(const std::string &_fname) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 // Open Image I/O loading routines
 //----------------------------------------------------------------------------------------------------------------------
-bool Image::load(const std::string &_fname) noexcept
+bool Image::load(std::string_view _fname) noexcept
 {
   using namespace OIIO;
 
@@ -304,6 +303,8 @@ bool Image::load(const std::string &_fname) noexcept
   auto in = ImageInput::open(_fname.data());
   if(!in)
   {
+    NGLMessage::addError(fmt::format("problem opening file {}", _fname));
+    NGLMessage::addError(OIIO::geterror());
     return false;
   }
   auto spec = in->spec();
@@ -339,9 +340,9 @@ bool Image::load(const std::string &_fname) noexcept
 
 // #define STB_IMAGE_IMPLEMENTATION
 // #include "../3rdparty/stb_image.h"
-bool Image::load(const std::string &_fname) noexcept
+bool Image::load(std::string_view _fname) noexcept
 {
-  const char *fname = _fname.c_str();
+  const char *fname = _fname.data();
   int w, h, ch;
   stbi_set_flip_vertically_on_load(true);
 

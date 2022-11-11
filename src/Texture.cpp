@@ -18,41 +18,38 @@
 /// @file Texture.cpp
 /// @brief implementation files for Texture class
 //----------------------------------------------------------------------------------------------------------------------
-#include "NGLassert.h"
 #include "Texture.h"
-#include <iostream>
+#include "NGLassert.h"
 #include "Util.h"
+#include <iostream>
 
 namespace ngl
 {
 
 //----------------------------------------------------------------------------------------------------------------------
-Texture::Texture(const std::string &_fname  )
+Texture::Texture(std::string_view _fname)
 {
-	m_image.load(_fname);
-	m_width=m_image.width();
-	m_height=m_image.height();
-	m_channels=m_image.channels();
-	m_format=m_image.format();
-	m_multiTextureID=0;
+  m_image.load(_fname);
+  m_width = m_image.width();
+  m_height = m_image.height();
+  m_channels = m_image.channels();
+  m_format = m_image.format();
+  m_multiTextureID = 0;
 }
 
-
-bool Texture::loadImage(const std::string &_fname )
+bool Texture::loadImage(std::string_view _fname)
 {
-  bool status=m_image.load(_fname);
+  bool status = m_image.load(_fname);
   if(status)
   {
-    m_width=m_image.width();
-    m_height=m_image.height();
-    m_channels=m_image.channels();
-    m_format=m_image.format();
-    m_multiTextureID=0;
+    m_width = m_image.width();
+    m_height = m_image.height();
+    m_channels = m_image.channels();
+    m_format = m_image.format();
+    m_multiTextureID = 0;
   }
   return status;
 }
-
-
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -64,28 +61,25 @@ bool Texture::loadImage(const std::string &_fname )
 GLuint Texture::setTextureGL() const noexcept
 {
   GLuint textureName;
-  glGenTextures(1,&textureName);
-  glActiveTexture(GL_TEXTURE0+m_multiTextureID);
-  glBindTexture(GL_TEXTURE_2D,textureName);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+  glGenTextures(1, &textureName);
+  glActiveTexture(GL_TEXTURE0 + m_multiTextureID);
+  glBindTexture(GL_TEXTURE_2D, textureName);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-  glTexImage2D(GL_TEXTURE_2D,0,m_format,m_width,m_height,0,m_format,GL_UNSIGNED_BYTE,m_image.getPixels());
+  glTexImage2D(GL_TEXTURE_2D, 0, m_format, m_width, m_height, 0, m_format, GL_UNSIGNED_BYTE, m_image.getPixels());
 
-  NGLMessage::addMessage(fmt::format("texture GL set texure ID is {0} Active Texture unit is {1}",textureName,m_multiTextureID));
+  NGLMessage::addMessage(fmt::format("texture GL set texure ID is {0} Active Texture unit is {1}", textureName, m_multiTextureID));
   glGenerateMipmap(GL_TEXTURE_2D);
   return textureName;
 }
 //----------------------------------------------------------------------------------------------------------------------
 
-void Texture::setMultiTexture( const GLint _id  ) noexcept
+void Texture::setMultiTexture(const GLint _id) noexcept
 {
- m_multiTextureID=_id;
+  m_multiTextureID = _id;
 }
 
-
-
-} // end namespace ngl;
+} // namespace ngl
 
 //----------------------------------------------------------------------------------------------------------------------
-

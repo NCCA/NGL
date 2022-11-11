@@ -21,13 +21,13 @@
 /// @brief inherited from AbstractMesh export and load binary data in our own format
 // must include types.h first for Real and GLEW if required
 //----------------------------------------------------------------------------------------------------------------------
-#include "Types.h"
 #include "AbstractMesh.h"
 #include "BBox.h"
 #include "RibExport.h"
 #include "Texture.h"
+#include "Types.h"
 #include "Vec4.h"
-#include <string>
+#include <string_view>
 #include <vector>
 
 namespace ngl
@@ -43,45 +43,44 @@ namespace ngl
 /// @date 6/05/10 initial development
 //----------------------------------------------------------------------------------------------------------------------
 
-class NGL_DLLEXPORT NCCABinMesh : public  AbstractMesh
+class NGL_DLLEXPORT NCCABinMesh : public AbstractMesh
 {
 
-public :
-
+    public:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief default constructor
   //----------------------------------------------------------------------------------------------------------------------
-    NCCABinMesh() noexcept{;}
+  NCCABinMesh() noexcept
+  {
+    ;
+  }
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief constructor to load an objfile as a parameter
   /// @param[in]  &_fname the name of the obj file to load
   //----------------------------------------------------------------------------------------------------------------------
-  NCCABinMesh( const std::string& _fname  ) noexcept;
+  NCCABinMesh(std::string_view _fname) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief constructor to load an objfile as a parameter
   /// @param[in]  &_fname the name of the obj file to load
   /// @param[in]  &_texName the name of the texture file
   //----------------------------------------------------------------------------------------------------------------------
-  NCCABinMesh( const std::string& _fname, const std::string& _texName) noexcept;
+  NCCABinMesh(std::string_view _fname, std::string_view _texName) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  Method to load the file in
   /// @param[in]  _fname the name of the obj file to load
   //----------------------------------------------------------------------------------------------------------------------
-  bool load( const std::string& _fname, CalcBB _calcBB=CalcBB::True) noexcept override;
+  bool load(std::string_view _fname, CalcBB _calcBB = CalcBB::True) noexcept override;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to save the obj
   /// @param[in] _fname the name of the file to save
   //----------------------------------------------------------------------------------------------------------------------
-  void save( const std::string& _fname) noexcept;
+  void save(std::string_view _fname) noexcept;
 
-protected :
-
+    protected:
   // not data all in parent
 };
 
-}
-
+} // namespace ngl
 
 #endif
 //----------------------------------------------------------------------------------------------------------------------
-
