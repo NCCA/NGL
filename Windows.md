@@ -60,7 +60,7 @@ NGL can now be cloned and installed as with Mac and Linux. It is important that 
 For a simple Command line build do the following in the Visual Studio Powershell note you will need to change the paths for your own install of vcpkg and home directories if not standard ~/ ones.
 
 ```
-git clone -depth 1 git@github.com:/NCCA/NGL $HOME/NGLBuild
+git clone --depth=1 git@github.com:/NCCA/NGL $HOME/NGLBuild
 cd NGLBuild
 mkdir build
 cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_INSTALL_PREFIX:PATH="$HOME/NGL"  -DCMAKE_BUILD_TYPE=Debug  ..

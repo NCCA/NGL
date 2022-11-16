@@ -1,6 +1,7 @@
 set(NGL_Found,1)
 find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
+find_package(gl3w CONFIG REQUIRED)
 
 
 find_package(freetype CONFIG REQUIRED)
@@ -48,5 +49,5 @@ endif()
 # now add NGL specific values
 link_directories(${NGL_HOME}/lib)
 
-link_libraries( ${PROJECT_LINK_LIBS}  fmt::fmt-header-only freetype glm::glm)
+link_libraries( ${PROJECT_LINK_LIBS}  fmt::fmt-header-only freetype glm::glm unofficial::gl3w::gl3w)
 
