@@ -25,6 +25,7 @@ cd vcpkg
 .\vcpkg install rapidxml:x64-windows
 .\vcpkg install fmt:x64-windows
 .\vcpkg install freetype:x64-windows
+.\vcpkg install gl3w:x64-windows
 # optional if needing OpenImageIO
 .\vcpkg install openimageio:x64-windows
 # optional if building the python bindings
