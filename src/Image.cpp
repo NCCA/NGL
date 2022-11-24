@@ -197,7 +197,7 @@ bool Image::save(std::string_view _fname,bool flipY) noexcept
 
 #if defined(USEBUILTINIMAGE)
   // TODO add check for extension and save what you can.
-  stbi_write_png(_fname.data(), m_width, m_height, m_channels, m_data.get(), _width * size);
+  stbi_write_png(_fname.data(), m_width, m_height, m_channels, m_data.get(), m_width * m_channels);
 #endif
 }
 
