@@ -32,129 +32,148 @@ namespace ngl
 
 class NGL_DLLEXPORT Image
 {
-    public:
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief default ctor
-  //----------------------------------------------------------------------------------------------------------------------
-  Image() = default;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief ctor passing in filename
-  /// @param _fname the name of the file to load.
-  //----------------------------------------------------------------------------------------------------------------------
-  Image(std::string_view _fname);
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief copy ctor (does a deep copy so could be expensive)
-  /// @param _i image to copy
-  //----------------------------------------------------------------------------------------------------------------------
-  Image(const Image &_i);
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief dtor as we use a smart pointer the data will release automatically
-  //----------------------------------------------------------------------------------------------------------------------
-  ~Image() = default;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief load the image data, this will clear the previous data and attempt to load the new image data
-  /// @param _fname name of the file to load
-  /// @returns true is loaded ok, else false
-  //----------------------------------------------------------------------------------------------------------------------
-  bool load(std::string_view _fname) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief raw access to unsigned char pixel data
-  /// @returns a pointer to the first image pixel element.
-  //----------------------------------------------------------------------------------------------------------------------
-  unsigned char *getPixels() const noexcept
-  {
-    return m_data.get();
-  }
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief save the FrameBuffer to file using current built in I/O
-  /// @param _fname the name / path of the file to save
-  /// @brief _x the x position into the framebuffer This location is the lower left corner of a rectangular block of pixels
-  /// @brief _y the y position into the framebuffer This location is the lower left corner of a rectangular block of pixels
-  /// @brief _width of the rectangle
-  /// @brief _height the height of the rectangle
-  /// @brief _mode RGB or RGBA image
-  //----------------------------------------------------------------------------------------------------------------------
+  public:
   enum class ImageModes : char
-  {
-    RGB,
-    RGBA
-  };
-  static void saveFrameBufferToFile(std::string_view _fname, int _x, int _y, int _width, int _height, ImageModes _mode = ImageModes::RGB);
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief Get the width of the texture
-  /// @return width of the texture
-  //----------------------------------------------------------------------------------------------------------------------
-  GLuint width() const noexcept
-  {
-    return m_width;
-  }
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief Get the height of the texture
-  /// @return height of the texture
-  //----------------------------------------------------------------------------------------------------------------------
-  GLuint height() const noexcept
-  {
-    return m_height;
-  }
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief Get the pixel format
-  /// @return pixel format of the texture
-  //----------------------------------------------------------------------------------------------------------------------
-  GLuint format() const noexcept
-  {
-    return m_format;
-  }
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief gets the number of channels
-  /// @return usually 3 (RGB) or 4 (RGBA) but can handle others depending on libl
-  //----------------------------------------------------------------------------------------------------------------------
-  GLuint channels() const noexcept
-  {
-    return m_channels;
-  }
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief get the colour value from X,Y co-ordinates (image absolute 0,0 = top Left)
-  /// @param[in] _x the x position in the image
-  /// @param[in] _y the y position in the image
-  //----------------------------------------------------------------------------------------------------------------------
-  Vec4 getColour(const GLuint _x, const GLuint _y) const noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief get the colour value from X,Y co-ordinates in texture space
-  /// @param[in] _uvX the x position in the image
-  /// @param[in] _uvY the y position in the image
-  //----------------------------------------------------------------------------------------------------------------------
-  Vec4 getColour(const Real _uvX, const Real _uvY) const noexcept;
-  static void info();
+    {
+      RGB,
+      RGBA
+    };
+    /// @brief default ctor
+    Image() = default;
+    /// @brief create empty image defaulting to RGBA and black
+    Image(int _w, int _h, ImageModes _mode=ImageModes::RGBA );
+    /// @brief ctor passing in filename
+    /// @param _fname the name of the file to load.
 
-    private:
-  //----------------------------------------------------------------------------------------------------------------------
+    Image(std::string_view _fname,bool flipY=true);
+
+    /// @brief copy ctor (does a deep copy so could be expensive)
+    /// @param _i image to copy
+
+    Image(const Image &_i);
+
+    /// @brief dtor as we use a smart pointer the data will release automatically
+
+    ~Image() = default;
+
+    /// @brief load the image data, this will clear the previous data and attempt to load the new image data
+    /// @param _fname name of the file to load
+    /// @param _flipY flip the texture in the Y for OpenGL
+    // this means 0,0 is bottom left of image
+    /// @returns true is loaded ok, else false
+
+    bool load(std::string_view _fname,bool _flipY=true) noexcept;
+    /// @brief  save to file using current internal lib
+    /// @param _fname name of file to save
+    /// @param _flipY flip the texture in the Y for OpenGL
+    // this means 0,0 is bottom left of image
+    /// @return  true if file could be saved.
+    bool save(std::string_view _fname,bool _flipY=true) noexcept;
+
+
+    /// @brief raw access to unsigned char pixel data
+    /// @returns a pointer to the first image pixel element.
+
+    unsigned char *getPixels() const noexcept
+    {
+      return m_data.get();
+    }
+
+    /// @brief save the FrameBuffer to file using current built in I/O
+    /// @param _fname the name / path of the file to save
+    /// @brief _x the x position into the framebuffer This location is the lower left corner of a rectangular block of pixels
+    /// @brief _y the y position into the framebuffer This location is the lower left corner of a rectangular block of pixels
+    /// @brief _width of the rectangle
+    /// @brief _height the height of the rectangle
+    /// @brief _mode RGB or RGBA image
+
+    
+    static void saveFrameBufferToFile(std::string_view _fname, int _x, int _y, int _width, int _height, ImageModes _mode = ImageModes::RGB);
+
+    /// @brief Get the width of the texture
+    /// @return width of the texture
+
+    GLuint width() const noexcept
+    {
+      return m_width;
+    }
+
+    /// @brief Get the height of the texture
+    /// @return height of the texture
+
+    GLuint height() const noexcept
+    {
+      return m_height;
+    }
+
+    /// @brief Get the pixel format
+    /// @return pixel format of the texture
+
+    GLuint format() const noexcept
+    {
+      return m_format;
+    }
+
+    /// @brief gets the number of channels
+    /// @return usually 3 (RGB) or 4 (RGBA) but can handle others depending on libl
+
+    GLuint channels() const noexcept
+    {
+      return m_channels;
+    }
+
+    /// @brief set the colour value at position
+    /// @param[in] _x the x position in the image
+    /// @param[in] _y the y position in the image
+    /// @param[in] _r the red pixel value
+    /// @param[in] _g the green pixel value
+    /// @param[in] _b the blue pixel value
+    /// @param[in] _a the alpha pixel value
+    void setPixel(int _x, int _y, unsigned char _r, unsigned char _g, unsigned char _b, unsigned char _a = 255) noexcept;
+
+    /// @brief get the colour value from X,Y co-ordinates (image absolute 0,0 = top Left)
+    /// @param[in] _x the x position in the image
+    /// @param[in] _y the y position in the image
+
+    Vec4 getColour(const GLuint _x, const GLuint _y) const noexcept;
+
+    /// @brief get the colour value from X,Y co-ordinates in texture space
+    /// @param[in] _uvX the x position in the image
+    /// @param[in] _uvY the y position in the image
+
+    Vec4 getColour(const Real _uvX, const Real _uvY) const noexcept;
+
+    /// @brief print out info for the internal library being used.
+    static void info();
+
+private:
   /// @brief the actual image data loaded packed in r,g,b,(a) format in contiguous memory
   /// stored in a smart_pointer for safety
-  //----------------------------------------------------------------------------------------------------------------------
+
   std::unique_ptr< unsigned char[] > m_data;
-  //----------------------------------------------------------------------------------------------------------------------
+
   /// @brief the size of the image in the X direction
-  //----------------------------------------------------------------------------------------------------------------------
+
   GLuint m_width = 0;
-  //----------------------------------------------------------------------------------------------------------------------
+
   /// @brief the size of the image in the Y direction
-  //----------------------------------------------------------------------------------------------------------------------
+
   GLuint m_height = 0;
-  //----------------------------------------------------------------------------------------------------------------------
+
   /// @brief bits per pixel (RGB / RGBA)
-  //----------------------------------------------------------------------------------------------------------------------
+
   GLuint m_channels = 3;
-  //----------------------------------------------------------------------------------------------------------------------
+
   /// @brief image format, use GL types for this as we are going to use this class mainly for OpenGL
-  //----------------------------------------------------------------------------------------------------------------------
+
   GLuint m_format = GL_RGB;
-  //----------------------------------------------------------------------------------------------------------------------
+
   /// @brief loaded flag
-  //----------------------------------------------------------------------------------------------------------------------
+
   bool m_loaded = false;
-  //----------------------------------------------------------------------------------------------------------------------
+
   /// @brief do we have an alpha channel
-  //----------------------------------------------------------------------------------------------------------------------
+
   bool m_hasAlpha = false;
 };
 

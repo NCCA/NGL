@@ -20,6 +20,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include "Image.h"
 #include "NGLassert.h"
+#include "pystring.h"
 #if defined(USEQIMAGE)
 #include <QtGui/QImage>
 #endif
@@ -66,9 +67,28 @@ void Image::info()
   NGLMessage::addMessage("Image Info END");
 }
 
-Image::Image(std::string_view _fname)
+Image::Image(std::string_view _fname,bool _flipY)
 {
-  load(_fname);
+  load(_fname,_flipY);
+}
+
+Image::Image(int _w, int _h, ImageModes _mode ) :m_width(_w),m_height(_h)
+{
+  if(_mode == ImageModes::RGBA)
+  {
+    m_channels=4;
+    m_hasAlpha=true;
+    m_format=GL_RGBA;
+  }
+  else
+  {
+    m_channels=3;
+    m_hasAlpha=false;
+    m_format=GL_RGB;
+  }
+  m_loaded=true;
+  m_data=std::make_unique<unsigned char[]>(m_width*m_height*m_channels);
+
 }
 
 Image::Image(const Image &_i)
@@ -126,6 +146,72 @@ Vec4 Image::getColour(const Real _uvX, const Real _uvY) const noexcept
     return Vec4(0.0f, 0.0f, 0.0f, 0.0f);
   }
 }
+bool Image::save(std::string_view _fname,bool flipY) noexcept
+{
+ namespace ps=pystring;
+ if((ps::endswith(std::string(_fname),".jpg") || ps::endswith(std::string(_fname),".jpeg")) &&
+  m_channels == 4 )
+ {
+    ngl::NGLMessage::addWarning("Trying to save RGBA image as jpg which doesn't support it");
+    
+
+ }
+
+#if defined(USEQIMAGE)
+  QImage::Format qformat = QImage::Format::Format_RGB888;
+  if(m_mode == ImageModes::RGBA)
+  {
+    qformat = QImage::Format::Format_RGBA8888;
+  }
+  QImage image(m_data.get(), m_width, m_height, qformat);
+  image = image.mirrored(false, true);
+  image.save(_fname.data());
+
+#endif
+#if defined(USEOIIO)
+  using namespace OIIO;
+  auto out = ImageOutput::create(_fname.data());
+  ImageSpec spec(m_width, m_height, m_channels, TypeDesc::UINT8);
+  out->open(_fname.data(), spec);
+  if(flipY)
+  {
+    int scanlinesize = m_width * m_channels;
+    // note this flips the image vertically on writing
+    // (see http://www.openimageio.org/openimageio.pdf pg 20 for details)
+    out->write_image(TypeDesc::UINT8, m_data.get() + (m_height - 1) * scanlinesize, AutoStride, -scanlinesize, AutoStride);
+  }
+  else
+  {
+    out->write_image(TypeDesc::UINT8, m_data.get() );
+  }
+  out->close();
+#endif
+#if defined(USEIMAGEMAGIC)
+  Magick::Image output(m_width, m_height, m_channels == 3 ? "RGB" : "RGBA", Magick::CharPixel, m_data.get());
+
+  // set the output image depth to 16 bit
+  output.depth(16);
+  // write the file
+  output.write(_fname.data());
+#endif
+
+#if defined(USEBUILTINIMAGE)
+  // TODO add check for extension and save what you can.
+  stbi_write_png(_fname.data(), m_width, m_height, m_channels, m_data.get(), _width * size);
+#endif
+}
+
+
+void Image::setPixel(int _x, int _y, unsigned char _r, unsigned char _g, unsigned char _b, unsigned char _a ) noexcept
+{
+  size_t offset=(m_width * _y * m_channels) + (_x*m_channels);
+  m_data[offset] = _r;
+  m_data[offset+1] = _g;
+  m_data[offset+2] = _b;
+  if(m_channels == 4)
+      m_data[offset+3] = _a;
+}
+
 
 void Image::saveFrameBufferToFile(std::string_view _fname, int _x, int _y, int _width, int _height, ImageModes _mode)
 {
@@ -291,7 +377,7 @@ bool Image::load(std::string_view _fname) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 // Open Image I/O loading routines
 //----------------------------------------------------------------------------------------------------------------------
-bool Image::load(std::string_view _fname) noexcept
+bool Image::load(std::string_view _fname,bool _flipY) noexcept
 {
   using namespace OIIO;
 
@@ -323,13 +409,19 @@ bool Image::load(std::string_view _fname) noexcept
   }
   m_data.reset(new unsigned char[m_width * m_height * m_channels]);
   // this will read an flip the pixel for OpenGL
+  if(_flipY)
+  {
   int scanlinesize = spec.width * spec.nchannels * sizeof(m_data[0]);
   in->read_image(TypeDesc::UINT8,
                  (char *)m_data.get() + (m_height - 1) * scanlinesize, // offset to last
                  AutoStride,                                           // default x stride
                  -scanlinesize,                                        // special y stride
                  AutoStride);                                          // default z stride
-  // in->read_image (OpenImageIO::TypeDesc::UINT8, &m_data[0]);
+  }
+  else
+  {
+    in->read_image (TypeDesc::UINT8, &m_data[0]);
+  }
   in->close();
   return true;
 }
