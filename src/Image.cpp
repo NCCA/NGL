@@ -275,7 +275,7 @@ void Image::saveFrameBufferToFile(std::string_view _fname, int _x, int _y, int _
 //----------------------------------------------------------------------------------------------------------------------
 // Qt Image loading routines
 //----------------------------------------------------------------------------------------------------------------------
-bool Image::load(std::string_view _fName) noexcept
+bool Image::load(std::string_view _fName,bool _flipY) noexcept
 {
 #ifdef IMAGE_DEBUG_ON
   NGLMessage::addMessage("loading with QImage");
@@ -340,7 +340,7 @@ bool Image::load(std::string_view _fName) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 // Image Magick Image loading routines
 //----------------------------------------------------------------------------------------------------------------------
-bool Image::load(std::string_view _fname) noexcept
+bool Image::load(std::string_view _fname,bool _flipY) noexcept
 {
 #ifdef IMAGE_DEBUG_ON
   NGLMessage::addMessage("loading with ImageMagick");
@@ -432,11 +432,11 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
 
 // #define STB_IMAGE_IMPLEMENTATION
 // #include "../3rdparty/stb_image.h"
-bool Image::load(std::string_view _fname) noexcept
+bool Image::load(std::string_view _fname,bool _flipY) noexcept
 {
   const char *fname = _fname.data();
   int w, h, ch;
-  stbi_set_flip_vertically_on_load(true);
+  stbi_set_flip_vertically_on_load(_flipY);
 
   unsigned char *img = stbi_load(fname, &w, &h, &ch, 0);
 #ifdef IMAGE_DEBUG_ON
