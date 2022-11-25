@@ -24,9 +24,6 @@
 #if defined(USEQIMAGE)
 #include <QtGui/QImage>
 #endif
-#if defined(USEIMAGEMAGIC)
-#include <ImageMagick-6/Magick++.h>
-#endif
 #if defined(USEOIIO)
 #include <OpenImageIO/imageio.h>
 #endif
@@ -48,9 +45,6 @@ namespace ngl
 
 void Image::info()
 {
-#if defined(USEIMAGEMAGIC)
-  NGLMessage::addMessage("Using Using Image Magick");
-#endif
 #if defined(USEOIIO)
   NGLMessage::addMessage("Using OpenImageIO");
 #endif
@@ -146,8 +140,9 @@ Vec4 Image::getColour(const Real _uvX, const Real _uvY) const noexcept
     return Vec4(0.0f, 0.0f, 0.0f, 0.0f);
   }
 }
-bool Image::save(std::string_view _fname,bool flipY) noexcept
+bool Image::save(std::string_view _fname,bool _flipY) noexcept
 {
+ bool isSaved=false;
  namespace ps=pystring;
  if((ps::endswith(std::string(_fname),".jpg") || ps::endswith(std::string(_fname),".jpeg")) &&
   m_channels == 4 )
@@ -172,8 +167,8 @@ bool Image::save(std::string_view _fname,bool flipY) noexcept
   using namespace OIIO;
   auto out = ImageOutput::create(_fname.data());
   ImageSpec spec(m_width, m_height, m_channels, TypeDesc::UINT8);
-  out->open(_fname.data(), spec);
-  if(flipY)
+  isSaved=out->open(_fname.data(), spec);
+  if(_flipY)
   {
     int scanlinesize = m_width * m_channels;
     // note this flips the image vertically on writing
@@ -186,19 +181,22 @@ bool Image::save(std::string_view _fname,bool flipY) noexcept
   }
   out->close();
 #endif
-#if defined(USEIMAGEMAGIC)
-  Magick::Image output(m_width, m_height, m_channels == 3 ? "RGB" : "RGBA", Magick::CharPixel, m_data.get());
-
-  // set the output image depth to 16 bit
-  output.depth(16);
-  // write the file
-  output.write(_fname.data());
-#endif
 
 #if defined(USEBUILTINIMAGE)
   // TODO add check for extension and save what you can.
-  stbi_write_png(_fname.data(), m_width, m_height, m_channels, m_data.get(), m_width * m_channels);
+  stbi_flip_vertically_on_write(int(_flipY));
+  if(ps::endswith(std::string(_fname.data()),".png"))
+    isSaved=stbi_write_png(_fname.data(), m_width, m_height, m_channels, m_data.get(), m_width * m_channels);
+  else if(ps::endswith(std::string(_fname.data()),".tga"))
+    isSaved=stbi_write_tga(_fname.data(), m_width, m_height, m_channels, m_data.get());
+  else if(ps::endswith(std::string(_fname.data()),".bmp"))
+    isSaved=stbi_write_bmp(_fname.data(), m_width, m_height, m_channels, m_data.get());
+  else if(ps::endswith(std::string(_fname.data()),".jpg"))
+    isSaved=stbi_write_jpg(_fname.data(), m_width, m_height, m_channels, m_data.get(),100);
+  
+
 #endif
+return isSaved;
 }
 
 
@@ -249,14 +247,7 @@ void Image::saveFrameBufferToFile(std::string_view _fname, int _x, int _y, int _
   out->write_image(TypeDesc::UINT8, data.get() + (realHeight - 1) * scanlinesize, AutoStride, -scanlinesize, AutoStride);
   out->close();
 #endif
-#if defined(USEIMAGEMAGIC)
-  Magick::Image output(realWidth, realHeight, size == 3 ? "RGB" : "RGBA", Magick::CharPixel, data.get());
 
-  // set the output image depth to 16 bit
-  output.depth(16);
-  // write the file
-  output.write(_fname.data());
-#endif
 
 #if defined(USEBUILTINIMAGE)
 
@@ -334,43 +325,6 @@ bool Image::load(std::string_view _fName,bool _flipY) noexcept
 }
 
 #endif // end of QImage loading routines
-
-#if defined(USEIMAGEMAGIC)
-
-//----------------------------------------------------------------------------------------------------------------------
-// Image Magick Image loading routines
-//----------------------------------------------------------------------------------------------------------------------
-bool Image::load(std::string_view _fname,bool _flipY) noexcept
-{
-#ifdef IMAGE_DEBUG_ON
-  NGLMessage::addMessage("loading with ImageMagick");
-#endif
-  Magick::Image image;
-  Magick::Blob blob;
-
-  try
-  {
-    image.read(_fname.data());
-    // need to flip image as OpenGL uses textures starting the other way round.
-    image.flip();
-    image.write(&blob, "RGBA");
-  }
-  catch(Magick::Error &Error)
-  {
-    NGLMessage::addError(fmt::form("Error loading image {0} {1}", _fname.data(), Error.what()));
-    return false;
-  }
-  m_width = image.columns();
-  m_height = image.rows();
-  m_channels = 4;
-  m_format = GL_RGBA;
-  m_data.reset(new unsigned char[m_width * m_height * m_channels]);
-  // simple memcpy of the blob data to our internal data, not worrying about RGB/RGBA
-  // here (as OpenGL doesn't really either).
-  memcpy(m_data.get(), blob.data(), blob.length());
-  return true;
-}
-#endif // end of image magick loading routines
 
 #if defined(USEOIIO)
 
