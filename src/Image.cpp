@@ -285,7 +285,6 @@ bool Image::load(std::string_view _fName,bool _flipY) noexcept
   }
   if(loaded == true)
   {
-    image = image.mirrored();
     m_width = static_cast< GLuint >(image.width());
     m_height = static_cast< GLuint >(image.height());
     m_hasAlpha = image.hasAlphaChannel();
