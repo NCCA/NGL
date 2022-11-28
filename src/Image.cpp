@@ -153,13 +153,17 @@ bool Image::save(std::string_view _fname,bool _flipY) noexcept
  }
 
 #if defined(USEQIMAGE)
-  QImage::Format qformat = QImage::Format::Format_RGB888;
-  if(m_mode == ImageModes::RGBA)
-  {
-    qformat = QImage::Format::Format_RGBA8888;
-  }
-  QImage image(m_data.get(), m_width, m_height, qformat);
-  image = image.mirrored(false, true);
+  // QImage::Format qformat 
+  // if(m_channels == 4)
+  // {
+  //   qformat = QImage::Format::Format_RGBA8888;
+  // }
+  // else
+  // {
+  //  qformat = QImage::Format::Format_RGB888;
+  // }
+  QImage image(m_data.get(), m_width, m_height, m_channels==4 ? QImage::Format::Format_RGBA8888 : QImage::Format::Format_RGB888);
+  image = image.mirrored(false, _flipY);
   image.save(_fname.data());
 
 #endif
@@ -273,6 +277,8 @@ bool Image::load(std::string_view _fName,bool _flipY) noexcept
 #endif
   QImage image;
   bool loaded = image.load(_fName.data());
+  image = image.mirrored(false, _flipY);
+
   if(loaded == false)
   {
     NGLMessage::addError(fmt::format("error loading image {0} ", _fName.data()));

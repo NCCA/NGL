@@ -16,6 +16,7 @@ NGL depends upon the following libraries
 - [glfw3](https://www.glfw.org/) is used to create an OpenGL context for the unit tests, if you don't want to install this just don't build the unit tests.  
 - [freetype](https://freetype.org/) for font loading 
 - [gtest](https://github.com/google/googletest) for Unit testing if you are building the tests.
+- [gl3w](https://github.com/skaslev/gl3w) for loading the OpenGL core profile
 - [RapidJSON](https://rapidjson.org/) for the Shader Library code.
 - [RapidXML](http://rapidxml.sourceforge.net/) for the Point bake classes.
 - [cmake](https://cmake.org/) for building of NGL and all demos.
