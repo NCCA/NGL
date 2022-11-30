@@ -56,6 +56,11 @@ else()
     add_compile_options(-Wall -Wextra -pedantic) # -Werror)
 endif()
 
+if (ADD_COVERAGE)
+    message("adding coverage flags")
+    set(CMAKE_CXX_FLAGS "-ftest-coverage -fprofile-arcs")
+endif()
+
 if(WIN32)
     # Not defined in msvc compiler for cmaths so must set definition manually here
     add_compile_definitions(_USE_MATH_DEFINES)
