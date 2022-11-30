@@ -69,10 +69,10 @@ void NGLInit::initialize()
   // auto s = format("GLSL version: {}", glGetString(GL_VERSION));
   // should work as per docs but current version not working at present.
   char s[100];
-  std::sprintf(s, "%s", glGetString(GL_VERSION));
+  std::snprintf(s,100, "%s", glGetString(GL_VERSION));
 
   NGLMessage::addMessage(fmt::format("OpenGL {}", s));
-  std::sprintf(s, "%s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+  std::snprintf(s,100, "%s", glGetString(GL_SHADING_LANGUAGE_VERSION));
   NGLMessage::addMessage(fmt::format("GLSL version {}", s));
 
   NGLMessage::drawLine(Colours::YELLOW);
