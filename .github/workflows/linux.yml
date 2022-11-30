@@ -9,11 +9,9 @@ jobs:
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
     steps:
     - uses: actions/checkout@v2 
-    - name: Set up Python 3.8 for gcovr
-        - uses: actions/setup-python@v4
-        with:
-          python-version: 3.8
-
+    - uses: actions/setup-python@v4
+      with: 
+        python-version: '3.8' 
     - name : Add System Packages
       run : |
         sudo apt-get update 
