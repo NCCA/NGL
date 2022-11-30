@@ -58,7 +58,7 @@ endif()
 
 if (ADD_COVERAGE)
     message("adding coverage flags")
-    set(CMAKE_CXX_FLAGS "-ftest-coverage -fprofile-arcs")
+    add_compile_options(-ftest-coverage -fprofile-arcs)
 endif()
 
 if(WIN32)
@@ -224,6 +224,11 @@ if(NOT DEFINED PYNGL_ONLY)
     target_link_libraries(NGL PRIVATE freetype)
     target_include_directories(NGL PRIVATE ${RAPIDXML_INCLUDE_DIRS})
     target_include_directories(NGL PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
+    if (ADD_COVERAGE)
+        target_link_libraries(NGL PRIVATE --coverage)
+    endif()
+
+
 
     # ################################################################
     # Tests
@@ -292,7 +297,9 @@ if(NOT DEFINED PYNGL_ONLY)
     else()
         target_link_libraries(NGLTests PRIVATE NGL PRIVATE ${EXTRALIBS})
     endif()
-
+ if (ADD_COVERAGE)
+        target_link_libraries(NGLTests PRIVATE --coverage)
+    endif()
     # gtest_discover_tests(NGLTests)
     add_custom_target(CopyTestfiles ALL
         COMMAND ${CMAKE_COMMAND} -E copy_directory
