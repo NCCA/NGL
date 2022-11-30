@@ -153,16 +153,16 @@ bool Obj::save(std::string_view _fname) noexcept
     {
       // don't forget that obj indices start from 1 not 0 (i did originally !)
       out << f.m_vert[i] + 1;
-      if(m_uv.empty())
+      if( ! m_uv.empty() )
       {
         out << '/';
         out << f.m_uv[i] + 1;
       }
-      if(m_norm.empty())
+      if( ! m_norm.empty())
       {
         out << '/';
         // weird case where we need to do f 1//1
-        if(m_uv.empty())
+        if(m_uv.size() == 0)
         {
           out << '/';
         }
