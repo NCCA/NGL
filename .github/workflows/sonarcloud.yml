@@ -1,5 +1,7 @@
 name: SonarCloud
 on: [push, pull_request]
+  branches : 
+    - main
 jobs:
     sonarcloud:
       runs-on: ubuntu-latest
