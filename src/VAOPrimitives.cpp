@@ -185,12 +185,12 @@ void VAOPrimitives::createSphere(std::string_view _name, Real _radius, int _prec
   }
   // now fill in a vertData structure and add to the data list for our sphere
   vertData d;
-  for(int i = 0; i < _precision / 2; ++i)
+  for(float i = 0; i < static_cast<float>(_precision) / 2.0f; ++i)
   {
     theta1 = i * TWO_PI / _precision - PI2;
     theta2 = (i + 1) * TWO_PI / _precision - PI2;
 
-    for(int j = 0; j <= _precision; ++j)
+    for(float j = 0; j <= static_cast<float>(_precision); ++j)
     {
       theta3 = j * TWO_PI / _precision;
 
