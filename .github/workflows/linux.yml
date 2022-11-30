@@ -49,7 +49,8 @@ jobs:
     - name: Run build-wrapper
       run: |
           cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 -DADD_COVERAGE=1 
-          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release
+          cmake --build build/ --target clean
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release 
     - name: Collect coverage into one XML report
       run: |
         gcovr --sonarqube > coverage.xml
