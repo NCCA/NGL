@@ -1,7 +1,6 @@
 name: SonarCloud
 on: [push, pull_request]
-  branches : 
-    - main
+
 jobs:
     sonarcloud:
       runs-on: ubuntu-latest
@@ -10,6 +9,7 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          ref : main
           
 
       - name: SonarCloud Scan
