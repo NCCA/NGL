@@ -42,9 +42,7 @@ constexpr GLubyte lindices[]=  {
                                  };
 
 
-BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  ) noexcept : m_center{_center} ,m_width{_width},
-	m_height{_height},
-	m_depth{_depth}
+BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth, bool _noGL ) noexcept : m_center{_center} ,m_width{_width},m_height{_height},m_depth{_depth},m_noGL{_noGL}
 {
 	// Calculate the Vertices based on the w,h,d params passed in the box is asumed
 	// to be centered on the _center with equal w / h / d
@@ -86,7 +84,8 @@ BBox::BBox(const BBox &_b) noexcept :
   m_width{_b.m_width},
   m_height{_b.m_height},
   m_depth{_b.m_depth},
-  m_drawMode{_b.m_drawMode}
+  m_drawMode{_b.m_drawMode},
+  m_noGL{_b.m_noGL}
 {
   recalculate();
 }
@@ -111,13 +110,14 @@ BBox& BBox::operator=(const BBox &_b)
 
 
 
-BBox::BBox( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _minZ, Real _maxZ  ) noexcept :
+BBox::BBox( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _minZ, Real _maxZ  ,bool _noGL) noexcept :
   m_minX{_minX},
 	m_maxX{_maxX},
 	m_minY{_minY},
 	m_maxY{_maxY},
 	m_minZ{_minZ},
-	m_maxZ{_maxZ}
+	m_maxZ{_maxZ},
+  m_noGL{_noGL}
 {
 	m_center.set(0,0,0);
   setExtents(_minX,_maxX,_minY,_maxY,_minZ,_maxZ);
@@ -199,8 +199,6 @@ void BBox::setVAO()
     // finally we have finished for now so time to unbind the VAO
     m_vao->unbind();
   }
-
-
 }
 
 
@@ -293,7 +291,7 @@ void BBox::recalculate() noexcept
 
 BBox::~BBox() noexcept
 {
-  if(m_noGL==true)
+  if(m_vao)
     m_vao->removeVAO();
 }
 

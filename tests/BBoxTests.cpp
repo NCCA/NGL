@@ -19,7 +19,7 @@ TEST(BBox, DefaultCtor)
 
 TEST(BBox, CopyCtor)
 {
-  ngl::BBox d;
+  ngl::BBox d(true);
   auto test(d);
   EXPECT_FLOAT_EQ(test.width(),2.0f);
   EXPECT_FLOAT_EQ(test.height(),2.0f);
@@ -35,7 +35,7 @@ TEST(BBox, CopyCtor)
 
 TEST(BBox, AssignOperator)
 {
-  ngl::BBox d;
+  ngl::BBox d(true);
   auto test=d;
   EXPECT_FLOAT_EQ(test.width(),2.0f);
   EXPECT_FLOAT_EQ(test.height(),2.0f);
@@ -51,7 +51,7 @@ TEST(BBox, AssignOperator)
 
 TEST(BBox, ConstructFromExtents)
 {
-  ngl::BBox test(-5,5,-2,2,-3.2,2.4);
+  ngl::BBox test(-5,5,-2,2,-3.2,2.4,true);
   EXPECT_FLOAT_EQ(test.minX(),-5.0f);
   EXPECT_FLOAT_EQ(test.maxX(),5.0f);
   EXPECT_FLOAT_EQ(test.minY(),-2.0f);
@@ -68,7 +68,7 @@ TEST(BBox, ConstructFromExtents)
 
 TEST(BBox, setExtents)
 {
-  ngl::BBox test;
+  ngl::BBox test(true);
   test.setExtents(-5,5,-2,2,-3.2,2.4);
   EXPECT_FLOAT_EQ(test.minX(),-5.0f);
   EXPECT_FLOAT_EQ(test.maxX(),5.0f);
@@ -85,7 +85,7 @@ TEST(BBox, setExtents)
 
 TEST(BBox, setters)
 {
-  ngl::BBox test;
+  ngl::BBox test(true);
   test.width(5,true);
   test.height(25,true);
   test.depth(15,true);
@@ -104,5 +104,5 @@ TEST(BBox, setters)
 TEST(BBox,getVerts)
 {
     ngl::BBox test;
-    auto verts=test.getVertexArray();
+    //auto verts=test.getVertexArray();
 }

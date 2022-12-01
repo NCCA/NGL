@@ -49,7 +49,7 @@ public :
   ///  @param[in]  _height the height of the BBox (== Y coord).
   ///  @param[in]  _depth the Depth of the BBox (== Z coord).
   
-  BBox(const Vec3 &_center, Real _width,Real _height, Real _depth) noexcept;
+  BBox(const Vec3 &_center, Real _width,Real _height, Real _depth,bool _noGL=false) noexcept;
 
   
   /// @brief ctor using +/- x,y,z dimensions
@@ -60,12 +60,13 @@ public :
   /// @param[in]  _minZ the z position of the min z extent
   /// @param[in]  _maxZ the z position of the max z extent
   
-  BBox(Real _minX,Real _maxX,Real _minY,Real _maxY,Real _minZ,Real _maxZ) noexcept;
+  BBox(Real _minX,Real _maxX,Real _minY,Real _maxY,Real _minZ,Real _maxZ,bool _noGL=false) noexcept;
   
   /// @brief Default constructor will create a BBox centered at point 0,0,0
   /// With Unit length width and height (== 1)
   
   BBox()=default;
+  BBox(bool _noGL) : m_noGL{_noGL}{}
 
   /// @brief copy ctor
   /// @param[in] _b the bbox to copy
