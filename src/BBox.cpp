@@ -14,10 +14,10 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-//----------------------------------------------------------------------------------------------------------------------
+
 /// @file BBox.cpp
 /// @brief a simple bounding box class
-//----------------------------------------------------------------------------------------------------------------------
+
 #include "BBox.h"
 #include "VAOFactory.h"
 #include "SimpleIndexVAO.h"
@@ -41,8 +41,10 @@ constexpr GLubyte lindices[]=  {
                                   4,5,6,7,4
                                  };
 
-//----------------------------------------------------------------------------------------------------------------------
-BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  ) noexcept
+
+BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  ) noexcept : m_center{_center} ,m_width{_width},
+	m_height{_height},
+	m_depth{_depth}
 {
 	// Calculate the Vertices based on the w,h,d params passed in the box is asumed
 	// to be centered on the _center with equal w / h / d
@@ -68,65 +70,29 @@ BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth  ) noex
 	m_norm[4].set(0.0f,0.0f,1.0f);
 	m_norm[5].set(0.0f,0.0f,-1.0f);
 	// store width height and depth
-	m_width=_width;
-	m_height=_height;
-	m_depth=_depth;
-	#ifdef USINGIOS_
-		m_drawMode=GL_LINE_LOOP;
-	#else
-		m_drawMode=GL_LINE;
-	#endif
-  m_vao=nullptr;
+	
   setVAO();
 }
 
 
-
-
-//----------------------------------------------------------------------------------------------------------------------
-BBox::BBox() noexcept
+BBox::BBox(const BBox &_b) noexcept :
+  m_minX{_b.m_minX},
+  m_maxX{_b.m_maxX},
+  m_minY{_b.m_minY},
+  m_maxY{_b.m_maxY},
+  m_minZ{_b.m_minZ},
+  m_maxZ{_b.m_maxZ},
+  m_center{_b.m_center},
+  m_width{_b.m_width},
+  m_height{_b.m_height},
+  m_depth{_b.m_depth},
+  m_drawMode{_b.m_drawMode}
 {
-  //default constructor creates a unit BBox
-  m_center.m_x=m_center.m_y=m_center.m_z=0.0f;
-  #ifdef USINGIOS_
-    m_drawMode=GL_LINE_LOOP;
-  #else
-    m_drawMode=GL_LINE;
-  #endif
-  m_width=2.0f;
-  m_height=2.0f;
-  m_depth=2.0f;
-  m_vao=nullptr;
-  m_noGL=false;
-  //setVAO();
-}
-
-BBox::BBox(bool _noGL) noexcept :  BBox()
-{
-  m_noGL=_noGL;
-}
-
-BBox::BBox(const BBox &_b) noexcept
-{
-  m_center=_b.m_center;
-  m_width=_b.m_width;
-  m_height=_b.m_height;
-  m_depth=_b.m_depth;
-  m_drawMode=_b.m_drawMode;
-  m_minX=_b.m_minX;
-  m_maxX=_b.m_maxX;
-  m_minY=_b.m_minY;
-  m_maxY=_b.m_maxY;
-  m_minZ=_b.m_minZ;
-  m_maxZ=_b.m_maxZ;
-  m_vao=nullptr;
-  m_noGL=_b.m_noGL;
   recalculate();
 }
 
 BBox& BBox::operator=(const BBox &_b)
 {
-
   m_center=_b.m_center;
   m_width=_b.m_width;
   m_height=_b.m_height;
@@ -144,38 +110,21 @@ BBox& BBox::operator=(const BBox &_b)
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
-BBox::BBox( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _minZ, Real _maxZ  ) noexcept
+
+BBox::BBox( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _minZ, Real _maxZ  ) noexcept :
+  m_minX{_minX},
+	m_maxX{_maxX},
+	m_minY{_minY},
+	m_maxY{_maxY},
+	m_minZ{_minZ},
+	m_maxZ{_maxZ}
 {
-
-	m_minX=_minX;
-	m_maxX=_maxX;
-	m_minY=_minY;
-	m_maxY=_maxY;
-	m_minZ=_minZ;
-	m_maxZ=_maxZ;
-
-
 	m_center.set(0,0,0);
-
-	m_vert[0].m_x=_minX; m_vert[0].m_y=_maxY; m_vert[0].m_z=_minZ;
-	m_vert[1].m_x=_maxX; m_vert[1].m_y=_maxY; m_vert[1].m_z=_minZ;
-	m_vert[2].m_x=_maxX; m_vert[2].m_y=_maxY; m_vert[2].m_z=_maxZ;
-	m_vert[3].m_x=_minX; m_vert[3].m_y=_maxY; m_vert[3].m_z=_maxZ;
-
-	m_vert[4].m_x=_minX; m_vert[4].m_y=_minY; m_vert[4].m_z=_minZ;
-	m_vert[5].m_x=_maxX; m_vert[5].m_y=_minY; m_vert[5].m_z=_minZ;
-	m_vert[6].m_x=_maxX; m_vert[6].m_y=_minY; m_vert[6].m_z=_maxZ;
-	m_vert[7].m_x=_minX; m_vert[7].m_y=_minY; m_vert[7].m_z=_maxZ;
-	#ifdef USINGIOS_
-		m_drawMode=GL_LINE_LOOP;
-	#else
-		m_drawMode=GL_LINE;
-	#endif
+  setExtents(_minX,_maxX,_minY,_maxY,_minZ,_maxZ);
 	m_width=m_maxX-m_minX;
 	m_height=m_maxY-m_minY;
 	m_depth=m_maxZ-m_minZ;
-  m_vao=nullptr;
+
 	setVAO();
 
 }
@@ -200,11 +149,7 @@ void BBox::setExtents( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _mi
   m_vert[5].m_x=_maxX; m_vert[5].m_y=_minY; m_vert[5].m_z=_minZ;
   m_vert[6].m_x=_maxX; m_vert[6].m_y=_minY; m_vert[6].m_z=_maxZ;
   m_vert[7].m_x=_minX; m_vert[7].m_y=_minY; m_vert[7].m_z=_maxZ;
-  #ifdef USINGIOS_
-    m_drawMode=GL_LINE_LOOP;
-  #else
-    m_drawMode=GL_LINE;
-  #endif
+  m_drawMode=GL_LINE;
   m_width=m_maxX-m_minX;
   m_height=m_maxY-m_minY;
   m_depth=m_maxZ-m_minZ;
@@ -212,7 +157,7 @@ void BBox::setExtents( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _mi
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
+
 void BBox::setDrawMode( GLenum _mode) noexcept
 {
   m_drawMode=_mode;
@@ -223,11 +168,7 @@ void BBox::setVAO()
 {
   if(m_noGL == true) return;
 	// if were not doing line drawing then use tris
-	#ifdef USINGIOS_
-		if(m_drawMode !=GL_LINE_LOOP)
-	#else
-		if(m_drawMode !=GL_LINE)
-	#endif
+  if(m_drawMode !=GL_LINE)
 	{
     m_vao=VAOFactory::createVAO("simpleIndexVAO",GL_TRIANGLES) ;
 
@@ -250,8 +191,6 @@ void BBox::setVAO()
     // now we have our data add it to the VAO, we need to tell the VAO the following
     // how much (in bytes) data we are copying
     // a pointer to the first element of data (in this case the address of the first element of the
-
-
     m_vao->bind();
     m_vao->setData( SimpleIndexVAO::VertexData(8*sizeof(Vec3),m_vert[0].m_x,sizeof(lindices),&lindices[0],GL_UNSIGNED_BYTE,GL_STATIC_DRAW));
     m_vao->setVertexAttributePointer(0,3,GL_FLOAT,sizeof(Vec3),0);
@@ -265,22 +204,17 @@ void BBox::setVAO()
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
+
 void BBox::draw() const noexcept
 {
-#ifndef USINGIOS_
+
   glPolygonMode(GL_FRONT_AND_BACK,m_drawMode);
   m_vao->bind();
   m_vao->draw();
   m_vao->unbind();
   glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-#else
-  m_vao->bind();
-  m_vao->draw();
-  m_vao->unbind();
-#endif
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 
 void BBox::setCenter(const Vec3 &_center, bool _recalc) noexcept
 {
@@ -344,17 +278,25 @@ void BBox::recalculate() noexcept
   m_vert[5].m_x=m_center.m_x+(m_width/2.0f); m_vert[5].m_y=m_center.m_y-(m_height/2.0f); m_vert[5].m_z=m_center.m_z-(m_depth/2.0f);
   m_vert[6].m_x=m_center.m_x+(m_width/2.0f); m_vert[6].m_y=m_center.m_y-(m_height/2.0f); m_vert[6].m_z=m_center.m_z+(m_depth/2.0f);
   m_vert[7].m_x=m_center.m_x-(m_width/2.0f); m_vert[7].m_y=m_center.m_y-(m_height/2.0f); m_vert[7].m_z=m_center.m_z+(m_depth/2.0f);
+  m_minX=-m_width/2.0f;
+  m_maxX=m_width/2.0f;
+  m_minY=-m_height/2.0f;
+  m_maxY=m_height/2.0f;
+  m_minZ=-m_depth/2.0f;
+  m_maxZ=m_depth/2.0f;
+
+
   setVAO();
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 
 BBox::~BBox() noexcept
 {
   if(m_noGL==true)
     m_vao->removeVAO();
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 
 } // end namespace ngl
 
