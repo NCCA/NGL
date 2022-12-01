@@ -429,7 +429,7 @@ bool ShaderLib::loadFromJson(std::string_view _fname) noexcept
       debug = itr->value["debug"].GetBool();
     }
     const rj::Value::Ch *progName = itr->value["name"].GetString();
-    if(progName == nullptr || strlen(progName) == 0)
+    if(progName == nullptr || itr->value["name"].GetStringLength() == 0)
     {
       NGLMessage::addError(fmt::format("ShaderProgram must have a name (or could be 0 length) "));
       return false;

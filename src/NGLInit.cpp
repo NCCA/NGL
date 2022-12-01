@@ -109,10 +109,10 @@ NGLInit::NGLInit()
   NGLMessage::drawLine(Colours::YELLOW);
   NGLMessage::addMessage("NGL configured with ", Colours::NORMAL, TimeFormat::TIME);
   char s[100];
-  std::sprintf(s, "%s", glGetString(GL_VERSION));
+  std::snprintf(s,100, "%s", glGetString(GL_VERSION));
 
   NGLMessage::addMessage(fmt::format("OpenGL {}", s));
-  std::sprintf(s, "%s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+  std::snprintf(s,100, "%s", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
   NGLMessage::addMessage(fmt::format("GLSL version {}", s));
   NGLMessage::drawLine(Colours::YELLOW);
