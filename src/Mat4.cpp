@@ -83,13 +83,13 @@ Mat4::Mat4(const Mat4 &_m) noexcept
 #ifdef USEGLM
 Mat4::Mat4(const glm::mat4 &_m)
 {
-  memcpy(&m_m[0][0], glm::value_ptr(_m), 16*sizeof(GLfloat));
+  memcpy(&m_m[0][0], &_m[0][0], 16*sizeof(GLfloat));
 }
 
 glm::mat4 Mat4::toGLM() const
 {
   glm::mat4 result;
-  memcpy(glm::value_ptr(result), &m_m[0][0], 16*sizeof(GLfloat));
+  memcpy(&result[0][0], &m_m[0][0], 16*sizeof(GLfloat));
 
   return result;
 }
