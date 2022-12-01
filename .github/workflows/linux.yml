@@ -30,27 +30,33 @@ jobs:
     - name: Install sonar-scanner and build-wrapper
       uses: SonarSource/sonarcloud-github-c-cpp@v1
     
-    - name: Configure
-      run: |
-        mkdir build
-        cd build
-        cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 -DADD_COVERAGE=1 .. \
+    # - name: Configure
+    #   run: |
+    #     mkdir build
+    #     cd build
+    #     cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 -DADD_COVERAGE=1 .. \
                
-    - name: Build
-      run: |
-        cd build
-        threads=`nproc`
-        cmake --build .  --parallel $threads
-    - name: Test
-      run: |
-        cd build
-        ./NGLTests -g
+    # - name: Build
+    #   run: |
+    #     cd build
+    #     threads=`nproc`
+    #     cmake --build .  --parallel $threads
+    # - name: Test
+    #   run: |
+    #     cd build
+    #     ./NGLTests -g
 
     - name: Run build-wrapper
       run: |
           cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 -DADD_COVERAGE=1 
           cmake --build build/ --target clean
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release 
+    - name: Test
+      run: |
+        cd build
+        ./NGLTests -g
+        cd ..
+    
     - name: Collect coverage into one XML report
       run: |
         gcovr --sonarqube > coverage.xml

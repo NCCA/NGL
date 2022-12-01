@@ -15,34 +15,26 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "AABB.h"
-//-----------------------------------------------------------------------------
+
 /// @file AABB.cpp
 /// @brief implementation files for AABB class
-//-----------------------------------------------------------------------------
+
 namespace ngl
 {
 
-//-----------------------------------------------------------------------------
+
 AABB::AABB()noexcept
 {
 	m_corner.set(0.0f,0.0f,0.0f,1.0f);
-
-	m_x = 1.0f;
-	m_y = 1.0f;
-	m_z = 1.0f;
 }
-//-----------------------------------------------------------------------------
+
 AABB::AABB(const Vec4 &_corner,  Real _x,  Real _y,  Real _z ) noexcept
 {
  set(_corner,_x,_y,_z);
 }
 
-//-----------------------------------------------------------------------------
-AABB::~AABB()
-{
 
-}
-//-----------------------------------------------------------------------------
+
 void AABB::set(const Vec4 &_corner,Real _x,Real _y,	Real _z	) noexcept
 {
 	m_corner=_corner;
