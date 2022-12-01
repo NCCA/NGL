@@ -202,7 +202,7 @@ void VAOPrimitives::createSphere(std::string_view _name, Real _radius, int _prec
       d.z = _radius * d.nz;
 
       d.u = (j / static_cast< Real >(_precision));
-      d.v = 2.0f * (i + 1) / static_cast< Real >(_precision);
+      d.v = 2.0f * (i + 1.0f) / static_cast< Real >(_precision);
 
       data.push_back(d);
 

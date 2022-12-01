@@ -77,20 +77,19 @@ Mat4::Mat4(Real _00, Real _01, Real _02, Real _03, Real _10, Real _11, Real _12,
 
 Mat4::Mat4(const Mat4 &_m) noexcept
 {
-  // memcpy(m_m,&_m.m_m,sizeof(m_m));
   m_openGL = _m.m_openGL;
 }
 
 #ifdef USEGLM
 Mat4::Mat4(const glm::mat4 &_m)
 {
-  memcpy(m_m, glm::value_ptr(_m), 16*sizeof(GLfloat));
+  memcpy(&m_m[0][0], glm::value_ptr(_m), 16*sizeof(GLfloat));
 }
 
 glm::mat4 Mat4::toGLM() const
 {
   glm::mat4 result;
-  memcpy(glm::value_ptr(result), m_m, 16*sizeof(GLfloat));
+  memcpy(glm::value_ptr(result), &m_m[0][0], 16*sizeof(GLfloat));
 
   return result;
 }
@@ -100,7 +99,6 @@ glm::mat4 Mat4::toGLM() const
 
 Mat4 &Mat4::operator=(const Mat4 &_m) noexcept
 {
-  //  memcpy(m_m,&_m.m_m,sizeof(m_m));
   m_openGL = _m.m_openGL;
   return *this;
 }

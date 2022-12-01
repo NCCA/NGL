@@ -90,13 +90,13 @@ Mat3::Mat3(const Real _m) noexcept
 #ifdef USEGLM
 Mat3::Mat3(const glm::mat3 &_m)
 {
-  memcpy(m_m, glm::value_ptr(_m), 9*sizeof(GLfloat));
+  memcpy(&m_m[0][0], glm::value_ptr(_m), 9*sizeof(GLfloat));
 }
 
 glm::mat3 Mat3::toGLM() const
 {
   glm::mat3 result;
-  memcpy(glm::value_ptr(result), m_m, 9*sizeof(GLfloat));
+  memcpy(glm::value_ptr(result), &m_m[0][0], 9*sizeof(GLfloat));
 
   return result;
 }
