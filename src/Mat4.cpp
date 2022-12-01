@@ -26,15 +26,15 @@
 #include <glm/gtc/type_ptr.hpp>
 #endif
 
-//------------------------------------------------------------------------------
+
 /// @file Mat4.cpp
 /// @brief implementation files for Matrix class
-//------------------------------------------------------------------------------
+
 
 namespace ngl
 {
 
-//------------------------------------------------------------------------------
+
 Mat4::Mat4() noexcept
 {
   memset(&m_m, 0, sizeof(m_m));
@@ -74,7 +74,7 @@ Mat4::Mat4(Real _00, Real _01, Real _02, Real _03, Real _10, Real _11, Real _12,
   m_32 = _32;
   m_33 = _33;
 }
-//------------------------------------------------------------------------------
+
 Mat4::Mat4(const Mat4 &_m) noexcept
 {
   // memcpy(m_m,&_m.m_m,sizeof(m_m));
@@ -84,27 +84,27 @@ Mat4::Mat4(const Mat4 &_m) noexcept
 #ifdef USEGLM
 Mat4::Mat4(const glm::mat4 &_m)
 {
-  memcpy(m_m, glm::value_ptr(_m), sizeof(m_m));
+  memcpy(m_m, glm::value_ptr(_m), 16*sizeof(GLfloat));
 }
 
 glm::mat4 Mat4::toGLM() const
 {
   glm::mat4 result;
-  memcpy(glm::value_ptr(result), m_m, sizeof(m_m));
+  memcpy(glm::value_ptr(result), m_m, 16*sizeof(GLfloat));
 
   return result;
 }
 
 #endif
 
-//------------------------------------------------------------------------------
+
 Mat4 &Mat4::operator=(const Mat4 &_m) noexcept
 {
   //  memcpy(m_m,&_m.m_m,sizeof(m_m));
   m_openGL = _m.m_openGL;
   return *this;
 }
-//------------------------------------------------------------------------------------------------
+------------------
 Mat4::Mat4(Real _m) noexcept
 {
   memset(m_m, 0, sizeof(m_m));
@@ -113,13 +113,13 @@ Mat4::Mat4(Real _m) noexcept
   m_22 = _m;
   m_33 = 1.0f;
 }
-//------------------------------------------------------------------------------
+
 const Mat4 &Mat4::null() noexcept
 {
   memset(&m_m, 0, sizeof(m_m));
   return *this;
 }
-//------------------------------------------------------------------------------
+
 const Mat4 &Mat4::identity() noexcept
 {
   memset(m_m, 0, sizeof(m_m));
@@ -130,7 +130,7 @@ const Mat4 &Mat4::identity() noexcept
   return *this;
 }
 
-//------------------------------------------------------------------------------
+
 const Mat4 &Mat4::operator*=(const Mat4 &_m) noexcept
 {
   Mat4 temp(*this);
@@ -221,7 +221,7 @@ const Mat4 &Mat4::operator*=(const Mat4 &_m) noexcept
   return *this;
 }
 
-//------------------------------------------------------------------------------
+
 Mat4 Mat4::operator+(const Mat4 &_m) const noexcept
 {
   Mat4 ret;
@@ -246,7 +246,7 @@ Mat4 Mat4::operator+(const Mat4 &_m) const noexcept
   return ret;
   */
 }
-//------------------------------------------------------------------------------
+
 const Mat4 &Mat4::operator+=(const Mat4 &_m) noexcept
 {
   auto iterA = std::begin(m_openGL);
@@ -258,7 +258,7 @@ const Mat4 &Mat4::operator+=(const Mat4 &_m) noexcept
   }
   return *this;
 }
-//------------------------------------------------------------------------------
+
 Mat4 Mat4::operator*(const Real _i) const noexcept
 {
   Mat4 ret;
@@ -272,7 +272,7 @@ Mat4 Mat4::operator*(const Real _i) const noexcept
   return ret;
 }
 
-//------------------------------------------------------------------------------
+
 const Mat4 &Mat4::operator*=(const Real _i) noexcept
 {
   for(int y = 0; y < 4; y++)
@@ -285,7 +285,7 @@ const Mat4 &Mat4::operator*=(const Real _i) noexcept
   return *this;
 }
 
-//------------------------------------------------------------------------------
+
 Vec4 Mat4::operator*(const Vec4 &_v) const noexcept
 {
   return Vec4(
@@ -295,7 +295,7 @@ Vec4 Mat4::operator*(const Vec4 &_v) const noexcept
     _v.m_x * m_03 + _v.m_y * m_13 + _v.m_z * m_23 + _v.m_w * m_33);
 }
 
-//------------------------------------------------------------------------------
+
 const Mat4 &Mat4::transpose() noexcept
 {
   Mat4 tmp(*this);
@@ -310,7 +310,7 @@ const Mat4 &Mat4::transpose() noexcept
   return *this;
 }
 
-//------------------------------------------------------------------------------
+
 Mat4 Mat4::rotateX(const Real _deg) noexcept
 {
   Mat4 m;
@@ -324,7 +324,7 @@ Mat4 Mat4::rotateX(const Real _deg) noexcept
   return m;
 }
 
-//------------------------------------------------------------------------------
+
 Mat4 Mat4::rotateY(const Real _deg) noexcept
 {
   Mat4 m;
@@ -338,7 +338,7 @@ Mat4 Mat4::rotateY(const Real _deg) noexcept
   return m;
 }
 
-//------------------------------------------------------------------------------
+
 Mat4 Mat4::rotateZ(const Real _deg) noexcept
 {
   Mat4 m;
@@ -352,7 +352,7 @@ Mat4 Mat4::rotateZ(const Real _deg) noexcept
   return m;
 }
 
-//------------------------------------------------------------------------------
+
 Mat4 Mat4::translate(const Real _x, const Real _y, const Real _z) noexcept
 {
   Mat4 m;
@@ -362,7 +362,7 @@ Mat4 Mat4::translate(const Real _x, const Real _y, const Real _z) noexcept
   return m;
 }
 
-//------------------------------------------------------------------------------
+
 Mat4 Mat4::scale(const Real _x, const Real _y, const Real _z) noexcept
 {
   Mat4 m;
@@ -372,43 +372,7 @@ Mat4 Mat4::scale(const Real _x, const Real _y, const Real _z) noexcept
   return m;
 }
 
-//------------------------------------------------------------------------------
-void Mat4::subMatrix3x3(const size_t _i, const size_t _j, Real o_mat[]) const noexcept
-{
-  size_t ti, tj, idst = 0, jdst = 0;
 
-  for(ti = 0; ti != 4; ++ti)
-  {
-    if(ti < _i)
-    {
-      idst = ti;
-    }
-    else
-    {
-      if(ti > _i)
-      {
-        idst = ti - 1;
-      }
-
-      for(tj = 0; tj != 4; ++tj)
-      {
-        if(tj < _j)
-        {
-          jdst = tj;
-        }
-        else if(tj > _j)
-        {
-          jdst = tj - 1;
-        }
-        if(ti != _i && tj != _j)
-        {
-          o_mat[idst * 3 + jdst] = m_openGL[ti * 4 + tj];
-        }
-      }
-    } // end else
-  }   // end for
-}
-//------------------------------------------------------------------------------
 Real Mat4::determinant() const noexcept
 {
   // Our matrices are 4.4 only, so we can just write the full formula instead of a complex algorithm.
@@ -427,7 +391,7 @@ Real Mat4::determinant() const noexcept
     m_m[3][0] * m_m[2][1] * m_m[0][2] * m_m[1][3] + m_m[3][0] * m_m[2][1] * m_m[1][2] * m_m[0][3]);
 }
 
-//------------------------------------------------------------------------------
+
 Mat4 Mat4::euler(const Real _angle, const Real _x, const Real _y, const Real _z) noexcept
 {
   // Axis and Angle matrix rotation see
@@ -454,22 +418,8 @@ Mat4 Mat4::euler(const Real _angle, const Real _x, const Real _y, const Real _z)
   return m;
 }
 
-void Mat4::as3x3Array(Real _d[9]) const noexcept
-{
-  _d[0] = m_m[0][0];
-  _d[1] = m_m[1][0];
-  _d[2] = m_m[2][0];
 
-  _d[3] = m_m[0][1];
-  _d[4] = m_m[1][1];
-  _d[5] = m_m[2][1];
 
-  _d[6] = m_m[0][2];
-  _d[7] = m_m[1][2];
-  _d[8] = m_m[2][2];
-}
-
-//------------------------------------------------------------------------------
 Quaternion Mat4::asQuaternion() const noexcept
 {
   // calculate trace of the matrix
@@ -526,7 +476,7 @@ Quaternion Mat4::asQuaternion() const noexcept
   } // end switch
   return Quaternion();
 }
-//------------------------------------------------------------------------------
+
 
 Mat4 Mat4::adjacent(const Mat4 &_mat) noexcept
 {
@@ -688,33 +638,33 @@ Mat4 Mat4::inverse() noexcept
   return t * det;
 }
 
-//------------------------------------------------------------------------------
+
 Vec3 Mat4::getLeftVector() const noexcept
 {
   return Vec3(-m_openGL[0], -m_openGL[1], -m_openGL[2]);
 }
-//------------------------------------------------------------------------------
+
 Vec3 Mat4::getRightVector() const noexcept
 {
   return Vec3(m_openGL[0], m_openGL[1], m_openGL[2]);
 }
-//------------------------------------------------------------------------------
+
 Vec3 Mat4::getUpVector() const noexcept
 {
   return Vec3(m_openGL[4], m_openGL[5], m_openGL[6]);
 }
 
-//------------------------------------------------------------------------------
+
 Vec3 Mat4::getDownVector() const noexcept
 {
   return Vec3(-m_openGL[4], -m_openGL[5], -m_openGL[6]);
 }
-//------------------------------------------------------------------------------
+
 Vec3 Mat4::getForwardVector() const noexcept
 {
   return Vec3(-m_openGL[8], -m_openGL[9], -m_openGL[10]);
 }
-//------------------------------------------------------------------------------
+
 
 Vec3 Mat4::getBackVector() const noexcept
 {

@@ -33,6 +33,19 @@ TEST(Mat4, null)
   EXPECT_TRUE(test == result);
 }
 
+TEST(Mat4, buildFromArray)
+{
+  float m[4][4]={{1.0f,2.0f,3.0f,4.0f},
+                 {5.0f,6.0f,7.0f,8.0f},
+                 {9.0f,10.0f,11.0f,12.0f},
+                 {13.0f,14.0f,15.0f,16.0f}};
+  ngl::Mat4 test(m);
+  for(size_t i=0; i<16; ++i)
+  {
+    EXPECT_FLOAT_EQ(test.m_openGL[i],i+1);
+  }
+}
+
 TEST(Mat4, identity)
 {
   ngl::Mat4 test;
@@ -287,36 +300,3 @@ TEST(Mat4, toGLM)
   EXPECT_TRUE(test == result);
 }
 
-/* after thinking about it this is not a valid test!
-class EulerTestRot : public ::testing::TestWithParam<ngl::Real> {
-  // You can implement all the usual fixture class members here.
-  // To access the test parameter, call GetParam() from class
-  // TestWithParam<T>.
-};
-
-
-TEST_P(EulerTestRot,EulerRot)
-{
-  ngl::Mat4 euler;
-  ngl::Mat4 rot;
-  auto degrees=GetParam();
-  euler.euler(degrees,1,0,0);
-  rot.rotateX(degrees);
-  EXPECT_TRUE(euler == rot)<<"Euler gives\n"<<print(euler)<<"rotateX gives\n"<<print(rot)<<'\n';
-
-  euler.euler(degrees,0,1,0);
-  rot.rotateY(degrees);
-  EXPECT_TRUE(euler == rot)<<"Euler gives\n"<<print(euler)<<"rotateY gives\n"<<print(rot)<<'\n';
-
-
-  euler.euler(degrees,0,0,1);
-  rot.rotateZ(degrees);
-  EXPECT_TRUE(euler == rot)<<"Euler gives\n"<<print(euler)<<"rotateZ gives\n"<<print(rot)<<'\n';
-
-
-}
-
-INSTANTIATE_TEST_CASE_P(Mat4EulerRot,
-                        EulerTestRot,
-                        ::testing::Values(0.0f,45.0f,90.0f,180.0f,270.0f,360.0f));
-                        */

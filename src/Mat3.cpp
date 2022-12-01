@@ -26,15 +26,15 @@
 #ifdef USEGLM
 #include <glm/gtc/type_ptr.hpp>
 #endif
-//----------------------------------------------------------------------------------------------------------------------
+
 /// @file Mat3x3.cpp
 /// @brief implementation files for Mat3x3 class
-//----------------------------------------------------------------------------------------------------------------------
+
 
 namespace ngl
 {
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Mat3::Mat3() noexcept
 {
   memset(&m_m, 0, sizeof(m_m));
@@ -69,7 +69,7 @@ Mat3::Mat3(Real _00, Real _01, Real _02, Real _10, Real _11, Real _12, Real _20,
   m_21 = _21;
   m_22 = _22;
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 // removed as warning: definition of implicit copy assignment operator
 // for 'Mat3' is deprecated because it has a user-declared copy constructor [-Wdeprecated-copy]
 // Good chance compilers will optimise.
@@ -78,7 +78,7 @@ Mat3::Mat3(Real _00, Real _01, Real _02, Real _10, Real _11, Real _12, Real _20,
 // 	memcpy(m_m,&_m.m_m,sizeof(m_m));
 // }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Mat3::Mat3(const Real _m) noexcept
 {
   memset(m_m, 0, sizeof(m_m));
@@ -90,26 +90,26 @@ Mat3::Mat3(const Real _m) noexcept
 #ifdef USEGLM
 Mat3::Mat3(const glm::mat3 &_m)
 {
-  memcpy(m_m, glm::value_ptr(_m), sizeof(m_m));
+  memcpy(m_m, glm::value_ptr(_m), 9*sizeof(GLfloat));
 }
 
 glm::mat3 Mat3::toGLM() const
 {
   glm::mat3 result;
-  memcpy(glm::value_ptr(result), m_m, sizeof(m_m));
+  memcpy(glm::value_ptr(result), m_m, 9*sizeof(GLfloat));
 
   return result;
 }
 
 #endif
 
-//----------------------------------------------------------------------------------------------------------------------
+
 const Mat3 &Mat3::null() noexcept
 {
   memset(&m_m, 0, sizeof(m_m));
   return *this;
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 const Mat3 &Mat3::identity() noexcept
 {
   memset(m_m, 0, sizeof(m_m));
@@ -119,7 +119,7 @@ const Mat3 &Mat3::identity() noexcept
   return *this;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Mat3 Mat3::operator*(const Mat3 &_m) const noexcept
 {
   Mat3 temp;
@@ -136,7 +136,7 @@ Mat3 Mat3::operator*(const Mat3 &_m) const noexcept
   return temp;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 const Mat3 &Mat3::operator*=(const Mat3 &_m) noexcept
 {
   Mat3 temp(*this);
@@ -183,7 +183,7 @@ const Mat3 &Mat3::operator*=(const Mat3 &_m) noexcept
   return *this;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Mat3 Mat3::operator+(const Mat3 &_m) const noexcept
 {
   Mat3 ret;
@@ -199,7 +199,7 @@ Mat3 Mat3::operator+(const Mat3 &_m) const noexcept
   }
   return ret;
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 const Mat3 &Mat3::operator+=(const Mat3 &_m) noexcept
 {
 
@@ -212,7 +212,7 @@ const Mat3 &Mat3::operator+=(const Mat3 &_m) noexcept
   }
   return *this;
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 Mat3 Mat3::operator*(Real _i) const noexcept
 {
   Mat3 ret;
@@ -226,7 +226,7 @@ Mat3 Mat3::operator*(Real _i) const noexcept
   return ret;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 const Mat3 &Mat3::operator*=(Real _i) noexcept
 {
   for(int y = 0; y < 3; ++y)
@@ -239,7 +239,7 @@ const Mat3 &Mat3::operator*=(Real _i) noexcept
   return *this;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 const Mat3 &Mat3::transpose() noexcept
 {
   Mat3 tmp(*this);
@@ -254,7 +254,7 @@ const Mat3 &Mat3::transpose() noexcept
   return *this;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 [[nodiscard]] Mat3 Mat3::rotateX(Real _deg) noexcept
 {
   Mat3 m;
@@ -268,7 +268,7 @@ const Mat3 &Mat3::transpose() noexcept
   return m;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 [[nodiscard]] Mat3 Mat3::rotateY(Real _deg) noexcept
 {
   Mat3 m;
@@ -282,7 +282,7 @@ const Mat3 &Mat3::transpose() noexcept
   return m;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 [[nodiscard]] Mat3 Mat3::rotateZ(Real _deg) noexcept
 {
   Mat3 m;
@@ -296,7 +296,7 @@ const Mat3 &Mat3::transpose() noexcept
   return m;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 [[nodiscard]] Mat3 Mat3::scale(Real _x, Real _y, Real _z) noexcept
 {
   Mat3 m;
@@ -306,7 +306,7 @@ const Mat3 &Mat3::transpose() noexcept
   return m;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Vec3 Mat3::operator*(const Vec3 &_v) const noexcept
 {
   Vec3 temp;
@@ -318,7 +318,7 @@ Vec3 Mat3::operator*(const Vec3 &_v) const noexcept
   return temp;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 void Mat3::euler(Real _angle, Real _x, Real _y, Real _z) noexcept
 {
   // Axis and Angle Mat3x3 rotation see
@@ -379,38 +379,38 @@ Mat3 Mat3::inverse() noexcept
   return *this;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Vec3 Mat3::getLeftVector() const noexcept
 {
   return Vec3(-m_openGL[0], -m_openGL[1], -m_openGL[2]);
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 Vec3 Mat3::getRightVector() const noexcept
 {
   return Vec3(m_openGL[0], m_openGL[1], m_openGL[2]);
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 Vec3 Mat3::getUpVector() const noexcept
 {
   return Vec3(m_openGL[3], m_openGL[4], m_openGL[5]);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Vec3 Mat3::getDownVector() const noexcept
 {
   return Vec3(-m_openGL[3], -m_openGL[4], -m_openGL[5]);
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 Vec3 Mat3::getForwardVector() const noexcept
 {
   return Vec3(-m_openGL[6], -m_openGL[7], -m_openGL[8]);
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 
 Vec3 Mat3::getBackVector() const noexcept
 {
   return Vec3(m_openGL[6], m_openGL[7], m_openGL[8]);
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 
 } // end namespace ngl

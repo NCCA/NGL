@@ -16,10 +16,10 @@
  */
 #ifndef OBJ_H_
 #define OBJ_H_
-//----------------------------------------------------------------------------------------------------------------------
+
 /// @file Obj.h
 /// @brief basic obj loader inherits from AbstractMesh
-//----------------------------------------------------------------------------------------------------------------------
+
 // must include types.h first for Real and GLEW if required
 #include "AbstractMesh.h"
 #include <string_view>
@@ -27,36 +27,36 @@
 
 namespace ngl
 {
-//----------------------------------------------------------------------------------------------------------------------
+
 /// @class Obj "include/Obj.h"
 /// @brief used to load in an alias wave front obj format file and draw using open gl
 /// removed all boost stuff
 /// @author Jonathan Macey
 /// @version 5.0
-//----------------------------------------------------------------------------------------------------------------------
+
 
 class NGL_DLLEXPORT Obj : public AbstractMesh
 {
 
     public:
-  //----------------------------------------------------------------------------------------------------------------------
+  
   /// @brief default constructor
-  //----------------------------------------------------------------------------------------------------------------------
+  
   Obj() noexcept
     : ngl::AbstractMesh()
   {
   }
-  //----------------------------------------------------------------------------------------------------------------------
+  
   /// @brief  constructor to load an objfile as a parameter
   /// @param[in]  &_fname the name of the obj file to load
-  //----------------------------------------------------------------------------------------------------------------------
+  
   Obj(std::string_view _fname, CalcBB _calcBB = CalcBB::True) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
+  
   /// @brief constructor to load an objfile as a parameter
   /// @param[in]  &_fname the name of the obj file to load
   /// @param[in]  &_texName the name of the texture file
   // avoid _texName being converted to bool via explicit conversion
-  //----------------------------------------------------------------------------------------------------------------------
+  
   Obj(std::string_view _fname, std::string_view texName, CalcBB _calcBB = CalcBB::True) noexcept;
 
   Obj(const Obj &_c) noexcept;
@@ -66,11 +66,11 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
   void addUV(const Vec2 &_v) noexcept;
   void addUV(const Vec3 &_v) noexcept;
   void addFace(const Face &_f) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
+  
   /// @brief  Method to load the file in
   /// @param[in]  _fname the name of the obj file to load
   /// @param[in] _calcBB if we only want to load data and not use GL then set this to false
-  //----------------------------------------------------------------------------------------------------------------------
+  
 
   virtual bool load(std::string_view _fname, CalcBB _calcBB = CalcBB::True) noexcept;
   bool save(std::string_view _fname) noexcept;
@@ -107,4 +107,4 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
 } // namespace ngl
 
 #endif
-//----------------------------------------------------------------------------------------------------------------------
+
