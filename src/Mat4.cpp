@@ -104,7 +104,7 @@ Mat4 &Mat4::operator=(const Mat4 &_m) noexcept
   m_openGL = _m.m_openGL;
   return *this;
 }
-------------------
+
 Mat4::Mat4(Real _m) noexcept
 {
   memset(m_m, 0, sizeof(m_m));
