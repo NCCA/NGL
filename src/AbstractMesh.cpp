@@ -20,19 +20,18 @@
 #include "SimpleVAO.h"
 #include "Util.h"
 #include "VAOFactory.h"
-#include <list>
-//----------------------------------------------------------------------------------------------------------------------
+#include <algorithm>
 /// @file AbstractMesh.cpp
 /// @brief a series of classes used to define an abstract 3D mesh of Faces, Vertex Normals and TexCords
-//----------------------------------------------------------------------------------------------------------------------
+
 
 namespace ngl
 {
-//----------------------------------------------------------------------------------------------------------------------
 
-//----------------------------------------------------------------------------------------------------------------------
 
-//----------------------------------------------------------------------------------------------------------------------
+
+
+
 void AbstractMesh::drawBBox() const noexcept
 {
   m_ext->draw();
@@ -54,7 +53,7 @@ void AbstractMesh::scale(Real _sx, Real _sy, Real _sz) noexcept
   calcDimensions();
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 AbstractMesh::~AbstractMesh() noexcept
 {
   if(m_loaded == true)
@@ -71,7 +70,7 @@ AbstractMesh::~AbstractMesh() noexcept
   }
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 void AbstractMesh::loadTexture(std::string_view _fName) noexcept
 {
   if(m_textureID != 0)
@@ -84,109 +83,13 @@ void AbstractMesh::loadTexture(std::string_view _fName) noexcept
   m_texture = true;
 }
 
-/// @todo correct the rib exporter and  add Normal information to  the export
-/// @verbatim
-/// The following code is adapted from an MSc project by
-/// Authors: Elaine Kieran, Gavin Harrison, Luke Openshaw
-/// Write the obj as a SubdivisionMesh package to the rib file
-/// Renderman specification: SubdivisionMesh scheme nverts vertids tags nargs intargs floatargs parameterlist
-/// @endverbatim
 
-//----------------------------------------------------------------------------------------------------------------------
-void AbstractMesh::writeToRibSubdiv(RibExport &_ribFile) const noexcept
+
+bool AbstractMesh::isTriangular() const noexcept
 {
-  // Declare the variables
-  std::list< int > lVertLink;
-  std::list< int >::iterator vertLinkItr;
-  std::vector< float > vVerts;
-  std::vector< float >::iterator vertsItr;
-
-  // Check if the rib exists
-  if(_ribFile.isOpen() != 0)
-  {
-    _ribFile.comment("OBJ AbstractMeshect");
-    // Start printing the SubdivisionPolygons tag to the rib
-    _ribFile.getStream() << "SubdivisionMesh \"catmull-clark\" [ ";
-
-    // Loop through all the Polygons
-    for(unsigned long int I = 0; I < m_verts.size(); ++I)
-    {
-      // Print the count of vertices for the current polygon to the rib
-      _ribFile.getStream() << m_face[I].m_numVerts << " ";
-      // Start building the vertids and parameterlist
-      for(unsigned long int i = 0; i < m_face[I].m_numVerts; ++i)
-      {
-        // Set the verts vector size and testing variables
-        size_t iVecSize = vVerts.size();
-        bool bTest = false;
-        int counter = 0;
-        // Loop through the expanding vector checking whether
-        // the current vertice exists
-        for(unsigned int j = 0; j < iVecSize; j = j + 3)
-        {
-          // If the vertice if found in the vector, set the test
-          // flag and exit the loop. Else keep going.
-          if((FCompare(m_verts[i].m_x, vVerts[j])) && (FCompare(m_verts[i].m_y, vVerts[j + 1])) && (FCompare(m_verts[i].m_y, vVerts[j + 2])))
-          {
-            bTest = true;
-            break;
-          }
-          else
-          {
-            counter++;
-          }
-        } // end for
-
-        // Add the vertice to the vector if it is not found
-        if(bTest == false)
-        {
-          vVerts.push_back(m_verts[m_face[I].m_vert[i]].m_x);
-          vVerts.push_back(m_verts[m_face[I].m_vert[i]].m_y);
-          vVerts.push_back(m_verts[m_face[I].m_vert[i]].m_z);
-          lVertLink.push_back(counter);
-        }
-        else
-        {
-          lVertLink.push_back(counter);
-        }
-
-      } // end outer for
-
-    } // end if
-
-    _ribFile.getStream() << "] [ ";
-
-    // Print the vertids to the rib
-    std::list< int >::iterator vertLinkEnd = lVertLink.end();
-    for(vertLinkItr = lVertLink.begin(); vertLinkItr != vertLinkEnd; ++vertLinkItr)
-    {
-      _ribFile.getStream() << *vertLinkItr << " ";
-    }
-
-    _ribFile.getStream() << "] [\"interpolateboundary\"] [0 0] [] [] \"P\" [ ";
-    // Print the parameterlist to the rib
-    std::vector< float >::iterator vVertEnd = vVerts.end();
-    for(vertsItr = vVerts.begin(); vertsItr != vVertEnd; ++vertsItr)
-    {
-      _ribFile.getStream() << *vertsItr << " ";
-    }
-
-    // Print new lines to the rib
-    _ribFile.getStream() << "]\n\n";
-  }
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-bool AbstractMesh::isTriangular() noexcept
-{
-  for(auto f : m_face)
-  {
-    if(f.m_numVerts > 3)
-    {
-      return false;
-    }
-  }
-  return true;
+return  std::all_of(std::begin(m_face),std::end(m_face),[](auto f){
+     return  f.m_vert.size() == 3;
+  });
 }
 
 // a simple structure to hold our vertex data
@@ -346,7 +249,7 @@ void AbstractMesh::unbindVAO() const noexcept
 {
   m_vaoMesh->unbind();
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 void AbstractMesh::draw() const noexcept
 {
   if(m_vao == true)
@@ -361,7 +264,7 @@ void AbstractMesh::draw() const noexcept
   }
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Real *AbstractMesh::mapVAOVerts() noexcept
 {
 
@@ -383,7 +286,7 @@ Real *AbstractMesh::mapVAOVerts() noexcept
   return ptr;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 void AbstractMesh::unMapVAO() noexcept
 {
 
@@ -394,7 +297,7 @@ void AbstractMesh::unMapVAO() noexcept
     m_vaoMesh->unbind();
   }
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 void AbstractMesh::calcDimensions() noexcept
 {
   // Calculate the center of the object.

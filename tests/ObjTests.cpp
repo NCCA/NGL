@@ -556,3 +556,36 @@ TEST(Obj,passbyref)
   countVerts(a);
   EXPECT_EQ(count,10);
 }
+
+
+TEST(Obj,isTriangular)
+{
+  {
+    ngl::Obj a;
+    a.addVertex({2.00000f,0.00000f,0.000000f});
+    a.addVertex({0.0000f,4.0000f,0.000000});
+    a.addVertex({-2.00000f,0.000000f,0.000000});
+    ngl::Face f;
+    f.m_vert.push_back(0);
+    f.m_vert.push_back(1);
+    f.m_vert.push_back(2);
+    a.addFace(f);
+    EXPECT_TRUE(a.isTriangular());
+  }
+
+  {
+    ngl::Obj a;
+    a.addVertex({2.00000f,0.00000f,0.000000f});
+    a.addVertex({0.0000f,4.0000f,0.000000});
+    a.addVertex({-2.00000f,0.000000f,0.000000});
+    ngl::Face f;
+    f.m_vert.push_back(0);
+    f.m_vert.push_back(1);
+    f.m_vert.push_back(2);
+    f.m_vert.push_back(0);
+    a.addFace(f);
+    EXPECT_FALSE(a.isTriangular());
+  }
+
+
+}
