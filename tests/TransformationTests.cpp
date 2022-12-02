@@ -207,3 +207,18 @@ TEST(Transformation,copyAndAssign)
   EXPECT_TRUE(tx3.getMatrix()==ngl::Mat4::rotateX(45.0f));
   
 }
+
+TEST(Transformation,reset)
+{
+  ngl::Transformation tx;
+  tx.setRotation(45.0f,23.0f,0.0f);
+  tx.setPosition(45.0f,3.0f,4.0f);
+  tx.setScale(45.0f,3.0f,4.0f);
+  tx.reset();
+  EXPECT_TRUE(tx.getMatrix()==ngl::Mat4());
+  auto tx2(tx);
+  EXPECT_TRUE(tx2.getMatrix()==ngl::Mat4());
+  auto tx3=tx2;
+  EXPECT_TRUE(tx3.getMatrix()==ngl::Mat4());
+  
+}

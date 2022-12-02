@@ -8,9 +8,8 @@ namespace ngl
   {
     py::class_<BezierCurve>(m, "BezierCurve")
         .def(py::init<>())
-        .def(py::init<const std::vector<Vec3> &,const std::vector<Real>  &>())
-        .def(py::init<const std::vector<Vec3> &)
-        .def(py::init<const BezierCurve &>())
+        // .def(py::init<const std::vector<Vec3> &,const std::vector<Real>  &>())
+        // .def(py::init<const std::vector<Vec3> &>)
         .def("draw", &BezierCurve::draw)
         .def("drawControlPoints",&BezierCurve::drawControlPoints)
         .def("drawHull",&BezierCurve::drawHull)

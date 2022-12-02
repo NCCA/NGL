@@ -78,6 +78,14 @@ make
 make install
 ```
 
+## Python Build with PyBind
+
+cmake -DCMAKE_INSTALL_PREFIX=~/NGL -DBUILD_PYNGL=1 -DPYTHON_EXECUTABLE:FILEPATH=~/.pyenv/shims/python -DPYTHON_INCLUDE_DIRS=/Users/jmacey/.pyenv/versions/3.9.7/include/python3.9 -DPYTHON_LIBRARIES=~/.pyenv/versions/3.9.7/lib
+ ..
+
+
+cmake -DCMAKE_INSTALL_PREFIX=~/NGL -DBUILD_PYNGL=1   -DPYTHON_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") -DPYTHON_LIBRARY=$(python -c "import distutils.sysconfig as sysconfig; print(sysconfig.get_config_var('LIBDIR'))") ..
+
 
 
 
