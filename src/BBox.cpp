@@ -58,8 +58,6 @@ BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth, bool _
 	m_vert[6].m_x=_center.m_x+(_width/2.0f); m_vert[6].m_y=_center.m_y-(_height/2.0f); m_vert[6].m_z=_center.m_z+(_depth/2.0f);
 	m_vert[7].m_x=_center.m_x-(_width/2.0f); m_vert[7].m_y=_center.m_y-(_height/2.0f); m_vert[7].m_z=_center.m_z+(_depth/2.0f);
 
-	//Store the _center
-	m_center=_center;
 	// Setup the Plane Normals for Collision Detection
 	m_norm[0].set(0.0f,1.0f,0.0f);
 	m_norm[1].set(0.0f,-1.0f,0.0f);

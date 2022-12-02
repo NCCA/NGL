@@ -23,16 +23,13 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-//----------------------------------------------------------------------------------------------------------------------
 /// @file VAOPrimitives.cpp
 /// @brief implementation files for VAOPrimitives class
-//----------------------------------------------------------------------------------------------------------------------
 namespace ngl
 {
 
 std::unordered_map< std::string, std::unique_ptr< AbstractVAO > > VAOPrimitives::m_createdVAOs;
 
-//----------------------------------------------------------------------------------------------------------------------
 VAOPrimitives::VAOPrimitives() noexcept
 {
   createDefaultVAOs();
@@ -43,7 +40,6 @@ VAOPrimitives::~VAOPrimitives()
   clear();
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 
 void VAOPrimitives::draw(std::string_view _name) noexcept
 {
@@ -109,7 +105,6 @@ void VAOPrimitives::createVAOFromHeader(std::string_view _name, const Real *_dat
   // finally we have finished for now so time to unbind the VAO
   vao->unbind();
   m_createdVAOs[_name.data()] = std::move(vao);
-  // std::cout<<_name<<" Num Triangles "<<data.size()/3<<'\n';
 }
 
 void VAOPrimitives::createLineGrid(std::string_view _name, Real _width, Real _depth, int _steps) noexcept
@@ -192,7 +187,7 @@ void VAOPrimitives::createSphere(std::string_view _name, Real _radius, int _prec
 
     for(int j = 0; j <= _precision; ++j)
     {
-      theta3 = static_cast<float>(j) * TWO_PI / _precision;
+      theta3 = static_cast<float>(j) * TWO_PI / static_cast<float>(_precision);
 
       d.nx = cosf(theta2) * cosf(theta3);
       d.ny = sinf(theta2);
@@ -201,8 +196,8 @@ void VAOPrimitives::createSphere(std::string_view _name, Real _radius, int _prec
       d.y = _radius * d.ny;
       d.z = _radius * d.nz;
 
-      d.u = (j / static_cast< Real >(_precision));
-      d.v = 2.0f * (i + 1.0f) / static_cast< Real >(_precision);
+      d.u = (static_cast<float>(j) / static_cast< Real >(_precision));
+      d.v = 2.0f * (static_cast<float>(i) + 1.0f) / static_cast< Real >(_precision);
 
       data.push_back(d);
 
@@ -213,8 +208,8 @@ void VAOPrimitives::createSphere(std::string_view _name, Real _radius, int _prec
       d.y = _radius * d.ny;
       d.z = _radius * d.nz;
 
-      d.u = (j / static_cast< Real >(_precision));
-      d.v = 2 * i / static_cast< Real >(_precision);
+      d.u = (static_cast<float>(j) / static_cast< Real >(_precision));
+      d.v = 2.0f * static_cast<float>(i) / static_cast< Real >(_precision);
       data.push_back(d);
     } // end inner loop
   }   // end outer loop
@@ -227,20 +222,26 @@ void VAOPrimitives::createCapsule(std::string_view _name, const Real _radius, co
 {
   // based on code from here
   // https://code.google.com/p/rgine/source/browse/trunk/RGine/opengl/src/RGLShapes.cpp
-  /// @todo add UV's at some stage
   std::vector< vertData > data;
   vertData d;
-  Real h = _height / 2;
-  Real s, c, s1, c1, o;
-  Real sb, cb, sb1, cb1;
-  Real ang = (1.0f / _precision) * static_cast< Real >(M_PI);
+  Real h = _height / 2.0f;
+  Real s; 
+  Real c;
+  Real s1;
+  Real c1;
+  Real o;
+  Real sb;
+  Real cb;
+  Real sb1;
+  Real cb1;
+  Real ang = (1.0f / static_cast<float>(_precision)) * static_cast< Real >(M_PI);
   for(int i = 0; i < 2 * _precision; ++i)
   {
 
-    c = _radius * cosf(ang * i);
-    c1 = _radius * cosf(ang * (i + 1));
-    s = _radius * sinf(ang * i);
-    s1 = _radius * sinf(ang * (i + 1));
+    c = _radius * cosf(ang * static_cast<float>(i));
+    c1 = _radius * cosf(ang * (static_cast<float>(i) + 1.0f));
+    s = _radius * sinf(ang * static_cast<float>(i));
+    s1 = _radius * sinf(ang * (static_cast<float>(i) + 1.0f));
     // side top
     d.x = c1;
     d.y = h;
@@ -283,15 +284,15 @@ void VAOPrimitives::createCapsule(std::string_view _name, const Real _radius, co
         o = -h;
       }
       // longitude
-      s = -sinf(ang * i);
-      s1 = -sinf(ang * (i + 1));
-      c = cosf(ang * i);
-      c1 = cosf(ang * (i + 1));
+      s = -sinf(ang * static_cast<float>(i));
+      s1 = -sinf(ang * (static_cast<float>(i) + 1.0f));
+      c = cosf(ang * static_cast<float>(i));
+      c1 = cosf(ang * (static_cast<float>(i) + 1.0f));
       // latitude
       sb = _radius * sinf(ang * j);
-      sb1 = _radius * sinf(ang * (j + 1));
-      cb = _radius * cosf(ang * j);
-      cb1 = _radius * cosf(ang * (j + 1));
+      sb1 = _radius * sinf(ang * (static_cast<float>(j) + 1.0f));
+      cb = _radius * cosf(ang * static_cast<float>(j));
+      cb1 = _radius * cosf(ang * (static_cast<float>(j) + 1.0f));
       if(j != _precision - 1)
       {
         d.nx = d.x = sb * c;
@@ -358,26 +359,24 @@ void VAOPrimitives::createVAO(std::string_view _name, const std::vector< vertDat
   // finally we have finished for now so time to unbind the VAO
   vao->unbind();
   m_createdVAOs[_name.data()] = std::move(vao);
-  // std::cout<<_name<<" Num Triangles "<<_data.size()/3<<'\n';
 }
 
-/*----------------------------------------------------------------------------------------------------------------------
- * Compute lookup table of cos and sin values forming a cirle
- * borrowed from free glut implimentation of primitive drawing
+
+ /* Compute lookup table of cos and sin values forming a cirle
+ *  borrowed from free glut implimentation of primitive drawing
  *
- * Notes:
+ *  Notes:
  *    It is the responsibility of the caller to free these tables
  *    The size of the table is (n+1) to form a connected loop
  *    The last entry is exactly the same as the first
  *    The sign of n can be flipped to get the reverse loop
  */
-//----------------------------------------------------------------------------------------------------------------------
 
 void VAOPrimitives::fghCircleTable(std::unique_ptr< Real[] > &io_sint, std::unique_ptr< Real[] > &io_cost, int _n) noexcept
 {
   unsigned int i;
   /* Determine the angle between samples */
-  const Real angle = 2 * PI / ((_n == 0) ? 1 : _n);
+  const Real angle = 2.0f * PI / ((static_cast<float>(_n) == 0.0f) ? 1.0f : static_cast<float>(_n));
   /* Table size, the sign of n flips the circle direction */
   int size = abs(_n);
 
@@ -398,7 +397,6 @@ void VAOPrimitives::fghCircleTable(std::unique_ptr< Real[] > &io_sint, std::uniq
   io_cost[static_cast< unsigned int >(size)] = io_cost[0];
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const Real _height, unsigned int _slices, unsigned int _stacks) noexcept
 {
   /* Step in z and radius as stacks are drawn. */
@@ -410,7 +408,7 @@ void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const R
   std::unique_ptr< Real[] > sint;
   std::unique_ptr< Real[] > cost;
 
-  fghCircleTable(sint, cost, static_cast< int >(-_slices));
+  fghCircleTable(sint, cost, _slices);
 
   /* Do the stacks */
   // a std::vector to store our verts, remember vector packs contiguously so we can use it
@@ -434,7 +432,7 @@ void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const R
     }
     for(unsigned int j = 0; j <= _slices - 1; ++j)
     {
-      // vert 1;
+      // vert 1
       d.u = u;
       d.v = v;
       d.nx = sint[j];
@@ -459,7 +457,7 @@ void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const R
       d.z = -z0 / 2.0f;
       data.push_back(d);
 
-      // vert 1;
+      // vert 1
       d.u = u + du;
       d.v = v;
       d.nx = sint[j + 1];
@@ -470,7 +468,7 @@ void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const R
       d.z = -z0 / 2.0f;
       data.push_back(d);
 
-      // vert 1;
+      // vert 1
       d.u = u;
       d.v = v + dv;
       d.nx = sint[j];
@@ -481,7 +479,7 @@ void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const R
       d.z = -z1 / 2.0f;
       data.push_back(d);
 
-      // vert 1;
+      // vert 1
       d.u = u + du;
       d.v = v + dv;
       d.nx = sint[j + 1];
@@ -503,12 +501,13 @@ void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const R
   createVAO(_name, data, GL_TRIANGLES);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 void VAOPrimitives::createCone(std::string_view _name, Real _base, Real _height, unsigned int _slices, unsigned int _stacks) noexcept
 {
   /* Step in z and radius as stacks are drawn. */
-  Real z0, z1;
-  Real r0, r1;
+  Real z0;
+  Real z1;
+  Real r0;
+  Real r1;
 
   const Real zStep = _height / ((_stacks > 0) ? _stacks : 1);
   const Real rStep = _base / ((_stacks > 0) ? _stacks : 1);
@@ -521,7 +520,7 @@ void VAOPrimitives::createCone(std::string_view _name, Real _base, Real _height,
   /* Pre-computed circle */
   std::unique_ptr< Real[] > sint;
   std::unique_ptr< Real[] > cost;
-  fghCircleTable(sint, cost, static_cast< int >(-_slices));
+  fghCircleTable(sint, cost, _slices);
 
   z0 = 0.0f;
   z1 = zStep;
@@ -573,14 +572,13 @@ void VAOPrimitives::createCone(std::string_view _name, Real _base, Real _height,
   createVAO(_name, data, GL_TRIANGLE_STRIP);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 void VAOPrimitives::createDisk(std::string_view _name, const Real _radius, unsigned int _slices) noexcept
 {
   /* Pre-computed circle */
   std::unique_ptr< Real[] > sint;
   std::unique_ptr< Real[] > cost;
-  fghCircleTable(sint, cost, static_cast< int >(-_slices));
-  // as were using a triangle fan its  vert at the centere then
+  fghCircleTable(sint, cost, _slices);
+  // as were using a triangle fan its  vert at the center then
   //
 
   // texture co-ords start at 0,0
@@ -619,7 +617,6 @@ void VAOPrimitives::createDisk(std::string_view _name, const Real _radius, unsig
   createVAO(_name, data, GL_TRIANGLE_FAN);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 void VAOPrimitives::createTorus(std::string_view _name, Real _minorRadius, Real _majorRadius, unsigned int _nSides, unsigned int _nRings, bool _flipTX) noexcept
 {
   Real iradius = _minorRadius, oradius = _majorRadius, phi, psi, dpsi, dphi;
@@ -787,7 +784,6 @@ void VAOPrimitives::createTorus(std::string_view _name, Real _minorRadius, Real 
   createVAO(_name, data, GL_TRIANGLES);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 void VAOPrimitives::createTrianglePlane(std::string_view _name, const Real _width, const Real _depth, const int _wP, const int _dP, const Vec3 &_vN) noexcept
 {
   // calculate the VBO size basically we have 2 tris per quad based on the width and depth
@@ -884,7 +880,6 @@ void VAOPrimitives::createTrianglePlane(std::string_view _name, const Real _widt
   createVAO(_name, data, GL_TRIANGLES);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 void VAOPrimitives::clear() noexcept
 {
 
