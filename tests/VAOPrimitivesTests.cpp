@@ -22,6 +22,7 @@ TEST(VAOPrimitives,getCreatedIDs)
 
 TEST(VAOPrimitives,checkCreated)
 {
+  ngl::VAOPrimitives::createDefaultVAOs();
 
   for(auto m : meshes)
   {
@@ -122,6 +123,16 @@ TEST(VAOPrimitives,createCapsule)
   EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName("capsule") !=nullptr);
 }
 
+
+TEST(VAOPrimitives,draw)
+{
+
+  ngl::VAOPrimitives::createCapsule("capsule",1.0f,2.0f,100);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName("capsule") !=nullptr);
+  ngl::VAOPrimitives::draw("capsule");
+  ngl::VAOPrimitives::draw("capsule",GL_POINTS);
+
+}
 
 TEST(VAOPrimitives,clear)
 {

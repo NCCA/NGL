@@ -50,10 +50,7 @@ BezierCurve::BezierCurve( const std::vector<ngl::Vec3> &_p) noexcept : m_cp{_p}
 	m_degree=static_cast<unsigned int>(m_cp.size());
 	m_order=m_degree+1;
 	m_numKnots=m_numCP+m_order;
-	m_lod=20;
 	createKnots();
-	m_vaoCurve=0;
-	m_vaoPoints=0;
 }
 
 
@@ -63,9 +60,6 @@ BezierCurve::BezierCurve(const std::vector<Vec3> &_p, const std::vector<Real> &_
 	m_degree=static_cast<unsigned int>(_p.size());
 	m_order=m_degree+1;
 	m_numKnots=static_cast<unsigned int>(_k.size()); 
-	m_lod=20;
-	m_vaoCurve=0;
-	m_vaoPoints=0;
 }
 
 
@@ -95,7 +89,8 @@ Real BezierCurve::coxDeBoor( Real _u,unsigned int _i, unsigned int _k, const std
 	}
 	Real Den1 = _knots[_i+_k-1] - _knots[_i];
 	Real Den2 = _knots[_i+_k] - _knots[_i+1];
-	Real Eq1=0,Eq2=0;
+	Real Eq1=0;
+	Real Eq2=0;
 	if(Den1>0)
 	{
 		Eq1 = ((_u-_knots[_i]) / Den1) * coxDeBoor(_u,_i,_k-1,_knots);
@@ -199,7 +194,7 @@ void BezierCurve::addKnot(Real _k) noexcept
 
 void BezierCurve::createVAO() noexcept
 {
-  if(m_vaoCurve!=0 && m_vaoPoints!=0)
+  if(m_vaoCurve!=nullptr && m_vaoPoints!=nullptr)
   {
     m_vaoCurve->unbind();
     m_vaoCurve->removeVAO();

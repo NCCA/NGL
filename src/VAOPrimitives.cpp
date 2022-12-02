@@ -374,7 +374,6 @@ void VAOPrimitives::createVAO(std::string_view _name, const std::vector< vertDat
 
 std::vector<VAOPrimitives::cos_sin>  VAOPrimitives::fghCircleTable(size_t _n) noexcept
 {
-  unsigned int i;
   // Determine the angle between samples 
   const Real angle = 2.0f * PI / ((static_cast<float>(_n) == 0.0f) ? 1.0f : static_cast<float>(_n));
   // Table size, the sign of n flips the circle direction 
@@ -387,7 +386,7 @@ std::vector<VAOPrimitives::cos_sin>  VAOPrimitives::fghCircleTable(size_t _n) no
   cs[0].sint = 0.0f;
   cs[0].cost = 1.0f;
 
-  for(i = 1; i < _n; ++i)
+  for(size_t i = 1; i < _n; ++i)
   {
     cs[i].sint = sinf(angle * i);
     cs[i].cost = cosf(angle * i);
