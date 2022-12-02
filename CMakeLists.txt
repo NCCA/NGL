@@ -251,6 +251,7 @@ if(NOT DEFINED PYNGL_ONLY)
         ${CMAKE_SOURCE_DIR}/tests/VAOPrimitivesTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/Mat3Tests.cpp
         ${CMAKE_SOURCE_DIR}/tests/ObjTests.cpp
+        ${CMAKE_SOURCE_DIR}/tests/TransformationTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/Vec2Tests.cpp
         ${CMAKE_SOURCE_DIR}/tests/Mat4Tests.cpp
         ${CMAKE_SOURCE_DIR}/tests/ShaderLibTests.cpp

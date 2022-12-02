@@ -56,7 +56,6 @@ void pyInitAbstractMesh(py::module & m)
     .def_readwrite("m_vert",&Face::m_vert)
     .def_readwrite("m_uv",&Face::m_uv)
     .def_readwrite("m_norm",&Face::m_norm)
-    .def_readwrite("m_numVerts",&Face::m_numVerts)
     .def_readwrite("m_textureCoord",&Face::m_textureCoord)
     .def_readwrite("m_normals",&Face::m_normals)
     ;
