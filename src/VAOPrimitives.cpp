@@ -372,28 +372,29 @@ void VAOPrimitives::createVAO(std::string_view _name, const std::vector< vertDat
  *    The sign of n can be flipped to get the reverse loop
  */
 
-std::vector<VAOPrimitives::cos_sin>  VAOPrimitives::fghCircleTable(int _n) noexcept
+std::vector<VAOPrimitives::cos_sin>  VAOPrimitives::fghCircleTable(size_t _n) noexcept
 {
   unsigned int i;
-  /* Determine the angle between samples */
+  // Determine the angle between samples 
   const Real angle = 2.0f * PI / ((static_cast<float>(_n) == 0.0f) ? 1.0f : static_cast<float>(_n));
-  /* Table size, the sign of n flips the circle direction */
-  int size = abs(_n);
+  // Table size, the sign of n flips the circle direction 
+  
   // Allocate vector for n samples, plus duplicate of first entry at the end   
-  std::vector<VAOPrimitives::cos_sin> cs(size + 1);
+  std::vector<VAOPrimitives::cos_sin> cs;
+  cs.resize(_n + 1);
 
-  /* Compute cos and sin around the circle */
+  // Compute cos and sin around the circle 
   cs[0].sint = 0.0f;
   cs[0].cost = 1.0f;
 
-  for(i = 1; i < static_cast< unsigned int >(size); ++i)
+  for(i = 1; i < _n; ++i)
   {
     cs[i].sint = sinf(angle * i);
-    cs[i].sint = cosf(angle * i);
+    cs[i].cost = cosf(angle * i);
   }
-  /* Last sample is duplicate of the first */
-  cs[size].sint = cs[0].sint;
-  cs[size].cost = cs[0].cost;
+  // Last sample is duplicate of the first 
+  cs[_n].sint = cs[0].sint;
+  cs[_n].cost = cs[0].cost;
   return cs;
 }
 
@@ -404,20 +405,18 @@ void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const R
   Real z0, z1;
   const Real zStep = _height / ((_stacks > 0) ? _stacks : 1);
 
-  /* Pre-computed circle */
+  // Pre-computed circle 
   auto cs=fghCircleTable(_slices);
-
-  /* Do the stacks */
-  // a std::vector to store our verts, remember vector packs contiguously so we can use it
+  // Do the stacks 
   std::vector< vertData > data;
   vertData d;
   z0 = 0.0;
   z1 = zStep;
-  // texture co-ords start at 0,0
+  // texture cord start at 0,0
   // texture steps
   Real du = 1.0f / _stacks;
   Real dv = 1.0f / _slices;
-  /* Cover each stack with a quad strip, except the top stack */
+  // Cover each stack with a tri strip, except the top stack 
   Real u = 0.0;
   Real v = 0.0;
 
@@ -500,7 +499,7 @@ void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const R
 
 void VAOPrimitives::createCone(std::string_view _name, Real _base, Real _height, unsigned int _slices, unsigned int _stacks) noexcept
 {
-  /* Step in z and radius as stacks are drawn. */
+  // Step in z and radius as stacks are drawn. 
   Real z0;
   Real z1;
   Real r0;
@@ -509,12 +508,12 @@ void VAOPrimitives::createCone(std::string_view _name, Real _base, Real _height,
   const Real zStep = _height / ((_stacks > 0) ? _stacks : 1);
   const Real rStep = _base / ((_stacks > 0) ? _stacks : 1);
 
-  /* Scaling factors for vertex normals */
+  // Scaling factors for vertex normals 
 
   const Real cosn = (_height / sqrtf(_height * _height + _base * _base));
   const Real sinn = (_base / sqrtf(_height * _height + _base * _base));
 
-  /* Pre-computed circle */
+  // Pre-computed circle 
   
   auto cs=fghCircleTable(_slices);
 
@@ -527,7 +526,7 @@ void VAOPrimitives::createCone(std::string_view _name, Real _base, Real _height,
   // texture steps
   Real du = 1.0f / _stacks;
   Real dv = 1.0f / _slices;
-  /* Cover each stack with a quad strip, except the top stack */
+  // Cover each stack with a tri strip, except the top stack 
   Real u = 1.0f;
   Real v = 1.0f;
   // a std::vector to store our verts, remember vector packs contiguously so we can use it
@@ -570,18 +569,15 @@ void VAOPrimitives::createCone(std::string_view _name, Real _base, Real _height,
 
 void VAOPrimitives::createDisk(std::string_view _name, const Real _radius, unsigned int _slices) noexcept
 {
-  /* Pre-computed circle */
+  // Pre-computed circle 
   auto cs=fghCircleTable(_slices);
   // as were using a triangle fan its  vert at the center then
-  //
-
-  // texture co-ords start at 0,0
+  // texture cords start at 0,0
   // texture steps
   Real du = 1.0f / _slices;
 
   Real u = 0.0f;
   Real v = 0.0f;
-  // a std::vector to store our verts, remember vector packs contiguously so we can use it
   std::vector< vertData > data;
   vertData d;
   // as we are doing a tri fan this is the center
@@ -626,7 +622,7 @@ void VAOPrimitives::createTorus(std::string_view _name, Real _minorRadius, Real 
     _nRings = 1;
   }
 
-  /* Increment the number of sides and rings to allow for one more point than surface */
+  // Increment the number of sides and rings to allow for one more point than surface 
   _nSides++;
   _nRings++;
   // should use vec3 / 2 for these at some stage
@@ -684,9 +680,6 @@ void VAOPrimitives::createTorus(std::string_view _name, Real _minorRadius, Real 
     for(unsigned int j = 0; j < _nRings - 1; ++j)
     {
       unsigned int offset = 3 * (j * _nSides + i);
-      // n=normal[offset];
-      // v=vertex[offset];
-      // t=uv[offset];
       d.u = uv[offset];
       d.v = uv[offset + 1];
       d.nx = normal[offset];
@@ -698,9 +691,6 @@ void VAOPrimitives::createTorus(std::string_view _name, Real _minorRadius, Real 
       // V1
       data.push_back(d);
       // vert
-      // n=normal+offset+3;
-      // v=vertex+offset+3;
-      // t=uv+offset+3;
       d.u = uv[offset + 3];
       d.v = uv[offset + 4];
       d.nx = normal[offset + 3];
@@ -711,10 +701,6 @@ void VAOPrimitives::createTorus(std::string_view _name, Real _minorRadius, Real 
       d.z = vertex[offset + 5];
       // V2
       data.push_back(d);
-
-      // n=normal + offset + 3 * _nSides + 3;
-      // v=vertex + offset + 3 * _nSides + 3;
-      // t=uv+ offset+3*_nSides+3;
       //  next vert
       d.u = uv[(offset + 3 * _nSides + 3)];
       d.v = uv[(offset + 3 * _nSides + 3) + 1];
@@ -726,10 +712,6 @@ void VAOPrimitives::createTorus(std::string_view _name, Real _minorRadius, Real 
       d.z = vertex[(offset + 3 * _nSides + 3) + 2];
       // V3
       data.push_back(d);
-
-      //      n=normal+offset;
-      //      v=vertex+offset;
-      //      t=uv+offset;
       d.u = uv[offset];
       d.v = uv[offset + 1];
       d.nx = normal[offset];
@@ -740,10 +722,6 @@ void VAOPrimitives::createTorus(std::string_view _name, Real _minorRadius, Real 
       d.z = vertex[offset + 2];
       // V1
       data.push_back(d);
-
-      // n=normal[(offset + 3 * _nSides + 3)];
-      // v=vertex[(offset + 3 * _nSides + 3)];
-      // t=uv[(offset+3*_nSides+3)];
       //  next vert
       d.u = uv[(offset + 3 * _nSides + 3)];
       d.v = uv[(offset + 3 * _nSides + 3) + 1];
@@ -755,10 +733,6 @@ void VAOPrimitives::createTorus(std::string_view _name, Real _minorRadius, Real 
       d.z = vertex[(offset + 3 * _nSides + 3) + 2];
       // V3
       data.push_back(d);
-
-      // n=normal[ (offset + 3 * _nSides)];
-      // v= vertex[(offset + 3 * _nSides)];
-      // t= uv[(offset+3*_nSides)];
       // next vert
       d.u = uv[(offset + 3 * _nSides)];
       d.v = uv[(offset + 3 * _nSides) + 1];
@@ -780,8 +754,6 @@ void VAOPrimitives::createTorus(std::string_view _name, Real _minorRadius, Real 
 
 void VAOPrimitives::createTrianglePlane(std::string_view _name, const Real _width, const Real _depth, const int _wP, const int _dP, const Vec3 &_vN) noexcept
 {
-  // calculate the VBO size basically we have 2 tris per quad based on the width and depth
-  // _precision.
 
   // as our plane is centered on 0.0 we range from Width/2.0 and Depth/2.0
   Real w2 = _width / 2.0f;
@@ -878,15 +850,6 @@ void VAOPrimitives::clear() noexcept
 {
 
   NGLMessage::addMessage("clearing VAOs");
-
-  // loop through the map and delete the VBO's allocated
-  // note glDeleteBuffers needs a const GLUint * so we need to de-reference the map object
-  //  for(auto &v : m_createdVAOs)
-  //  {
-  //   // NGLMessage::addMessage(fmt::format("clearing {0}",v.first));
-  //    v.second->removeVAO();
-  //  }
-
   m_createdVAOs.erase(std::begin(m_createdVAOs), std::end(m_createdVAOs));
 }
 

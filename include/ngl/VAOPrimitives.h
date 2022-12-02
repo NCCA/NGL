@@ -228,7 +228,7 @@ class NGL_DLLEXPORT VAOPrimitives
     Real sint;
     Real cost;
   };
-  static std::vector<cos_sin> fghCircleTable(int _n) noexcept;
+  static std::vector<cos_sin> fghCircleTable(size_t _n) noexcept;
 };
 
 } // namespace ngl
