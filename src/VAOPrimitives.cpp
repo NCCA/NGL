@@ -372,29 +372,29 @@ void VAOPrimitives::createVAO(std::string_view _name, const std::vector< vertDat
  *    The sign of n can be flipped to get the reverse loop
  */
 
-void VAOPrimitives::fghCircleTable(std::unique_ptr< Real[] > &io_sint, std::unique_ptr< Real[] > &io_cost, int _n) noexcept
+std::vector<VAOPrimitives::cos_sin>  VAOPrimitives::fghCircleTable(int _n) noexcept
 {
   unsigned int i;
   /* Determine the angle between samples */
   const Real angle = 2.0f * PI / ((static_cast<float>(_n) == 0.0f) ? 1.0f : static_cast<float>(_n));
   /* Table size, the sign of n flips the circle direction */
   int size = abs(_n);
+  // Allocate vector for n samples, plus duplicate of first entry at the end   
+  std::vector<VAOPrimitives::cos_sin> cs(size + 1);
 
-  /* Allocate memory for n samples, plus duplicate of first entry at the end */
-  io_sint.reset(new Real[size + 1]);
-  io_cost.reset(new Real[size + 1]);
   /* Compute cos and sin around the circle */
-  io_sint[0] = 0.0;
-  io_cost[0] = 1.0;
+  cs[0].sint = 0.0f;
+  cs[0].cost = 1.0f;
 
   for(i = 1; i < static_cast< unsigned int >(size); ++i)
   {
-    io_sint[i] = sinf(angle * i);
-    io_cost[i] = cosf(angle * i);
+    cs[i].sint = sinf(angle * i);
+    cs[i].sint = cosf(angle * i);
   }
   /* Last sample is duplicate of the first */
-  io_sint[static_cast< unsigned int >(size)] = io_sint[0];
-  io_cost[static_cast< unsigned int >(size)] = io_cost[0];
+  cs[size].sint = cs[0].sint;
+  cs[size].cost = cs[0].cost;
+  return cs;
 }
 
 void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const Real _height, unsigned int _slices, unsigned int _stacks) noexcept
@@ -405,10 +405,7 @@ void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const R
   const Real zStep = _height / ((_stacks > 0) ? _stacks : 1);
 
   /* Pre-computed circle */
-  std::unique_ptr< Real[] > sint;
-  std::unique_ptr< Real[] > cost;
-
-  fghCircleTable(sint, cost, _slices);
+  auto cs=fghCircleTable(_slices);
 
   /* Do the stacks */
   // a std::vector to store our verts, remember vector packs contiguously so we can use it
@@ -435,11 +432,11 @@ void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const R
       // vert 1
       d.u = u;
       d.v = v;
-      d.nx = sint[j];
-      d.ny = cost[j];
+      d.nx = cs[j].sint;
+      d.ny = cs[j].cost;
       d.nz = 0;
-      d.x = sint[j] * _radius;
-      d.y = cost[j] * _radius;
+      d.x = cs[j].sint * _radius;
+      d.y = cs[j].cost * _radius;
       d.z = -z0 / 2.0f;
       data.push_back(d);
       // vert 2
@@ -450,43 +447,43 @@ void VAOPrimitives::createCylinder(std::string_view _name, Real _radius, const R
       // vert 3
       d.u = u + du;
       d.v = v;
-      d.nx = sint[j + 1];
-      d.ny = cost[j + 1];
-      d.x = sint[j + 1] * _radius;
-      d.y = cost[j + 1] * _radius;
+      d.nx = cs[j + 1].sint;
+      d.ny = cs[j + 1].cost;
+      d.x =  cs[j + 1].sint * _radius;
+      d.y =  cs[j + 1].cost * _radius;
       d.z = -z0 / 2.0f;
       data.push_back(d);
 
       // vert 1
       d.u = u + du;
       d.v = v;
-      d.nx = sint[j + 1];
-      d.ny = cost[j + 1];
+      d.nx = cs[j + 1].sint;
+      d.ny = cs[j + 1].cost;
       d.nz = 0;
-      d.x = sint[j + 1] * _radius;
-      d.y = cost[j + 1] * _radius;
+      d.x = cs[j + 1].sint * _radius;
+      d.y = cs[j + 1].cost * _radius;
       d.z = -z0 / 2.0f;
       data.push_back(d);
 
       // vert 1
       d.u = u;
       d.v = v + dv;
-      d.nx = sint[j];
-      d.ny = cost[j];
+      d.nx = cs[j].sint;
+      d.ny = cs[j].cost;
       d.nz = 0;
-      d.x = sint[j] * _radius;
-      d.y = cost[j] * _radius;
+      d.x = cs[j].sint * _radius;
+      d.y = cs[j].cost * _radius;
       d.z = -z1 / 2.0f;
       data.push_back(d);
 
       // vert 1
       d.u = u + du;
       d.v = v + dv;
-      d.nx = sint[j + 1];
-      d.ny = cost[j + 1];
+      d.nx = cs[j + 1].sint;
+      d.ny = cs[j + 1].cost;
       d.nz = 0;
-      d.x = sint[j + 1] * _radius;
-      d.y = cost[j + 1] * _radius;
+      d.x = cs[j + 1].sint * _radius;
+      d.y = cs[j + 1].cost * _radius;
       d.z = -z1 / 2.0f;
       data.push_back(d);
 
@@ -518,9 +515,8 @@ void VAOPrimitives::createCone(std::string_view _name, Real _base, Real _height,
   const Real sinn = (_base / sqrtf(_height * _height + _base * _base));
 
   /* Pre-computed circle */
-  std::unique_ptr< Real[] > sint;
-  std::unique_ptr< Real[] > cost;
-  fghCircleTable(sint, cost, _slices);
+  
+  auto cs=fghCircleTable(_slices);
 
   z0 = 0.0f;
   z1 = zStep;
@@ -543,20 +539,20 @@ void VAOPrimitives::createCone(std::string_view _name, Real _base, Real _height,
     {
       d.u = u;
       d.v = v;
-      d.nx = cost[j] * cosn; // ctheta;
-      d.ny = sint[j] * sinn; //-stheta;
+      d.nx = cs[j].cost * cosn; // ctheta;
+      d.ny = cs[j].sint * sinn; //-stheta;
       d.nz = sinn;           // sphi;
 
-      d.x = cost[j] * r0;
-      d.y = sint[j] * r0;
+      d.x = cs[j].cost * r0;
+      d.y = cs[j].sint * r0;
       d.z = z0;
       data.push_back(d);
       // now for the next verts
       d.u = u;
       d.v = v - dv;
 
-      d.x = cost[j] * r1;
-      d.y = sint[j] * r1;
+      d.x = cs[j].cost * r1;
+      d.y = cs[j].sint * r1;
       d.z = z1;
       data.push_back(d);
       u -= du;
@@ -575,9 +571,7 @@ void VAOPrimitives::createCone(std::string_view _name, Real _base, Real _height,
 void VAOPrimitives::createDisk(std::string_view _name, const Real _radius, unsigned int _slices) noexcept
 {
   /* Pre-computed circle */
-  std::unique_ptr< Real[] > sint;
-  std::unique_ptr< Real[] > cost;
-  fghCircleTable(sint, cost, _slices);
+  auto cs=fghCircleTable(_slices);
   // as were using a triangle fan its  vert at the center then
   //
 
@@ -607,8 +601,8 @@ void VAOPrimitives::createDisk(std::string_view _name, const Real _radius, unsig
     d.u = u;
     d.v = v;
     // normals set above
-    d.x = cost[j] * _radius;
-    d.y = sint[j] * _radius;
+    d.x = cs[j].cost * _radius;
+    d.y = cs[j].sint * _radius;
     // z set above
     data.push_back(d);
     u += du;
