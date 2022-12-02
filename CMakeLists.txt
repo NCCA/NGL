@@ -244,6 +244,7 @@ if(NOT DEFINED PYNGL_ONLY)
         ${CMAKE_SOURCE_DIR}/tests/main.cpp
         ${CMAKE_SOURCE_DIR}/tests/UtilTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/BBoxTests.cpp
+        ${CMAKE_SOURCE_DIR}/tests/BezierCurveTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/Vec4Tests.cpp
         ${CMAKE_SOURCE_DIR}/tests/Mat2Tests.cpp
         ${CMAKE_SOURCE_DIR}/tests/NGLInitTests.cpp

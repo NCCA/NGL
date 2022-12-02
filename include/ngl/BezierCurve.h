@@ -27,7 +27,7 @@
 
 namespace ngl
 {
-//----------------------------------------------------------------------------------------------------------------------
+
 /// @class BezierCurve  "include/BezierCurve.h"
 /// @brief Generic Bezier Curve Class allowing the user to generate basic curves using a number of different
 /// constriction methods, such as array of Vectors, array of numbers etc
@@ -41,83 +41,48 @@ namespace ngl
 /// array based on the LOD value passed in. This will speed up the execution for static curves as at
 /// present we calculate each time. Also this array can then be used to draw with VertexArrays and we
 /// will not need to create the DisplayLists
-//----------------------------------------------------------------------------------------------------------------------
+
 class NGL_DLLEXPORT BezierCurve
 {
 public :
-	//----------------------------------------------------------------------------------------------------------------------
+	
 	/// @brief default ctor sets initial values for Curve to be used with AddPoint , AddKnot etc
-	//----------------------------------------------------------------------------------------------------------------------
-	BezierCurve() noexcept;
-	//----------------------------------------------------------------------------------------------------------------------
+	BezierCurve() =default;
 	/// @brief Ctor passing in an Array of CP's and and Array of knots
 	///  @param[in] _p an array of Vector objects which are the control
-	///  @param[in] _nPoints the size of the Point Array
 	///  @param[in] _k and array of knot values
-	///  @param[in] _nKnots the size of the knot array
-	//----------------------------------------------------------------------------------------------------------------------
-  BezierCurve(const Vec3 *_p,unsigned int _nPoints,const Real  *_k,unsigned int _nKnots ) noexcept;
-
-  //----------------------------------------------------------------------------------------------------------------------
+  BezierCurve(const std::vector<Vec3> &_p,const std::vector<Real>  &_k) noexcept;
   /// @brief ctor passing in an array of points, note the knot vector will be automatically
   /// calculated as an open vector using a call to create knots
-  /// @param[in] _p the array of CP values expressed as groups of 3 float x,y,z values
-  /// @param[in] _nPoints the size of the array *p (note this is the total size of the array)
-  //----------------------------------------------------------------------------------------------------------------------
-  BezierCurve(const Real  *_p,unsigned int _nPoints) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief copy ctor
-  /// @param _c the curve to copy
-  //----------------------------------------------------------------------------------------------------------------------
-  BezierCurve(const BezierCurve &_c) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
+  /// @param[in] _p the array of CP values expressed as groups of Vec3
+  BezierCurve(const std::vector<ngl::Vec3>  &_p) noexcept;
+  /// @brief don't allow copies
+  BezierCurve(const BezierCurve &_c) =delete;
   /// @brief destructor
-  //----------------------------------------------------------------------------------------------------------------------
   ~BezierCurve() noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief Draw method to draw the curve Note this will be slow as it calls the CoxDeBoor function to calculate each time
-  /// it is much quicker to create a display list and use this.
-  /// \todo Modify this to use faster method than display lists
-  //----------------------------------------------------------------------------------------------------------------------
-  void draw() const noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
+  void draw() const noexcept;  
   /// @brief draw the control points
-  //----------------------------------------------------------------------------------------------------------------------
-  void drawControlPoints() const noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
+  void drawControlPoints() const noexcept;  
   /// @brief Draw the control hull
-  //----------------------------------------------------------------------------------------------------------------------
   void drawHull() const noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a point on the curve in the range of 0 - 1 based on the control points
   /// @param[in] _value the point to evaluate between 0 and 1
   /// @returns the value of the point at t
-  //----------------------------------------------------------------------------------------------------------------------
-  Vec3 getPointOnCurve(Real _value) const noexcept;
-
-	 //----------------------------------------------------------------------------------------------------------------------
+  Vec3 getPointOnCurve(Real _value) const noexcept;	 
 	/// @brief add a control point to the Curve
 	/// @param[in] &_p the point to add
-	//----------------------------------------------------------------------------------------------------------------------
 	void addPoint(const Vec3 &_p) noexcept;
-
-	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief add a point to the curve using x,y,z values
 	/// @param[in] _x x value of point
 	/// @param[in] _y y value of point
 	/// @param[in] _z z value of point
-	//----------------------------------------------------------------------------------------------------------------------
 	void addPoint(Real _x, Real _y, Real _z) noexcept;
-	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief add a knot value to the curve
 	/// @param[in] _k the value of the knot (note this is added to the end of the curve
-	//----------------------------------------------------------------------------------------------------------------------
 	void addKnot(Real _k) noexcept;
-	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief create a knot vector array based as an Open Vector (half 0.0 half 1.0)
-	//----------------------------------------------------------------------------------------------------------------------
 	void createKnots() noexcept;
-	//----------------------------------------------------------------------------------------------------------------------
 	/// @brief implementation of the CoxDeBoor algorithm for Bezier Curves borrowed from Rob Bateman's example and
 	/// modified to make it work with the class. NOTE, this is a recursive function
 	/// @returns Real the evaluation of the weight at the current value
@@ -125,65 +90,40 @@ public :
 	/// @param[in] _i
 	/// @param[in] _k
 	/// @param[in] _knots the array of knots for the curve
-	//----------------------------------------------------------------------------------------------------------------------
   Real coxDeBoor(Real _u,unsigned int _i,unsigned int _k,const std::vector <Real> &_knots) const noexcept;
 
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the Level of Detail for Drawing
   /// @note this will have no Effect if the createVAO has
   /// been called before
-  /// @param[in] _lod the level of detail to use when creating the display list for drawing the higher the number
+  /// @param[in] _lod the level of detail to use when creating the VAO for drawing the higher the number
   /// the finer the drawing
-  //----------------------------------------------------------------------------------------------------------------------
   void setLOD(int _lod) noexcept{m_lod=_lod;}
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the Level of Detail for Drawing
-  //----------------------------------------------------------------------------------------------------------------------
   void createVAO() noexcept;
-protected :
+  std::vector<Vec3> getControlPoints() const noexcept;
+  std::vector<Real> getKnots() const noexcept;
 
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief the display list index created from glCreateLists
-  //----------------------------------------------------------------------------------------------------------------------
-  GLuint m_listIndex;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief The Order of the Curve = Degree +1
-  //----------------------------------------------------------------------------------------------------------------------
-  unsigned int m_order;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief The level of detail used to calculate how much detail to draw
-  //----------------------------------------------------------------------------------------------------------------------
-  unsigned int m_lod;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief The ammount of Control Points in the Curve
-  //----------------------------------------------------------------------------------------------------------------------
-  unsigned int m_numCP;
-  //----------------------------------------------------------------------------------------------------------------------
+protected :
   /// @brief The degree of the curve, Calculated from the Number of Control Points
-  //----------------------------------------------------------------------------------------------------------------------
-  unsigned int m_degree;
-  //----------------------------------------------------------------------------------------------------------------------
+  unsigned int m_degree=0;
+  /// @brief The Order of the Curve = Degree +1
+  unsigned int m_order=m_degree+1;
+  /// @brief The level of detail used to calculate how much detail to draw
+  unsigned int m_lod=20;
+  /// @brief The amount of Control Points in the Curve
+  unsigned int m_numCP=0;
   /// @brief The knot vector always has as many values as the numer of verts (cp) + the degree
-  //----------------------------------------------------------------------------------------------------------------------
-  unsigned int m_numKnots;
-  //----------------------------------------------------------------------------------------------------------------------
+  unsigned int m_numKnots=m_numCP+m_degree;
   /// @brief  the contol points for the curve
-  //----------------------------------------------------------------------------------------------------------------------
   std::vector <Vec3> m_cp;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief  the knot vector for the curve
-  //----------------------------------------------------------------------------------------------------------------------
   std::vector <Real> m_knots;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief a vertex array object for our curve drawing
-  //----------------------------------------------------------------------------------------------------------------------
   std::unique_ptr<AbstractVAO> m_vaoCurve;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief a vertex array object for our point drawing
-  //----------------------------------------------------------------------------------------------------------------------
   std::unique_ptr<AbstractVAO>  m_vaoPoints;
 }; // end class BezierCurve
 } // end NGL Lib namespace
 #endif // end header file
 
-//----------------------------------------------------------------------------------------------------------------------
+

@@ -14,94 +14,66 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-//----------------------------------------------------------------------------------------------------------------------
+
 /// @file BezierCurve.cpp
 /// @brief basic BezierCurve using CoxDeBoor algorithm
-//----------------------------------------------------------------------------------------------------------------------
+
 #include "BezierCurve.h"
 #include <iostream>
 namespace ngl
 {
-//----------------------------------------------------------------------------------------------------------------------
-BezierCurve::BezierCurve() noexcept
-{
-	m_numCP=0;
-	m_degree=0;
-	m_order=m_degree+1;
-	m_numKnots=m_numCP+m_degree;
-	m_lod=20;
-	m_listIndex=0;
-	m_vaoCurve=0;
-	m_vaoPoints=0;
-}
-//----------------------------------------------------------------------------------------------------------------------
+
 void BezierCurve::createKnots() noexcept
 {
+	m_knots.clear();
 	for(unsigned int i=0; i<m_numKnots; ++i)
 	{
 		m_knots.push_back( (i<(m_numKnots/2))  ? 0.0f : 1.0f);
 	}
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-BezierCurve::BezierCurve(const BezierCurve &_c ) noexcept
-{
-	m_order=_c.m_order;
-	m_lod=_c.m_lod;
-	m_numCP=_c.m_numCP;
-	m_degree=_c.m_degree;
-	m_numKnots=_c.m_numKnots;
-	m_cp=_c.m_cp;
-	m_knots=_c.m_knots;
-	m_vaoCurve=0;
-	m_vaoPoints=0;
 
+std::vector<Vec3> BezierCurve::getControlPoints() const noexcept
+{
+	return m_cp;
+}
+std::vector<Real> BezierCurve::getKnots() const noexcept
+{
+	return m_knots;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-BezierCurve::BezierCurve( Real const *_p,  unsigned int _nPoints  ) noexcept
+
+
+BezierCurve::BezierCurve( const std::vector<ngl::Vec3> &_p) noexcept : m_cp{_p}
 {
-	for(unsigned int i=0; i<_nPoints; i+=3)
-	{
-		m_cp.push_back(Vec3(_p[i],_p[i+1],_p[i+2]));
-	}
-	m_numCP=_nPoints/3;
-	m_degree=_nPoints/3;
+	m_numCP=m_cp.size();
+	m_degree=m_cp.size();
 	m_order=m_degree+1;
 	m_numKnots=m_numCP+m_order;
 	m_lod=20;
 	createKnots();
 	m_vaoCurve=0;
 	m_vaoPoints=0;
-
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-BezierCurve::BezierCurve(const Vec3 *_p, unsigned int _nPoints, Real const *_k, unsigned int _nKnots  ) noexcept
+
+BezierCurve::BezierCurve(const std::vector<Vec3> &_p, const std::vector<Real> &_k) noexcept : m_cp{_p}, m_knots{_k}
 {
-	m_numCP=_nPoints;
-	m_degree=_nPoints;
+	m_numCP=_p.size();
+	m_degree=_p.size();
 	m_order=m_degree+1;
-	m_numKnots=_nKnots; //m_numCP+m_order;
+	m_numKnots=_k.size(); 
 	m_lod=20;
-  for(unsigned int i=0; i<m_numCP; ++i)
-	{
-		m_cp.push_back(Vec3(_p[i]));
-	}
-  for(unsigned int i=0; i<_nKnots; ++i)
-	{
-		m_knots.push_back(_k[i]);
-	}
 	m_vaoCurve=0;
 	m_vaoPoints=0;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 BezierCurve::~BezierCurve() noexcept
 {
 	m_cp.clear();
 	m_knots.clear();
-	if(m_vaoCurve!=0 && m_vaoPoints!=0)
+	if(m_vaoCurve!=nullptr && m_vaoPoints!=nullptr)
 	{
 		m_vaoCurve->unbind();
     m_vaoCurve->removeVAO();
@@ -110,7 +82,7 @@ BezierCurve::~BezierCurve() noexcept
 	}
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Real BezierCurve::coxDeBoor( Real _u,unsigned int _i, unsigned int _k, const std::vector <Real> &_knots ) const noexcept
 {
 	if(_k==1)
@@ -136,7 +108,7 @@ Real BezierCurve::coxDeBoor( Real _u,unsigned int _i, unsigned int _k, const std
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
+
 void BezierCurve::drawControlPoints()const noexcept
 {
 
@@ -147,7 +119,7 @@ void BezierCurve::drawControlPoints()const noexcept
 
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 void BezierCurve::drawHull()const noexcept
 {
   m_vaoPoints->bind();
@@ -156,7 +128,7 @@ void BezierCurve::drawHull()const noexcept
   m_vaoPoints->unbind();
  }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 void BezierCurve::draw() const noexcept
 {
 m_vaoCurve->bind();
@@ -164,7 +136,7 @@ m_vaoCurve->draw();
 m_vaoCurve->unbind();
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Vec3 BezierCurve::getPointOnCurve( Real _value  ) const noexcept
 {
 	Vec3 p;
@@ -190,7 +162,7 @@ Vec3 BezierCurve::getPointOnCurve( Real _value  ) const noexcept
 
 
 
-//----------------------------------------------------------------------------------------------------------------------
+
 void BezierCurve::addPoint( const Vec3 &_p    ) noexcept
 {
 	m_cp.push_back(_p);
@@ -198,12 +170,13 @@ void BezierCurve::addPoint( const Vec3 &_p    ) noexcept
 	++m_degree;
 	m_order=m_degree+1;
 	m_numKnots=m_numCP+m_order;
+	createKnots();
 	#ifdef DEBUG
     std::cout <<"Added "<<m_numCP<<" m_degree "<<m_degree<<" m_numKnots"<<m_numKnots<<" m_order "<<m_order<<'\n';
 	#endif
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 void BezierCurve::addPoint( Real _x,  Real _y, Real _z) noexcept
 {
 	m_cp.push_back(Vec3(_x,_y,_z));
@@ -216,7 +189,7 @@ void BezierCurve::addPoint( Real _x,  Real _y, Real _z) noexcept
     std::cout <<"Added "<<m_numCP<<" m_degree "<<m_degree<<" m_numKnots"<<m_numKnots<<" m_order "<<m_order<<'\n';
 	#endif
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 void BezierCurve::addKnot(Real _k) noexcept
 {
 	m_knots.push_back(_k);
@@ -270,7 +243,7 @@ void BezierCurve::createVAO() noexcept
 
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 
 } // end ngl namespace
 

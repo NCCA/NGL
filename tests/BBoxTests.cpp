@@ -49,6 +49,25 @@ TEST(BBox, AssignOperator)
   EXPECT_TRUE(test.center()==ngl::Vec3(0.0f,0.0f,0.0f));
 }
 
+TEST(BBox,ConstructWithCenter)
+{
+  ngl::BBox test({2.0f,2.0f,2.0f},2.0f,3.0f,4.0f,true);
+
+  EXPECT_FLOAT_EQ(test.minX(),1.0f);
+  EXPECT_FLOAT_EQ(test.maxX(),3.0f);
+  EXPECT_FLOAT_EQ(test.minY(),0.5f);
+  EXPECT_FLOAT_EQ(test.maxY(),3.5f);
+  EXPECT_FLOAT_EQ(test.minZ(),0.0f);
+  EXPECT_FLOAT_EQ(test.maxZ(),4.0f);
+  EXPECT_TRUE(test.center()==ngl::Vec3(2.0f,2.0f,2.0f));
+
+  EXPECT_FLOAT_EQ(test.width(),2.0f);
+  EXPECT_FLOAT_EQ(test.height(),3.0f);
+  EXPECT_FLOAT_EQ(test.depth(),4.0f);
+
+}
+
+
 TEST(BBox, ConstructFromExtents)
 {
   ngl::BBox test(-5,5,-2,2,-3.2,2.4,true);

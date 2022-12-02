@@ -65,8 +65,16 @@ BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth, bool _
 	m_norm[3].set(-1.0f,0.0f,0.0f);
 	m_norm[4].set(0.0f,0.0f,1.0f);
 	m_norm[5].set(0.0f,0.0f,-1.0f);
-	// store width height and depth
 	
+  m_minX = m_center.m_x-m_width/2.0f; 
+  m_maxX = m_center.m_x+m_width/2.0f; 
+  m_minY = m_center.m_y-m_height/2.0f; 
+  m_maxY = m_center.m_y+m_height/2.0f;
+  m_minZ = m_center.m_z-m_depth/2.0f; 
+  m_maxZ = m_center.m_z+m_depth/2.0f;
+   
+  
+  
   setVAO();
 }
 
