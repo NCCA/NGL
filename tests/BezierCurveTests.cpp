@@ -29,6 +29,24 @@ TEST(BezierCurve, createFromCP)
   EXPECT_TRUE(cp[3]==ngl::Vec3(2.0f, -6.0f, 2.0f));
 }
 
+TEST(BezierCurve, createFromCPXYZ)
+{
+  ngl::BezierCurve test;
+  test.addPoint(-5.0f, 0.0f, -5.0f);
+  test.addPoint(-2.0f, 2.0f, 1.0f);
+  test.addPoint(3.0f, -3.0f, -3.0f);
+  test.addPoint(2.0f, -6.0f, 2.0f);
+  test.setLOD(200.0f);
+  test.createKnots();
+  EXPECT_EQ(test.getKnots().size(),9);
+  EXPECT_EQ(test.getControlPoints().size(),4);
+  auto cp=test.getControlPoints();
+  EXPECT_TRUE(cp[0]==ngl::Vec3(-5.0f, 0.0f, -5.0f));
+  EXPECT_TRUE(cp[1]==ngl::Vec3(-2.0f, 2.0f, 1.0f));
+  EXPECT_TRUE(cp[2]==ngl::Vec3(3.0f, -3.0f, -3.0f));
+  EXPECT_TRUE(cp[3]==ngl::Vec3(2.0f, -6.0f, 2.0f));
+}
+
 TEST(BezierCurve,getPointOnCurve)
 {
   ngl::BezierCurve test;

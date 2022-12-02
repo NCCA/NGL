@@ -46,8 +46,8 @@ std::vector<Real> BezierCurve::getKnots() const noexcept
 
 BezierCurve::BezierCurve( const std::vector<ngl::Vec3> &_p) noexcept : m_cp{_p}
 {
-	m_numCP=m_cp.size();
-	m_degree=m_cp.size();
+	m_numCP=static_cast<unsigned int>(m_cp.size());
+	m_degree=static_cast<unsigned int>(m_cp.size());
 	m_order=m_degree+1;
 	m_numKnots=m_numCP+m_order;
 	m_lod=20;
@@ -59,10 +59,10 @@ BezierCurve::BezierCurve( const std::vector<ngl::Vec3> &_p) noexcept : m_cp{_p}
 
 BezierCurve::BezierCurve(const std::vector<Vec3> &_p, const std::vector<Real> &_k) noexcept : m_cp{_p}, m_knots{_k}
 {
-	m_numCP=_p.size();
-	m_degree=_p.size();
+	m_numCP=static_cast<unsigned int>(_p.size());
+	m_degree=static_cast<unsigned int>(_p.size());
 	m_order=m_degree+1;
-	m_numKnots=_k.size(); 
+	m_numKnots=static_cast<unsigned int>(_k.size()); 
 	m_lod=20;
 	m_vaoCurve=0;
 	m_vaoPoints=0;
@@ -183,8 +183,9 @@ void BezierCurve::addPoint( Real _x,  Real _y, Real _z) noexcept
 	++m_numCP;
 	++m_degree;
 	m_order=m_degree+1;
+	m_numKnots=m_numCP+m_order;
+	createKnots();
 
-	m_numKnots=m_numCP+m_degree;
 	#ifdef DEBUG
     std::cout <<"Added "<<m_numCP<<" m_degree "<<m_degree<<" m_numKnots"<<m_numKnots<<" m_order "<<m_order<<'\n';
 	#endif
