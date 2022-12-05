@@ -102,7 +102,6 @@ set(CPP_FILES
     ${CMAKE_SOURCE_DIR}/src/Obj.cpp
     ${CMAKE_SOURCE_DIR}/src/Mat4.cpp
     ${CMAKE_SOURCE_DIR}/src/NGLInit.cpp
-    ${CMAKE_SOURCE_DIR}/src/NCCABinMesh.cpp
     ${CMAKE_SOURCE_DIR}/src/BezierCurve.cpp
     ${CMAKE_SOURCE_DIR}/src/BBox.cpp
     ${CMAKE_SOURCE_DIR}/src/AbstractMesh.cpp
@@ -145,7 +144,6 @@ set(HEADERS
     ${CMAKE_SOURCE_DIR}/include/ngl/Mat4.h
     ${CMAKE_SOURCE_DIR}/include/ngl/NGLInit.h
     ${CMAKE_SOURCE_DIR}/include/ngl/BezierCurve.h
-    ${CMAKE_SOURCE_DIR}/include/ngl/NCCABinMesh.h
     ${CMAKE_SOURCE_DIR}/include/ngl/BBox.h
     ${CMAKE_SOURCE_DIR}/include/ngl/AbstractMesh.h
     ${CMAKE_SOURCE_DIR}/include/ngl/Random.h
@@ -352,7 +350,6 @@ if(DEFINED BUILD_PYNGL OR DEFINED PYNGL_ONLY)
         ${PYSOURCEDIR}/PyMultiBufferVAO.cpp
         ${PYSOURCEDIR}/PyShaderProgram.cpp
         ${PYSOURCEDIR}/PyVec3.cpp
-        ${PYSOURCEDIR}/PyNCCABinMesh.cpp
         ${PYSOURCEDIR}/PySimpleIndexVAO.cpp
         ${PYSOURCEDIR}/PyVec4.cpp
         ${PYSOURCEDIR}/PyNCCAPointBake.cpp

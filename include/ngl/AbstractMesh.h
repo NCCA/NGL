@@ -38,56 +38,17 @@ namespace ngl
 
 struct Face
 {
-  
-  /// @brief The vertices index
-  
+  /// @brief The vertices index 
   std::vector< uint32_t > m_vert;
-  
   /// @brief The texture co-ord index
-  
   std::vector< uint32_t > m_uv;
-  
   /// @brief the normal index
-  
   std::vector< uint32_t > m_norm;
-  
   /// @brief debug flag to turn face on and off
-  
   bool m_textureCoord = false;
   bool m_normals = false;
 };
 
-
-/// @class IndexRef
-/// @brief a class to hold the index into vert / norm and tex list for creating the VBO data structure
-
-class IndexRef
-{
-    public:
-  
-  /// @brief index into the vert list
-  
-  uint32_t m_v;
-  
-  /// @brief index into the nornmal list
-  
-  uint32_t m_n;
-  
-  /// @brief index into the texture list
-  
-  uint32_t m_t;
-  
-  /// @brief ctor to set the data
-  /// @param[in] _v the vert index
-  /// @param[in] _n the normal index
-  /// @param[in] _t the texture index
-  
-  IndexRef(uint32_t _v, uint32_t _n, uint32_t _t) noexcept
-    : m_v(_v), m_n(_n), m_t(_t)
-  {
-    ;
-  }
-};
 
 
 /// @class AbstractMesh "include/AbstractMesh.h"
@@ -200,13 +161,7 @@ class NGL_DLLEXPORT AbstractMesh
   /// @brief unmap the VBO based
   
   void unMapVAO() noexcept;
-  
-  /// @brief save the mesh as NCCA Binary VBO format
-  /// basically this format is the processed binary vbo mesh data as
-  /// as packed by the CreateVBO() method is called.
-  
-  void saveNCCABinaryMesh(std::string_view _fname) noexcept;
-  
+    
   /// @brief a method to get the current bounding box of the mesh
   /// @returns the bounding box for the loaded mesh;
   
@@ -318,112 +273,59 @@ class NGL_DLLEXPORT AbstractMesh
 
     protected:
   friend class NCCAPointBake;
-  
   /// @brief Pointer to the Vertex list
-  
   std::vector< Vec3 > m_verts;
-  
   /// @brief Pointer to the Normal List
-  
   std::vector< Vec3 > m_norm;
-  
   /// @brief Pointer to the Texture co-ord list (note that only x and y are used)
-  
   std::vector< Vec3 > m_uv;
-  
   /// @brief Pointer to the Face list
-  
   std::vector< Face > m_face;
-  
   /// @brief Center of the object
-  
-  Vec3 m_center = {0, 0, 0};
-  
+  Vec3 m_center = {0.0f, 0.0f, 0.0f};
   /// @brief the size of the index array
-  
   size_t m_indexSize = 0;
   size_t m_meshSize = 0;
-  
   /// @brief buffers for the VBO in order Vert, Tex, Norm
-  
   GLuint m_vboBuffers = 0;
-  
   /// @brief id for our vertexArray object
-  
   std::unique_ptr< AbstractVAO > m_vaoMesh;
-  
   /// @brief flag to indicate if a VBO has been created
-  
   bool m_vbo = false;
-  
   /// @brief flag to indicate if a VBO has been created
-  
   bool m_vao = false;
-  
   /// @brief flag to indicate if the VBO vertex data has been mapped
-  
   bool m_vboMapped = false;
-  
   /// @brief flag to indicate if texture assigned
-  
   bool m_texture = false;
-  
   /// @brief The openGL id  of the texture for the texture generation
-  
   GLuint m_textureID = 0;
-  
   /// @brief The Maximum X value in the obj file used to calculate the extents bbox
-  
   Real m_maxX = 0.0f;
-  
   /// @brief The Min X value in the obj file used to calculate the extents bbox
-  
   Real m_minX = 0.0f;
-  
   /// @brief  The Max Y value in the obj file used to calculate the extents bbox
-  
   Real m_maxY = 0.0f;
-  
   /// @brief  The Min Y value in the obj file used to calculate the extents bbox
-  
   Real m_minY = 0.0f;
-  
   /// @brief  The Max Z value in the obj file used to calculate the extents bbox
-  
   Real m_maxZ = 0.0f;
-  
   /// @brief  The Min Z value in the obj file used to calculate the extents bbox
-  
   Real m_minZ = 0.0f;
-  
   /// @brief   Create a bounding box of the object to store it's extents
-  
   std::unique_ptr< BBox > m_ext;
-  
   /// @brief  determines if the data is Packed as either TRI or QUAD
-  
   GLuint m_dataPackType = 0;
-  
   /// @brief  the size of the buffer pack we use this for the saving of bin vbo
   /// but it actually holds the size of the data (3 for just verts 5 verts norms etc)
-  
   unsigned int m_bufferPackSize = 0;
-  
   /// @brief  which type of VBO are we going to draw
-  
-  GLenum m_vboDrawType = 0;
-
-  
+  GLenum m_vboDrawType = 0;  
   /// @brief  flag to indicate if anything loaded for dtor
-  
   bool m_loaded = false;
-  
   /// @brief  the center of the bounding sphere
-  
   Vec3 m_sphereCenter;
-  
   /// @brief  the radius of the bounding sphere
-  
   Real m_sphereRadius = 0.0f;
 };
 

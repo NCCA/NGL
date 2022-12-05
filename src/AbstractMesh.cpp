@@ -142,29 +142,28 @@ void AbstractMesh::createVAO(ResetVAO _reset) noexcept
   std::vector< VertData > vboMesh;
   VertData d;
 
-  // loop for each of the faces
-  for(unsigned int i = 0; i < m_face.size(); ++i)
+  for(auto face : m_face)
   {
     // now for each triangle in the face (remember we ensured tri above)
     for(unsigned int j = 0; j < 3; ++j)
     {
 
       // pack in the vertex data first
-      d.x = m_verts[m_face[i].m_vert[j]].m_x;
-      d.y = m_verts[m_face[i].m_vert[j]].m_y;
-      d.z = m_verts[m_face[i].m_vert[j]].m_z;
+      d.x = m_verts[face.m_vert[j]].m_x;
+      d.y = m_verts[face.m_vert[j]].m_y;
+      d.z = m_verts[face.m_vert[j]].m_z;
       // now if we have norms of tex (possibly could not) pack them as well
-      if(m_norm.size() > 0 && m_uv.size() > 0)
+      if(!m_norm.empty() && !m_uv.empty())
       {
-        d.nx = m_norm[m_face[i].m_norm[j]].m_x;
-        d.ny = m_norm[m_face[i].m_norm[j]].m_y;
-        d.nz = m_norm[m_face[i].m_norm[j]].m_z;
+        d.nx = m_norm[face.m_norm[j]].m_x;
+        d.ny = m_norm[face.m_norm[j]].m_y;
+        d.nz = m_norm[face.m_norm[j]].m_z;
 
-        d.u = m_uv[m_face[i].m_uv[j]].m_x;
-        d.v = m_uv[m_face[i].m_uv[j]].m_y;
+        d.u = m_uv[face.m_uv[j]].m_x;
+        d.v = m_uv[face.m_uv[j]].m_y;
       }
       // now if neither are present (only verts like Zbrush models)
-      else if(m_norm.size() == 0 && m_uv.size() == 0)
+      else if(m_norm.empty()  && m_uv.empty() )
       {
         d.nx = 0;
         d.ny = 0;
@@ -173,22 +172,22 @@ void AbstractMesh::createVAO(ResetVAO _reset) noexcept
         d.v = 0;
       }
       // here we've got norms but not tex
-      else if(m_norm.size() > 0 && m_uv.size() == 0)
+      else if(!m_norm.empty() && m_uv.empty())
       {
-        d.nx = m_norm[m_face[i].m_norm[j]].m_x;
-        d.ny = m_norm[m_face[i].m_norm[j]].m_y;
-        d.nz = m_norm[m_face[i].m_norm[j]].m_z;
+        d.nx = m_norm[face.m_norm[j]].m_x;
+        d.ny = m_norm[face.m_norm[j]].m_y;
+        d.nz = m_norm[face.m_norm[j]].m_z;
         d.u = 0;
         d.v = 0;
       }
       // here we've got tex but not norm least common
-      else if(m_norm.size() == 0 && m_uv.size() > 0)
+      else if(m_norm.empty() && !m_uv.empty())
       {
         d.nx = 0;
         d.ny = 0;
         d.nz = 0;
-        d.u = m_uv[m_face[i].m_uv[j]].m_x;
-        d.v = m_uv[m_face[i].m_uv[j]].m_y;
+        d.u = m_uv[face.m_uv[j]].m_x;
+        d.v = m_uv[face.m_uv[j]].m_y;
       }
       vboMesh.push_back(d);
     }
@@ -271,17 +270,9 @@ Real *AbstractMesh::mapVAOVerts() noexcept
   Real *ptr = nullptr;
 
   // bind our VBO data
-  //
   m_vaoMesh->bind();
-  // NGLCheckGLError("Abstract Mesh",__LINE__);
   glBindBuffer(GL_ARRAY_BUFFER, m_vaoMesh->getBufferID(0));
-  // NGLCheckGLError("Abstract Mesh",__LINE__);
-#ifndef USINGIOS_
   ptr = static_cast< Real * >(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
-#else
-  // ptr = (float*)glMapBufferOES(GL_ARRAY_BUFFER,GL_READ_WRITE_OES);
-#endif
-  // NGLCheckGLError("Abstract Mesh",__LINE__);
   m_vboMapped = true;
   return ptr;
 }
@@ -341,57 +332,6 @@ void AbstractMesh::calcDimensions() noexcept
   }
 }
 
-void AbstractMesh::saveNCCABinaryMesh(std::string_view _fname) noexcept
-{
-  // so basically we need to save all the state data from the abstract mesh
-  // then map the vbo on the gpu and dump that in one go, this means we have to
-  // call CreateVBO first the Save
-  std::fstream file;
-  file.open(_fname.data(), std::ios::out | std::ios::binary);
-  if(!file.is_open())
-  {
-    NGLMessage::addError(fmt::format("problems Opening File {0} for reading", _fname.data()));
-    return;
-  }
-  // lets write out our own Magic Number file ID
-  const std::string header("ngl::bin");
-  file.write(header.c_str(), header.length());
-  /// The number of vertices in the object
-  file.write(reinterpret_cast< char * >(m_verts.size()), sizeof(unsigned long int));
-  /// The number of normals in the object
-  file.write(reinterpret_cast< char * >(m_norm.size()), sizeof(unsigned long int));
-
-  /// the number of texture co-ordinates in the object
-  file.write(reinterpret_cast< char * >(m_uv.size()), sizeof(unsigned long int));
-
-  /// the number of faces in the object
-  file.write(reinterpret_cast< char * >(m_face.size()), sizeof(unsigned long int));
-  file.write(reinterpret_cast< char * >(&m_center.m_x), sizeof(Real));
-  file.write(reinterpret_cast< char * >(&m_center.m_y), sizeof(Real));
-  file.write(reinterpret_cast< char * >(&m_center.m_z), sizeof(Real));
-
-  file.write(reinterpret_cast< char * >(&m_texture), sizeof(bool));
-
-  file.write(reinterpret_cast< char * >(&m_maxX), sizeof(Real));
-  file.write(reinterpret_cast< char * >(&m_maxY), sizeof(Real));
-  file.write(reinterpret_cast< char * >(&m_maxZ), sizeof(Real));
-  file.write(reinterpret_cast< char * >(&m_minX), sizeof(Real));
-  file.write(reinterpret_cast< char * >(&m_minY), sizeof(Real));
-  file.write(reinterpret_cast< char * >(&m_minZ), sizeof(Real));
-
-  file.write(reinterpret_cast< char * >(&m_dataPackType), sizeof(GLuint));
-  file.write(reinterpret_cast< char * >(&m_indexSize), sizeof(unsigned int));
-  file.write(reinterpret_cast< char * >(&m_bufferPackSize), sizeof(unsigned int));
-  /// now we can dump the data from the vbo
-  auto size = m_indexSize * m_bufferPackSize * sizeof(GLfloat);
-  file.write(reinterpret_cast< char * >(&size), sizeof(unsigned int));
-
-  Real *vboMem = this->mapVAOVerts();
-  file.write(reinterpret_cast< char * >(vboMem), size);
-
-  file.close();
-  this->unMapVAO();
-}
 
 /// modified from example in Rick Parent book
 /// Computer Animation Algorithms and Techniques
