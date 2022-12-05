@@ -68,7 +68,7 @@ class NGL_DLLEXPORT Image
     /// @param _flipY flip the texture in the Y for OpenGL
     // this means 0,0 is bottom left of image
     /// @return  true if file could be saved.
-    bool save(std::string_view _fname,bool _flipY=true) noexcept;
+    bool save(std::string_view _fname,bool _flipY=true) const noexcept;
 
 
     /// @brief raw access to unsigned char pixel data

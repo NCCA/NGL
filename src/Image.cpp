@@ -96,8 +96,8 @@ Image::Image(const Image &_i)
 Vec4 Image::getColour(const GLuint _x, const GLuint _y) const noexcept
 {
   // make sure were in the image range
-  NGL_ASSERT(_x <= m_width && _y <= m_height);
-  if(m_data != 0)
+  NGL_ASSERT(_x <= m_width && _y <= m_height)
+  if(m_data != nullptr)
   {
     auto offset = _x * m_channels + ((_y)*m_width * m_channels);
     if(m_channels == 3)
@@ -140,7 +140,7 @@ Vec4 Image::getColour(const Real _uvX, const Real _uvY) const noexcept
     return Vec4(0.0f, 0.0f, 0.0f, 0.0f);
   }
 }
-bool Image::save(std::string_view _fname,bool _flipY) noexcept
+bool Image::save(std::string_view _fname,bool _flipY) const noexcept
 {
  bool isSaved=false;
  namespace ps=pystring;
@@ -187,7 +187,6 @@ bool Image::save(std::string_view _fname,bool _flipY) noexcept
 #endif
 
 #if defined(USEBUILTINIMAGE)
-  // TODO add check for extension and save what you can.
   stbi_flip_vertically_on_write(int(_flipY));
   if(ps::endswith(std::string(_fname.data()),".png"))
     isSaved=stbi_write_png(_fname.data(), m_width, m_height, m_channels, m_data.get(), m_width * m_channels);
@@ -226,8 +225,8 @@ void Image::saveFrameBufferToFile(std::string_view _fname, int _x, int _y, int _
   }
   int realWidth = _width - _x;
   int realHeight = _height - _y;
-  NGL_ASSERT(_x < _width && _y < _height);
-  std::unique_ptr< unsigned char[] > data(new unsigned char[realWidth * realHeight * size]);
+  NGL_ASSERT(_x < _width && _y < _height)
+  std::unique_ptr< unsigned char[] > data = std::make_unique<unsigned char []>(realWidth * realHeight * size);
   glReadPixels(_x, _y, realWidth, realHeight, format, GL_UNSIGNED_BYTE, data.get());
 #if defined(USEQIMAGE)
   QImage::Format qformat = QImage::Format::Format_RGB888;
@@ -256,12 +255,6 @@ void Image::saveFrameBufferToFile(std::string_view _fname, int _x, int _y, int _
 #if defined(USEBUILTINIMAGE)
 
   stbi_write_png(_fname.data(), _width, _height, size, data.get(), _width * size);
-  // Magick::Image output(realWidth, realHeight, size == 3 ? "RGB" : "RGBA", Magick::CharPixel, data.get());
-
-  // // set the output image depth to 16 bit
-  // output.depth(16);
-  // // write the file
-  // output.write(_fname.c_str());
 #endif
 }
 
