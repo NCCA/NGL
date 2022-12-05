@@ -226,7 +226,7 @@ void Image::saveFrameBufferToFile(std::string_view _fname, int _x, int _y, int _
   int realWidth = _width - _x;
   int realHeight = _height - _y;
   NGL_ASSERT(_x < _width && _y < _height)
-  std::unique_ptr< unsigned char[] > data = std::make_unique<unsigned char []>(realWidth * realHeight * size);
+  auto data = std::make_unique<unsigned char []>(realWidth * realHeight * size);
   glReadPixels(_x, _y, realWidth, realHeight, format, GL_UNSIGNED_BYTE, data.get());
 #if defined(USEQIMAGE)
   QImage::Format qformat = QImage::Format::Format_RGB888;

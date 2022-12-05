@@ -49,7 +49,7 @@ void AbstractMesh::scale(Real _sx, Real _sy, Real _sz) noexcept
     m_center += v;
   }
   // calculate the center
-  m_center /= m_verts.size();
+  m_center /= static_cast<Real>(m_verts.size());
   calcDimensions();
 }
 
@@ -203,7 +203,6 @@ void AbstractMesh::createVAO(ResetVAO _reset) noexcept
   // how much (in bytes) data we are copying
   // a pointer to the first element of data (in this case the address of the first element of the
   // std::vector
-  // m_vaoMesh->setData(m_meshSize*sizeof(VertData),vboMesh[0].u);
   m_vaoMesh->setData(SimpleVAO::VertexData(m_meshSize * sizeof(VertData), vboMesh[0].x));
   // in this case we have packed our data in interleaved format as follows
   // x,y,z,nx,ny,nz,u,v
@@ -297,7 +296,7 @@ void AbstractMesh::calcDimensions() noexcept
   {
     m_center += v;
   }
-  m_center /= m_verts.size();
+  m_center /= static_cast<Real>(m_verts.size());
   // calculate the extents
   m_maxX = m_minX = m_center.m_x;
   m_maxY = m_minY = m_center.m_y;
@@ -346,8 +345,7 @@ void AbstractMesh::calcBoundingSphere() noexcept
     m_sphereRadius = 0;
     return;
   }
-  // find minimal and maximal extents and indexs into
-  // into vert array
+  // find minimal and maximal extents and indices into vert array
   size_t minXI = 0;
   size_t minYI = 0;
   size_t minZI = 0;
@@ -412,8 +410,8 @@ void AbstractMesh::calcBoundingSphere() noexcept
   Real diam2z = dx * dx + dy * dy + dz * dz;
 
   Real diamTwo = diam2x;
-  int p1i = minXI;
-  int p2i = maxXI;
+  size_t p1i = minXI;
+  size_t p2i = maxXI;
   if(diam2y > diamTwo)
   {
     diamTwo = diam2y;
@@ -431,7 +429,7 @@ void AbstractMesh::calcBoundingSphere() noexcept
   m_sphereCenter = (m_verts[p1i] + m_verts[p2i]) / 2.0f;
   // now calculate radius and radius^2 of the initial sphere
   Real radTwo = diamTwo / 4.0f;
-  Real rad = sqrt(radTwo);
+  Real rad = sqrtf(radTwo);
   // now check and adjust for outlying points
   Vec3 newCenter;
   Real newRad2;
@@ -450,7 +448,7 @@ void AbstractMesh::calcBoundingSphere() noexcept
     // need to update the sphere if this point is outside the radius
     if(dist2 > radTwo)
     {
-      dist = sqrt(dist2);
+      dist = sqrtf(dist2);
       newRad = (rad + dist) / 2.0f;
       newRad2 = newRad * newRad;
       delta = dist - newRad;

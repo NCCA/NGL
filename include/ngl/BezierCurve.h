@@ -106,6 +106,10 @@ public :
 protected :
   /// @brief The degree of the curve, Calculated from the Number of Control Points
   unsigned int m_degree=0;
+  /// @brief  the control points for the curve
+  std::vector <Vec3> m_cp;
+  /// @brief  the knot vector for the curve
+  std::vector <Real> m_knots;
   /// @brief The Order of the Curve = Degree +1
   unsigned int m_order=m_degree+1;
   /// @brief The level of detail used to calculate how much detail to draw
@@ -114,10 +118,6 @@ protected :
   unsigned int m_numCP=0;
   /// @brief The knot vector always has as many values as the numer of verts (cp) + the degree
   unsigned int m_numKnots=m_numCP+m_degree;
-  /// @brief  the contol points for the curve
-  std::vector <Vec3> m_cp;
-  /// @brief  the knot vector for the curve
-  std::vector <Real> m_knots;
   /// @brief a vertex array object for our curve drawing
   std::unique_ptr<AbstractVAO> m_vaoCurve;
   /// @brief a vertex array object for our point drawing

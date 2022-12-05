@@ -44,7 +44,7 @@ class NGL_DLLEXPORT NGLInit
 {
     public:
   static void initialize();
-  ~NGLInit() noexcept;
+  ~NGLInit() =default;
 
     protected:
   //----------------------------------------------------------------------------------------------------------------------

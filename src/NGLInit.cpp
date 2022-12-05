@@ -28,15 +28,12 @@
 #if defined(LINUX) || defined(_WIN32)
 #include <cstdlib>
 #endif
-//----------------------------------------------------------------------------------------------------------------------
 /// @file NGLInit.cpp
 /// @brief implementation files for NGLInit class
-//----------------------------------------------------------------------------------------------------------------------
 
 namespace ngl
 {
 
-//----------------------------------------------------------------------------------------------------------------------
 void NGLInit::initialize()
 {
   NGLMessage::init();
@@ -121,10 +118,6 @@ NGLInit::NGLInit()
   VAOFactory::registerVAOCreator(multiBufferVAO, MultiBufferVAO::create);
   VAOFactory::registerVAOCreator(simpleIndexVAO, SimpleIndexVAO::create);
   ShaderLib::loadDefaultShaders();
-}
-//----------------------------------------------------------------------------------------------------------------------
-NGLInit::~NGLInit() noexcept
-{
 }
 
 } // namespace ngl

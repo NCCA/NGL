@@ -69,7 +69,6 @@ TEST(Image,loadRGB)
     if(ext == ".jpg")
       continue;
     ngl::Image img(fmt::format("files/simpleRGB{}",ext),false);
-    std::cout<<fmt::format("files/simpleRGB{}\n",ext);
     EXPECT_EQ(img.width(),4);
     EXPECT_EQ(img.height(),4);
     // getPixel will return the raw data so test against this

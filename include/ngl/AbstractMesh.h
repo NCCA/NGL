@@ -157,23 +157,17 @@ class NGL_DLLEXPORT AbstractMesh
   /// @returns a pointer to the VBO vertex data
   
   Real *mapVAOVerts() noexcept;
-  
   /// @brief unmap the VBO based
-  
   void unMapVAO() noexcept;
-    
   /// @brief a method to get the current bounding box of the mesh
   /// @returns the bounding box for the loaded mesh;
-  
 
   BBox &getBBox() noexcept
   {
     return *m_ext;
   }
-  
   /// @brief accessor for the vertex data
   /// @returns a std::vector containing the vert data
-  
   std::vector< Vec3 > getVertexList() const noexcept
   {
     return m_verts;
