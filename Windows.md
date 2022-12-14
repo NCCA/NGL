@@ -1,84 +1,184 @@
-## Windows Build for NGL
 
-The following instructions will help you install and use NGL under windows.
+# NGL Install Windows
 
-## Pre-requisites
+First we are going to install Visual Studio and set it up. We can download the installer from here https://visualstudio.microsoft.com/free-developer-offers/ and we want the community version.
 
-You will need to install Visual Studio community edition from [here](https://visualstudio.microsoft.com/downloads/) NGL will work with any C++ 14 compiler but I have been using MSVC 2019 for the current windows 10 build.
+Once the installer has downloaded run it and choose the workloads tab and choose C++ as shown below
+![](images/VSCodePt1.png)
 
-As a minimum choose Desktop C++ development as show in the image here
-![](images/windows1.png)
+Next scroll down and select the Games development section and select this 
 
-## Install vcpkg
+![](images/VSCodePt2.png) 
 
-vcpkg is a tool which allows you to install libraries under windows. I use this to help install the required libraries for NGL. Follow the install instructions here  [https://github.com/microsoft/vcpkg](https://github.com/microsoft/vcpkg). It is important to install this in the root of your home directory to ensure this is correct run the cmd.exe terminal and type ```cd %HOMEDRIVE%%HOMEPATH%``` before running the commands to install vcpkg. NGL will use ``` %HOMEDRIVE%%HOMEPATH% ``` in all the build scripts to ensure things are in the correct locations.
+Now we can add some extra elements to make life easier. First we will add git as shown
 
-Once vcpkg is installed the following libraries need to be added.
+![](images/VSCodePt3.png)
 
+Once these have all been selected we can do an install, this is about 9Gb so will take some time.
+
+## Setting up the development environment
+
+When developing for windows we need to ensure we use the correct platform architecture and build target. This means everything we do should be build for x64 (or x64_86) and if we are building for Debug we need to ensure all libraries are also built for Debug, if for Release everything must be built for Release. 
+
+To make things easier to build all the tools I generate a batch file to run the correct setup scripts from the Visual Studio install then run powershell.
+
+First we will create an empty file on the desktop called dev.bat this can be done by right clicking on the desktop and create new Text Document. Open this file in a text editor (VSCode) and add the following.
 
 ```
+call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
+powershell.exe /NoLogo
+```
+
+Once this is saved it should be able to be double clicked and run which should result in a window like this
+
+![](images/VSCodePt4.png)
+
+We should now be able to execute all the commands we need to build NGL 
+
+```
+git --version
+> git version 2.38.1.windows.1  
+
+cmake --version
+> cmake version 3.24202208181-MSVC_2
+CMake suite maintained and supported by Kitware (kitware.com/cmake).  
+
+cl
+Microsoft (R) C/C++ Optimizing Compiler Version 19.34.31937 for x64
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+usage: cl [ option... ] filename... [ /link linkoption... ]  
+```
+
+## Installing vcpkg 
+
+We now need to install vcpkg following the instructions here https://vcpkg.io/en/getting-started.html
+
+```
+git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-.\vcpkg install gtest:x64-windows
-.\vcpkg install glm:x64-windows
-.\vcpkg install glfw3:x64-windows
-.\vcpkg install rapidjson:x64-windows
-.\vcpkg install rapidxml:x64-windows
-.\vcpkg install fmt:x64-windows
-.\vcpkg install freetype:x64-windows
-.\vcpkg install gl3w:x64-windows
-# optional if needing OpenImageIO
-.\vcpkg install openimageio:x64-windows
-# optional if building the python bindings
-.\vcpkg install pybind11:x64-windows
+bootstrap-vcpkg.bat
 ```
 
-## Install Qt 
-
-Qt and Qt Creator can be downloaded from [here](https://www.qt.io/download) choose the Open Source version, you will also need to create an account to get access to the software, this does however allow you access to the forums which are very good.
-
-As a minimum install the latest version of Qt for the MSVC 64 bit compiler as shown in the image below
-
-![](images/qt.png)
-
-
-Once Qt is installed launch Qt Creator and setup the kits / compilers.
-
-1. Choose Tools-> Options -> Kits
-2. Choose the Compilers Tab
-3. Select Add and choose the MSVC Tab, now select the 64 bit ABI version as shown in the Image below.
-
-![](images/qt2.png)
-
-Finally in the kits tab select the new compiler as the default compiler for the Kit as shown below.
-
-![](images/qt3.png)
-
-## Build NGL
-
-NGL can now be cloned and installed as with Mac and Linux. It is important that when building the demos they are build as release or debug for everything. For example NGL build as debug must have the demo programs build as debug as well. Also this will require the correct version of the vcpkg libs to be installed as well for both debug and release.
-
-For a simple Command line build do the following in the Visual Studio Powershell note you will need to change the paths for your own install of vcpkg and home directories if not standard ~/ ones.
+Now we can install all the requirements for NGL, note the first install will always download exta tools that vcpkg needs so can take some time.
 
 ```
-git clone --depth=1 git@github.com:/NCCA/NGL $HOME/NGLBuild
+ .\vcpkg.exe install gtest:x64-windows
+```
+
+## Install NGL
+
+We can now download NGL and install it I suggest setting up git to work via ssh by following the instructions here https://docs.github.com/en/authentication/connecting-to-github-with-ssh 
+
+```
+git clone --depth=1 https://github.com/NCCA/NGL $HOME\NGLBuild
 cd NGLBuild
 mkdir build
-cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_INSTALL_PREFIX:PATH="$HOME/NGL"  -DCMAKE_BUILD_TYPE=Debug  ..
-
-cmake --build .
-
-cmake --build . --target install --config Debug
-
 ```
 
-Note all the demos expect NGL to be installed in a system path or the root of your home directory %HOMEDRIVE%/%HOMEPATH%/NGL 
+We need to set some paths before building so cmake can find vcpkg install location
 
-## Visual Studio build.
+```
+cmake  -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_INSTALL_PREFIX:PATH="$HOME/NGL"  -DCMAKE_BUILD_TYPE=Debug  ..
+cmake --build .
+```
 
-It is generally easier to install and use the Visual Studio IDE rather than Qt, however you first need to install the Qt Extensions, from the Extensions menu search for Qt and install the Qt Visual Studio Tools as shown in the image below
-![](images/qt4.png) and re-start Visual Studio.
+As we have selected the target Debug the library and NGLTests.exe will be placed in the new folder called Debug we can change to this folder and run the tests.
 
-You can now Open Qt Project file from the Extensions -> Qt VS Tools menu and load the NGL project.
+```
+cd Debug
+./NGLTests.exe
+```
 
-Again you will need to setup either Release or Debug builds for all projects and choose the x64 options.
+No we need to install NGL to the correct folder, this is done in the build folder as follows
 
+```
+cmake --build . --target install
+```
+
+This should now copy all of the files we need to build the demos into $HOME/NGL and should look like this.
+
+```
+ ls ~/NGL
+Directory: C:\Users\jpmac\NGL
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        14/12/2022     16:18                include
+d-----        14/12/2022     16:18                lib
+-a----        14/12/2022     15:56           2547 NGLConfig.cmake
+```
+
+## Installing Qt
+
+Most of the NGL Demos use Qt, we can use either Qt 5.15.x (which is the vfx-reference platform version) or Qt 6.x which is newer and may not be usable for all platforms. We can get the Qt installer from here https://www.qt.io/download-open-source you will need an account for the forums but this can be useful.
+
+Qt can get quite large, and we don't need to install all components, so we can choose custom install.
+
+![](images/Qt1.png)
+
+For this install I have selected the following, choosing only the latest Visual Studio version for X64 and not of the other platforms.
+
+![](images/Qt2.png)
+
+## SimpleNGL
+
+We should now be able to download an NGL demo and test.
+
+```
+git clone https://github.com/NCCA/SimpleNGL 
+cd SimpleNGL
+mkdir build
+cmake  -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_BUILD_TYPE=Debug ..
+cmake --build .
+```
+
+Under windows there is an issue with the target to copy the shaders and other resource files to the target folder. We need to do this manually once we have built the program as follows
+
+```
+cd Debug
+cp -r ../shaders ./
+./SimpleNGL.exe
+```
+
+![](images/simplengl.png)
+
+## Adding to the system environment
+
+To make life easier we can add the CMAKE_TOOLCHAIN_PATH and CMAKE_PREFIX_PATH to the system environment. 
+
+Press the Windows Key and search for environment which will show an edit environment option.
+
+![](images/env1.png)
+
+Click on the Edit button
+
+![](images/env2.png) 
+
+and add a new variable
+
+![](images/env3.png)
+
+In this case we have added CMAKE_TOOLCHAIN_FILE and selected the correct file using the Browse File button. On my machine it is ```C:\Users\jpmac\vcpkg\scripts\buildsystems\vcpkg.cmake```
+
+Next we can add the CMAKE_PREFIX_PATH in the same way but choose the directory option to add the installed ```$HOME/NGL``` folder 
+
+![](images/env4.pngs)
+
+Once these are save you should be able to re-open the developer shell and build NGL demos without specifying the -D flags. So in the build folder we can now do
+
+```
+cd build
+rm -r -force *
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+cmake --build .
+cd Debug
+cp -r ../shaders ./
+./SimpleNGL
+```
+
+## Conclusions
+
+Your environment should now work and all the other NGL demos should also work.
+
+If you wish to use certain libraries such as SDL2 or Bullet Physics you will also need to install these with vcpkg but most of the hard work has now been done.

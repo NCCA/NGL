@@ -98,6 +98,7 @@ Shader::Shader(std::string_view _name, ShaderType _type, ErrorExit _exitOnError)
 }
 Shader::~Shader()
 {
+  // Note this needs to be with cerr as NGLMessage crashes here
   std::cerr << fmt::format("removing shader {0} \n", m_name); //,Colours::WHITE,TimeFormat::NONE);
   glDeleteShader(m_shaderHandle);
 }

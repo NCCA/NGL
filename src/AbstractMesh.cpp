@@ -39,7 +39,7 @@ void AbstractMesh::drawBBox() const noexcept
 
 void AbstractMesh::scale(Real _sx, Real _sy, Real _sz) noexcept
 {
-  m_center = 0;
+  m_center.set(0,0,0);
   // do lambda here
   for(auto &v : m_verts)
   {
@@ -291,7 +291,7 @@ void AbstractMesh::unMapVAO() noexcept
 void AbstractMesh::calcDimensions() noexcept
 {
   // Calculate the center of the object.
-  m_center = 0.0;
+  m_center.set( 0.0f,0.0f,0.0f);
   for(auto v : m_verts)
   {
     m_center += v;
@@ -341,8 +341,8 @@ void AbstractMesh::calcBoundingSphere() noexcept
   if(size <= 0)
   {
     NGLMessage::addError("no vertices loaded ");
-    m_sphereCenter = 0;
-    m_sphereRadius = 0;
+    m_sphereCenter.set(0,0,0);
+    m_sphereRadius=0;
     return;
   }
   // find minimal and maximal extents and indices into vert array
