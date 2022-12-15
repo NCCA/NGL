@@ -129,7 +129,7 @@ We should now be able to download an NGL demo and test.
 git clone https://github.com/NCCA/SimpleNGL 
 cd SimpleNGL
 mkdir build
-cmake  -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_BUILD_TYPE=Debug ..
+cmake  -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_PREFIX_PATH="$HOME/NGL" -DCMAKE_BUILD_TYPE=Debug ..
 cmake --build .
 ```
 
