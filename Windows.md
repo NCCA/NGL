@@ -142,23 +142,28 @@ We should now be able to download an NGL demo and test.
 git clone https://github.com/NCCA/SimpleNGL 
 cd SimpleNGL
 mkdir build
-cmake  -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_PREFIX_PATH="$HOME/NGL" -DCMAKE_BUILD_TYPE=Debug ..
+cmake  -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_PREFIX_PATH="$HOME/NGL" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH="C:\Qt\5.15.2\msvc2019_64" ..
 cmake --build .
 ```
+
+You will notice in the above command line there is a path to the Qt version, you must ensure this is correct for your system / version of Qt.
 
 Under windows there is an issue with the target to copy the shaders and other resource files to the target folder. We need to do this manually once we have built the program as follows
 
 ```
 cd Debug
 cp -r ../shaders ./
+$env:Path += ";C:\Qt\5.15.2\msvc2019_64\bin"
 ./SimpleNGL.exe
 ```
+
+In the above command line you will notice we have set the path to point to the bin directory of Qt, this is so the program can find the Qt libraries. As with other path you must ensure this is correct for your system.
 
 ![](images/simplengl.png)
 
 ## Adding to the system environment
 
-To make life easier we can add the CMAKE_TOOLCHAIN_PATH and CMAKE_PREFIX_PATH to the system environment. 
+To make life easier we can add the CMAKE_TOOLCHAIN_PATH and CMAKE_PREFIX_PATH to the system environment. As well as the other variable for Qt.
 
 Press the Windows Key and search for environment which will show an edit environment option.
 
@@ -174,7 +179,11 @@ and add a new variable
 
 In this case we have added CMAKE_TOOLCHAIN_FILE and selected the correct file using the Browse File button. On my machine it is ```C:\Users\jpmac\vcpkg\scripts\buildsystems\vcpkg.cmake```
 
-Next we can add the CMAKE_PREFIX_PATH in the same way but choose the directory option to add the installed ```$HOME/NGL``` folder 
+Next we can add the CMAKE_PREFIX_PATH in the same way but choose the directory option to add the installed ```$HOME/NGL``` folder. Next we need to add another item to the list. It is easiest to just add ;C:\ to the current element and press enter.
+
+Open up the Variable again and you will now see a list. Select C:\ and then choose directory to find the location of Qt, on my machine this is C:\Qt\5.15.2\msvc2019_64\
+
+Finally we need to edit the existing Path environment variable to add the Qt path. On my machine this is C:\Qt\5.15.2\msvc2019_64\bin 
 
 ![](images/env4.pngs)
 
@@ -190,8 +199,15 @@ cp -r ../shaders ./
 ./SimpleNGL
 ```
 
+## Ninja
+
+If you system has Ninja installed on it you can use this to build your projects by passing the -G Ninja command line to the initial build. This has the advantage of building in the current directory and not the Debug one so all the files are found in the correct place.
+
+
 ## Conclusions
 
 Your environment should now work and all the other NGL demos should also work.
 
 If you wish to use certain libraries such as SDL2 or Bullet Physics you will also need to install these with vcpkg but most of the hard work has now been done.
+
+The most important issue in all of this is to ensure that your paths are correct. Each system is different so ensure you are pointing to the correct thing. 
