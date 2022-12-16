@@ -60,10 +60,23 @@ cd vcpkg
 bootstrap-vcpkg.bat
 ```
 
-Now we can install all the requirements for NGL, note the first install will always download exta tools that vcpkg needs so can take some time.
+Now we can install all the requirements for NGL, note the first install will always download extra tools that vcpkg needs so can take some time.
 
 ```
- .\vcpkg.exe install gtest:x64-windows
+.\vcpkg.exe install gtest:x64-windows
+.\vcpkg.exe install glm:x64-windows
+.\vcpkg.exe install glfw3:x64-windows
+.\vcpkg.exe install gl3w:x64-windows
+.\vcpkg.exe install rapidjson:x64-windows
+.\vcpkg.exe install rapidxml:x64-windows
+.\vcpkg.exe install fmt:x64-windows
+.\vcpkg.exe install freetype:x64-windows
+```
+
+If you wish to build using OpenImageIO rather than the build in simple image loaders you will also need to install OpenImageIO, this can take time and can be problematic so I don't usually use this. 
+
+```
+.\vcpkg.exe install openimageio:x64-windows
 ```
 
 ## Install NGL
