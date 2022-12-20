@@ -162,6 +162,7 @@ set(HEADERS
     ${CMAKE_SOURCE_DIR}/include/ngl/NGLStream.h
     ${CMAKE_SOURCE_DIR}/include/ngl/NGLStream.h
     ${CMAKE_SOURCE_DIR}/include/ngl/NGLMessage.h
+    ${CMAKE_SOURCE_DIR}/include/ngl/NGLHash.h
     ${CMAKE_SOURCE_DIR}/src/shaders/TextShaders.h
     ${CMAKE_SOURCE_DIR}/src/shaders/ColourShaders.h
     ${CMAKE_SOURCE_DIR}/src/shaders/DiffuseShaders.h
@@ -257,6 +258,7 @@ if(NOT DEFINED PYNGL_ONLY)
         ${CMAKE_SOURCE_DIR}/tests/RandomTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/QuaternionTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/ImageTests.cpp
+        ${CMAKE_SOURCE_DIR}/tests/HashTests.cpp
     )
     add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
     target_link_libraries(NGLTests PRIVATE glfw PRIVATE GTest::gtest)
