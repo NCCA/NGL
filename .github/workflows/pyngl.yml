@@ -11,7 +11,7 @@ jobs:
     - name : Add System Packages
       run : |
         sudo apt-get update 
-        sudo apt-get -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev python-dev
+        sudo apt-get -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev  python-dev-is-python3
     
     - name: install vcpkg
       run : |
