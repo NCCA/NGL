@@ -37,7 +37,7 @@ void SimpleIndexVAO::removeVAO()
 
 void SimpleIndexVAO::setData(const AbstractVAO::VertexData &_data)
 {
-  const VertexData &data = static_cast< const VertexData & >(_data);
+  auto data = static_cast< const VertexData & >(_data);
   if(m_bound == false)
   {
     NGLMessage::addWarning("trying to set VOA data when unbound");
@@ -47,10 +47,7 @@ void SimpleIndexVAO::setData(const AbstractVAO::VertexData &_data)
     glDeleteBuffers(1, &m_buffer);
   }
 
-  //    GLuint vboID;
   glGenBuffers(1, &m_buffer);
-
-  //    GLuint iboID;
   glGenBuffers(1, &m_idxBuffer);
 
   // now we will bind an array buffer to the first one and load the data for the verts

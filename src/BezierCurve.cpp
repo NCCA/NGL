@@ -198,10 +198,8 @@ void BezierCurve::createVAO() noexcept
   {
     m_vaoCurve->unbind();
     m_vaoCurve->removeVAO();
-    //delete m_vaoCurve;
     m_vaoPoints->unbind();
     m_vaoPoints->removeVAO();
-    //delete m_vaoPoints;
   }
 
   m_vaoPoints=ngl::VAOFactory::createVAO("simpleVAO",GL_POINTS);
@@ -224,7 +222,7 @@ void BezierCurve::createVAO() noexcept
   std::vector <Vec3> lines(m_lod);
   for(unsigned int i=0;i!=m_lod;++i)
   {
-    Real t  = m_knots[m_numKnots-1] * i / static_cast<Real>(m_lod-1);
+    Real t  = m_knots[m_numKnots-1] * static_cast<Real>(i) / static_cast<Real>(m_lod-1);
 
     if(i==m_lod-1)
     {

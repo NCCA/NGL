@@ -62,9 +62,8 @@ struct Message
 
 class NGLMessage
 {
-    public:
+public:
   static NGLMessage &init();
-  void stopServer();
   static void addMessage(std::string_view _message, Colours _c = Colours::NORMAL, TimeFormat _timeFormat = TimeFormat::TIME);
   static void addError(std::string_view _message, TimeFormat _timeFormat = TimeFormat::TIME);
   static void addWarning(std::string_view _message, TimeFormat _timeFormat = TimeFormat::TIME);

@@ -29,7 +29,7 @@ NGLMessage::NGLMessage()
                 {
         while(s_futureExit.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout)
         {
-          std::lock_guard<std::mutex> lock(g_messageQueueLock);
+          std::scoped_lock<std::mutex> lock(g_messageQueueLock);
           if(s_messageQueue.size() !=0)
           {
             auto msg=s_messageQueue.back();
@@ -147,17 +147,14 @@ std::string NGLMessage::getColourString(const Colours &_colour) const
   return output;
 }
 
-void NGLMessage::stopServer()
-{
-}
 
 void NGLMessage::addMessage(std::string_view _message, Colours _c, TimeFormat _timeFormat)
 {
-  std::lock_guard< std::mutex > lock(g_messageQueueLock);
+  std::scoped_lock< std::mutex > lock(g_messageQueueLock);
   if(_c != s_currentColour)
     s_currentColour = _c;
   // add to front
-  s_messageQueue.insert(std::begin(s_messageQueue), {std::chrono::system_clock::now(), _message.data(), s_currentColour, _timeFormat});
+  s_messageQueue.emplace(std::begin(s_messageQueue), Message(std::chrono::system_clock::now(), _message.data(), s_currentColour, _timeFormat));
 }
 
 void NGLMessage::addError(std::string_view _message, TimeFormat _timeFormat)
