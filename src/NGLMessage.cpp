@@ -154,8 +154,7 @@ void NGLMessage::addMessage(std::string_view _message, Colours _c, TimeFormat _t
   if(_c != s_currentColour)
     s_currentColour = _c;
   // add to front
-  auto msg=Message(std::chrono::system_clock::now(), _message.data(), s_currentColour, _timeFormat);
-  s_messageQueue.emplace(std::begin(s_messageQueue),msg );
+  s_messageQueue.emplace(std::begin(s_messageQueue), Message(std::chrono::system_clock::now(), _message.data(), s_currentColour, _timeFormat));
 }
 
 void NGLMessage::addError(std::string_view _message, TimeFormat _timeFormat)
