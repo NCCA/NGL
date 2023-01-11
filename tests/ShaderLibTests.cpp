@@ -11,6 +11,10 @@ TEST(ShaderLib,StaticInit)
 TEST(ShaderLib,loadShader)
 {
   EXPECT_TRUE(ngl::ShaderLib::loadShader("Test","files/vert.glsl","files/frag.glsl"));
+
+  EXPECT_TRUE(ngl::ShaderLib::loadShader("TestGeo","files/vert.glsl","files/frag.glsl","files/geo.glsl"));
+
+
 }
 
 TEST(ShaderLib,use)
