@@ -537,9 +537,9 @@ void VAOPrimitives::createCone(std::string_view _name, Real _base, Real _height,
     {
       d.u = u;
       d.v = v;
-      d.nx = cs[j].cost * cosn; // ctheta;
-      d.ny = cs[j].sint * sinn; //-stheta;
-      d.nz = sinn;           // sphi;
+      d.nx = cs[j].cost * cosn; // cos theta 
+      d.ny = cs[j].sint * sinn; // -sin theta
+      d.nz = sinn;           // sphi
 
       d.x = cs[j].cost * r0;
       d.y = cs[j].sint * r0;
