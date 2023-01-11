@@ -144,6 +144,7 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _exitOnError exit if there is an error in the shader
   //----------------------------------------------------------------------------------------------------------------------
   static bool loadShader(std::string_view _shaderName, std::string_view _vert, std::string_view _frag, std::string_view _geo, ErrorExit _exitOnError = ErrorExit::ON) noexcept;
+  
   static bool loadShader(std::string_view _shaderName, std::string_view _vert, std::string_view _frag, ErrorExit _exitOnError = ErrorExit::ON) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to load multiple shaders from a json file

@@ -59,7 +59,7 @@ jobs:
     
     - name: Collect coverage into one XML report
       run: |
-        gcovr --sonarqube > coverage.xml
+        gcovr --sonarqube --exclude-unreachable-branches --exclude-throw-branches > coverage.xml
     - name: Run sonar-scanner
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

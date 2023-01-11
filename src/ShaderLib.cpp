@@ -73,7 +73,7 @@ bool ShaderLib::loadShader(std::string_view _shaderName, std::string_view _vert,
   attachShader(fmt::format("{}Vertex", shaderName), ShaderType::VERTEX, _exitOnError);
   attachShader(fmt::format("{}Fragment", shaderName), ShaderType::FRAGMENT, _exitOnError);
   loadShaderSource(fmt::format("{}Vertex", shaderName), _vert);
-  loadShaderSource(fmt::format("{}FragMent", shaderName), _frag);
+  loadShaderSource(fmt::format("{}Fragment", shaderName), _frag);
 
   if(!(loaded = compileShader(shaderName + "Vertex")))
     return loaded;
@@ -82,8 +82,11 @@ bool ShaderLib::loadShader(std::string_view _shaderName, std::string_view _vert,
 
   attachShaderToProgram(shaderName, shaderName + "Vertex");
   attachShaderToProgram(shaderName, shaderName + "Fragment");
+
   attachShader(shaderName + "Geo", ShaderType::GEOMETRY);
-  loadShaderSource(shaderName + "Geo", _geo);
+
+  loadShaderSource(fmt::format("{}Geo", shaderName), _geo);
+
   if(!(loaded = compileShader(shaderName + "Geo")))
     return loaded;
   attachShaderToProgram(shaderName, shaderName + "Geo");
