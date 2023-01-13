@@ -69,12 +69,6 @@ public :
 		
 	void set(const Vec4 &_corner,Real _x,	Real _y,	Real _z) noexcept;
 
-	
-	/// @brief set from a bounding box
-	/// @param _b the bbox to set from
-	
-	void setFromBBox(const BBox &_b) noexcept;
-	
 
 	// for use in frustum computations
 		Vec3 getVertexP(const Vec3 &_normal) const noexcept;

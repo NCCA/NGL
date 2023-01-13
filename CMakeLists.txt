@@ -241,6 +241,7 @@ if(NOT DEFINED PYNGL_ONLY)
     add_executable(NGLTests)
     target_sources(NGLTests PRIVATE
         ${CMAKE_SOURCE_DIR}/tests/main.cpp
+        ${CMAKE_SOURCE_DIR}/tests/AABBTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/UtilTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/BBoxTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/BezierCurveTests.cpp
