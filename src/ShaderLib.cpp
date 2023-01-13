@@ -406,7 +406,7 @@ bool ShaderLib::loadFromJson(std::string_view _fname) noexcept
 
   rj::Document doc;
 
-  if(doc.ParseInsitu< 0 >(buffer.get()).HasParseError())
+  if(doc.ParseInsitu<0>(buffer.get()).HasParseError())
   {
     NGLMessage::addError(fmt::format("Parse Error for file {0}", _fname.data()));
     return false;
@@ -476,9 +476,9 @@ bool ShaderLib::loadFromJson(std::string_view _fname) noexcept
 
           auto &edits = currentShader["edit"];
           NGLMessage::addMessage(fmt::format("found edits {0}", edits.Size()));
-          for(rj::SizeType i = 0; i < edits.Size(); i++)
+          for(rj::SizeType e = 0; e < edits.Size(); e++)
           {
-            auto &currentEdit = edits[i];
+            auto &currentEdit = edits[e];
             NGLMessage::addMessage(fmt::format("{0} {1}", currentEdit["search"].GetString(), currentEdit["replace"].GetString()));
             shaderSource = ps::replace(shaderSource, currentEdit["search"].GetString(), currentEdit["replace"].GetString());
           }

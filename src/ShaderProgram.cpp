@@ -607,12 +607,12 @@ void ShaderProgram::autoRegisterUniforms() noexcept
       std::string uniform(name);
       std::string baseName = uniform.substr(0, uniform.find("["));
       // nvidia returns uniform[0], ATI uniform, best way is to split on [
-      for(int i = 0; i < num; ++i)
+      for(int b = 0; b < num; ++b)
       {
-        std::string name = fmt::format("{0}[{1}]", baseName, i);
+        std::string uname = fmt::format("{0}[{1}]", baseName, b);
 
-        data.name = name;
-        data.loc = glGetUniformLocation(m_programID, name.c_str());
+        data.name = uname;
+        data.loc = glGetUniformLocation(m_programID, uname.c_str());
         data.type = type;
         m_registeredUniforms[name] = data;
       }

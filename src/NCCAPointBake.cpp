@@ -94,7 +94,6 @@ bool NCCAPointBake::loadPointBake(std::string_view _fileName) noexcept
   {
     data.resize(m_nVerts);
   }
-  size_t CurrentFrame = 0;
   // this is the line we wish to parse
   std::string lineBuffer;
   // say which separators should be used in this
@@ -104,6 +103,8 @@ bool NCCAPointBake::loadPointBake(std::string_view _fileName) noexcept
   // now traverse each frame and grab the data
   for(child = rootNode->first_node("Frame"); child; child = child->next_sibling())
   {
+    size_t CurrentFrame;
+
     NGLMessage::addMessage(fmt::format("doing frame {0}", child->first_attribute("number")->value()));
     CurrentFrame = std::stoul(child->first_attribute("number")->value());
     CurrentFrame -= m_startFrame;

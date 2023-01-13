@@ -28,7 +28,7 @@ NGL_DLLEXPORT std::ostream& operator<<( std::ostream& _output, const Vec3& _v	)
   return _output<<"["<<_v.m_x<<","<<_v.m_y<<","<<_v.m_z<<"]";
 }
 
-NGL_DLLEXPORT std::istream& operator>>(std::istream& _input,	 Vec3& _s	)
+NGL_DLLEXPORT std::istream& operator>>(std::istream& _input, Vec3& _s	)
 {
   return _input >> _s.m_x >> _s.m_y >> _s.m_z;
 }
