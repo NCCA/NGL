@@ -48,7 +48,7 @@ jobs:
 
     - name: Run build-wrapper
       run: |
-          cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 -DADD_COVERAGE=1 -DVCPKG_MANIFEST_DIR=../manifest/ci 
+          cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 -DADD_COVERAGE=1 -DVCPKG_MANIFEST_DIR=../manifest/ci/ 
           cmake --build build/ --target clean
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release 
     - name: Test
