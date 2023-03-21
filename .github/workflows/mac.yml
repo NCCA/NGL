@@ -13,12 +13,11 @@ jobs:
         git clone --depth 1  https://github.com/microsoft/vcpkg ~/vcpkg 
         cd ~/vcpkg 
         ./bootstrap-vcpkg.sh
-        ./vcpkg install glfw3 gl3w gtest fmt freetype glm  rapidjson rapidxml  # Note gl3w needed here for khrplatform.h
     - name: Configure
       run: |
         mkdir build
         cd build
-        cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 .. \
+        cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 -DVCPKG_MANIFEST_DIR=./manifest/ci/.. \
                
     - name: Build
       run: |
