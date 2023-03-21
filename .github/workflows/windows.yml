@@ -18,7 +18,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake  -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DNO_OIIO=1  -DCMAKE_BUILD_TYPE=Debug -DVCPKG_MANIFEST_DIR=./manifest/ci/  ..
+        cmake  -DCMAKE_TOOLCHAIN_FILE="$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake" -DNO_OIIO=1  -DCMAKE_BUILD_TYPE=Debug -DVCPKG_MANIFEST_DIR=../manifest/ci/  ..
                
     - name: Build
       run: |
