@@ -17,7 +17,6 @@ endif()
 # Setup the project and languages required. Note version number is NGL version
 # -------------------------------------------------------------------------------------------
 project(AllNGL VERSION 8.0 LANGUAGES CXX C)
-
 find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(gl3w CONFIG REQUIRED)
@@ -29,6 +28,7 @@ if(OpenImageIO_FOUND AND(NOT NO_OIIO AND NOT USE_QT))
     add_compile_definitions(USEOIIO)
     find_package(IlmBase CONFIG)
     find_package(OpenEXR CONFIG)
+    find_package(Boost COMPONENTS filesystem thread)
 elseif(USE_QT)
     message("Using Qt for Image and Font to avoid lib png bug")
     add_compile_definitions(USEQIMAGE)
@@ -211,9 +211,7 @@ if(NOT DEFINED PYNGL_ONLY)
 
     if(OpenImageIO_FOUND AND(NOT NO_OIIO AND NOT USE_QT))
         find_package(OpenMP)
-        target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
-        #target_link_libraries(NGL PRIVATE IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
-        #target_link_libraries(NGL PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
+        target_link_libraries(NGL PRIVATE OpenImageIO::OpenImageIO Boost::filesystem Boost::thread)
     endif()
 
     if(USE_QT)
@@ -267,9 +265,7 @@ if(NOT DEFINED PYNGL_ONLY)
 
     # if ( OpenImageIO_FOUND AND NOT NO_OIIO OR NOT USE_QT)
     if(OpenImageIO_FOUND AND(NOT NO_OIIO AND NOT USE_QT))
-        target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
-        #target_link_libraries(NGLTests PRIVATE IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
-        #target_link_libraries(NGLTests PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
+        target_link_libraries(NGLTests PRIVATE OpenImageIO::OpenImageIO Boost::filesystem Boost::thread)
     endif()
 
     if(USE_QT)
@@ -384,9 +380,7 @@ if(DEFINED BUILD_PYNGL OR DEFINED PYNGL_ONLY)
     target_link_libraries(pyngl PRIVATE ${PROJECT_LINK_LIBS} ${EXTRALIBS})
 
     if(OpenImageIO_FOUND AND NOT NO_OIIO)
-        target_link_libraries(pyngl PRIVATE OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util)
-        #target_link_libraries(pyngl PRIVATE IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
-        #target_link_libraries(pyngl PRIVATE OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
+        target_link_libraries(pyngl PRIVATE OpenImageIO::OpenImageIO Boost::filesystem Boost::thread)
     endif()
 
     target_link_libraries(pyngl PRIVATE freetype)

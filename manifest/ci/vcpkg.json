@@ -1,0 +1,14 @@
+{
+  "name": "ngl",
+  "version-string": "9.0.0",
+  "dependencies": [
+    "fmt",
+    "glm",
+    "glfw3",
+    "gl3w",
+    "rapidjson",
+    "rapidxml",
+    "freetype",
+    "gtest"
+  ]
+}
