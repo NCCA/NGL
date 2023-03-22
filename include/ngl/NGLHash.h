@@ -83,7 +83,9 @@ struct std::hash<ngl::Mat2>
 		size_t seed = 0;
 		hash<float> hasher;
     for(auto i : v.m_openGL)
+		{
   		hashCombine(seed, hasher(i));
+		}
 		return seed;
 	}
 };
@@ -96,7 +98,9 @@ struct std::hash<ngl::Mat3>
 		size_t seed = 0;
 		hash<float> hasher;
     for(auto i : v.m_openGL)
-  		hashCombine(seed, hasher(i));
+  	{
+			hashCombine(seed, hasher(i));
+		}
 		return seed;
 	}
 };
@@ -109,7 +113,9 @@ struct std::hash<ngl::Mat4>
 		size_t seed = 0;
 		hash<float> hasher;
     for(auto i : v.m_openGL)
-  		hashCombine(seed, hasher(i));
+  	{
+			hashCombine(seed, hasher(i));
+		}
 		return seed;
 	}
 };
