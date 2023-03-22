@@ -69,7 +69,7 @@ public:
   static void addWarning(std::string_view _message, TimeFormat _timeFormat = TimeFormat::TIME);
   static void drawLine(const Colours &_c = Colours::CYAN);
   ~NGLMessage();
-
+  static void clear();
     private:
   NGLMessage();
   static std::vector< Message > s_messageQueue;

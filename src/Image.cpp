@@ -363,7 +363,7 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
   // this will read an flip the pixel for OpenGL
   if(_flipY)
   {
-  int scanlinesize = spec.width * spec.nchannels * sizeof(m_data[0]);
+  int scanlinesize = spec.width * spec.nchannels * sizeof(m_data[0]); 
   in->read_image(TypeDesc::UINT8,
                  (char *)m_data.get() + (m_height - 1) * scanlinesize, // offset to last
                  AutoStride,                                           // default x stride

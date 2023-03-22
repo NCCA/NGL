@@ -40,6 +40,13 @@ NGLMessage::NGLMessage()
   t.detach();
 }
 
+
+void NGLMessage::clear()
+{
+  g_exitSignal.set_value();
+  s_messageQueue.clear();
+}
+
 NGLMessage::~NGLMessage()
 {
   while(s_messageQueue.size() != 0)

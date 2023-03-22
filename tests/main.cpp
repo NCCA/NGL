@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 #include <ngl/NGLInit.h>
 #include <string>
-
+#include <ngl/Types.h>
 class Environment : public ::testing::Environment
 {
     public:
@@ -91,5 +91,9 @@ int main(int argc, char **argv)
   }
   // testing::internal::CaptureStdout();
   testing::internal::CaptureStderr();
-  return RUN_ALL_TESTS();
+  auto finished=RUN_ALL_TESTS();
+  ngl::NGLMessage::clear();
+
+  return finished;
+
 }
