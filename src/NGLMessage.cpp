@@ -49,8 +49,9 @@ void NGLMessage::clear()
 
 NGLMessage::~NGLMessage()
 {
-  while(s_messageQueue.size() != 0)
-    std::this_thread::sleep_for(std::chrono::microseconds(1));
+  // clear();
+  // while(s_messageQueue.size() != 0)
+  //   std::this_thread::sleep_for(std::chrono::microseconds(1));
 
   s_logFile.close();
 }
