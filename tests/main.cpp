@@ -91,9 +91,6 @@ int main(int argc, char **argv)
   }
   // testing::internal::CaptureStdout();
   testing::internal::CaptureStderr();
-  auto finished=RUN_ALL_TESTS();
-  ngl::NGLMessage::clear();
-
-  return finished;
-
+  return RUN_ALL_TESTS();
+  
 }

@@ -41,18 +41,11 @@ NGLMessage::NGLMessage()
 }
 
 
-void NGLMessage::clear()
-{
-  g_exitSignal.set_value();
-  s_messageQueue.clear();
-}
 
 NGLMessage::~NGLMessage()
 {
-  // clear();
-  // while(s_messageQueue.size() != 0)
-  //   std::this_thread::sleep_for(std::chrono::microseconds(1));
-
+  while(s_messageQueue.size() != 0)
+    std::this_thread::sleep_for(std::chrono::microseconds(1));
   s_logFile.close();
 }
 
