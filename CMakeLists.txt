@@ -263,6 +263,7 @@ if(NOT DEFINED PYNGL_ONLY)
     )
     add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
     target_link_libraries(NGLTests PRIVATE glfw PRIVATE GTest::gtest )
+    target_link_libraries(NGLTests PRIVATE fmt::fmt )
 
     # if ( OpenImageIO_FOUND AND NOT NO_OIIO OR NOT USE_QT)
     if(OpenImageIO_FOUND AND(NOT NO_OIIO AND NOT USE_QT))
