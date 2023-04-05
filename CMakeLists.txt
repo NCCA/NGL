@@ -376,7 +376,7 @@ if(DEFINED BUILD_PYNGL OR DEFINED PYNGL_ONLY)
     SET_DIRECTORY_PROPERTIES(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_SOURCE_DIR}/lib/pyngl.so")
     target_link_libraries(pyngl PRIVATE pybind11::module)
     target_link_libraries(pyngl PRIVATE glm::glm)
-    target_link_libraries(pyngl PRIVATE fmt)
+    target_link_libraries(pyngl PRIVATE fmt::fmt)
     target_link_libraries(pyngl PRIVATE unofficial::gl3w::gl3w)
     target_link_libraries(pyngl PRIVATE ${PROJECT_LINK_LIBS} ${EXTRALIBS})
 
