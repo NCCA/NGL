@@ -49,5 +49,5 @@ endif()
 # now add NGL specific values
 link_directories(${NGL_HOME}/lib)
 
-link_libraries( ${PROJECT_LINK_LIBS}  fmt::fmt-header-only freetype glm::glm unofficial::gl3w::gl3w)
+link_libraries( ${PROJECT_LINK_LIBS}  fmt::fmt freetype glm::glm unofficial::gl3w::gl3w)
 
