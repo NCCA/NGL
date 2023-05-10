@@ -33,9 +33,10 @@ jobs:
 
     - name: Run build-wrapper
       run: |
-          cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 -DADD_COVERAGE=1 -DVCPKG_MANIFEST_DIR=./manifest/ci/ 
+          cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DNO_OIIO=1 -DADD_COVERAGE=1 -DVCPKG_MANIFEST_DIR=./manifest/ci/ -DCMAKE_INSTALL_PREFIX:PATH=/tmp/NGL/
           cmake --build build/ --target clean
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build/ --config Release 
+          cmake --build build/ --target install
     - name: Test
       run: |
         cd build
@@ -53,3 +54,13 @@ jobs:
         sonar-scanner \
           --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}" \
           --define sonar.coverageReportPaths=coverage.xml
+    - name : zip-output
+      - uses: vimtor/action-zip@v1
+        with:
+          files: /tmp/NGL 
+          recursive: true
+          dest: NGL-Linux.zip
+      - uses: actions/upload-artifact@v1
+      with:
+        name: NGL-Linux.zip
+        path: ${{ github.workspace }}/NGL-Linux.zip
