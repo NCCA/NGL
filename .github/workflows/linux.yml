@@ -54,15 +54,3 @@ jobs:
         sonar-scanner \
           --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}" \
           --define sonar.coverageReportPaths=coverage.xml
-
-    - name: Zip Folder
-        run: | 
-          zip -r NGLLinux.zip /tmp/NGL/
-    
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        files: NGLLinux.zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
