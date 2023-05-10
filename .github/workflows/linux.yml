@@ -56,7 +56,9 @@ jobs:
           --define sonar.coverageReportPaths=coverage.xml
 
     - name: Zip Folder
-        run: zip -r NGLLinux.zip /tmp/NGL/
+        run: | 
+          zip -r NGLLinux.zip /tmp/NGL/
+    
     - name: Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
