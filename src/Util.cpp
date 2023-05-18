@@ -315,6 +315,45 @@ NGL_DLLEXPORT unsigned int nextPow2(unsigned int _x) noexcept
 	return _x + 1;
 }
 
+/*
+Written by co-pilot with the prompt write a c++ function to generate unique distinct colours
+This function generates a vector of Color structs, 
+where each struct represents an RGB color.
+ The function takes an integer n as input, 
+ which specifies the number of distinct colors to generate. 
+ The function generates as many colors as possible, 
+ up to a maximum of 256 * 256 * 256 (the total number of possible RGB colors). 
+ The function uses a simple algorithm to generate the colors, by dividing the RGB color space into a grid of equally-sized cubes,
+and selecting one color from each cube. The function returns a vector of Color structs, which can be used to represent the generated colors.
+
+Note it has been modified to use NGL and Vec3
+*/
+
+
+NGL_DLLEXPORT std::vector<Vec3> generateDistinctColours(int _n) noexcept
+{
+    std::vector<Vec3> colours;
+    size_t numColours = std::min(_n, 256 * 256 * 256);
+    int numPerChannel = std::ceil(std::pow(numColours, 1.0 / 3.0));
+    int step = 256 / numPerChannel;
+    for (int r = 0; r < 256; r += step) 
+    {
+        for (int g = 0; g < 256; g += step) 
+        {
+            for (int b = 0; b < 256; b += step) 
+            {
+                if (colours.size() >= numColours) 
+                {
+                    break;
+                }
+                colours.push_back({r/255.0f, g/255.0f, b/255.0f});
+            }
+        }
+    }
+    return colours;
+}
+
+
 
 } // end of namespace
 

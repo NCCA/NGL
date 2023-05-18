@@ -163,11 +163,16 @@ NGL_DLLEXPORT Vec3 unProject(const Vec3 &_win, const Mat4 &_model, const Mat4 &_
 
 NGL_DLLEXPORT Vec3 project(const Vec3 &_pos, const Mat4 &_model, const Mat4 &_project, const Vec4 &_viewport) noexcept;
 
-//----------------------------------------------------------------------------------------------------------------------
+/// @brief generate a vector of distinct colours code taken from co-pilot suggestions see comments
+/// @param[in] _n number of distinct colours to generate
+/// @returns a vector of distinct colours as ngl::Vec3
+
+NGL_DLLEXPORT std::vector<Vec3> generateDistinctColours(int _n) noexcept;
+
+
 /// @brief converts Degrees to Radians
 /// @param[in]  _deg the angle to convert
 /// @returns the angle in Radians
-//----------------------------------------------------------------------------------------------------------------------
 extern NGL_DLLEXPORT Real radians(const Real _deg) noexcept;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief converts Radians to Degrees
