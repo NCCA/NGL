@@ -157,8 +157,4 @@ TEST(Util, generateDistinctColoursReturnsDistinctColours)
             EXPECT_NE(colours[i], colours[j]);
         }
     }
-
-  // co-pilot doesn't know we can use this which is what I would have done
-  EXPECT_TRUE(std::unique(std::begin(colours), std::end(colours)) == std::end(colours));
-
 }
