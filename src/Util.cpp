@@ -57,7 +57,6 @@ NGL_DLLEXPORT Vec3 calcNormal(const Vec4 &_p1, const Vec4 &_p2, const Vec4 &_p3 
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
 NGL_DLLEXPORT Vec3 calcNormal (const Vec3 &_p1,  const Vec3 &_p2, const Vec3 &_p3  ) noexcept
 {
 
@@ -91,7 +90,6 @@ NGL_DLLEXPORT Real radians(const Real _deg )
   return (_deg/180.0f) * static_cast<Real>(M_PI);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 NGL_DLLEXPORT Real degrees( const Real _rad   ) noexcept
 {
   return (_rad / static_cast<Real>(M_PI)) * 180.0f;
@@ -291,7 +289,7 @@ NGL_DLLEXPORT Vec3 project(const Vec3 &_pos, const Mat4 &_model, const Mat4 &_pr
   return tmp.toVec3();
 }
 
-// for more details see this site some greate stuff here (this code was modified from it)
+// for more details see this site some great stuff here (this code was modified from it)
 // http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/
 NGL_DLLEXPORT bool isPowerOfTwo (unsigned int _x) noexcept
 {
@@ -326,7 +324,7 @@ where each struct represents an RGB color.
  The function uses a simple algorithm to generate the colors, by dividing the RGB color space into a grid of equally-sized cubes,
 and selecting one color from each cube. The function returns a vector of Color structs, which can be used to represent the generated colors.
 
-Note it has been modified to use NGL and Vec3
+Note it has been modified to use NGL and Vec3 and then code smells removed 
 */
 
 
@@ -334,7 +332,7 @@ NGL_DLLEXPORT std::vector<Vec3> generateDistinctColours(int _n) noexcept
 {
     std::vector<Vec3> colours;
     size_t numColours = std::min(_n, 256 * 256 * 256);
-    int numPerChannel = std::ceil(std::pow(numColours, 1.0 / 3.0));
+    int numPerChannel =static_cast<int>( std::ceil(std::pow(numColours, 1.0f / 3.0f)));
     int step = 256 / numPerChannel;
     for (int r = 0; r < 256; r += step) 
     {
@@ -346,7 +344,7 @@ NGL_DLLEXPORT std::vector<Vec3> generateDistinctColours(int _n) noexcept
                 {
                     break;
                 }
-                colours.push_back({r/255.0f, g/255.0f, b/255.0f});
+                colours.push_back({static_cast<float>(r/255.0f),static_cast<float>( g/255.0f), static_cast<float>(b/255.0f)});
             }
         }
     }
