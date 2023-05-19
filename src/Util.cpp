@@ -337,7 +337,7 @@ NGL_DLLEXPORT std::vector<Vec3> generateDistinctColours(int _n) noexcept
     for (int r = 0; r <= 255; r += step) 
     {
         for (int g = 0; g <= 255; g += step) 
-        {q
+        {
             for (int b = 0; b <= 255; b += step) 
             {
                 if (colours.size() >= numColours) 
