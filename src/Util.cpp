@@ -332,19 +332,19 @@ NGL_DLLEXPORT std::vector<Vec3> generateDistinctColours(int _n) noexcept
 {
     std::vector<Vec3> colours;
     size_t numColours = std::min(_n, 256 * 256 * 256);
-    int numPerChannel =static_cast<int>( std::ceil(std::pow(numColours, 1.0f / 3.0f)));
+    auto numPerChannel =static_cast<int>( std::ceil(std::pow(numColours, 1.0f / 3.0f)));
     int step = 256 / numPerChannel;
-    for (int r = 0; r < 256; r += step) 
+    for (int r = 0; r <= 255; r += step) 
     {
-        for (int g = 0; g < 256; g += step) 
-        {
-            for (int b = 0; b < 256; b += step) 
+        for (int g = 0; g <= 255; g += step) 
+        {q
+            for (int b = 0; b <= 255; b += step) 
             {
                 if (colours.size() >= numColours) 
                 {
                     break;
                 }
-                colours.push_back({static_cast<float>(r/255.0f),static_cast<float>( g/255.0f), static_cast<float>(b/255.0f)});
+                colours.push_back(ngl::Vec3(r/255.0f,g/255.0f, b/255.0f));
             }
         }
     }
