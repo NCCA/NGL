@@ -109,15 +109,15 @@ TEST(ShaderLib,testSetUniform)
   EXPECT_TRUE(ngl::ShaderLib::loadShader(shaderName,"files/testUniformVertex.glsl","files/testUniformFragment.glsl",ngl::ErrorExit::OFF))<<"shader loaded?";
   ngl::ShaderLib::use(shaderName);
   {
-    ngl::ShaderLib::setUniform("testFloat",2.25f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testFloat",2.25f));
     float result;
-    ngl::ShaderLib::getUniform("testFloat",result);
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testFloat",result));
     EXPECT_FLOAT_EQ(result,2.25f)<<"Testing setting a single float";
   }
   {
-    ngl::ShaderLib::setUniform("testVec2",0.5f,2.0f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec2",0.5f,2.0f));
     float resultF1,resultF2;
-    ngl::ShaderLib::getUniform("testVec2",resultF1,resultF2);
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testVec2",resultF1,resultF2));
     EXPECT_FLOAT_EQ(resultF1,0.5f)<<"Test setting two floats x";
     EXPECT_FLOAT_EQ(resultF2,2.0f)<<"Test setting two floats y";
     ngl::Vec2 resultVec2;
@@ -126,32 +126,50 @@ TEST(ShaderLib,testSetUniform)
     EXPECT_FLOAT_EQ(resultVec2.m_y,2.0f)<<"Test getting from ngl::Vec2 m_y";;
   }
   {
-    ngl::ShaderLib::setUniform("testVec3",0.5f,2.0f,-22.2f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec3",0.5f,2.0f,-22.2f));
     ngl::Real resultF1,resultF2,resultF3;
-    ngl::ShaderLib::getUniform("testVec3",resultF1,resultF2,resultF3);
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testVec3",resultF1,resultF2,resultF3));
     EXPECT_FLOAT_EQ(resultF1,0.5f)<<"test setting 3 floats x";
     EXPECT_FLOAT_EQ(resultF2,2.0f)<<"test setting 3 floats x";
     EXPECT_FLOAT_EQ(resultF3,-22.2f)<<"test setting 3 floats x";
     ngl::Vec3 resultVec3;
-    ngl::ShaderLib::getUniform("testVec3",resultVec3);
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testVec3",resultVec3));
     EXPECT_FLOAT_EQ(resultVec3.m_x,0.5f)<<"test getting ngl::Vec3 m_x";
     EXPECT_FLOAT_EQ(resultVec3.m_y,2.0f)<<"test getting ngl::Vec3 m_y";
     EXPECT_FLOAT_EQ(resultVec3.m_z,-22.2f)<<"test getting ngl::Vec3 m_z";
   }
   {
-    ngl::ShaderLib::setUniform("testVec4",0.5f,2.0f,-22.2f,1230.4f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec4",0.5f,2.0f,-22.2f,1230.4f));
     ngl::Real resultF1,resultF2,resultF3,resultF4;
-    ngl::ShaderLib::getUniform("testVec4",resultF1,resultF2,resultF3,resultF4);
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testVec4",resultF1,resultF2,resultF3,resultF4));
     EXPECT_FLOAT_EQ(resultF1,0.5f);
     EXPECT_FLOAT_EQ(resultF2,2.0f);
     EXPECT_FLOAT_EQ(resultF3,-22.2f);
     EXPECT_FLOAT_EQ(resultF4,1230.4f);
     ngl::Vec4 resultVec4;
-    ngl::ShaderLib::getUniform("testVec4",resultVec4);
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testVec4",resultVec4));
     EXPECT_FLOAT_EQ(resultVec4.m_x,0.5f);
     EXPECT_FLOAT_EQ(resultVec4.m_y,2.0f);
     EXPECT_FLOAT_EQ(resultVec4.m_z,-22.2f);
     EXPECT_FLOAT_EQ(resultVec4.m_w,1230.4f);
+  }
+
+  {
+    // test arrays
+    for(int i=0; i<3; ++i)
+    {
+      EXPECT_TRUE(ngl::ShaderLib::setUniform(fmt::format("testArray[{}]",i),0.5f,2.0f,-22.2f));
+      ngl::Real resultF1,resultF2,resultF3;
+      EXPECT_TRUE(ngl::ShaderLib::getUniform(fmt::format("testArray[{}]",i),resultF1,resultF2,resultF3));
+      EXPECT_FLOAT_EQ(resultF1,0.5f)<<"test setting 3 floats x";
+      EXPECT_FLOAT_EQ(resultF2,2.0f)<<"test setting 3 floats x";
+      EXPECT_FLOAT_EQ(resultF3,-22.2f)<<"test setting 3 floats x";
+      ngl::Vec3 resultVec3;
+      EXPECT_TRUE(ngl::ShaderLib::getUniform(fmt::format("testArray[{}]",i),resultVec3));
+      EXPECT_FLOAT_EQ(resultVec3.m_x,0.5f)<<"test getting ngl::Vec3 m_x";
+      EXPECT_FLOAT_EQ(resultVec3.m_y,2.0f)<<"test getting ngl::Vec3 m_y";
+      EXPECT_FLOAT_EQ(resultVec3.m_z,-22.2f)<<"test getting ngl::Vec3 m_z";
+    }
   }
   {
     ngl::ShaderLib::setUniform("testMat2",ngl::Mat2());

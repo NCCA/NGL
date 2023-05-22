@@ -243,8 +243,8 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static void setUniform(std::string_view _paramName, Real _v0) noexcept;
-  static void getUniform(std::string_view _paramName, Real &o_v0) noexcept;
+  static bool setUniform(std::string_view _paramName, Real _v0) noexcept;
+  static bool getUniform(std::string_view _paramName, Real &o_v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -252,9 +252,9 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _v0 the float value of the parameter to set
   /// @param[in] _v1 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static void setUniform(std::string_view _paramName, Real _v0, Real _v1) noexcept;
-  static void getUniform(std::string_view _paramName, Real &o_v0, Real &o_v1) noexcept;
-  static void getUniform(std::string_view _paramName, Vec2 &o_v3) noexcept;
+  static bool setUniform(std::string_view _paramName, Real _v0, Real _v1) noexcept;
+  static bool getUniform(std::string_view _paramName, Real &o_v0, Real &o_v1) noexcept;
+  static bool getUniform(std::string_view _paramName, Vec2 &o_v3) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -263,9 +263,9 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _v1 the float value of the parameter to set
   /// @param[in] _v2 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static void setUniform(std::string_view _paramName, Real _v0, Real _v1, Real _v2) noexcept;
-  static void getUniform(std::string_view _paramName, Real &o_v0, Real &o_v1, Real &o_v2) noexcept;
-  static void getUniform(std::string_view _paramName, Vec3 &o_v) noexcept;
+  static bool setUniform(std::string_view _paramName, Real _v0, Real _v1, Real _v2) noexcept;
+  static bool getUniform(std::string_view _paramName, Real &o_v0, Real &o_v1, Real &o_v2) noexcept;
+  static bool getUniform(std::string_view _paramName, Vec3 &o_v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -275,9 +275,9 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _v2 the float value of the parameter to set
   /// @param[in] _v3 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static void setUniform(std::string_view _paramName, Real _v0, Real _v1, Real _v2, Real _v3) noexcept;
-  static void getUniform(std::string_view _paramName, Real &o_v0, Real &o_v1, Real &o_v2, Real &o_v3) noexcept;
-  static void getUniform(std::string_view _paramName, Vec4 &o_v) noexcept;
+  static bool setUniform(std::string_view _paramName, Real _v0, Real _v1, Real _v2, Real _v3) noexcept;
+  static bool getUniform(std::string_view _paramName, Real &o_v0, Real &o_v1, Real &o_v2, Real &o_v3) noexcept;
+  static bool getUniform(std::string_view _paramName, Vec4 &o_v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail

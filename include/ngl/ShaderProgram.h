@@ -125,8 +125,8 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  _varname - name of the uniform variable
   /// @param  _v0 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform1f(std::string_view _varname, float _v0) const noexcept;
-  void getRegisteredUniform1f(std::string_view _varname, float &o_v0) const noexcept;
+  bool setRegisteredUniform1f(std::string_view _varname, float _v0) const noexcept;
+  bool getRegisteredUniform1f(std::string_view _varname, float &o_v0) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single float
@@ -134,8 +134,8 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  _v0 - new value for the variable
   /// @param  _v1 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform2f(std::string_view _varname, float _v0, float _v1) const noexcept;
-  void getRegisteredUniform2f(std::string_view _varname, float &o_v0, float &o_v1) const noexcept;
+  bool setRegisteredUniform2f(std::string_view _varname, float _v0, float _v1) const noexcept;
+  bool getRegisteredUniform2f(std::string_view _varname, float &o_v0, float &o_v1) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single float
@@ -144,8 +144,8 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  _v1 - new value for the variable
   /// @param  _v2 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform3f(std::string_view _varname, float _v0, float _v1, float _v2) const noexcept;
-  void getRegisteredUniform3f(std::string_view _varname, float &_v0, float &_v1, float &_v2) const noexcept;
+  bool setRegisteredUniform3f(std::string_view _varname, float _v0, float _v1, float _v2) const noexcept;
+  bool getRegisteredUniform3f(std::string_view _varname, float &_v0, float &_v1, float &_v2) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single float
   /// @param  _varname - name of the uniform variable
@@ -154,8 +154,8 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  _v2 - new value for the variable
   /// @param  _v3 - new value for the variable
   /////----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform4f(std::string_view _varname, float _v0, float _v1, float _v2, float _v3) const noexcept;
-  void getRegisteredUniform4f(std::string_view _varname, float &_v0, float &_v1, float &_v2, float &o_v3) const noexcept;
+  bool setRegisteredUniform4f(std::string_view _varname, float _v0, float _v1, float _v2, float _v3) const noexcept;
+  bool getRegisteredUniform4f(std::string_view _varname, float &_v0, float &_v1, float &_v2, float &o_v3) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single int
   /// @param  _varname - name of the uniform variable
