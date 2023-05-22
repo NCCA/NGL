@@ -227,7 +227,10 @@ bool ShaderLib::editShader(std::string_view _shader, std::string_view _toFind, s
   bool success = false;
   auto shader = m_shaders.find(_shader.data());
   if(shader != m_shaders.end())
+  {
     success = shader->second->editShader(_toFind, _edit);
+
+  }
   return success;
 }
 
@@ -235,7 +238,9 @@ void ShaderLib::resetEdits(std::string_view _shader)
 {
   auto shader = m_shaders.find(_shader.data());
   if(shader != m_shaders.end())
+  {
     shader->second->resetEdits();
+  }
 }
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::createShaderProgram(std::string_view _name, ErrorExit _exitOnError) noexcept

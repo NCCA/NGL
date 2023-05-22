@@ -546,6 +546,7 @@ GLuint ShaderProgram::getUniformBlockIndex(std::string_view _uniformBlockName) c
 void ShaderProgram::autoRegisterUniformBlocks() noexcept
 {
   GLint nUniforms;
+  m_registeredUniformBlocks.clear();
   glGetProgramiv(m_programID, GL_ACTIVE_UNIFORM_BLOCKS, &nUniforms);
   if(m_debugState == true)
     NGLMessage::addMessage(fmt::format("FOUND UNIFORM BLOCKS {0}", nUniforms), Colours::WHITE, TimeFormat::NONE);
@@ -584,15 +585,17 @@ void ShaderProgram::autoRegisterUniforms() noexcept
   glGetProgramiv(m_programID, GL_ACTIVE_UNIFORMS, &nUniforms);
   // could use this with better OpenGL version
   // glGetProgramInterfaceiv(i, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numUniforms);
-
   char name[256];
   uniformData data;
+  std::cout<<m_programName<<" ";
+  std::cout<<"Number of uniforms "<<nUniforms<<"\n";
   for(GLint i = 0; i < nUniforms; ++i)
   {
     GLenum type = GL_ZERO;
     GLsizei nameLen = 0;
     GLint num = 0;
     glGetActiveUniform(m_programID, i, sizeof(name) - 1, &nameLen, &num, &type, name);
+    std::cout<<"Uniform "<<name<<" type "<<type<<" num "<<num<<"\n";
     // two options we either have an array or single value
     // if not array
     if(num == 1)
@@ -604,20 +607,21 @@ void ShaderProgram::autoRegisterUniforms() noexcept
     }
     else
     {
+      std::cout<<"have array "<<name<<"\n";
       std::string uniform(name);
       std::string baseName = uniform.substr(0, uniform.find("["));
       // nvidia returns uniform[0], ATI uniform, best way is to split on [
       for(int b = 0; b < num; ++b)
       {
-        std::string uname = fmt::format("{0}[{1}]", baseName, b);
-
-        data.name = uname;
-        data.loc = glGetUniformLocation(m_programID, uname.c_str());
+        std::string uniformName = fmt::format("{}[{}]", baseName, b);
+        data.name = uniformName;
+        data.loc = glGetUniformLocation(m_programID, uniformName.c_str());
         data.type = type;
-        m_registeredUniforms[name] = data;
+        m_registeredUniforms[uniformName] = data;
       }
     }
   }
+  std::cout<<"Debug "<<m_registeredUniforms.size()<<"\n";
 }
 
 std::string ShaderProgram::getValueFromShader(const uniformData &_d) const noexcept

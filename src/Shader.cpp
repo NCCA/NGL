@@ -146,7 +146,7 @@ bool Shader::editShader(std::string_view _toFind, std::string_view _edit)
   {
     m_source = pystring::replace(m_source, _toFind.data(), _edit.data());
   }
-  // NGLMessage::addMessage(m_source,Colours::YELLOW,TimeFormat::NONE);
+  //NGLMessage::addMessage(m_source,Colours::YELLOW,TimeFormat::NONE);
   const char *data = m_source.c_str();
   glShaderSource(m_shaderHandle, 1, &data, nullptr);
   m_compiled = false;
