@@ -116,7 +116,6 @@ bool ShaderLib::loadShader(std::string_view _shaderName, std::string_view _vert,
   if((loaded = linkProgramObject(_shaderName)))
     return loaded;
   autoRegisterUniforms(_shaderName);
-  printRegisteredUniforms(_shaderName);
   return loaded;
 }
 //----------------------------------------------------------------------------------------------------------------------
@@ -229,7 +228,6 @@ bool ShaderLib::editShader(std::string_view _shader, std::string_view _toFind, s
   if(shader != m_shaders.end())
   {
     success = shader->second->editShader(_toFind, _edit);
-
   }
   return success;
 }

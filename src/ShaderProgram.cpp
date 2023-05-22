@@ -587,15 +587,12 @@ void ShaderProgram::autoRegisterUniforms() noexcept
   // glGetProgramInterfaceiv(i, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numUniforms);
   char name[256];
   uniformData data;
-  std::cout<<m_programName<<" ";
-  std::cout<<"Number of uniforms "<<nUniforms<<"\n";
   for(GLint i = 0; i < nUniforms; ++i)
   {
     GLenum type = GL_ZERO;
     GLsizei nameLen = 0;
     GLint num = 0;
     glGetActiveUniform(m_programID, i, sizeof(name) - 1, &nameLen, &num, &type, name);
-    std::cout<<"Uniform "<<name<<" type "<<type<<" num "<<num<<"\n";
     // two options we either have an array or single value
     // if not array
     if(num == 1)
@@ -607,7 +604,6 @@ void ShaderProgram::autoRegisterUniforms() noexcept
     }
     else
     {
-      std::cout<<"have array "<<name<<"\n";
       std::string uniform(name);
       std::string baseName = uniform.substr(0, uniform.find("["));
       // nvidia returns uniform[0], ATI uniform, best way is to split on [
@@ -621,7 +617,6 @@ void ShaderProgram::autoRegisterUniforms() noexcept
       }
     }
   }
-  std::cout<<"Debug "<<m_registeredUniforms.size()<<"\n";
 }
 
 std::string ShaderProgram::getValueFromShader(const uniformData &_d) const noexcept
