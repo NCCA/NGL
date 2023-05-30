@@ -229,12 +229,9 @@ Mat3 Mat3::operator*(Real _i) const noexcept
 
 const Mat3 &Mat3::operator*=(Real _i) noexcept
 {
-  for(int y = 0; y < 3; ++y)
+  for(auto &i : m_openGL)
   {
-    for(int x = 0; x < 3; ++x)
-    {
-      m_m[y][x] *= _i;
-    }
+    i *= _i;
   }
   return *this;
 }

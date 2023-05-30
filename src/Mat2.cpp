@@ -154,12 +154,9 @@ Mat2 Mat2::operator*(Real _i) const noexcept
 
 const Mat2 &Mat2::operator*=(Real _i) noexcept
 {
-  for(int y = 0; y < 2; ++y)
+  for(auto &v : m_openGL)
   {
-    for(int x = 0; x < 2; ++x)
-    {
-      m_m[y][x] *= _i;
-    }
+    v *= _i;
   }
   return *this;
 }

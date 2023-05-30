@@ -273,12 +273,9 @@ Mat4 Mat4::operator*(const Real _i) const noexcept
 
 const Mat4 &Mat4::operator*=(const Real _i) noexcept
 {
-  for(int y = 0; y < 4; y++)
+  for(auto &i : m_openGL)
   {
-    for(int x = 0; x < 4; x++)
-    {
-      m_m[y][x] *= _i;
-    }
+    i *= _i;
   }
   return *this;
 }
@@ -395,8 +392,8 @@ Mat4 Mat4::euler(const Real _angle, const Real _x, const Real _y, const Real _z)
   // Axis and Angle matrix rotation see
   // http://en.wikipedia.org/wiki/Rotation_matrix for more details
   Real beta = radians(-_angle);
-  Real cosTheta = cosf((beta));
-  Real sinTheta = sinf((beta));
+  Real cosTheta = cosf(beta);
+  Real sinTheta = sinf(beta);
   Real OneMinusCosTheta = 1.0f - cosTheta;
   ngl::Vec3 norm(_x, _y, _z);
   norm.normalize();
@@ -421,17 +418,19 @@ Mat4 Mat4::euler(const Real _angle, const Real _x, const Real _y, const Real _z)
 Quaternion Mat4::asQuaternion() const noexcept
 {
   // calculate trace of the matrix
-  Real T = m_openGL[0] + m_openGL[5] + m_openGL[10] + 1;
+  auto T = m_openGL[0] + m_openGL[5] + m_openGL[10] + 1.0f;
 
   // if trace is greater than 0, calculate an instant calculation
-  if(T > 0)
+  if(T > 0.0f)
   {
-    Real S = static_cast< Real >(0.5f / sqrtf(T));
+    auto S = 0.5f / sqrtf(T);
     return Quaternion(
-      static_cast< Real >((m_openGL[6] - m_openGL[9]) * S), static_cast< Real >((m_openGL[8] - m_openGL[2]) * S),
-      static_cast< Real >((m_openGL[1] - m_openGL[4]) * S), static_cast< Real >(0.25f / S));
+      (m_openGL[6] - m_openGL[9]) * S, 
+      (m_openGL[8] - m_openGL[2]) * S,
+      (m_openGL[1] - m_openGL[4]) * S, 
+      0.25f / S);
   }
-  Real BigF = m_openGL[0];
+  auto BigF = m_openGL[0];
   unsigned char check = 0;
   if(m_openGL[5] > BigF)
   {
@@ -447,21 +446,21 @@ Quaternion Mat4::asQuaternion() const noexcept
   {
     case 0:
     {
-      Real S = static_cast< Real >(sqrtf(1.0f + m_openGL[0] - m_openGL[5] - m_openGL[10]) * 2.0f);
+      auto S = static_cast< Real >(sqrtf(1.0f + m_openGL[0] - m_openGL[5] - m_openGL[10]) * 2.0f);
 
       return Quaternion(
         0.5f / S, (m_openGL[1] + m_openGL[4]) / S, (m_openGL[2] + m_openGL[8]) / S, (m_openGL[6] + m_openGL[9]) / S);
     }
     case 1:
     {
-      Real S = static_cast< Real >(sqrtf(1.0f + m_openGL[5] - m_openGL[0] - m_openGL[10]) * 2.0f);
+      auto S = static_cast< Real >(sqrtf(1.0f + m_openGL[5] - m_openGL[0] - m_openGL[10]) * 2.0f);
 
       return Quaternion(
         (m_openGL[1] + m_openGL[4]) / S, 0.5f / S, (m_openGL[6] + m_openGL[9]) / S, (m_openGL[2] + m_openGL[8]) / S);
     }
     case 2:
     {
-      Real S = static_cast< Real >(sqrtf(1.0f + m_openGL[10] - m_openGL[0] - m_openGL[5]) * 2.0f);
+      auto S = static_cast< Real >(sqrtf(1.0f + m_openGL[10] - m_openGL[0] - m_openGL[5]) * 2.0f);
 
       return Quaternion(
         (m_openGL[2] + m_openGL[8]) / S, (m_openGL[6] + m_openGL[9]) / S, 0.5f / S, (m_openGL[1] + m_openGL[4]) / S);

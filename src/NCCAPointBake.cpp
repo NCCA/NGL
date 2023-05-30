@@ -160,12 +160,12 @@ bool NCCAPointBake::loadBinaryPointBake(std::string_view _fileName) noexcept
     return false;
   }
   // lets read in the header and see if the file is valid
-  char header[11];
-  file.read(header, 10 * sizeof(char));
+  std::string header;
+  file.read(&header[0], 10 * sizeof(char));
   header[10] = 0; // for strcmp we need \n
   // basically I used the magick string ngl::bin (I presume unique in files!) and
   // we test against it.
-  if(strcmp(header, "ngl::binpb"))
+  if(header == "ngl::binpb")
   {
     // best close the file and exit
     file.close();

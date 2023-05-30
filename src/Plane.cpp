@@ -22,23 +22,13 @@
 namespace ngl
 {
 
-//----------------------------------------------------------------------------------------------------------------------
-Plane::Plane() noexcept
-{
 
-}
-//----------------------------------------------------------------------------------------------------------------------
 Plane::Plane( const Vec3 &_v1, const Vec3 &_v2,  const Vec3 &_v3) noexcept
 {
   setPoints(_v1,_v2,_v3);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-Plane::~Plane() noexcept
-{
 
-}
-//----------------------------------------------------------------------------------------------------------------------
 void Plane::setPoints(const Vec3 &_v1, const Vec3 &_v2, const Vec3 &_v3) noexcept
 {
 	Vec3 aux1, aux2;
@@ -50,7 +40,7 @@ void Plane::setPoints(const Vec3 &_v1, const Vec3 &_v2, const Vec3 &_v3) noexcep
 	m_point=_v2;
 	m_d = -(m_normal.inner(m_point));
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 void Plane::setNormalPoint( const Vec3 &_normal, const Vec3 &_point) noexcept
 {
 	m_point=_point;
@@ -58,7 +48,7 @@ void Plane::setNormalPoint( const Vec3 &_normal, const Vec3 &_point) noexcept
 	m_normal.normalize();
 	m_d = -(m_normal.inner(m_point));
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 void Plane::setFloats(Real _a,Real _b,	Real _c,	Real _d) noexcept
 {
 	// set the normal vector
@@ -71,7 +61,6 @@ void Plane::setFloats(Real _a,Real _b,	Real _c,	Real _d) noexcept
 	m_d = _d/l;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 Real Plane::distance( const Vec3 &_p) const noexcept
 {
 	return (m_d + m_normal.inner(_p));

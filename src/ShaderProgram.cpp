@@ -757,7 +757,7 @@ void ShaderProgram::autoRegisterUniforms() noexcept
     }
     else
     {
-      std::string uniform(std::string(name.data()));
+      auto uniform(std::string(name.data()));
       std::string baseName = uniform.substr(0, uniform.find("["));
       // nvidia returns uniform[0], ATI uniform, best way is to split on [
       for(int b = 0; b < num; ++b)
