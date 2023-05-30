@@ -21,7 +21,8 @@
 #include "ShaderProgram.h"
 #include "Mat3.h"
 #include "Mat4.h"
-#include "fmt/format.h"
+#include <fmt/format.h>
+#include <fmt/ranges.h>
 #include <iostream>
 #include <memory>
 namespace ngl
@@ -194,11 +195,11 @@ void ShaderProgram::printActiveAttributes() const noexcept
   GLint size;
   GLenum type;
   GLsizei l;
-  char name[256];
+  std::array<char,256> name;
   for(GLint i = 0; i < nAttribs; ++i)
   {
     std::string Type;
-    glGetActiveAttrib(m_programID, static_cast< GLuint >(i), 256, &l, &size, &type, name);
+    glGetActiveAttrib(m_programID, static_cast< GLuint >(i), 256, &l, &size, &type, &name[0]);
     switch(type)
     {
       case GL_FLOAT:
@@ -301,7 +302,7 @@ bool ShaderProgram::setRegisteredUniform2f(std::string_view _varname, float _v0,
 bool ShaderProgram::getRegisteredUniform2f(std::string_view _varname, float &o_v0, float &o_v1) const noexcept
 {
   auto uniform = m_registeredUniforms.find(_varname.data());
-  float data[2];
+  std::array<float,2> data;
   // make sure we have a valid shader
   if(uniform != m_registeredUniforms.end())
   {
@@ -337,7 +338,7 @@ bool ShaderProgram::getRegisteredUniform2f(std::string_view _varname, float &o_v
 bool ShaderProgram::getRegisteredUniform3f(std::string_view _varname, float &o_v0, float &o_v1, float &o_v2) const noexcept
 {
   auto uniform = m_registeredUniforms.find(_varname.data());
-  float data[3];
+  std::array<float,3> data;
   // make sure we have a valid shader
   if(uniform != m_registeredUniforms.end())
   {
@@ -374,7 +375,7 @@ bool ShaderProgram::setRegisteredUniform4f(std::string_view _varname, float _v0,
 bool ShaderProgram::getRegisteredUniform4f(std::string_view _varname, float &o_v0, float &o_v1, float &o_v2, float &o_v3) const noexcept
 {
   auto uniform = m_registeredUniforms.find(_varname.data());
-  float data[4];
+  std::array<float,4> data;
   // make sure we have a valid shader
   if(uniform != m_registeredUniforms.end())
   {
@@ -452,7 +453,7 @@ bool ShaderProgram::getRegisteredUniform2i(std::string_view _varname, GLint &o_v
   // make sure we have a valid shader
   if(uniform != m_registeredUniforms.end())
   {
-    GLint ret[2];
+    std::array<GLint,2> ret;
     glGetUniformiv(m_programID, uniform->second.loc, &ret[0]);
     o_v0=ret[0];
     o_v1=ret[1];
@@ -490,7 +491,7 @@ bool ShaderProgram::getRegisteredUniform3i(std::string_view _varname, GLint &o_v
   // make sure we have a valid shader
   if(uniform != m_registeredUniforms.end())
   {
-    GLint ret[3];
+    std::array<GLint,3> ret;
     glGetUniformiv(m_programID, uniform->second.loc, &ret[0]);
     o_v0=ret[0];
     o_v1=ret[1];
@@ -531,7 +532,7 @@ bool ShaderProgram::getRegisteredUniform4i(std::string_view _varname, GLint &o_v
   // make sure we have a valid shader
   if(uniform != m_registeredUniforms.end())
   {
-    GLint ret[4];
+    std::array<GLint,4> ret;
     glGetUniformiv(m_programID, uniform->second.loc, &ret[0]);
     o_v0=ret[0];
     o_v1=ret[1];
@@ -696,16 +697,16 @@ void ShaderProgram::autoRegisterUniformBlocks() noexcept
   glGetProgramiv(m_programID, GL_ACTIVE_UNIFORM_BLOCKS, &nUniforms);
   if(m_debugState == true)
     NGLMessage::addMessage(fmt::format("FOUND UNIFORM BLOCKS {0}", nUniforms), Colours::WHITE, TimeFormat::NONE);
-  char name[256];
+  std::array<char,256> name;
   uniformBlockData data;
   for(GLint i = 0; i < nUniforms; ++i)
   {
     GLsizei nameLen = 0;
-    glGetActiveUniformBlockName(m_programID, i, sizeof(name) - 1, &nameLen, name);
-    data.name = name;
-    data.loc = glGetUniformBlockIndex(m_programID, name);
+    glGetActiveUniformBlockName(m_programID, i, sizeof(name) - 1, &nameLen, &name[0]);
+    data.name = std::string(name.data());
+    data.loc = glGetUniformBlockIndex(m_programID, &name[0]);
     glGenBuffers(1, &data.buffer);
-    m_registeredUniformBlocks[name] = data;
+    m_registeredUniformBlocks[std::string(name.data())] = data;
     NGLMessage::addMessage(fmt::format("Uniform Block {0} {1} {2}", name, data.loc, data.buffer), Colours::WHITE, TimeFormat::NONE);
   }
 }
@@ -737,26 +738,26 @@ void ShaderProgram::autoRegisterUniforms() noexcept
   glGetProgramiv(m_programID, GL_ACTIVE_UNIFORMS, &nUniforms);
   // could use this with better OpenGL version
   // glGetProgramInterfaceiv(i, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numUniforms);
-  char name[256];
+  std::array<char,256> name;
   uniformData data;
   for(GLint i = 0; i < nUniforms; ++i)
   {
     GLenum type = GL_ZERO;
     GLsizei nameLen = 0;
     GLint num = 0;
-    glGetActiveUniform(m_programID, i, sizeof(name) - 1, &nameLen, &num, &type, name);
+    glGetActiveUniform(m_programID, i, sizeof(name) - 1, &nameLen, &num, &type, &name[0]);
     // two options we either have an array or single value
     // if not array
     if(num == 1)
     {
-      data.name = name;
-      data.loc = glGetUniformLocation(m_programID, name);
+      data.name = std::string(name.data());
+      data.loc = glGetUniformLocation(m_programID, name.data());
       data.type = type;
-      m_registeredUniforms[name] = data;
+      m_registeredUniforms[std::string(name.data())] = data;
     }
     else
     {
-      std::string uniform(name);
+      std::string uniform(std::string(name.data()));
       std::string baseName = uniform.substr(0, uniform.find("["));
       // nvidia returns uniform[0], ATI uniform, best way is to split on [
       for(int b = 0; b < num; ++b)
@@ -783,25 +784,25 @@ std::string ShaderProgram::getValueFromShader(const uniformData &_d) const noexc
 
   else if(_d.type == GL_FLOAT_VEC2)
   {
-    float v[2];
+    std::array<float,2> v;
     getUniformfv(_d.name.c_str(), &v[0]);
     value = fmt::format("[{:.4f},{:.4f}]", v[0], v[1]);
   }
   else if(_d.type == GL_FLOAT_VEC3)
   {
-    float v[3];
+    std::array<float,3> v;
     getUniformfv(_d.name.c_str(), &v[0]);
     value = fmt::format("[{:.4f},{:.4f},{:.4f}]", v[0], v[1], v[2]);
   }
   else if(_d.type == GL_FLOAT_VEC4)
   {
-    float v[4];
+    std::array<float,4> v;
     getUniformfv(_d.name.c_str(), &v[0]);
     value = fmt::format("[{:.4f},{:.4f},{:.4f},{:.4f}]", v[0], v[1], v[2], v[3]);
   }
   else if(_d.type == GL_FLOAT_MAT2)
   {
-    float v[4];
+    std::array<float,4> v;
     getUniformfv(_d.name.c_str(), &v[0]);
     value = fmt::format("\n[{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f}]",
@@ -809,7 +810,8 @@ std::string ShaderProgram::getValueFromShader(const uniformData &_d) const noexc
   }
   else if(_d.type == GL_FLOAT_MAT3)
   {
-    float v[9];
+    std::array<float,9> v;
+
     getUniformfv(_d.name.c_str(), &v[0]);
     value = fmt::format("\n[{:.4f},{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f},{:.4f}]\n"
@@ -818,7 +820,8 @@ std::string ShaderProgram::getValueFromShader(const uniformData &_d) const noexc
   }
   else if(_d.type == GL_FLOAT_MAT4)
   {
-    float v[16];
+    std::array<float,16> v;
+
     getUniformfv(_d.name.c_str(), &v[0]);
     value = fmt::format("\n[{:.4f},{:.4f},{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f},{:.4f},{:.4f}]\n"
