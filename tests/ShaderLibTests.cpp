@@ -109,11 +109,12 @@ TEST(ShaderLib,testSetUniform)
   EXPECT_TRUE(ngl::ShaderLib::loadShader(shaderName,"files/testUniformVertex.glsl","files/testUniformFragment.glsl",ngl::ErrorExit::OFF))<<"shader loaded?";
   ngl::ShaderLib::use(shaderName);
   {
-    EXPECT_TRUE(ngl::ShaderLib::setUniform("testFloat",2.25f));
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testFloat",2.25f))<<"Setting a single float";
     float result;
-    EXPECT_TRUE(ngl::ShaderLib::getUniform("testFloat",result));
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testFloat",result))<<"Getting a single float";
     EXPECT_FLOAT_EQ(result,2.25f)<<"Testing setting a single float";
   }
+ 
   {
     EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec2",0.5f,2.0f));
     float resultF1,resultF2;
@@ -156,11 +157,7 @@ TEST(ShaderLib,testSetUniform)
     EXPECT_FLOAT_EQ(resultVec3.m_x,1.5f);
     EXPECT_FLOAT_EQ(resultVec3.m_y,2.5f);
     EXPECT_FLOAT_EQ(resultVec3.m_z,3.5f);
-
-
-
   }
-
   {
     ngl::Vec4 vec4(0.5f,2.0f,4.0f,5.0f);
     EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec4",vec4));
@@ -278,10 +275,7 @@ TEST(ShaderLib,testSetUniform)
     glm::mat2 glmMat2(1.5f,2.5f,3.5f,4.5f);
     EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat2",glmMat2));
     EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat2",result));
-    EXPECT_TRUE(result==ngl::Mat2(1.5f,2.5f,3.5f,4.5f));
-    
-
-        
+    EXPECT_TRUE(result==ngl::Mat2(1.5f,2.5f,3.5f,4.5f));    
   }
   {
     EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat3",ngl::Mat3()));

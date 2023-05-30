@@ -151,6 +151,7 @@ set(HEADERS
     ${CMAKE_SOURCE_DIR}/include/ngl/NCCAPointBake.h
     ${CMAKE_SOURCE_DIR}/include/ngl/Shader.h
     ${CMAKE_SOURCE_DIR}/include/ngl/ShaderProgram.h
+    ${CMAKE_SOURCE_DIR}/include/ngl/ShaderProgram.inl
     ${CMAKE_SOURCE_DIR}/include/ngl/Plane.h
     ${CMAKE_SOURCE_DIR}/include/ngl/AABB.h
     ${CMAKE_SOURCE_DIR}/include/ngl/Vec3.h
