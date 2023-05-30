@@ -446,21 +446,21 @@ Quaternion Mat4::asQuaternion() const noexcept
   {
     case 0:
     {
-      auto S = static_cast< Real >(sqrtf(1.0f + m_openGL[0] - m_openGL[5] - m_openGL[10]) * 2.0f);
+      auto S = sqrtf(1.0f + m_openGL[0] - m_openGL[5] - m_openGL[10]) * 2.0f;
 
       return Quaternion(
         0.5f / S, (m_openGL[1] + m_openGL[4]) / S, (m_openGL[2] + m_openGL[8]) / S, (m_openGL[6] + m_openGL[9]) / S);
     }
     case 1:
     {
-      auto S = static_cast< Real >(sqrtf(1.0f + m_openGL[5] - m_openGL[0] - m_openGL[10]) * 2.0f);
+      auto S = sqrtf(1.0f + m_openGL[5] - m_openGL[0] - m_openGL[10]) * 2.0f;
 
       return Quaternion(
         (m_openGL[1] + m_openGL[4]) / S, 0.5f / S, (m_openGL[6] + m_openGL[9]) / S, (m_openGL[2] + m_openGL[8]) / S);
     }
     case 2:
     {
-      auto S = static_cast< Real >(sqrtf(1.0f + m_openGL[10] - m_openGL[0] - m_openGL[5]) * 2.0f);
+      auto S = sqrtf(1.0f + m_openGL[10] - m_openGL[0] - m_openGL[5]) * 2.0f;
 
       return Quaternion(
         (m_openGL[2] + m_openGL[8]) / S, (m_openGL[6] + m_openGL[9]) / S, 0.5f / S, (m_openGL[1] + m_openGL[4]) / S);

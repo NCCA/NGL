@@ -426,6 +426,8 @@ class NGL_DLLEXPORT ShaderLib
   static std::shared_ptr< ngl::Shader > getShader(std::string_view _shaderName) noexcept;
   static bool setUniformBuffer(std::string_view _uniformBlockName, size_t _size, void *_data);
 
+  
+
     protected:
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  get shader type from string (used for json parsing)
