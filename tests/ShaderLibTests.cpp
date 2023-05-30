@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <ngl/ShaderLib.h>
-
-
+#include <glm/glm.hpp>
+#include <ngl/NGLStream.h>
 TEST(ShaderLib,StaticInit)
 {
   // we have Colour, Text, Diffuse and Checker (but vert and frag) so 8 shaders in total
@@ -124,7 +124,63 @@ TEST(ShaderLib,testSetUniform)
     ngl::ShaderLib::getUniform("testVec2",resultVec2);
     EXPECT_FLOAT_EQ(resultVec2.m_x,0.5f)<<"Test getting from ngl::Vec2 m_x";
     EXPECT_FLOAT_EQ(resultVec2.m_y,2.0f)<<"Test getting from ngl::Vec2 m_y";;
+
+    glm::vec2 glmVec2(1.5f,2.5f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec2",glmVec2));
+    ngl::ShaderLib::getUniform("testVec2",resultVec2);
+    EXPECT_FLOAT_EQ(resultVec2.m_x,1.5f)<<"Test getting from ngl::Vec2 m_x";
+    EXPECT_FLOAT_EQ(resultVec2.m_y,2.5f)<<"Test getting from ngl::Vec2 m_y";;
+
+
   }
+  {
+    ngl::Vec2 vec2(0.5f,2.0f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec2",vec2));
+    ngl::Vec2 resultVec2;
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testVec2",resultVec2));
+    EXPECT_FLOAT_EQ(resultVec2.m_x,0.5f)<<"Test setting two floats x";
+    EXPECT_FLOAT_EQ(resultVec2.m_y,2.0f)<<"Test setting two floats y";
+  }
+  {
+    ngl::Vec3 vec3(0.5f,2.0f,4.0f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec3",vec3));
+    ngl::Vec3 resultVec3;
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testVec3",resultVec3));
+    EXPECT_FLOAT_EQ(resultVec3.m_x,0.5f);
+    EXPECT_FLOAT_EQ(resultVec3.m_y,2.0f);
+    EXPECT_FLOAT_EQ(resultVec3.m_z,4.0f);
+
+    glm::vec3 glmVec3(1.5f,2.5f,3.5f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec3",glmVec3));
+    ngl::ShaderLib::getUniform("testVec3",resultVec3);
+    EXPECT_FLOAT_EQ(resultVec3.m_x,1.5f);
+    EXPECT_FLOAT_EQ(resultVec3.m_y,2.5f);
+    EXPECT_FLOAT_EQ(resultVec3.m_z,3.5f);
+
+
+
+  }
+
+  {
+    ngl::Vec4 vec4(0.5f,2.0f,4.0f,5.0f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec4",vec4));
+    ngl::Vec4 resultVec4;
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testVec4",resultVec4));
+    EXPECT_FLOAT_EQ(resultVec4.m_x,0.5f);
+    EXPECT_FLOAT_EQ(resultVec4.m_y,2.0f);
+    EXPECT_FLOAT_EQ(resultVec4.m_z,4.0f);
+    EXPECT_FLOAT_EQ(resultVec4.m_w,5.0f);
+
+    glm::vec4 glmVec4(1.5f,2.5f,4.5f,5.5f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec4",glmVec4));
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testVec4",resultVec4));
+    EXPECT_FLOAT_EQ(resultVec4.m_x,1.5f);
+    EXPECT_FLOAT_EQ(resultVec4.m_y,2.5f);
+    EXPECT_FLOAT_EQ(resultVec4.m_z,4.5f);
+    EXPECT_FLOAT_EQ(resultVec4.m_w,5.5f);
+
+  }
+
   {
     EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec3",0.5f,2.0f,-22.2f));
     ngl::Real resultF1,resultF2,resultF3;
@@ -171,32 +227,126 @@ TEST(ShaderLib,testSetUniform)
       EXPECT_FLOAT_EQ(resultVec3.m_z,-22.2f)<<"test getting ngl::Vec3 m_z";
     }
   }
-  {
-    ngl::ShaderLib::setUniform("testMat2",ngl::Mat2());
-    ngl::Mat2 result;
-    ngl::ShaderLib::getUniform("testMat2",result);
-    EXPECT_TRUE(result==ngl::Mat2());
-  }
-  {
-    ngl::ShaderLib::setUniform("testMat3",ngl::Mat3());
-    ngl::Mat3 result;
-    ngl::ShaderLib::getUniform("testMat3",result);
-    EXPECT_TRUE(result==ngl::Mat3());
-  }
-  {
-    ngl::ShaderLib::setUniform("testMat4",ngl::Mat4());
-    ngl::Mat4 result;
-    ngl::ShaderLib::getUniform("testMat4",result);
-    EXPECT_TRUE(result==ngl::Mat4());
+
+{
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testInt",2));
+    int result;
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testInt",result));
+    EXPECT_EQ(result,2)<<"Testing setting a single int";
   }
 
+  {
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testInt2",2,3));
+    int a,b;
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testInt2",a,b));
+    EXPECT_EQ(a,2)<<"Testing setting a ivec2 int";
+    EXPECT_EQ(b,3)<<"Testing setting a ivec2 int";
+  }
+
+ {
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testInt3",2,3,4));
+    int a,b,c;
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testInt3",a,b,c));
+    EXPECT_EQ(a,2)<<"Testing setting a ivec3 int";
+    EXPECT_EQ(b,3)<<"Testing setting a ivec3 int";
+    EXPECT_EQ(c,4)<<"Testing setting a ivec3 int";
+  }
+
+
+ {
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testInt4",2,3,4,5));
+    int a,b,c,d;
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testInt4",a,b,c,d));
+    EXPECT_EQ(a,2)<<"Testing setting a ivec4 int";
+    EXPECT_EQ(b,3)<<"Testing setting a ivec4 int";
+    EXPECT_EQ(c,4)<<"Testing setting a ivec4 int";
+    EXPECT_EQ(d,5)<<"Testing setting a ivec4 int";
+  }
+
+  {
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat2",ngl::Mat2()));
+    ngl::Mat2 result;
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat2",result));
+    EXPECT_TRUE(result==ngl::Mat2());
+    
+    float array[4]={1.0f,2.0f,3.0f,4.0f};
+    EXPECT_TRUE(ngl::ShaderLib::setUniformMatrix2fv("testMat2",array));
+    ngl::Mat2 result2(1.0f,2.0f,3.0f,4.0f);
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat2",result));
+    EXPECT_TRUE(result==result2);
+
+    glm::mat2 glmMat2(1.5f,2.5f,3.5f,4.5f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat2",glmMat2));
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat2",result));
+    EXPECT_TRUE(result==ngl::Mat2(1.5f,2.5f,3.5f,4.5f));
+    
+
+        
+  }
+  {
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat3",ngl::Mat3()));
+    ngl::Mat3 result;
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat3",result));
+    EXPECT_TRUE(result==ngl::Mat3());
+
+    float array[9]={1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f};
+    EXPECT_TRUE(ngl::ShaderLib::setUniformMatrix3fv("testMat3",array));
+    ngl::Mat3 result2(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f);
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat3",result));
+    EXPECT_TRUE(result==result2);
+
+    glm::mat3 glmMat3(1.5f,2.5f,3.5f,4.5f,5.5f,6.5f,7.5f,8.5f,9.5f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat3",glmMat3));
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat3",result));
+    EXPECT_TRUE(result==ngl::Mat3(1.5f,2.5f,3.5f,4.5f,5.5f,6.5f,7.5f,8.5f,9.5f));
+
+
+  }
+  {
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat4",ngl::Mat4()));
+    ngl::Mat4 result;
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat4",result));
+    EXPECT_TRUE(result==ngl::Mat4());
+
+    float array[16]={1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f,
+    10.0f,11.0f,12.0f,13.0f,14.0f,15.0f,16.0f};
+    EXPECT_TRUE(ngl::ShaderLib::setUniformMatrix4fv("testMat4",array));
+    ngl::Mat4 result2(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f,
+    10.0f,11.0f,12.0f,13.0f,14.0f,15.0f,16.0f);
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat4",result));
+    EXPECT_TRUE(result==result2);
+
+    glm::mat4 glmMat4(1.5f,2.5f,3.5f,4.5f,5.5f,6.5f,7.5f,8.5f,9.5f,
+    10.5f,11.5f,12.5f,13.5f,14.5f,15.5f,16.5f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat4",glmMat4));
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat4",result));
+    EXPECT_TRUE(result==ngl::Mat4(1.5f,2.5f,3.5f,4.5f,5.5f,6.5f,7.5f,8.5f,9.5f,
+    10.5f,11.5f,12.5f,13.5f,14.5f,15.5f,16.5f));
+  }
+
+}
+
+TEST(ShaderLib,testUniformBuffers)
+{
+
+  auto *shaderName="TestUniformBuffer";
+  EXPECT_TRUE(ngl::ShaderLib::loadShader(shaderName,"files/testUniformBufferVertex.glsl","files/testUniformBufferFragment.glsl",ngl::ErrorExit::OFF))<<"shader loaded?";
+  ngl::ShaderLib::use(shaderName);
+
+  struct transform
+  {
+    ngl::Mat4 MVP;
+    ngl::Mat4 normalMatrix;
+    ngl::Mat4 M;
+  };
+  transform t;
+  EXPECT_TRUE(ngl::ShaderLib::setUniformBuffer("TransformUBO", sizeof(transform), &t.MVP.m_00));
+  ngl::Mat4 result;
 }
 
 
 TEST(ShaderLib,editShader)
 {
-
-
   auto *shaderName="Edit";
 
   ngl::ShaderLib::createShaderProgram(shaderName,ngl::ErrorExit::OFF);
@@ -228,4 +378,6 @@ TEST(ShaderLib,editShader)
   EXPECT_TRUE(ngl::ShaderLib::linkProgramObject(shaderName))<<"First Link";
   ngl::ShaderLib::use(shaderName);
   EXPECT_TRUE(ngl::ShaderLib::getCurrentShaderName()==shaderName);
+
 }
+

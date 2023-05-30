@@ -81,7 +81,6 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param _attribName the name of the attribute we wish to use
   //----------------------------------------------------------------------------------------------------------------------
   void bindFragDataLocation(GLuint index, std::string_view _attribName) noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief link our program object with the attatched shaders
   /// if shader are not attached the program will report the linker
@@ -161,7 +160,8 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  _varname - name of the uniform variable
   /// @param  _v0 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform1i(std::string_view _varname, int _v0) const noexcept;
+  bool setRegisteredUniform1i(std::string_view _varname, int _v0) const noexcept;
+  bool getRegisteredUniform1i(std::string_view _varname, int& o_v0) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single int
   /// @param  _varname - name of the uniform variable
@@ -169,7 +169,8 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  _v1 - new value for the variable
 
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform2i(std::string_view _varname, int _v0, int _v1) const noexcept;
+  bool setRegisteredUniform2i(std::string_view _varname, int _v0, int _v1) const noexcept;
+  bool getRegisteredUniform2i(std::string_view _varname, int &o_v0, int &o_v1) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single int
   /// @param  _varname - name of the uniform variable
@@ -177,7 +178,9 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  _v1 - new value for the variable
   /// @param  _v2 - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform3i(std::string_view _varname, int _v0, int _v1, int _v2) const noexcept;
+  bool setRegisteredUniform3i(std::string_view _varname, int _v0, int _v1, int _v2) const noexcept;
+  bool getRegisteredUniform3i(std::string_view _varname, int &o_v0, int &o_v1,int &o_v2) const noexcept;
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets the registered uniform to a single int
   /// @param  _varname - name of the uniform variable
@@ -187,7 +190,9 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  _v3 - new value for the variable
 
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniform4i(std::string_view _varname, int _v0, int _v1, int _v2, int _v3) const noexcept;
+  bool setRegisteredUniform4i(std::string_view _varname, int _v0, int _v1, int _v2, int _v3) const noexcept;
+  bool getRegisteredUniform4i(std::string_view _varname, int &o_v0, int &o_v1,int &o_v2,int &o_v3) const noexcept;
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @name  Set Program Matrix Args
   //----------------------------------------------------------------------------------------------------------------------
@@ -199,8 +204,8 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  _transpose - if true will transpose the matrix values
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformMatrix2fv(std::string_view _varname, GLsizei _count, bool _transpose, const float *_value) const noexcept;
-  void getRegisteredUniformMatrix2fv(std::string_view _varname, ngl::Mat2 &o_value) const noexcept;
+  bool setRegisteredUniformMatrix2fv(std::string_view _varname, GLsizei _count, bool _transpose, const float *_value) const noexcept;
+  bool getRegisteredUniformMatrix2fv(std::string_view _varname, ngl::Mat2 &o_value) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets '_varname' as a 3D matrix array
   /// @param  _varname - name of the uniform variable
@@ -208,8 +213,8 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  _transpose - if true will transpose the matrix values
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformMatrix3fv(std::string_view _varname, GLsizei _count, bool _transpose, const float *_value) const noexcept;
-  void getRegisteredUniformMatrix3fv(std::string_view _varname, ngl::Mat3 &o_value) const noexcept;
+  bool setRegisteredUniformMatrix3fv(std::string_view _varname, GLsizei _count, bool _transpose, const float *_value) const noexcept;
+  bool getRegisteredUniformMatrix3fv(std::string_view _varname, ngl::Mat3 &o_value) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  sets '_varname' as a 4D matrix array
@@ -218,8 +223,8 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  _transpose - if true will transpose the matrix values
   /// @param  _value - new value for the variable
   //----------------------------------------------------------------------------------------------------------------------
-  void setRegisteredUniformMatrix4fv(std::string_view _varname, GLsizei _count, bool _transpose, const float *_value) const noexcept;
-  void getRegisteredUniformMatrix4fv(std::string_view _varname, ngl::Mat4 &o_value) const noexcept;
+  bool setRegisteredUniformMatrix4fv(std::string_view _varname, GLsizei _count, bool _transpose, const float *_value) const noexcept;
+  bool getRegisteredUniformMatrix4fv(std::string_view _varname, ngl::Mat4 &o_value) const noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  gets the current value of the specified uniform var
@@ -227,14 +232,12 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  o_values - the output value
   //----------------------------------------------------------------------------------------------------------------------
   void getUniformfv(const char *_name, float *o_values) const noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  gets the current value of the specified uniform var
   /// @param  _name - name of the uniform variable to retrieve
   /// @param  o_values - the output value
   //----------------------------------------------------------------------------------------------------------------------
   void getUniformiv(const char *_name, int *o_values) const noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @name   vertex array functions.
   /// @brief  These functions simplify the binding of per-vertex data as a
@@ -280,8 +283,9 @@ class NGL_DLLEXPORT ShaderProgram
 
   GLuint getUniformBlockIndex(std::string_view _uniformBlockName) const noexcept;
 
-  void setUniformBuffer(std::string_view _uniformBlockName, size_t _size, void *_data);
-  bool isLinked() const noexcept
+  bool setUniformBuffer(std::string_view _uniformBlockName, size_t _size, void *_data);
+  
+  bool isLinked() const noexcept 
   {
     return m_linked;
   }
