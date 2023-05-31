@@ -49,7 +49,7 @@ class NGL_DLLEXPORT Mat3
   
   /// @brief ctor will always create an identity matrix
   
-  Mat3() noexcept;
+  Mat3()=default;
   
   /// @brief ctor passing in value
   

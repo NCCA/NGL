@@ -359,13 +359,14 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat4 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, Mat4 _v0) noexcept;
-  static bool getUniform(std::string_view _paramName, Mat4 &_v0) noexcept;
+//  static bool setUniform(std::string_view _paramName, Mat4 _v0) noexcept;
+  static bool setUniform(std::string_view _paramName,  Mat4 _v0) noexcept;
+  static bool getUniform(std::string_view _paramName,  Mat4 &_v0) noexcept;
 
   // compatability functions to make it easier to use GLM
-  static bool setUniformMatrix2fv(std::string_view _paramName, const GLfloat *_value, MatrixTranspose _transpose = MatrixTranspose::TransposeOff) noexcept;
-  static bool setUniformMatrix4fv(std::string_view _paramName, const GLfloat *_value, MatrixTranspose _transpose = MatrixTranspose::TransposeOff) noexcept;
-  static bool setUniformMatrix3fv(std::string_view _paramName, const GLfloat *_value, MatrixTranspose _transpose = MatrixTranspose::TransposeOff) noexcept;
+  // static bool setUniformMatrix2fv(std::string_view _paramName, const GLfloat *_value, MatrixTranspose _transpose = MatrixTranspose::TransposeOff) noexcept;
+  // static bool setUniformMatrix4fv(std::string_view _paramName, const GLfloat *_value, MatrixTranspose _transpose = MatrixTranspose::TransposeOff) noexcept;
+  // static bool setUniformMatrix3fv(std::string_view _paramName, const GLfloat *_value, MatrixTranspose _transpose = MatrixTranspose::TransposeOff) noexcept;
 
 #ifdef USEGLM
   //----------------------------------------------------------------------------------------------------------------------
