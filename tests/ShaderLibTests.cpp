@@ -265,14 +265,14 @@ TEST(ShaderLib,testSetUniform)
     ngl::Mat2 result;
     EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat2",result));
     EXPECT_TRUE(result==ngl::Mat2());
-/*    
-    //float array[4]={1.0f,2.0f,3.0f,4.0f};
-    std::array<float,4> array={1.0f,2.0f,3.0f,4.0f};
-    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat2",array));
-    ngl::Mat2 result2(1.0f,2.0f,3.0f,4.0f);
-    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat2",result));
-    EXPECT_TRUE(result==result2);
-*/
+    
+    // //float array[4]={1.0f,2.0f,3.0f,4.0f};
+    // std::array<float,4> array={1.0f,2.0f,3.0f,4.0f};
+    // EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat2",array));
+    // ngl::Mat2 result2(1.0f,2.0f,3.0f,4.0f);
+    // EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat2",result));
+    // EXPECT_TRUE(result==result2);
+
     glm::mat2 glmMat2(1.5f,2.5f,3.5f,4.5f);
     EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat2",glmMat2));
     EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat2",result));

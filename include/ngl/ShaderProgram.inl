@@ -1,3 +1,15 @@
+// traits to check for array types
+
+template<typename>
+struct is_std_array : std::false_type {};
+
+template<typename T, std::size_t N>
+struct is_std_array<std::array<T,N>> : std::true_type {};
+
+template <typename T>
+using array_value_type = std::decay_t<decltype(std::declval<T&>()[0])>;
+
+
   template< typename Ts> 
   bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) const noexcept
   {
@@ -60,7 +72,7 @@
           glUniform4f(uniform->second.loc,arg.m_x,arg.m_y,arg.m_z,arg.m_w);
           return true;
       }
-      else if constexpr(std::is_array<Ts>::value)
+      else if constexpr(is_std_array<Ts>::value)
       {
         std::cout<<"have array\n";
         return true;
@@ -131,13 +143,62 @@
         else
         {
             ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
-
             return false;
         }
     }
     }
   return false;
   }
+
+
+template< typename Ts> 
+bool ShaderProgram::getRegisteredUniform(std::string_view _varname ,Ts &o_arg ) const noexcept
+{
+    auto uniform = m_registeredUniforms.find(_varname.data());
+    if(uniform != m_registeredUniforms.end())
+    {
+      if constexpr (std::is_same<Ts,float>::value )
+      {
+        glGetUniformfv(m_programID, uniform->second.loc, &o_arg);
+        return true;
+      } // end of singkle float
+
+      // ngl mat types
+      if constexpr (std::is_same<Ts,ngl::Mat2>::value  || 
+                    std::is_same<Ts,ngl::Mat3>::value ||
+                    std::is_same<Ts,ngl::Mat4>::value)
+      {
+          glGetUniformfv(m_programID, uniform->second.loc, &o_arg.m_openGL[0]);
+        return true;
+      }
+
+      if constexpr (std::is_same<Ts,int>::value )
+      {
+        glGetUniformiv(m_programID, uniform->second.loc, &o_arg);
+        return true;
+      } // end of float
+      else if constexpr(is_std_array<Ts>::value)
+      {
+        if constexpr (std::is_same<array_value_type<Ts>,float>::value )
+        {
+          glGetUniformfv(m_programID, uniform->second.loc, o_arg.data());
+        } // end of array
+        else if constexpr (std::is_same<array_value_type<Ts>,int>::value)
+        {
+          glGetUniformiv(m_programID, uniform->second.loc, o_arg.data());
+        } // end of array
+
+        return true;
+      } // end of array
+    } // end of uniform found
+    else
+    {
+      ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
+      return false;
+    }
+return false;
+}
+
 
 
 /*

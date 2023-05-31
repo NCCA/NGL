@@ -250,238 +250,6 @@ void ShaderProgram::printActiveAttributes() const noexcept
 }
 
 
-bool ShaderProgram::getRegisteredUniform1f(std::string_view _varname, float &o_v0) const noexcept
-{
-  auto uniform = m_registeredUniforms.find(_varname.data());
-  // make sure we have a valid shader
-  if(uniform != m_registeredUniforms.end())
-  {
-    glGetUniformfv(m_programID, uniform->second.loc, &o_v0);
-    return true;
-  }
-  else
-  {
-    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
-    return false;
-  }
-}
-
-
-bool ShaderProgram::getRegisteredUniform2f(std::string_view _varname, float &o_v0, float &o_v1) const noexcept
-{
-  auto uniform = m_registeredUniforms.find(_varname.data());
-  std::array<float,2> data;
-  // make sure we have a valid shader
-  if(uniform != m_registeredUniforms.end())
-  {
-    glGetUniformfv(m_programID, uniform->second.loc, &data[0]);
-    o_v0 = data[0];
-    o_v1 = data[1];
-    return true;
-  }
-  else
-  {
-    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
-    return false;
-  }
-}
-
-
-bool ShaderProgram::getRegisteredUniform3f(std::string_view _varname, float &o_v0, float &o_v1, float &o_v2) const noexcept
-{
-  auto uniform = m_registeredUniforms.find(_varname.data());
-  std::array<float,3> data;
-  // make sure we have a valid shader
-  if(uniform != m_registeredUniforms.end())
-  {
-    glGetUniformfv(m_programID, uniform->second.loc, &data[0]);
-    o_v0 = data[0];
-    o_v1 = data[1];
-    o_v2 = data[2];
-    return true;
-  }
-  else
-  {
-    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
-    return false;
-  }
-}
-
-
-bool ShaderProgram::getRegisteredUniform4f(std::string_view _varname, float &o_v0, float &o_v1, float &o_v2, float &o_v3) const noexcept
-{
-  auto uniform = m_registeredUniforms.find(_varname.data());
-  std::array<float,4> data;
-  // make sure we have a valid shader
-  if(uniform != m_registeredUniforms.end())
-  {
-    glGetUniformfv(m_programID, uniform->second.loc, &data[0]);
-    o_v0 = data[0];
-    o_v1 = data[1];
-    o_v2 = data[2];
-    o_v3 = data[3];
-    return true;
-  }
-  else
-  {
-    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
-    return false;
-  }
-
-}
-
-
-bool ShaderProgram::getRegisteredUniform1i(std::string_view _varname, GLint &o_v0) const noexcept
-{
-  auto uniform = m_registeredUniforms.find(_varname.data());
-  // make sure we have a valid shader
-  if(uniform != m_registeredUniforms.end())
-  {
-    glGetUniformiv(m_programID, uniform->second.loc, &o_v0);
-    return true;
-  }
-  else
-  {
-    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
-    return false;
-  }
-}
-
-
-
-
-bool ShaderProgram::getRegisteredUniform2i(std::string_view _varname, GLint &o_v0,GLint &o_v1) const noexcept
-{
-  auto uniform = m_registeredUniforms.find(_varname.data());
-  // make sure we have a valid shader
-  if(uniform != m_registeredUniforms.end())
-  {
-    std::array<GLint,2> ret;
-    glGetUniformiv(m_programID, uniform->second.loc, &ret[0]);
-    o_v0=ret[0];
-    o_v1=ret[1];
-    return true;
-  }
-  else
-  {
-    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
-    return false;
-  }
-}
-
-
-
-
-bool ShaderProgram::getRegisteredUniform3i(std::string_view _varname, GLint &o_v0,GLint &o_v1,GLint &o_v2) const noexcept
-{
-  auto uniform = m_registeredUniforms.find(_varname.data());
-  // make sure we have a valid shader
-  if(uniform != m_registeredUniforms.end())
-  {
-    std::array<GLint,3> ret;
-    glGetUniformiv(m_programID, uniform->second.loc, &ret[0]);
-    o_v0=ret[0];
-    o_v1=ret[1];
-    o_v2=ret[2];
-    return true;
-  }
-  else
-  {
-    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
-    return false;
-  }
-}
-
-
-
-
-
-
-bool ShaderProgram::getRegisteredUniform4i(std::string_view _varname, GLint &o_v0,GLint &o_v1,GLint &o_v2,GLint &o_v3) const noexcept
-{
-  auto uniform = m_registeredUniforms.find(_varname.data());
-  // make sure we have a valid shader
-  if(uniform != m_registeredUniforms.end())
-  {
-    std::array<GLint,4> ret;
-    glGetUniformiv(m_programID, uniform->second.loc, &ret[0]);
-    o_v0=ret[0];
-    o_v1=ret[1];
-    o_v2=ret[2];
-    o_v3=ret[3];
-    return true;
-  }
-  else
-  {
-    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
-    return false;
-  }
-}
-
-
-
-bool ShaderProgram::getRegisteredUniformMatrix3fv(std::string_view _varname, ngl::Mat3 &o_value) const noexcept
-{
-  auto uniform = m_registeredUniforms.find(_varname.data());
-  // make sure we have a valid shader
-  if(uniform != m_registeredUniforms.end())
-  {
-    glGetUniformfv(m_programID, uniform->second.loc, &o_value.m_openGL[0]);
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-
-
-bool ShaderProgram::getRegisteredUniformMatrix2fv(std::string_view _varname, ngl::Mat2 &o_value) const noexcept
-{
-  auto uniform = m_registeredUniforms.find(_varname.data());
-  // make sure we have a valid shader
-  if(uniform != m_registeredUniforms.end())
-  {
-    glGetUniformfv(m_programID, uniform->second.loc, &o_value.m_openGL[0]);
-    return true;
-  }
-  else
-  {
-    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
-    return false;
-  }
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-
-bool ShaderProgram::getRegisteredUniformMatrix4fv(std::string_view _varname, ngl::Mat4 &o_value) const noexcept
-{
-  auto uniform = m_registeredUniforms.find(_varname.data());
-  // make sure we have a valid shader
-  if(uniform != m_registeredUniforms.end())
-  {
-    glGetUniformfv(m_programID, uniform->second.loc, &o_value.m_openGL[0]);
-    return true;
-  }
-  else
-  {
-    ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
-    return false;
-  }
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::getUniformfv(const char *_varname, float *o_values) const noexcept
-{
-  glGetUniformfv(m_programID, getUniformLocation(_varname), o_values);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-void ShaderProgram::getUniformiv(const char *_varname, int *o_values) const noexcept
-{
-  glGetUniformiv(m_programID, getUniformLocation(_varname), o_values);
-}
-
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::enableAttribArray(const char *_name) const noexcept
 {
@@ -601,32 +369,32 @@ std::string ShaderProgram::getValueFromShader(const uniformData &_d) const noexc
   if(_d.type == GL_FLOAT || _d.type == GL_BOOL)
   {
     float v;
-    getUniformfv(_d.name.c_str(), &v);
+    getRegisteredUniform(_d.name.c_str(), v);
     value = fmt::format("[{:.4f}]", v);
   }
 
   else if(_d.type == GL_FLOAT_VEC2)
   {
     std::array<float,2> v;
-    getUniformfv(_d.name.c_str(), &v[0]);
+    getRegisteredUniform(_d.name.c_str(), v);
     value = fmt::format("[{:.4f},{:.4f}]", v[0], v[1]);
   }
   else if(_d.type == GL_FLOAT_VEC3)
   {
     std::array<float,3> v;
-    getUniformfv(_d.name.c_str(), &v[0]);
+    getRegisteredUniform(_d.name.c_str(), v);
     value = fmt::format("[{:.4f},{:.4f},{:.4f}]", v[0], v[1], v[2]);
   }
   else if(_d.type == GL_FLOAT_VEC4)
   {
     std::array<float,4> v;
-    getUniformfv(_d.name.c_str(), &v[0]);
+    getRegisteredUniform(_d.name.c_str(), v);
     value = fmt::format("[{:.4f},{:.4f},{:.4f},{:.4f}]", v[0], v[1], v[2], v[3]);
   }
   else if(_d.type == GL_FLOAT_MAT2)
   {
     std::array<float,4> v;
-    getUniformfv(_d.name.c_str(), &v[0]);
+    getRegisteredUniform(_d.name.c_str(), v);
     value = fmt::format("\n[{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f}]",
                         v[0], v[1], v[2], v[3]);
@@ -635,7 +403,7 @@ std::string ShaderProgram::getValueFromShader(const uniformData &_d) const noexc
   {
     std::array<float,9> v;
 
-    getUniformfv(_d.name.c_str(), &v[0]);
+    getRegisteredUniform(_d.name.c_str(), v);
     value = fmt::format("\n[{:.4f},{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f},{:.4f}]",
@@ -645,7 +413,7 @@ std::string ShaderProgram::getValueFromShader(const uniformData &_d) const noexc
   {
     std::array<float,16> v;
 
-    getUniformfv(_d.name.c_str(), &v[0]);
+    getRegisteredUniform(_d.name.c_str(), v);
     value = fmt::format("\n[{:.4f},{:.4f},{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f},{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f},{:.4f},{:.4f}]\n"
