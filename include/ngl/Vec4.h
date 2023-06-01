@@ -65,10 +65,7 @@ class NGL_DLLEXPORT Vec4
   friend class Obj;
 
     public:
-  Vec4()
-    : m_x(0.0f), m_y(0.0f), m_z(0.0f), m_w(1.0f)
-  {
-  }
+  Vec4()=default;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor
   /// @param[in] _v the value to set
@@ -406,7 +403,7 @@ class NGL_DLLEXPORT Vec4
     /// m_z == m_openGL[2] \n
     /// m_w == m_openGL[3] \n
     //----------------------------------------------------------------------------------------------------------------------
-    std::array< Real, 4 > m_openGL;
+    std::array< Real, 4 > m_openGL={0.0f,0.0f,0.0f,1.0f};
   };
 };
 #pragma GCC diagnostic pop

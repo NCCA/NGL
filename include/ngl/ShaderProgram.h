@@ -26,8 +26,6 @@
 #include <string_view>
 #include <unordered_map>
 #include <vector>
-#include <ngl/NGLStream.h>
-#include <iostream>
 #include <cassert>
 //----------------------------------------------------------------------------------------------------------------------
 ///  @class ShaderProgram  "ShaderProgram.h"

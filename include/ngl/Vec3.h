@@ -57,10 +57,7 @@ class NGL_DLLEXPORT Vec3
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief default ctor use default and set to (0.0f,0.0f,0.0f) as attributes are initialised
   //----------------------------------------------------------------------------------------------------------------------
-  Vec3()
-    : m_x(0.0f), m_y(0.0f), m_z(0.0f)
-  {
-  }
+  Vec3() = default;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor we have POD data so let the compiler do the work!
   //----------------------------------------------------------------------------------------------------------------------
@@ -376,9 +373,7 @@ class NGL_DLLEXPORT Vec3
     /// m_y == m_openGL[1] \n
     /// m_z == m_openGL[2] \n
     //----------------------------------------------------------------------------------------------------------------------
-    // we have to set the values here rather than above due to C++ spec
-    // see section implicitly declared as defaulted (8.4).
-    std::array< Real, 3 > m_openGL;
+    std::array< Real, 3 > m_openGL={0.0f,0.0f,0.0f};
   };
 };
 #pragma GCC diagnostic pop

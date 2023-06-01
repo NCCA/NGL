@@ -137,6 +137,7 @@ set(HEADERS
     ${CMAKE_SOURCE_DIR}/include/ngl/Types.h
     ${CMAKE_SOURCE_DIR}/include/ngl/Texture.h
     ${CMAKE_SOURCE_DIR}/include/ngl/ShaderLib.h
+    ${CMAKE_SOURCE_DIR}/include/ngl/ShaderLib.inl
     ${CMAKE_SOURCE_DIR}/include/ngl/RibExport.h
     ${CMAKE_SOURCE_DIR}/include/ngl/Transformation.h
     ${CMAKE_SOURCE_DIR}/include/ngl/Quaternion.h

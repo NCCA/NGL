@@ -804,11 +804,6 @@ void ShaderLib::printProperties() noexcept
   }
 }
 
-bool ShaderLib::setUniform(std::string_view _paramName, Real _v0) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0);
-}
-
 bool ShaderLib::getUniform(std::string_view _paramName, Real &o_v0) noexcept
 {
   return m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), o_v0);
@@ -871,25 +866,6 @@ bool ShaderLib::getUniform(std::string_view _paramName, ngl::Vec4 &o_v) noexcept
   return ret;
 }
 
-bool ShaderLib::setUniform(std::string_view _paramName, Real _v0, Real _v1) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0, _v1);
-}
-
-bool ShaderLib::setUniform(std::string_view _paramName, Real _v0, Real _v1, Real _v2) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0, _v1, _v2);
-}
-
-bool ShaderLib::setUniform(std::string_view _paramName, Real _v0, Real _v1, Real _v2, Real _v3) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0, _v1, _v2, _v3);
-}
-
-bool ShaderLib::setUniform(std::string_view _paramName, GLint _v0) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0);
-}
 
 
 bool ShaderLib::getUniform(std::string_view _paramName, GLint &o_v0) noexcept
@@ -898,10 +874,6 @@ bool ShaderLib::getUniform(std::string_view _paramName, GLint &o_v0) noexcept
 }
 
 
-bool ShaderLib::setUniform(std::string_view _paramName, GLint _v0, GLint _v1) noexcept
-{
- return  m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0, _v1);
-}
 
 bool ShaderLib::getUniform(std::string_view _paramName, GLint &o_v0,GLint &o_v1) noexcept
 {
@@ -913,11 +885,6 @@ bool ShaderLib::getUniform(std::string_view _paramName, GLint &o_v0,GLint &o_v1)
 }
 
 
-bool ShaderLib::setUniform(std::string_view _paramName, GLint _v0, GLint _v1, GLint _v2) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0, _v1, _v2);
-}
-
 bool ShaderLib::getUniform(std::string_view _paramName, GLint &o_v0,GLint &o_v1,GLint &o_v2) noexcept
 {
   std::array<int,3> v;
@@ -928,12 +895,6 @@ bool ShaderLib::getUniform(std::string_view _paramName, GLint &o_v0,GLint &o_v1,
   return ret;
 }
 
-
-
-bool ShaderLib::setUniform(std::string_view _paramName, GLint _v0, GLint _v1, GLint _v2, GLint _v3) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0, _v1, _v2, _v3);
-}
 
 bool ShaderLib::getUniform(std::string_view _paramName, GLint &o_v0,GLint &o_v1,GLint &o_v2,GLint &o_v3) noexcept
 {
@@ -949,35 +910,11 @@ bool ShaderLib::getUniform(std::string_view _paramName, GLint &o_v0,GLint &o_v1,
 
 
 
-bool ShaderLib::setUniform(std::string_view _paramName, Vec2 _v0) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0.m_x, _v0.m_y);
-}
-
-bool ShaderLib::setUniform(std::string_view _paramName, Vec3 _v0) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0.m_x, _v0.m_y, _v0.m_z);
-}
-
-bool ShaderLib::setUniform(std::string_view _paramName, Vec4 _v0) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0.m_x, _v0.m_y, _v0.m_z, _v0.m_w);
-}
-
-bool ShaderLib::setUniform(std::string_view _paramName, Mat2 _v0) noexcept
-{
- return  m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0);
-}
-
 bool ShaderLib::getUniform(std::string_view _paramName, ngl::Mat2 &o_v) noexcept
 {
   return m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), o_v);
 }
 
-bool ShaderLib::setUniform(std::string_view _paramName, Mat3 _v0) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(),  _v0);
-}
 
 bool ShaderLib::getUniform(std::string_view _paramName, ngl::Mat3 &o_v) noexcept
 {
@@ -985,46 +922,127 @@ bool ShaderLib::getUniform(std::string_view _paramName, ngl::Mat3 &o_v) noexcept
 }
 
 
-bool ShaderLib::setUniform(std::string_view _paramName,  Mat4 _v0) noexcept 
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(),  _v0);
-}
-
 
 bool ShaderLib::getUniform(std::string_view _paramName, ngl::Mat4 &o_v) noexcept
 {
   return m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), o_v);
 }
 
+
+bool ShaderLib::setUniform(std::string_view _paramName, Real _v0, Real _v1) noexcept
+{
+  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0, _v1);
+}
+
+bool ShaderLib::setUniform(std::string_view _paramName, Real _v0, Real _v1, Real _v2) noexcept
+{
+  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0, _v1, _v2);
+}
+
+bool ShaderLib::setUniform(std::string_view _paramName, Real _v0, Real _v1, Real _v2, Real _v3) noexcept
+{
+  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0, _v1, _v2, _v3);
+}
+
+// bool ShaderLib::setUniform(std::string_view _paramName, GLint _v0) noexcept
+// {
+//   return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0);
+// }
+
+
+// bool ShaderLib::getUniform(std::string_view _paramName, GLint &o_v0) noexcept
+// {
+//   return m_shaderPrograms[m_currentShader]->getRegisteredUniform1i(_paramName.data(), o_v0);
+// }
+
+
+bool ShaderLib::setUniform(std::string_view _paramName, GLint _v0, GLint _v1) noexcept
+{
+ return  m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0, _v1);
+}
+
+
+
+bool ShaderLib::setUniform(std::string_view _paramName, GLint _v0, GLint _v1, GLint _v2) noexcept
+{
+  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0, _v1, _v2);
+}
+
+
+
+
+bool ShaderLib::setUniform(std::string_view _paramName, GLint _v0, GLint _v1, GLint _v2, GLint _v3) noexcept
+{
+  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0, _v1, _v2, _v3);
+}
+
+
+
+
+// bool ShaderLib::setUniform(std::string_view _paramName, Vec2 _v0) noexcept
+// {
+//   return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0.m_x, _v0.m_y);
+// }
+
+// bool ShaderLib::setUniform(std::string_view _paramName, Vec3 _v0) noexcept
+// {
+//   return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0.m_x, _v0.m_y, _v0.m_z);
+// }
+
+// bool ShaderLib::setUniform(std::string_view _paramName, Vec4 _v0) noexcept
+// {
+//   return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0.m_x, _v0.m_y, _v0.m_z, _v0.m_w);
+// }
+
+// bool ShaderLib::setUniform(std::string_view _paramName, Mat2 _v0) noexcept
+// {
+//  return  m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0);
+// }
+
+
+// bool ShaderLib::setUniform(std::string_view _paramName, Mat3 _v0) noexcept
+// {
+//   return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(),  _v0);
+// }
+
+
+
+// bool ShaderLib::setUniform(std::string_view _paramName,  Mat4 _v0) noexcept 
+// {
+//   return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(),  _v0);
+// }
+
+
+
 #ifdef USEGLM
-bool ShaderLib::setUniform(std::string_view _paramName, glm::vec2 _v0) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0.x, _v0.y);
-}
+// bool ShaderLib::setUniform(std::string_view _paramName, glm::vec2 _v0) noexcept
+// {
+//   return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0.x, _v0.y);
+// }
 
-bool ShaderLib::setUniform(std::string_view _paramName, glm::vec3 _v0) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0.x, _v0.y, _v0.z);
-}
+// bool ShaderLib::setUniform(std::string_view _paramName, glm::vec3 _v0) noexcept
+// {
+//   return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0.x, _v0.y, _v0.z);
+// }
 
-bool ShaderLib::setUniform(std::string_view _paramName, glm::vec4 _v0) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0.x, _v0.y, _v0.z, _v0.w);
-}
+// bool ShaderLib::setUniform(std::string_view _paramName, glm::vec4 _v0) noexcept
+// {
+//   return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0.x, _v0.y, _v0.z, _v0.w);
+// }
 
-bool ShaderLib::setUniform(std::string_view _paramName, glm::mat3 _v0) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0);
-}
-bool ShaderLib::setUniform(std::string_view _paramName, glm::mat4 _v0) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(),  _v0);
-}
+// bool ShaderLib::setUniform(std::string_view _paramName, glm::mat3 _v0) noexcept
+// {
+//   return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0);
+// }
+// bool ShaderLib::setUniform(std::string_view _paramName, glm::mat4 _v0) noexcept
+// {
+//   return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(),  _v0);
+// }
 
-bool ShaderLib::setUniform(std::string_view _paramName, glm::mat2 _v0) noexcept
-{
-  return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0);
-}
+// bool ShaderLib::setUniform(std::string_view _paramName, glm::mat2 _v0) noexcept
+// {
+//   return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_paramName.data(), _v0);
+// }
 
 #endif
 
