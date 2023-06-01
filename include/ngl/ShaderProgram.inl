@@ -1,17 +1,4 @@
-// traits to check for array types
-
-template<typename>
-struct is_std_array : std::false_type {};
-template<typename T, std::size_t N>
-struct is_std_array<std::array<T,N>> : std::true_type {};
-// get the value type of the array
-template <typename T>
-using array_value_type = std::decay_t<decltype(std::declval<T&>()[0])>;
-// trait for vector types
-template<class T> struct is_std_vector : public std::false_type {};
-template<class T, class Alloc> 
-struct is_std_vector<std::vector<T, Alloc>> : public std::true_type {};
-
+#include "ngl/TemplateHelpers.h"
 
 template< typename Ts> 
 bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) const noexcept
@@ -25,11 +12,11 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
         glUniform1f(uniform->second.loc, arg);
         return true;
     } // end of float
-    else if constexpr (std::is_same<Ts,int&>::value )
+    else if constexpr (std::is_same<Ts,int&>::value || std::is_same<Ts,bool&>::value)
     {
         glUniform1i(uniform->second.loc, arg);
         return true;
-    }// end of int
+    }// end of int / bool
     else if constexpr(std::is_same<Ts,Mat2&>::value)
     {
         glUniformMatrix2fv(uniform->second.loc, 1, GL_FALSE, &arg.m_openGL[0]);
@@ -124,57 +111,33 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
 
 
 
-  template< typename... Ts>
-  bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&...args ) const noexcept
-  {
-    auto uniform = m_registeredUniforms.find(_varname.data());
-    // make sure we have a valid shader
-    if(uniform != m_registeredUniforms.end())
-    {        
-      if constexpr (std::conjunction_v<std::is_same<float&, Ts>...>)
-      {
-          if constexpr (sizeof...(args) == 2)
-          {
-              auto values =std::forward_as_tuple(args...);        
-              glUniform2f(uniform->second.loc,std::get<0>(values),std::get<1>(values));
-              return true;
-          }
-          else if constexpr (sizeof...(args) == 3)
-          {
-              auto values = std::forward_as_tuple(args...);
-              glUniform3f(uniform->second.loc,std::get<0>(values),std::get<1>(values),std::get<2>(values));
-              return true;
-          }
-          else if constexpr (sizeof...(args) == 4)
-          {
-              auto values = std::forward_as_tuple(args...);
-              glUniform4f(uniform->second.loc,std::get<0>(values),std::get<1>(values),std::get<2>(values),std::get<3>(values));
-              return true;
-          }
-          else
-          {
-              ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
-             return false;
-          }
-      } // end float values
-    else if constexpr (std::conjunction_v<std::is_same<int&, Ts>...>)
+template< typename... Ts>
+bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&...args ) const noexcept
+{
+//    std::cout<<"setRegisteredUniform variadic "<<__PRETTY_FUNCTION__<<'\n';
+
+  auto uniform = m_registeredUniforms.find(_varname.data());
+  // make sure we have a valid shader
+  if(uniform != m_registeredUniforms.end())
+  {        
+    if constexpr (std::conjunction_v<std::is_same<float&, Ts>...>)
     {
-    if constexpr (sizeof...(args) == 2)
+        if constexpr (sizeof...(args) == 2)
         {
             auto values =std::forward_as_tuple(args...);        
-            glUniform2i(uniform->second.loc,std::get<0>(values),std::get<1>(values));
+            glUniform2f(uniform->second.loc,std::get<0>(values),std::get<1>(values));
             return true;
         }
         else if constexpr (sizeof...(args) == 3)
         {
             auto values = std::forward_as_tuple(args...);
-            glUniform3i(uniform->second.loc,std::get<0>(values),std::get<1>(values),std::get<2>(values));
+            glUniform3f(uniform->second.loc,std::get<0>(values),std::get<1>(values),std::get<2>(values));
             return true;
         }
         else if constexpr (sizeof...(args) == 4)
         {
             auto values = std::forward_as_tuple(args...);
-            glUniform4i(uniform->second.loc,std::get<0>(values),std::get<1>(values),std::get<2>(values),std::get<3>(values));
+            glUniform4f(uniform->second.loc,std::get<0>(values),std::get<1>(values),std::get<2>(values),std::get<3>(values));
             return true;
         }
         else
@@ -182,15 +145,43 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
             ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
             return false;
         }
-    }
-    }
-  return false;
+    } // end float values
+  else if constexpr (std::conjunction_v<std::is_same<int&, Ts>...>)
+  {
+  if constexpr (sizeof...(args) == 2)
+      {
+          auto values =std::forward_as_tuple(args...);        
+          glUniform2i(uniform->second.loc,std::get<0>(values),std::get<1>(values));
+          return true;
+      }
+      else if constexpr (sizeof...(args) == 3)
+      {
+          auto values = std::forward_as_tuple(args...);
+          glUniform3i(uniform->second.loc,std::get<0>(values),std::get<1>(values),std::get<2>(values));
+          return true;
+      }
+      else if constexpr (sizeof...(args) == 4)
+      {
+          auto values = std::forward_as_tuple(args...);
+          glUniform4i(uniform->second.loc,std::get<0>(values),std::get<1>(values),std::get<2>(values),std::get<3>(values));
+          return true;
+      }
+      else
+      {
+          ngl::NGLMessage::addWarning(fmt::format("Uniform {0} Not found in Shader {1}", _varname, m_programName));
+          return false;
+      }
   }
+  }
+return false;
+}
 
 
 template< typename Ts> 
 bool ShaderProgram::getRegisteredUniform(std::string_view _varname ,Ts &o_arg ) const noexcept
 {
+   // std::cout<<"getRegisteredUniform "<<__PRETTY_FUNCTION__<<'\n';
+
     auto uniform = m_registeredUniforms.find(_varname.data());
     if(uniform != m_registeredUniforms.end())
     {
@@ -219,13 +210,15 @@ bool ShaderProgram::getRegisteredUniform(std::string_view _varname ,Ts &o_arg ) 
         if constexpr (std::is_same<array_value_type<Ts>,float>::value )
         {
           glGetUniformfv(m_programID, uniform->second.loc, o_arg.data());
-        } // end of array
+          
+          return true;
+        } // end of float array
         else if constexpr (std::is_same<array_value_type<Ts>,int>::value)
         {
           glGetUniformiv(m_programID, uniform->second.loc, o_arg.data());
-        } // end of array
+          return true;
+        } // end of int array
 
-        return true;
       } // end of array
     } // end of uniform found
     else

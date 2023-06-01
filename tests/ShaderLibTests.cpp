@@ -114,7 +114,14 @@ TEST(ShaderLib,testSetUniform)
     EXPECT_TRUE(ngl::ShaderLib::getUniform("testFloat",result))<<"Getting a single float";
     EXPECT_FLOAT_EQ(result,2.25f)<<"Testing setting a single float";
   }
- 
+  
+  {
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testBool",true))<<"testing bool";
+    int result;
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testBool",result))<<"Getting a single bool";
+    EXPECT_TRUE(result)<<"test getting bool";
+  }
+  
   {
     EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec2",0.5f,2.0f));
     float resultF1,resultF2;
@@ -129,12 +136,12 @@ TEST(ShaderLib,testSetUniform)
     glm::vec2 glmVec2(1.5f,2.5f);
     EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec2",glmVec2));
     ngl::ShaderLib::getUniform("testVec2",resultVec2);
-    EXPECT_FLOAT_EQ(resultVec2.m_x,1.5f)<<"Test getting from ngl::Vec2 m_x";
-    EXPECT_FLOAT_EQ(resultVec2.m_y,2.5f)<<"Test getting from ngl::Vec2 m_y";;
+    EXPECT_FLOAT_EQ(resultVec2.m_x,1.5f)<<"Test getting from glm::vec2 x";
+    EXPECT_FLOAT_EQ(resultVec2.m_y,2.5f)<<"Test getting from glm::vec2 m_y";;
 
 
   }
-  
+
   {
     ngl::Vec2 vec2(0.5f,2.0f);
     EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec2",vec2));

@@ -1,8 +1,72 @@
+
+
 template< typename Ts>
 bool ShaderLib::setUniform(std::string_view _varname ,Ts &&arg )  noexcept
 {
     return  m_shaderPrograms[m_currentShader]->setRegisteredUniform(_varname,arg);
 }
+
+template<typename ... Ts>
+bool ShaderLib::setUniform(std::string_view _varname ,Ts &&...args)    noexcept
+{
+//     std::cout<<"set Uniform variadic "<<__PRETTY_FUNCTION__<<" "<<sizeof...(Ts)<<"\n";
+    return m_shaderPrograms[m_currentShader]->setRegisteredUniform(_varname,args...);
+}
+
+template< typename Ts>
+bool ShaderLib::getUniform(std::string_view _paramName, Ts &&o_arg) noexcept
+{
+
+    if constexpr (std::is_same<Ts,float&>::value  || std::is_same<Ts,int&>::value)
+    {
+        return m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), o_arg);
+    }
+    else if constexpr (std::is_same<Ts,ngl::Vec2 &>::value ) //|| std::is_same<Ts,ngl::Vec3 &>::value || std::is_same<Ts,ngl::Vec4 &>::value)
+    {
+        std::array<float,2> data;   
+        auto ret = m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), data);
+        o_arg.m_openGL = data;
+        
+        return ret;
+    }
+    else if constexpr (std::is_same<Ts,ngl::Vec3 &>::value ) //|| std::is_same<Ts,ngl::Vec3 &>::value || std::is_same<Ts,ngl::Vec4 &>::value)
+    {
+        std::array<float,3> data;   
+        auto ret = m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), data);
+        o_arg.m_openGL = data;
+        
+        return ret;
+    }
+    else if constexpr (std::is_same<Ts,ngl::Vec4 &>::value ) //|| std::is_same<Ts,ngl::Vec3 &>::value || std::is_same<Ts,ngl::Vec4 &>::value)
+    {
+        std::array<float,4 > data;   
+        auto ret = m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), data);
+        o_arg.m_openGL = data;
+        
+        return ret;
+    }
+    return false;
+}
+
+
+
+template <typename... Ts>
+bool ShaderLib::getUniform(std::string_view _paramName, Ts &&...o_args) noexcept
+{
+    //auto values = std::forward_as_tuple(std::forward<Ts>(o_args)...);
+    std::array<std::common_type_t<Ts...>, sizeof...(Ts)> data;
+    auto ret = m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), data);
+    std::size_t i = 0;
+    // fold expression to copy data to o_args
+    ((o_args = data[i++]), ...);
+    // for(auto &a : data)
+    // {
+    //     std::cout<<"data "<<a<<"\n";
+    // }
+    // print_args(o_args...);
+    return ret;
+}
+
 /*
 
 template<typename ... Ts>

@@ -23,6 +23,8 @@
 #include "Shader.h"
 #include "Types.h"
 #include "Util.h"
+#include "TemplateHelpers.h"
+
 #include <string_view>
 #include <unordered_map>
 #include <vector>
@@ -116,7 +118,6 @@ class NGL_DLLEXPORT ShaderProgram
   ///  method written by Richard Southern.
   //----------------------------------------------------------------------------------------------------------------------
   void printProperties() const noexcept;
-
 
   // variadic template to set shader uniforms
   // base template used for float, int and ng::Vec2,3,4 ngl::Mat2,3,4

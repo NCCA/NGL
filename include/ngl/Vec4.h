@@ -79,7 +79,6 @@ class NGL_DLLEXPORT Vec4
     : m_x(_v.m_x), m_y(_v.m_y), m_z(_v.m_z), m_w(_w)
   {
   }
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief initialise the constructor from 3 or 4 Real
   /// @param[in]  _x x value
