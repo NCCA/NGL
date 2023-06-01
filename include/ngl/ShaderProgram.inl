@@ -91,7 +91,28 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
         glUniform4f(uniform->second.loc,arg.x,arg.y,arg.z,arg.w);
         return true;
     }
-
+    // handle arrays as matrix
+    else if constexpr(is_std_array<std::decay_t<Ts>>::value || 
+                      is_std_vector<std::decay_t<Ts>>::value ||
+                      std::is_array<Ts>::value)
+    {
+      if(arg.size() == 4)
+      {
+        glUniformMatrix2fv(uniform->second.loc, 1, GL_FALSE, &arg[0]);
+        return true;
+      }
+      else if (arg.size() == 9)
+      {
+        glUniformMatrix3fv(uniform->second.loc, 1, GL_FALSE, &arg[0]);
+        return true;
+      }
+      else if (arg.size() == 16)
+      {
+        glUniformMatrix4fv(uniform->second.loc, 1, GL_FALSE, &arg[0]);
+        return true;
+      }
+    }
+    
   }
   else
   {

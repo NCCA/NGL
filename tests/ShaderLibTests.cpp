@@ -134,7 +134,7 @@ TEST(ShaderLib,testSetUniform)
 
 
   }
-  /*
+  
   {
     ngl::Vec2 vec2(0.5f,2.0f);
     EXPECT_TRUE(ngl::ShaderLib::setUniform("testVec2",vec2));
@@ -267,11 +267,11 @@ TEST(ShaderLib,testSetUniform)
     EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat2",result));
     EXPECT_TRUE(result==ngl::Mat2());
     
-    // //float array[4]={1.0f,2.0f,3.0f,4.0f};
-    std::vector<float> array={1.0f,2.0f,3.0f,4.0f};
-    //EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat2",array));
-    //EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat2",std::array<float,4>{1.0f,2.0f,3.0f,4.0f}));
-   // ngl::ShaderLib::setUniform("testMat2",array);
+    std::vector<float> varray={1.0f,2.0f,3.0f,4.0f};
+    std::array<float,4> array={1.0f,2.0f,3.0f,4.0f};
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat2",array));
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat2",std::array<float,4>{1.0f,2.0f,3.0f,4.0f}));
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat2",varray));
     ngl::Mat2 result2(1.0f,2.0f,3.0f,4.0f);
     EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat2",result));
     EXPECT_TRUE(result==result2);
@@ -287,11 +287,16 @@ TEST(ShaderLib,testSetUniform)
     EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat3",result));
     EXPECT_TRUE(result==ngl::Mat3());
 
-    // float array[9]={1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f};
-    // EXPECT_TRUE(ngl::ShaderLib::setUniformMatrix3fv("testMat3",array));
-    // ngl::Mat3 result2(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f);
-    // EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat3",result));
-    // EXPECT_TRUE(result==result2);
+    std::array<float,9> array={1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f};
+    std::vector<float> varray={1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f};
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat3",array));
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat3",varray));
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat3",std::array<float,9>{1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f}));
+
+
+    ngl::Mat3 result2(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f);
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat3",result));
+    EXPECT_TRUE(result==result2);
 
     glm::mat3 glmMat3(1.5f,2.5f,3.5f,4.5f,5.5f,6.5f,7.5f,8.5f,9.5f);
     EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat3",glmMat3));
@@ -305,22 +310,28 @@ TEST(ShaderLib,testSetUniform)
     ngl::Mat4 result;
     EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat4",result));
     EXPECT_TRUE(result==ngl::Mat4());
-    // float array[16]={1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f,
-    // 10.0f,11.0f,12.0f,13.0f,14.0f,15.0f,16.0f};
-    // EXPECT_TRUE(ngl::ShaderLib::setUniformMatrix4fv("testMat4",array));
-    // ngl::Mat4 result2(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f,
-    // 10.0f,11.0f,12.0f,13.0f,14.0f,15.0f,16.0f);
-    // EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat4",result));
-    // EXPECT_TRUE(result==result2);
+    std::array<float,16> array={1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f,
+    10.0f,11.0f,12.0f,13.0f,14.0f,15.0f,16.0f};
+    std::vector<float> varray={1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f,
+    10.0f,11.0f,12.0f,13.0f,14.0f,15.0f,16.0f};
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat4",array));
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat4",varray));
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat4",std::array<float,16>{1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f,
+    10.0f,11.0f,12.0f,13.0f,14.0f,15.0f,16.0f}));
+    
+    ngl::Mat4 result2(1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f,8.0f,9.0f,
+    10.0f,11.0f,12.0f,13.0f,14.0f,15.0f,16.0f);
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat4",result));
+    EXPECT_TRUE(result==result2);
 
-    // glm::mat4 glmMat4(1.5f,2.5f,3.5f,4.5f,5.5f,6.5f,7.5f,8.5f,9.5f,
-    // 10.5f,11.5f,12.5f,13.5f,14.5f,15.5f,16.5f);
-    // EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat4",glmMat4));
-    // EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat4",result));
-    // EXPECT_TRUE(result==ngl::Mat4(1.5f,2.5f,3.5f,4.5f,5.5f,6.5f,7.5f,8.5f,9.5f,
-    // 10.5f,11.5f,12.5f,13.5f,14.5f,15.5f,16.5f));
+    glm::mat4 glmMat4(1.5f,2.5f,3.5f,4.5f,5.5f,6.5f,7.5f,8.5f,9.5f,
+    10.5f,11.5f,12.5f,13.5f,14.5f,15.5f,16.5f);
+    EXPECT_TRUE(ngl::ShaderLib::setUniform("testMat4",glmMat4));
+    EXPECT_TRUE(ngl::ShaderLib::getUniform("testMat4",result));
+    EXPECT_TRUE(result==ngl::Mat4(1.5f,2.5f,3.5f,4.5f,5.5f,6.5f,7.5f,8.5f,9.5f,
+    10.5f,11.5f,12.5f,13.5f,14.5f,15.5f,16.5f));
   }
-  ngl::ShaderLib::printRegisteredUniforms(shaderName);*/
+  ngl::ShaderLib::printRegisteredUniforms(shaderName);
 }
 
 TEST(ShaderLib,testUniformBuffers)
