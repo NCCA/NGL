@@ -17,7 +17,9 @@ template< typename Ts>
 bool ShaderLib::getUniform(std::string_view _paramName, Ts &&o_arg) noexcept
 {
 
-    if constexpr (std::is_same<Ts,float&>::value  || std::is_same<Ts,int&>::value)
+    if constexpr (std::is_same<Ts,float&>::value  || 
+                  std::is_same<Ts,int&>::value || 
+                  is_ngl_matrix<Ts>::value  )
     {
         return m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), o_arg);
     }
@@ -45,6 +47,7 @@ bool ShaderLib::getUniform(std::string_view _paramName, Ts &&o_arg) noexcept
         
         return ret;
     }
+    
     return false;
 }
 

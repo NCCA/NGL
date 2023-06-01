@@ -14,6 +14,24 @@ struct is_std_array : std::false_type {};
 template<typename T, std::size_t N>
 struct is_std_array<std::array<T,N>> : std::true_type {};
 
+// traits for matrix types
+template<typename T>
+struct is_ngl_matrix : std::false_type {};
+template<>
+struct is_ngl_matrix<ngl::Mat2> : std::true_type {};
+template<>
+struct is_ngl_matrix<ngl::Mat3> : std::true_type {};
+template<>
+struct is_ngl_matrix<ngl::Mat4> : std::true_type {};
+template<typename T>
+struct is_ngl_vec : std::false_type {};
+template<>
+struct is_ngl_vec<ngl::Vec2> : std::true_type {};
+template<>
+struct is_ngl_vec<ngl::Vec3> : std::true_type {};
+template<>
+struct is_ngl_vec<ngl::Vec4> : std::true_type {};
+
 // get the value type of the array
 template <typename T>
 using array_value_type = std::decay_t<decltype(std::declval<T&>()[0])>;
