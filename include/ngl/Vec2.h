@@ -245,38 +245,19 @@ public:
     public:
 #pragma pack(push, 1)
 
-#ifndef BUILDING_DOCS
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
   union
   {
     struct
     {
-#endif
-      //----------------------------------------------------------------------------------------------------------------------
-      /// @brief x component of the Vec2
-      //----------------------------------------------------------------------------------------------------------------------
       Real m_x;
-      //----------------------------------------------------------------------------------------------------------------------
-      /// @brief y component of the Vec2
-      //----------------------------------------------------------------------------------------------------------------------
       Real m_y;
 
-#ifndef BUILDING_DOCS
     };
-#endif
-#pragma pack(pop)
-    //----------------------------------------------------------------------------------------------------------------------
-    /// @brief array of four floats mapped to the x,y,z,w components of the Vec2 useful for openGL fv data types
-    /// this is mapped as a union to the following \n
-    /// m_x == m_openGL[0] \n
-    /// m_y == m_openGL[1] \n
-    //----------------------------------------------------------------------------------------------------------------------
-
     std::array< Real, 2 > m_openGL={0.0f,0.0f};
-#ifndef BUILDING_DOCS
+#pragma pack(pop)
   };
-#endif
 };
 #pragma GCC diagnostic pop
 

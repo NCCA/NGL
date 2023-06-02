@@ -145,14 +145,11 @@ class NGL_DLLEXPORT Mat2
     public:
   
 
-#ifndef BUILDING_DOCS
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
 #pragma pack(push, 1)
-
   union
   {
-#endif
     
     /// @brief Mat2 element m_m as a 2x2 array mapped by union to m_nn elements and m_openGL
     
@@ -163,11 +160,8 @@ class NGL_DLLEXPORT Mat2
     
     // Real m_openGL[9];
     std::array< Real, 4 > m_openGL = {{1.0f, 0.0f, 0.0f, 1.0f}};
-#ifndef BUILDING_DOCS
-
     struct
     {
-#endif
       /// @brief  individual matrix element maps to m_m[0][0] or m_openGL[0]
       Real m_00;
       /// @brief  individual matrix element maps to m_m[0][1] or m_openGL[1]      
@@ -176,13 +170,11 @@ class NGL_DLLEXPORT Mat2
       Real m_10;
       /// @brief  individual matrix element maps to m_m[1][1] or m_openGL[3]
       Real m_11;
-#ifndef BUILDING_DOCS
     };
 #pragma pack(pop)
   };
 #pragma GCC diagnostic pop
 
-#endif
 }; // end of class
 // free function for matrix comparison use in unit tests etc
 inline bool operator==(const ngl::Mat2 &_m1, const ngl::Mat2 &_m2)

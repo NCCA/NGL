@@ -365,15 +365,8 @@ class NGL_DLLEXPORT Vec3
       Real m_g; //!< g component
       Real m_b; //!< b component
     };
-#pragma pack(pop)
-    //----------------------------------------------------------------------------------------------------------------------
-    /// @brief array of four floats mapped to the x,y,z,w components of the Vec3 useful for openGL fv data types
-    /// this is mapped as a union to the following \n
-    /// m_x == m_openGL[0] \n
-    /// m_y == m_openGL[1] \n
-    /// m_z == m_openGL[2] \n
-    //----------------------------------------------------------------------------------------------------------------------
     std::array< Real, 3 > m_openGL={0.0f,0.0f,0.0f};
+#pragma pack(pop)
   };
 };
 #pragma GCC diagnostic pop
