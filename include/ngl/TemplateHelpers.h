@@ -31,8 +31,9 @@ struct is_ngl_matrix<ngl::Mat3 &> : std::true_type {};
 template<>
 struct is_ngl_matrix<ngl::Mat4 &> : std::true_type {};
 
-template<typename T>
+
 // vec traits
+template<typename T>
 struct is_ngl_vec : std::false_type {};
 template<>
 struct is_ngl_vec<ngl::Vec2> : std::true_type {};

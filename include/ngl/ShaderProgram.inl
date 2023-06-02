@@ -33,7 +33,7 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
         glUniformMatrix4fv(uniform->second.loc, 1, GL_FALSE, &arg.m_openGL[0]);
         return true;
     } // end of mat4
-    #ifdef USE_GLM
+    #ifdef USEGLM
     else if constexpr(std::is_same<Ts,glm::mat2&>::value)
     {
         glUniformMatrix2fv(uniform->second.loc, 1, GL_FALSE, &arg[0][0]);
@@ -65,7 +65,7 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
         glUniform4f(uniform->second.loc,arg.m_x,arg.m_y,arg.m_z,arg.m_w);
         return true;
     }
-    #ifdef USE_GLM
+    #ifdef USEGLM
     else if constexpr(std::is_same<Ts,glm::vec2&>::value)
     {
         glUniform2f(uniform->second.loc,arg.x,arg.y);
@@ -233,24 +233,3 @@ bool ShaderProgram::getRegisteredUniform(std::string_view _varname ,Ts &o_arg ) 
 return false;
 }
 
-//template  bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,std::vector<float> &&) const noexcept;
-//template  bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,std::vector<float> &) const noexcept;
-//template  bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,std::vector<int> && ) const noexcept;
-
-
-/*
-template  bool ShaderProgram::setRegisteredUniform<float>(std::string_view _varname ,float && ) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<float,float>(std::string_view _varname ,float && ,float &&) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<float,float,float>(std::string_view _varname ,float &&, float &&,float && ) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<float,float,float,float>(std::string_view _varname ,float &&, float &&,float &&, float && ) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<int>(std::string_view _varname ,int && ) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<int,int>(std::string_view _varname ,int && ,int &&) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<int,int,int>(std::string_view _varname ,int &&, int &&,int && ) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<int,int,int,int>(std::string_view _varname ,int &&, int &&,int &&, int && ) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<ngl::Vec2>(std::string_view _varname ,ngl::Vec2 && ) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<ngl::Vec3>(std::string_view _varname ,ngl::Vec3 && ) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<ngl::Vec4>(std::string_view _varname ,ngl::Vec4 && ) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<ngl::Mat2>(std::string_view _varname ,ngl::Mat2 && ) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<ngl::Mat3>(std::string_view _varname ,ngl::Mat3 && ) const noexcept;
-template  bool ShaderProgram::setRegisteredUniform<ngl::Mat4>(std::string_view _varname ,ngl::Mat4 && ) const noexcept;
-*/

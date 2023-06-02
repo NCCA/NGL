@@ -92,17 +92,12 @@ class NGL_DLLEXPORT ShaderProgram
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get the ProgramID for the Program
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getID() const noexcept
-  {
-    return m_programID;
-  }
-
+  GLuint getID() const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  returns the ID of the uniform attribute called 'name'.
   /// @return the uniform variable id
   //----------------------------------------------------------------------------------------------------------------------
   GLint getUniformLocation(const char *_name) const noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief   lists the available uniforms for the shader (this was a pain because the compiler quietly gets rid of unused uniforms).
   ///  method written by Richard Southern.
@@ -118,15 +113,14 @@ class NGL_DLLEXPORT ShaderProgram
   ///  method written by Richard Southern.
   //----------------------------------------------------------------------------------------------------------------------
   void printProperties() const noexcept;
-
   // variadic template to set shader uniforms
   // base template used for float, int and ng::Vec2,3,4 ngl::Mat2,3,4
   template< typename Ts> 
   bool setRegisteredUniform(std::string_view _varname ,Ts &&arg ) const noexcept;
-  // variadic template to set shader uniforms this works with float and int types
+  // variadic template to set shader uniforms this works with float and int types arrays and vectors
   template< typename... Ts>
   bool setRegisteredUniform(std::string_view _varname ,Ts &&...args ) const noexcept;
-  // get uniform values
+  // get uniform values all will resoved to either ngl types or arrays
   template< typename Ts> 
   bool getRegisteredUniform(std::string_view _varname ,Ts &arg ) const noexcept;
 
@@ -135,13 +129,11 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param  _name - the name of the varying attr array to enable
   //----------------------------------------------------------------------------------------------------------------------
   void enableAttribArray(const char *_name) const noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  disables the specified varying array
   /// @param  _name - the name of the varying attr array to enable
   //----------------------------------------------------------------------------------------------------------------------
   void disableAttribArray(const char *_name) const noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  scan the shader source and find any uniforms and register them
   //----------------------------------------------------------------------------------------------------------------------
@@ -154,7 +146,6 @@ class NGL_DLLEXPORT ShaderProgram
   /// @brief  debug print the registered uniforms
   //----------------------------------------------------------------------------------------------------------------------
   void printRegisteredUniforms() const noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief bind the fragment shader output
   /// @param [in] _colourNumber The color number to bind the user-defined varying out variable to

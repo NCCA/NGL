@@ -44,6 +44,11 @@ ShaderProgram::ShaderProgram(std::string_view _name, ErrorExit _exitOnError) noe
   m_programName = _name;
 }
 
+GLuint ShaderProgram::getID() const noexcept
+{
+  return m_programID;
+}
+
 ShaderProgram::~ShaderProgram()
 {
   if(m_programName == "NULL") return;
@@ -96,9 +101,7 @@ void ShaderProgram::bindFragDataLocation(GLuint _index, std::string_view _attrib
     NGLMessage::addMessage(fmt::format("binding attribute {0} after link ", _attribName.data()));
   }
   m_attribs[_attribName.data()] = _index;
-#ifndef USINGIOS_
   glBindFragDataLocation(m_programID, _index, _attribName.data());
-#endif
   NGLCheckGLError(__FILE__, __LINE__);
 }
 
@@ -170,7 +173,6 @@ void ShaderProgram::printProperties() const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::printActiveUniforms() const noexcept
 {
-#ifndef USINGIOS_
   if(m_active != true)
   {
     NGLMessage::addWarning("calling printActiveUniforms on unbound shader program");
@@ -184,7 +186,6 @@ void ShaderProgram::printActiveUniforms() const noexcept
     glGetActiveUniformName(m_programID, static_cast< GLuint >(i), 256, &l, name);
     NGLMessage::addMessage(fmt::format("Uniform: {0}", name), Colours::WHITE, TimeFormat::NONE);
   }
-#endif
 }
 
 void ShaderProgram::printActiveAttributes() const noexcept
@@ -271,9 +272,7 @@ void ShaderProgram::disableAttribArray(const char *_name) const noexcept
 
 void ShaderProgram::bindFragDataLocation(GLuint _colourNumber, const char *_name) noexcept
 {
-#ifndef USINGIOS_
   glBindFragDataLocation(m_programID, _colourNumber, _name);
-#endif
 }
 
 GLuint ShaderProgram::getUniformBlockIndex(std::string_view _uniformBlockName) const noexcept
@@ -432,12 +431,10 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
       {GL_FLOAT_VEC2, "vec2"},
       {GL_FLOAT_VEC3, "vec3"},
       {GL_FLOAT_VEC4, "vec4"},
-#ifndef USINGIOS_
       {GL_DOUBLE, "double"},
       {GL_DOUBLE_VEC2, "dvec2"},
       {GL_DOUBLE_VEC3, "dvec3"},
       {GL_DOUBLE_VEC4, "dvec4"},
-#endif
       {GL_INT, "int"},
       {GL_INT_VEC2, "ivec2"},
       {GL_INT_VEC3, "ivec3"},
@@ -459,7 +456,6 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
       {GL_FLOAT_MAT3x4, "mat3x4"},
       {GL_FLOAT_MAT4x2, "mat4x2"},
       {GL_FLOAT_MAT4x3, "mat4x3"},
-#ifndef USINGIOS_
       {GL_DOUBLE_MAT2, "dmat2"},
       {GL_DOUBLE_MAT3, "dmat3"},
       {GL_DOUBLE_MAT4, "dmat4"},
@@ -523,7 +519,6 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
       {GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY, "uimage2DMSArray"},
       {GL_UNSIGNED_INT_ATOMIC_COUNTER, "atomic_uint"},
 #endif // apple
-#endif
       {GL_SAMPLER_2D, "sampler2D"},
       {GL_SAMPLER_3D, "sampler3D"},
       {GL_SAMPLER_CUBE, "samplerCube"},
