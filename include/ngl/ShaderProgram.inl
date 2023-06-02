@@ -33,6 +33,7 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
         glUniformMatrix4fv(uniform->second.loc, 1, GL_FALSE, &arg.m_openGL[0]);
         return true;
     } // end of mat4
+    #ifdef USE_GLM
     else if constexpr(std::is_same<Ts,glm::mat2&>::value)
     {
         glUniformMatrix2fv(uniform->second.loc, 1, GL_FALSE, &arg[0][0]);
@@ -48,6 +49,7 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
         glUniformMatrix4fv(uniform->second.loc, 1, GL_FALSE, &arg[0][0]);
         return true;
     } // end of glmmat2
+    #endif
     else if constexpr(std::is_same<Ts,Vec2&>::value)
     {
         glUniform2f(uniform->second.loc,arg.m_x,arg.m_y);
@@ -63,6 +65,7 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
         glUniform4f(uniform->second.loc,arg.m_x,arg.m_y,arg.m_z,arg.m_w);
         return true;
     }
+    #ifdef USE_GLM
     else if constexpr(std::is_same<Ts,glm::vec2&>::value)
     {
         glUniform2f(uniform->second.loc,arg.x,arg.y);
@@ -78,6 +81,7 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
         glUniform4f(uniform->second.loc,arg.x,arg.y,arg.z,arg.w);
         return true;
     }
+    #endif
     // handle arrays as matrix
     else if constexpr(is_std_array<std::decay_t<Ts>>::value || 
                       is_std_vector<std::decay_t<Ts>>::value ||
@@ -205,7 +209,7 @@ bool ShaderProgram::getRegisteredUniform(std::string_view _varname ,Ts &o_arg ) 
         glGetUniformiv(m_programID, uniform->second.loc, &o_arg);
         return true;
       } // end of float
-      else if constexpr(is_std_array<Ts>::value)
+      else if constexpr(is_std_array<Ts>::value || is_std_vector<Ts>::value)
       {
         if constexpr (std::is_same<array_value_type<Ts>,float>::value )
         {

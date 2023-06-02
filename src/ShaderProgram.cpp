@@ -298,7 +298,7 @@ void ShaderProgram::autoRegisterUniformBlocks() noexcept
     data.loc = glGetUniformBlockIndex(m_programID, &name[0]);
     glGenBuffers(1, &data.buffer);
     m_registeredUniformBlocks[std::string(name.data())] = data;
-    NGLMessage::addMessage(fmt::format("Uniform Block {0} {1} {2}", name, data.loc, data.buffer), Colours::WHITE, TimeFormat::NONE);
+    NGLMessage::addMessage(fmt::format("Uniform Block {0} {1} {2}", name.data(), data.loc, data.buffer), Colours::WHITE, TimeFormat::NONE);
   }
 }
 
