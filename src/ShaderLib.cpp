@@ -35,11 +35,11 @@
 namespace ngl
 {
 
-std::shared_ptr< ShaderProgram > ShaderLib::m_nullProgram = std::make_shared< ShaderProgram >("NULL");
+std::unique_ptr< ShaderProgram > ShaderLib::m_nullProgram = std::make_unique< ShaderProgram >("NULL");
 
-std::unordered_map< std::string, std::shared_ptr< ShaderProgram > > ShaderLib::m_shaderPrograms;
+std::unordered_map< std::string, std::unique_ptr< ShaderProgram > > ShaderLib::m_shaderPrograms;
 
-std::unordered_map< std::string, std::shared_ptr< Shader > > ShaderLib::m_shaders;
+std::unordered_map< std::string, std::unique_ptr< Shader > > ShaderLib::m_shaders;
 
 std::string ShaderLib::m_currentShader = "NULL";
 bool ShaderLib::m_debugState = true;
@@ -53,7 +53,7 @@ void ShaderLib::loadDefaultShaders()
     return;
   else
   {
-    m_shaderPrograms["NULL"] = m_nullProgram;
+    m_shaderPrograms["NULL"] = std::move(m_nullProgram);
     loadTextShaders();
     loadColourShaders();
     loadDiffuseShaders();
@@ -164,7 +164,7 @@ GLuint ShaderLib::getShaderID(std::string_view _shaderName) noexcept
   }
   return value;
 }
-
+/*
 std::shared_ptr< ngl::Shader > ShaderLib::getShader(std::string_view _shaderName) noexcept
 {
   std::shared_ptr< ngl::Shader > shaderPointer;
@@ -181,10 +181,11 @@ std::shared_ptr< ngl::Shader > ShaderLib::getShader(std::string_view _shaderName
   }
   return shaderPointer;
 }
+*/
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::attachShader(std::string_view _name, ShaderType _type, ErrorExit _exitOnError) noexcept
 {
-  m_shaders[_name.data()] = std::make_shared< Shader >(_name, _type, _exitOnError);
+  m_shaders[_name.data()] = std::make_unique< Shader >(_name, _type, _exitOnError);
   if(m_debugState == true)
     NGLMessage::addMessage(fmt::format("just attached {0} to ngl::ShaderLib", _name.data()));
 }
@@ -231,7 +232,7 @@ void ShaderLib::createShaderProgram(std::string_view _name, ErrorExit _exitOnErr
 {
   if(m_debugState)
     NGLMessage::addMessage(fmt::format("creating empty ShaderProgram {0}", _name.data()));
-  m_shaderPrograms[_name.data()] = std::make_shared< ShaderProgram >(_name, _exitOnError);
+  m_shaderPrograms[_name.data()] = std::make_unique< ShaderProgram >(_name, _exitOnError);
 }
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::attachShaderToProgram(std::string_view _program, std::string_view _shader) noexcept

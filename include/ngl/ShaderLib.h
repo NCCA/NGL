@@ -418,7 +418,6 @@ class NGL_DLLEXPORT ShaderLib
   /// @brief method to return the specified shader object
   /// @param _shaderName the name of the shader to return
   //----------------------------------------------------------------------------------------------------------------------
-  static std::shared_ptr< ngl::Shader > getShader(std::string_view _shaderName) noexcept;
   static bool setUniformBuffer(std::string_view _uniformBlockName, size_t _size, void *_data);
 
   
@@ -461,15 +460,15 @@ class NGL_DLLEXPORT ShaderLib
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a map of shader Programs using name as key to shader pointer
   //----------------------------------------------------------------------------------------------------------------------
-  static std::unordered_map< std::string, std::shared_ptr< ShaderProgram > > m_shaderPrograms;
+  static std::unordered_map< std::string, std::unique_ptr< ShaderProgram>> m_shaderPrograms;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief map of shaders using name as key
   //----------------------------------------------------------------------------------------------------------------------
-  static std::unordered_map< std::string, std::shared_ptr< Shader > > m_shaders;
+  static std::unordered_map< std::string, std::unique_ptr< Shader>> m_shaders;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief null ShaderProgram so we can return when shader not know;
   //----------------------------------------------------------------------------------------------------------------------
-  static std::shared_ptr< ShaderProgram > m_nullProgram;
+  static std::unique_ptr< ShaderProgram > m_nullProgram;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the name of the currently active shader
   //    ----------------------------------------------------------------------------------------------------------------------
