@@ -25,10 +25,10 @@ bool ShaderLib::getUniform(std::string_view _paramName, Ts &&o_arg) noexcept
     else if constexpr (is_ngl_vec<Ts>::value) 
     {
         std::vector<float> data(o_arg.m_openGL.size());   
-        auto ret = m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), data);
+        auto sucess = m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), data);
         //o_arg.m_openGL = data;
         std::copy_n(std::begin(data), data.size(), std::begin(o_arg.m_openGL));
-        return ret;
+        return sucess;
     }
     
     return false;
@@ -40,10 +40,10 @@ template <typename... Ts>
 bool ShaderLib::getUniform(std::string_view _paramName, Ts &&...o_args) noexcept
 {
     std::array<std::common_type_t<Ts...>, sizeof...(Ts)> data;
-    auto ret = m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), data);
+    auto sucess = m_shaderPrograms[m_currentShader]->getRegisteredUniform(_paramName.data(), data);
     std::size_t i = 0;
     // fold expression to copy data to o_args
     ((o_args = data[i++]), ...);
-    return ret;
+    return sucess;
 }
 
