@@ -38,7 +38,7 @@ cd NGLBuild/build
 ./NGLTests -g 
 ```
 
-## [Fedora](Fedora/Dockerfile)) 
+## [Fedora](Fedora/Dockerfile)
 
 This is a basic fedora image with the required packages installed. It is based on the latest fedora image.
 
