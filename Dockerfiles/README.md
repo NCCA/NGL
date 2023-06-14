@@ -18,7 +18,7 @@ The main lab version at the NCCA is RHEL 8.5 which will be moving to 9.x soon. T
 
 ## [Alma Linux](Alma/Dockerfile)
 
-This is a basic Alma Linux image with the required packages installed. It is based on the latest Alma Linux image.
+This is a basic Alma Linux image with the required packages installed. It is based on the latest Alma Linux image. Note on RHEL the ```podman``` command should be used instead of ```docker```. 
 
 ```bash
 docker build -t ngl-alma .
@@ -27,7 +27,7 @@ docker run -it ngl-alma
 
 ## [Rocky Linux](Rocky/Dockerfile)
 
-This is a basic Rocky Linux image with the required packages installed. It is based on the latest Rocky Linux image.
+This is a basic Rocky Linux image with the required packages installed. It is based on the latest Rocky Linux image. Note on RHEL the ```podman``` command should be used instead of ```docker```.
 
 ```bash  
 docker build -t ngl-rocky .
@@ -36,7 +36,7 @@ docker run -it ngl-rocky
 
 ## [Fedora](Fedora/Dockerfile)
 
-This is a basic fedora image with the required packages installed. It is based on the latest fedora image.
+This is a basic fedora image with the required packages installed. It is based on the latest fedora image. Note on RHEL the ```podman``` command should be used instead of ```docker```.
 
 ```bash
 docker build -t ngl-fedora .
@@ -45,7 +45,7 @@ docker run -it ngl-fedora
 
 ## [Ubuntu](Ubuntu/Dockerfile)
 
-This is a basic ubuntu image with the required packages installed. It is based on the latest ubuntu image.
+This is a basic ubuntu image with the required packages installed. It is based on the latest ubuntu image. Note on RHEL the ```podman``` command should be used instead of ```docker```.
 
 ```bash    
 docker build -t ngl-ubuntu .
@@ -54,12 +54,22 @@ docker run -it ngl-ubuntu
 
 ## [Debian](Debian/Dockerfile)
 
-This is a basic Debian image with the required packages installed. It is based on the latest ubuntu image.
+This is a basic Debian image with the required packages installed. It is based on the latest ubuntu image. Note on RHEL the ```podman``` command should be used instead of ```docker```.
 
 ```bash    
 docker build -t ngl-debian .
 docker run -it ngl-debian
 ```
+## [Arch](Arch/Dockerfile)
+
+This is a basic Debian image with the required packages installed. It is based on the latest ubuntu image. Note on RHEL the ```podman``` command should be used instead of ```docker```. There is presently no arm64 version of Arch so it will not work on M1 macs.
+
+```bash    
+docker build -t ngl-debian .
+docker run -it ngl-debian
+```
+
+
 
 # Expected output
 ```

@@ -5,9 +5,6 @@ RUN apt-get update && \
 apt install -y build-essential wget vim cmake ninja-build && \
 apt install -y libgl-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev && \
 apt install -y git curl  zip unzip tar pkg-config python3 
-# dnf -y groupinstall "Development Tools" && \
-# apt  -y install g++ wget vim cmake  ninja-build && \
-# dnf -y install mesa-libGL-devel  libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel 
 
 
 WORKDIR /home/ncca

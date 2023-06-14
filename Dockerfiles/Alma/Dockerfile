@@ -18,8 +18,6 @@ cd cmake-3.23.2 && \
 make && make install 
 
 # download and install vcpkg
-
-
 RUN git clone https://github.com/Microsoft/vcpkg.git ~/vcpkg && \
 cd ~/vcpkg && \
 ./bootstrap-vcpkg.sh 
