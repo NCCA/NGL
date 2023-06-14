@@ -31,6 +31,7 @@ RUN git clone --depth 1 https://github.com:/NCCA/NGL ~/NGLBuild && \
 cd ~/NGLBuild/ && \
 cmake -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -G Ninja -B build -S . &&\
 cd build && cmake --build .
-RUN cd ~/NGLBuild/build && ./NGLTests -g
-# set default command
-ENTRYPOINT ["/bin/bash"]
+# set default command to run  when starting the container in this case run the unit tests
+ENTRYPOINT ["/bin/bash","-c"]
+WORKDIR /home/ncca/NGLBuild/build
+CMD [ "./NGLTests -g" ]

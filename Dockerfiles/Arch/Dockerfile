@@ -1,11 +1,10 @@
 #set the base image
-FROM fedora:latest
+FROM archlinux
 # install tools
-RUN dnf -y groupinstall "Development Tools" && \
-dnf -y install g++ wget vim cmake  ninja-build && \
-dnf -y install mesa-libGL-devel  libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel 
-
-
+RUN apt-get update && \
+apt install -y build-essential wget vim cmake ninja-build && \
+apt install -y libgl-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev && \
+apt install -y git curl  zip unzip tar pkg-config python3 
 
 WORKDIR /home/ncca
 ENV HOME /home/ncca
