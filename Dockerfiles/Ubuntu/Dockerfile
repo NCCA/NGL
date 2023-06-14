@@ -1,25 +1,18 @@
 #set the base image
-FROM rockylinux:9.2
+FROM ubuntu:latest
 # install tools
-RUN dnf -y groupinstall "Development Tools" && \
-dnf -y --enablerepo=crb install g++ wget vim  ninja-build cmake \
-mesa-libGL-devel  libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel openssl-devel
-
+RUN apt-get update && \
+apt install -y build-essential wget vim cmake ninja-build && \
+apt install -y libgl-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev && \
+apt install -y git curl  zip unzip tar pkg-config python3 
+# dnf -y groupinstall "Development Tools" && \
+# apt  -y install g++ wget vim cmake  ninja-build && \
+# dnf -y install mesa-libGL-devel  libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel 
 
 
 WORKDIR /home/ncca
 ENV HOME /home/ncca
-ENV PATH=$PATH:/usr/local/bin
-# the cmake version in the repo is too old for vcpkg!
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.23.2/cmake-3.23.2.tar.gz && \
-tar -zxvf cmake-3.23.2.tar.gz && \
-cd cmake-3.23.2 && \
-./bootstrap  && \
-make && make install 
-
 # download and install vcpkg
-
-
 RUN git clone https://github.com/Microsoft/vcpkg.git ~/vcpkg && \
 cd ~/vcpkg && \
 ./bootstrap-vcpkg.sh 
