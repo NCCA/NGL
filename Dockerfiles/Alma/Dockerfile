@@ -1,10 +1,9 @@
 #set the base image
-FROM almalinux:latest
+FROM almalinux
 # install tools
 RUN dnf -y groupinstall "Development Tools" && \
 dnf -y --enablerepo=crb install g++ wget vim  ninja-build \
 mesa-libGL-devel  libXrandr-devel libXinerama-devel libXcursor-devel libXi-devel openssl-devel
-
 
 
 WORKDIR /home/ncca
