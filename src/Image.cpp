@@ -21,20 +21,24 @@
 #include "Image.h"
 #include "NGLassert.h"
 #include "pystring.h"
+
+enum class ImageLibrary : char { QImage, OIIO, BuiltIn };
+
 #if defined(USEQIMAGE)
-#include <QtGui/QImage>
-#endif
-#if defined(USEOIIO)
-#include <OpenImageIO/imageio.h>
+  const ImageLibrary g_imageLib = ImageLibrary::QImage;
+  #include <QtGui/QImage>
+#elif defined(USEOIIO)
+  const ImageLibrary g_imageLib = ImageLibrary::OIIO;
+  #include <OpenImageIO/imageio.h>
+#elif defined(USEBUILTINIMAGE)
+  const ImageLibrary g_imageLib = ImageLibrary::BuiltIn;
+  #define STB_IMAGE_IMPLEMENTATION
+  #define STB_IMAGE_WRITE_IMPLEMENTATION
+
+  #include "../3rdparty/stb_image.h"
+  #include "../3rdparty/stb_image_write.h"
 #endif
 
-#if defined(USEBUILTINIMAGE)
-#define STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-
-#include "../3rdparty/stb_image.h"
-#include "../3rdparty/stb_image_write.h"
-#endif
 
 #include <iostream>
 
@@ -45,19 +49,18 @@ namespace ngl
 
 void Image::info()
 {
-#if defined(USEOIIO)
-  NGLMessage::addMessage("Using OpenImageIO");
-#endif
-
-#if defined(USEQIMAGE)
+if constexpr (g_imageLib == ImageLibrary::QImage)
+{
   NGLMessage::addMessage("Using QImage");
-
-#endif
-
-#if defined(USEBUILTINIMAGE)
+}
+else if constexpr (g_imageLib == ImageLibrary::OIIO)
+{
+  NGLMessage::addMessage("Using OpenImageIO");
+}
+else if constexpr (g_imageLib == ImageLibrary::BuiltIn)
+{
   NGLMessage::addMessage("Using built in stb-image");
-#endif
-
+}
   NGLMessage::addMessage("Image Info END");
 }
 
@@ -153,15 +156,6 @@ bool Image::save(std::string_view _fname,bool _flipY) const noexcept
  }
 
 #if defined(USEQIMAGE)
-  // QImage::Format qformat 
-  // if(m_channels == 4)
-  // {
-  //   qformat = QImage::Format::Format_RGBA8888;
-  // }
-  // else
-  // {
-  //  qformat = QImage::Format::Format_RGB888;
-  // }
   QImage image(m_data.get(), m_width, m_height, m_channels==4 ? QImage::Format::Format_RGBA8888 : QImage::Format::Format_RGB888);
   image = image.mirrored(false, _flipY);
   image.save(_fname.data());
