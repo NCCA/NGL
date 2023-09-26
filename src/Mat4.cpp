@@ -26,15 +26,11 @@
 #include <glm/gtc/type_ptr.hpp>
 #endif
 
-
 /// @file Mat4.cpp
 /// @brief implementation files for Matrix class
 
-
 namespace ngl
 {
-
-
 
 Mat4::Mat4(Real _m[4][4]) noexcept
 {
@@ -75,19 +71,18 @@ Mat4::Mat4(const Mat4 &_m) noexcept
 #ifdef USEGLM
 Mat4::Mat4(const glm::mat4 &_m)
 {
-  memcpy(&m_m[0][0], &_m[0][0], 16*sizeof(GLfloat));
+  memcpy(&m_m[0][0], &_m[0][0], 16 * sizeof(GLfloat));
 }
 
 glm::mat4 Mat4::toGLM() const
 {
   glm::mat4 result;
-  memcpy(&result[0][0], &m_m[0][0], 16*sizeof(GLfloat));
+  memcpy(&result[0][0], &m_m[0][0], 16 * sizeof(GLfloat));
 
   return result;
 }
 
 #endif
-
 
 Mat4 &Mat4::operator=(const Mat4 &_m) noexcept
 {
@@ -119,7 +114,6 @@ const Mat4 &Mat4::identity() noexcept
   m_33 = 1.0f;
   return *this;
 }
-
 
 const Mat4 &Mat4::operator*=(const Mat4 &_m) noexcept
 {
@@ -211,7 +205,6 @@ const Mat4 &Mat4::operator*=(const Mat4 &_m) noexcept
   return *this;
 }
 
-
 Mat4 Mat4::operator+(const Mat4 &_m) const noexcept
 {
   Mat4 ret;
@@ -225,16 +218,6 @@ Mat4 Mat4::operator+(const Mat4 &_m) const noexcept
     *iterR = *iterA + *iterB;
   }
   return ret;
-
-  /* this is one way of doing things with STL however speed is Average time: 15.457 us as
-   apposed to Average time: 6.847 us using the above version
-  Mat4 ret;
-  std::transform(std::begin(m_openGL), std::end(m_openGL),
-                 std::begin(_m.m_openGL), std::begin(ret.m_openGL),
-                 std::plus<Real>());
-
-  return ret;
-  */
 }
 
 const Mat4 &Mat4::operator+=(const Mat4 &_m) noexcept
@@ -262,7 +245,6 @@ Mat4 Mat4::operator*(const Real _i) const noexcept
   return ret;
 }
 
-
 const Mat4 &Mat4::operator*=(const Real _i) noexcept
 {
   for(auto &i : m_openGL)
@@ -272,7 +254,6 @@ const Mat4 &Mat4::operator*=(const Real _i) noexcept
   return *this;
 }
 
-
 Vec4 Mat4::operator*(const Vec4 &_v) const noexcept
 {
   return Vec4(
@@ -281,7 +262,6 @@ Vec4 Mat4::operator*(const Vec4 &_v) const noexcept
     _v.m_x * m_02 + _v.m_y * m_12 + _v.m_z * m_22 + _v.m_w * m_32,
     _v.m_x * m_03 + _v.m_y * m_13 + _v.m_z * m_23 + _v.m_w * m_33);
 }
-
 
 const Mat4 &Mat4::transpose() noexcept
 {
@@ -297,7 +277,6 @@ const Mat4 &Mat4::transpose() noexcept
   return *this;
 }
 
-
 Mat4 Mat4::rotateX(const Real _deg) noexcept
 {
   Mat4 m;
@@ -310,7 +289,6 @@ Mat4 Mat4::rotateX(const Real _deg) noexcept
   m.m_22 = cr;
   return m;
 }
-
 
 Mat4 Mat4::rotateY(const Real _deg) noexcept
 {
@@ -325,7 +303,6 @@ Mat4 Mat4::rotateY(const Real _deg) noexcept
   return m;
 }
 
-
 Mat4 Mat4::rotateZ(const Real _deg) noexcept
 {
   Mat4 m;
@@ -339,7 +316,6 @@ Mat4 Mat4::rotateZ(const Real _deg) noexcept
   return m;
 }
 
-
 Mat4 Mat4::translate(const Real _x, const Real _y, const Real _z) noexcept
 {
   Mat4 m;
@@ -349,7 +325,6 @@ Mat4 Mat4::translate(const Real _x, const Real _y, const Real _z) noexcept
   return m;
 }
 
-
 Mat4 Mat4::scale(const Real _x, const Real _y, const Real _z) noexcept
 {
   Mat4 m;
@@ -358,7 +333,6 @@ Mat4 Mat4::scale(const Real _x, const Real _y, const Real _z) noexcept
   m.m_22 = _z;
   return m;
 }
-
 
 Real Mat4::determinant() const noexcept
 {
@@ -377,7 +351,6 @@ Real Mat4::determinant() const noexcept
     m_m[3][0] * m_m[1][1] * m_m[2][2] * m_m[0][3] + m_m[3][0] * m_m[1][1] * m_m[0][2] * m_m[2][3] -
     m_m[3][0] * m_m[2][1] * m_m[0][2] * m_m[1][3] + m_m[3][0] * m_m[2][1] * m_m[1][2] * m_m[0][3]);
 }
-
 
 Mat4 Mat4::euler(const Real _angle, const Real _x, const Real _y, const Real _z) noexcept
 {
@@ -405,21 +378,16 @@ Mat4 Mat4::euler(const Real _angle, const Real _x, const Real _y, const Real _z)
   return m;
 }
 
-
-
 Quaternion Mat4::asQuaternion() const noexcept
 {
-  // calculate trace of the matrix
-  
-
   // if trace is greater than 0, calculate an instant calculation
   if(auto T = m_openGL[0] + m_openGL[5] + m_openGL[10] + 1.0f; T > 0.0f)
   {
     auto S = 0.5f / sqrtf(T);
     return Quaternion(
-      (m_openGL[6] - m_openGL[9]) * S, 
+      (m_openGL[6] - m_openGL[9]) * S,
       (m_openGL[8] - m_openGL[2]) * S,
-      (m_openGL[1] - m_openGL[4]) * S, 
+      (m_openGL[1] - m_openGL[4]) * S,
       0.25f / S);
   }
   auto BigF = m_openGL[0];
@@ -463,7 +431,6 @@ Quaternion Mat4::asQuaternion() const noexcept
   } // end switch
   return Quaternion();
 }
-
 
 Mat4 Mat4::adjacent(const Mat4 &_mat) noexcept
 {
@@ -625,7 +592,6 @@ Mat4 Mat4::inverse() noexcept
   return t * det;
 }
 
-
 Vec3 Mat4::getLeftVector() const noexcept
 {
   return Vec3(-m_openGL[0], -m_openGL[1], -m_openGL[2]);
@@ -641,7 +607,6 @@ Vec3 Mat4::getUpVector() const noexcept
   return Vec3(m_openGL[4], m_openGL[5], m_openGL[6]);
 }
 
-
 Vec3 Mat4::getDownVector() const noexcept
 {
   return Vec3(-m_openGL[4], -m_openGL[5], -m_openGL[6]);
@@ -651,7 +616,6 @@ Vec3 Mat4::getForwardVector() const noexcept
 {
   return Vec3(-m_openGL[8], -m_openGL[9], -m_openGL[10]);
 }
-
 
 Vec3 Mat4::getBackVector() const noexcept
 {

@@ -15,205 +15,164 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "Vec2.h"
-#include "Vec4.h"
 #include "Mat2.h"
 #include "NGLassert.h"
+#include "Vec4.h"
 #include <cmath>
-//----------------------------------------------------------------------------------------------------------------------
+
 /// @file Vec2.cpp
 /// @brief implementation files for Vec2 class
-//----------------------------------------------------------------------------------------------------------------------
+
 namespace ngl
 {
 
-//----------------------------------------------------------------------------------------------------------------------
 void Vec2::set(Real _x, Real _y) noexcept
 {
-	m_x=_x;
-	m_y=_y;
+  m_x = _x;
+  m_y = _y;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-void Vec2::set(const Vec2& _v  ) noexcept
+void Vec2::set(const Vec2 &_v) noexcept
 {
-   m_x=_v.m_x;
-   m_y=_v.m_y;
+  m_x = _v.m_x;
+  m_y = _v.m_y;
 }
 
 Vec2 Vec2::zero()
 {
-  return Vec2(0.0f,0.0f);
+  return Vec2(0.0f, 0.0f);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 void Vec2::null() noexcept
 {
-	m_x=0.0f;
-	m_y=0.0f;
+  m_x = 0.0f;
+  m_y = 0.0f;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-Real& Vec2::operator[](const size_t &_i) noexcept
+Real &Vec2::operator[](const size_t &_i) noexcept
 {
-  NGL_ASSERT( _i<=2)
-	return (&m_x)[_i];
+  NGL_ASSERT(_i <= 2)
+  return (&m_x)[_i];
 }
 
-
-
-//----------------------------------------------------------------------------------------------------------------------
 Vec2 Vec2::operator-() const noexcept
 {
-	return Vec2(-m_x,-m_y);
+  return Vec2(-m_x, -m_y);
 }
 
-
-//----------------------------------------------------------------------------------------------------------------------
-Vec2 & Vec2::operator+=(const Vec2& _v  ) noexcept
+Vec2 &Vec2::operator+=(const Vec2 &_v) noexcept
 {
-	m_x+=_v.m_x;
-	m_y+=_v.m_y;
+  m_x += _v.m_x;
+  m_y += _v.m_y;
   return *this;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-Vec2 & Vec2::operator/=(Real _v  ) noexcept
+Vec2 &Vec2::operator/=(Real _v) noexcept
 {
-  NGL_ASSERT(_v !=0.0f)
-	m_x/=_v;
-	m_y/=_v;
-  return *this;
-}
-//----------------------------------------------------------------------------------------------------------------------
-Vec2 & Vec2::operator*=(Real _v) noexcept
-{
-	m_x*=_v;
-	m_y*=_v;
-  return *this;
-}
-//----------------------------------------------------------------------------------------------------------------------
-Vec2 & Vec2::operator-=(const Vec2& _v ) noexcept
-{
-	m_x-=_v.m_x;
-	m_y-=_v.m_y;
+  NGL_ASSERT(_v != 0.0f)
+  m_x /= _v;
+  m_y /= _v;
   return *this;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator/( Real _v )const noexcept
+Vec2 &Vec2::operator*=(Real _v) noexcept
 {
-	return Vec2(m_x/_v,m_y/_v);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator+(const Vec2& _v )const noexcept
-{
-	return Vec2(m_x+_v.m_x,m_y+_v.m_y);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator-( const Vec2& _v  )const noexcept
-{
-	return Vec2(m_x-_v.m_x,	m_y-_v.m_y );
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-bool Vec2::operator==(const Vec2& _v )const noexcept
-{
-	return (
-					FCompare(_v.m_x,m_x)  &&
-					FCompare(_v.m_y,m_y)
-				 );
-}
-//----------------------------------------------------------------------------------------------------------------------
-bool Vec2::operator!=(const Vec2& _v  )const noexcept
-{
-	return (
-					!FCompare(_v.m_x,m_x) ||
-					!FCompare(_v.m_y,m_y)
-				 );
-}
-//----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator*(const Vec2& _v  )const noexcept
-{
-	return Vec2(
-								m_x*_v.m_x,
-								m_y*_v.m_y
-							);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator/( const Vec2& _v )const noexcept
-{
-	return Vec2(m_x/_v.m_x,	m_y/_v.m_y	);
-}
-
-
-//----------------------------------------------------------------------------------------------------------------------
-Vec2& Vec2::operator/=( const Vec2& _v ) noexcept
-{
-  m_x/=_v.m_x;
-  m_y/=_v.m_y;
+  m_x *= _v;
+  m_y *= _v;
   return *this;
 }
 
-
-//----------------------------------------------------------------------------------------------------------------------
-Vec2 Vec2::operator *(Real _i )const noexcept
+Vec2 &Vec2::operator-=(const Vec2 &_v) noexcept
 {
-	return Vec2(m_x*_i,m_y*_i );
+  m_x -= _v.m_x;
+  m_y -= _v.m_y;
+  return *this;
 }
 
-
-
-//----------------------------------------------------------------------------------------------------------------------
-Vec2 & Vec2::operator=(const Vec2& _v) noexcept
+Vec2 Vec2::operator/(Real _v) const noexcept
 {
-	m_x = _v.m_x;
-	m_y = _v.m_y;
-	return *this;
+  return Vec2(m_x / _v, m_y / _v);
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+Vec2 Vec2::operator+(const Vec2 &_v) const noexcept
+{
+  return Vec2(m_x + _v.m_x, m_y + _v.m_y);
+}
+
+Vec2 Vec2::operator-(const Vec2 &_v) const noexcept
+{
+  return Vec2(m_x - _v.m_x, m_y - _v.m_y);
+}
+
+bool Vec2::operator==(const Vec2 &_v) const noexcept
+{
+  return (
+    FCompare(_v.m_x, m_x) &&
+    FCompare(_v.m_y, m_y));
+}
+
+bool Vec2::operator!=(const Vec2 &_v) const noexcept
+{
+  return (
+    !FCompare(_v.m_x, m_x) ||
+    !FCompare(_v.m_y, m_y));
+}
+
+Vec2 Vec2::operator*(const Vec2 &_v) const noexcept
+{
+  return Vec2( m_x * _v.m_x, m_y * _v.m_y);
+}
+
+Vec2 Vec2::operator/(const Vec2 &_v) const noexcept
+{
+  return Vec2(m_x / _v.m_x, m_y / _v.m_y);
+}
+
+Vec2 &Vec2::operator/=(const Vec2 &_v) noexcept
+{
+  m_x /= _v.m_x;
+  m_y /= _v.m_y;
+  return *this;
+}
+
+Vec2 Vec2::operator*(Real _i) const noexcept
+{
+  return Vec2(m_x * _i, m_y * _i);
+}
+
+Vec2 &Vec2::operator=(const Vec2 &_v) noexcept
+{
+  m_x = _v.m_x;
+  m_y = _v.m_y;
+  return *this;
+}
+
 void Vec2::normalize() noexcept
 {
-  Real len=sqrtf(m_x*m_x+m_y*m_y);
-  NGL_ASSERT(len!=0.0f)
-  m_x/=len;
-  m_y/=len;
+  Real len = sqrtf(m_x * m_x + m_y * m_y);
+  NGL_ASSERT(len != 0.0f)
+  m_x /= len;
+  m_y /= len;
 }
 
-
-Real Vec2::dot(const Vec2& _v )const noexcept
+Real Vec2::dot(const Vec2 &_v) const noexcept
 {
   return m_x * _v.m_x + m_y * _v.m_y;
 }
 
-
-//----------------------------------------------------------------------------------------------------------------------
 Real Vec2::lengthSquared() const noexcept
 {
-  return (m_x*m_x)+(m_y*m_y);
+  return (m_x * m_x) + (m_y * m_y);
 }
 
-
-
-//----------------------------------------------------------------------------------------------------------------------
 Real Vec2::length() const noexcept
 {
-  return sqrtf((m_x*m_x)+(m_y*m_y));
+  return sqrtf((m_x * m_x) + (m_y * m_y));
 }
 
-
-Vec2 Vec2::operator*( const Mat2 &_m )const noexcept
+Vec2 Vec2::operator*(const Mat2 &_m) const noexcept
 {
-  return Vec2(m_x*_m.m_00 + m_y*_m.m_10 ,
-              m_x*_m.m_01 + m_y*_m.m_11 );
+  return Vec2(m_x * _m.m_00 + m_y * _m.m_10, m_x * _m.m_01 + m_y * _m.m_11);
 }
 
-
-
-} // end namspace ngl
-
-
-
+} // namespace ngl

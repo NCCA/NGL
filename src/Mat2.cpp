@@ -28,10 +28,8 @@
 /// @file Mat2.cpp
 /// @brief implementation files for Mat2s class
 
-
 namespace ngl
 {
-
 
 Mat2::Mat2() noexcept
 {
@@ -48,7 +46,6 @@ Mat2::Mat2(Real _00, Real _01, Real _10, Real _11) noexcept
   m_11 = _11;
 }
 
-
 Mat2::Mat2(const Real _m) noexcept
 {
   memset(m_m, 0, sizeof(m_m));
@@ -59,20 +56,17 @@ Mat2::Mat2(const Real _m) noexcept
 #ifdef USEGLM
 Mat2::Mat2(const glm::mat2 &_m)
 {
-  memcpy(&m_m[0][0], glm::value_ptr(_m), 4*sizeof(GLfloat));
+  memcpy(&m_m[0][0], glm::value_ptr(_m), 4 * sizeof(GLfloat));
 }
 
 glm::mat2 Mat2::toGLM() const
 {
   glm::mat2 result;
-  memcpy(glm::value_ptr(result), &m_m[0][0], 4*sizeof(GLfloat));
+  memcpy(glm::value_ptr(result), &m_m[0][0], 4 * sizeof(GLfloat));
   return result;
 }
 
 #endif
-
-
-
 
 const Mat2 &Mat2::null() noexcept
 {
@@ -88,7 +82,6 @@ const Mat2 &Mat2::identity() noexcept
   return *this;
 }
 
-
 Mat2 Mat2::operator*(const Mat2 &_m) const noexcept
 {
   Mat2 temp;
@@ -101,7 +94,6 @@ Mat2 Mat2::operator*(const Mat2 &_m) const noexcept
   return temp;
 }
 
-
 const Mat2 &Mat2::operator*=(const Mat2 &_m) noexcept
 {
   Mat2 temp(*this);
@@ -113,7 +105,6 @@ const Mat2 &Mat2::operator*=(const Mat2 &_m) noexcept
 
   return *this;
 }
-
 
 Mat2 Mat2::operator+(const Mat2 &_m) const noexcept
 {
@@ -151,7 +142,6 @@ Mat2 Mat2::operator*(Real _i) const noexcept
   return ret;
 }
 
-
 const Mat2 &Mat2::operator*=(Real _i) noexcept
 {
   for(auto &v : m_openGL)
@@ -160,7 +150,6 @@ const Mat2 &Mat2::operator*=(Real _i) noexcept
   }
   return *this;
 }
-
 
 const Mat2 &Mat2::transpose() noexcept
 {
@@ -176,7 +165,6 @@ const Mat2 &Mat2::transpose() noexcept
   return *this;
 }
 
-
 [[nodiscard]] Mat2 Mat2::rotate(Real _deg) noexcept
 {
   Mat2 m;
@@ -190,7 +178,6 @@ const Mat2 &Mat2::transpose() noexcept
   return m;
 }
 
-
 [[nodiscard]] Mat2 Mat2::scale(Real _x, Real _y) noexcept
 {
   Mat2 m;
@@ -198,7 +185,6 @@ const Mat2 &Mat2::transpose() noexcept
   m.m_11 = _y;
   return m;
 }
-
 
 Vec2 Mat2::operator*(const Vec2 &_v) const noexcept
 {
