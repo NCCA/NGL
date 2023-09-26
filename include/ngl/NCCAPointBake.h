@@ -85,16 +85,6 @@ class NGL_DLLEXPORT NCCAPointBake
   bool loadPointBake(std::string_view _fileName) noexcept;
 
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief  method to load a binary point baked file
-  /// @param[in] _fileName the file to load
-  //----------------------------------------------------------------------------------------------------------------------
-  bool loadBinaryPointBake(std::string_view _fileName) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief  method to save a binary point baked file basically re-ordered data only
-  /// @param[in] _fileName the file to load
-  //----------------------------------------------------------------------------------------------------------------------
-  bool saveBinaryPointBake(std::string_view _fileName) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
   /// @brief  method to attach a mesh to the data
   /// this method will check for basic vetex compatibility and then re-order the data
   /// to match the VBO structure of the mesh
@@ -115,6 +105,15 @@ class NGL_DLLEXPORT NCCAPointBake
   {
     return m_numFrames - 1;
   }
+  size_t getStartFrame() const noexcept
+  {
+    return m_startFrame;
+  }
+  size_t getEndFrame() const noexcept
+  {
+    return m_endFrame;
+  }
+  
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  return the number of verts loaded from the PointBake file
   /// @returns the number of verts

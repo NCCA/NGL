@@ -92,12 +92,12 @@ int Random::getIntFromGeneratorName(std::string_view _name)
   }
 }
 
-void Random::addIntGenerator(std::string_view _name, std::uniform_int_distribution< int > &_dist)
+void Random::addIntGenerator(std::string_view _name,const std::uniform_int_distribution< int > &_dist)
 {
   m_intGenerators[_name.data()] = _dist;
 }
 
-void Random::addFloatGenerator(std::string_view _name, std::uniform_real_distribution< float > &_dist)
+void Random::addFloatGenerator(std::string_view _name, const std::uniform_real_distribution< float > &_dist)
 {
   m_floatGenerators[_name.data()] = _dist;
 }

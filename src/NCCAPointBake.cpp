@@ -40,7 +40,7 @@ bool NCCAPointBake::loadPointBake(std::string_view _fileName) noexcept
   m_endFrame = 0;
   m_mesh = nullptr;
   m_binFile = false;
-  rapidxml::xml_node<> *rootNode;
+  const rapidxml::xml_node<> *rootNode;
   // Read the xml file into a vector
   std::ifstream xmlFile(_fileName.data());
   if(!xmlFile.is_open())
@@ -60,7 +60,7 @@ bool NCCAPointBake::loadPointBake(std::string_view _fileName) noexcept
     return false;
   }
 
-  rapidxml::xml_node<> *child = rootNode->first_node("MeshName");
+  auto child = rootNode->first_node("MeshName");
   m_meshName = child->value();
   NGLMessage::addMessage(fmt::format("found mesh{0} ", m_meshName));
 
@@ -72,7 +72,6 @@ bool NCCAPointBake::loadPointBake(std::string_view _fileName) noexcept
     child = rootNode->first_node("StartFrame");
     m_startFrame = std::stoul(child->value());
     NGLMessage::addMessage(fmt::format("StartFrame {0}", m_startFrame));
-    ;
     child = rootNode->first_node("EndFrame");
     m_endFrame = std::stoul(child->value());
     NGLMessage::addMessage(fmt::format("EndFrame {0}", m_endFrame));
@@ -108,7 +107,7 @@ bool NCCAPointBake::loadPointBake(std::string_view _fileName) noexcept
     CurrentFrame = std::stoul(child->first_attribute("number")->value());
     CurrentFrame -= m_startFrame;
 
-    for(rapidxml::xml_node<> *vertex = child->first_node("Vertex"); vertex; vertex = vertex->next_sibling())
+    for(auto vertex = child->first_node("Vertex"); vertex; vertex = vertex->next_sibling())
     {
       size_t index = std::stoul(vertex->first_attribute("number")->value());
       lineBuffer = vertex->value();
@@ -143,92 +142,6 @@ void NCCAPointBake::setFrame(const size_t _frame) noexcept
   m_currFrame = _frame;
 }
 
-bool NCCAPointBake::loadBinaryPointBake(std::string_view _fileName) noexcept
-{
-  // open a file stream for ip in binary mode
-  std::fstream file;
-  file.open(_fileName.data(), std::ios::in | std::ios::binary);
-  // see if it worked
-  if(!file.is_open())
-  {
-    NGLMessage::addError(fmt::format("problems Opening File {0}", _fileName.data()));
-    return false;
-  }
-  // lets read in the header and see if the file is valid
-  std::string header;
-  file.read(&header[0], 10 * sizeof(char));
-  header[10] = 0; // for strcmp we need \n
-  // basically I used the magick string ngl::bin (I presume unique in files!) and
-  // we test against it.
-  if(header == "ngl::binpb")
-  {
-    // best close the file and exit
-    file.close();
-    NGLMessage::addError("this is not an ngl::binpb file ");
-    return false;
-  }
-
-  /// The number of vertices in the object
-  // file.read(reinterpret_cast <char *> (&m_nVerts),sizeof(unsigned long int));
-
-  file.read(reinterpret_cast< char * >(&m_numFrames), sizeof(unsigned int));
-  file.read(reinterpret_cast< char * >(&m_currFrame), sizeof(unsigned int));
-  file.read(reinterpret_cast< char * >(&m_nVerts), sizeof(unsigned int));
-  file.read(reinterpret_cast< char * >(&m_startFrame), sizeof(unsigned int));
-  file.read(reinterpret_cast< char * >(&m_binFile), sizeof(bool));
-  NGLMessage::addMessage("Loaded header\n");
-
-  m_data.resize(m_numFrames);
-  for(unsigned int frame = 0; frame < m_numFrames; ++frame)
-  {
-    m_data[frame].resize(m_nVerts);
-    for(unsigned int v = 0; v < m_nVerts; ++v)
-    {
-      file.read(reinterpret_cast< char * >(&m_data[frame][v].m_x), sizeof(Real));
-      file.read(reinterpret_cast< char * >(&m_data[frame][v].m_y), sizeof(Real));
-      file.read(reinterpret_cast< char * >(&m_data[frame][v].m_z), sizeof(Real));
-    }
-  }
-  return true;
-}
-
-bool NCCAPointBake::saveBinaryPointBake(std::string_view _fileName) noexcept
-{
-  // so basically we need to save all the state data from the abstract mesh
-  // then map the vbo on the gpu and dump that in one go, this means we have to
-  // call CreateVBO first the Save
-  std::fstream file;
-  file.open(_fileName.data(), std::ios::out | std::ios::binary);
-  if(!file.is_open())
-  {
-    NGLMessage::addError(fmt::format("problems Opening File {0} ", _fileName.data()));
-    return false;
-  }
-
-  // lets write out our own Magic Number file ID
-  const std::string header("ngl::binpb");
-  file.write(header.c_str(), static_cast< long >(header.length()));
-  m_binFile = true;
-  file.write(reinterpret_cast< char * >(&m_numFrames), sizeof(unsigned int));
-  file.write(reinterpret_cast< char * >(&m_currFrame), sizeof(unsigned int));
-  file.write(reinterpret_cast< char * >(&m_nVerts), sizeof(unsigned int));
-  file.write(reinterpret_cast< char * >(&m_startFrame), sizeof(unsigned int));
-  file.write(reinterpret_cast< char * >(&m_binFile), sizeof(bool));
-
-  // now write out data
-  for(unsigned int frame = 0; frame < m_numFrames; ++frame)
-  {
-    for(unsigned int v = 0; v < m_nVerts; ++v)
-    {
-      file.write(reinterpret_cast< char * >(&m_data[frame][v].m_x), sizeof(Real));
-      file.write(reinterpret_cast< char * >(&m_data[frame][v].m_y), sizeof(Real));
-      file.write(reinterpret_cast< char * >(&m_data[frame][v].m_z), sizeof(Real));
-    }
-  }
-
-  file.close();
-  return true;
-}
 
 void NCCAPointBake::setMeshToFrame(const unsigned int _frame) noexcept
 {

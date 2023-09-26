@@ -112,13 +112,13 @@ class NGL_DLLEXPORT Random
   /// @param _dist the distribution to add
   //----------------------------------------------------------------------------------------------------------------------
 
-  static void addIntGenerator(std::string_view _name, std::uniform_int_distribution< int > &_dist);
+  static void addIntGenerator(std::string_view _name, const std::uniform_int_distribution< int > &_dist);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief add a generator to the float generators
   /// @param _name the name of the generator to use for the number
   /// @param _dist the distribution to add
   //----------------------------------------------------------------------------------------------------------------------
-  static void addFloatGenerator(std::string_view _name, std::uniform_real_distribution< float > &_dist);
+  static void addFloatGenerator(std::string_view _name, const std::uniform_real_distribution< float > &_dist);
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief get a random vector with componets ranged from +/- 1
   //----------------------------------------------------------------------------------------------------------------------

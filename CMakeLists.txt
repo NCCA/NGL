@@ -256,6 +256,8 @@ if(NOT DEFINED PYNGL_ONLY)
         ${CMAKE_SOURCE_DIR}/tests/QuaternionTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/ImageTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/HashTests.cpp
+        ${CMAKE_SOURCE_DIR}/tests/PointBakeTests.cpp
+        
     )
     add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
     target_link_libraries(NGLTests PRIVATE glfw PRIVATE GTest::gtest )

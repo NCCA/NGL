@@ -38,8 +38,7 @@ Quaternion::Quaternion(const Mat4 &_m) noexcept
     m_z = ( _m.m_openGL[1] - _m.m_openGL[4] ) / S;
     m_s = 0.25f * S;
   }
-  else
-  if ( _m.m_openGL[0] > _m.m_openGL[5] &&
+  else if ( _m.m_openGL[0] > _m.m_openGL[5] &&
        _m.m_openGL[0] > _m.m_openGL[10] )
   {		// Column 0:
     auto S  = static_cast<Real>(sqrtf( 1.0f + _m.m_openGL[0] - _m.m_openGL[5] - _m.m_openGL[10] ) * 2.0f);
@@ -48,8 +47,7 @@ Quaternion::Quaternion(const Mat4 &_m) noexcept
     m_z = (_m.m_openGL[8] + _m.m_openGL[2] ) / S;
     m_s = (_m.m_openGL[6] - _m.m_openGL[9] ) / S;
   }
-  else
-  if ( _m.m_openGL[5] > _m.m_openGL[10] )
+  else if ( _m.m_openGL[5] > _m.m_openGL[10] )
   {			// Column 1:
     auto S  = sqrtf( 1.0f + _m.m_openGL[5] - _m.m_openGL[0] - _m.m_openGL[10] ) * 2.0f;
     m_x = (_m.m_openGL[1] + _m.m_openGL[4] ) / S;
@@ -272,8 +270,8 @@ void Quaternion::fromAxisAngle(const Vec3& _axis, Real _angle) noexcept
   Vec3 axis = _axis;
   axis.normalize();
   _angle=radians(_angle);
-  Real sinAngle = static_cast<Real>(sinf( _angle / 2.0f ));
-  Real cosAngle = static_cast<Real>(cosf( _angle / 2.0f ));
+  auto sinAngle = sinf( _angle / 2.0f );
+  auto cosAngle = cosf( _angle / 2.0f );
   m_s = cosAngle;
   m_x = axis.m_x * sinAngle;
   m_y = axis.m_y * sinAngle;
@@ -283,12 +281,12 @@ void Quaternion::fromAxisAngle(const Vec3& _axis, Real _angle) noexcept
 
 void Quaternion::fromEulerAngles(const Real _x,const Real _y,const Real _z) noexcept
 {
-  Real sx = sinf(radians(_x/2.0f));
-  Real sy = sinf(radians(_y/2.0f));
-  Real sz = sinf(radians(_z/2.0f));
-  Real cx = cosf(radians(_x/2.0f));
-  Real cy = cosf(radians(_y/2.0f));
-  Real cz = cosf(radians(_z/2.0f));
+  auto sx = sinf(radians(_x/2.0f));
+  auto sy = sinf(radians(_y/2.0f));
+  auto sz = sinf(radians(_z/2.0f));
+  auto cx = cosf(radians(_x/2.0f));
+  auto cy = cosf(radians(_y/2.0f));
+  auto cz = cosf(radians(_z/2.0f));
 
   m_s=cx*cy*cz + sx*sy*sz;
   m_x=sx*cy*cz - cx*sy*sz;
@@ -341,7 +339,7 @@ void Quaternion::negate()
 Quaternion Quaternion::slerp( Quaternion _v0,  Quaternion _v1,  Real _t) noexcept
 {
 
-  float dotp = dot(_v0,_v1);
+  auto dotp = dot(_v0,_v1);
   constexpr float thereshold=0.9995f;
   if( dotp < 0.0f)
   {
@@ -359,7 +357,7 @@ Quaternion Quaternion::slerp( Quaternion _v0,  Quaternion _v1,  Real _t) noexcep
   auto theta = theta_0*_t;
   Quaternion v2 = _v1 - _v0 * dotp;
   v2.normalise();
-  return _v0 * cosf(theta) + v2 * sin(theta);
+  return _v0 * cosf(theta) + v2 * sinf(theta);
 }
 
 
@@ -367,16 +365,16 @@ Quaternion Quaternion::slerp( Quaternion _v0,  Quaternion _v1,  Real _t) noexcep
 Mat4 Quaternion::toMat4() const noexcept
 {
   // written by Rob Bateman
-  // sacrafice a few bytes to pre-calculate some values
-  Real xx = m_x * m_x;
-  Real xy = m_x * m_y;
-  Real xz = m_x * m_z;
-  Real xs = m_x * m_s;
-  Real yy = m_y * m_y;
-  Real yz = m_y * m_z;
-  Real ys = m_y * m_s;
-  Real zz = m_z * m_z;
-  Real zs = m_z * m_s;
+  // sacrifice a few bytes to pre-calculate some values
+  auto xx = m_x * m_x;
+  auto xy = m_x * m_y;
+  auto xz = m_x * m_z;
+  auto xs = m_x * m_s;
+  auto yy = m_y * m_y;
+  auto yz = m_y * m_z;
+  auto ys = m_y * m_s;
+  auto zz = m_z * m_z;
+  auto zs = m_z * m_s;
   Mat4 o;
   o.m_openGL[0] = 1.0f - 2.0f * (yy+zz);
   o.m_openGL[1] = 2.0f * (xy+zs);

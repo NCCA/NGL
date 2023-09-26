@@ -18,6 +18,8 @@
 /// @file Image.cpp
 /// @brief implementation files for Image class
 //----------------------------------------------------------------------------------------------------------------------
+#include <iostream>
+
 #include "Image.h"
 #include "NGLassert.h"
 #include "pystring.h"
@@ -40,7 +42,6 @@ enum class ImageLibrary : char { QImage, OIIO, BuiltIn };
 #endif
 
 
-#include <iostream>
 
 namespace ngl
 {
