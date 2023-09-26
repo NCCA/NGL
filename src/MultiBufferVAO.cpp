@@ -22,7 +22,7 @@ namespace ngl
     glDrawArrays(m_mode, 0, static_cast<GLsizei>(m_indicesCount));
   }
 
-  void MultiBufferVAO::removeVAO()
+  void MultiBufferVAO::removeVAO() 
   {
     if(m_bound == true)
     {
@@ -189,7 +189,7 @@ namespace ngl
 
 
 #endif
-  GLuint MultiBufferVAO::getBufferID(unsigned int _id )
+  GLuint MultiBufferVAO::getBufferID(unsigned int _id ) const
   {
     NGL_ASSERT(_id<m_vboIDs.size())
     return m_vboIDs[_id];

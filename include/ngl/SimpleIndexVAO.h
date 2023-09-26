@@ -56,7 +56,7 @@ class NGL_DLLEXPORT SimpleIndexVAO : public AbstractVAO
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief draw the VAO using glDrawArrays
     //----------------------------------------------------------------------------------------------------------------------
-    virtual void draw()  const override;
+    virtual void draw()  const override final;
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief dtor don't do anything as the remove clears things
     //----------------------------------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ class NGL_DLLEXPORT SimpleIndexVAO : public AbstractVAO
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief remove the VAO and buffers created
     //----------------------------------------------------------------------------------------------------------------------
-    virtual void removeVAO() override;
+    virtual void removeVAO() override final;
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief, this method sets the data for the VAO if data has already been set it will remove the existing data
     /// and then re-set with the new data.
@@ -78,7 +78,7 @@ class NGL_DLLEXPORT SimpleIndexVAO : public AbstractVAO
 
     //----------------------------------------------------------------------------------------------------------------------
     //void setData(size_t _size,const GLfloat &_data,unsigned int _indexSize,const GLvoid *_indexData,GLenum _indexType,GLenum _mode=GL_STATIC_DRAW);
-    virtual void setData(const AbstractVAO::VertexData &_data) override;
+    virtual void setData(const AbstractVAO::VertexData &_data) override final;
     #ifdef PYTHONBUILD
 
     void setData(size_t _size, const std::vector<Vec3> &_data, unsigned int _indexSize, const std::vector<GLushort> &_indexData);
@@ -89,13 +89,13 @@ class NGL_DLLEXPORT SimpleIndexVAO : public AbstractVAO
     /// if we have the more than one buffer the sub class manages the id's
     /// @param _buffer index (default to 0 for single buffer VAO's)
     //----------------------------------------------------------------------------------------------------------------------
-     GLuint getBufferID(unsigned int ) override{return m_buffer;}
+     virtual GLuint getBufferID(unsigned int ) const override final{return m_buffer;}
      //----------------------------------------------------------------------------------------------------------------------
      /// @brief grab a raw pointer to the data
      /// @param _index the index to the buffer (0) default for simple
      /// @param _mode the access more
      //----------------------------------------------------------------------------------------------------------------------
-     Real * mapBuffer(unsigned int _index=0, GLenum _accessMode=GL_READ_WRITE) override;
+     Real * mapBuffer(unsigned int _index=0, GLenum _accessMode=GL_READ_WRITE) override final;
 
 
   protected :

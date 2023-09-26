@@ -43,7 +43,7 @@ class NGL_DLLEXPORT MultiBufferVAO : public AbstractVAO
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief draw the VAO using glDrawArrays
     //----------------------------------------------------------------------------------------------------------------------
-    virtual void draw() const;
+    virtual void draw() const override final;
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief dtor don't do anything as the remove clears things
     //----------------------------------------------------------------------------------------------------------------------
@@ -51,12 +51,12 @@ class NGL_DLLEXPORT MultiBufferVAO : public AbstractVAO
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief remove the VAO and buffers created
     //----------------------------------------------------------------------------------------------------------------------
-    virtual void removeVAO();
+    virtual void removeVAO() override final;
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief, this method sets the data for the VAO if data has already been set it will remove the existing data
     /// and then re-set with the new data.
     //----------------------------------------------------------------------------------------------------------------------
-    virtual void setData(const VertexData &_data);
+    virtual void setData(const VertexData &_data) override final;
     void setData(size_t _index, const VertexData &_data );
     #ifdef PYTHONBUILD
         void setData(size_t _size, const std::vector<float>  &_data);
@@ -72,13 +72,13 @@ class NGL_DLLEXPORT MultiBufferVAO : public AbstractVAO
     /// if we have the more than one buffer the sub class manages the id's
     /// @param _buffer index (default to 0 for single buffer VAO's)
     //----------------------------------------------------------------------------------------------------------------------
-    virtual GLuint getBufferID(unsigned int _id);
+    virtual GLuint getBufferID(unsigned int _id) const override final;
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief grab a raw pointer to the data
     /// @param _index the index to the buffer (0) default for simple
     /// @param _mode the access more
     //----------------------------------------------------------------------------------------------------------------------
-    Real * mapBuffer(unsigned int _index=0, GLenum _accessMode=GL_READ_WRITE);
+    Real * mapBuffer(unsigned int _index=0, GLenum _accessMode=GL_READ_WRITE) override final;
 
   protected :
     //----------------------------------------------------------------------------------------------------------------------

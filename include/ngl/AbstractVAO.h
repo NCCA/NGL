@@ -89,7 +89,7 @@ class NGL_DLLEXPORT AbstractVAO
     /// @brief return the id of the buffer, if there is only 1 buffer just return this
     /// if we have the more than one buffer the sub class manages the id's
     /// @param _buffer index (default to 0 for single buffer VAO's)
-    virtual GLuint getBufferID(unsigned int _id=0)=0;
+    virtual GLuint getBufferID(unsigned int _id=0)const =0;
     /// @brief get the draw mode
     GLenum getMode() const;
     /// @brief set the draw mode
