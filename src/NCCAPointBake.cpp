@@ -194,7 +194,7 @@ bool NCCAPointBake::attachMesh(AbstractMesh *_mesh) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 std::vector< Vec3 > &NCCAPointBake::getRawDataPointerAtFrame(unsigned int _f) noexcept
 {
-  NGL_ASSERT(_f <= m_numFrames);
+  NGL_ASSERT(_f <= m_numFrames)
   return m_data[_f];
 }
 

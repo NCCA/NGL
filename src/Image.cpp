@@ -125,7 +125,7 @@ Vec4 Image::getColour(const Real _uvX, const Real _uvY) const noexcept
   GLuint xx = static_cast< GLuint >(_uvX * (m_width - 1));
   GLuint yy = static_cast< GLuint >(_uvY * (m_height - 1));
 
-  NGL_ASSERT(xx < m_width && yy < m_height);
+  NGL_ASSERT(xx < m_width && yy < m_height)
 
   if(m_data != 0)
   {

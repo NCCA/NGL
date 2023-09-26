@@ -178,7 +178,6 @@ class NGL_DLLEXPORT AbstractMesh
   
   Vec3 getVertexAtIndex(uint32_t _i) const noexcept
   {
-    // NGL_ASSERT(_i>0 && _i<m_nVerts);
     return m_verts[_i];
   }
 
