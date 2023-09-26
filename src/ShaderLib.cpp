@@ -164,24 +164,6 @@ GLuint ShaderLib::getShaderID(std::string_view _shaderName) noexcept
   }
   return value;
 }
-/*
-std::shared_ptr< ngl::Shader > ShaderLib::getShader(std::string_view _shaderName) noexcept
-{
-  std::shared_ptr< ngl::Shader > shaderPointer;
-  auto shader = m_shaders.find(_shaderName.data());
-  // make sure we have a valid shader and program
-  if(shader != m_shaders.end())
-  {
-    shaderPointer = shader->second;
-  }
-  else
-  {
-    shaderPointer = nullptr;
-    NGLMessage::addWarning(fmt::format("Warning: No shader named {0} in {1} shader program", _shaderName.data(), m_currentShader));
-  }
-  return shaderPointer;
-}
-*/
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::attachShader(std::string_view _name, ShaderType _type, ErrorExit _exitOnError) noexcept
 {

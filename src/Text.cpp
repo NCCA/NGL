@@ -199,8 +199,7 @@ void Text::setColour(const Vec3 &_c) noexcept
 void Text::setColour(Real _r, Real _g, Real _b) noexcept
 {
   ShaderLib::use("nglTextShader");
-  // this needs to be static_cast to float as template doesn't work without, not sure why.
-  ShaderLib::setUniform("textColour", static_cast<float>(_r), static_cast<float>(_g),static_cast<float>( _b));
+  ShaderLib::setUniform("textColour", _r, _g, _b);
 }
 
 } // namespace ngl

@@ -30,7 +30,7 @@ NGLMessage::NGLMessage()
         while(s_futureExit.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout)
         {
           std::scoped_lock<std::mutex> lock(g_messageQueueLock);
-          if(s_messageQueue.size() !=0)
+          if(! s_messageQueue.empty())
           {
             auto msg=s_messageQueue.back();
             s_messageQueue.pop_back();
@@ -44,7 +44,7 @@ NGLMessage::NGLMessage()
 
 NGLMessage::~NGLMessage()
 {
-  while(s_messageQueue.size() != 0)
+  while(! s_messageQueue.empty() )
     std::this_thread::sleep_for(std::chrono::microseconds(1));
   s_logFile.close();
 }

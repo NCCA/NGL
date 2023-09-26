@@ -364,7 +364,7 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
   if(_flipY)
   {
   int scanlinesize = spec.width * spec.nchannels * sizeof(m_data[0]); 
-  in->read_image(TypeDesc::UINT8,
+  in->read_image(0,0,0,-1,TypeDesc::UINT8,
                  (char *)m_data.get() + (m_height - 1) * scanlinesize, // offset to last
                  AutoStride,                                           // default x stride
                  -scanlinesize,                                        // special y stride
@@ -372,7 +372,7 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
   }
   else
   {
-    in->read_image (TypeDesc::UINT8, &m_data[0]);
+    in->read_image (0,0,0,-1,TypeDesc::UINT8, &m_data[0]);
   }
   in->close();
   return true;

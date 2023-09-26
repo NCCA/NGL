@@ -67,7 +67,7 @@ class NGL_DLLEXPORT NCCAPointBake
   //----------------------------------------------------------------------------------------------------------------------
   ///  @brief the dtor erases all clip data allocated and also destroys the Obj reference held in the clip
   //----------------------------------------------------------------------------------------------------------------------
-  ~NCCAPointBake() noexcept;
+  ~NCCAPointBake() = default;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief   ctor using a clip and an obj
   /// @param[in] _fileName the name of the bake file to load

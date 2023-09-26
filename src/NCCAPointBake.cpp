@@ -87,7 +87,6 @@ bool NCCAPointBake::loadPointBake(std::string_view _fileName) noexcept
   }
   // first allocate base pointer [vertex]
   m_data.resize(m_numFrames);
-  // cout <<"Size is now"<<m_data.size()<<endl;
   // now for each of these we need to allocate more space
   //  NOTE the use of a reference here as we are changing the size
   for(auto &data : m_data)
@@ -133,10 +132,6 @@ bool NCCAPointBake::loadPointBake(std::string_view _fileName) noexcept
   return true;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-NCCAPointBake::~NCCAPointBake() noexcept
-{
-}
 //----------------------------------------------------------------------------------------------------------------------
 NCCAPointBake::NCCAPointBake(std::string_view _fileName) noexcept
 {

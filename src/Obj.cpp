@@ -116,7 +116,7 @@ void Obj::addFace(const ngl::Face &_f) noexcept
   m_face.push_back(_f);
 }
 
-bool Obj::save(std::string_view _fname) noexcept
+bool Obj::save(std::string_view _fname) const noexcept
 {
   std::ofstream out(_fname.data());
   if(out.is_open() != true)

@@ -6,6 +6,8 @@ TEST(ShaderLib,StaticInit)
 {
   // we have Colour, Text, Diffuse and Checker (but vert and frag) so 8 shaders in total
   EXPECT_TRUE(ngl::ShaderLib::getNumShaders() ==8);
+  // test to see if getShaderID works
+  EXPECT_TRUE(ngl::ShaderLib::getProgramID(ngl::nglColourShader) > 0);
 }
 
 TEST(ShaderLib,loadShader)

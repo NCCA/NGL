@@ -73,7 +73,7 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
   
 
   virtual bool load(std::string_view _fname, CalcBB _calcBB = CalcBB::True) noexcept;
-  bool save(std::string_view _fname) noexcept;
+  bool save(std::string_view _fname) const noexcept;
   bool isLoaded() const noexcept
   {
     return m_isLoaded;
