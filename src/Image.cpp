@@ -394,7 +394,7 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
 #ifdef IMAGE_DEBUG_ON
   NGLMessage::addMessage("loading with Internal Image Libs");
 #endif
-  if(img != NULL)
+  if(img != nullptr)
   {
     NGLMessage::addMessage(fmt::format("loaded {} Width {} Height {} Channels {}", fname, w, h, ch));
     m_width = w;
@@ -422,7 +422,6 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
     {
       for(size_t x = 0; x < m_width; ++x)
       {
-        // index=(y * m_width) + x ;
         if(fmod(floor(checkSize * x / m_width) + floor(checkSize * y / m_height), 2.0f) < 1.0f)
         {
           m_data[index] = 255;

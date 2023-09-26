@@ -410,10 +410,10 @@ Mat4 Mat4::euler(const Real _angle, const Real _x, const Real _y, const Real _z)
 Quaternion Mat4::asQuaternion() const noexcept
 {
   // calculate trace of the matrix
-  auto T = m_openGL[0] + m_openGL[5] + m_openGL[10] + 1.0f;
+  
 
   // if trace is greater than 0, calculate an instant calculation
-  if(T > 0.0f)
+  if(auto T = m_openGL[0] + m_openGL[5] + m_openGL[10] + 1.0f; T > 0.0f)
   {
     auto S = 0.5f / sqrtf(T);
     return Quaternion(
@@ -432,7 +432,6 @@ Quaternion Mat4::asQuaternion() const noexcept
   if(m_openGL[10] > BigF)
   {
     check = 2;
-    // BigF  = m_openGL[10];
   }
   switch(check)
   {
@@ -459,7 +458,6 @@ Quaternion Mat4::asQuaternion() const noexcept
     }
     default:
     {
-      // NGL_ASSERT(0 && "SHOULDN'T GET HERE in ngl Quaternion");
       break;
     }
   } // end switch

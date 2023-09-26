@@ -118,8 +118,6 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
 template< typename... Ts>
 bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&...args ) const noexcept
 {
-//    std::cout<<"setRegisteredUniform variadic "<<__PRETTY_FUNCTION__<<'\n';
-
   auto uniform = m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform != m_registeredUniforms.end())

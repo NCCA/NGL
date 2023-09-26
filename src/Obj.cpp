@@ -311,9 +311,9 @@ bool Obj::parseUV(std::vector< std::string > &_tokens) noexcept
   bool parsedOK = true;
   try
   {
-    float x, y, z = 0.0f;
-    x = std::stof(_tokens[1]);
-    y = std::stof(_tokens[2]);
+    auto z=0.0f;
+    auto x = std::stof(_tokens[1]);
+    auto y = std::stof(_tokens[2]);
     if(_tokens.size() == 4)
     {
       z = std::stof(_tokens[3]);

@@ -296,7 +296,7 @@ class NGL_DLLEXPORT Quaternion
     /// @brief[out] o_axis the axis of rotation (
     /// @brief[out] o_angle the angle of rotation about the quat angle in degrees
     //----------------------------------------------------------------------------------------------------------------------
-    void toAxisAngle(Vec3 &o_axis,Real &o_angle) noexcept;
+    void toAxisAngle(Vec3 &o_axis,Real &o_angle) const noexcept;
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief  return the current quat as a 4x4 transform matrix
     /// @returns the quat as a matrix
