@@ -61,7 +61,6 @@ struct FontChar
   int bearingy;
   unsigned int advance;
   GLuint textureID; /// @brief the texture id of the font billboard
-  //  std::shared_ptr<AbstractVAO> vao; /// a vao for the font
 };
 
 class NGL_DLLEXPORT Text

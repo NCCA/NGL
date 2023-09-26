@@ -35,14 +35,6 @@ namespace ngl
 {
 
 
-Mat3::Mat3() noexcept
-{
-  memset(&m_m, 0, sizeof(m_m));
-  m_00 = 1.0f;
-  m_11 = 1.0f;
-  m_22 = 1.0f;
-}
-
 Mat3::Mat3(const Mat4 &_m) noexcept
 {
   m_00 = _m.m_00;

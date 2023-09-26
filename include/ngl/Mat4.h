@@ -64,7 +64,7 @@ class NGL_DLLEXPORT Mat4
  
   /// @brief ctor will always create an identity matrix
  
-  Mat4() noexcept;
+  Mat4()=default;
  
   /// @brief ctor using 4x4 array, really useful when mixing with Imath as we can do
   /// Imath::Matrix44 <float> iMatrix;

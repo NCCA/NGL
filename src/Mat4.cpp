@@ -35,14 +35,6 @@ namespace ngl
 {
 
 
-Mat4::Mat4() noexcept
-{
-  memset(&m_m, 0, sizeof(m_m));
-  m_00 = 1.0f;
-  m_11 = 1.0f;
-  m_22 = 1.0f;
-  m_33 = 1.0f;
-}
 
 Mat4::Mat4(Real _m[4][4]) noexcept
 {

@@ -65,10 +65,7 @@ class NGL_DLLEXPORT Vec4
   friend class Obj;
 
     public:
-  Vec4()
-    : m_x(0.0f), m_y(0.0f), m_z(0.0f), m_w(1.0f)
-  {
-  }
+  Vec4()=default;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief copy ctor
   /// @param[in] _v the value to set
@@ -82,7 +79,6 @@ class NGL_DLLEXPORT Vec4
     : m_x(_v.m_x), m_y(_v.m_y), m_z(_v.m_z), m_w(_w)
   {
   }
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief initialise the constructor from 3 or 4 Real
   /// @param[in]  _x x value
@@ -380,7 +376,6 @@ class NGL_DLLEXPORT Vec4
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
 #pragma pack(push, 1)
-
   union
   {
     struct
@@ -397,16 +392,9 @@ class NGL_DLLEXPORT Vec4
       Real m_b; //!< b component
       Real m_a; //!< a component
     };
+    std::array< Real, 4 > m_openGL={0.0f,0.0f,0.0f,1.0f};
 #pragma pack(pop)
-    //----------------------------------------------------------------------------------------------------------------------
-    /// @brief array of four floats mapped to the x,y,z,w components of the vector useful for openGL fv data types
-    /// this is mapped as a union to the following \n
-    /// m_x == m_openGL[0] \n
-    /// m_y == m_openGL[1] \n
-    /// m_z == m_openGL[2] \n
-    /// m_w == m_openGL[3] \n
-    //----------------------------------------------------------------------------------------------------------------------
-    std::array< Real, 4 > m_openGL;
+
   };
 };
 #pragma GCC diagnostic pop

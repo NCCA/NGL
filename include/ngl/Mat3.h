@@ -49,7 +49,7 @@ class NGL_DLLEXPORT Mat3
   
   /// @brief ctor will always create an identity matrix
   
-  Mat3() noexcept;
+  Mat3()=default;
   
   /// @brief ctor passing in value
   
@@ -220,70 +220,40 @@ class NGL_DLLEXPORT Mat3
   friend class Camera;
   
 
-#ifndef BUILDING_DOCS
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
 #pragma pack(push, 1)
 
   union
   {
-#endif
-    
     /// @brief Mat3 element m_m as a 4x4 array mapped by union to m_nn elements and m_openGL
-    
     Real m_m[3][3];
-    
     /// @brief  The matrix in m_openGL 16 Real array format usefull for OpenGL fv formats
     /// mapped to m_m[][] elements and m_xx elements
-    
-    // Real m_openGL[9];
     std::array< Real, 9 > m_openGL = {{1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f}};
-#ifndef BUILDING_DOCS
-
     struct
-    {
-#endif
-      
+    {      
       /// @brief  individual matrix element maps to m_m[0][0] or m_openGL[0]
-      
       Real m_00;
-      
       /// @brief  individual matrix element maps to m_m[0][1] or m_openGL[1]
-      
       Real m_01;
-      
       /// @brief  individual matrix element maps to m_m[0][2] or m_openGL[2]
-      
-      Real m_02;
-      
+      Real m_02;     
       /// @brief  individual matrix element maps to m_m[1][0] or m_openGL[3]
-      
       Real m_10;
-      
       /// @brief  individual matrix element maps to m_m[1][1] or m_openGL[4]
-      
       Real m_11;
-      
-      /// @brief  individual matrix element maps to m_m[1][2] or m_openGL[5]
-      
+      /// @brief  individual matrix element maps to m_m[1][2] or m_openGL[5]      
       Real m_12;
-      
       /// @brief  individual matrix element maps to m_m[2][0] or m_openGL[6]
-      
       Real m_20;
-      
       /// @brief  individual matrix element maps to m_m[2][1] or m_openGL[7]
-      
       Real m_21;
-      
-      /// @brief  individual matrix element maps to m_m[2][2] or m_openGL[8]
-      
+      /// @brief  individual matrix element maps to m_m[2][2] or m_openGL[8]      
       Real m_22;
-#ifndef BUILDING_DOCS
     };
 #pragma pack(pop)
   };
-#endif
 #pragma GCC diagnostic pop
 
 }; // end of class

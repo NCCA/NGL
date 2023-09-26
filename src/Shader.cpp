@@ -62,7 +62,6 @@ Shader::Shader(std::string_view _name, ShaderType _type, ErrorExit _exitOnError)
       m_shaderHandle = glCreateShader(GL_FRAGMENT_SHADER);
       break;
     }
-#ifndef USINGIOS_
     case ShaderType::GEOMETRY:
     {
       m_shaderHandle = glCreateShader(GL_GEOMETRY_SHADER);
@@ -87,7 +86,6 @@ Shader::Shader(std::string_view _name, ShaderType _type, ErrorExit _exitOnError)
     }
 #endif
       break;
-#endif
     case ShaderType::NONE:
     {
       ;

@@ -38,7 +38,7 @@ void NGLInit::initialize()
 {
   NGLMessage::init();
 
-#if defined(USINGIOS_) || !defined(__APPLE__)
+#if !defined(__APPLE__)
   if(gl3wInit())
   {
     NGLMessage::drawLine(Colours::RED);
@@ -83,7 +83,7 @@ void NGLInit::initialize()
 
 NGLInit::NGLInit()
 {
-#if defined(USINGIOS_) || !defined(__APPLE__)
+#if  !defined(__APPLE__)
   if(gl3wInit())
   {
     NGLMessage::drawLine(Colours::RED);

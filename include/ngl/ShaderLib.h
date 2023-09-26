@@ -34,6 +34,9 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <iostream>
+#include <algorithm>
+
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -242,19 +245,11 @@ class NGL_DLLEXPORT ShaderLib
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the float value of the parameter to set
-  //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, Real _v0) noexcept;
-  static bool getUniform(std::string_view _paramName, Real &o_v0) noexcept;
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief overloaded method to set shader Uniforms the shader
-  /// must be the currently active shader of else this will fail
-  /// @param[in] _paramName the name of the Uniform to set
-  /// @param[in] _v0 the float value of the parameter to set
   /// @param[in] _v1 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, Real _v0, Real _v1) noexcept;
-  static bool getUniform(std::string_view _paramName, Real &o_v0, Real &o_v1) noexcept;
-  static bool getUniform(std::string_view _paramName, Vec2 &o_v3) noexcept;
+//  static bool setUniform(std::string_view _paramName, Real _v0, Real _v1) noexcept;
+  //static bool getUniform(std::string_view _paramName, Real &o_v0, Real &o_v1) noexcept;
+  //static bool getUniform(std::string_view _paramName, Vec2 &o_v3) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -263,9 +258,9 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _v1 the float value of the parameter to set
   /// @param[in] _v2 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, Real _v0, Real _v1, Real _v2) noexcept;
-  static bool getUniform(std::string_view _paramName, Real &o_v0, Real &o_v1, Real &o_v2) noexcept;
-  static bool getUniform(std::string_view _paramName, Vec3 &o_v) noexcept;
+  //static bool setUniform(std::string_view _paramName, Real _v0, Real _v1, Real _v2) noexcept;
+  //static bool getUniform(std::string_view _paramName, Real &o_v0, Real &o_v1, Real &o_v2) noexcept;
+  //static bool getUniform(std::string_view _paramName, Vec3 &o_v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -275,17 +270,17 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _v2 the float value of the parameter to set
   /// @param[in] _v3 the float value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, Real _v0, Real _v1, Real _v2, Real _v3) noexcept;
-  static bool getUniform(std::string_view _paramName, Real &o_v0, Real &o_v1, Real &o_v2, Real &o_v3) noexcept;
-  static bool getUniform(std::string_view _paramName, Vec4 &o_v) noexcept;
+  //static bool setUniform(std::string_view _paramName, Real _v0, Real _v1, Real _v2, Real _v3) noexcept;
+  //static bool getUniform(std::string_view _paramName, Real &o_v0, Real &o_v1, Real &o_v2, Real &o_v3) noexcept;
+  //static bool getUniform(std::string_view _paramName, Vec4 &o_v) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the int value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, GLint _v0) noexcept;
-  static bool getUniform(std::string_view _paramName, GLint &o_v0) noexcept;
+  //static bool setUniform(std::string_view _paramName, GLint _v0) noexcept;
+  //static bool getUniform(std::string_view _paramName, GLint &o_v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -293,8 +288,8 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _v0 the int value of the parameter to set
   /// @param[in] _v1 the int value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, GLint _v0, GLint _v1) noexcept;
-  static bool getUniform(std::string_view _paramName, GLint &o_v0,GLint &o_v1) noexcept;
+  //static bool setUniform(std::string_view _paramName, GLint _v0, GLint _v1) noexcept;
+  //static bool getUniform(std::string_view _paramName, GLint &o_v0,GLint &o_v1) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -303,8 +298,8 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _v1 the int value of the parameter to set
   /// @param[in] _v2 the int value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, GLint _v0, GLint _v1, GLint _v2) noexcept;
-  static bool getUniform(std::string_view _paramName, GLint &o_v0,GLint &o_v1,GLint &o_v2) noexcept;
+  //static bool setUniform(std::string_view _paramName, GLint _v0, GLint _v1, GLint _v2) noexcept;
+  //static bool getUniform(std::string_view _paramName, GLint &o_v0,GLint &o_v1,GLint &o_v2) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
@@ -314,58 +309,58 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _v2 the int value of the parameter to set
   /// @param[in] _v3 the int value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, GLint _v0, GLint _v1, GLint _v2, GLint _v3) noexcept;
-  static bool getUniform(std::string_view _paramName, GLint &o_v0,GLint &o_v1,GLint &o_v2,GLint &o_v3) noexcept;
+  //static bool setUniform(std::string_view _paramName, GLint _v0, GLint _v1, GLint _v2, GLint _v3) noexcept;
+  //static bool getUniform(std::string_view _paramName, GLint &o_v0,GLint &o_v1,GLint &o_v2,GLint &o_v3) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, Vec2 _v0) noexcept;
+  //static bool setUniform(std::string_view _paramName, Vec2 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, Vec3 _v0) noexcept;
+  //static bool setUniform(std::string_view _paramName, Vec3 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec4 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, Vec4 _v0) noexcept;
+  //static bool setUniform(std::string_view _paramName, Vec4 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat2 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, Mat2 _v0) noexcept;
-  static bool getUniform(std::string_view _paramName, Mat2 &_v0) noexcept;
+  //static bool setUniform(std::string_view _paramName, Mat2 _v0) noexcept;
+  //static bool getUniform(std::string_view _paramName, Mat2 &_v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, Mat3 _v0) noexcept;
-  static bool getUniform(std::string_view _paramName, Mat3 &_v0) noexcept;
+  //static bool setUniform(std::string_view _paramName, Mat3 _v0) noexcept;
+  //static bool getUniform(std::string_view _paramName, Mat3 &_v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat4 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, Mat4 _v0) noexcept;
-  static bool getUniform(std::string_view _paramName, Mat4 &_v0) noexcept;
+  //static bool setUniform(std::string_view _paramName, Mat4 _v0) noexcept;
+  //static bool getUniform(std::string_view _paramName, Mat4 &_v0) noexcept;
 
-  // compatability functions to make it easier to use GLM
-  static bool setUniformMatrix2fv(std::string_view _paramName, const GLfloat *_value, MatrixTranspose _transpose = MatrixTranspose::TransposeOff) noexcept;
-  static bool setUniformMatrix4fv(std::string_view _paramName, const GLfloat *_value, MatrixTranspose _transpose = MatrixTranspose::TransposeOff) noexcept;
-  static bool setUniformMatrix3fv(std::string_view _paramName, const GLfloat *_value, MatrixTranspose _transpose = MatrixTranspose::TransposeOff) noexcept;
+  // // compatability functions to make it easier to use GLM
+  // static bool setUniformMatrix2fv(std::string_view _paramName, const GLfloat *_value, MatrixTranspose _transpose = MatrixTranspose::TransposeOff) noexcept;
+  // static bool setUniformMatrix4fv(std::string_view _paramName, const GLfloat *_value, MatrixTranspose _transpose = MatrixTranspose::TransposeOff) noexcept;
+  // static bool setUniformMatrix3fv(std::string_view _paramName, const GLfloat *_value, MatrixTranspose _transpose = MatrixTranspose::TransposeOff) noexcept;
 
 #ifdef USEGLM
   //----------------------------------------------------------------------------------------------------------------------
@@ -374,42 +369,42 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, glm::vec2 _v0) noexcept;
+  //static bool setUniform(std::string_view _paramName, glm::vec2 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, glm::vec3 _v0) noexcept;
+  //static bool setUniform(std::string_view _paramName, glm::vec3 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Vec4 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, glm::vec4 _v0) noexcept;
+  ///static bool setUniform(std::string_view _paramName, glm::vec4 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, glm::mat2 _v0) noexcept;
+  //static bool setUniform(std::string_view _paramName, glm::mat2 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat3 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, glm::mat3 _v0) noexcept;
+  //static bool setUniform(std::string_view _paramName, glm::mat3 _v0) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief overloaded method to set shader Uniforms the shader
   /// must be the currently active shader of else this will fail
   /// @param[in] _paramName the name of the Uniform to set
   /// @param[in] _v0 the Mat4 value of the parameter to set
   //----------------------------------------------------------------------------------------------------------------------
-  static bool setUniform(std::string_view _paramName, glm::mat4 _v0) noexcept;
+  //static bool setUniform(std::string_view _paramName, glm::mat4 _v0) noexcept;
 
 #endif
 
@@ -423,9 +418,18 @@ class NGL_DLLEXPORT ShaderLib
   /// @brief method to return the specified shader object
   /// @param _shaderName the name of the shader to return
   //----------------------------------------------------------------------------------------------------------------------
-  static std::shared_ptr< ngl::Shader > getShader(std::string_view _shaderName) noexcept;
   static bool setUniformBuffer(std::string_view _uniformBlockName, size_t _size, void *_data);
 
+  
+  template< typename Ts>
+  static bool setUniform(std::string_view _varname ,Ts &&arg )  noexcept;
+  template< typename... Ts>
+  static bool setUniform(std::string_view _varname ,Ts &&...args )  noexcept;
+
+  template< typename Ts>
+  static bool getUniform(std::string_view _varname ,Ts &&arg )  noexcept;
+  template< typename... Ts>
+  static bool getUniform(std::string_view _varname ,Ts &&...args )  noexcept;
   
 
     protected:
@@ -456,15 +460,15 @@ class NGL_DLLEXPORT ShaderLib
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief a map of shader Programs using name as key to shader pointer
   //----------------------------------------------------------------------------------------------------------------------
-  static std::unordered_map< std::string, std::shared_ptr< ShaderProgram > > m_shaderPrograms;
+  static std::unordered_map< std::string, std::unique_ptr< ShaderProgram>> m_shaderPrograms;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief map of shaders using name as key
   //----------------------------------------------------------------------------------------------------------------------
-  static std::unordered_map< std::string, std::shared_ptr< Shader > > m_shaders;
+  static std::unordered_map< std::string, std::unique_ptr< Shader>> m_shaders;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief null ShaderProgram so we can return when shader not know;
   //----------------------------------------------------------------------------------------------------------------------
-  static std::shared_ptr< ShaderProgram > m_nullProgram;
+  static std::unique_ptr< ShaderProgram > m_nullProgram;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief the name of the currently active shader
   //    ----------------------------------------------------------------------------------------------------------------------
@@ -496,6 +500,8 @@ class NGL_DLLEXPORT ShaderLib
   ShaderLib(const ShaderLib &) = delete;
 
 }; // end of class
+
+#include "ngl/ShaderLib.inl"
 
 } // namespace ngl
 

@@ -52,14 +52,22 @@ class Mat2;
 class NGL_DLLEXPORT Vec2
 {
 
-    public:
+public:
+  Vec2()=default;
+  Vec2(const Vec2 &_v) =  default;
+
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief initialise the constructor from 3 or 4 Real
+  /// @param[in]  _x x value
+  /// @param[in]  _y y value
+  //----------------------------------------------------------------------------------------------------------------------
+  Vec2(Real _x,Real _y ) noexcept : m_x(_x), m_y(_y){}
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief sets the Vec2 component from 3 values
   /// @param[in]  _x the x component
   /// @param[in]  _y the y component
   //----------------------------------------------------------------------------------------------------------------------
   void set(Real _x, Real _y) noexcept;
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set from another  Vec2
   /// @param[in]  _v the Vec2 to set from
@@ -74,10 +82,6 @@ class NGL_DLLEXPORT Vec2
   /// @brief copy ctor
   /// @param[in] _v the value to set
   //----------------------------------------------------------------------------------------------------------------------
-  Vec2(const Vec2 &_v) noexcept
-    : m_x(_v.m_x), m_y(_v.m_y)
-  {
-  }
 #ifdef USEGLM
   Vec2(const glm::vec2 &_v) noexcept
     : m_x(_v.x), m_y(_v.y)
@@ -94,17 +98,6 @@ class NGL_DLLEXPORT Vec2
   }
 
 #endif
-  //----------------------------------------------------------------------------------------------------------------------
-  /// @brief initialise the constructor from 3 or 4 Real
-  /// @param[in]  _x x value
-  /// @param[in]  _y y value
-  /// @param[in]  _w 1.0f default so acts as a points
-  //----------------------------------------------------------------------------------------------------------------------
-  Vec2(Real _x = 0.0f, Real _y = 0.0f) noexcept
-    : m_x(_x), m_y(_y)
-  {
-  }
-
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief clears the Vec2 to 0,0,0
   //----------------------------------------------------------------------------------------------------------------------
@@ -252,38 +245,19 @@ class NGL_DLLEXPORT Vec2
     public:
 #pragma pack(push, 1)
 
-#ifndef BUILDING_DOCS
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
   union
   {
     struct
     {
-#endif
-      //----------------------------------------------------------------------------------------------------------------------
-      /// @brief x component of the Vec2
-      //----------------------------------------------------------------------------------------------------------------------
       Real m_x;
-      //----------------------------------------------------------------------------------------------------------------------
-      /// @brief y component of the Vec2
-      //----------------------------------------------------------------------------------------------------------------------
       Real m_y;
 
-#ifndef BUILDING_DOCS
     };
-#endif
+    std::array< Real, 2 > m_openGL={0.0f,0.0f};
 #pragma pack(pop)
-    //----------------------------------------------------------------------------------------------------------------------
-    /// @brief array of four floats mapped to the x,y,z,w components of the Vec2 useful for openGL fv data types
-    /// this is mapped as a union to the following \n
-    /// m_x == m_openGL[0] \n
-    /// m_y == m_openGL[1] \n
-    //----------------------------------------------------------------------------------------------------------------------
-
-    std::array< Real, 2 > m_openGL;
-#ifndef BUILDING_DOCS
   };
-#endif
 };
 #pragma GCC diagnostic pop
 
