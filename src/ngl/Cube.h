@@ -22,11 +22,12 @@
 /// @brief raw data for the cube vbo primitive
 #ifndef CUBE_H_
 #define CUBE_H_
+#include <array>
 namespace ngl
 {
-constexpr int cubeSIZE=288;
-
-static const float Cube[cubeSIZE]={
+constexpr size_t cubeSIZE=288;
+constexpr std::array<float,cubeSIZE> Cube=
+{
 0.37500f,0.00000f,0.00000f,0.00000f,1.00000f,-0.50000f,-0.50000f,0.50000f,
 0.62500f,0.00000f,0.00000f,0.00000f,1.00000f,0.50000f,-0.50000f,0.50000f,
 0.37500f,0.25000f,0.00000f,0.00000f,1.00000f,-0.50000f,0.50000f,0.50000f,

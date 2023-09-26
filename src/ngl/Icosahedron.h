@@ -22,10 +22,10 @@
 /// @brief raw data for the Icosahedron vbo primitive
 #ifndef ICOSAHEDRON_H_
 #define ICOSAHEDRON_H_
+#include <array>
 namespace ngl{
-constexpr int icosahedronSIZE=480;
-static float Icosahedron[icosahedronSIZE]={
-
+constexpr size_t icosahedronSIZE=480;
+constexpr std::array<float,icosahedronSIZE> Icosahedron={
   0.909091f,0.583333f,0.934172f,-0.356822f,0.0f,0.850651f,0.0f,0.525731f,
   0.818182f,0.75f,0.934172f,-0.356822f,0.0f,0.525731f,-0.850651f,0.0f,
   0.727273f,0.583333f,0.934172f,-0.356822f,0.0f,0.850651f,0.0f,-0.525731f,

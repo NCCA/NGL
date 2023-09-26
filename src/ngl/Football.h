@@ -22,10 +22,11 @@
 /// @brief the raw data for the football vbo primitive
 #ifndef FOOTBALL_H_
 #define FOOTBALL_H_
+#include <array>
 namespace ngl {
-constexpr int footballSIZE=2784;
-static float Football[footballSIZE]={
-       0.41936f,0.41102f,0.18849f,0.91496f,-0.35682f,0.00000f,1.00000f,0.00000f,
+constexpr size_t footballSIZE=2784;
+constexpr std::array<float,footballSIZE> Football={
+0.41936f,0.41102f,0.18849f,0.91496f,-0.35682f,0.00000f,1.00000f,0.00000f,
 0.38710f,0.35515f,0.18849f,0.91496f,-0.35682f,0.39525f,0.91857f,0.00000f,
 0.48387f,0.41102f,0.18849f,0.91496f,-0.35682f,-0.22279f,0.91857f,-0.32648f,
 0.41936f,0.29928f,0.18849f,0.91496f,-0.35682f,0.56771f,0.75572f,-0.32648f,

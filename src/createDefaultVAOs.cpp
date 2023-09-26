@@ -16,20 +16,20 @@ void VAOPrimitives::createDefaultVAOs() noexcept
 {
   // load into the vbo list some basic primitives (these are created in .h file arrays from Obj2VBO)
   // Obj2VBO and the original models may be found in the Models directory
-  createVAOFromHeader(teapot,Teapot,teapotSIZE);
-  createVAOFromHeader(octahedron,Octahedron,OctahedronSIZE);
-  createVAOFromHeader(dodecahedron,Dodecahedron,dodecahedronSIZE);
-  createVAOFromHeader(icosahedron,Icosahedron,icosahedronSIZE);
-  createVAOFromHeader(tetrahedron,Tetrahedron,tetrahedronSIZE);
-  createVAOFromHeader(football,Football,footballSIZE);
-  createVAOFromHeader(cube,Cube,cubeSIZE);
-  createVAOFromHeader(troll,Troll,trollSIZE);
+  createVAOFromHeader(teapot,&Teapot[0],teapotSIZE);
+  createVAOFromHeader(octahedron,&Octahedron[0],OctahedronSIZE);
+  createVAOFromHeader(dodecahedron,&Dodecahedron[0],dodecahedronSIZE);
+  createVAOFromHeader(icosahedron,&Icosahedron[0],icosahedronSIZE);
+  createVAOFromHeader(tetrahedron,&Tetrahedron[0],tetrahedronSIZE);
+  createVAOFromHeader(football,&Football[0],footballSIZE);
+  createVAOFromHeader(cube,&Cube[0],cubeSIZE);
+  createVAOFromHeader(troll,&Troll[0],trollSIZE);
 /// @note these data sets are huge and compilation takes a
 /// long time hence only enable if needed
 #ifdef ADDLARGEMODELS
-  createVAOFromHeader(bunny,Bunny,bunnySIZE);
-  createVAOFromHeader(dragon,Dragon,dragonSIZE);
-  createVAOFromHeader(buddah,Buddah,buddahSIZE);
+  createVAOFromHeader(bunny,&Bunny[0],bunnySIZE);
+  createVAOFromHeader(dragon,&Dragon[0],dragonSIZE);
+  createVAOFromHeader(buddah,&Buddah[0],buddahSIZE);
 #endif
 
 
