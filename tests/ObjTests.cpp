@@ -39,11 +39,6 @@ TEST(Obj,openForReading)
   }
 }
 
-//TEST(Obj,loadBig)
-//{
-//  Obj a;
-//  EXPECT_TRUE(a.load("files/sponza.obj"));
-//}
 
 TEST(Obj,defaultCtor)
 {

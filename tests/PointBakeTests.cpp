@@ -25,7 +25,7 @@ TEST(PointBake,filector)
 TEST(PointBake,addMesh)
 {
     auto pb=ngl::NCCAPointBake("files/Tri.xml");
-    auto mesh=ngl::Obj("models/Tri.obj");
+    auto mesh=ngl::Obj("models/Tri.obj",ngl::Obj::CalcBB::False);
     EXPECT_TRUE(pb.attachMesh(&mesh));
 }
 
