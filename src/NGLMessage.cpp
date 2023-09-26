@@ -13,7 +13,7 @@ std::vector< Message > NGLMessage::s_messageQueue;
 std::promise< void > g_exitSignal;
 Colours NGLMessage::s_currentColour = Colours::NORMAL;
 std::ofstream NGLMessage::s_logFile;
-
+std::thread g_messageThread;
 NGLMessage::NGLMessage()
 {
 
@@ -25,27 +25,29 @@ NGLMessage::NGLMessage()
     exit(EXIT_FAILURE);
   }
   s_futureExit = g_exitSignal.get_future();
-  std::thread t([this]()
-                {
-        while(s_futureExit.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout)
-        {
-          std::scoped_lock<std::mutex> lock(g_messageQueueLock);
-          if(! s_messageQueue.empty())
-          {
-            auto msg=s_messageQueue.back();
-            s_messageQueue.pop_back();
-            consume(msg);
-          }
-        } });
-  t.detach();
+  g_messageThread=std::thread ([this]()
+    {
+    while(s_futureExit.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout)
+    {
+      std::scoped_lock<std::mutex> lock(g_messageQueueLock);
+      if(! s_messageQueue.empty())
+      {
+        auto msg=s_messageQueue.back();
+        s_messageQueue.pop_back();
+        consume(msg);
+      }
+     
+    } });
+  g_messageThread.detach();
 }
-
-
 
 NGLMessage::~NGLMessage()
 {
-  while(! s_messageQueue.empty() )
+  while(!s_messageQueue.empty())
+  {
     std::this_thread::sleep_for(std::chrono::microseconds(1));
+  }
+  g_exitSignal.set_value();
   s_logFile.close();
 }
 
@@ -147,7 +149,6 @@ std::string NGLMessage::getColourString(const Colours &_colour) const
   }
   return output;
 }
-
 
 void NGLMessage::addMessage(std::string_view _message, Colours _c, TimeFormat _timeFormat)
 {
