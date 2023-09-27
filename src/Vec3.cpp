@@ -19,6 +19,7 @@
 #include "NGLassert.h"
 #include "Vec4.h"
 #include <cmath>
+#include <algorithm>
 
 /// @file Vec3.cpp
 /// @brief implementation files for Vec3 class
