@@ -410,7 +410,7 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
     m_height = 1024;
     m_channels = 3;
     m_format = GL_RGB;
-    m_data= std::make_unique<unsigned char []>(m_width * m_height * m_channel);
+    m_data= std::make_unique<unsigned char []>(m_width * m_height * m_channels);
     size_t index = 0;
     constexpr float checkSize = 20;
     for(GLuint y = 0; y < m_height; ++y)
