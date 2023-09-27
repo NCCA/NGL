@@ -63,7 +63,7 @@ void NGLMessage::consume(const Message &_message)
   if(_message.timeFormat != TimeFormat::NONE)
   {
     setTimeFormat(_message.timeFormat);
-    std::time_t tm = std::chrono::system_clock::to_time_t(_message.time);
+    auto tm = std::chrono::system_clock::to_time_t(_message.time);
     std::cerr << getColourString(_message.colour) << std::put_time(std::localtime(&tm), m_timeString.c_str()) << ' ' << _message.message << '\n';
     s_logFile << std::put_time(std::localtime(&tm), m_timeString.c_str()) << ' ' << _message.message << '\n';
   }

@@ -72,7 +72,7 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
   /// @param[in] _calcBB if we only want to load data and not use GL then set this to false
   
 
-  virtual bool load(std::string_view _fname, CalcBB _calcBB = CalcBB::True) noexcept;
+  virtual bool load(std::string_view _fname, CalcBB _calcBB = CalcBB::True)  noexcept override;
   bool save(std::string_view _fname) const noexcept;
   bool isLoaded() const noexcept
   {
