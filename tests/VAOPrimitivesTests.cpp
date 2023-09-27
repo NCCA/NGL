@@ -50,8 +50,6 @@ TEST(VAOPrimitives,checkADD)
      ngl::Vec3(0,0,1.5),
      ngl::Vec3(0.5,0,1)
    }};
-//   std::cout<<"sizeof(verts) "<<sizeof(verts)<<" sizeof(ngl::Vec3) "<<sizeof(ngl::Vec3)<<"\n";
-//   std::cout<<"sizeof(verts) "<<sizeof(verts)<<" sizeof(ngl::Vec3) "<<sizeof(ngl::Vec3)<<"\n";
    // create a vao as a series of GL_TRIANGLES
    auto vao=ngl::VAOFactory::createVAO(ngl::simpleVAO,GL_TRIANGLES);
    vao->bind();
@@ -121,6 +119,21 @@ TEST(VAOPrimitives,createCapsule)
 
   ngl::VAOPrimitives::createCapsule("capsule",1.0f,2.0f,100);
   EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName("capsule") !=nullptr);
+}
+
+TEST(VAOPrimitives,defaultVAO)
+{
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName(ngl::troll) !=nullptr);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName(ngl::teapot) !=nullptr);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName(ngl::octahedron) !=nullptr);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName(ngl::dodecahedron) !=nullptr);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName(ngl::icosahedron) !=nullptr);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName(ngl::tetrahedron) !=nullptr);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName(ngl::football) !=nullptr);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName(ngl::cube) !=nullptr);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName(ngl::bunny) !=nullptr);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName(ngl::dragon) !=nullptr);
+  EXPECT_TRUE(ngl::VAOPrimitives::getVAOFromName(ngl::buddah) !=nullptr);
 }
 
 

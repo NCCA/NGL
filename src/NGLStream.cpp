@@ -61,9 +61,9 @@ NGL_DLLEXPORT std::ostream& operator<<(std::ostream &_output,const Mat3 &_m )
   std::cout.setf(std::ios::fixed|std::ios::adjustfield|std::ios::showpos);
   std::cout.precision(12);
   return _output
-  <<"["<<_m.m_00<<","<<_m.m_01<<","<<_m.m_02<<","<<"]\n"
-  <<"["<<_m.m_10<<","<<_m.m_11<<","<<_m.m_12<<","<<"]\n"
-  <<"["<<_m.m_20<<","<<_m.m_21<<","<<_m.m_22<<","<<"]\n";
+  <<"["<<_m.m_00<<","<<_m.m_01<<","<<_m.m_02<<"]\n"
+  <<"["<<_m.m_10<<","<<_m.m_11<<","<<_m.m_12<<"]\n"
+  <<"["<<_m.m_20<<","<<_m.m_21<<","<<_m.m_22<<"]\n";
 }
 
 
