@@ -238,14 +238,6 @@ Vec4 &Vec4::operator=(const Vec3 &_v) noexcept
   return *this;
 }
 
-Vec4 &Vec4::operator=(Real _v) noexcept
-{
-  m_x = _v;
-  m_y = _v;
-  m_z = _v;
-  m_w = 0.0f;
-  return *this;
-}
 
 Real Vec4::lengthSquared() const noexcept
 {

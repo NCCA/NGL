@@ -150,6 +150,7 @@ TEST(Vec3, AssignOperator)
   EXPECT_FLOAT_EQ(test[0], copy[0]);
   EXPECT_FLOAT_EQ(test[1], copy[1]);
   EXPECT_FLOAT_EQ(test[2], copy[2]);
+
 }
 
 TEST(Vec3, fromGLM)
