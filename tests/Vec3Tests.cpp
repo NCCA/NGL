@@ -3,6 +3,7 @@
 #include <ngl/Mat3.h>
 #include <ngl/Types.h>
 #include <ngl/Vec3.h>
+#include <ngl/Vec4.h>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -178,6 +179,49 @@ TEST(Vec3, setGLM)
   EXPECT_FLOAT_EQ(0.1f, f[2]);
 }
 
+TEST(Vec3,set)
+{
+  ngl::Vec3 v;
+  v.set(ngl::Vec3(1.0f, 2.0f, 3.0f));
+  EXPECT_FLOAT_EQ(v[0], 1.0f);
+  EXPECT_FLOAT_EQ(v[1], 2.0f);
+  EXPECT_FLOAT_EQ(v[2], 3.0f);
+  v.set(ngl::Vec4(2.0f,3.0f,4.0f));
+  EXPECT_FLOAT_EQ(v[0], 2.0f);
+  EXPECT_FLOAT_EQ(v[1], 3.0f);
+  EXPECT_FLOAT_EQ(v[2], 4.0f);
+}
+
+TEST(Vec3,negate)
+{
+  ngl::Vec3 v(1.0f,2.0f,3.0f);
+  v=-v;
+  EXPECT_FLOAT_EQ(v[0], -1.0f);
+  EXPECT_FLOAT_EQ(v[1], -2.0f);
+  EXPECT_FLOAT_EQ(v[2], -3.0f);
+}
+
+TEST(Vec3,equality)
+{
+  ngl::Vec3 v(1.0f,2.0f,3.0f);
+  ngl::Vec3 v1(1.0f,2.0f,3.0f);
+  EXPECT_TRUE(v==v1);
+  EXPECT_FALSE(v!=v1);
+  v1.set(2.0f,3.0f,4.0f);
+  EXPECT_FALSE(v==v1);
+  EXPECT_TRUE(v!=v1);
+}
+
+TEST(Vec3,multVec3)
+{
+  ngl::Vec3 v(1.0f,2.0f,3.0f);
+  ngl::Vec3 v1(2.0f,3.0f,4.0f);
+  v=v*v1;
+  EXPECT_FLOAT_EQ(v[0], 2.0f);
+  EXPECT_FLOAT_EQ(v[1], 6.0f);
+  EXPECT_FLOAT_EQ(v[2], 12.0f);
+}
+
 TEST(Vec3, add)
 {
   ngl::Vec3 a(1.0f, 2.0f, 3.0f);
@@ -272,4 +316,33 @@ TEST(Vec3, divideEqualVec)
   EXPECT_FLOAT_EQ(a.m_x, 0.5f);
   EXPECT_FLOAT_EQ(a.m_y, 1.0f);
   EXPECT_FLOAT_EQ(a.m_z, 1.5f);
+}
+
+TEST(Vec3,reflect)
+{
+  ngl::Vec3 v(0.5f,0.5f,0.0f);
+  ngl::Vec3 n(0.0f,1.0f,0.0f);
+  ngl::Vec3 r=v.reflect(n);
+  EXPECT_FLOAT_EQ(r.m_x,0.5f);
+  EXPECT_FLOAT_EQ(r.m_y,-0.5f);  
+  EXPECT_FLOAT_EQ(r.m_z,0.0f);
+}
+
+
+TEST(Vec3,clampMinMax)
+{
+  ngl::Vec3 a(-1.0f, 2.0f, 3.0f);
+  a.clamp(0.0f,2.0f);
+  EXPECT_FLOAT_EQ(a.m_x,0.0f);
+  EXPECT_FLOAT_EQ(a.m_y,2.0f);
+  EXPECT_FLOAT_EQ(a.m_z,2.0f);
+}
+
+TEST(Vec3,clampPlusMinus)
+{
+  ngl::Vec3 a(-4.0f, 2.5f, 3.0f);
+  a.clamp(2.0f);
+  EXPECT_FLOAT_EQ(a.m_x,-2.0f);
+  EXPECT_FLOAT_EQ(a.m_y,2.0f);
+  EXPECT_FLOAT_EQ(a.m_z,2.0f);
 }

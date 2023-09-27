@@ -232,26 +232,17 @@ Vec3 Vec3::reflect(const Vec3 &_n) const noexcept
 
 void Vec3::clamp(float _min, float _max) noexcept
 {
-  m_x < _min ? m_x = _min : m_x;
-  m_x > _max ? m_x = _max : m_x;
+  m_x=std::clamp(m_x,_min,_max);
+  m_y=std::clamp(m_y,_min,_max);
+  m_z=std::clamp(m_z,_min,_max);
 
-  m_y < _min ? m_y = _min : m_y;
-  m_y > _max ? m_y = _max : m_y;
-
-  m_z < _min ? m_z = _min : m_z;
-  m_z > _max ? m_z = _max : m_z;
 }
 
 void Vec3::clamp(float _max) noexcept
 {
-  m_x < -_max ? m_x = -_max : m_x;
-  m_x > _max ? m_x = _max : m_x;
-
-  m_y < -_max ? m_y = -_max : m_y;
-  m_y > _max ? m_y = _max : m_y;
-
-  m_z < -_max ? m_z = -_max : m_z;
-  m_z > _max ? m_z = _max : m_z;
+  m_x=std::clamp(m_x,-_max,_max);
+  m_y=std::clamp(m_y,-_max,_max);
+  m_z=std::clamp(m_z,-_max,_max);
 }
 
 } // namespace ngl
