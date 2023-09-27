@@ -410,14 +410,14 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
     m_height = 1024;
     m_channels = 3;
     m_format = GL_RGB;
-    m_data.reset(new unsigned char[m_width * m_height * m_channels]);
+    m_data= std::make_unique<unsigned char []>(m_width * m_height * m_channelsx);
     size_t index = 0;
     constexpr float checkSize = 20;
-    for(size_t y = 0; y < m_height; ++y)
+    for(int y = 0; y < m_height; ++y)
     {
-      for(size_t x = 0; x < m_width; ++x)
+      for(int x = 0; x < m_width; ++x)
       {
-        if(fmod(floor(checkSize * x / m_width) + floor(checkSize * y / m_height), 2.0f) < 1.0f)
+        if(fmod(floor(checkSize * x / static_cast<float>(m_width)) + floor(checkSize * y / static_cast<float>(m_height)), 2.0f) < 1.0f)
         {
           m_data[index] = 255;
           m_data[index + 1] = 0;
