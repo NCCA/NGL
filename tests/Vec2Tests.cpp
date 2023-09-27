@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <ngl/Types.h>
 #include <ngl/Vec2.h>
-#include <ngl/Mat3.h>
+#include <ngl/Mat2.h>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -199,6 +199,14 @@ TEST(Vec2,multiplyFloat)
   EXPECT_FLOAT_EQ(c.m_y,4.0f);
 }
 
+TEST(Vec2,multVec)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  a=a*a;
+  EXPECT_FLOAT_EQ(a.m_x,1.0f);
+  EXPECT_FLOAT_EQ(a.m_y,4.0f);
+}
+
 
 TEST(Vec2,multiplyFloatEqual)
 {
@@ -241,4 +249,40 @@ TEST(Vec2,divideEqualVec)
   a/=b;
   EXPECT_FLOAT_EQ(a.m_x,0.5f);
   EXPECT_FLOAT_EQ(a.m_y,1.0f);
+}
+
+TEST(Vec2,negate)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  a=-a;
+  EXPECT_FLOAT_EQ(a.m_x,-1.0f);
+  EXPECT_FLOAT_EQ(a.m_y,-2.0f);
+}
+
+TEST(Vec2,setWithVec)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  auto b=ngl::Vec2();
+  b.set(a);
+  EXPECT_FLOAT_EQ(b.m_x,1.0f);
+  EXPECT_FLOAT_EQ(b.m_y,2.0f);
+}
+
+TEST(Vec2,notEqual)
+{
+  ngl::Vec2 a(1.0f,2.0f);
+  ngl::Vec2 b(2.0f,2.0f);
+  ASSERT_TRUE(a!=b);
+  ASSERT_FALSE(a!=a);
+}
+
+
+TEST(Vec2,multMat2)
+{
+  ngl::Mat2 m(1,2,3,4);
+  ngl::Vec2 a(1.0f,2.0f);
+  auto res=a*m;
+  EXPECT_FLOAT_EQ(res.m_x,7.0f);
+  EXPECT_FLOAT_EQ(res.m_y,10.0f);
+
 }
