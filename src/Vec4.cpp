@@ -20,7 +20,9 @@
 
 #include "Mat4.h"
 #include "NGLassert.h"
+#include "Util.h"
 #include <cmath>
+#include <algorithm>
 
 /// @file Vec3.cpp
 /// @brief implementation files for Vec3 class
@@ -201,7 +203,7 @@ Real Vec4::angleBetween(const Vec4 &_v) const noexcept
   Vec4 v2 = *this;
   v1.normalize();
   v2.normalize();
-  return acosf(v1.dot(v2));
+  return ngl::degrees(acosf(v1.dot(v2)));
 }
 
 Real Vec4::inner(const Vec4 &_v) const noexcept
@@ -263,26 +265,20 @@ Vec4 Vec4::operator*(const Mat4 &_m) const noexcept
 
 void Vec4::clamp(float _min, float _max) noexcept
 {
-  m_x < _min ? m_x = _min : m_x;
-  m_x > _max ? m_x = _max : m_x;
 
-  m_y < _min ? m_y = _min : m_y;
-  m_y > _max ? m_y = _max : m_y;
-
-  m_z < _min ? m_z = _min : m_z;
-  m_z > _max ? m_z = _max : m_z;
+  m_x=std::clamp(m_x,_min,_max);
+  m_y=std::clamp(m_y,_min,_max);
+  m_z=std::clamp(m_z,_min,_max);
+  m_w=std::clamp(m_w,_min,_max);
 }
 
 void Vec4::clamp(float _max) noexcept
 {
-  m_x < -_max ? m_x = -_max : m_x;
-  m_x > _max ? m_x = _max : m_x;
+  m_x=std::clamp(m_x,-_max,_max);
+  m_y=std::clamp(m_y,-_max,_max);
+  m_z=std::clamp(m_z,-_max,_max);
+  m_w=std::clamp(m_w,-_max,_max);
 
-  m_y < -_max ? m_y = -_max : m_y;
-  m_y > _max ? m_y = _max : m_y;
-
-  m_z < -_max ? m_z = -_max : m_z;
-  m_z > _max ? m_z = _max : m_z;
 }
 
 } // end namespace ngl

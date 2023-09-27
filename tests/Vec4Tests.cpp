@@ -3,6 +3,7 @@
 #include <ngl/Mat4.h>
 #include <ngl/Types.h>
 #include <ngl/Vec4.h>
+#include <ngl/Util.h>
 #include <sstream>
 #include <string>
 
@@ -33,6 +34,21 @@ TEST(Vec4, SubScript)
   EXPECT_FLOAT_EQ(test[3], 4.0f);
 }
 
+TEST(Vec4,assign)
+{
+  auto v=ngl::Vec4();
+  v=ngl::Vec4(1.0f,2.0f,3.0f,4.0f);
+  EXPECT_FLOAT_EQ(v.m_x,1.0f);
+  EXPECT_FLOAT_EQ(v.m_y,2.0f);
+  EXPECT_FLOAT_EQ(v.m_z,3.0f);
+  EXPECT_FLOAT_EQ(v.m_w,4.0f);
+  v=ngl::Vec3(6.0f,7.0f,8.0f);
+  EXPECT_FLOAT_EQ(v.m_x,6.0f);
+  EXPECT_FLOAT_EQ(v.m_y,7.0f);
+  EXPECT_FLOAT_EQ(v.m_z,8.0f);
+  EXPECT_FLOAT_EQ(v.m_w,0.0f);
+}
+
 TEST(Vec4, FloatCtor)
 {
   ngl::Vec4 test(1.0f, 2.0f, 3.0f, 4.0f);
@@ -55,6 +71,45 @@ TEST(Vec4, AssignOperator)
   ngl::Vec4 copy = test;
   ngl::Vec4 result(1.0f, 2.0f, 3.0f);
   EXPECT_TRUE(copy == result);
+}
+
+TEST(Vec4,negate)
+{
+  ngl::Vec4 a(1,2,3,1);
+  a=-a;
+  EXPECT_FLOAT_EQ(a.m_x,-1.0f);
+  EXPECT_FLOAT_EQ(a.m_y,-2.0f);
+  EXPECT_FLOAT_EQ(a.m_z,-3.0f);
+  EXPECT_FLOAT_EQ(a.m_w,1.0f);
+}
+
+TEST(Vec4,notEqual)
+{
+  ngl::Vec4 a(1,2,3,1);
+  ngl::Vec4 b(1,2,3,1);
+  EXPECT_TRUE(a==b);
+  b.m_x=0.0f;
+  EXPECT_TRUE(a!=b);
+}
+
+TEST(Vec4,multVec4)
+{
+  ngl::Vec4 a(1,2,3,1);
+  ngl::Vec4 b(2,2,2,1);
+  a=a*b;
+  EXPECT_FLOAT_EQ(a.m_x,2.0f);
+  EXPECT_FLOAT_EQ(a.m_y,4.0f);
+  EXPECT_FLOAT_EQ(a.m_z,6.0f);
+  EXPECT_FLOAT_EQ(a.m_w,1.0f);
+}
+
+TEST(Vec4,angleBetween)
+{
+  ngl::Vec4 a(1,0,0,1);
+  ngl::Vec4 b(0,1,0,1);
+
+  EXPECT_FLOAT_EQ(a.angleBetween(b),90.0f);
+  EXPECT_FLOAT_EQ(a.angleBetween(a),0.0f);
 }
 
 TEST(Vec4, VectorTest)
@@ -180,6 +235,30 @@ TEST(Vec4, setGLM)
   EXPECT_FLOAT_EQ(1.0f, f[3]);
 }
 
+TEST(Vec4,setVec4)
+{
+  ngl::Vec4 f;
+  f.set(ngl::Vec4(0.4f, 0.2f, 0.1f, 1.0f));
+  EXPECT_FLOAT_EQ(0.4f, f[0]);
+  EXPECT_FLOAT_EQ(0.2f, f[1]);
+  EXPECT_FLOAT_EQ(0.1f, f[2]);
+  EXPECT_FLOAT_EQ(1.0f, f[3]);
+}
+
+
+TEST(Vec4,setVec3)
+{
+  ngl::Vec4 f;
+  f.set(ngl::Vec3(0.4f, 0.2f, 0.1f));
+  EXPECT_FLOAT_EQ(0.4f, f[0]);
+  EXPECT_FLOAT_EQ(0.2f, f[1]);
+  EXPECT_FLOAT_EQ(0.1f, f[2]);
+  EXPECT_FLOAT_EQ(1.0f, f[3]);
+}
+
+
+
+
 TEST(Vec4, add)
 {
   ngl::Vec4 a(1.0f, 2.0f, 3.0f, 1.0f);
@@ -284,4 +363,24 @@ TEST(Vec4, divideEqualVec)
   EXPECT_FLOAT_EQ(a.m_y, 1.0f);
   EXPECT_FLOAT_EQ(a.m_z, 1.5f);
   EXPECT_FLOAT_EQ(a.m_w, 0.0f);
+}
+
+TEST(Vec4,clampMinMax)
+{
+  ngl::Vec4 a(-1.0f, 2.0f, 3.0f, 0.0f);
+  a.clamp(0.0f,2.0f);
+  EXPECT_FLOAT_EQ(a.m_x,0.0f);
+  EXPECT_FLOAT_EQ(a.m_y,2.0f);
+  EXPECT_FLOAT_EQ(a.m_z,2.0f);
+  EXPECT_FLOAT_EQ(a.m_w,0.0f);
+}
+
+TEST(Vec4,clampPlusMinus)
+{
+  ngl::Vec4 a(-4.0f, 2.5f, 3.0f, 0.0f);
+  a.clamp(2.0f);
+  EXPECT_FLOAT_EQ(a.m_x,-2.0f);
+  EXPECT_FLOAT_EQ(a.m_y,2.0f);
+  EXPECT_FLOAT_EQ(a.m_z,2.0f);
+  EXPECT_FLOAT_EQ(a.m_w,0.0f);
 }
