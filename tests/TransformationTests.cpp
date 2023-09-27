@@ -125,36 +125,52 @@ TEST(Transformation, Rotation)
     auto zrot=ngl::Mat4::rotateZ(90.0f);
     auto totalRotation=zrot*yrot*xrot;
     auto totalTranspose=(zrot*yrot*xrot).transpose();
-    auto totalInverse=(zrot*yrot*xrot).inverse();
+    auto totalInverse=(xrot*yrot*zrot);
+    totalInverse=totalInverse.inverse();
   {
     ngl::Transformation tx;
-    tx.setRotation(45.0,35.0,90.0f);
+    tx.setRotation(45.0f,35.0f,90.0f);
 
     EXPECT_TRUE(tx.getMatrix() == totalRotation);
     EXPECT_TRUE(tx.getTransposeMatrix() == totalTranspose);
-   // EXPECT_TRUE(tx.getInverseMatrix()== totalInverse);
-   // std::cout<<totalInverse<<"\n";
-   // std::cout<<tx.getInverseMatrix()<<"\n";
+  }
+
+  {
+    ngl::Transformation tx;
+    tx.setRotation(ngl::Vec3(45.0f,35.0f,90.0f));
+
+    EXPECT_TRUE(tx.getMatrix() == totalRotation);
+    EXPECT_TRUE(tx.getTransposeMatrix() == totalTranspose);
+  }
+{
+    ngl::Transformation tx;
+    tx.setRotation(ngl::Vec4(45.0f,35.0f,90.0f));
+
+    EXPECT_TRUE(tx.getMatrix() == totalRotation);
+    EXPECT_TRUE(tx.getTransposeMatrix() == totalTranspose);
+  }
+
+
+  {
+    ngl::Transformation tx;
+    tx.setRotation(ngl::Vec3(45.0f,35.0f,90.0f));
+
+    EXPECT_TRUE(tx.getMatrix() == totalRotation);
+    EXPECT_TRUE(tx.getTransposeMatrix() == totalTranspose);
   }
   {
     ngl::Transformation tx;
-    tx.setRotation(ngl::Vec3(45.0,35.0,90.0f));
+    tx.addRotation(ngl::Vec4(45.0f,35.0f,90.0f));
 
     EXPECT_TRUE(tx.getMatrix() == totalRotation);
     EXPECT_TRUE(tx.getTransposeMatrix() == totalTranspose);
-   // EXPECT_TRUE(tx.getInverseMatrix()== totalInverse);
-   // std::cout<<totalInverse<<"\n";
-   // std::cout<<tx.getInverseMatrix()<<"\n";
   }
   {
     ngl::Transformation tx;
-    tx.addRotation(ngl::Vec4(45.0,35.0,90.0f));
+    tx.addRotation(ngl::Vec3(45.0f,35.0f,90.0f));
 
     EXPECT_TRUE(tx.getMatrix() == totalRotation);
     EXPECT_TRUE(tx.getTransposeMatrix() == totalTranspose);
-   // EXPECT_TRUE(tx.getInverseMatrix()== totalInverse);
-   // std::cout<<totalInverse<<"\n";
-   // std::cout<<tx.getInverseMatrix()<<"\n";
   }
 
   {
@@ -163,9 +179,7 @@ TEST(Transformation, Rotation)
 
     EXPECT_TRUE(tx.getMatrix() == totalRotation);
     EXPECT_TRUE(tx.getTransposeMatrix() == totalTranspose);
-   // EXPECT_TRUE(tx.getInverseMatrix()== totalInverse);
-   // std::cout<<totalInverse<<"\n";
-   // std::cout<<tx.getInverseMatrix()<<"\n";
+    EXPECT_TRUE(tx.getInverseMatrix()== totalInverse);
   }
   {
     ngl::Transformation tx;
@@ -173,9 +187,7 @@ TEST(Transformation, Rotation)
 
     EXPECT_TRUE(tx.getMatrix() == totalRotation);
     EXPECT_TRUE(tx.getTransposeMatrix() == totalTranspose);
-   // EXPECT_TRUE(tx.getInverseMatrix()== totalInverse);
-   // std::cout<<totalInverse<<"\n";
-   // std::cout<<tx.getInverseMatrix()<<"\n";
+    EXPECT_TRUE(tx.getInverseMatrix()== totalInverse);
   }
   {
     ngl::Transformation tx;
@@ -183,9 +195,8 @@ TEST(Transformation, Rotation)
 
     EXPECT_TRUE(tx.getMatrix() == totalRotation);
     EXPECT_TRUE(tx.getTransposeMatrix() == totalTranspose);
-   // EXPECT_TRUE(tx.getInverseMatrix()== totalInverse);
-   // std::cout<<totalInverse<<"\n";
-   // std::cout<<tx.getInverseMatrix()<<"\n";
+    EXPECT_TRUE(tx.getInverseMatrix()== totalInverse);
+ 
   }
 }
 
@@ -221,4 +232,18 @@ TEST(Transformation,reset)
   auto tx3=tx2;
   EXPECT_TRUE(tx3.getMatrix()==ngl::Mat4());
   
+}
+
+TEST(Transformation,multiply)
+{
+  ngl::Transformation tx;
+  tx.setRotation(45.0f,23.0f,0.0f);
+  tx.setPosition(45.0f,3.0f,4.0f);
+  tx.setScale(45.0f,3.0f,4.0f);
+  auto tx2=tx*tx;
+  EXPECT_TRUE(tx2.getMatrix()==tx.getMatrix()*tx.getMatrix());
+  auto tx3=tx;
+  tx3*=tx;
+  EXPECT_TRUE(tx3.getMatrix()==tx.getMatrix()*tx.getMatrix());
+
 }
