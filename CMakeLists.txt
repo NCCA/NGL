@@ -257,6 +257,8 @@ if(NOT DEFINED PYNGL_ONLY)
         ${CMAKE_SOURCE_DIR}/tests/ImageTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/HashTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/PointBakeTests.cpp
+        ${CMAKE_SOURCE_DIR}/tests/MessageTests.cpp
+        
         
     )
     add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
