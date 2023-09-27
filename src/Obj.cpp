@@ -143,7 +143,6 @@ bool Obj::save(std::string_view _fname) const noexcept
   {
     out << "vn " << v.m_x << " " << v.m_y << " " << v.m_z << '\n';
   }
-
   // finally the faces
   for(auto f : m_face)
   {
@@ -162,7 +161,7 @@ bool Obj::save(std::string_view _fname) const noexcept
       {
         out << '/';
         // weird case where we need to do f 1//1
-        if(m_uv.size() == 0)
+        if(m_uv.empty())
         {
           out << '/';
         }

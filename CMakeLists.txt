@@ -92,7 +92,6 @@ set(CPP_FILES
     ${CMAKE_SOURCE_DIR}/src/Texture.cpp
     ${CMAKE_SOURCE_DIR}/src/ShaderLib.cpp
     ${CMAKE_SOURCE_DIR}/src/Transformation.cpp
-    ${CMAKE_SOURCE_DIR}/src/RibExport.cpp
     ${CMAKE_SOURCE_DIR}/src/Quaternion.cpp
     ${CMAKE_SOURCE_DIR}/src/Obj.cpp
     ${CMAKE_SOURCE_DIR}/src/Mat4.cpp
@@ -132,7 +131,6 @@ set(HEADERS
     ${CMAKE_SOURCE_DIR}/include/ngl/Texture.h
     ${CMAKE_SOURCE_DIR}/include/ngl/ShaderLib.h
     ${CMAKE_SOURCE_DIR}/include/ngl/ShaderLib.inl
-    ${CMAKE_SOURCE_DIR}/include/ngl/RibExport.h
     ${CMAKE_SOURCE_DIR}/include/ngl/Transformation.h
     ${CMAKE_SOURCE_DIR}/include/ngl/Quaternion.h
     ${CMAKE_SOURCE_DIR}/include/ngl/Obj.h
@@ -340,7 +338,6 @@ if(DEFINED BUILD_PYNGL OR DEFINED PYNGL_ONLY)
         ${PYSOURCEDIR}/PyRandom.cpp
         ${PYSOURCEDIR}/PyUtil.cpp
         ${PYSOURCEDIR}/PyImage.cpp
-        ${PYSOURCEDIR}/PyRibExport.cpp
         ${PYSOURCEDIR}/PyVAOFactory.cpp
         ${PYSOURCEDIR}/PyMat3.cpp
         ${PYSOURCEDIR}/PyMat2.cpp
