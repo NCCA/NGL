@@ -58,9 +58,11 @@ class NGL_DLLEXPORT VAOFactory
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief debug function to list all creators
   //----------------------------------------------------------------------------------------------------------------------
-  static void listCreators();
+  static void listCreators()  noexcept;
 
-    private:
+  static size_t getNumCreators()  noexcept {return m_vaoCreators.size();}
+
+  private:
   //----------------------------------------------------------------------------------------------------------------------
   //----------------------------------------------------------------------------------------------------------------------
   static std::unordered_map< std::string, std::function< std::unique_ptr< AbstractVAO >(GLenum _mode) > > m_vaoCreators;

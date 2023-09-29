@@ -258,6 +258,7 @@ if(NOT DEFINED PYNGL_ONLY)
         ${CMAKE_SOURCE_DIR}/tests/MessageTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/NGLStreamTest.cpp
         ${CMAKE_SOURCE_DIR}/tests/TextureTests.cpp
+        ${CMAKE_SOURCE_DIR}/tests/VAOFactoryTests.cpp
         
     )
     add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)

@@ -18,8 +18,8 @@ void VAOFactory::unregisterVAOCreator(std::string_view _type)
 std::unique_ptr< AbstractVAO > VAOFactory::createVAO(std::string_view _type, GLenum _mode)
 {
 
-  auto it = m_vaoCreators.find(_type.data());
-  if(it != m_vaoCreators.end())
+  
+  if(auto it = m_vaoCreators.find(_type.data()); it != m_vaoCreators.end())
   {
     // call the creation callback to construct this derived type
     return it->second(_mode);
@@ -27,7 +27,7 @@ std::unique_ptr< AbstractVAO > VAOFactory::createVAO(std::string_view _type, GLe
   return nullptr;
 }
 
-void VAOFactory::listCreators()
+void VAOFactory::listCreators()  noexcept
 {
   NGLMessage::addMessage("******************************\n", Colours::WHITE, TimeFormat::NONE);
   NGLMessage::addMessage("VAOFactory Creators List ", Colours::WHITE, TimeFormat::NONE);
