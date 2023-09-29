@@ -131,10 +131,9 @@ GLint ShaderLib::getAttribLocation(std::string_view _shaderName, std::string_vie
 
   GLint attrib = 0;
 
-  // get an iterator to the shaders
-  auto shader = m_shaderPrograms.find(_shaderName.data());
+  
   // make sure we have a valid shader
-  if(shader != m_shaderPrograms.end())
+  if(auto shader = m_shaderPrograms.find(_shaderName.data()); shader != m_shaderPrograms.end())
   {
     // grab the pointer to the shader and call compile
     attrib = glGetAttribLocation(shader->second->getID(), _paramName.data());
@@ -152,9 +151,8 @@ GLint ShaderLib::getAttribLocation(std::string_view _shaderName, std::string_vie
 GLuint ShaderLib::getShaderID(std::string_view _shaderName) noexcept
 {
   GLuint value = 0;
-  auto shader = m_shaders.find(_shaderName.data());
   // make sure we have a valid shader and program
-  if(shader != m_shaders.end())
+  if(auto shader = m_shaders.find(_shaderName.data()); shader != m_shaders.end())
   {
     value = shader->second->getShaderHandle();
   }
@@ -169,16 +167,16 @@ void ShaderLib::attachShader(std::string_view _name, ShaderType _type, ErrorExit
 {
   m_shaders[_name.data()] = std::make_unique< Shader >(_name, _type, _exitOnError);
   if(m_debugState == true)
+  {
     NGLMessage::addMessage(fmt::format("just attached {0} to ngl::ShaderLib", _name.data()));
+  }
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 bool ShaderLib::compileShader(std::string_view _name) noexcept
-{
-  // get an iterator to the shaders
-  auto shader = m_shaders.find(_name.data());
+{  
   // make sure we have a valid shader
-  if(shader != m_shaders.end())
+  if(auto shader = m_shaders.find(_name.data()); shader != m_shaders.end())
   {
     // grab the pointer to the shader and call compile
     return shader->second->compile();
@@ -371,7 +369,7 @@ bool ShaderLib::loadFromJson(std::string_view _fname) noexcept
   file.close();
   // NGLMessage::addMessage(fmt::format("loaded json\n {}",source));
   //  we need a mutable string for parsing so copy to a char * buffer
-  std::unique_ptr< char[] > buffer(new char[jsonsource.size()]);
+  auto buffer=std::make_unique<char []>(jsonsource.size());
   memcpy(buffer.get(), jsonsource.data(), jsonsource.size());
   // null terminate the string!
   buffer[jsonsource.size()] = '\0';
@@ -483,8 +481,6 @@ bool ShaderLib::loadFromJson(std::string_view _fname) noexcept
 
       for(rj::SizeType i = 0; i < uniforms.Size(); i++)
       {
-        //       std::cerr<<"i "<<i<<'\n';
-        // const rj::Value::Ch *name=uniforms["name"].GetString();
         auto &currentUniform = uniforms[i];
         const rj::Value::Ch *name = currentUniform["name"].GetString();
         const rj::Value::Ch *type = currentUniform["type"].GetString();
@@ -519,12 +515,13 @@ void ShaderLib::loadShaderSourceFromString(std::string_view _shaderName, std::st
 bool ShaderLib::linkProgramObject(std::string_view _name) noexcept
 {
   bool linked = false;
-  auto program = m_shaderPrograms.find(_name.data());
   // make sure we have a valid  program
-  if(program != m_shaderPrograms.end())
+  if(auto program = m_shaderPrograms.find(_name.data()); program != m_shaderPrograms.end())
   {
     if(m_debugState == true)
+    {
       NGLMessage::addMessage(fmt::format("Linking {0}", _name.data()));
+    }
     linked = program->second->link();
   }
   else
@@ -537,9 +534,9 @@ bool ShaderLib::linkProgramObject(std::string_view _name) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::use(std::string_view _name) noexcept
 {
-  auto program = m_shaderPrograms.find(_name.data());
+  
   // make sure we have a valid  program
-  if(program != m_shaderPrograms.end())
+  if(auto program = m_shaderPrograms.find(_name.data()); program != m_shaderPrograms.end())
   {
     m_currentShader = _name.data();
     program->second->use();
@@ -555,9 +552,8 @@ void ShaderLib::use(std::string_view _name) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 GLuint ShaderLib::getProgramID(std::string_view _name) noexcept
 {
-  auto program = m_shaderPrograms.find(_name.data());
   // make sure we have a valid  program
-  if(program != m_shaderPrograms.end())
+  if(auto program = m_shaderPrograms.find(_name.data()); program != m_shaderPrograms.end())
   {
     return program->second->getID();
   }
@@ -571,9 +567,9 @@ GLuint ShaderLib::getProgramID(std::string_view _name) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::autoRegisterUniforms(std::string_view _shaderName) noexcept
 {
-  auto program = m_shaderPrograms.find(_shaderName.data());
+  
   // make sure we have a valid  program
-  if(program != m_shaderPrograms.end())
+  if(auto program = m_shaderPrograms.find(_shaderName.data()); program != m_shaderPrograms.end())
   {
     program->second->autoRegisterUniforms();
     program->second->autoRegisterUniformBlocks();
@@ -587,9 +583,9 @@ void ShaderLib::autoRegisterUniforms(std::string_view _shaderName) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::bindAttribute(std::string_view _programName, GLuint _index, std::string_view _attribName) noexcept
 {
-  auto program = m_shaderPrograms.find(_programName.data());
+  
   // make sure we have a valid  program
-  if(program != m_shaderPrograms.end())
+  if(auto program = m_shaderPrograms.find(_programName.data()); program != m_shaderPrograms.end())
   {
     program->second->bindAttribute(_index, _attribName);
   }
@@ -602,9 +598,9 @@ void ShaderLib::bindAttribute(std::string_view _programName, GLuint _index, std:
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::bindFragDataLocation(std::string_view _programName, GLuint _index, std::string_view _attribName) noexcept
 {
-  auto program = m_shaderPrograms.find(_programName.data());
+  
   // make sure we have a valid  program
-  if(program != m_shaderPrograms.end())
+  if(auto program = m_shaderPrograms.find(_programName.data()); program != m_shaderPrograms.end())
   {
     program->second->bindFragDataLocation(_index, _attribName);
   }
@@ -624,12 +620,9 @@ void ShaderLib::useNullProgram() noexcept
 GLuint ShaderLib::getUniformBlockIndex(std::string_view _uniformBlockName) noexcept
 {
 
-  GLuint id = 0;
-
-  // get an iterator to the shaders
-  auto shader = m_shaderPrograms.find(m_currentShader.data());
+  GLuint id = 0;  
   // make sure we have a valid shader
-  if(shader != m_shaderPrograms.end())
+  if(auto shader = m_shaderPrograms.find(m_currentShader.data()); shader != m_shaderPrograms.end())
   {
     // grab the pointer to the shader and call compile
     id = shader->second->getUniformBlockIndex(_uniformBlockName.data());
@@ -753,9 +746,8 @@ void ShaderLib::loadCheckerShaders() noexcept
 
 void ShaderLib::printRegisteredUniforms(std::string_view _shader) noexcept
 {
-  auto program = m_shaderPrograms.find(_shader.data());
   // make sure we have a valid  program
-  if(program != m_shaderPrograms.end())
+  if(  auto program = m_shaderPrograms.find(_shader.data()); program != m_shaderPrograms.end())
   {
     program->second->printRegisteredUniforms();
   }
@@ -764,9 +756,8 @@ void ShaderLib::printRegisteredUniforms(std::string_view _shader) noexcept
 void ShaderLib::printProperties() noexcept
 {
 
-  auto program = m_shaderPrograms.find(m_currentShader);
   // make sure we have a valid  program
-  if(program != m_shaderPrograms.end())
+  if(  auto program = m_shaderPrograms.find(m_currentShader); program != m_shaderPrograms.end())
   {
     NGLMessage::addMessage("_______________________________________________________________________________________________________________________", Colours::WHITE, TimeFormat::NONE);
     NGLMessage::addMessage(fmt::format("Printing Properties for ShaderProgram {0} ", m_currentShader), Colours::WHITE, TimeFormat::NONE);
@@ -783,4 +774,3 @@ void ShaderLib::printProperties() noexcept
 
 } // namespace ngl
 
-//----------------------------------------------------------------------------------------------------------------------

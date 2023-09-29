@@ -103,7 +103,7 @@ Vec4 Image::getColour(const GLuint _x, const GLuint _y) const noexcept
   NGL_ASSERT(_x <= m_width && _y <= m_height)
   if(m_data != nullptr)
   {
-    auto offset = _x * m_channels + ((_y)*m_width * m_channels);
+    auto offset = _x * m_channels + (_y*m_width * m_channels);
     if(m_channels == 3)
     {
       return Vec4(m_data[offset], m_data[offset + 1], m_data[offset + 2]);
@@ -122,12 +122,12 @@ Vec4 Image::getColour(const GLuint _x, const GLuint _y) const noexcept
 Vec4 Image::getColour(const Real _uvX, const Real _uvY) const noexcept
 {
 
-  GLuint xx = static_cast< GLuint >(_uvX * (m_width - 1));
-  GLuint yy = static_cast< GLuint >(_uvY * (m_height - 1));
+  auto xx = static_cast< GLuint >(_uvX * (m_width - 1));
+  auto yy = static_cast< GLuint >(_uvY * (m_height - 1));
 
   NGL_ASSERT(xx < m_width && yy < m_height)
 
-  if(m_data != 0)
+  if(m_data != nullptr)
   {
     auto offset = xx * m_channels + (yy * m_width * m_channels);
     if(m_channels == 4)
@@ -377,12 +377,12 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
 
 #ifdef USEBUILTINIMAGE
 
-// #define STB_IMAGE_IMPLEMENTATION
-// #include "../3rdparty/stb_image.h"
 bool Image::load(std::string_view _fname,bool _flipY) noexcept
 {
   const char *fname = _fname.data();
-  int w, h, ch;
+  int w;
+  int h;
+  int ch;
   stbi_set_flip_vertically_on_load(_flipY);
 
   unsigned char *img = stbi_load(fname, &w, &h, &ch, 0);

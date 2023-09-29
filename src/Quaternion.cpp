@@ -39,7 +39,7 @@ Quaternion::Quaternion(const Mat4 &_m) noexcept
   else if ( _m.m_openGL[0] > _m.m_openGL[5] &&
        _m.m_openGL[0] > _m.m_openGL[10] )
   {		// Column 0:
-    auto S  = static_cast<Real>(sqrtf( 1.0f + _m.m_openGL[0] - _m.m_openGL[5] - _m.m_openGL[10] ) * 2.0f);
+    auto S  = sqrtf( 1.0f + _m.m_openGL[0] - _m.m_openGL[5] - _m.m_openGL[10] ) * 2.0f;
     m_x = 0.25f * S;
     m_y = (_m.m_openGL[1] + _m.m_openGL[4] ) / S;
     m_z = (_m.m_openGL[8] + _m.m_openGL[2] ) / S;

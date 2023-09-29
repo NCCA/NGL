@@ -123,7 +123,7 @@ bool ShaderProgram::link() noexcept
 
   if(infologLength > 0)
   {
-    std::unique_ptr< char[] > infoLog(new char[static_cast< size_t >(infologLength)]);
+    auto infoLog=std::make_unique<char []>(static_cast< size_t >(infologLength));
     GLint charsWritten = 0;
 
     glGetProgramInfoLog(m_programID, infologLength, &charsWritten, infoLog.get());
@@ -133,7 +133,9 @@ bool ShaderProgram::link() noexcept
     {
       NGLMessage::addError("Program link failed (will exit if errorExit enabled else return false)");
       if(m_errorExit == ErrorExit::ON)
+      {
         exit(EXIT_FAILURE);
+      }
     }
   }
   glUseProgram(m_programID);
@@ -146,10 +148,8 @@ bool ShaderProgram::link() noexcept
 //----------------------------------------------------------------------------------------------------------------------
 GLint ShaderProgram::getUniformLocation(const char *_name) const noexcept
 {
-
-  auto uniform = m_registeredUniforms.find(_name);
   // make sure we have a valid shader
-  if(uniform != m_registeredUniforms.end())
+  if(  auto uniform = m_registeredUniforms.find(_name); uniform != m_registeredUniforms.end())
   {
     return uniform->second.loc;
   }
@@ -179,11 +179,11 @@ void ShaderProgram::printActiveUniforms() const noexcept
   }
   GLint nUniforms;
   glGetProgramiv(m_programID, GL_ACTIVE_UNIFORMS, &nUniforms);
-  char name[256];
+  std::array<char,256> name;
   GLsizei l;
   for(GLint i = 0; i < nUniforms; ++i)
   {
-    glGetActiveUniformName(m_programID, static_cast< GLuint >(i), 256, &l, name);
+    glGetActiveUniformName(m_programID, static_cast< GLuint >(i), name.size(), &l, &name[0]);
     NGLMessage::addMessage(fmt::format("Uniform: {0}", name), Colours::WHITE, TimeFormat::NONE);
   }
 }
@@ -537,11 +537,11 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
   NGLMessage::drawLine();
   NGLMessage::addMessage(fmt::format("Registered Uniforms for shader {0}", m_programName), Colours::WHITE, TimeFormat::NONE);
   NGLMessage::drawLine();
-  for(auto d : m_registeredUniforms)
+  for(auto [name,uniformdata] : m_registeredUniforms)
   {
     std::string type;
     std::string shaderValue;
-    auto value = types.find(d.second.type);
+    auto value = types.find(uniformdata.type);
     if(value != types.end())
     {
       type = value->second;
@@ -550,8 +550,8 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
     {
       type = "unknown type";
     }
-    shaderValue = getValueFromShader(d.second);
-    NGLMessage::addMessage(fmt::format("Uniform {0} Location -> {1} glsl type : {2}  value {3}", d.first, d.second.loc, type, shaderValue), Colours::WHITE, TimeFormat::NONE);
+    shaderValue = getValueFromShader(uniformdata);
+    NGLMessage::addMessage(fmt::format("Uniform {0} Location -> {1} glsl type : {2}  value {3}", name, uniformdata.loc, type, shaderValue), Colours::WHITE, TimeFormat::NONE);
   }
   NGLMessage::drawLine();
 }

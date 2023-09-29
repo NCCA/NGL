@@ -53,7 +53,7 @@ NGLMessage::~NGLMessage()
 
 NGLMessage &NGLMessage::init()
 {
-  static NGLMessage s_instance = NGLMessage();
+  static auto s_instance = NGLMessage();
   return s_instance;
 }
 

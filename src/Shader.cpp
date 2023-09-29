@@ -45,11 +45,9 @@ void printInfoLog(const GLuint &_obj)
   }
 }
 
-Shader::Shader(std::string_view _name, ShaderType _type, ErrorExit _exitOnError) noexcept
+Shader::Shader(std::string_view _name, ShaderType _type, ErrorExit _exitOnError) noexcept :
+m_name{_name},m_errorExit(_exitOnError)
 {
-  m_name = _name;
-  m_shaderType = _type;
-  m_errorExit = _exitOnError;
   switch(_type)
   {
     case ShaderType::VERTEX:
@@ -86,10 +84,7 @@ Shader::Shader(std::string_view _name, ShaderType _type, ErrorExit _exitOnError)
     }
 #endif
       break;
-    case ShaderType::NONE:
-    {
-      ;
-    }
+    case ShaderType::NONE:{}
   }
   m_compiled = false;
   m_refCount = 0;
@@ -97,7 +92,7 @@ Shader::Shader(std::string_view _name, ShaderType _type, ErrorExit _exitOnError)
 Shader::~Shader()
 {
   // Note this needs to be with cerr as NGLMessage crashes here
-  std::cerr << fmt::format("removing shader {0} \n", m_name); //,Colours::WHITE,TimeFormat::NONE);
+  std::cerr << fmt::format("removing shader {0} \n", m_name); 
   glDeleteShader(m_shaderHandle);
 }
 
@@ -144,7 +139,6 @@ bool Shader::editShader(std::string_view _toFind, std::string_view _edit)
   {
     m_source = pystring::replace(m_source, _toFind.data(), _edit.data());
   }
-  //NGLMessage::addMessage(m_source,Colours::YELLOW,TimeFormat::NONE);
   const char *data = m_source.c_str();
   glShaderSource(m_shaderHandle, 1, &data, nullptr);
   m_compiled = false;

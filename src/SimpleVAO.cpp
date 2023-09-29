@@ -93,7 +93,7 @@ void SimpleVAO::setData(const VertexData &_data)
 
 Real *SimpleVAO::mapBuffer(unsigned int _index, GLenum _accessMode)
 {
-  NGL_UNUSED(_index);
+  NGL_UNUSED(_index)
   Real *ptr = nullptr;
   bind();
   glBindBuffer(GL_ARRAY_BUFFER, m_id);
