@@ -417,7 +417,7 @@ TEST(Shader,loadFromString)
 
 TEST(Shader,editShader)
 {
-  
+
 }
 
 
