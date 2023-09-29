@@ -373,8 +373,8 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
   int ch;
   stbi_set_flip_vertically_on_load(_flipY);
 
-  unsigned char *img = stbi_load(fname, &w, &h, &ch, 0);
-  if(img != nullptr)
+  
+  if(unsigned char *img = stbi_load(fname, &w, &h, &ch, 0); img != nullptr)
   {
     NGLMessage::addMessage(fmt::format("loaded {} Width {} Height {} Channels {}", fname, w, h, ch));
     m_width = w;

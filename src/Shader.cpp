@@ -84,7 +84,10 @@ m_name{_name},m_errorExit(_exitOnError)
     }
 #endif
       break;
-    case ShaderType::NONE:{}
+    case ShaderType::NONE:
+    { 
+      // nothing to do
+    }
   }
   m_compiled = false;
   m_refCount = 0;
