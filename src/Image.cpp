@@ -46,8 +46,6 @@ enum class ImageLibrary : char { QImage, OIIO, BuiltIn };
 namespace ngl
 {
 
-#define IMAGE_DEBUG_ON 1
-
 void Image::info()
 {
 if constexpr (g_imageLib == ImageLibrary::QImage)
@@ -260,9 +258,7 @@ void Image::saveFrameBufferToFile(std::string_view _fname, int _x, int _y, int _
 //----------------------------------------------------------------------------------------------------------------------
 bool Image::load(std::string_view _fName,bool _flipY) noexcept
 {
-#ifdef IMAGE_DEBUG_ON
-  NGLMessage::addMessage("loading with QImage");
-#endif
+
   QImage image;
   bool loaded = image.load(_fName.data());
   image = image.mirrored(false, _flipY);
@@ -305,10 +301,6 @@ bool Image::load(std::string_view _fName,bool _flipY) noexcept
         }
       }
     }
-#ifdef IMAGE_DEBUG_ON
-
-    NGLMessage::addMessage(fmt::format("size {0} x {1} channels {2}", m_width, m_height, m_channels), Colours::WHITE, TimeFormat::TIME);
-#endif
 
     return true;
   }
@@ -328,10 +320,6 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
 {
   using namespace OIIO;
 
-#ifdef IMAGE_DEBUG_ON
-  NGLMessage::addMessage("loading with OpenImageIO");
-  ;
-#endif
 
   auto in = ImageInput::open(_fname.data());
   if(!in)
@@ -386,9 +374,6 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
   stbi_set_flip_vertically_on_load(_flipY);
 
   unsigned char *img = stbi_load(fname, &w, &h, &ch, 0);
-#ifdef IMAGE_DEBUG_ON
-  NGLMessage::addMessage("loading with Internal Image Libs");
-#endif
   if(img != nullptr)
   {
     NGLMessage::addMessage(fmt::format("loaded {} Width {} Height {} Channels {}", fname, w, h, ch));
