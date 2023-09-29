@@ -187,7 +187,7 @@ Quaternion Quaternion::inverse() const noexcept
 
 Real Quaternion::magnitude()const noexcept
 {
-  return static_cast<Real>( sqrtf(m_s*m_s + m_x*m_x + m_y*m_y + m_z*m_z) );
+  return  sqrtf(m_s*m_s + m_x*m_x + m_y*m_y + m_z*m_z);
 }
 
 bool Quaternion::operator == (const Quaternion& _q)const noexcept
@@ -202,12 +202,13 @@ bool Quaternion::operator == (const Quaternion& _q)const noexcept
 
 
 
-Vec4 Quaternion::operator* (const Vec4 &_vec) const noexcept
+Vec4 Quaternion::operator *(const Vec4 &_vec) const noexcept
 {
-	Quaternion temp=-*this;
-	Quaternion point(0.0,_vec.m_x,_vec.m_y,_vec.m_z);
-	point = temp*point* *this;
-	return Vec4(point.m_x,point.m_y,point.m_z,1.0);
+
+  Vec4 qv(m_x,m_y,m_z);
+  Vec4 uv(qv.cross(_vec));
+  Vec4 uuv(qv.cross(uv));
+  return _vec + ((uv * m_s) + uuv) * 2.0f;
 }
 
 float Quaternion::dot(const Quaternion &_lhs)const  noexcept
@@ -221,36 +222,40 @@ float Quaternion::dot(const Quaternion &_lhs, const Quaternion &_rhs) noexcept
 }
 
 
-void Quaternion::rotateX(Real _angle) noexcept
+Quaternion Quaternion::rotateX(Real _angle) noexcept
 {
+  Quaternion q;
   _angle/=2.0f;
   // q=[cos 1/2 theta, sin 1/2 theta V]
-  m_s=cosf(radians(_angle));
-  m_x=sinf(radians(_angle));
-  m_y=0.0f;
-  m_z=0.0f;
+  q.m_s=cosf(radians(_angle));
+  q.m_x=sinf(radians(_angle));
+  q.m_y=0.0f;
+  q.m_z=0.0f;
+  return q;
 }
 
-void Quaternion::rotateY(Real _angle) noexcept
+Quaternion Quaternion::rotateY(Real _angle) noexcept
 {
+    Quaternion q;
     _angle/=2.0f;
     // q=[cos 1/2 theta, sin 1/2 theta V]
-    m_s=cosf(radians(_angle));
-    m_x=0.0f;
-    m_y=sinf(radians(_angle));
-    m_z=0.0f;
+    q.m_s=cosf(radians(_angle));
+    q.m_x=0.0f;
+    q.m_y=sinf(radians(_angle));
+    q.m_z=0.0f;
+    return q;
 }
 
-void Quaternion::rotateZ(Real _angle) noexcept
+Quaternion Quaternion::rotateZ(Real _angle) noexcept
 {
-
+  Quaternion q;
   _angle/=2.0f;
 	// q=[cos 1/2 theta, sin 1/2 theta V]
-  m_s=cosf(radians(_angle));
-  m_x=0.0f;
-  m_y=0.0f;
-  m_z=sinf(radians(_angle));
-
+  q.m_s=cosf(radians(_angle));
+  q.m_x=0.0f;
+  q.m_y=0.0f;
+  q.m_z=sinf(radians(_angle));
+  return q;
 }
 
 void Quaternion::fromAxisAngle(const Vec3& _axis, Real _angle) noexcept
@@ -389,44 +394,6 @@ Mat4 Quaternion::toMat4() const noexcept
   return o;
 }
 
-Mat4 Quaternion::toMat4Transpose() const noexcept
-{
-  // written by Rob Bateman
-  // sacrafice a few bytes to pre-calculate some values
-  Real xx = m_x * m_x;
-  Real xy = m_x * m_y;
-  Real xz = m_x * m_z;
-  Real xs = m_x * m_s;
-  Real yy = m_y * m_y;
-  Real yz = m_y * m_z;
-  Real ys = m_y * m_s;
-  Real zz = m_z * m_z;
-  Real zs = m_z * m_s;
-  Mat4 o;
-  o.m_openGL[0] = 1.0f - 2.0f * (yy+zz);
-  o.m_openGL[4] = 2.0f * (xy+zs);
-  o.m_openGL[8] = 2.0f * (xz-ys);
-  o.m_openGL[12] = 0.0f;
-
-  // [4] -> [7]
-  o.m_openGL[1] = 2.0f * (xy-zs);
-  o.m_openGL[5] = 1.0f - 2.0f * (xx+zz);
-  o.m_openGL[9] = 2.0f * (yz+xs);
-  o.m_openGL[13] = 0.0f;
-
-  // [8] -> [11]
-  o.m_openGL[2] = 2.0f * (xz+ys);
-  o.m_openGL[6] = 2.0f * (yz-xs);
-  o.m_openGL[10]= 1.0f - 2.0f * (xx+yy);
-  o.m_openGL[14] = 0.0f;
-
-  // [12] -> [15]
-  o.m_openGL[3] = 0.0f;
-  o.m_openGL[7] = 0.0f;
-  o.m_openGL[11] = 0.0f;
-  o.m_openGL[15] = 1.0f;
-  return o;
-}
 
 
 

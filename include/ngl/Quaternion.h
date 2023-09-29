@@ -258,17 +258,17 @@ class NGL_DLLEXPORT Quaternion
     /// @brief  set the current quaternion as a rotation around the X cartesian axis [1,0,0]
     /// @param[in] _angle the angle of rotation around the x axis in degrees
     
-    void rotateX(Real _angle) noexcept;
+    static Quaternion rotateX(Real _angle) noexcept;
     
     /// @brief  set the current quaternion as a rotation around the Y cartesian axis [0,1,0]
     /// @param[in] _angle the angle of rotation around the y axis in degrees
     
-    void rotateY(Real _angle) noexcept;
+    static Quaternion  rotateY(Real _angle) noexcept;
     
     /// @brief  set the current quaternion as a rotation around the Z cartesian axis [0,0,1]
     /// @param[in] _angle the angle of rotation around the Z axis in degrees
     
-    void rotateZ(Real _angle) noexcept;
+    static Quaternion rotateZ(Real _angle) noexcept;
     
     /// @brief  set the current quaternion as a rotation around the vector _axis
     /// @brief[in] _axis the axis to rotate around (will be normalized)
@@ -301,10 +301,6 @@ class NGL_DLLEXPORT Quaternion
     
     Mat4 toMat4() const noexcept;
     
-    /// @brief  return the current quat as a 4x4 transform matrix transposed
-    /// @returns the quat as a matrix
-    
-    Mat4 toMat4Transpose() const noexcept;
 
     /// @brief  the quaternion data for the scalar real part
     Real m_s=1.0f;

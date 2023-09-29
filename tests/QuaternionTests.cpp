@@ -4,6 +4,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include <gtest/gtest.h>
 #include <ngl/Mat4.h>
+#include <ngl/Vec4.h>
 #include <ngl/NGLStream.h>
 #include <ngl/Quaternion.h>
 #include <ngl/Types.h>
@@ -43,13 +44,28 @@ TEST(Quaternion, UserCtor)
 
 TEST(Quaternion, fromMat4)
 {
-  ngl::Mat4 tx = ngl::Mat4::rotateX(45.0f);
+  auto tx = ngl::Mat4::rotateX(45.0f);
 
   ngl::Quaternion test(tx);
   ASSERT_NEAR(test.m_s, 0.92388f, 0.001f);
   ASSERT_NEAR(test.m_x, 0.382683f, 0.001f);
   ASSERT_NEAR(test.m_y, 0.0f, 0.001f);
   ASSERT_NEAR(test.m_z, 0.0f, 0.001f);
+
+  auto ty=ngl::Mat4::rotateY(45.0f);
+  ngl::Quaternion testy(ty);
+  ASSERT_NEAR(testy.m_s, 0.92388f, 0.001f);
+  ASSERT_NEAR(testy.m_x, 0.0f, 0.001f);
+  ASSERT_NEAR(testy.m_y, 0.382683f, 0.001f);
+  ASSERT_NEAR(testy.m_z, 0.0f, 0.001f);
+
+  auto tz=ngl::Mat4::rotateZ(45.0f);
+  ngl::Quaternion testz(tz);
+  ASSERT_NEAR(testz.m_s, 0.92388f, 0.001f);
+  ASSERT_NEAR(testz.m_x, 0.0f, 0.001f);
+  ASSERT_NEAR(testz.m_y, 0.0f, 0.001f);
+  ASSERT_NEAR(testz.m_z, 0.382683f, 0.001f);
+
 
   glm::mat4 gtx = glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), glm::vec3(1, 0, 0));
 
@@ -316,6 +332,7 @@ TEST(Quaternion, toMat4)
   }
 }
 
+
 TEST(Quaternion, SLERP)
 {
 
@@ -345,3 +362,51 @@ TEST(Quaternion, SLERP)
   }
 }
 
+
+TEST(Quaternion,timesEqualFloat)
+{
+  auto a=ngl::Quaternion(0.2f,0.1f,0.3f,0.5f);
+  a*=2.0f;
+  EXPECT_FLOAT_EQ(a.m_s,0.4f);
+  EXPECT_FLOAT_EQ(a.m_x,0.2f);
+  EXPECT_FLOAT_EQ(a.m_y,0.6f);
+  EXPECT_FLOAT_EQ(a.m_z,1.0f);
+}
+
+TEST(Quaternion,magantude)
+{
+    auto a=ngl::Quaternion(0.2f,0.1f,0.3f,0.5f);
+    EXPECT_FLOAT_EQ(a.magnitude(),0.6244998f);
+}
+
+TEST(Quaternion,multVec4)
+{
+  auto a=ngl::Quaternion(0.2f,0.1f,0.3f,0.5f);
+  auto b=ngl::Vec4(1.0f,2.0f,3.0f,1.0f);
+  auto c=a*b;
+
+  glm::quat ga(0.2f,0.1f,0.3f,0.5f);
+  glm::vec4 gb(1.0f,2.0f,3.0f,1.0f);
+  auto gc=ga*gb;
+  
+  EXPECT_FLOAT_EQ(c.m_x,gc.x);
+  EXPECT_FLOAT_EQ(c.m_y,gc.y);
+  EXPECT_FLOAT_EQ(c.m_z,gc.z);
+  EXPECT_FLOAT_EQ(c.m_w,gc.w);
+}
+
+TEST(Quaternion,rotations)
+{
+  auto tx=ngl::Quaternion::rotateX(45.0f);
+  auto mx=ngl::Mat4::rotateX(45.0f);
+  EXPECT_TRUE(tx.toMat4()==mx);
+
+  auto ty=ngl::Quaternion::rotateY(25.0f);
+  auto my=ngl::Mat4::rotateY(25.0f);
+  EXPECT_TRUE(ty.toMat4()==my);
+
+  auto tz=ngl::Quaternion::rotateZ(77.0f);
+  auto mz=ngl::Mat4::rotateZ(77.0f);
+  EXPECT_TRUE(tz.toMat4()==mz);
+
+}
