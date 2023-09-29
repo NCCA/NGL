@@ -99,7 +99,7 @@ Text::Text(std::string_view _name, int _size)
 Text::~Text()
 {
   // our dtor should clear out the textures and remove the VAO's
-  for(auto &[c,font] : m_characters)
+  for(const auto &[c,font] : m_characters)
   {
     glDeleteTextures(1, &font.textureID);
   }

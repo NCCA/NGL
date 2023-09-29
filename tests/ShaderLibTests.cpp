@@ -397,3 +397,27 @@ TEST(ShaderLib,editShader)
 
 }
 
+TEST(Shader,create)
+{
+  auto shader=ngl::Shader("Test",ngl::ShaderType::VERTEX);
+  shader.load("files/vert.glsl");
+  EXPECT_TRUE(shader.compile());
+  EXPECT_TRUE(shader.isCompiled());
+}
+
+
+TEST(Shader,loadFromString)
+{
+  auto shader=ngl::Shader("Test",ngl::ShaderType::VERTEX);
+  shader.loadFromString("#version 410 core\nvoid main(){}");
+  EXPECT_TRUE(shader.compile());
+  EXPECT_TRUE(shader.isCompiled());
+}
+
+
+TEST(Shader,editShader)
+{
+  
+}
+
+
