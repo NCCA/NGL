@@ -90,7 +90,7 @@ class NGL_DLLEXPORT Texture
   /// @brief Get the width of the texture
   /// @return width of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getWidth() const noexcept
+  GLuint width() const noexcept
   {
     return m_width;
   }
@@ -98,7 +98,7 @@ class NGL_DLLEXPORT Texture
   /// @brief Get the height of the texture
   /// @return height of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getHeight() const noexcept
+  GLuint height() const noexcept
   {
     return m_height;
   }
@@ -106,7 +106,7 @@ class NGL_DLLEXPORT Texture
   /// @brief Get the pixel format
   /// @return pixel format of the texture
   //----------------------------------------------------------------------------------------------------------------------
-  GLuint getFormat() const noexcept
+  GLuint format() const noexcept
   {
     return m_format;
   }

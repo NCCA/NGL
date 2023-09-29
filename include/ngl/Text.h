@@ -104,14 +104,14 @@ class NGL_DLLEXPORT Text
   /// @brief set the colour of the font from an Colour
   /// @param[in] _c the colour to set for the font (alpha is overridden by the texture)
   //----------------------------------------------------------------------------------------------------------------------
-  void setColour(const Vec3 &_c) noexcept;
+  void setColour(const Vec3 &_c) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief set the colour of the font from three floats as a convenience method
   /// @param[in] _r the red component of the colour for the font
   /// @param[in] _g the green component of the colour for the font
   /// @param[in] _b the blue component of the colour for the font
   //----------------------------------------------------------------------------------------------------------------------
-  void setColour(Real _r, Real _g, Real _b) noexcept;
+  void setColour(Real _r, Real _g, Real _b) const noexcept;
 
     protected:
   //----------------------------------------------------------------------------------------------------------------------

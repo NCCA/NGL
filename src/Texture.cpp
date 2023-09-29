@@ -34,7 +34,6 @@ Texture::Texture(std::string_view _fname)
   m_height = m_image.height();
   m_channels = m_image.channels();
   m_format = m_image.format();
-  m_multiTextureID = 0;
 }
 
 bool Texture::loadImage(std::string_view _fname)

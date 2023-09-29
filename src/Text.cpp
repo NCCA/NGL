@@ -21,7 +21,6 @@
 #include <unordered_map>
 #include FT_FREETYPE_H
 
-//#include <QPainter>
 #include "NGLStream.h"
 #include "ShaderLib.h"
 #include "Text.h"
@@ -79,8 +78,6 @@ Text::Text(std::string_view _name, int _size)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    //  glGenerateMipmap(GL_TEXTURE_2D);
-
     fc.sizex = face->glyph->bitmap.width;
     fc.sizey = face->glyph->bitmap.rows;
     fc.bearingx = face->glyph->bitmap_left;
@@ -102,15 +99,15 @@ Text::Text(std::string_view _name, int _size)
 Text::~Text()
 {
   // our dtor should clear out the textures and remove the VAO's
-  for(auto &m : m_characters)
+  for(auto [c,font] : m_characters)
   {
-    glDeleteTextures(1, &m.second.textureID);
+    glDeleteTextures(1, &font.textureID);
   }
 }
 
 void Text::renderText(float _x, float _y, const char *_text) const noexcept
 {
-  renderText(_x, _y, std::string(_text));
+  renderText(_x, _y, std::string_view(_text));
 }
 
 //---------------------------------------------------------------------------
@@ -131,31 +128,29 @@ void Text::renderText(float _x, float _y, std::string_view _text) const noexcept
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_CULL_FACE);
   // now loop for each of the char and draw our billboard
-  int textLength = _text.length();
   float scale = 1.0f;
   m_texVAO->bind();
 
-  for(int i = 0; i < textLength; ++i)
+  for (auto c : _text)
   {
-    auto fc = m_characters.find(_text[i]);
+    auto fc = m_characters.find(c) ;
     float xpos = _x + fc->second.bearingx * scale;
     float ypos = _y - (fc->second.sizey - fc->second.bearingy) * scale;
 
     float w = fc->second.sizex * scale;
     float h = fc->second.sizey * scale;
     // update VBO for each character
-    float vertices[6][4] = {
-      {xpos, ypos + h, 0.0f, 0.0f},
-      {xpos, ypos, 0.0f, 1.0f},
-      {xpos + w, ypos, 1.0f, 1.0f},
-
-      {xpos, ypos + h, 0.0f, 0.0f},
-      {xpos + w, ypos, 1.0f, 1.0f},
-      {xpos + w, ypos + h, 1.0f, 0.0f}};
+    std::array<float,24> vertices = {
+      xpos, ypos + h, 0.0f, 0.0f,
+      xpos, ypos, 0.0f, 1.0f,
+      xpos + w, ypos, 1.0f, 1.0f,
+      xpos, ypos + h, 0.0f, 0.0f,
+      xpos + w, ypos, 1.0f, 1.0f,
+      xpos + w, ypos + h, 1.0f, 0.0f};
 
     // // bind the pre-generated texture
     glBindTexture(GL_TEXTURE_2D, fc->second.textureID);
-    m_texVAO->setData(SimpleVAO::VertexData(sizeof(vertices), vertices[0][0], GL_DYNAMIC_DRAW));
+    m_texVAO->setData(SimpleVAO::VertexData(sizeof(vertices), vertices[0], GL_DYNAMIC_DRAW));
     // now we set the attribute pointer to be 0 (as this matches vertIn in our shader)
     m_texVAO->setVertexAttributePointer(0, 4, GL_FLOAT, 0, 0);
     // say how many indices to be rendered
@@ -177,7 +172,7 @@ void Text::setScreenSize(int _w, int _h) noexcept
 
   ShaderLib::use("nglTextShader");
 
-  auto orth = ngl::ortho(0, _w, 0, _h);
+  auto orth = ngl::ortho(0, static_cast<float>(_w), 0, static_cast<float>(_h));
   ShaderLib::setUniform("projection", orth);
 }
 
@@ -187,7 +182,7 @@ void Text::setScreenSize(int _w, int _h) noexcept
 // it is default to black but this will change it
 // the shader uses the following code
 
-void Text::setColour(const Vec3 &_c) noexcept
+void Text::setColour(const Vec3 &_c) const noexcept
 {
   // get shader instance
   ShaderLib::use("nglTextShader");
@@ -196,7 +191,7 @@ void Text::setColour(const Vec3 &_c) noexcept
 }
 
 //---------------------------------------------------------------------------
-void Text::setColour(Real _r, Real _g, Real _b) noexcept
+void Text::setColour(Real _r, Real _g, Real _b)const noexcept
 {
   ShaderLib::use("nglTextShader");
   ShaderLib::setUniform("textColour", _r, _g, _b);
