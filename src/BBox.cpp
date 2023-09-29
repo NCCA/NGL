@@ -72,9 +72,6 @@ BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth, bool _
   m_maxY = m_center.m_y+m_height/2.0f;
   m_minZ = m_center.m_z-m_depth/2.0f; 
   m_maxZ = m_center.m_z+m_depth/2.0f;
-   
-  
-  
   setVAO();
 }
 
@@ -138,7 +135,6 @@ BBox::BBox( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _minZ, Real _m
 
 void BBox::setExtents( Real _minX, Real _maxX,  Real _minY, Real _maxY, Real _minZ, Real _maxZ  ) noexcept
 {
-
   m_minX=_minX;
   m_maxX=_maxX;
   m_minY=_minY;
@@ -211,7 +207,6 @@ void BBox::setVAO()
 
 void BBox::draw() const noexcept
 {
-
   glPolygonMode(GL_FRONT_AND_BACK,m_drawMode);
   m_vao->bind();
   m_vao->draw();
@@ -288,8 +283,6 @@ void BBox::recalculate() noexcept
   m_maxY=m_height/2.0f;
   m_minZ=-m_depth/2.0f;
   m_maxZ=m_depth/2.0f;
-
-
   setVAO();
 }
 
@@ -298,9 +291,10 @@ void BBox::recalculate() noexcept
 BBox::~BBox() noexcept
 {
   if(m_vao)
+  {
     m_vao->removeVAO();
+  }
 }
-
 
 } // end namespace ngl
 

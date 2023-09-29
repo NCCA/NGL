@@ -31,7 +31,8 @@ Plane::Plane( const Vec3 &_v1, const Vec3 &_v2,  const Vec3 &_v3) noexcept
 
 void Plane::setPoints(const Vec3 &_v1, const Vec3 &_v2, const Vec3 &_v3) noexcept
 {
-	Vec3 aux1, aux2;
+	Vec3 aux1;
+	Vec3 aux2;
 
 	aux1 = _v1 - _v2;
 	aux2 = _v3 - _v2;

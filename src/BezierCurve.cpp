@@ -135,7 +135,6 @@ m_vaoCurve->unbind();
 Vec3 BezierCurve::getPointOnCurve( Real _value  ) const noexcept
 {
 	Vec3 p;
-
 	// sum the effect of all CV's on the curve at this point to
 	// get the evaluated curve point
 	//
@@ -150,7 +149,6 @@ Vec3 BezierCurve::getPointOnCurve( Real _value  ) const noexcept
 			p+=val*m_cp[i];
 		}
 	}
-
 	return p;
 }
 

@@ -318,10 +318,6 @@ TEST(Quaternion, toMat4)
 
 TEST(Quaternion, SLERP)
 {
-  // ngl::Quaternion start(ngl::Vec3(45.0f,90.0f,80.0f));
-  // ngl::Quaternion end(ngl::Vec3(-300.0f,270.0f,360.0f));
-  // glm::quat gstart(glm::vec3(45.0f,90.0f,80.0f));
-  // glm::quat gend(glm::vec3(-300.0f,270.0f,360.0f));
 
   ngl::Quaternion start(0.674380f, -0.212631f, 0.674380f, 0.212631f);
   ngl::Quaternion end(0.612372f, 0.353553f, -0.612372f, -0.353553f);
@@ -348,3 +344,4 @@ TEST(Quaternion, SLERP)
     ASSERT_NEAR(s1.m_z, s2.z, 0.01f);
   }
 }
+

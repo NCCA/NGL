@@ -520,4 +520,3 @@ bool Obj::parseFaceVertexNormalUV(std::vector< std::string > &_tokens) noexcept
 }
 
 } // namespace ngl
-//----------------------------------------------------------------------------------------------------------------------

@@ -28,10 +28,6 @@
 namespace ngl
 {
 
-
-
-
-
 void AbstractMesh::drawBBox() const noexcept
 {
   m_ext->draw();
@@ -267,7 +263,6 @@ Real *AbstractMesh::mapVAOVerts() noexcept
 {
 
   Real *ptr = nullptr;
-
   // bind our VBO data
   m_vaoMesh->bind();
   glBindBuffer(GL_ARRAY_BUFFER, m_vaoMesh->getBufferID(0));
@@ -279,7 +274,6 @@ Real *AbstractMesh::mapVAOVerts() noexcept
 
 void AbstractMesh::unMapVAO() noexcept
 {
-
   if(m_vboMapped == true)
   {
     glUnmapBuffer(GL_ARRAY_BUFFER); // unmap it after use

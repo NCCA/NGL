@@ -26,10 +26,8 @@
 namespace ngl
 {
 
-//----------------------------------------------------------------------------------------------------------------------
 Quaternion::Quaternion(const Mat4 &_m) noexcept
-{
-  
+{  
   if ( auto T = 1 + _m.m_openGL[0] + _m.m_openGL[5] + _m.m_openGL[10]; T > 0.00000001f ) //to avoid large distortions!
   {
     auto S = sqrtf(T) * 2.0f;
@@ -82,7 +80,6 @@ Quaternion::Quaternion(const Vec3 &_rot) noexcept
 
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 Quaternion Quaternion::operator *(const Quaternion& _q)const noexcept
 {
   Quaternion ret(0.0,0.0,0.0,0.0);
@@ -104,7 +101,7 @@ Quaternion Quaternion::operator *(const Quaternion& _q)const noexcept
   return ret;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Quaternion & Quaternion::operator *=(const Quaternion& _q) noexcept
 {
 		// as we have already written the code to do the mult above re-use
@@ -112,7 +109,6 @@ Quaternion & Quaternion::operator *=(const Quaternion& _q) noexcept
     return *this;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 Quaternion Quaternion::operator +(const Quaternion& _q) const noexcept
 {
 	Quaternion ret;
@@ -123,7 +119,6 @@ Quaternion Quaternion::operator +(const Quaternion& _q) const noexcept
 	return ret;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 Quaternion Quaternion::operator -(const Quaternion& _q) const noexcept
 {
 	Quaternion ret;
@@ -134,8 +129,6 @@ Quaternion Quaternion::operator -(const Quaternion& _q) const noexcept
 	return ret;
 }
 
-
-//----------------------------------------------------------------------------------------------------------------------
 Quaternion & Quaternion::operator +=(const Quaternion& _q) noexcept
 {
   m_s=m_s+_q.m_s;
@@ -145,7 +138,7 @@ Quaternion & Quaternion::operator +=(const Quaternion& _q) noexcept
   return *this;
 
 }
-//----------------------------------------------------------------------------------------------------------------------
+
 Quaternion &Quaternion::operator -=(const Quaternion& _q) noexcept
 {
     m_s=m_s-_q.m_s;
@@ -155,14 +148,14 @@ Quaternion &Quaternion::operator -=(const Quaternion& _q) noexcept
     return *this;
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Quaternion Quaternion::operator *(Real _s) const noexcept
 {
 	return Quaternion(m_s*_s,m_x*_s,m_y*_s,m_z*_s);
 
 }
 
-//----------------------------------------------------------------------------------------------------------------------
+
 void Quaternion::operator *=(Real _s) noexcept
 {
 	m_s*=_s;
@@ -171,9 +164,6 @@ void Quaternion::operator *=(Real _s) noexcept
 	m_z*=_s;
 }
 
-
-
-//----------------------------------------------------------------------------------------------------------------------
 void Quaternion::normalise() noexcept
 {
 	Real inverseOverOne = 1.0f/magnitude();
@@ -194,13 +184,12 @@ Quaternion Quaternion::inverse() const noexcept
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Real Quaternion::magnitude()const noexcept
 {
   return static_cast<Real>( sqrtf(m_s*m_s + m_x*m_x + m_y*m_y + m_z*m_z) );
 }
 
-//----------------------------------------------------------------------------------------------------------------------
 bool Quaternion::operator == (const Quaternion& _q)const noexcept
 {
 	return (
@@ -212,7 +201,7 @@ bool Quaternion::operator == (const Quaternion& _q)const noexcept
 }
 
 
-//----------------------------------------------------------------------------------------------------------------------
+
 Vec4 Quaternion::operator* (const Vec4 &_vec) const noexcept
 {
 	Quaternion temp=-*this;
@@ -263,7 +252,6 @@ void Quaternion::rotateZ(Real _angle) noexcept
   m_z=sinf(radians(_angle));
 
 }
-
 
 void Quaternion::fromAxisAngle(const Vec3& _axis, Real _angle) noexcept
 {
@@ -444,7 +432,7 @@ Mat4 Quaternion::toMat4Transpose() const noexcept
 
 
 } // end ngl namespace
-//----------------------------------------------------------------------------------------------------------------------
+
 
 
 

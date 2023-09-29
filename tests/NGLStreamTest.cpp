@@ -6,6 +6,7 @@
 #include <ngl/Mat2.h>
 #include <ngl/Mat3.h>
 #include <ngl/Mat4.h>
+#include <ngl/Quaternion.h>
 #include <sstream>
 
 #include <ngl/NGLStream.h>
@@ -74,4 +75,13 @@ TEST(NGLStream,Mat4)
     std::stringstream out;
     out<<test;
     EXPECT_EQ(out.str(),"[1,5,9,13]\n[2,6,10,14]\n[3,7,11,15]\n[4,8,12,16]\n");
+}
+
+TEST(NGLStream,quaternion)
+{
+    ngl::Quaternion test(1,2,3,4);
+    std::cerr<<test<<'\n';
+    std::stringstream out;
+    out<<test;
+    EXPECT_EQ(out.str(),"1 [2i,3j,4k]");
 }

@@ -56,13 +56,13 @@ Mat2::Mat2(const Real _m) noexcept
 #ifdef USEGLM
 Mat2::Mat2(const glm::mat2 &_m)
 {
-  memcpy(&m_m[0][0], glm::value_ptr(_m), 4 * sizeof(GLfloat));
+  memcpy(&m_m[0][0], glm::value_ptr(_m), 4 * sizeof(Real));
 }
 
 glm::mat2 Mat2::toGLM() const
 {
   glm::mat2 result;
-  memcpy(glm::value_ptr(result), &m_m[0][0], 4 * sizeof(GLfloat));
+  memcpy(glm::value_ptr(result), &m_m[0][0], 4 * sizeof(Real));
   return result;
 }
 

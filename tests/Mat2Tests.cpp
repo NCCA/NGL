@@ -167,7 +167,7 @@ TEST(Mat2, Vec2xMat2)
 TEST(Mat2, glm)
 {
   glm::mat2 g1(1, 2, 3, 4);
-  ngl::Mat2 n1(1, 2, 3, 4);
+  ngl::Mat2 n1(g1);
   EXPECT_TRUE(g1[0][0] == n1.m_00);
   EXPECT_TRUE(g1[0][1] == n1.m_01);
   EXPECT_TRUE(g1[1][0] == n1.m_10);

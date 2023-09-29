@@ -61,7 +61,7 @@ void AABB::set(const Vec4 &_corner,Real _x,Real _y,	Real _z	) noexcept
 
 Vec3 AABB::getVertexP(const Vec3 &_normal) const noexcept
 {
-	Vec3 res = m_corner.toVec3();
+	auto res = m_corner.toVec3();
 
 	if (_normal.m_x > 0.0f)
 	{
@@ -81,7 +81,7 @@ Vec3 AABB::getVertexP(const Vec3 &_normal) const noexcept
 
 Vec3 AABB::getVertexN(const Vec3 &_normal) const noexcept
 {
-	Vec3 res = m_corner.toVec3();
+	auto res = m_corner.toVec3();
 
 	if (_normal.m_x < 0.0f)
 	{

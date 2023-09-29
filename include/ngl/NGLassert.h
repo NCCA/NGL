@@ -42,7 +42,7 @@
 		 if(!(X)) \
 		 { \
 			 std::cerr << "Assertion failed :"<< #X \
-			 << "\nFailure occured on line " \
+			 << "\nFailure occurred on line " \
 			 << __LINE__ << " of source file :" \
        << "\n \""<<__FILE__<<"\"\n"; \
 		 }

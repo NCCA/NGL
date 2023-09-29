@@ -16,7 +16,7 @@ find_package(fmt CONFIG REQUIRED)
 find_package(gl3w CONFIG REQUIRED)
 find_package(OpenMP)
 find_package(OpenImageIO CONFIG)
-
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if(OpenImageIO_FOUND AND(NOT NO_OIIO AND NOT USE_QT))
     message("Found OpenImageIO so using that")
     add_compile_definitions(USEOIIO)

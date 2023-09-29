@@ -110,9 +110,6 @@ namespace ngl
 
   }
 
-
-
-
   void MultiBufferVAO::setData(size_t _size, const std::vector<Vec3>  &_data)
   {
       if(m_bound == false)
@@ -206,7 +203,4 @@ namespace ngl
     }
     return ptr;
   }
-
-
-
 }

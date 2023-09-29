@@ -3,6 +3,7 @@
 #include <glm/mat4x4.hpp>
 #include <gtest/gtest.h>
 #include <ngl/Mat4.h>
+#include <ngl/Quaternion.h>
 #include <ngl/Types.h>
 #include <ngl/Vec4.h>
 #include <sstream>
@@ -300,3 +301,22 @@ TEST(Mat4, toGLM)
   EXPECT_TRUE(test == result);
 }
 
+
+TEST(Mat4,asQuaternion)
+{
+  ngl::Mat4 test(1.0f); 
+  auto q=test.asQuaternion();
+  EXPECT_FLOAT_EQ(q.m_s,0.0f);
+  EXPECT_FLOAT_EQ(q.m_x,0.0f);
+  EXPECT_FLOAT_EQ(q.m_y,0.0f);
+  EXPECT_FLOAT_EQ(q.m_z,1.0f);
+
+  auto toQuat=ngl::Mat4::rotateX(90.0f);
+  auto q2=toQuat.asQuaternion();
+  EXPECT_FLOAT_EQ(q2.m_s,0.70710677f);
+  EXPECT_FLOAT_EQ(q2.m_x,0.0f);
+  EXPECT_FLOAT_EQ(q2.m_y,0.0f);
+  EXPECT_FLOAT_EQ(q2.m_z,0.707107f);
+  auto res=ngl::Quaternion(0.70710677f,0.0f,0.0f,0.70710677f);
+  EXPECT_TRUE(q2==res);
+}
