@@ -89,6 +89,7 @@ int main(int argc, char **argv)
     std::cerr << "excluding tests\n";
     ::testing::GTEST_FLAG(filter) = "-ShaderLib.*:Shader*:VAOPrimitives.*:NGLInit*:VAOFactory*";
   }
+  // should put this on an argument
   // testing::internal::CaptureStdout();
   testing::internal::CaptureStderr();
   return RUN_ALL_TESTS();
