@@ -1,7 +1,7 @@
 # -------------------------------------------------------------------------------------------
 # as much as possible I will use best practice as outlined in the book "Profession cmake"
 # -------------------------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.20.0)
 
 if(NOT DEFINED CMAKE_TOOLCHAIN_FILE AND DEFINED ENV{CMAKE_TOOLCHAIN_FILE})
    set(CMAKE_TOOLCHAIN_FILE $ENV{CMAKE_TOOLCHAIN_FILE})

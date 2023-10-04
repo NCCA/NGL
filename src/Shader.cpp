@@ -97,6 +97,7 @@ Shader::~Shader()
   // Note this needs to be with cerr as NGLMessage crashes here
   std::cerr << fmt::format("removing shader {0} \n", m_name); 
   glDeleteShader(m_shaderHandle);
+
 }
 
 bool Shader::compile() noexcept

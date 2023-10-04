@@ -374,17 +374,21 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
   stbi_set_flip_vertically_on_load(_flipY);
 
   
-  if(unsigned char *img = stbi_load(fname, &w, &h, &ch, 0); img != nullptr)
+  if(const unsigned char *img = stbi_load(fname, &w, &h, &ch, 0); img != nullptr)
   {
     NGLMessage::addMessage(fmt::format("loaded {} Width {} Height {} Channels {}", fname, w, h, ch));
     m_width = w;
     m_height = h;
     m_channels = ch;
     if(m_channels == 3)
-      m_format = GL_RGB;
+    {
+        m_format = GL_RGB;
+    }
     else if(m_channels == 4)
-      m_format = GL_RGBA;
-    m_data.reset(new unsigned char[m_width * m_height * m_channels]);
+    {
+        m_format = GL_RGBA;
+    }
+    m_data=std::make_unique< unsigned char []>(m_width * m_height * m_channels);
     memcpy(m_data.get(), img, m_width * m_height * m_channels);
   }
   else
