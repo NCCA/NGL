@@ -24,6 +24,7 @@ TEST(Vec3, DefaultCtor)
   EXPECT_TRUE(test == result);
 }
 
+
 TEST(Vec3, VectorTest)
 {
   std::vector< ngl::Vec3 > a(10);
@@ -217,6 +218,14 @@ TEST(Vec3,equality)
   v1.set(2.0f,3.0f,4.0f);
   EXPECT_FALSE(v==v1);
   EXPECT_TRUE(v!=v1);
+  ngl::Vec3 test;
+  ngl::Vec3 zero=ngl::Vec3::zero();
+  ngl::Vec3 one(1.0f,1.0f,1.0f);
+  EXPECT_TRUE(test==zero);
+  EXPECT_FALSE(test==one);
+  EXPECT_TRUE(test!=one);
+  EXPECT_FALSE(test!=zero);
+
 }
 
 TEST(Vec3,multVec3)
