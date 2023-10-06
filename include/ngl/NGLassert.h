@@ -16,7 +16,8 @@
 */
 #ifndef NGLASSERT_H_
 #define NGLASSERT_H_
-
+#include <exception>
+#include <string_view>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file NGLassert.h
 /// @brief re impliment asserts so we don't exit on failure
@@ -53,6 +54,14 @@
   #define NGL_ASSERT(X)
 
 #endif // #if defined(NGL_DEBUG)
+
+class NGLIndexOutOfBounds : public std::exception {
+    public:
+const char * what () const noexcept override {
+        return "Index out of bounds ";
+    }
+};
+
 
 #endif // __NGLASSERT_H__
 

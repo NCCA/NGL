@@ -61,7 +61,6 @@ void Vec3::null() noexcept
 
 Real &Vec3::operator[](const size_t &_i) noexcept
 {
-  NGL_ASSERT(_i <= 3)
   return (&m_x)[_i];
 }
 

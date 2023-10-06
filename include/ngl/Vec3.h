@@ -124,7 +124,7 @@ class NGL_DLLEXPORT Vec3
   //----------------------------------------------------------------------------------------------------------------------
   Real &operator[](const size_t &_i) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
-  /// @brief [] index operator to access the index component of the Vec3
+  /// @brief [] const index operator to access the index component of the Vec3
   /// @returns  this[x] as a Real
   //----------------------------------------------------------------------------------------------------------------------
   const Real &operator[](const size_t &_i) const noexcept

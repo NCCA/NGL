@@ -67,6 +67,12 @@ TEST(Vec3, normalize)
   test.normalize();
   ngl::Vec3 result(0.912266f, 0.0204544f, 0.409088f);
   ASSERT_TRUE(test == result);
+  auto zero=ngl::Vec3::zero();
+  zero.normalize();
+  ASSERT_TRUE(std::isnan(zero.m_x));
+  ASSERT_TRUE(std::isnan(zero.m_y));
+  ASSERT_TRUE(std::isnan(zero.m_z));
+
 }
 
 TEST(Vec3, Inner)
@@ -288,6 +294,12 @@ TEST(Vec3, divideFloatEqual)
   EXPECT_FLOAT_EQ(a.m_x, 0.5f);
   EXPECT_FLOAT_EQ(a.m_y, 1.0f);
   EXPECT_FLOAT_EQ(a.m_z, 1.5f);
+  a/=0.0f;
+  EXPECT_TRUE(std::isinf(a.m_x));
+  EXPECT_TRUE(std::isinf(a.m_y));
+  EXPECT_TRUE(std::isinf(a.m_z));
+  
+
 }
 
 TEST(Vec3, divideFloat)
@@ -297,6 +309,10 @@ TEST(Vec3, divideFloat)
   EXPECT_FLOAT_EQ(b.m_x, 0.5f);
   EXPECT_FLOAT_EQ(b.m_y, 1.0f);
   EXPECT_FLOAT_EQ(b.m_z, 1.5f);
+  auto c=a/0.0f;
+  EXPECT_TRUE(std::isinf(c.m_x));
+  EXPECT_TRUE(std::isinf(c.m_y));
+  EXPECT_TRUE(std::isinf(c.m_z));
 }
 
 TEST(Vec3, divideVec)
@@ -307,6 +323,10 @@ TEST(Vec3, divideVec)
   EXPECT_FLOAT_EQ(c.m_x, 0.5f);
   EXPECT_FLOAT_EQ(c.m_y, 1.0f);
   EXPECT_FLOAT_EQ(c.m_z, 1.5f);
+  ngl::Vec3 d=a/ngl::Vec3::zero();
+  EXPECT_TRUE(std::isinf(d.m_x));
+  EXPECT_TRUE(std::isinf(d.m_y));
+  EXPECT_TRUE(std::isinf(d.m_z));
 }
 
 TEST(Vec3, divideEqualVec)
