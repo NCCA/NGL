@@ -390,8 +390,9 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
     }
     m_data=std::make_unique< unsigned char []>(m_width * m_height * m_channels);
     memcpy(m_data.get(), img, m_width * m_height * m_channels);
+    return true;
   }
-  else
+  else if(img == nullptr)
   {
     NGLMessage::addError("Image load failed this version only supports PNG,JPEG,GIF,TGA,BMP ");
     NGLMessage::addError("Have generated a Red Checkerboard pattern instead.");
@@ -422,9 +423,14 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
         }
       }
     }
-  }
+    return true;
 
-  return true;
+  }
+  else
+  {
+    return false;
+  }
+  
 }
 #endif
 } // namespace ngl
