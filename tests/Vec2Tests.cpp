@@ -16,14 +16,24 @@ std::string print(const ngl::Vec2 &_m)
   return ret.str();
 }
 
-
-
 TEST(Vec2,DefaultCtor)
 {
   ngl::Vec2 test;
   ngl::Vec2 result(0.0f,0.0f);
   EXPECT_TRUE(test == result);
 }
+
+TEST(Vec2,equality)
+{
+  ngl::Vec2 test(1.0f,2.0f);
+  ngl::Vec2 result(1.0f,2.0f);
+  ngl::Vec2 zero(0.0f,0.0f);
+  EXPECT_TRUE(test == result);
+  EXPECT_FALSE(test==zero);
+  EXPECT_TRUE(test != zero);
+  EXPECT_FALSE(test != result);
+}
+
 
 TEST(Vec2,VectorTest)
 {
@@ -68,22 +78,21 @@ TEST(Vec2,normalize)
   test.normalize();
   ngl::Vec2 result(0.9997f,0.0224f);
   ASSERT_TRUE(test==result);
-
+  auto zero=ngl::Vec2::zero();
+  zero.normalize();
+  ASSERT_TRUE(std::isnan(zero.m_x));
+  ASSERT_TRUE(std::isnan(zero.m_y));
 }
-
-
 
 TEST(Vec2,Length)
 {
   ngl::Vec2 a(22,1);
-
   ASSERT_NEAR(a.length(),22.022f,0.01f);
 }
 
 TEST(Vec2,LengthSquared)
 {
   ngl::Vec2 a(22,1);
-
   ASSERT_NEAR(a.lengthSquared(),485.0f,0.01f);
 }
 
@@ -91,7 +100,6 @@ TEST(Vec2,LengthSquared)
 TEST(Vec2,SubScript)
 {
   ngl::Vec2 test(1.0f,2.0f);
-
   EXPECT_FLOAT_EQ(test[0], 1.0f);
   EXPECT_FLOAT_EQ(test[1],2.0f);
 }
@@ -222,6 +230,9 @@ TEST(Vec2,divideFloatEqual)
   a/=2.0f;
   EXPECT_FLOAT_EQ(a.m_x,0.5f);
   EXPECT_FLOAT_EQ(a.m_y,1.0f);
+  a/=0.0f;
+  EXPECT_TRUE(std::isinf(a.m_x));
+  EXPECT_TRUE(std::isinf(a.m_y));
 }
 
 TEST(Vec2,divideFloat)
@@ -230,6 +241,9 @@ TEST(Vec2,divideFloat)
   auto b=a/2.0f;
   EXPECT_FLOAT_EQ(b.m_x,0.5f);
   EXPECT_FLOAT_EQ(b.m_y,1.0f);
+  auto c=a/0.0f;
+  EXPECT_TRUE(std::isinf(c.m_x));
+  EXPECT_TRUE(std::isinf(c.m_y));
 }
 
 
@@ -240,6 +254,9 @@ TEST(Vec2,divideVec)
   auto c=a/b;
   EXPECT_FLOAT_EQ(c.m_x,0.5f);
   EXPECT_FLOAT_EQ(c.m_y,1.0f);
+  auto d=a/ngl::Vec2::zero();
+  EXPECT_TRUE(std::isinf(d.m_x));
+  EXPECT_TRUE(std::isinf(d.m_y));
 }
 
 TEST(Vec2,divideEqualVec)
@@ -249,6 +266,9 @@ TEST(Vec2,divideEqualVec)
   a/=b;
   EXPECT_FLOAT_EQ(a.m_x,0.5f);
   EXPECT_FLOAT_EQ(a.m_y,1.0f);
+  a/=ngl::Vec2::zero();
+  EXPECT_TRUE(std::isinf(a.m_x));
+  EXPECT_TRUE(std::isinf(a.m_y));
 }
 
 TEST(Vec2,negate)

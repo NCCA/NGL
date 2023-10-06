@@ -332,7 +332,7 @@ TEST(Vec3, divideVec)
   EXPECT_FLOAT_EQ(c.m_x, 0.5f);
   EXPECT_FLOAT_EQ(c.m_y, 1.0f);
   EXPECT_FLOAT_EQ(c.m_z, 1.5f);
-  ngl::Vec3 d=a/ngl::Vec3::zero();
+  auto d=a/ngl::Vec3::zero();
   EXPECT_TRUE(std::isinf(d.m_x));
   EXPECT_TRUE(std::isinf(d.m_y));
   EXPECT_TRUE(std::isinf(d.m_z));
@@ -346,6 +346,10 @@ TEST(Vec3, divideEqualVec)
   EXPECT_FLOAT_EQ(a.m_x, 0.5f);
   EXPECT_FLOAT_EQ(a.m_y, 1.0f);
   EXPECT_FLOAT_EQ(a.m_z, 1.5f);
+  a/=ngl::Vec3::zero();
+  EXPECT_TRUE(std::isinf(a.m_x));
+  EXPECT_TRUE(std::isinf(a.m_y));
+  EXPECT_TRUE(std::isinf(a.m_z));
 }
 
 TEST(Vec3,reflect)
