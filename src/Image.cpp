@@ -120,8 +120,8 @@ Vec4 Image::getColour(const GLuint _x, const GLuint _y) const noexcept
 Vec4 Image::getColour(const Real _uvX, const Real _uvY) const noexcept
 {
 
-  auto xx = static_cast< GLuint >(_uvX * (m_width - 1));
-  auto yy = static_cast< GLuint >(_uvY * (m_height - 1));
+  auto xx = static_cast< GLuint >(static_cast<GLuint>(_uvX) * (m_width - 1));
+  auto yy = static_cast< GLuint >(static_cast<GLuint>(_uvY) * (m_height - 1));
 
   NGL_ASSERT(xx < m_width && yy < m_height)
 
@@ -373,7 +373,6 @@ bool Image::load(std::string_view _fname,bool _flipY) noexcept
   int ch;
   stbi_set_flip_vertically_on_load(_flipY);
 
-  
   if(const unsigned char *img = stbi_load(fname, &w, &h, &ch, 0); img != nullptr)
   {
     NGLMessage::addMessage(fmt::format("loaded {} Width {} Height {} Channels {}", fname, w, h, ch));
