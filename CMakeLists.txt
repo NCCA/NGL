@@ -304,12 +304,33 @@ if(NOT DEFINED PYNGL_ONLY)
         target_link_libraries(NGLTests PRIVATE --coverage)
     endif()
     # gtest_discover_tests(NGLTests)
-    add_custom_target(CopyTestfiles ALL
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/tests/files
-        ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/files
-        COMMENT "Copy Test files to build directory"
+    # Now create a post build command to copy the test directories
+    add_custom_command(
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+                    ${CMAKE_SOURCE_DIR}/tests/files
+                    ${CMAKE_BINARY_DIR}/files
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            OUTPUT  ${CMAKE_BINARY_DIR}/files/
+            COMMENT "copying test files"
     )
+    # Now a custom target to copy the files which check to see if the files exist
+    add_custom_target(
+            CopyTestfiles ALL
+            DEPENDS ${CMAKE_BINARY_DIR}/files/
+    )
+    # now add this a dependency for NGLTests so it gets run.
+    add_dependencies(NGLTests CopyTestfiles )
+
+
+
+    #    add_custom_target(CopyTestfiles ALL
+#        COMMAND ${CMAKE_COMMAND} -E copy_directory
+#        ${CMAKE_SOURCE_DIR}/tests/files
+#        ${CMAKE_BINARY_DIR}/files
+#            COMMENT "Copy Test files to build directory"
+#    )
+
 endif() # PYNGL_ONLY
 
 # PyNGL
