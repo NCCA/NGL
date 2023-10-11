@@ -309,15 +309,15 @@ if(NOT DEFINED PYNGL_ONLY)
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
                     ${CMAKE_SOURCE_DIR}/tests/files
-                    ${CMAKE_BINARY_DIR}/files
+                    ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/files
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-            OUTPUT  ${CMAKE_BINARY_DIR}/files/
+            OUTPUT  ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/files/
             COMMENT "copying test files"
     )
     # Now a custom target to copy the files which check to see if the files exist
     add_custom_target(
             CopyTestfiles ALL
-            DEPENDS ${CMAKE_BINARY_DIR}/files/
+            DEPENDS ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/files/
     )
     # now add this a dependency for NGLTests so it gets run.
     add_dependencies(NGLTests CopyTestfiles )
