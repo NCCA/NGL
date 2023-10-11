@@ -18,7 +18,6 @@
 #include "Mat4.h"
 #include "Vec4.h"
 #include <cmath>
-#include <iostream>
 #include <string>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file Util.cpp
@@ -344,7 +343,7 @@ NGL_DLLEXPORT std::vector<Vec3> generateDistinctColours(int _n) noexcept
                 {
                     break;
                 }
-                colours.push_back(ngl::Vec3(r/255.0f,g/255.0f, b/255.0f));
+                colours.emplace_back(Vec3(r/255.0f,g/255.0f, b/255.0f));
             }
         }
     }

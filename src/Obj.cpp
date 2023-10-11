@@ -45,7 +45,7 @@ namespace ps = pystring;
 Obj::Obj(std::string_view _fname, CalcBB _calcBB) noexcept
   : AbstractMesh()
 {
-  if(load(_fname, _calcBB) == false)
+  if(!load(_fname, _calcBB) )
   {
     NGLMessage::addError(fmt::format("Error loading file {0} ", _fname.data()));
     exit(EXIT_FAILURE);
@@ -55,7 +55,7 @@ Obj::Obj(std::string_view _fname, CalcBB _calcBB) noexcept
 Obj::Obj(std::string_view _fname, std::string_view _texName, CalcBB _calcBB) noexcept
   : AbstractMesh()
 {
-  if(load(_fname, _calcBB) == false)
+  if(!load(_fname, _calcBB))
   {
     NGLMessage::addError(fmt::format("Error loading file {0} ", _fname.data()));
     exit(EXIT_FAILURE);
@@ -119,7 +119,7 @@ void Obj::addFace(const ngl::Face &_f) noexcept
 bool Obj::save(std::string_view _fname) const noexcept
 {
   std::ofstream out(_fname.data());
-  if(out.is_open() != true)
+  if(!out.is_open() )
   {
     NGLMessage::addError(fmt::format(" could not open file  {0} for writing ", _fname.data()));
     return false;
@@ -150,7 +150,7 @@ bool Obj::save(std::string_view _fname) const noexcept
     // we now have V/T/N for each to write out
     for(unsigned int i = 0; i < f.m_vert.size(); ++i)
     {
-      // don't forget that obj indices start from 1 not 0 (i did originally !)
+      // don't forget that obj indices start from 1 not 0 (I did originally !)
       out << f.m_vert[i] + 1;
       if( ! m_uv.empty() )
       {
@@ -215,7 +215,7 @@ std::istream &Obj::safeGetline(std::istream &is, std::string &t)
 bool Obj::load(std::string_view _fname, CalcBB _calcBB) noexcept
 {
   std::ifstream in(_fname.data());
-  if(in.is_open() != true)
+  if(!in.is_open() )
   {
     NGLMessage::addError(fmt::format(" file {0} not found  ", _fname.data()));
     return false;
@@ -228,7 +228,7 @@ bool Obj::load(std::string_view _fname, CalcBB _calcBB) noexcept
   {
     bool status = true;
     // Line contains string of length > 0 then parse it
-    if(str.size() > 0)
+    if(!str.empty())
     {
       std::vector< std::string > tokens;
       ps::split(str, tokens);
@@ -251,7 +251,7 @@ bool Obj::load(std::string_view _fname, CalcBB _calcBB) noexcept
       }
     } // str.size()
     // early out sanity checks!
-    if(status == false)
+    if(!status )
       return false;
   } // while
 

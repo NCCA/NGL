@@ -54,7 +54,7 @@ void Plane::setFloats(Real _a,Real _b,	Real _c,	Real _d) noexcept
 {
 	// set the normal vector
 	m_normal.set(_a,_b,_c);
-	//compute the lenght of the vector
+	//compute the length of the vector
 	Real l = m_normal.length();
 	// normalize the vector
 	m_normal.normalize();

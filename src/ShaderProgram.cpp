@@ -20,7 +20,6 @@
 //----------------------------------------------------------------------------------------------------------------------
 #include "ShaderProgram.h"
 #include "Mat3.h"
-#include "Mat4.h"
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 #include <iostream>
@@ -52,7 +51,7 @@ GLuint ShaderProgram::getID() const noexcept
 ShaderProgram::~ShaderProgram()
 {
   if(m_programName == "NULL") return;
-  if(m_debugState == true)
+  if(m_debugState)
     std::cerr << fmt::format("removing ShaderProgram {0}\n", m_programName);
   glDeleteProgram(m_programID);
   for(auto &block : m_registeredUniformBlocks)
@@ -85,7 +84,7 @@ void ShaderProgram::attachShader(Shader *_shader) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::bindAttribute(GLuint _index, std::string_view _attribName) noexcept
 {
-  if(m_linked == true)
+  if(m_linked)
   {
     NGLMessage::addMessage(fmt::format("binding attribute {0} after link ", _attribName.data()));
   }
@@ -96,7 +95,7 @@ void ShaderProgram::bindAttribute(GLuint _index, std::string_view _attribName) n
 
 void ShaderProgram::bindFragDataLocation(GLuint _index, std::string_view _attribName) noexcept
 {
-  if(m_linked == true)
+  if(m_linked)
   {
     NGLMessage::addMessage(fmt::format("binding attribute {0} after link ", _attribName.data()));
   }
@@ -110,7 +109,7 @@ bool ShaderProgram::link() noexcept
 {
   m_linked = false;
   glLinkProgram(m_programID);
-  if(m_debugState == true)
+  if(m_debugState)
   {
     NGLMessage::addMessage(fmt::format("linking Shader {0} ", m_programName.c_str()));
   }
@@ -129,7 +128,7 @@ bool ShaderProgram::link() noexcept
     glGetProgramInfoLog(m_programID, infologLength, &charsWritten, infoLog.get());
 
     NGLMessage::addMessage(infoLog.get(), Colours::WHITE, TimeFormat::NONE);
-    if(m_linked == false)
+    if(!m_linked)
     {
       NGLMessage::addError("Program link failed (will exit if errorExit enabled else return false)");
       if(m_errorExit == ErrorExit::ON)
@@ -173,13 +172,13 @@ void ShaderProgram::printProperties() const noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderProgram::printActiveUniforms() const noexcept
 {
-  if(m_active != true)
+  if(!m_active)
   {
     NGLMessage::addWarning("calling printActiveUniforms on unbound shader program");
   }
   GLint nUniforms;
   glGetProgramiv(m_programID, GL_ACTIVE_UNIFORMS, &nUniforms);
-  std::array<char,256> name;
+  std::array<char,256> name={};
   GLsizei l;
   for(GLint i = 0; i < nUniforms; ++i)
   {
@@ -196,7 +195,7 @@ void ShaderProgram::printActiveAttributes() const noexcept
   GLint size;
   GLenum type;
   GLsizei l;
-  std::array<char,256> name;
+  std::array<char,256> name={};
   for(GLint i = 0; i < nAttribs; ++i)
   {
     std::string Type;
@@ -270,7 +269,7 @@ void ShaderProgram::disableAttribArray(const char *_name) const noexcept
   glDisableVertexAttribArray(getUniformLocation(_name));
 }
 
-void ShaderProgram::bindFragDataLocation(GLuint _colourNumber, const char *_name) noexcept
+void ShaderProgram::bindFragDataLocation(GLuint _colourNumber, const char *_name) const noexcept
 {
   glBindFragDataLocation(m_programID, _colourNumber, _name);
 }
@@ -285,9 +284,9 @@ void ShaderProgram::autoRegisterUniformBlocks() noexcept
   GLint nUniforms;
   m_registeredUniformBlocks.clear();
   glGetProgramiv(m_programID, GL_ACTIVE_UNIFORM_BLOCKS, &nUniforms);
-  if(m_debugState == true)
+  if(m_debugState)
     NGLMessage::addMessage(fmt::format("FOUND UNIFORM BLOCKS {0}", nUniforms), Colours::WHITE, TimeFormat::NONE);
-  std::array<char,256> name;
+  std::array<char,256> name={};
   uniformBlockData data;
   for(GLint i = 0; i < nUniforms; ++i)
   {
@@ -367,42 +366,42 @@ std::string ShaderProgram::getValueFromShader(const uniformData &_d) const noexc
   std::string value;
   if(_d.type == GL_FLOAT || _d.type == GL_BOOL)
   {
-    float v;
-    getRegisteredUniform(_d.name.c_str(), v);
+    float v=0.0f;
+    getRegisteredUniform(_d.name, v);
     value = fmt::format("[{:.4f}]", v);
   }
 
   else if(_d.type == GL_FLOAT_VEC2)
   {
-    std::array<float,2> v;
-    getRegisteredUniform(_d.name.c_str(), v);
+    std::array<float,2> v={0.0f,0.0f};
+    getRegisteredUniform(_d.name, v);
     value = fmt::format("[{:.4f},{:.4f}]", v[0], v[1]);
   }
   else if(_d.type == GL_FLOAT_VEC3)
   {
-    std::array<float,3> v;
-    getRegisteredUniform(_d.name.c_str(), v);
+    std::array<float,3> v={0.0f,0.0f,0.0f};
+    getRegisteredUniform(_d.name, v);
     value = fmt::format("[{:.4f},{:.4f},{:.4f}]", v[0], v[1], v[2]);
   }
   else if(_d.type == GL_FLOAT_VEC4)
   {
-    std::array<float,4> v;
-    getRegisteredUniform(_d.name.c_str(), v);
+    std::array<float,4> v={0.0f,0.0f,0.0f,1.0f};
+    getRegisteredUniform(_d.name, v);
     value = fmt::format("[{:.4f},{:.4f},{:.4f},{:.4f}]", v[0], v[1], v[2], v[3]);
   }
   else if(_d.type == GL_FLOAT_MAT2)
   {
-    std::array<float,4> v;
-    getRegisteredUniform(_d.name.c_str(), v);
+    std::array<float,4> v={0.0f,0.0f,0.0f,1.0f};
+    getRegisteredUniform(_d.name, v);
     value = fmt::format("\n[{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f}]",
                         v[0], v[1], v[2], v[3]);
   }
   else if(_d.type == GL_FLOAT_MAT3)
   {
-    std::array<float,9> v;
+    std::array<float,9> v={1.0f,0.0f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f,1.0f};
 
-    getRegisteredUniform(_d.name.c_str(), v);
+    getRegisteredUniform(_d.name, v);
     value = fmt::format("\n[{:.4f},{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f},{:.4f}]",
@@ -410,9 +409,9 @@ std::string ShaderProgram::getValueFromShader(const uniformData &_d) const noexc
   }
   else if(_d.type == GL_FLOAT_MAT4)
   {
-    std::array<float,16> v;
+    std::array<float,16> v={1.0f,0.0f,0.0f,0.0f, 0.0f, 1.0f,0.0f,0.0f, 0.0f,0.0f,1.0f,0.0f, 0.0f,0.0f,0.0f,1.0f};
 
-    getRegisteredUniform(_d.name.c_str(), v);
+    getRegisteredUniform(_d.name, v);
     value = fmt::format("\n[{:.4f},{:.4f},{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f},{:.4f},{:.4f}]\n"
                         "[{:.4f},{:.4f},{:.4f},{:.4f}]\n"
@@ -518,7 +517,7 @@ void ShaderProgram::printRegisteredUniforms() const noexcept
       {GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE, "uimage2DMS"},
       {GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY, "uimage2DMSArray"},
       {GL_UNSIGNED_INT_ATOMIC_COUNTER, "atomic_uint"},
-#endif // apple
+#endif // __APPLE__
       {GL_SAMPLER_2D, "sampler2D"},
       {GL_SAMPLER_3D, "sampler3D"},
       {GL_SAMPLER_CUBE, "samplerCube"},

@@ -1,5 +1,4 @@
 #include "AbstractVAO.h"
-#include <iostream>
 namespace ngl
 {
 AbstractVAO::AbstractVAO(GLenum _mode) : m_mode{_mode}
@@ -33,7 +32,7 @@ void AbstractVAO::unbind()
 
 void AbstractVAO::setVertexAttributePointer(GLuint _id, GLint _size, GLenum _type, GLsizei _stride, unsigned int _dataOffset, bool _normalise) const noexcept
 {
-  if(m_bound != true)
+  if(!m_bound)
   {
     NGLMessage::addWarning("Warning trying to set attribute on Unbound VOA");
   }

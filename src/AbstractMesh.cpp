@@ -52,7 +52,7 @@ void AbstractMesh::scale(Real _sx, Real _sy, Real _sz) noexcept
 
 AbstractMesh::~AbstractMesh() noexcept
 {
-  if(m_loaded == true)
+  if(m_loaded)
   {
     m_verts.erase(m_verts.begin(), m_verts.end());
     m_norm.erase(m_norm.begin(), m_norm.end());
@@ -93,14 +93,14 @@ return  std::all_of(std::begin(m_face),std::end(m_face),[](auto f){
 // clang doesn't have a problem tho
 struct VertData
 {
-  GLfloat x; // position from obj
-  GLfloat y;
-  GLfloat z;
-  GLfloat nx; // normal from obj mesh
-  GLfloat ny;
-  GLfloat nz;
-  GLfloat u; // tex cords
-  GLfloat v; // tex cords
+  GLfloat x=0.0f; // position from obj
+  GLfloat y=0.0f;
+  GLfloat z=0.0f;
+  GLfloat nx=0.0f; // normal from obj mesh
+  GLfloat ny=0.0f;
+  GLfloat nz=0.0f;
+  GLfloat u=0.0f; // tex cords
+  GLfloat v=0.0f; // tex cords
 };
 
 void AbstractMesh::createVAO(ResetVAO _reset) noexcept
@@ -108,7 +108,7 @@ void AbstractMesh::createVAO(ResetVAO _reset) noexcept
   if(_reset == AbstractMesh::ResetVAO::False)
   {
     // if we have already created a VBO just return.
-    if(m_vao == true)
+    if(m_vao)
     {
       NGLMessage::addWarning("VAO exist so returning");
       return;
@@ -116,7 +116,7 @@ void AbstractMesh::createVAO(ResetVAO _reset) noexcept
   }
   else // need to delete VAO if existing amd reset
   {
-    if(m_vao == true)
+    if(m_vao)
     {
       NGLMessage::addWarning("Creating new VAO");
     }
@@ -134,7 +134,7 @@ void AbstractMesh::createVAO(ResetVAO _reset) noexcept
     exit(EXIT_FAILURE);
   }
 
-  // now we are going to process and pack the mesh into an ngl::VertexArrayObject
+  // now we are going to process and pack the mesh into a ngl::VertexArrayObject
   std::vector< VertData > vboMesh;
   VertData d;
 
@@ -204,7 +204,7 @@ void AbstractMesh::createVAO(ResetVAO _reset) noexcept
   // x,y,z,nx,ny,nz,u,v
   // If you look at the shader we have the following attributes being used
   // attribute vec3 inVert; attribute 0
-  // attribute vec3 inNormal; attribure 1
+  // attribute vec3 inNormal; attribute 1
   // attribute vec2 inUV; attribute 2
   // so we need to set the vertexAttributePointer so the correct size and type as follows
   m_vaoMesh->setVertexAttributePointer(0, 3, GL_FLOAT, sizeof(VertData), 0);
@@ -224,7 +224,8 @@ void AbstractMesh::createVAO(ResetVAO _reset) noexcept
   m_vao = true;
   m_vbo = true;
   // create a new bbox based on the new object size
-  m_ext.reset(new BBox(m_minX, m_maxX, m_minY, m_maxY, m_minZ, m_maxZ));
+  m_ext=std::make_unique<BBox>(m_minX, m_maxX, m_minY, m_maxY, m_minZ, m_maxZ);
+
 }
 
 std::unique_ptr< AbstractVAO > AbstractMesh::moveVAO() noexcept
@@ -246,9 +247,9 @@ void AbstractMesh::unbindVAO() const noexcept
 
 void AbstractMesh::draw() const noexcept
 {
-  if(m_vao == true)
+  if(m_vao)
   {
-    if(m_texture == true)
+    if(m_texture)
     {
       glBindTexture(GL_TEXTURE_2D, m_textureID);
     }
@@ -262,11 +263,11 @@ void AbstractMesh::draw() const noexcept
 Real *AbstractMesh::mapVAOVerts() noexcept
 {
 
-  Real *ptr = nullptr;
+
   // bind our VBO data
   m_vaoMesh->bind();
   glBindBuffer(GL_ARRAY_BUFFER, m_vaoMesh->getBufferID(0));
-  ptr = static_cast< Real * >(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
+  auto ptr = static_cast< Real * >(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE));
   m_vboMapped = true;
   return ptr;
 }
@@ -274,7 +275,7 @@ Real *AbstractMesh::mapVAOVerts() noexcept
 
 void AbstractMesh::unMapVAO() noexcept
 {
-  if(m_vboMapped == true)
+  if(m_vboMapped)
   {
     glUnmapBuffer(GL_ARRAY_BUFFER); // unmap it after use
     m_vboMapped = false;

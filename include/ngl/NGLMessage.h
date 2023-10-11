@@ -75,8 +75,8 @@ private:
   static std::future< void > s_futureExit;
   void consume(const Message &_message);
   void setTimeFormat(TimeFormat _f);
-  std::string getTimeString(const TimeFormat &_t) const;
-  std::string getColourString(const Colours &_colour) const;
+  static std::string getTimeString(const TimeFormat &_t)  ;
+  static std::string getColourString(const Colours &_colour) ;
   std::string m_timeString = "%I:%M%p";
   static Colours s_currentColour;
   static std::ofstream s_logFile;

@@ -287,7 +287,7 @@ void Quaternion::fromEulerAngles(const Real _x,const Real _y,const Real _z) noex
   m_z=cx*cy*sz - sx*sy*cz;
 }
 
-void Quaternion::rotatePoint(const Quaternion& _r,Vec3 & io_p) const noexcept
+void Quaternion::rotatePoint(const Quaternion& _r,Vec3 & io_p)  noexcept
 {
 Quaternion temp = -_r;
 Quaternion point(0.0,io_p.m_x, io_p.m_y, io_p.m_z);

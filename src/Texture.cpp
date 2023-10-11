@@ -19,7 +19,6 @@
 /// @brief implementation files for Texture class
 //----------------------------------------------------------------------------------------------------------------------
 #include "Texture.h"
-#include "NGLassert.h"
 #include "Util.h"
 #include <iostream>
 

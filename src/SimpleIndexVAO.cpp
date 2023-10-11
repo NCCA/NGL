@@ -9,11 +9,11 @@ SimpleIndexVAO::~SimpleIndexVAO()
 
 void SimpleIndexVAO::draw() const
 {
-  if(m_allocated == false)
+  if(!m_allocated)
   {
     NGLMessage::addWarning("Warning trying to draw an unallocated VOA");
   }
-  if(m_bound == false)
+  if(!m_bound)
   {
     NGLMessage::addWarning("Warning trying to draw an unbound VOA");
   }
@@ -22,11 +22,11 @@ void SimpleIndexVAO::draw() const
 
 void SimpleIndexVAO::removeVAO()
 {
-  if(m_bound == true)
+  if(m_bound)
   {
     unbind();
   }
-  if(m_allocated == true)
+  if(m_allocated)
   {
     glDeleteBuffers(1, &m_buffer);
     glDeleteBuffers(1, &m_idxBuffer);
@@ -38,11 +38,11 @@ void SimpleIndexVAO::removeVAO()
 void SimpleIndexVAO::setData(const AbstractVAO::VertexData &_data)
 {
   auto data = static_cast< const VertexData & >(_data);
-  if(m_bound == false)
+  if(!m_bound)
   {
     NGLMessage::addWarning("trying to set VOA data when unbound");
   }
-  if(m_allocated == true)
+  if(m_allocated)
   {
     glDeleteBuffers(1, &m_buffer);
   }

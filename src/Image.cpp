@@ -120,8 +120,8 @@ Vec4 Image::getColour(const GLuint _x, const GLuint _y) const noexcept
 Vec4 Image::getColour(const Real _uvX, const Real _uvY) const noexcept
 {
 
-  auto xx = static_cast< GLuint >(static_cast<GLuint>(_uvX) * (m_width - 1));
-  auto yy = static_cast< GLuint >(static_cast<GLuint>(_uvY) * (m_height - 1));
+  auto xx = static_cast< GLuint >(_uvX * (m_width - 1));
+  auto yy = static_cast< GLuint >(_uvY * (m_height - 1));
 
   NGL_ASSERT(xx < m_width && yy < m_height)
 
@@ -150,8 +150,6 @@ bool Image::save(std::string_view _fname,bool _flipY) const noexcept
   m_channels == 4 )
  {
     ngl::NGLMessage::addWarning("Trying to save RGBA image as jpg which doesn't support it");
-    
-
  }
 
 #if defined(USEQIMAGE)
@@ -170,11 +168,11 @@ bool Image::save(std::string_view _fname,bool _flipY) const noexcept
     int scanlinesize = m_width * m_channels;
     // note this flips the image vertically on writing
     // (see http://www.openimageio.org/openimageio.pdf pg 20 for details)
-    out->write_image(TypeDesc::UINT8, m_data.get() + (m_height - 1) * scanlinesize, AutoStride, -scanlinesize, AutoStride);
+    isSaved=out->write_image(TypeDesc::UINT8, m_data.get() + (m_height - 1) * scanlinesize, AutoStride, -scanlinesize, AutoStride);
   }
   else
   {
-    out->write_image(TypeDesc::UINT8, m_data.get() );
+    isSaved=out->write_image(TypeDesc::UINT8, m_data.get() );
   }
   out->close();
 #endif

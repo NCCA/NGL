@@ -288,7 +288,7 @@ class NGL_DLLEXPORT Quaternion
     /// @brief[in] _r the rotation Quat
     /// @brief[inout] io_p the point to be rotated (result we be set in this point)
     
-    void rotatePoint(const Quaternion& _r,Vec3 & io_p) const noexcept;
+    static void rotatePoint(const Quaternion& _r,Vec3 & io_p)     noexcept;
     
     /// @brief  return the axis and angle of the current quat (angle in degrees)
     /// @brief[out] o_axis the axis of rotation (

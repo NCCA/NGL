@@ -21,10 +21,7 @@
 #include "SimpleVAO.h"
 #include "VAOFactory.h"
 #include "VAOPrimitives.h"
-#include <chrono>
 #include <memory>
-#include <string>
-#include <thread>
 #if defined(LINUX) || defined(_WIN32)
 #include <cstdlib>
 #endif

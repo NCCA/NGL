@@ -17,10 +17,8 @@
 
 #include "Mat3.h"
 #include "Mat4.h"
-#include "NGLassert.h"
 #include "Quaternion.h"
 #include "Util.h"
-#include "Vec2.h"
 #include <cstring> // for memset
 #include <iostream>
 #ifdef USEGLM

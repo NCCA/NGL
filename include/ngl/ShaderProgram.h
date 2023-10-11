@@ -151,7 +151,7 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param [in] _colourNumber The color number to bind the user-defined varying out variable to
   /// @param [in] _name the name of the output variable to bind
   //----------------------------------------------------------------------------------------------------------------------
-  void bindFragDataLocation(GLuint _colourNumber, const char *_name) noexcept;
+  void bindFragDataLocation(GLuint _colourNumber, const char *_name) const noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief  get the index of a uniform bloc
   /// @param[in] _uniformBlockName the name of the uniform block to get the id for

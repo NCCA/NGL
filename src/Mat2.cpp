@@ -16,7 +16,6 @@
  */
 
 #include "Mat2.h"
-#include "NGLassert.h"
 #include "Util.h"
 #include "Vec2.h"
 #include <cstring> // for memset

@@ -21,7 +21,6 @@
 #include "BBox.h"
 #include "VAOFactory.h"
 #include "SimpleIndexVAO.h"
-#include <iostream>
 namespace ngl
 {
 constexpr GLubyte indices[]=  {
@@ -58,7 +57,7 @@ BBox::BBox( const Vec3& _center,  Real _width, Real _height, Real _depth, bool _
 	m_vert[6].m_x=_center.m_x+(_width/2.0f); m_vert[6].m_y=_center.m_y-(_height/2.0f); m_vert[6].m_z=_center.m_z+(_depth/2.0f);
 	m_vert[7].m_x=_center.m_x-(_width/2.0f); m_vert[7].m_y=_center.m_y-(_height/2.0f); m_vert[7].m_z=_center.m_z+(_depth/2.0f);
 
-	// Setup the Plane Normals for Collision Detection
+	// Set up the Plane Normals for Collision Detection
 	m_norm[0].set(0.0f,1.0f,0.0f);
 	m_norm[1].set(0.0f,-1.0f,0.0f);
 	m_norm[2].set(1.0f,0.0f,0.0f);
@@ -168,7 +167,7 @@ void BBox::setDrawMode( GLenum _mode) noexcept
 
 void BBox::setVAO()
 {
-  if(m_noGL == true) return;
+  if(m_noGL) return;
 	// if were not doing line drawing then use tris
   if(m_drawMode !=GL_LINE)
 	{

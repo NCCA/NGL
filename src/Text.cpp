@@ -18,7 +18,6 @@
 
 #include <ft2build.h>
 #include <iostream>
-#include <unordered_map>
 #include FT_FREETYPE_H
 
 #include "NGLStream.h"
@@ -26,7 +25,6 @@
 #include "Text.h"
 #include "Util.h"
 #include <array>
-#include <memory>
 namespace ngl
 {
 

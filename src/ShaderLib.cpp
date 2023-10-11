@@ -43,13 +43,12 @@ std::unordered_map< std::string, std::unique_ptr< Shader > > ShaderLib::m_shader
 
 std::string ShaderLib::m_currentShader = "NULL";
 bool ShaderLib::m_debugState = true;
-unsigned int ShaderLib::m_numShaders = 0;
 bool ShaderLib::m_defaultShadersLoaded = false;
 
 void ShaderLib::loadDefaultShaders()
 {
   std::cerr << "calling loadDefaultShaders\n";
-  if(m_defaultShadersLoaded == true)
+  if(m_defaultShadersLoaded)
     return;
   else
   {
@@ -166,7 +165,7 @@ GLuint ShaderLib::getShaderID(std::string_view _shaderName) noexcept
 void ShaderLib::attachShader(std::string_view _name, ShaderType _type, ErrorExit _exitOnError) noexcept
 {
   m_shaders[_name.data()] = std::make_unique< Shader >(_name, _type, _exitOnError);
-  if(m_debugState == true)
+  if(m_debugState)
   {
     NGLMessage::addMessage(fmt::format("just attached {0} to ngl::ShaderLib", _name.data()));
   }
@@ -230,7 +229,7 @@ void ShaderLib::attachShaderToProgram(std::string_view _program, std::string_vie
     // now increment the shader ref count so we know if how many references
     shader->second->incrementRefCount();
 
-    if(m_debugState == true)
+    if(m_debugState)
     {
       NGLMessage::addMessage(fmt::format("{0} attached to program", _shader.data()));
     }
@@ -285,7 +284,7 @@ void ShaderLib::setJsonUniform(std::string_view _name, std::string_view _type, s
 {
   namespace ps = pystring;
 
-  if(m_debugState == true)
+  if(m_debugState)
     NGLMessage::addMessage(fmt::format("Setting Uniform {0}", _name));
 
   if(_type == "int")
@@ -387,7 +386,7 @@ bool ShaderLib::loadFromJson(std::string_view _fname) noexcept
     NGLMessage::addError(fmt::format("This does not seem to be a valid shader json file"));
     return false;
   }
-  if(m_debugState == true)
+  if(m_debugState)
   {
     NGLMessage::drawLine();
     NGLMessage::addMessage(fmt::format("***************Loading Shaders from JSON*****************"));
@@ -518,7 +517,7 @@ bool ShaderLib::linkProgramObject(std::string_view _name) noexcept
   // make sure we have a valid  program
   if(auto program = m_shaderPrograms.find(_name.data()); program != m_shaderPrograms.end())
   {
-    if(m_debugState == true)
+    if(m_debugState)
     {
       NGLMessage::addMessage(fmt::format("Linking {0}", _name.data()));
     }

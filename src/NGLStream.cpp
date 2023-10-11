@@ -6,8 +6,7 @@
 #include "Mat4.h"
 #include "Quaternion.h"
 #include <iostream>
-#include <limits>
-#include <iomanip>
+
 namespace ngl
 {
 

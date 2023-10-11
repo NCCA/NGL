@@ -84,7 +84,7 @@ class NGL_DLLEXPORT Obj : public AbstractMesh
   virtual bool parseVertex(std::vector< std::string > &_tokens) noexcept;
   virtual bool parseNormal(std::vector< std::string > &_tokens) noexcept;
   virtual bool parseUV(std::vector< std::string > &_tokens) noexcept;
-  std::istream &safeGetline(std::istream &is, std::string &t);
+  static std::istream &safeGetline(std::istream &is, std::string &t);
 
   // face parsing is complex we have different layouts.
   // don't forget we can also have negative indices

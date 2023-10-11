@@ -93,7 +93,7 @@ void NGLMessage::setTimeFormat(TimeFormat _f)
   }
 }
 
-std::string NGLMessage::getTimeString(const TimeFormat &_t) const
+std::string NGLMessage::getTimeString(const TimeFormat &_t)
 {
   std::string time;
   switch(_t)
@@ -114,7 +114,7 @@ std::string NGLMessage::getTimeString(const TimeFormat &_t) const
   return time;
 }
 
-std::string NGLMessage::getColourString(const Colours &_colour) const
+std::string NGLMessage::getColourString(const Colours &_colour)
 {
   std::string output;
   switch(_colour)

@@ -113,7 +113,7 @@ bool Shader::compile() noexcept
   GLint compileStatus = 0;
   glGetShaderiv(m_shaderHandle, GL_COMPILE_STATUS, &compileStatus);
   m_compiled = static_cast< bool >(compileStatus);
-  if(m_debugState == true)
+  if(m_debugState)
   {
     NGLMessage::addMessage(fmt::format("Compiling Shader {0}", m_name));
     if(compileStatus == GL_FALSE)
@@ -134,7 +134,7 @@ bool Shader::editShader(std::string_view _toFind, std::string_view _edit)
     NGLMessage::addError("No shader source to edit");
     return false;
   }
-  if(m_edited != true)
+  if(!m_edited)
   {
     m_source = pystring::replace(m_originalSource, _toFind.data(), _edit.data());
     m_edited = true;
@@ -178,7 +178,7 @@ void Shader::load(std::string_view _name) noexcept
   glShaderSource(m_shaderHandle, 1, &data, nullptr);
   m_compiled = false;
 
-  if(m_debugState == true)
+  if(m_debugState)
   {
     printInfoLog(m_shaderHandle);
   }

@@ -1,5 +1,4 @@
 #include "SimpleVAO.h"
-#include <iostream>
 namespace ngl
 {
 SimpleVAO::~SimpleVAO()
@@ -9,11 +8,11 @@ SimpleVAO::~SimpleVAO()
 
 void SimpleVAO::draw() const
 {
-  if(m_allocated == false)
+  if(!m_allocated)
   {
     NGLMessage::addWarning("Trying to draw an unallocated VOA");
   }
-  if(m_bound == false)
+  if(!m_bound)
   {
     NGLMessage::addWarning("Warning trying to draw an unbound VOA");
   }
@@ -22,11 +21,11 @@ void SimpleVAO::draw() const
 
 void SimpleVAO::removeVAO()
 {
-  if(m_bound == true)
+  if(m_bound)
   {
     unbind();
   }
-  if(m_allocated == true)
+  if(m_allocated)
   {
     glDeleteBuffers(1, &m_buffer);
   }
@@ -76,11 +75,11 @@ void SimpleVAO::setData(size_t _size, const std::vector< Vec3 > &_data)
 
 void SimpleVAO::setData(const VertexData &_data)
 {
-  if(m_bound == false)
+  if(!m_bound)
   {
     NGLMessage::addWarning("trying to set VOA data when unbound");
   }
-  if(m_allocated == true)
+  if(m_allocated)
   {
     glDeleteBuffers(1, &m_buffer);
   }
@@ -94,11 +93,10 @@ void SimpleVAO::setData(const VertexData &_data)
 Real *SimpleVAO::mapBuffer(unsigned int _index, GLenum _accessMode)
 {
   NGL_UNUSED(_index)
-  Real *ptr = nullptr;
   bind();
   glBindBuffer(GL_ARRAY_BUFFER, m_id);
-  ptr = static_cast< Real * >(glMapBuffer(GL_ARRAY_BUFFER, _accessMode));
-  // modern GL allows this but not on mac!
+  auto *ptr = static_cast< Real * >(glMapBuffer(GL_ARRAY_BUFFER, _accessMode));
+  // modern GL allows this but not on Mac!
   // ptr = static_cast<Real *>(glMapNamedBuffer(m_id, _accessMode));
 
   return ptr;

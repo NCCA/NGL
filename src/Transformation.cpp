@@ -194,7 +194,7 @@ void Transformation::computeMatrices() noexcept
     m_matrix.m_m[3][2] = m_position.m_z;
     m_matrix.m_m[3][3] = 1.0f;
 
-    // tranpose matrix
+    // transpose matrix
     m_transposeMatrix = rotationScale;
     m_transposeMatrix.transpose();
     m_transposeMatrix.m_m[0][3] = m_position.m_x;

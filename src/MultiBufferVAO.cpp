@@ -11,11 +11,11 @@ namespace ngl
 
   void MultiBufferVAO::draw() const
   {
-    if(m_allocated == false)
+    if(!m_allocated)
     {
       NGLMessage::addWarning("trying to draw an unallocated VOA");
     }
-    if(m_bound == false)
+    if(!m_bound)
     {
       NGLMessage::addWarning("trying to draw an unbound VOA");
     }
@@ -24,11 +24,11 @@ namespace ngl
 
   void MultiBufferVAO::removeVAO() 
   {
-    if(m_bound == true)
+    if(m_bound)
     {
       unbind();
     }
-    if( m_allocated ==true)
+    if(m_allocated)
     {
       for(auto b : m_vboIDs)
       {
@@ -40,7 +40,7 @@ namespace ngl
   }
   void MultiBufferVAO::setData(const VertexData &_data)
   {
-    if(m_bound == false)
+    if(!m_bound)
     {
       NGLMessage::addWarning("trying to set VOA data when unbound");
     }
@@ -57,7 +57,7 @@ namespace ngl
 
   void MultiBufferVAO::setData(size_t _index, const VertexData &_data )
   {
-    if(m_bound == false)
+    if(!m_bound)
     {
       NGLMessage::addWarning("trying to set VOA data when unbound");
     }
