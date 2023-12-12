@@ -45,6 +45,8 @@ void SimpleIndexVAO::setData(const AbstractVAO::VertexData &_data)
   if(m_allocated)
   {
     glDeleteBuffers(1, &m_buffer);
+    glDeleteBuffers(1, &m_idxBuffer);
+
   }
 
   glGenBuffers(1, &m_buffer);
