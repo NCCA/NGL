@@ -87,7 +87,7 @@ int main(int argc, char **argv)
   if(useOpenGL == false)
   {
     std::cerr << "excluding tests\n";
-    ::testing::GTEST_FLAG(filter) = "-ShaderLib.*:Shader*:VAOPrimitives.*:NGLInit*:VAOFactory*";
+    ::testing::GTEST_FLAG(filter) = "-ShaderLib.*:Shader*:VAOPrimitives.*:NGLInit*:VAOFactory*:BufferTextures*";
   }
   // should put this on an argument
   // testing::internal::CaptureStdout();

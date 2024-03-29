@@ -138,6 +138,10 @@ class NGL_DLLEXPORT ShaderLib
   //----------------------------------------------------------------------------------------------------------------------
   static void bindFragDataLocation(std::string_view _programName, GLuint _index, std::string_view _attribName) noexcept;
 
+  // bind sampler 
+  static void bindSampler(std::string_view _samplerName, GLuint _index) noexcept;
+
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to load shaders
   /// @param[in] _shaderName the name of the shader to be stored in the Manager

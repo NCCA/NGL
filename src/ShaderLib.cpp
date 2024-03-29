@@ -595,6 +595,27 @@ void ShaderLib::bindAttribute(std::string_view _programName, GLuint _index, std:
 }
 
 //----------------------------------------------------------------------------------------------------------------------
+void ShaderLib::bindSampler(std::string_view _samplerName, GLuint _index) noexcept
+{
+  
+
+
+  m_shaderPrograms[m_currentShader]->bindSampler(_samplerName, _index);
+  // // make sure we have a valid  program
+  // if(auto program = m_shaderPrograms.find(_programName.data()); program != m_shaderPrograms.end())
+  // {
+  //   program->second->bindSampler(_index);
+  // }
+  // else
+  // {
+  //   NGLMessage::addWarning(fmt::format("Warning Program not know in bindSampler {0}", _programName.data()));
+  // }
+}
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::bindFragDataLocation(std::string_view _programName, GLuint _index, std::string_view _attribName) noexcept
 {
   

@@ -116,6 +116,8 @@ set(CPP_FILES
     ${CMAKE_SOURCE_DIR}/src/Types.cpp
     ${CMAKE_SOURCE_DIR}/src/pystring.cpp
     ${CMAKE_SOURCE_DIR}/src/NGLMessage.cpp
+    ${CMAKE_SOURCE_DIR}/src/BufferTextures.cpp
+
 )
 
 set(HEADERS
@@ -145,6 +147,7 @@ set(HEADERS
     ${CMAKE_SOURCE_DIR}/include/ngl/Shader.h
     ${CMAKE_SOURCE_DIR}/include/ngl/ShaderProgram.h
     ${CMAKE_SOURCE_DIR}/include/ngl/ShaderProgram.inl
+    ${CMAKE_SOURCE_DIR}/include/ngl/BufferTextures.h
     ${CMAKE_SOURCE_DIR}/include/ngl/Plane.h
     ${CMAKE_SOURCE_DIR}/include/ngl/AABB.h
     ${CMAKE_SOURCE_DIR}/include/ngl/Vec3.h
@@ -258,6 +261,7 @@ if(NOT DEFINED PYNGL_ONLY)
         ${CMAKE_SOURCE_DIR}/tests/MessageTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/NGLStreamTest.cpp
         ${CMAKE_SOURCE_DIR}/tests/TextureTests.cpp
+        ${CMAKE_SOURCE_DIR}/tests/BufferTextureTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/VAOFactoryTests.cpp
         
     )
@@ -326,7 +330,7 @@ if(NOT DEFINED PYNGL_ONLY)
 
     #    add_custom_target(CopyTestfiles ALL
 #        COMMAND ${CMAKE_COMMAND} -E copy_directory
-#        ${CMAKE_SOURCE_DIR}/tests/files
+#        ${CMAKE_SOURCE_DIR}/tests/filesinary
 #        ${CMAKE_BINARY_DIR}/files
 #            COMMENT "Copy Test files to build directory"
 #    )

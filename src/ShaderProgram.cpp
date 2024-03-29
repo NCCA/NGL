@@ -93,6 +93,26 @@ void ShaderProgram::bindAttribute(GLuint _index, std::string_view _attribName) n
   NGLCheckGLError(__FILE__, __LINE__);
 }
 
+
+void ShaderProgram::bindSampler(std::string_view _name,GLuint _index) noexcept
+{
+  if(m_linked)
+  {
+    NGLMessage::addMessage(fmt::format("binding sampler {0} after link ", _index));
+  }
+  auto uniform = m_registeredUniforms.find(_name.data());
+  if(uniform != m_registeredUniforms.end())
+  {
+    glBindSampler(uniform->second.loc, _index);
+
+  }
+  else
+  {
+    NGLMessage::addWarning(fmt::format("Uniform {0} not found in Program {1}", _name, m_programName.data()));
+  }
+  NGLCheckGLError(__FILE__, __LINE__);
+}
+
 void ShaderProgram::bindFragDataLocation(GLuint _index, std::string_view _attribName) noexcept
 {
   if(m_linked)

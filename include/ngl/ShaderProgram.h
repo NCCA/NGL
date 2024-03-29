@@ -77,6 +77,14 @@ class NGL_DLLEXPORT ShaderProgram
   /// @param _attribName the name of the attribute we wish to use
   //----------------------------------------------------------------------------------------------------------------------
   void bindAttribute(GLuint index, std::string_view _attribName) noexcept;
+
+  //----------------------------------------------------------------------------------------------------------------------
+  /// @brief bind a sampler in the Program object to _index using attribname
+  /// @param _index the index number we wish to bind to
+  /// @param _attribName the name of the attribute we wish to use
+  //----------------------------------------------------------------------------------------------------------------------
+  void bindSampler(std::string_view _name,GLuint index) noexcept;
+
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief bind fragment output location in the Program object to _index using attribname
   /// @param _index the index number we wish to bind to
