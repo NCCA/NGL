@@ -19,6 +19,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 /// @brief BufferTexture storage class
 #include "Types.h"
 #include <string>
+#include <unordered_map>
 
 namespace ngl
 {
@@ -72,8 +73,8 @@ struct BufferTexture
 class BufferTextures
 {
     public:
-  static size_t numBuffers() noexcept;
-
+      static size_t numBuffers() noexcept;
+      static void clear() noexcept;
     private:
   static std::unordered_map< std::string, BufferTexture > s_texturebuffers;
 };
