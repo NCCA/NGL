@@ -5,9 +5,9 @@ find_package(OpenImageIO CONFIG)
 find_package(gl3w CONFIG REQUIRED)
 
 if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
-	#find_package(IlmBase CONFIG )
 	find_package(OpenEXR CONFIG )
-  find_package(OpenMP)
+	find_package(Boost REQUIRED COMPONENTS filesystem)
+	find_package(OpenMP)
 endif()
 
 
@@ -61,10 +61,8 @@ link_directories(${NGL_HOME}/lib)
 
 # add exe and link libs that must be after the other defines
 if ( OpenImageIO_FOUND AND  NOT NO_OIIO)
-	link_libraries(OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util )
-	# if(IlmBase_Found)
-	# 		link_libraries(IlmBase::Iex IlmBase::Half IlmBase::Imath IlmBase::IexMath)
-	# endif()
+	link_libraries(OpenImageIO::OpenImageIO OpenImageIO::OpenImageIO_Util  Boost::filesystem)
+
 	if(OpenEXR_Found)
 			link_libraries(OpenEXR::IlmImf OpenEXR::IlmImfUtil OpenEXR::IlmImfConfig)
 	endif()
