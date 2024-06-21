@@ -6,9 +6,9 @@ To install the compilers for MacOSX we can use the xcode app from the app store.
 
 and follow the prompts.
 
-## NGL dependancies
+## NGL dependencies
 
-NGL has a number of dependancies which can be installed using vcpkg. However before that we need to install some other packages.
+NGL has a number of dependencies which can be installed using vcpkg. However before that we need to install some other packages.
 
 ## brew 
 
@@ -64,8 +64,6 @@ If you wish to install the python binding you can  add
 ```
 
 
-
-
 ## Building NGL
 
 To build NGL we need to do the following
@@ -78,15 +76,38 @@ make
 make install
 ```
 
+## Adding NGL to your path
+
+To add NGL to your path you can add the following to your ```~/.zprofile``` file this assumes you have installed the vcpgk and NGL in your home directory.
+
+```
+export CMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake
+export CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH:~/NGL/:~/Qt/6.3.0/macos/lib/cmake
+export VCPKG_ROOT=~/vcpkg
+```
+
+To activate this you can either restart your terminal or type 
+
+```
+source ~/.zprofile
+```
+
 ## Python Build with PyBind
 
+typically this is not needed as we don't use the python binding in any courses. However if you wish to build the python binding you can do the following (assuming you have installed pybind11 using vcpkg and are using pyenv to manage your python versions)
+
+```
 cmake -DCMAKE_INSTALL_PREFIX=~/NGL -DBUILD_PYNGL=1 -DPYTHON_EXECUTABLE:FILEPATH=~/.pyenv/shims/python -DPYTHON_INCLUDE_DIRS=/Users/jmacey/.pyenv/versions/3.9.7/include/python3.9 -DPYTHON_LIBRARIES=~/.pyenv/versions/3.9.7/lib
  ..
 
+```
 
+or if you have the python libraries in your path you can use the following
+
+```
 cmake -DCMAKE_INSTALL_PREFIX=~/NGL -DBUILD_PYNGL=1   -DPYTHON_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") -DPYTHON_LIBRARY=$(python -c "import distutils.sysconfig as sysconfig; print(sysconfig.get_config_var('LIBDIR'))") ..
 
-
+```
 
 
 
