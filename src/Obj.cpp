@@ -24,7 +24,7 @@ Copyright (C) 2009 Jon Macey
 #include <cmath>
 #include <iostream>
 
-#if defined(_WIN32)
+#if defined(WIN32)
 
 namespace std
 {
