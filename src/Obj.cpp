@@ -26,14 +26,14 @@ Copyright (C) 2009 Jon Macey
 
 #if defined(WIN32)
 
-namespace std
-{
-template < typename T >
-bool signbit(T t)
-{
-  return signbit(double(t));
-}
-} // namespace std
+// namespace std
+// {
+// template < typename T >
+// bool signbit(T t)
+// {
+//   return signbit(double(t));
+// }
+// } // namespace std
 
 #endif
 
