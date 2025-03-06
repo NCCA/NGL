@@ -117,7 +117,7 @@ void VAOPrimitives::createLineGrid(std::string_view _name, Real _width, Real _de
   // assign v as our value to change each vertex pair
   Real v1 = -ws2;
 
-  // claculate the step size for each grid value
+  // calculate the step size for each grid value
   Real dstep = _depth / static_cast< Real >(_steps);
   // pre-calc the offset for speed
   Real ds2 = _depth / 2.0f;

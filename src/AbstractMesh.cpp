@@ -292,39 +292,23 @@ void AbstractMesh::calcDimensions() noexcept
     m_center += v;
   }
   m_center /= static_cast<Real>(m_verts.size());
-  // calculate the extents
+  // Initialize the extents to the center
   m_maxX = m_minX = m_center.m_x;
   m_maxY = m_minY = m_center.m_y;
   m_maxZ = m_minZ = m_center.m_z;
 
-  for(auto v : m_verts)
+  // Calculate the extents
+  for (auto v : m_verts)
   {
-    if(v.m_x > m_maxX)
-    {
-      m_maxX = v.m_x;
-    }
-    else if(v.m_x < m_minX)
-    {
-      m_minX = v.m_x;
-    }
-    if(v.m_y > m_maxY)
-    {
-      m_maxY = v.m_y;
-    }
-    else if(v.m_y < m_minY)
-    {
-      m_minY = v.m_y;
-    }
-    if(v.m_z > m_maxZ)
-    {
-      m_maxZ = v.m_z;
-    }
-    else if(v.m_z < m_minZ)
-    {
-      m_minZ = v.m_z;
-    }
+    m_maxX = std::max(m_maxX, v.m_x);
+    m_minX = std::min(m_minX, v.m_x);
+    m_maxY = std::max(m_maxY, v.m_y);
+    m_minY = std::min(m_minY, v.m_y);
+    m_maxZ = std::max(m_maxZ, v.m_z);
+    m_minZ = std::min(m_minZ, v.m_z);
   }
 }
+
 
 
 /// modified from example in Rick Parent book
