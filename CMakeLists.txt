@@ -4,12 +4,13 @@
 cmake_minimum_required(VERSION 3.20.0)
 
 if(NOT DEFINED CMAKE_TOOLCHAIN_FILE AND DEFINED ENV{CMAKE_TOOLCHAIN_FILE})
-   set(CMAKE_TOOLCHAIN_FILE $ENV{CMAKE_TOOLCHAIN_FILE})
+    set(CMAKE_TOOLCHAIN_FILE $ENV{CMAKE_TOOLCHAIN_FILE})
 endif()
 # -------------------------------------------------------------------------------------------
 # Setup the project and languages required. Note version number is NGL version
 # -------------------------------------------------------------------------------------------
 project(AllNGL VERSION 8.0 LANGUAGES CXX C)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # These all assume we are using vcpkg for the install.
 find_package(glm CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
@@ -263,7 +264,7 @@ if(NOT DEFINED PYNGL_ONLY)
         ${CMAKE_SOURCE_DIR}/tests/TextureTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/BufferTextureTests.cpp
         ${CMAKE_SOURCE_DIR}/tests/VAOFactoryTests.cpp
-        
+
     )
     add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
     target_link_libraries(NGLTests PRIVATE glfw PRIVATE GTest::gtest )
@@ -304,7 +305,7 @@ if(NOT DEFINED PYNGL_ONLY)
     else()
         target_link_libraries(NGLTests PRIVATE NGL PRIVATE ${EXTRALIBS})
     endif()
- if (ADD_COVERAGE)
+    if (ADD_COVERAGE)
         target_link_libraries(NGLTests PRIVATE --coverage)
     endif()
     # gtest_discover_tests(NGLTests)
@@ -329,11 +330,11 @@ if(NOT DEFINED PYNGL_ONLY)
 
 
     #    add_custom_target(CopyTestfiles ALL
-#        COMMAND ${CMAKE_COMMAND} -E copy_directory
-#        ${CMAKE_SOURCE_DIR}/tests/filesinary
-#        ${CMAKE_BINARY_DIR}/files
-#            COMMENT "Copy Test files to build directory"
-#    )
+    #        COMMAND ${CMAKE_COMMAND} -E copy_directory
+    #        ${CMAKE_SOURCE_DIR}/tests/filesinary
+    #        ${CMAKE_BINARY_DIR}/files
+    #            COMMENT "Copy Test files to build directory"
+    #    )
 
 endif() # PYNGL_ONLY
 

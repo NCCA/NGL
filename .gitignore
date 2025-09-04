@@ -2,7 +2,7 @@
 *.slo
 *.lo
 *.o
-
+.cache
 *.pyc
 # Compiled Dynamic libraries
 *.so

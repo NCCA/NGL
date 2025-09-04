@@ -1,0 +1,24 @@
+[project]
+name = "py-ngl"
+version = "0.1.0"
+description = "A Python version of the NGL graphics library."
+authors = [{ name = "Jon Macey", email = "jmacey@bournemouth.ac.uk" }]
+requires-python = ">=3.12"
+dependencies = [
+    "numpy",
+    "PyOpenGL",
+    "PySide6",
+    "pytest>=8.4.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
