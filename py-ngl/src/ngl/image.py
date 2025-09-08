@@ -25,13 +25,12 @@ class Image:
                 self._data = None
 
     def set_pixel(self, x, y, r, g, b, a=255):
+        if x < 0 or x >= self._width or y < 0 or y >= self._height:
+            raise ValueError("Pixel coordinates out of bounds")
         if self._mode == ImageModes.RGBA:
-            if x < 0 or x >= self._width or y < 0 or y >= self._height:
-                raise ValueError("Pixel coordinates out of bounds")
-            if self._mode == ImageModes.RGBA:
-                self._data[x, y] = [r, g, b, a]
-            else:
-                self._data[x, y] = [r, g, b]
+            self._data[y, x] = [r, g, b, a]
+        else:
+            self._data[y, x] = [r, g, b]
 
     def load(self, filename: str) -> bool:
         try:

@@ -204,3 +204,6 @@ class Mat4:
             q.z = 0.25 * s
             q.s = (self._m[1] - self._m[4]) / s
         return q
+
+    def to_list(self):
+        return self._m

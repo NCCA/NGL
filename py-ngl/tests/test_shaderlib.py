@@ -1,7 +1,7 @@
 import glfw
 import pytest
 from OpenGL.GL import *
-
+import numpy as np
 from ngl import Mat2, Mat3, Mat4, ShaderLib, ShaderType
 
 
@@ -144,17 +144,17 @@ def test_set_uniform(opengl_context):
     mat = Mat2()
     ShaderLib.set_uniform("testMat2", mat.to_list())
     result = ShaderLib.get_uniform_mat2("testMat2")
-    assert result == mat.to_list()
+    assert np.array_equal(result, mat.to_list())
 
     mat = Mat3()
     ShaderLib.set_uniform("testMat3", mat.to_list())
     result = ShaderLib.get_uniform_mat3("testMat3")
-    assert result == mat.to_list()
+    assert np.array_equal(result, mat.to_list())
 
     mat = Mat4()
     ShaderLib.set_uniform("testMat4", mat.to_list())
     result = ShaderLib.get_uniform_mat4("testMat4")
-    assert result == mat.to_list()
+    assert np.array_equal(result, mat.to_list())
 
 
 def test_edit_shader(opengl_context):
