@@ -8,6 +8,8 @@ dependencies = [
     "numpy",
     "PyOpenGL",
     "PySide6",
+    "Pillow",
+    "glfw>=2.9.0",
     "pytest>=8.4.2",
 ]
 
