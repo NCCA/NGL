@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<NCCAPointBake>
+	<MeshName> Triangle </MeshName>
+	<NumVerts> 3 </NumVerts>
+	<StartFrame> 1 </StartFrame>
+	<EndFrame> 3 </EndFrame>
+	<NumFrames> 3 </NumFrames>
+	<TranslateMode> absolute </TranslateMode>
+	<Frame number="1">
+		<Vertex number="0" attrib="translate"> 2.00000 0.00000 0.000000 </Vertex>
+		<Vertex number="1" attrib="translate"> 0.0000 4.0000 0.000000 </Vertex>
+		<Vertex number="2" attrib="translate"> -2.00000 0.000000 0.000000 </Vertex>
+	</Frame>
+	<Frame number="2">
+		<Vertex number="0" attrib="translate"> 3.00000 0.00000 0.000000 </Vertex>
+		<Vertex number="1" attrib="translate"> 0.0000 5.0000 0.000000 </Vertex>
+		<Vertex number="2" attrib="translate"> -3.00000 0.000000 0.000000 </Vertex>
+	</Frame>
+    <Frame number="3">
+		<Vertex number="0" attrib="translate"> 4.00000 0.00000 0.000000 </Vertex>
+		<Vertex number="1" attrib="translate"> 0.0000 6.0000 0.000000 </Vertex>
+		<Vertex number="2" attrib="translate"> -4.00000 0.000000 0.000000 </Vertex>
+	</Frame>
+</NCCAPointBake>
