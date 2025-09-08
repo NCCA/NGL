@@ -124,6 +124,7 @@ class _ShaderLib:
 
     def get_uniform_mat4(self, name: str) -> list[float]:
         if self._current_shader:
+            print(self._shader_programs[self._current_shader].get_uniform_mat4(name))
             return self._shader_programs[self._current_shader].get_uniform_mat4(name)
         return [0.0] * 16
 

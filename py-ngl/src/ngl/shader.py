@@ -160,7 +160,6 @@ class ShaderProgram:
         return [0.0] * 9
 
     def get_uniform_mat4(self, name: str) -> list[float]:
-        loc = self.get_uniform_location(name)
         if loc != -1:
             result = (ctypes.c_float * 16)()
             glGetUniformfv(self._id, loc, result)
