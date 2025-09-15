@@ -52,9 +52,27 @@ class ShaderProgram:
 
     def set_uniform(self, name: str, value) -> None:
         loc = self.get_uniform_location(name)
+
         if loc != -1:
-            # This is a simplified version. A complete implementation would handle different types.
             if isinstance(value, float):
                 glUniform1f(loc, value)
             elif isinstance(value, int):
                 glUniform1i(loc, value)
+            elif isinstance(value, tuple):
+                if len(value) == 2:
+                    glUniform2f(loc, *value)
+                elif len(value) == 3:
+                    glUniform3f(loc, *value)
+                elif len(value) == 4:
+                    glUniform4f(loc, *value)
+            elif isinstance(value, list):
+                if len(value) == 2:
+                    glUniform2fv(loc, 1, value)
+                elif len(value) == 3:
+                    glUniform3fv(loc, 1, value)
+                elif len(value) == 4:
+                    glUniform4fv(loc, 1, value)
+                elif len(value) == 9:  # mat3
+                    glUniformMatrix3fv(loc, 1, GL_FALSE, value)
+                elif len(value) == 16:  # mat4
+                    glUniformMatrix4fv(loc, 1, GL_FALSE, value)

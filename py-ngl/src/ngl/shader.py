@@ -97,13 +97,17 @@ class ShaderProgram:
                     glUniform1i(loc, value[0])
                 elif isinstance(value[0], float):
                     glUniform1f(loc, value[0])
-                elif isinstance(value[0], (list, tuple)):
-                    if len(value[0]) == 4:
-                        glUniformMatrix2fv(loc, 1, GL_FALSE, (ctypes.c_float * 4)(*value[0]))
-                    elif len(value[0]) == 9:
-                        glUniformMatrix3fv(loc, 1, GL_FALSE, (ctypes.c_float * 9)(*value[0]))
-                    elif len(value[0]) == 16:
-                        glUniformMatrix4fv(loc, 1, GL_FALSE, (ctypes.c_float * 16)(*value[0]))
+                else:
+                    try:
+                        val = list(value[0])
+                        if len(val) == 4:
+                            glUniformMatrix2fv(loc, 1, GL_FALSE, (ctypes.c_float * 4)(*val))
+                        elif len(val) == 9:
+                            glUniformMatrix3fv(loc, 1, GL_FALSE, (ctypes.c_float * 9)(*val))
+                        elif len(val) == 16:
+                            glUniformMatrix4fv(loc, 1, GL_FALSE, (ctypes.c_float * 16)(*val))
+                    except TypeError:
+                        pass
             elif len(value) == 2:
                 glUniform2f(loc, *value)
             elif len(value) == 3:
@@ -160,8 +164,11 @@ class ShaderProgram:
         return [0.0] * 9
 
     def get_uniform_mat4(self, name: str) -> list[float]:
+        loc = self.get_uniform_location(name)
+        print(f"{loc=}")
         if loc != -1:
             result = (ctypes.c_float * 16)()
+            print(f"{name} = {result}")
             glGetUniformfv(self._id, loc, result)
             return list(result)
         return [0.0] * 16

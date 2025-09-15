@@ -56,7 +56,7 @@ def test_cross():
     a = Vec3.up()
     b = Vec3.left()
     c = a.cross(b)
-    assert c == Vec3.in_vec()
+    assert c == Vec3.in_()
 
 
 def test_subscript():

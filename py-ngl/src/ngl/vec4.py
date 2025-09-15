@@ -16,7 +16,9 @@ class Vec4:
     __slots__ = ["_m"]
     _m: np.ndarray
 
-    def __init__(self, x: float = 0.0, y: float = 0.0, z: float = 0.0, w: float = 1.0) -> None:
+    def __init__(
+        self, x: float = 0.0, y: float = 0.0, z: float = 0.0, w: float = 1.0
+    ) -> None:
         """Initializes a new Vec4 instance.
 
         Args:
@@ -125,7 +127,9 @@ class Vec4:
             result._m = self._m * other._m
             return result
         else:
-            raise TypeError(f"Unsupported operand type(s) for *: 'Vec4' and '{type(other)}'")
+            raise TypeError(
+                f"Unsupported operand type(s) for *: 'Vec4' and '{type(other)}'"
+            )
 
     def __rmul__(self, other: float) -> Self:
         """Multiply the vector by a scalar from the right."""

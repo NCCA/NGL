@@ -18,7 +18,9 @@ class Quaternion:
     __slots__ = ["_m"]
     _m: np.ndarray
 
-    def __init__(self, s: float = 1.0, x: float = 0.0, y: float = 0.0, z: float = 0.0) -> None:
+    def __init__(
+        self, s: float = 1.0, x: float = 0.0, y: float = 0.0, z: float = 0.0
+    ) -> None:
         """Initializes a new Quaternion instance."""
         self._m = np.array([s, x, y, z], dtype=np.float32)
 
@@ -82,7 +84,11 @@ class Quaternion:
             return Quaternion(*(self._m * other))
         elif isinstance(other, Quaternion):
             s = self.s * other.s - np.dot(self._m[1:], other._m[1:])
-            v = self.s * other._m[1:] + other.s * self._m[1:] + np.cross(self._m[1:], other._m[1:])
+            v = (
+                self.s * other._m[1:]
+                + other.s * self._m[1:]
+                + np.cross(self._m[1:], other._m[1:])
+            )
             return Quaternion(s, *v)
         elif isinstance(other, Vec4):
             q_vec = self._m[1:]
@@ -90,18 +96,26 @@ class Quaternion:
             uuv = np.cross(q_vec, uv)
             return Vec4(*(other._m[:3] + ((uv * self.s) + uuv) * 2.0), other.w)
         else:
-            raise TypeError(f"Unsupported operand type(s) for *: 'Quaternion' and '{type(other)}'")
+            raise TypeError(
+                f"Unsupported operand type(s) for *: 'Quaternion' and '{type(other)}'"
+            )
 
     def __imul__(self, other: float | Self) -> Self:
         if isinstance(other, (int, float, np.floating)):
             self._m *= other
         elif isinstance(other, Quaternion):
             s = self.s * other.s - np.dot(self._m[1:], other._m[1:])
-            v = self.s * other._m[1:] + other.s * self._m[1:] + np.cross(self._m[1:], other._m[1:])
+            v = (
+                self.s * other._m[1:]
+                + other.s * self._m[1:]
+                + np.cross(self._m[1:], other._m[1:])
+            )
             self._m[0] = s
             self._m[1:] = v
         else:
-            raise TypeError(f"Unsupported operand type(s) for *=: 'Quaternion' and '{type(other)}'")
+            raise TypeError(
+                f"Unsupported operand type(s) for *=: 'Quaternion' and '{type(other)}'"
+            )
         return self
 
     def magnitude(self) -> float:

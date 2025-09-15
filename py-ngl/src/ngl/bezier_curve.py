@@ -4,7 +4,9 @@ from .vec3 import Vec3
 class BezierCurve:
     """A Bezier curve class."""
 
-    def __init__(self, control_points: list[Vec3] = None, knots: list[float] = None) -> None:
+    def __init__(
+        self, control_points: list[Vec3] = None, knots: list[float] = None
+    ) -> None:
         self._cp = control_points if control_points is not None else []
         self._knots = knots if knots is not None else []
         self._degree = 0
@@ -43,7 +45,9 @@ class BezierCurve:
 
     def create_knots(self) -> None:
         self._num_knots = self._num_cp + self._order
-        self._knots = [0.0] * (self._num_knots // 2) + [1.0] * (self._num_knots - (self._num_knots // 2))
+        self._knots = [0.0] * (self._num_knots // 2) + [1.0] * (
+            self._num_knots - (self._num_knots // 2)
+        )
 
     def get_point_on_curve(self, u: float) -> Vec3:
         p = Vec3()

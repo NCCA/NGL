@@ -55,7 +55,10 @@ def test_use_null(opengl_context):
 
 def test_load_error_shader(opengl_context):
     assert not ShaderLib.load_shader(
-        "Test", sourcedir + "vertErr.glsl", sourcedir + "fragErr.glsl", exit_on_error=False
+        "Test",
+        sourcedir + "vertErr.glsl",
+        sourcedir + "fragErr.glsl",
+        exit_on_error=False,
     )
 
 
@@ -117,7 +120,10 @@ def test_fail_link(opengl_context):
 def test_set_uniform(opengl_context):
     shader_name = "TestUniform"
     assert ShaderLib.load_shader(
-        shader_name, sourcedir + "testUniformVertex.glsl", sourcedir + "testUniformFragment.glsl", exit_on_error=False
+        shader_name,
+        sourcedir + "testUniformVertex.glsl",
+        sourcedir + "testUniformFragment.glsl",
+        exit_on_error=False,
     )
     ShaderLib.use(shader_name)
     ShaderLib.set_uniform("testFloat", 2.25)
@@ -155,7 +161,6 @@ def test_set_uniform(opengl_context):
     mat = Mat4()
     ShaderLib.set_uniform("testMat4", mat.to_list())
     result = ShaderLib.get_uniform_mat4("testMat4")
-    print(result, mat)
     assert np.array_equal(result, mat.to_list())
 
 

@@ -4,7 +4,13 @@ from .vec3 import Vec3
 class BBox:
     """A bounding box class."""
 
-    def __init__(self, center: Vec3 = Vec3(), width: float = 2.0, height: float = 2.0, depth: float = 2.0) -> None:
+    def __init__(
+        self,
+        center: Vec3 = Vec3(),
+        width: float = 2.0,
+        height: float = 2.0,
+        depth: float = 2.0,
+    ) -> None:
         self._center = center
         self._width = width
         self._height = height
@@ -20,7 +26,15 @@ class BBox:
         self.recalculate_from_center_dims()
 
     @classmethod
-    def from_extents(cls, min_x: float, max_x: float, min_y: float, max_y: float, min_z: float, max_z: float) -> "BBox":
+    def from_extents(
+        cls,
+        min_x: float,
+        max_x: float,
+        min_y: float,
+        max_y: float,
+        min_z: float,
+        max_z: float,
+    ) -> "BBox":
         bbox = cls()
         bbox.set_extents(min_x, max_x, min_y, max_y, min_z, max_z)
         return bbox
@@ -91,7 +105,15 @@ class BBox:
     def get_normal_array(self) -> list[Vec3]:
         return self._normals
 
-    def set_extents(self, min_x: float, max_x: float, min_y: float, max_y: float, min_z: float, max_z: float) -> None:
+    def set_extents(
+        self,
+        min_x: float,
+        max_x: float,
+        min_y: float,
+        max_y: float,
+        min_z: float,
+        max_z: float,
+    ) -> None:
         self._min_x = min_x
         self._max_x = max_x
         self._min_y = min_y

@@ -79,7 +79,9 @@ class Mat4:
         elif isinstance(other, Vec4):
             return Vec4(*np.dot(self.to_numpy(), other._m))
         else:
-            raise TypeError(f"Unsupported operand type(s) for *: 'Mat4' and '{type(other)}'")
+            raise TypeError(
+                f"Unsupported operand type(s) for *: 'Mat4' and '{type(other)}'"
+            )
 
     def __imul__(self, other: float | Self) -> Self:
         """Multiply this matrix by a scalar or another matrix in-place."""
@@ -88,7 +90,9 @@ class Mat4:
         elif isinstance(other, Mat4):
             self._m = np.dot(self.to_numpy(), other.to_numpy()).flatten(order="F")
         else:
-            raise TypeError(f"Unsupported operand type(s) for *=: 'Mat4' and '{type(other)}'")
+            raise TypeError(
+                f"Unsupported operand type(s) for *=: 'Mat4' and '{type(other)}'"
+            )
         return self
 
     def to_numpy(self) -> np.ndarray:

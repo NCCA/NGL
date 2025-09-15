@@ -11,7 +11,14 @@ class _ShaderLib:
         self._shaders = {}
         self._current_shader = None
 
-    def load_shader(self, name: str, vert: str, frag: str, geo: str = None, exit_on_error: bool = True) -> bool:
+    def load_shader(
+        self,
+        name: str,
+        vert: str,
+        frag: str,
+        geo: str = None,
+        exit_on_error: bool = True,
+    ) -> bool:
         program = ShaderProgram(name, exit_on_error)
 
         vert_shader = Shader(f"{name}Vertex", ShaderType.VERTEX.value, exit_on_error)
@@ -19,7 +26,9 @@ class _ShaderLib:
         if not vert_shader.compile():
             return False
 
-        frag_shader = Shader(f"{name}Fragment", ShaderType.FRAGMENT.value, exit_on_error)
+        frag_shader = Shader(
+            f"{name}Fragment", ShaderType.FRAGMENT.value, exit_on_error
+        )
         frag_shader.load(frag)
         if not frag_shader.compile():
             return False
@@ -28,7 +37,9 @@ class _ShaderLib:
         program.attach_shader(frag_shader)
 
         if geo:
-            geo_shader = Shader(f"{name}Geometry", ShaderType.GEOMETRY.value, exit_on_error)
+            geo_shader = Shader(
+                f"{name}Geometry", ShaderType.GEOMETRY.value, exit_on_error
+            )
             geo_shader.load(geo)
             if not geo_shader.compile():
                 return False
@@ -77,7 +88,9 @@ class _ShaderLib:
 
     def attach_shader_to_program(self, program_name: str, shader_name: str):
         if program_name in self._shader_programs and shader_name in self._shaders:
-            self._shader_programs[program_name].attach_shader(self._shaders[shader_name])
+            self._shader_programs[program_name].attach_shader(
+                self._shaders[shader_name]
+            )
         else:
             print(f"Error: program {program_name} or shader {shader_name} not found")
 

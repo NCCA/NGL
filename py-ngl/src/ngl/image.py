@@ -12,7 +12,13 @@ class ImageModes(Enum):
 
 
 class Image:
-    def __init__(self, filename: str = None, width: int = 0, height: int = 0, mode: ImageModes = None):
+    def __init__(
+        self,
+        filename: str = None,
+        width: int = 0,
+        height: int = 0,
+        mode: ImageModes = None,
+    ):
         if filename:
             self.load(filename)
         else:
@@ -46,7 +52,7 @@ class Image:
 
     def save(self, filename: str) -> bool:
         try:
-            img = PILImage.fromarray(self._data, self._mode.value)
+            img = PILImage.fromarray(self._data).convert(self._mode.value)
             img.save(filename)
             return True
         except Exception as e:
