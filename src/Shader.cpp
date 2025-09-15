@@ -85,7 +85,7 @@ m_name{_name},m_errorExit(_exitOnError)
 #endif
       break;
     case ShaderType::NONE:
-    { 
+    {
       // nothing to do
     }
   }
@@ -95,7 +95,7 @@ m_name{_name},m_errorExit(_exitOnError)
 Shader::~Shader()
 {
   // Note this needs to be with cerr as NGLMessage crashes here
-  std::cerr << fmt::format("removing shader {0} \n", m_name); 
+  std::cerr << fmt::format("removing shader {0} \n", m_name);
   glDeleteShader(m_shaderHandle);
 
 }
@@ -116,7 +116,7 @@ bool Shader::compile() noexcept
   if(m_debugState)
   {
     NGLMessage::addMessage(fmt::format("Compiling Shader {0}", m_name));
-    if(compileStatus == GL_FALSE)
+    if(compileStatus == gl.GL_TRUE)
     {
       NGLMessage::addError("Shader compile failed or had warnings ");
       printInfoLog(m_shaderHandle);

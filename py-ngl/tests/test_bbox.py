@@ -88,3 +88,21 @@ def test_get_verts():
     assert verts[5] == Vec3(1, -1, -1)
     assert verts[6] == Vec3(1, -1, 1)
     assert verts[7] == Vec3(-1, -1, 1)
+
+
+def test_center():
+    test = BBox()
+    test.center = Vec3(0, 2, 3)
+    assert test.center == Vec3(0, 2, 3)
+
+
+def test_get_normal_array():
+    test = BBox()
+    normals = test.get_normal_array()
+    assert len(normals) == 6
+    assert normals[0] == Vec3(0.0, 1.0, 0.0)
+    assert normals[1] == Vec3(0.0, -1.0, 0.0)
+    assert normals[2] == Vec3(1.0, 0.0, 0.0)
+    assert normals[3] == Vec3(-1.0, 0.0, 0.0)
+    assert normals[4] == Vec3(0.0, 0.0, 1.0)
+    assert normals[5] == Vec3(0.0, 0.0, -1.0)

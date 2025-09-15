@@ -1,265 +1,251 @@
-import math
-
-import numpy as np
+import mat4Data  # noqa
 import pytest
 
-from ngl import Mat4, Vec4
+from ngl import Mat4, Mat4Error, Mat4NotSquare, Vec4
 
 
-def test_default_ctor():
-    test = Mat4()
-    result = Mat4(
-        1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
-    )
-    assert test == result
-
-
-def test_null():
-    test = Mat4()
-    test.null()
-    result = Mat4(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-    assert test == result
+def test_ctor():
+    m = Mat4()
+    # fmt: off
+    ident = [1.0, 0.0, 0.0, 0.0,
+                0.0, 1.0, 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0]
+    # fmt: on
+    assert m.get_matrix() == pytest.approx(ident)
 
 
 def test_identity():
-    test = Mat4()
-    test.identity()
-    result = Mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
-    assert test == result
+    m = Mat4.identity()
+    # fmt: off
+    ident = [1.0, 0.0, 0.0, 0.0,
+                0.0, 1.0, 0.0, 0.0,
+                0.0, 0.0, 1.0, 0.0,
+                0.0, 0.0, 0.0, 1.0]
+    # fmt: on
+    assert m.get_matrix() == pytest.approx(ident)
 
 
-def test_float_ctor():
-    test = Mat4(2.0)
-    result = Mat4(2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1)
-    # This is different from the C++ version, which sets the last element to 1.
-    # In our python version, the constructor with a single scalar creates a scaled identity matrix.
-    # We will adjust the test to match the python implementation.
-    result = Mat4()
-    result[0] = 2.0
-    result[5] = 2.0
-    result[10] = 2.0
-    assert test == result
+def test_zero():
+    m = Mat4.zero()
+    values = m.get_matrix()
+    ident = [0.0] * 16
+    assert values == pytest.approx(ident)
 
 
-def test_copy_ctor():
-    test = Mat4(2.0)
-    copy = Mat4(*test._m)
-    result = Mat4(2.0)
-    assert copy == result
+def test_get_numpy():
+    m = Mat4.from_list([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]])
+    n = m.get_numpy()
+    value = 1
+    for c in range(0, 4):
+        for r in range(0, 4):
+            assert n[c][r] == value
+            value += 1
 
 
-def test_assign_operator():
-    test = Mat4(2.0)
-    copy = test
-    result = Mat4(2.0)
-    assert copy == result
+def test_from_list():
+    m = Mat4.from_list([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]])
+    result = [i for i in range(1, 17)]
+    assert m.get_matrix() == pytest.approx(result)
+    m = Mat4.from_list([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
+    assert m.get_matrix() == pytest.approx(result)
 
 
-def test_translate():
-    test = Mat4.translate(1.0, 2.0, 3.0)
-    result = Mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 2, 3, 1)
-    assert test == result
+def test_not_square():
+    with pytest.raises(Mat4NotSquare):
+        _ = Mat4.from_list([[1.0, 2.0, 3.0, 50], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]])
+    with pytest.raises(Mat4NotSquare):
+        _ = Mat4.from_list([[], [], [], []])
 
 
 def test_transpose():
-    test = Mat4.translate(1.0, 2.0, 3.0)
-    test.transpose()
-    result = Mat4(1, 0, 0, 1, 0, 1, 0, 2, 0, 0, 1, 3, 0, 0, 0, 1)
-    assert test == result
+    m = Mat4.from_list([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]])
+    m.transpose()
+    values = m.get_matrix()
+    result = [1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 4, 8, 12, 16]
+    assert values == pytest.approx(result)
+
+
+def test_get_transpose():
+    m = Mat4.from_list([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]])
+    b = m.get_transpose()
+    values = b.get_matrix()
+    result = [1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 4, 8, 12, 16]
+    assert values == pytest.approx(result)
 
 
 def test_scale():
-    test = Mat4.scale(1.0, 2.0, 3.0)
-    result = Mat4(1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 1)
-    assert test == result
+    a = Mat4.scale(2.0, 3.0, 4.0)
+    value = a.get_matrix()
+    # fmt: off
+    result = [2.0,0.0,0.0,0.0,0.0,3.0,0.0,0.0,0.0,0.0,4.0,0.0,0.0,0.0,0.0,1.0]
+    # fmt: on
+    assert value == pytest.approx(result)
 
 
 def test_rotate_x():
-    angle = 45.0
-    test = Mat4.rotate_x(angle)
-    rad = math.radians(angle)
-    c = math.cos(rad)
-    s = math.sin(rad)
-    result = Mat4(1, 0, 0, 0, 0, c, s, 0, 0, -s, c, 0, 0, 0, 0, 1)
-    assert test == result
+    a = Mat4.rotate_x(45.0)
+    value = a.get_matrix()
+    # fmt: off
+    result = [1.0,0.0,0.0,0.0,
+                0.0,0.707107,0.707107,0.0,
+                0.0,-0.707107,0.707107,0.0,
+                0.0,0.0,0.0,1.0]
+
+    # fmt: on
+    assert value == pytest.approx(result)
 
 
 def test_rotate_y():
-    angle = 35.0
-    test = Mat4.rotate_y(angle)
-    rad = math.radians(angle)
-    c = math.cos(rad)
-    s = math.sin(rad)
-    result = Mat4(c, 0, -s, 0, 0, 1, 0, 0, s, 0, c, 0, 0, 0, 0, 1)
-    assert test == result
+    a = Mat4.rotate_y(25.0)
+    value = a.get_matrix()
+    # fmt: off
+    result = [0.906308,0.0,-0.422618,0.0,
+                0.0,1.0,0.0,0.0,
+                0.422618,0.0,0.906308,0.0,
+                0.0,0.0,0.0,1.0]
+
+    #         # fmt: on
+    assert value == pytest.approx(result)
 
 
 def test_rotate_z():
-    angle = 25.0
-    test = Mat4.rotate_z(angle)
-    rad = math.radians(angle)
-    c = math.cos(rad)
-    s = math.sin(rad)
-    result = Mat4(c, s, 0, 0, -s, c, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
-    assert test == result
+    a = Mat4.rotate_z(-36.0)
+    value = a.get_matrix()
+    # fmt: off
+    result = [0.809,-0.5877,0.0,0.0,
+                0.5877, 0.809, 0.0, 0.0,
+                0.0,0.0,1.0, 0.0,
+                0.0, 0.0,0.0,1.0,]
+    # fmt: on
+    assert value == pytest.approx(result, abs=1e-3)
 
 
-def test_mat4_x_mat4():
+def test_mat4_times_mat4():
+    for a, b, result in zip(mat4Data.a, mat4Data.b, mat4Data.a_times_b):
+        m1 = Mat4.from_list(a)
+        m2 = Mat4.from_list(b)
+        value = m1 @ m2
+        assert value.get_matrix() == pytest.approx(result)
+
+
+def test_rotate_mat4_mat4():
     t1 = Mat4.rotate_x(45.0)
     t2 = Mat4.rotate_y(35.0)
-    test = t1 * t2
-    result = Mat4(
-        0.819152,
-        0.40558,
-        -0.40558,
-        0,
-        0,
-        0.707107,
-        0.707107,
-        0,
-        0.573577,
-        -0.579228,
-        0.579228,
-        0,
-        0,
-        0,
-        0,
-        1,
-    )
-    assert np.allclose(test._m, result._m, atol=1e-6)
+    test = t1 @ t2
+    # fmt: off
+    result=[0.819152,0.405580,-0.405580,0.0,
+            0.0,0.707107,0.707107,0.0,
+            0.573577,-0.579228,0.579228,0.0,
+            0.0,0.0,0.0,1.0]
+    # fmt: on
+    value = test.get_matrix()
+    assert value == pytest.approx(result, abs=1e-3)
+    test = t1 @ t2
+    value = test.get_matrix()
+    assert value == pytest.approx(result, abs=1e-3)
+
+
+def test_mult_error():
+    with pytest.raises(Mat4Error):
+        a = Mat4()
+        _ = a @ 2
+
+
+def test_mult_mat4_equal():
+    for a, b, result in zip(mat4Data.a, mat4Data.b, mat4Data.a_times_b):
+        m1 = Mat4.from_list(a)
+        m2 = Mat4.from_list(b)
+        m1 @= m2
+        assert m1.get_matrix() == pytest.approx(result)
+
+
+def test_mat4_mult_vec4():
+    test = Vec4(1.0, 2.0, 3.0, 1.0)
+    t1 = Mat4.rotate_x(45.0)
+    test = t1 @ test
+    assert test.x == pytest.approx(1.0)
+    assert test.y == pytest.approx(3.535534)
+    assert test.z == pytest.approx(0.707107)
+    assert test.w == pytest.approx(1.0)
+
+
+def test_mat4_plus_mat4():
+    for a, b, result in zip(mat4Data.a, mat4Data.b, mat4Data.a_plus_b):
+        m1 = Mat4.from_list(a)
+        m2 = Mat4.from_list(b)
+        values = m1 + m2
+        assert values.get_matrix() == pytest.approx(result)
 
 
 def test_mat4_plus_equal():
-    t1 = Mat4.rotate_x(45.0)
-    t2 = Mat4.rotate_y(35.0)
-    t1 += t2
-    result = Mat4(
-        1.81915,
-        0,
-        -0.573577,
-        0,
-        0,
-        1.70711,
-        0.707107,
-        0,
-        0.573577,
-        -0.707107,
-        1.52626,
-        0,
-        0,
-        0,
-        0,
-        2,
-    )
-    assert np.allclose(t1._m, result._m, atol=1e-5)
+    for a, b, result in zip(mat4Data.a, mat4Data.b, mat4Data.a_plus_b):
+        m1 = Mat4.from_list(a)
+        m2 = Mat4.from_list(b)
+        m1 += m2
+        assert m1.get_matrix() == pytest.approx(result)
 
 
-def test_mat4_plus():
-    t1 = Mat4.rotate_x(45.0)
-    t2 = Mat4.rotate_y(35.0)
-    res = t1 + t2
-    result = Mat4(
-        1.81915,
-        0,
-        -0.573577,
-        0,
-        0,
-        1.70711,
-        0.707107,
-        0,
-        0.573577,
-        -0.707107,
-        1.52626,
-        0,
-        0,
-        0,
-        0,
-        2,
-    )
-    assert np.allclose(res._m, result._m, atol=1e-5)
+def test_mat4_minus_mat4():
+    for a, b, result in zip(mat4Data.a, mat4Data.b, mat4Data.a_minus_b):
+        m1 = Mat4.from_list(a)
+        m2 = Mat4.from_list(b)
+        values = m1 - m2
+        assert values.get_matrix() == pytest.approx(result)
 
 
-def test_mat4_x_real():
-    test = Mat4(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)
-    test = test * 4.2
-    result = Mat4(
-        4.2,
-        8.4,
-        12.6,
-        16.8,
-        21.0,
-        25.2,
-        29.4,
-        33.6,
-        37.8,
-        42.0,
-        46.2,
-        50.4,
-        54.6,
-        58.8,
-        63.0,
-        67.2,
-    )
-    assert test == result
+def test_mat4_minus_equal():
+    for a, b, result in zip(mat4Data.a, mat4Data.b, mat4Data.a_minus_b):
+        m1 = Mat4.from_list(a)
+        m2 = Mat4.from_list(b)
+        m1 -= m2
+        assert m1.get_matrix() == pytest.approx(result)
 
 
-def test_mat4_x_equal_real():
-    test = Mat4(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16)
-    test *= 4.2
-    result = Mat4(
-        4.2,
-        8.4,
-        12.6,
-        16.8,
-        21.0,
-        25.2,
-        29.4,
-        33.6,
-        37.8,
-        42.0,
-        46.2,
-        50.4,
-        54.6,
-        58.8,
-        63.0,
-        67.2,
-    )
-    assert test == result
-
-
-def test_determinant():
-    test = Mat4(1, 0, 0, 0, 0, 2, 2, 0, 0, -0.5, 2, 0, 0, 0, 0, 1)
-    det = test.determinant()
-    assert det == pytest.approx(5.0)
+def test_det():
+    for a, result in zip(mat4Data.a, mat4Data.a_det):
+        m1 = Mat4.from_list(a)
+        value = m1.determinant()
+        assert value == pytest.approx(result[0])
 
 
 def test_inverse():
-    test = Mat4(1, 0, 0, 0, 0, 2, 2, 0, 0, -0.5, 2, 0, 0, 0, 0, 1)
-    test = test.inverse()
-    result = Mat4(1, 0, 0, 0, 0, 0.4, -0.4, 0, 0, 0.1, 0.4, 0, 0, 0, 0, 1)
-    assert np.allclose(test._m, result._m, atol=1e-6)
+    for a, result in zip(mat4Data.a, mat4Data.a_inv):
+        m1 = Mat4.from_list(a)
+        value = m1.inverse()
+        assert value.get_matrix() == pytest.approx(result)
+    with pytest.raises(Mat4Error):
+        m1 = Mat4.zero()
+        m1.inverse()
 
 
-def test_mat4_x_vec4():
-    t1 = Mat4.rotate_x(45.0)
-    test = Vec4(2, 1, 2, 1)
-    result_vec = t1 * test
-    expected = Vec4(2, -0.707107, 2.12132, 1)
-    assert np.allclose(result_vec._m, expected._m, atol=1e-5)
+def test_subscript():
+    a = Mat4.from_list([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]])
+    assert a[0] == [1, 2, 3, 4]
+    assert a[1] == [5, 6, 7, 8]
+    assert a[2] == [9, 10, 11, 12]
+    assert a[3] == [13, 14, 15, 16]
 
 
-def test_vec4_x_mat4():
-    t1 = Mat4.rotate_x(45.0)
-    test = Vec4(2, 1, 2, 1)
-    result_vec = test * t1
-    expected = Vec4(2, 2.12132, 0.707107, 1)
-    assert np.allclose(result_vec._m, expected._m, atol=1e-5)
+def test_subscript_set():
+    a = Mat4()
+    a[0] = [1, 2, 3, 4]
+    a[1] = [5, 6, 7, 8]
+    a[2] = [9, 10, 11, 12]
+    a[3] = [13, 14, 15, 16]
+    assert a.get_matrix() == pytest.approx([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
 
 
-def test_as_quaternion():
-    tx = Mat4.rotate_x(45.0)
-    test = tx.as_quaternion()
-    assert test.s == pytest.approx(0.92388, abs=1e-5)
-    assert test.x == pytest.approx(0.382683, abs=1e-5)
-    assert test.y == 0.0
-    assert test.z == 0.0
+def test_mult():
+    a = Mat4.from_list([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]])
+    b = a * 2
+    result = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]
+    assert b.get_matrix() == pytest.approx(result)
+    with pytest.raises(Mat4Error):
+        a = a * "hello"
+
+
+def test_strings():
+    a = Mat4.identity()
+    assert str(a) == "[[1.0, 0.0, 0.0, 0.0]\n[0.0, 1.0, 0.0, 0.0]\n[0.0, 0.0, 1.0, 0.0]\n[0.0, 0.0, 0.0, 1.0]]"
+    assert repr(a) == "Mat4([[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]])"

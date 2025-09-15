@@ -1,5 +1,5 @@
+from .base_mesh import BaseMesh, Face
 from .vec3 import Vec3
-from .BaseMesh import BaseMesh, Face
 
 
 class ObjParseVertexError(Exception):

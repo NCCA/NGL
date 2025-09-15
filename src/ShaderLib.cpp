@@ -130,7 +130,7 @@ GLint ShaderLib::getAttribLocation(std::string_view _shaderName, std::string_vie
 
   GLint attrib = 0;
 
-  
+
   // make sure we have a valid shader
   if(auto shader = m_shaderPrograms.find(_shaderName.data()); shader != m_shaderPrograms.end())
   {
@@ -173,7 +173,7 @@ void ShaderLib::attachShader(std::string_view _name, ShaderType _type, ErrorExit
 
 //----------------------------------------------------------------------------------------------------------------------
 bool ShaderLib::compileShader(std::string_view _name) noexcept
-{  
+{
   // make sure we have a valid shader
   if(auto shader = m_shaders.find(_name.data()); shader != m_shaders.end())
   {
@@ -533,7 +533,7 @@ bool ShaderLib::linkProgramObject(std::string_view _name) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::use(std::string_view _name) noexcept
 {
-  
+
   // make sure we have a valid  program
   if(auto program = m_shaderPrograms.find(_name.data()); program != m_shaderPrograms.end())
   {
@@ -566,7 +566,7 @@ GLuint ShaderLib::getProgramID(std::string_view _name) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::autoRegisterUniforms(std::string_view _shaderName) noexcept
 {
-  
+
   // make sure we have a valid  program
   if(auto program = m_shaderPrograms.find(_shaderName.data()); program != m_shaderPrograms.end())
   {
@@ -582,7 +582,7 @@ void ShaderLib::autoRegisterUniforms(std::string_view _shaderName) noexcept
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::bindAttribute(std::string_view _programName, GLuint _index, std::string_view _attribName) noexcept
 {
-  
+
   // make sure we have a valid  program
   if(auto program = m_shaderPrograms.find(_programName.data()); program != m_shaderPrograms.end())
   {
@@ -597,7 +597,7 @@ void ShaderLib::bindAttribute(std::string_view _programName, GLuint _index, std:
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::bindSampler(std::string_view _samplerName, GLuint _index) noexcept
 {
-  
+
 
 
   m_shaderPrograms[m_currentShader]->bindSampler(_samplerName, _index);
@@ -618,7 +618,7 @@ void ShaderLib::bindSampler(std::string_view _samplerName, GLuint _index) noexce
 //----------------------------------------------------------------------------------------------------------------------
 void ShaderLib::bindFragDataLocation(std::string_view _programName, GLuint _index, std::string_view _attribName) noexcept
 {
-  
+
   // make sure we have a valid  program
   if(auto program = m_shaderPrograms.find(_programName.data()); program != m_shaderPrograms.end())
   {
@@ -640,7 +640,7 @@ void ShaderLib::useNullProgram() noexcept
 GLuint ShaderLib::getUniformBlockIndex(std::string_view _uniformBlockName) noexcept
 {
 
-  GLuint id = 0;  
+  GLuint id = 0;
   // make sure we have a valid shader
   if(auto shader = m_shaderPrograms.find(m_currentShader.data()); shader != m_shaderPrograms.end())
   {
@@ -793,4 +793,3 @@ void ShaderLib::printProperties() noexcept
 
 
 } // namespace ngl
-

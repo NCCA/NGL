@@ -1,102 +1,107 @@
-import math
-
-import numpy as np
-
+import copy
+import functools
+import operator
 from .vec2 import Vec2
+
+class Mat2Error(Exception):
+    pass
+
+
+_identity = [[1.0, 0.0], [0.0, 1.0]]
 
 
 class Mat2:
-    def __init__(self, *args):
-        if not args:
-            self.m = np.identity(2, dtype=np.float32)
-        elif len(args) == 1:
-            if isinstance(args[0], Mat2):  # Copy constructor
-                self.m = np.copy(args[0].m)
-            else:  # From a single value
-                self.m = np.zeros((2, 2), dtype=np.float32)
-                self.m[0, 0] = args[0]
-                self.m[1, 1] = args[0]
-        elif len(args) == 4:
-            self.m = np.array([args[0], args[1], args[2], args[3]], dtype=np.float32).reshape(2, 2)
+    __slots__ = ["m"]
 
-    def to_list(self):
-        return self.m.flatten().tolist()
+    def __init__(self, m=None):
+        """
+        Initialize a 2x2 matrix.
 
-    def __eq__(self, other):
-        return np.allclose(self.m, other.m)
+        Args:
+            m (list): A 2D list representing the matrix.
+                        If not provided, an identity matrix is created.
+        """
+        self.m = copy.deepcopy(_identity) if m is None else m
 
-    def null(self):
-        self.m.fill(0)
+    def get_matrix(self) -> list[list[float]]:
+        """
+        Get the current matrix representation.
 
-    def identity(self):
-        self.m = np.identity(2, dtype=np.float32)
+        Returns:
+            list: A 2D list representing the matrix.
+        """
+        return functools.reduce(operator.concat, self.m)
 
-    def transpose(self):
-        self.m = self.m.transpose()
-        return self
+    def get_numpy(self):
+        """
+        Convert the current matrix to a NumPy array.
 
-    @staticmethod
-    def scale(x, y):
-        mat = Mat2(0)
-        mat.m[0, 0] = x
-        mat.m[1, 1] = y
-        return mat
+        Returns:
+            np.ndarray: The matrix as a NumPy array.
+        """
+        import numpy as np
 
-    @staticmethod
-    def rotate(deg):
-        mat = Mat2()
-        rad = math.radians(deg)
-        sr = math.sin(rad)
-        cr = math.cos(rad)
-        mat.m[0, 0] = cr
-        mat.m[0, 1] = -sr
-        mat.m[1, 0] = sr
-        mat.m[1, 1] = cr
-        return mat
+        return np.array(self.get_matrix()).reshape([2, 2])
 
-    def __mul__(self, other):
-        if isinstance(other, Mat2):
-            result = Mat2()
-            result.m = self.m @ other.m
-            return result
-        elif isinstance(other, (int, float)):
-            result = Mat2(self)
-            result.m = self.m * other
-            return result
-        elif isinstance(other, Vec2):
-            result = Vec2()
-            result.v = self.m @ other.v
-            return result
+    @classmethod
+    def identity(cls) -> "Mat2":
+        """
+        Create an identity matrix.
+
+        Returns:
+            Mat2: A new identity Mat2 object.
+        """
+        ret = cls()
+        ret.m = copy.deepcopy(_identity)
+        return ret
+
+    def __matmul__(self, rhs):
+        """
+        Matrix multiplication or vector transformation with a 2D matrix.
+
+        Args:
+            rhs (Mat2 | Vec2): The right-hand side operand.
+                                If Mat2, perform matrix multiplication.
+                                If Vec2, transform the vector by the matrix.
+
+        Returns:
+            Mat2: Resulting matrix from matrix multiplication.
+            Vec2: Transformed vector.
+
+        Raises:
+            ValueError: If rhs is neither a Mat2 nor Vec2 object.
+        """
+        if isinstance(rhs, Mat2):
+            return self._mat_mul(rhs)
+        elif isinstance(rhs, Vec2):
+            return Vec2(
+                rhs.x * self.m[0][0] + rhs.y * self.m[0][1],
+                rhs.x * self.m[1][0] + rhs.y * self.m[1][1],
+            )
         else:
-            return NotImplemented
+            raise ValueError(f"Can only multiply by Mat2 or Vec2, not {type(rhs)}")
 
-    def __imul__(self, other):
-        if isinstance(other, Mat2):
-            self.m = self.m @ other.m
-            return self
-        elif isinstance(other, (int, float)):
-            self.m *= other
-            return self
-        else:
-            return NotImplemented
+    def _mat_mul(self, other):
+        """
+        Internal method to perform matrix multiplication.
 
-    def __add__(self, other):
-        if isinstance(other, Mat2):
-            result = Mat2(self)
-            result.m = self.m + other.m
-            return result
-        else:
-            return NotImplemented
+        Args:
+            other (Mat2): The right-hand side matrix.
 
-    def __iadd__(self, other):
-        if isinstance(other, Mat2):
-            self.m += other.m
-            return self
-        else:
-            return NotImplemented
+        Returns:
+            Mat2: Result of matrix multiplication.
+        """
+        ret = Mat2()
+        for i in range(2):
+            for j in range(2):
+                ret.m[i][j] = sum(self.m[i][k] * other.m[k][j] for k in range(2))
+        return ret
 
-    def __str__(self):
-        return str(self.m)
+    def __str__(self) -> str:
+        """
+        String representation of the matrix.
 
-    def sizeof(self):
-        return self.m.nbytes
+        Returns:
+            str: The string representation.
+        """
+        return f"Mat2({self.m[0]}, {self.m[1]})"

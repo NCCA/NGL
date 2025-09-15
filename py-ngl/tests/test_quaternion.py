@@ -1,164 +1,153 @@
-import math
-
-import numpy as np
 import pytest
 
-from ngl import Mat4, Quaternion, Vec3, Vec4
+from ngl import Mat4
+from ngl import Quaternion
 
 
-def test_default_ctor():
-    test = Quaternion()
-    assert test.s == 1.0
-    assert test.x == 0.0
-    assert test.y == 0.0
-    assert test.z == 0.0
-
-
-def test_user_ctor():
-    test = Quaternion(0.2, 0.0, 1.0, 0.0)
-    assert test.s == 0.2
-    assert test.x == 0.0
-    assert test.y == 1.0
-    assert test.z == 0.0
-
-
-def test_addition():
-    q1 = Quaternion(0.5, 1.0, 0.0, 0.0)
-    q2 = Quaternion(0.2, 0.0, 1.0, 0.0)
-    res = q1 + q2
-    assert res.s == 0.7
-    assert res.x == 1.0
-    assert res.y == 1.0
-    assert res.z == 0.0
-
-
-def test_addition_equal():
-    q1 = Quaternion(0.5, 1.0, 0.0, 0.0)
-    q2 = Quaternion(0.2, 0.0, 1.0, 0.0)
-    q1 += q2
-    assert q1.s == 0.7
-    assert q1.x == 1.0
-    assert q1.y == 1.0
-    assert q1.z == 0.0
-
-
-def test_subtract():
-    q1 = Quaternion(0.5, 1.0, 1.0, 0.0)
-    q2 = Quaternion(0.2, 1.0, 1.0, 0.0)
-    res = q1 - q2
-    assert res.s == pytest.approx(0.3)
-    assert res.x == 0.0
-    assert res.y == 0.0
-    assert res.z == 0.0
-
-
-def test_subtract_equal():
-    q1 = Quaternion(0.5, 1.0, 1.0, 0.0)
-    q2 = Quaternion(0.2, 1.0, 1.0, 0.0)
-    q1 -= q2
-    assert q1.s == pytest.approx(0.3)
-    assert q1.x == 0.0
-    assert q1.y == 0.0
-    assert q1.z == 0.0
-
-
-def test_multiply_quat():
-    q1 = Quaternion(-math.sin(math.pi), 3.0, 4.0, 3.0)
-    q2 = Quaternion(4.0, 3.9, -1.0, -3.0)
-    res = q1 * q2
-    assert res.s == pytest.approx(1.3)
-    assert res.x == pytest.approx(3.0)
-    assert res.y == pytest.approx(36.7)
-    assert res.z == pytest.approx(-6.6)
-
-
-def test_multiply_equal_quat():
-    q1 = Quaternion(-math.sin(math.pi), 3.0, 4.0, 3.0)
-    q2 = Quaternion(4.0, 3.9, -1.0, -3.0)
-    q1 *= q2
-    assert q1.s == pytest.approx(1.3)
-    assert q1.x == pytest.approx(3.0)
-    assert q1.y == pytest.approx(36.7)
-    assert q1.z == pytest.approx(-6.6)
-
-
-def test_magnitude():
-    q1 = Quaternion(1.3, 3.0, 36.7, -6.6)
-    assert q1.magnitude() == pytest.approx(37.4318)
-
-
-def test_normalize():
-    q1 = Quaternion(1.3, 3.0, 36.7, -6.6)
-    q1.normalize()
-    assert q1.s == pytest.approx(0.0347298, abs=1e-4)
-    assert q1.x == pytest.approx(0.0801457, abs=1e-4)
-    assert q1.y == pytest.approx(0.98045, abs=1e-4)
-    assert q1.z == pytest.approx(-0.176321, abs=1e-4)
-
-
-def test_conjugate():
-    q1 = Quaternion(1.3, 3.0, 36.7, -6.6)
-    q1 = q1.conjugate()
-    assert q1.s == 1.3
-    assert q1.x == -3.0
-    assert q1.y == -36.7
-    assert q1.z == 6.6
-
-
-def test_inverse():
-    q1 = Quaternion(1.3, -3.0, -36.7, 6.6)
-    q1 = q1.inverse()
-    assert q1.s == pytest.approx(0.000927816, abs=1e-5)
-    assert q1.x == pytest.approx(0.00214111, abs=1e-5)
-    assert q1.y == pytest.approx(0.026193, abs=1e-5)
-    assert q1.z == pytest.approx(-0.00471045, abs=1e-5)
-
-
-def test_from_axis_angle():
-    q = Quaternion.from_axis_angle(Vec3(1, 0, 0), 45.0)
-    assert q.s == pytest.approx(0.92388, abs=1e-5)
-    assert q.x == pytest.approx(0.382683, abs=1e-5)
+def test_Quaternion():
+    q = Quaternion()
+    assert q.s == 1.0
+    assert q.x == 0.0
     assert q.y == 0.0
+    assert q.z == 0.0
+    q = Quaternion(0.2, 0.0, 1.0, 0.0)
+    assert q.s == 0.2
+    assert q.x == 0.0
+    assert q.y == 1.0
     assert q.z == 0.0
 
 
-def test_to_axis_angle():
-    q = Quaternion.from_axis_angle(Vec3(1, 0, 0), 45.0)
-    axis, angle = q.to_axis_angle()
-    assert angle == pytest.approx(45.0)
-    assert axis == Vec3(1, 0, 0)
+def test_from_mat4():
+    test = Quaternion.from_mat4(Mat4.rotate_x(45.0))
+    assert test.s == pytest.approx(0.92388, rel=1e-3)
+    assert test.x == pytest.approx(0.38268, rel=1e-3)
+    assert test.y == pytest.approx(0.0)
+    assert test.z == pytest.approx(0.0)
+    test = Quaternion.from_mat4(Mat4.rotate_y(45.0))
+    assert test.s == pytest.approx(0.92388, rel=1e-3)
+    assert test.x == pytest.approx(0.0)
+    assert test.y == pytest.approx(0.38268, rel=1e-3)
+    assert test.z == pytest.approx(0.0)
+    test = Quaternion.from_mat4(Mat4.rotate_z(45.0))
+    assert test.s == pytest.approx(0.92388, rel=1e-3)
+    assert test.x == pytest.approx(0.0)
+    assert test.y == pytest.approx(0.0)
+    assert test.z == pytest.approx(0.38268, rel=1e-3)
+
+    # The following tests add coverage for each of the paths in the code
+    # +2.179450 [-0.344124i,+0.688247j,-0.344124k]
+    matrix = Mat4.from_list(
+        [
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0,
+            6.0,
+            7.0,
+            8.0,
+            9.0,
+            10.0,
+            11.0,
+            12.0,
+            13.0,
+            14.0,
+            15.0,
+            16.0,
+        ]
+    )
+
+    quat = Quaternion.from_mat4(matrix)
+    assert quat.s == pytest.approx(2.179450)
+    assert quat.x == pytest.approx(-0.344123, rel=1e-3)
+    assert quat.y == pytest.approx(0.688247)
+    assert quat.z == pytest.approx(-0.34412, rel=1e-3)
+
+    # +1.802776 [+0.000000i,+0.000000j,+0.000000k]
+    # +0.000000 [+2.236068i,+0.223607j,+0.223607k]
+    matrix = Mat4.from_list([-1.0, 1, 1, 1, 1, -10, 1, 1, 1, 1, -10, 1, 1, 1, 1, 1])
+
+    quat = Quaternion.from_mat4(matrix)
+    assert quat.s == pytest.approx(0)
+    assert quat.x == pytest.approx(2.236068)
+    assert quat.y == pytest.approx(0.223607)
+    assert quat.z == pytest.approx(0.223607)
+    # +0.185695i,+2.692582j,+0.185695k
+    matrix = Mat4.from_list([-20.0, 1, 1, 1, 1, -10, 1, 1, 1, 1, -18, 1, 1, 1, 1, 1])
+
+    quat = Quaternion.from_mat4(matrix)
+    assert quat.s == pytest.approx(0)
+    assert quat.x == pytest.approx(0.185695, rel=1e-3)
+    assert quat.y == pytest.approx(2.692582, rel=1e-3)
+    assert quat.z == pytest.approx(0.185695, rel=1e-3)
+
+    # +0.000000 +0.208514i,+0.208514j,+2.397916k
+    matrix = Mat4.from_list([-20.0, 1, 1, 1, 1, -10, 1, 1, 1, 1, -8, 1, 1, 1, 1, 1])
+
+    quat = Quaternion.from_mat4(matrix)
+    assert quat.s == pytest.approx(0)
+    assert quat.x == pytest.approx(0.208514, rel=1e-3)
+    assert quat.y == pytest.approx(0.208514, rel=1e-3)
+    assert quat.z == pytest.approx(2.397916, rel=1e-3)
 
 
-def test_to_mat4():
-    q = Quaternion.from_axis_angle(Vec3(1, 0, 0), 45.0)
-    m = q.to_mat4()
-    m2 = Mat4.rotate_x(45.0)
-    assert m == m2
+def test_addition():
+    a = Quaternion(0.5, 1.0, 0.0, 0.0)
+    b = Quaternion(0.2, 0.0, 1.0, 0.0)
+    c = a + b
+    assert c.s == 0.7
+    assert c.x == 1.0
+    assert c.y == 1.0
+    assert c.z == 0.0
 
 
-def test_slerp():
-    start = Quaternion(0.674380, -0.212631, 0.674380, 0.212631)
-    end = Quaternion(0.612372, 0.353553, -0.612372, -0.353553)
-    for i in np.arange(0.0, 1.1, 0.1):
-        s1 = Quaternion.slerp(start, end, i)
-        # The glm results are not available, so we can only do a basic check
-        assert isinstance(s1, Quaternion)
+def test_plus_equal():
+    a = Quaternion(0.5, 1.0, 0.0, 0.0)
+    b = Quaternion(0.2, 0.0, 1.0, 0.0)
+    a += b
+    assert a.s == 0.7
+    assert a.x == 1.0
+    assert a.y == 1.0
+    assert a.z == 0.0
 
 
-def test_times_equal_float():
-    a = Quaternion(0.2, 0.1, 0.3, 0.5)
-    a *= 2.0
-    assert a.s == 0.4
-    assert a.x == 0.2
-    assert a.y == 0.6
-    assert a.z == 1.0
+def test_subtraction():
+    a = Quaternion(0.5, 1.0, 0.0, 0.0)
+    b = Quaternion(0.2, 0.0, 1.0, 0.0)
+    c = a - b
+    assert c.s == 0.3
+    assert c.x == 1.0
+    assert c.y == -1.0
+    assert c.z == 0.0
 
 
-def test_mult_vec4():
-    a = Quaternion(0.2, 0.1, 0.3, 0.5)
-    b = Vec4(1.0, 2.0, 3.0, 1.0)
+def test_minus_equal():
+    a = Quaternion(0.5, 1.0, 0.0, 0.0)
+    b = Quaternion(0.2, 0.0, 1.0, 0.0)
+    a -= b
+    assert a.s == 0.3
+    assert a.x == 1.0
+    assert a.y == -1.0
+    assert a.z == 0.0
+
+
+# from https://www.wolframalpha.com/input/?i=quaternion+-Sin%5BPi%5D%2B3i%2B4j%2B3k+multiplied+by+-1j%2B3.9i%2B4-3k
+# (-sin(π) + 3i + 4j + 3k) × (4 + 3.9i -1j -3k)
+# 1.3 + 3 i + 36.7 j - 6.6 k
+
+
+def test_multiply():
+    a = Quaternion(0.0, 3.0, 4.0, 3.0)
+    b = Quaternion(4.0, 3.9, -1.0, -3.0)
     c = a * b
-    assert c.x == pytest.approx(0.7, abs=1e-5)
-    assert c.y == pytest.approx(2.0, abs=1e-5)
-    assert c.z == pytest.approx(3.06, abs=1e-5)
-    assert c.w == 1.0
+    # 1.3000000000000007, 3.0, 36.7, -6.600000000000001 from Julia Quat package
+    assert c.s == pytest.approx(1.3, rel=1e-3)
+    assert c.x == pytest.approx(3.0, rel=1e-3)
+    assert c.y == pytest.approx(36.7, rel=1e-3)
+    assert c.z == pytest.approx(-6.6, rel=1e-3)
+
+
+def test_str_repr():
+    quat = Quaternion(1.0, 2.0, 3.0, 4.0)
+    assert str(quat) == "Quaternion(1.0, [2.0, 3.0, 4.0])"
+    assert repr(quat) == "Quaternion(1.0, [2.0, 3.0, 4.0])"

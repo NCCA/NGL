@@ -68,3 +68,11 @@ def test_from_vec3():
     calculated_knots = test.knots
     knots = [0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0]
     assert calculated_knots == knots
+
+
+def test_add_knot():
+    test = BezierCurve()
+    test.add_knot(0.5)
+    assert len(test.knots) == 1
+    test.add_knot(0.5)
+    assert len(test.knots) == 2

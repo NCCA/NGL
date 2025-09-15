@@ -1,4 +1,4 @@
-from OpenGL.GL import *
+import OpenGL.GL as gl
 
 from .shader import Shader
 
@@ -28,16 +28,16 @@ class ShaderProgram:
         self._shaders.append(shader)
 
     def link(self) -> bool:
-        self._program_id = glCreateProgram()
+        self._program_id = gl.glCreateProgram()
         for shader in self._shaders:
             if not shader.is_compiled:
                 if not shader.compile():
                     return False
-            glAttachShader(self._program_id, shader.shader_handle)
+            gl.glAttachShader(self._program_id, shader.shader_handle)
 
-        glLinkProgram(self._program_id)
-        if glGetProgramiv(self._program_id, GL_LINK_STATUS) != GL_TRUE:
-            info_log = glGetProgramInfoLog(self._program_id)
+        gl.glLinkProgram(self._program_id)
+        if gl.glGetProgramiv(self._program_id, gl.GL_LINK_STATUS) != gl.GL_TRUE:
+            info_log = gl.glGetProgramInfoLog(self._program_id)
             print(f"Error linking program {self._name}:\n{info_log}")
             return False
         self._linked = True
@@ -45,34 +45,34 @@ class ShaderProgram:
 
     def use(self) -> None:
         if self._linked:
-            glUseProgram(self._program_id)
+            gl.glUseProgram(self._program_id)
 
     def get_uniform_location(self, name: str) -> int:
-        return glGetUniformLocation(self._program_id, name)
+        return gl.glGetUniformLocation(self._program_id, name)
 
     def set_uniform(self, name: str, value) -> None:
         loc = self.get_uniform_location(name)
 
         if loc != -1:
             if isinstance(value, float):
-                glUniform1f(loc, value)
+                gl.glUniform1f(loc, value)
             elif isinstance(value, int):
-                glUniform1i(loc, value)
+                gl.glUniform1i(loc, value)
             elif isinstance(value, tuple):
                 if len(value) == 2:
-                    glUniform2f(loc, *value)
+                    gl.glUniform2f(loc, *value)
                 elif len(value) == 3:
-                    glUniform3f(loc, *value)
+                    gl.glUniform3f(loc, *value)
                 elif len(value) == 4:
-                    glUniform4f(loc, *value)
+                    gl.glUniform4f(loc, *value)
             elif isinstance(value, list):
                 if len(value) == 2:
-                    glUniform2fv(loc, 1, value)
+                    gl.glUniform2fv(loc, 1, value)
                 elif len(value) == 3:
-                    glUniform3fv(loc, 1, value)
+                    gl.glUniform3fv(loc, 1, value)
                 elif len(value) == 4:
-                    glUniform4fv(loc, 1, value)
+                    gl.glUniform4fv(loc, 1, value)
                 elif len(value) == 9:  # mat3
-                    glUniformMatrix3fv(loc, 1, GL_FALSE, value)
+                    gl.glUniformMatrix3fv(loc, 1, gl.GL_TRUE, value)
                 elif len(value) == 16:  # mat4
-                    glUniformMatrix4fv(loc, 1, GL_FALSE, value)
+                    gl.glUniformMatrix4fv(loc, 1, gl.GL_TRUE, value)

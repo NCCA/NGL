@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from OpenGL.GL import *
+import OpenGL.GL as gl
 
 from .image import Image
 
@@ -25,9 +25,9 @@ class Texture:
     def format(self) -> int:
         if self._image.mode:
             if self._image.mode.value == "RGB":
-                return GL_RGB
+                return gl.GL_RGB
             elif self._image.mode.value == "RGBA":
-                return GL_RGBA
+                return gl.GL_RGBA
         return 0
 
     def load_image(self, filename: str) -> bool:
@@ -38,23 +38,23 @@ class Texture:
 
     def set_texture_gl(self) -> int:
         if self._image.width > 0 and self._image.height > 0:
-            self._texture_id = glGenTextures(1)
-            glActiveTexture(GL_TEXTURE0 + self._multi_texture_id)
-            glBindTexture(GL_TEXTURE_2D, self._texture_id)
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-            glTexImage2D(
-                GL_TEXTURE_2D,
+            self._texture_id = gl.glGenTextures(1)
+            gl.glActiveTexture(gl.GL_TEXTURE0 + self._multi_texture_id)
+            gl.glBindTexture(gl.GL_TEXTURE_2D, self._texture_id)
+            gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
+            gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR)
+            gl.glTexImage2D(
+                gl.GL_TEXTURE_2D,
                 0,
                 self.format,
                 self.width,
                 self.height,
                 0,
                 self.format,
-                GL_UNSIGNED_BYTE,
+                gl.GL_UNSIGNED_BYTE,
                 self.get_pixels(),
             )
-            glGenerateMipmap(GL_TEXTURE_2D)
+            gl.glGenerateMipmap(gl.GL_TEXTURE_2D)
             return self._texture_id
         return 0
 

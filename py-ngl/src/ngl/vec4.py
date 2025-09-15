@@ -1,307 +1,210 @@
+"""
+Simple Float only Vec3 class for 3D graphics, very similar to the pyngl ones
+"""
+
 import math
-from typing import Self
 
 import numpy as np
-
-from .vec3 import Vec3
-
-
 class Vec4:
-    """A 4-component vector class.
+    __slots__ = ["_x", "_y", "_z", "_w"]
+    "by using slots we fix our class attributes to x,y,z,w"
 
-    This class represents a 4D vector and provides various vector operations.
-    It uses a numpy array for the underlying data storage.
-    """
+    def __init__(self, x=0.0, y=0.0, z=0.0, w=1.0):
+        """simple ctor"""
+        self._x = x  # x component of vector : float
+        self._y = y  # y component of vector : float
+        self._z = z  # z component of vector : float
+        self._w = w  # w component of vector : float
 
-    __slots__ = ["_m"]
-    _m: np.ndarray
-
-    def __init__(
-        self, x: float = 0.0, y: float = 0.0, z: float = 0.0, w: float = 1.0
-    ) -> None:
-        """Initializes a new Vec4 instance.
-
-        Args:
-            x: The x-component of the vector.
-            y: The y-component of the vector.
-            z: The z-component of the vector.
-            w: The w-component of the vector.
+    def _validate_and_set(self, v, name):
         """
-        self._m = np.array([x, y, z, w], dtype=np.float32)
-
-    @property
-    def x(self) -> float:
-        """The x-component of the vector."""
-        return self._m[0]
-
-    @x.setter
-    def x(self, value: float) -> None:
-        self._m[0] = value
-
-    @property
-    def y(self) -> float:
-        """The y-component of the vector."""
-        return self._m[1]
-
-    @y.setter
-    def y(self, value: float) -> None:
-        self._m[1] = value
-
-    @property
-    def z(self) -> float:
-        """The z-component of the vector."""
-        return self._m[2]
-
-    @z.setter
-    def z(self, value: float) -> None:
-        self._m[2] = value
-
-    @property
-    def w(self) -> float:
-        """The w-component of the vector."""
-        return self._m[3]
-
-    @w.setter
-    def w(self, value: float) -> None:
-        self._m[3] = value
-
-    def __repr__(self) -> str:
-        """Return a string representation of the vector."""
-        return f"Vec4({self.x}, {self.y}, {self.z}, {self.w})"
-
-    def __getitem__(self, key: int) -> float:
-        """Get a component of the vector using index access."""
-        return self._m[key]
-
-    def __setitem__(self, key: int, value: float) -> None:
-        """Set a component of the vector using index access."""
-        self._m[key] = value
-
-    def __eq__(self, other: Self) -> bool:
-        """Check for equality between two Vec4 vectors."""
-        return np.allclose(self._m, other._m)
-
-    def __ne__(self, other: Self) -> bool:
-        """Check for inequality between two Vec4 vectors."""
-        return not self.__eq__(other)
-
-    def __add__(self, other: Self) -> Self:
-        """Add two Vec4 vectors."""
-        result = Vec4()
-        result._m[:3] = self._m[:3] + other._m[:3]
-        result.w = self.w
-        return result
-
-    def __iadd__(self, other: Self) -> Self:
-        """Add a Vec4 vector to this vector in-place."""
-        self._m += other._m
-        return self
-
-    def __sub__(self, other: Self) -> Self:
-        """Subtract one Vec4 vector from another."""
-        result = Vec4()
-        result._m[:3] = self._m[:3] - other._m[:3]
-        result.w = self.w
-        return result
-
-    def __isub__(self, other: Self) -> Self:
-        """Subtract a Vec4 vector from this vector in-place."""
-        self._m -= other._m
-        return self
-
-    def __mul__(self, other: float | Self | "Mat4") -> Self:
-        """Multiply the vector by a scalar, another vector, or a matrix."""
-        from .mat4 import Mat4
-
-        if isinstance(other, (int, float, np.floating)):
-            result = Vec4()
-            result._m[:3] = self._m[:3] * other
-            result.w = self.w
-            return result
-        elif isinstance(other, Mat4):
-            result = Vec4()
-            result._m = np.dot(self._m, other.to_numpy())
-            return result
-        elif isinstance(other, Vec4):
-            result = Vec4()
-            result._m = self._m * other._m
-            return result
+        check if v is a float or int
+        Args:
+            v (number): The value to check.
+        Raises:
+            ValueError: If v is not a float or int.
+        """
+        if not isinstance(v, (int, float)):
+            raise ValueError("need float or int")
         else:
-            raise TypeError(
-                f"Unsupported operand type(s) for *: 'Vec4' and '{type(other)}'"
-            )
+            setattr(self, name, v)
 
-    def __rmul__(self, other: float) -> Self:
-        """Multiply the vector by a scalar from the right."""
-        result = Vec4()
-        result._m = self._m * other
-        return result
+    def __iter__(self):
+        """
+        Make the Vec3 class iterable.
+        Yields:
+            float: The x, y, and z components of the vector.
+        """
+        yield self.x
+        yield self.y
+        yield self.z
+        yield self.w
 
-    def __imul__(self, other: float | Self) -> Self:
-        """Multiply this vector by a scalar or another vector in-place."""
-        if isinstance(other, (int, float)):
-            self._m *= other
-        else:
-            self._m *= other._m
-        return self
-
-    def __truediv__(self, other: float | Self) -> Self:
-        """Divide the vector by a scalar or another vector."""
-        result = Vec4()
-        if isinstance(other, (int, float)):
-            result._m = self._m / other
-        else:
-            result._m = self._m / other._m
-        return result
-
-    def __itruediv__(self, other: float | Self) -> Self:
-        """Divide this vector by a scalar or another vector in-place."""
-        if isinstance(other, (int, float)):
-            self._m /= other
-        else:
-            self._m /= other._m
-        return self
-
-    def __neg__(self) -> Self:
-        """Negate the vector."""
-        result = Vec4()
-        result._m = -self._m
-        return result
-
-    def set(self, x: float, y: float, z: float, w: float = 1.0) -> None:
-        """Set the components of the vector.
-
+    def __getitem__(self, index):
+        """
+        Get the component of the vector at the given index.
         Args:
-            x: The new x-component.
-            y: The new y-component.
-            z: The new z-component.
-            w: The new w-component.
-        """
-        self._m[0] = x
-        self._m[1] = y
-        self._m[2] = z
-        self._m[3] = w
-
-    def dot(self, other: Self) -> float:
-        """Calculate the dot product with another Vec4 vector.
-
-        Args:
-            other: The other Vec4 vector.
-
+            index (int): The index of the component (0 for x, 1 for y, 2 for z).
         Returns:
-            The dot product of the two vectors.
+            float: The value of the component at the given index.
+        Raises:
+            IndexError: If the index is out of range.
         """
-        return np.dot(self._m[:3], other._m[:3])
+        components = [self.x, self.y, self.z, self.w]
+        try:
+            return components[index]
+        except IndexError:
+            raise IndexError("Index out of range. Valid indices are 0, 1, 2, and 3.")
 
-    def null(self) -> None:
-        """Reset the vector to (0, 0, 0, 1)."""
-        self.set(0.0, 0.0, 0.0, 1.0)
-
-    def normalize(self) -> None:
-        """Normalize the vector to unit length."""
-        length = self.length()
-        self._m[:3] /= length
-
-    def length(self) -> float:
-        """Calculate the length (magnitude) of the vector.
-
+    def clone(self) -> "Vec4":
+        """
+        Create a copy of the vector.
         Returns:
-            The length of the vector.
+            Vec4: A new Vec4 instance with the same values.
         """
-        return np.linalg.norm(self._m[:3])
-
-    def length_squared(self) -> float:
-        """Calculate the squared length of the vector.
-
-        Returns:
-            The squared length of the vector.
-        """
-        return self.dot(self)
-
-    def cross(self, other: Self) -> Self:
-        """Calculate the cross product with another Vec4 vector.
-
-        Args:
-            other: The other Vec4 vector.
-
-        Returns:
-            The cross product of the two vectors.
-        """
-        result = Vec4()
-        result._m[:3] = np.cross(self._m[:3], other._m[:3])
-        result.w = 0.0
-        return result
-
-    def angle_between(self, other: Self) -> float:
-        """Calculate the angle between this vector and another.
-
-        Args:
-            other: The other vector.
-
-        Returns:
-            The angle in degrees.
-        """
-        v1 = self.copy()
-        v1.normalize()
-        v2 = other.copy()
-        v2.normalize()
-        return math.degrees(math.acos(v1.dot(v2)))
-
-    def to_vec3(self) -> Vec3:
-        """Return the vector as a Vec3."""
-        return Vec3(self.x, self.y, self.z)
-
-    def clamp(self, min_val: float, max_val: float) -> None:
-        """Clamp the vector's components between a min and max value.
-
-        Args:
-            min_val: The minimum value.
-            max_val: The maximum value.
-        """
-        self._m = np.clip(self._m, min_val, max_val)
-
-    def copy(self) -> Self:
-        """Return a copy of the vector."""
         return Vec4(self.x, self.y, self.z, self.w)
 
-    @staticmethod
-    def up() -> Self:
-        """Return a unit vector pointing up (0, 1, 0, 0)."""
-        return Vec4(0.0, 1.0, 0.0, 0.0)
+    def __add__(self, rhs):
+        "return a+b vector addition"
+        r = Vec4()
+        r.x = self.x + rhs.x
+        r.y = self.y + rhs.y
+        r.z = self.z + rhs.z
+        r.w = self.w + rhs.w
+        return r
 
-    @staticmethod
-    def down() -> Self:
-        """Return a unit vector pointing down (0, -1, 0, 0)."""
-        return Vec4(0.0, -1.0, 0.0, 0.0)
+    def __iadd__(self, rhs):
+        "return a+=b vector addition"
+        self.x += rhs.x
+        self.y += rhs.y
+        self.z += rhs.z
+        self.w += rhs.w
 
-    @staticmethod
-    def left() -> Self:
-        """Return a unit vector pointing left (-1, 0, 0, 0)."""
-        return Vec4(-1.0, 0.0, 0.0, 0.0)
+        return self
 
-    @staticmethod
-    def right() -> Self:
-        """Return a unit vector pointing right (1, 0, 0, 0)."""
-        return Vec4(1.0, 0.0, 0.0, 0.0)
+    def __sub__(self, rhs):
+        "return a+b vector addition"
+        r = Vec4()
+        r.x = self.x - rhs.x
+        r.y = self.y - rhs.y
+        r.z = self.z - rhs.z
+        r.w = self.w - rhs.w
+        return r
 
-    @staticmethod
-    def in_vec() -> Self:
-        """Return a unit vector pointing in (0, 0, 1, 0)."""
-        return Vec4(0.0, 0.0, 1.0, 0.0)
+    def __isub__(self, rhs):
+        "return a+=b vector addition"
+        self.x -= rhs.x
+        self.y -= rhs.y
+        self.z -= rhs.z
+        self.w -= rhs.w
+        return self
 
-    @staticmethod
-    def out() -> Self:
-        """Return a unit vector pointing out (0, 0, -1, 0)."""
-        return Vec4(0.0, 0.0, -1.0, 0.0)
+    def set(self, x, y, z, w=1.0):
+        "set from x,y,z,w will convert to float an raise value error if problem"
+        try:
+            self.x = float(x)
+            self.y = float(y)
+            self.z = float(z)
+            self.w = float(w)
+        except ValueError:
+            print("need float values")
+            raise
 
-    @staticmethod
-    def zero() -> Self:
-        """Return a zero vector (0, 0, 0, 0)."""
-        return Vec4(0.0, 0.0, 0.0, 0.0)
+    def dot(self, rhs):
+        return (self.x * rhs.x) + (self.y * rhs.y) + (self.z * rhs.z) + (self.w * rhs.w)
 
-    def outer(self, other: Self) -> "Mat4":
-        from .mat4 import Mat4
+    def length(self):
+        "length of vector"
+        return math.sqrt(self.x**2 + self.y**2 + self.z**2 + self.w**2)
 
-        result = Mat4()
-        result._m = np.outer(self._m, other._m).flatten(order="F")
-        return result
+    def length_squared(self):
+        "square length of vector"
+        return self.x**2 + self.y**2 + self.z**2 + self.w**2
+
+    def normalize(self):
+        "normalize this vector"
+        length = self.length()
+        try:
+            self.x /= length
+            self.y /= length
+            self.z /= length
+            self.w /= length
+        except ZeroDivisionError:
+            raise ZeroDivisionError("cannot normalize the zero vector")
+
+    def __eq__(self, rhs):
+        "test a==b using math.isclose"
+        if not isinstance(rhs, Vec4):
+            return NotImplemented
+        return (
+            math.isclose(self.x, rhs.x)
+            and math.isclose(self.y, rhs.y)
+            and math.isclose(self.z, rhs.z)
+            and math.isclose(self.w, rhs.w)
+        )
+
+    def __neq__(self, rhs):
+        "test a==b using math.isclose"
+        if not isinstance(rhs, Vec4):
+            return NotImplemented
+        return (
+            math.isclose(self.x, rhs.x)
+            or math.isclose(self.y, rhs.y)
+            or math.isclose(self.z, rhs.z)
+            or math.isclose(self.w, rhs.w)
+        )
+
+    def __neg__(self):
+        self.x = -self.x
+        self.y = -self.y
+        self.z = -self.z
+        self.w = -self.w
+        return self
+
+    def __mul__(self, rhs):
+        if isinstance(rhs, (float, int)):
+            "Vec4 * scalar multiplication"
+            return Vec4(self.x * rhs, self.y * rhs, self.z * rhs, self.w * rhs)
+        else:
+            raise ValueError
+
+    def __rmul__(self, rhs):
+        return self * rhs
+
+    def __matmul__(self, rhs):
+        "Vec4 @ Mat4 matrix multiplication"
+        return Vec4(
+            self.x * rhs.m[0][0] + self.y * rhs.m[1][0] + self.z * rhs.m[2][0] + self.w * rhs.m[3][0],
+            self.x * rhs.m[0][1] + self.y * rhs.m[1][1] + self.z * rhs.m[2][1] + self.w * rhs.m[3][1],
+            self.x * rhs.m[0][2] + self.y * rhs.m[1][2] + self.z * rhs.m[2][2] + self.w * rhs.m[3][2],
+            self.x * rhs.m[0][3] + self.y * rhs.m[1][3] + self.z * rhs.m[2][3] + self.w * rhs.m[3][3],
+        )
+
+    def __repr__(self):
+        "repr for debugging purposes"
+        return f"Vec4 [{self.x},{self.y},{self.z},{self.w}]"
+
+    def __str__(self):
+        "print out the vector as a string"
+        return f"[{self.x},{self.y},{self.z},{self.w}]"
+
+    def to_list(self):
+        return [self.x, self.y, self.z, self.w]
+
+    def to_numpy(self):
+        return np.array([self.x, self.y, self.z, self.w])
+
+# Helper function to create properties
+def _create_property(attr_name):
+    def getter(self):
+        return getattr(self, f"_{attr_name}")
+
+    def setter(self, value):
+        self._validate_and_set(value, f"_{attr_name}")
+
+    return property(getter, setter)
+
+
+# Dynamically add properties for x, y, z,w
+for attr in ["x", "y", "z", "w"]:
+    setattr(Vec4, attr, _create_property(attr))

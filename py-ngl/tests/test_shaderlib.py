@@ -1,7 +1,7 @@
 import glfw
 import numpy as np
+import OpenGL.GL as gl
 import pytest
-from OpenGL.GL import *
 
 from ngl import Mat2, Mat3, Mat4, ShaderLib, ShaderType
 
@@ -14,7 +14,7 @@ def opengl_context():
     glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 4)
     glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 1)
     glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)
-    glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, GL_FALSE)
+    glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, gl.GL_TRUE)
     glfw.window_hint(glfw.VISIBLE, glfw.FALSE)
     print("Initializing OpenGL context...")
     window = glfw.create_window(100, 100, "Test", None, None)
@@ -50,7 +50,7 @@ def test_use(opengl_context):
 
 def test_use_null(opengl_context):
     ShaderLib.use("unknown")
-    assert ShaderLib.get_current_shader_name() == None
+    assert ShaderLib.get_current_shader_name() is None
 
 
 def test_load_error_shader(opengl_context):
@@ -117,6 +117,10 @@ def test_fail_link(opengl_context):
     assert not ShaderLib.link_program_object(shader_name)
 
 
+def test_default_shader(opengl_context):
+    ShaderLib.use("nglColourShader")
+
+
 def test_set_uniform(opengl_context):
     shader_name = "TestUniform"
     assert ShaderLib.load_shader(
@@ -156,7 +160,9 @@ def test_set_uniform(opengl_context):
     mat = Mat3()
     ShaderLib.set_uniform("testMat3", mat.to_list())
     result = ShaderLib.get_uniform_mat3("testMat3")
-    assert np.array_equal(result, mat.to_list())
+    print(result)
+    print(mat)
+    assert np.array_equal(result, mat.get_numpy())
 
     mat = Mat4()
     ShaderLib.set_uniform("testMat4", mat.to_list())

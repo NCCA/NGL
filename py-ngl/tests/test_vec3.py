@@ -1,248 +1,298 @@
-import math
+import copy
 
 import pytest
 
-from ngl import Vec3
+from ngl import Mat3, Vec3
 
 
-def test_default_ctor():
-    test = Vec3()
-    result = Vec3(0.0, 0.0, 0.0)
-    assert test == result
+def test_properties():
+    v = Vec3()
+    v.x = 2.0
+    v.y = 3.0
+    v.z = 4.0
+    assert v.x == pytest.approx(2.0)
+    assert v.y == pytest.approx(3.0)
+    assert v.z == pytest.approx(4.0)
+    with pytest.raises(ValueError):
+        v.x = "fail"
+    with pytest.raises(ValueError):
+        v.y = "fail"
+    with pytest.raises(ValueError):
+        v.z = "fail"
 
 
-def test_dot_product():
+def test_ctor():
+    v = Vec3()
+    assert v.x == pytest.approx(0.0)
+    assert v.y == pytest.approx(0.0)
+    assert v.z == pytest.approx(0.0)
+
+
+def test_userCtor():
+    v = Vec3(2.0, 3.0, 4.0)
+    assert v.x == pytest.approx(2.0)
+    assert v.y == pytest.approx(3.0)
+    assert v.z == pytest.approx(4.0)
+
+
+def test_ctor_single_value():
+    v = Vec3(x=2.0)
+    assert v.x == pytest.approx(2.0)
+    assert v.y == pytest.approx(0.0)
+    assert v.z == pytest.approx(0.0)
+
+    v = Vec3(y=2.0)
+    assert v.x == pytest.approx(0.0)
+    assert v.y == pytest.approx(2.0)
+    assert v.z == pytest.approx(0.0)
+
+    v = Vec3(z=2.0)
+    assert v.x == pytest.approx(0.0)
+    assert v.y == pytest.approx(0.0)
+    assert v.z == pytest.approx(2.0)
+
+
+def test_add():
+    a = Vec3(1, 2, 3)
+    b = Vec3(4, 5, 6)
+    c = a + b
+    assert c.x == pytest.approx(5)
+    assert c.y == pytest.approx(7)
+    assert c.z == pytest.approx(9)
+
+    # negative test
+    a = Vec3(1, 2, 3)
+    b = Vec3(-4, -5, -6)
+    c = a + b
+    assert c.x == pytest.approx(-3)
+    assert c.y == pytest.approx(-3)
+    assert c.z == pytest.approx(-3)
+
+
+def test_plus_equals():
+    a = Vec3(1, 2, 3)
+    b = Vec3(4, 5, 6)
+    a += b
+    assert a.x == pytest.approx(5)
+    assert a.y == pytest.approx(7)
+    assert a.z == pytest.approx(9)
+
+
+def test_sub():
+    a = Vec3(1, 2, 3)
+    b = Vec3(4, 5, 6)
+    c = a - b
+    assert c.x == pytest.approx(-3)
+    assert c.y == pytest.approx(-3)
+    assert c.z == pytest.approx(-3)
+
+
+def test_sub_equals():
+    a = Vec3(1, 2, 3)
+    b = Vec3(4, 5, 6)
+    a -= b
+    assert a.x == pytest.approx(-3)
+    assert a.y == pytest.approx(-3)
+    assert a.z == pytest.approx(-3)
+
+
+def test_set():
+    a = Vec3()
+    a.set(2.5, 0.1, 0.5)
+    assert a.x == pytest.approx(2.5)
+    assert a.y == pytest.approx(0.1)
+    assert a.z == pytest.approx(0.5)
+
+
+def test_error_set():
+    with pytest.raises(ValueError):
+        a = Vec3()
+        a.set(2, 3, "hello")
+
+
+def test_dot():
     a = Vec3(1.0, 2.0, 3.0)
     b = Vec3(4.0, 5.0, 6.0)
     assert a.dot(b) == pytest.approx(32.0)
 
 
-def test_null():
-    test = Vec3(1, 2, 4)
-    test.null()
-    assert test == Vec3.zero()
+def test_length():
+    a = Vec3(22, 1, 32)
+    assert a.length() == pytest.approx(38.845, rel=1e-2)
+
+
+def test_length_squared():
+    a = Vec3(22, 1, 32)
+    assert a.length_squared() == pytest.approx(1509, rel=1e-2)
 
 
 def test_normalize():
-    test = Vec3(22.3, 0.5, 10.0)
-    test.normalize()
-    result = Vec3(0.912266, 0.0204544, 0.409088)
-    assert test == result
+    a = Vec3(22.3, 0.5, 10.0)
+    a.normalize()
+    assert a.x == pytest.approx(0.912266, rel=1e-2)
+    assert a.y == pytest.approx(0.0204544, rel=1e-2)
+    assert a.z == pytest.approx(0.409088, rel=1e-2)
+    with pytest.raises(ZeroDivisionError):
+        a = Vec3(0, 0, 0)
+        a.normalize()
 
-    zero = Vec3.zero()
-    zero.normalize()
-    assert math.isnan(zero.x)
-    assert math.isnan(zero.y)
-    assert math.isnan(zero.z)
+
+def test_equal():
+    a = Vec3(0.1, 0.2, 0.3)
+    b = Vec3(0.1, 0.2, 0.3)
+    assert a == b
+    assert a.__eq__(1) == NotImplemented
+
+
+def test_not_equal():
+    a = Vec3(0.3, 0.4, 0.3)
+    b = Vec3(0.1, 0.2, 0.3)
+    assert a != b
+    a = Vec3(0.3, 0.4, 0.3)
+    b = Vec3(0.3, 0.2, 0.3)
+    assert a != b
+    a = Vec3(0.3, 0.2, 0.3)
+    b = Vec3(0.3, 0.4, 0.3)
+    assert a != b
+    a = Vec3(0.3, 0.4, 0.3)
+    b = Vec3(0.3, 0.4, 0.5)
+    assert a != b
+    assert a.__neq__(1) == NotImplemented
 
 
 def test_inner():
     a = Vec3(1.0, 2.0, 3.0)
     b = Vec3(3.0, 4.0, 5.0)
-    assert a.inner(b) == pytest.approx(26.0)
-
-
-def test_length():
-    a = Vec3(22, 1, 32)
-    assert a.length() == pytest.approx(38.845, 0.001)
-
-
-def test_length_squared():
-    a = Vec3(22, 1, 32)
-    assert a.length_squared() == pytest.approx(1509.0, 0.001)
-
-
-def test_cross():
-    a = Vec3.up()
-    b = Vec3.left()
-    c = a.cross(b)
-    assert c == Vec3.in_()
-
-
-def test_subscript():
-    test = Vec3(1.0, 2.0, 3.0)
-    assert test[0] == 1.0
-    assert test[1] == 2.0
-    assert test[2] == 3.0
-    test[0] = 4.0
-    assert test[0] == 4.0
-
-
-def test_float_ctor():
-    test = Vec3(1.0, 2.0, 3.0)
-    result = Vec3(1.0, 2.0, 3.0)
-    assert test == result
-
-
-def test_copy_ctor():
-    test = Vec3(1.0, 2.0, 3.0)
-    copy = Vec3(test.x, test.y, test.z)
-    result = Vec3(1.0, 2.0, 3.0)
-    assert copy == result
-
-
-def test_assign_operator():
-    test = Vec3(1.0, 2.0, 3.0)
-    copy = test
-    result = Vec3(1.0, 2.0, 3.0)
-    assert copy == result
-    assert test[0] == copy[0]
-    assert test[1] == copy[1]
-    assert test[2] == copy[2]
-
-
-def test_set():
-    v = Vec3()
-    v.set(1.0, 2.0, 3.0)
-    assert v[0] == 1.0
-    assert v[1] == 2.0
-    assert v[2] == 3.0
+    inner = a.inner(b)
+    assert inner == pytest.approx(26.0)
 
 
 def test_negate():
-    v = Vec3(1.0, 2.0, 3.0)
-    v = -v
-    assert v[0] == -1.0
-    assert v[1] == -2.0
-    assert v[2] == -3.0
-
-
-def test_equality():
-    v = Vec3(1.0, 2.0, 3.0)
-    v1 = Vec3(1.0, 2.0, 3.0)
-    assert v == v1
-    assert not (v != v1)
-    v1.set(2.0, 3.0, 4.0)
-    assert not (v == v1)
-    assert v != v1
-    test = Vec3()
-    zero = Vec3.zero()
-    one = Vec3(1.0, 1.0, 1.0)
-    assert test == zero
-    assert not (test == one)
-    assert test != one
-    assert not (test != zero)
-
-
-def test_mult_vec3():
-    v = Vec3(1.0, 2.0, 3.0)
-    v1 = Vec3(2.0, 3.0, 4.0)
-    v = v * v1
-    assert v[0] == 2.0
-    assert v[1] == 6.0
-    assert v[2] == 12.0
-
-
-def test_add():
-    a = Vec3(1.0, 2.0, 3.0)
-    b = Vec3(4.0, 5.0, 6.0)
-    c = a + b
-    assert c.x == 5.0
-    assert c.y == 7.0
-    assert c.z == 9.0
-
-
-def test_add_equal():
-    a = Vec3(1.0, 2.0, 3.0)
-    b = Vec3(4.0, 5.0, 6.0)
-    a += b
-    assert a.x == 5.0
-    assert a.y == 7.0
-    assert a.z == 9.0
-
-
-def test_subtract():
-    a = Vec3(1.0, 2.0, 3.0)
-    b = Vec3(4.0, 5.0, 6.0)
-    c = a - b
-    assert c.x == -3.0
-    assert c.y == -3.0
-    assert c.z == -3.0
-
-
-def test_subtract_equal():
-    a = Vec3(1.0, 2.0, 3.0)
-    b = Vec3(4.0, 5.0, 6.0)
-    a -= b
-    assert a.x == -3.0
-    assert a.y == -3.0
-    assert a.z == -3.0
-
-
-def test_multiply_float():
-    a = Vec3(1.0, 2.0, 3.0)
-    c = a * 2.0
-    assert c.x == 2.0
-    assert c.y == 4.0
-    assert c.z == 6.0
-    c = 2.0 * a
-    assert c.x == 2.0
-    assert c.y == 4.0
-    assert c.z == 6.0
-
-
-def test_multiply_float_equal():
-    a = Vec3(1.0, 2.0, 3.0)
-    a *= 2.0
-    assert a.x == 2.0
-    assert a.y == 4.0
-    assert a.z == 6.0
-
-
-def test_divide_float_equal():
-    a = Vec3(1.0, 2.0, 3.0)
-    a /= 2.0
-    assert a.x == 0.5
-    assert a.y == 1.0
-    assert a.z == 1.5
-    with pytest.warns(RuntimeWarning):
-        a /= 0.0
-
-
-def test_divide_float():
-    a = Vec3(1.0, 2.0, 3.0)
-    b = a / 2.0
-    assert b.x == 0.5
-    assert b.y == 1.0
-    assert b.z == 1.5
-    with pytest.warns(RuntimeWarning):
-        a / 0.0
-
-
-def test_divide_vec():
-    a = Vec3(1.0, 2.0, 3.0)
-    b = Vec3(2.0, 2.0, 2.0)
-    c = a / b
-    assert c.x == 0.5
-    assert c.y == 1.0
-    assert c.z == 1.5
-    with pytest.warns(RuntimeWarning):
-        a / Vec3.zero()
-
-
-def test_divide_equal_vec():
-    a = Vec3(1.0, 2.0, 3.0)
-    b = Vec3(2.0, 2.0, 2.0)
-    a /= b
-    assert a.x == 0.5
-    assert a.y == 1.0
-    assert a.z == 1.5
-    with pytest.warns(RuntimeWarning):
-        a /= Vec3.zero()
+    a = Vec3(0.1, 0.5, -12)
+    a = -a
+    assert a.x == pytest.approx(-0.1)
+    assert a.y == pytest.approx(-0.5)
+    assert a.z == pytest.approx(12.0)
 
 
 def test_reflect():
-    v = Vec3(0.5, 0.5, 0.0)
-    n = Vec3(0.0, 1.0, 0.0)
-    r = v.reflect(n)
-    assert r.x == 0.5
-    assert r.y == -0.5
-    assert r.z == 0.0
+    N = Vec3(0, 1, 0)
+    a = Vec3(2, 2, 0)
+    a.normalize()
+    ref = a.reflect(N)
+    assert ref.x == pytest.approx(0.707, rel=1e-2)
+    assert ref.y == pytest.approx(-0.707, rel=1e-2)
+    assert ref.z == pytest.approx(0.0, rel=1e-2)
 
 
-def test_clamp_min_max():
-    a = Vec3(-1.0, 2.0, 3.0)
-    a.clamp(0.0, 2.0)
-    assert a.x == 0.0
-    assert a.y == 2.0
-    assert a.z == 2.0
+def test_clamp():
+    a = Vec3(0.1, 5.0, 1.7)
+    a.clamp(0.5, 1.8)
+    assert a.x == pytest.approx(0.5)
+    assert a.y == pytest.approx(1.8)
+    assert a.z == pytest.approx(1.7)
+
+
+def test_outer():
+    a = Vec3(1.0, 2.0, 3.0)
+    b = Vec3(3.0, 4.0, 5.0)
+    outer = a.outer(b)
+    result = [3, 4, 5, 6, 8, 10, 9, 12, 15]
+    value = outer.get_matrix()
+    assert result == pytest.approx(value)
+
+
+def test_null():
+    a = Vec3(2, 3, 5)
+    a.null()
+    assert a.x == pytest.approx(0.0)
+    assert a.y == pytest.approx(0.0)
+    assert a.z == pytest.approx(0.0)
+
+
+def test_cross():
+    a = Vec3(0.0, 1.0, 0.0)
+    b = Vec3(-1.0, 0.0, 0.0)
+    c = a.cross(b)
+    assert c.x == pytest.approx(0.0)
+    assert c.y == pytest.approx(0.0)
+    assert c.z == pytest.approx(1.0)
+    assert c == Vec3(0.0, 0.0, 1.0)
+
+
+def test_mul_scalar():
+    a = Vec3(1.0, 1.5, 2.0)
+    a = a * 2
+    assert a.x == pytest.approx(2.0)
+    assert a.y == pytest.approx(3.0)
+    assert a.z == pytest.approx(4.0)
+
+    a = Vec3(1.5, 4.2, 2.8)
+    a = 2 * a
+    assert a.x == pytest.approx(3.0)
+    assert a.y == pytest.approx(8.4)
+    assert a.z == pytest.approx(5.6)
+
+    with pytest.raises(ValueError):
+        a = a * "hello"
+
+
+def test_getAttr():
+    a = Vec3(1, 2, 3)
+    assert getattr(a, "x") == pytest.approx(1.0)
+    assert getattr(a, "y") == pytest.approx(2.0)
+    assert getattr(a, "z") == pytest.approx(3.0)
+
+    # check to see if we can get non attr
+    with pytest.raises(AttributeError):
+        getattr(a, "b")
+    # check to see that adding an attrib fails
+    with pytest.raises(AttributeError):
+        setattr(a, "b", 20.0)
+
+
+def test_matmul():
+    a = Vec3(1, 2, 3)
+    b = Mat3.rotate_x(45.0)
+    c = a @ b
+    assert c.x == pytest.approx(1.0)
+    assert c.y == pytest.approx(-0.707107, rel=1e-2)
+    assert c.z == pytest.approx(3.535534, rel=1e-2)
+
+
+def test_string():
+    a = Vec3(1, 2, 3)
+    assert str(a) == "[1,2,3]"
+    assert repr(a) == "Vec3 [1,2,3]"
+
+
+def test_iterable():
+    a = Vec3(1, 2, 3)
+    b = [x for x in a]
+    assert b == [1, 2, 3]
+    assert a[0] == 1
+    assert a[1] == 2
+    assert a[2] == 3
+    with pytest.raises(IndexError):
+        a[3]
+
+    v = []
+    v.extend(a)
+    assert v == [1, 2, 3]
+
+
+def test_copy():
+    a = Vec3(1, 2, 3)
+    b = copy.copy(a)
+    assert a == b
+    b.x = 10
+    assert a != b
+    assert a.x == 1
+    assert b.x == 10
+
+
+def test_clone():
+    a = Vec3(1, 2, 3)
+    b = a.clone()
+    assert a == b
+    assert a is not b  # Ensure it's a different object

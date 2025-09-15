@@ -1,5 +1,5 @@
 import numpy as np
-
+import pytest
 from ngl import Image, ImageModes
 
 
@@ -17,6 +17,8 @@ def test_create_simple_image_rgba(tmp_path):
         img.set_pixel(x, 1, 0, 255, 0, 255)
         img.set_pixel(x, 2, 0, 0, 255, 255)
         img.set_pixel(x, 3, 255, 255, 255, 255)
+    with pytest.raises(ValueError):
+        img.set_pixel(100, 2000, 255, 255, 255, 0)
 
     filename = tmp_path / "simpleRGBA.png"
     assert img.save(str(filename))
@@ -31,6 +33,12 @@ def test_create_simple_image_rgba(tmp_path):
     assert np.array_equal(pixels[1, 0], [0, 255, 0, 255])
     assert np.array_equal(pixels[2, 0], [0, 0, 255, 255])
     assert np.array_equal(pixels[3, 0], [255, 255, 255, 255])
+
+
+def test_load_save_fail():
+    loaded_img = Image()
+    assert loaded_img.load("notthere") == False
+    assert loaded_img.save("/") == False
 
 
 def test_create_simple_image_rgb(tmp_path):

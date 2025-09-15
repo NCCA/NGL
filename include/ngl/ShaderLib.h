@@ -63,7 +63,7 @@ class NGL_DLLEXPORT ShaderLib
   enum class MatrixTranspose : bool
   {
     TransposeOn = GL_TRUE,
-    TransposeOff = GL_FALSE
+    TransposeOff = gl.GL_TRUE
   };
   static void loadDefaultShaders();
 
@@ -138,7 +138,7 @@ class NGL_DLLEXPORT ShaderLib
   //----------------------------------------------------------------------------------------------------------------------
   static void bindFragDataLocation(std::string_view _programName, GLuint _index, std::string_view _attribName) noexcept;
 
-  // bind sampler 
+  // bind sampler
   static void bindSampler(std::string_view _samplerName, GLuint _index) noexcept;
 
 
@@ -151,7 +151,7 @@ class NGL_DLLEXPORT ShaderLib
   /// @param[in] _exitOnError exit if there is an error in the shader
   //----------------------------------------------------------------------------------------------------------------------
   static bool loadShader(std::string_view _shaderName, std::string_view _vert, std::string_view _frag, std::string_view _geo, ErrorExit _exitOnError = ErrorExit::ON) noexcept;
-  
+
   static bool loadShader(std::string_view _shaderName, std::string_view _vert, std::string_view _frag, ErrorExit _exitOnError = ErrorExit::ON) noexcept;
   //----------------------------------------------------------------------------------------------------------------------
   /// @brief method to load multiple shaders from a json file
@@ -257,7 +257,7 @@ class NGL_DLLEXPORT ShaderLib
   //----------------------------------------------------------------------------------------------------------------------
   static bool setUniformBuffer(std::string_view _uniformBlockName, size_t _size, void *_data);
 
-  
+
   template< typename Ts>
   static bool setUniform(std::string_view _varname ,Ts &&arg )  noexcept;
   template< typename... Ts>
@@ -267,7 +267,7 @@ class NGL_DLLEXPORT ShaderLib
   static bool getUniform(std::string_view _varname ,Ts &&arg )  noexcept;
   template< typename... Ts>
   static bool getUniform(std::string_view _varname ,Ts &&...args )  noexcept;
-  
+
 
     protected:
   //----------------------------------------------------------------------------------------------------------------------

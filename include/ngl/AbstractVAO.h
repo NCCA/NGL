@@ -67,7 +67,7 @@ class NGL_DLLEXPORT AbstractVAO
     /// will be a call to glDrawArrays type function, VAO must be bound before calling this
     virtual void draw()const =0;
     /// @brief this method is used to set the data in the VAO, we have a base data type of
-    /// VertexData above, but the user can extend this to create custom data types    
+    /// VertexData above, but the user can extend this to create custom data types
     virtual void setData(const VertexData &_data)=0;
     /// @brief this will clean up the VAO and associated data, it is the users responsibility to do this
     /// usually this will be a call to the various delete buffers gl routines
@@ -80,7 +80,7 @@ class NGL_DLLEXPORT AbstractVAO
     /// @param _dataOffset Specifies a pointer to the first component of the first generic vertex attribute in the array.
     /// The initial value is 0. and is calculated as static_cast<Real *>(NULL)  + _dataOffset
     /// @param _normalise specifies whether fixed-point data values should be normalized (GL_TRUE) or converted directly as
-    /// fixed-point values (GL_FALSE) when they are accessed.
+    /// fixed-point values (gl.GL_TRUE) when they are accessed.
     void setVertexAttributePointer(GLuint _id, GLint _size, GLenum _type, GLsizei _stride, unsigned int _dataOffset, bool _normalise=false ) const noexcept;
     /// @brief the number of indices to draw in the array. It may be that the draw routine can overide this at another time.
     /// @param _s the number of indices to draw (from 0)

@@ -1,265 +1,244 @@
-import math
-
 import pytest
 
 from ngl import Mat4, Vec4
 
 
-def test_default_ctor():
-    test = Vec4()
-    result = Vec4(0.0, 0.0, 0.0, 1.0)
-    assert test == result
-
-
-def test_subscript():
-    test = Vec4(1.0, 2.0, 3.0, 4.0)
-    assert test[0] == 1.0
-    assert test[1] == 2.0
-    assert test[2] == 3.0
-    assert test[3] == 4.0
-    test[0] = 5.0
-    assert test[0] == 5.0
-
-
-def test_assign():
+def test_properties():
     v = Vec4()
-    v = Vec4(1.0, 2.0, 3.0, 4.0)
-    assert v.x == 1.0
-    assert v.y == 2.0
-    assert v.z == 3.0
-    assert v.w == 4.0
-    # In the C++ version, assigning a Vec3 to a Vec4 sets w to 0.
-    # This is not directly supported in Python's type system in the same way.
-    # We can simulate this with a constructor or a method.
-    v = Vec4(6.0, 7.0, 8.0, 0.0)
-    assert v.x == 6.0
-    assert v.y == 7.0
-    assert v.z == 8.0
-    assert v.w == 0.0
+    v.x = 2.0
+    v.y = 3.0
+    v.z = 4.0
+    v.w = 5.0
+    assert v.x == pytest.approx(2.0)
+    assert v.y == pytest.approx(3.0)
+    assert v.z == pytest.approx(4.0)
+    assert v.w == pytest.approx(5.0)
+    with pytest.raises(ValueError):
+        v.x = "fail"
+    with pytest.raises(ValueError):
+        v.y = "fail"
+    with pytest.raises(ValueError):
+        v.z = "fail"
+    with pytest.raises(ValueError):
+        v.w = "fail"
 
 
-def test_float_ctor():
-    test = Vec4(1.0, 2.0, 3.0, 4.0)
-    result = Vec4(1.0, 2.0, 3.0, 4.0)
-    assert test == result
+def test_ctor():
+    v = Vec4()
+    assert v.x == pytest.approx(0.0)
+    assert v.y == pytest.approx(0.0)
+    assert v.z == pytest.approx(0.0)
+    assert v.w == pytest.approx(1.0)
 
 
-def test_copy_ctor():
-    test = Vec4(1.0, 2.0, 3.0, 5.0)
-    copy = test.copy()
-    result = Vec4(1.0, 2.0, 3.0, 5.0)
-    assert copy == result
+def test_userCtor():
+    v = Vec4(2.0, 3.0, 4.0, 5.0)
+    assert v.x == pytest.approx(2.0)
+    assert v.y == pytest.approx(3.0)
+    assert v.z == pytest.approx(4.0)
+    assert v.w == pytest.approx(5.0)
 
 
-def test_assign_operator():
-    test = Vec4(1.0, 2.0, 3.0)
-    copy = test
-    result = Vec4(1.0, 2.0, 3.0)
-    assert copy == result
+def test_ctor_single_value():
+    v = Vec4(x=2.0)
+    assert v.x == pytest.approx(2.0)
+    assert v.y == pytest.approx(0.0)
+    assert v.z == pytest.approx(0.0)
+    assert v.w == pytest.approx(1.0)
 
+    v = Vec4(y=2.0)
+    assert v.x == pytest.approx(0.0)
+    assert v.y == pytest.approx(2.0)
+    assert v.z == pytest.approx(0.0)
+    assert v.w == pytest.approx(1.0)
 
-def test_negate():
-    a = Vec4(1, 2, 3, 1)
-    a = -a
-    assert a.x == -1.0
-    assert a.y == -2.0
-    assert a.z == -3.0
-    assert a.w == -1.0  # Note: C++ version doesn't negate w, but numpy does
+    v = Vec4(z=2.0)
+    assert v.x == pytest.approx(0.0)
+    assert v.y == pytest.approx(0.0)
+    assert v.z == pytest.approx(2.0)
+    assert v.w == pytest.approx(1.0)
 
-
-def test_not_equal():
-    a = Vec4(1, 2, 3, 1)
-    b = Vec4(1, 2, 3, 1)
-    assert a == b
-    b.x = 0.0
-    assert a != b
-
-
-def test_mult_vec4():
-    a = Vec4(1, 2, 3, 1)
-    b = Vec4(2, 2, 2, 1)
-    a = a * b
-    assert a.x == 2.0
-    assert a.y == 4.0
-    assert a.z == 6.0
-    assert a.w == 1.0
-
-
-def test_angle_between():
-    a = Vec4(1, 0, 0, 1)
-    b = Vec4(0, 1, 0, 1)
-    assert a.angle_between(b) == pytest.approx(90.0)
-    assert a.angle_between(a) == pytest.approx(0.0)
-
-
-def test_dot_product():
-    a = Vec4(1.0, 2.0, 3.0)
-    b = Vec4(4.0, 5.0, 6.0)
-    assert a.dot(b) == pytest.approx(32.0)
-
-
-def test_null():
-    test = Vec4(1, 2, 4)
-    test.null()
-    assert test == Vec4(0.0, 0.0, 0.0, 1.0)
-
-
-def test_normalize():
-    test = Vec4(22.3, 0.5, 10.0)
-    test.normalize()
-    result = Vec4(0.912266, 0.0204544, 0.409088)
-    assert test.x == pytest.approx(result.x, 0.0001)
-    assert test.y == pytest.approx(result.y, 0.0001)
-    assert test.z == pytest.approx(result.z, 0.0001)
-
-    zero = Vec4.zero()
-    with pytest.warns(RuntimeWarning):
-        zero.normalize()
-    assert math.isnan(zero.x)
-    assert math.isnan(zero.y)
-    assert math.isnan(zero.z)
-
-
-def test_length():
-    a = Vec4(22, 1, 32)
-    assert a.length() == pytest.approx(38.845, 0.001)
-
-
-def test_length_squared():
-    a = Vec4(22, 1, 32)
-    assert a.length_squared() == pytest.approx(1509.0, 0.001)
-
-
-def test_cross():
-    a = Vec4.up()
-    b = Vec4.left()
-    c = a.cross(b)
-    assert c == Vec4.in_vec()
-
-
-def test_set_vec4():
-    f = Vec4()
-    f.set(0.4, 0.2, 0.1, 1.0)
-    assert f[0] == 0.4
-    assert f[1] == 0.2
-    assert f[2] == 0.1
-    assert f[3] == 1.0
+    v = Vec4(w=9.2)
+    assert v.x == pytest.approx(0.0)
+    assert v.y == pytest.approx(0.0)
+    assert v.z == pytest.approx(0.0)
+    assert v.w == pytest.approx(9.2)
 
 
 def test_add():
-    a = Vec4(1.0, 2.0, 3.0, 1.0)
-    b = Vec4(4.0, 5.0, 6.0, 1.0)
+    a = Vec4(1, 2, 3, 4)
+    b = Vec4(5, 6, 7, 8)
     c = a + b
-    assert c.x == 5.0
-    assert c.y == 7.0
-    assert c.z == 9.0
-    assert c.w == 1.0
+    assert c.x == pytest.approx(6.0)
+    assert c.y == pytest.approx(8.0)
+    assert c.z == pytest.approx(10.0)
+    assert c.w == pytest.approx(12.0)
 
 
-def test_add_equal():
-    a = Vec4(1.0, 2.0, 3.0, 0.0)
-    b = Vec4(4.0, 5.0, 6.0, 1.0)
+def test_plus_equal():
+    a = Vec4(1, 2, 3, 4)
+    b = Vec4(5, 6, 7, 8)
     a += b
-    assert a.x == 5.0
-    assert a.y == 7.0
-    assert a.z == 9.0
-    assert a.w == 1.0
+    assert a.x == pytest.approx(6.0)
+    assert a.y == pytest.approx(8.0)
+    assert a.z == pytest.approx(10.0)
+    assert a.w == pytest.approx(12.0)
 
 
-def test_subtract():
-    a = Vec4(1.0, 2.0, 3.0, 1.0)
-    b = Vec4(4.0, 5.0, 6.0, 2.0)
+def test_sub():
+    a = Vec4(1, 2, 3)
+    b = Vec4(4, 5, 6)
     c = a - b
-    assert c.x == -3.0
-    assert c.y == -3.0
-    assert c.z == -3.0
-    assert c.w == 1.0
+    assert c.x == pytest.approx(-3.0)
+    assert c.y == pytest.approx(-3.0)
+    assert c.z == pytest.approx(-3.0)
+    assert c.w == pytest.approx(0.0)
 
 
-def test_subtract_equal():
-    a = Vec4(1.0, 2.0, 3.0, 0.0)
-    b = Vec4(4.0, 5.0, 6.0, 1.0)
+def test_sub_equals():
+    a = Vec4(1, 2, 3)
+    b = Vec4(4, 5, 6)
     a -= b
-    assert a.x == -3.0
-    assert a.y == -3.0
-    assert a.z == -3.0
-    assert a.w == -1.0
+    assert a.x == pytest.approx(-3.0)
+    assert a.y == pytest.approx(-3.0)
+    assert a.z == pytest.approx(-3.0)
+    assert a.w == pytest.approx(0.0)
 
 
-def test_multiply_float():
-    a = Vec4(1.0, 2.0, 3.0, 1.0)
-    c = a * 2.0
-    assert c.x == 2.0
-    assert c.y == 4.0
-    assert c.z == 6.0
-    assert c.w == 1.0
+def test_set():
+    a = Vec4()
+    a.set(2.5, 0.1, 0.5, 0.2)
+    assert a.x == pytest.approx(2.5)
+    assert a.y == pytest.approx(0.1)
+    assert a.z == pytest.approx(0.5)
+    assert a.w == pytest.approx(0.2)
 
 
-def test_multiply_float_equal():
-    a = Vec4(1.0, 2.0, 3.0, 0.0)
-    a *= 2.0
-    assert a.x == 2.0
-    assert a.y == 4.0
-    assert a.z == 6.0
-    assert a.w == 0.0
+def test_error_set():
+    with pytest.raises(ValueError):
+        a = Vec4()
+        a.set("a", 2, 3, 5)
 
 
-def test_divide_float_equal():
-    a = Vec4(1.0, 2.0, 3.0, 1.0)
-    a /= 2.0
-    assert a.x == 0.5
-    assert a.y == 1.0
-    assert a.z == 1.5
-    assert a.w == 0.5
-    with pytest.warns(RuntimeWarning):
-        a /= 0.0
-
-
-def test_divide_float():
-    a = Vec4(1.0, 2.0, 3.0, 1.0)
-    b = a / 2.0
-    assert b.x == 0.5
-    assert b.y == 1.0
-    assert b.z == 1.5
-    assert b.w == 0.5
-    with pytest.warns(RuntimeWarning):
-        a / 0.0
-
-
-def test_divide_vec():
-    a = Vec4(1.0, 2.0, 3.0, 1.0)
-    b = Vec4(2.0, 2.0, 2.0, 1.0)
-    c = a / b
-    assert c.x == 0.5
-    assert c.y == 1.0
-    assert c.z == 1.5
-    assert c.w == 1.0
-
-
-def test_divide_equal_vec():
-    a = Vec4(1.0, 2.0, 3.0, 0.0)
-    b = Vec4(2.0, 2.0, 2.0, 1.0)
-    a /= b
-    assert a.x == 0.5
-    assert a.y == 1.0
-    assert a.z == 1.5
-    assert a.w == 0.0
-    with pytest.warns(RuntimeWarning):
-        a /= Vec4.zero()
-
-
-def test_clamp_min_max():
-    a = Vec4(-1.0, 2.0, 3.0, 0.0)
-    a.clamp(0.0, 2.0)
-    assert a.x == 0.0
-    assert a.y == 2.0
-    assert a.z == 2.0
-    assert a.w == 0.0
-
-
-def test_outer():
+def test_dot():
     a = Vec4(1.0, 2.0, 3.0, 4.0)
     b = Vec4(5.0, 6.0, 7.0, 8.0)
-    outer = a.outer(b)
-    result = Mat4(5, 10, 15, 20, 6, 12, 18, 24, 7, 14, 21, 28, 8, 16, 24, 32)
-    assert outer == result
+    assert a.dot(b) == pytest.approx(70.0)
+
+
+def test_length():
+    a = Vec4(22, 1, 32, 12)
+    assert a.length() == pytest.approx(40.657, rel=1e-3)
+
+
+def test_length_squared():
+    a = Vec4(22, 1, 32, 12)
+    assert a.length_squared() == pytest.approx(1653.0, rel=1e-3)
+
+
+def test_normalize():
+    a = Vec4(25.0, 12.2, 0.5, -2.0)
+    a.normalize()
+    assert a.x == pytest.approx(0.8962, rel=1e-2)
+    assert a.y == pytest.approx(0.4373, rel=1e-2)
+    assert a.z == pytest.approx(0.0179, rel=1e-2)
+    assert a.w == pytest.approx(-0.0716, rel=1e-2)
+    with pytest.raises(ZeroDivisionError):
+        a = Vec4(0, 0, 0, 0)
+        a.normalize()
+
+
+def test_equal():
+    a = Vec4(0.1, 0.2, 0.3, 0.4)
+    b = Vec4(0.1, 0.2, 0.3, 0.4)
+    assert a == b
+    assert a.__eq__(1) == NotImplemented
+
+
+def test_not_equal():
+    a = Vec4(0.3, 0.4, 0.3)
+    b = Vec4(0.1, 0.2, 0.3)
+    assert a != b
+    assert a.__neq__(1) == NotImplemented
+
+
+def test_negate():
+    a = Vec4(0.1, 0.5, -12, 5)
+    a = -a
+    assert a.x == pytest.approx(-0.1)
+    assert a.y == pytest.approx(-0.5)
+    assert a.z == pytest.approx(12)
+    assert a.w == pytest.approx(-5.0)
+
+
+def test_getAttr():
+    a = Vec4(1, 2, 3, 5)
+    assert getattr(a, "x") == pytest.approx(1.0)
+    assert getattr(a, "y") == pytest.approx(2.0)
+    assert getattr(a, "z") == pytest.approx(3.0)
+    assert getattr(a, "w") == pytest.approx(5.0)
+    # check to see if we can get non attr
+    with pytest.raises(AttributeError):
+        getattr(a, "b")
+
+    # check to see that adding an attrib fails
+    with pytest.raises(AttributeError):
+        setattr(a, "b", 20.0)
+
+
+def test_mul_scalar():
+    a = Vec4(1.0, 1.5, 2.0, 1.0)
+    a = a * 2
+    assert a.x == pytest.approx(2.0)
+    assert a.y == pytest.approx(3.0)
+    assert a.z == pytest.approx(4.0)
+    assert a.w == pytest.approx(2.0)
+
+    a = Vec4(1.5, 4.2, 2.8, 4.5)
+    a = 2 * a
+    assert a.x == pytest.approx(3.0)
+    assert a.y == pytest.approx(8.4)
+    assert a.z == pytest.approx(5.6)
+    assert a.w == pytest.approx(9.0)
+    with pytest.raises(ValueError):
+        a = a * "hello"
+
+
+def test_matmul():
+    a = Vec4(1, 2, 3, 1)
+    b = Mat4.rotate_x(45.0)
+    c = a @ b
+    assert c.x == pytest.approx(1.0)
+    assert c.y == pytest.approx(-0.707107)
+    assert c.z == pytest.approx(3.535534)
+    assert c.w == pytest.approx(1.0)
+
+
+def test_string():
+    a = Vec4(1, 2, 3, 4)
+    assert str(a) == "[1,2,3,4]"
+    assert repr(a) == "Vec4 [1,2,3,4]"
+
+
+def test_iterable():
+    a = Vec4(1, 2, 3, 4)
+    b = [x for x in a]
+    assert b == [1, 2, 3, 4]
+    assert a[0] == 1
+    assert a[1] == 2
+    assert a[2] == 3
+    assert a[3] == 4
+
+    with pytest.raises(IndexError):
+        a[5]
+
+    v = []
+    v.extend(a)
+    assert v == [1, 2, 3, 4]
+
+
+def test_clone():
+    a = Vec4(1, 2, 3, 4)
+    b = a.clone()
+    assert a == b
+    assert a is not b  # Ensure it's a different object

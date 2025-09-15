@@ -1,12 +1,12 @@
 #include "ngl/TemplateHelpers.h"
 
-template< typename Ts> 
+template< typename Ts>
 bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) const noexcept
 {
   auto uniform = m_registeredUniforms.find(_varname.data());
   if(uniform != m_registeredUniforms.end())
   {
-  
+
     if constexpr (std::is_same<Ts,float&>::value )
     {
         glUniform1f(uniform->second.loc, arg);
@@ -19,34 +19,34 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
     }// end of int / bool
     else if constexpr(std::is_same<Ts,Mat2&>::value)
     {
-        glUniformMatrix2fv(uniform->second.loc, 1, GL_FALSE, &arg.m_openGL[0]);
+        glUniformMatrix2fv(uniform->second.loc, 1, gl.GL_TRUE, &arg.m_openGL[0]);
         return true;
     } // end of mat2
 
     else if constexpr(std::is_same<Ts,Mat3&>::value)
     {
-        glUniformMatrix3fv(uniform->second.loc, 1, GL_FALSE, &arg.m_openGL[0]);
+        glUniformMatrix3fv(uniform->second.loc, 1, gl.GL_TRUE, &arg.m_openGL[0]);
         return true;
     } // end of mat3
     else if constexpr(std::is_same<Ts,Mat4&>::value)
     {
-        glUniformMatrix4fv(uniform->second.loc, 1, GL_FALSE, &arg.m_openGL[0]);
+        glUniformMatrix4fv(uniform->second.loc, 1, gl.GL_TRUE, &arg.m_openGL[0]);
         return true;
     } // end of mat4
     #ifdef USEGLM
     else if constexpr(std::is_same<Ts,glm::mat2&>::value)
     {
-        glUniformMatrix2fv(uniform->second.loc, 1, GL_FALSE, &arg[0][0]);
+        glUniformMatrix2fv(uniform->second.loc, 1, gl.GL_TRUE, &arg[0][0]);
         return true;
     } // end of glmmat2
     else if constexpr(std::is_same<Ts,glm::mat3&>::value)
     {
-        glUniformMatrix3fv(uniform->second.loc, 1, GL_FALSE, &arg[0][0]);
+        glUniformMatrix3fv(uniform->second.loc, 1, gl.GL_TRUE, &arg[0][0]);
         return true;
     } // end of glmmat3
     else if constexpr(std::is_same<Ts,glm::mat4&>::value)
     {
-        glUniformMatrix4fv(uniform->second.loc, 1, GL_FALSE, &arg[0][0]);
+        glUniformMatrix4fv(uniform->second.loc, 1, gl.GL_TRUE, &arg[0][0]);
         return true;
     } // end of glmmat2
     #endif
@@ -83,27 +83,27 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
     }
     #endif
     // handle arrays as matrix
-    else if constexpr(is_std_array<std::decay_t<Ts>>::value || 
+    else if constexpr(is_std_array<std::decay_t<Ts>>::value ||
                       is_std_vector<std::decay_t<Ts>>::value ||
                       std::is_array<Ts>::value)
     {
       if(arg.size() == 4)
       {
-        glUniformMatrix2fv(uniform->second.loc, 1, GL_FALSE, &arg[0]);
+        glUniformMatrix2fv(uniform->second.loc, 1, gl.GL_TRUE, &arg[0]);
         return true;
       }
       else if (arg.size() == 9)
       {
-        glUniformMatrix3fv(uniform->second.loc, 1, GL_FALSE, &arg[0]);
+        glUniformMatrix3fv(uniform->second.loc, 1, gl.GL_TRUE, &arg[0]);
         return true;
       }
       else if (arg.size() == 16)
       {
-        glUniformMatrix4fv(uniform->second.loc, 1, GL_FALSE, &arg[0]);
+        glUniformMatrix4fv(uniform->second.loc, 1, gl.GL_TRUE, &arg[0]);
         return true;
       }
     }
-    
+
   }
   else
   {
@@ -121,12 +121,12 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&...args
   auto uniform = m_registeredUniforms.find(_varname.data());
   // make sure we have a valid shader
   if(uniform != m_registeredUniforms.end())
-  {        
+  {
     if constexpr (std::conjunction_v<std::is_same<float&, Ts>...>)
     {
         if constexpr (sizeof...(args) == 2)
         {
-            auto values =std::forward_as_tuple(args...);        
+            auto values =std::forward_as_tuple(args...);
             glUniform2f(uniform->second.loc,std::get<0>(values),std::get<1>(values));
             return true;
         }
@@ -152,7 +152,7 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&...args
   {
   if constexpr (sizeof...(args) == 2)
       {
-          auto values =std::forward_as_tuple(args...);        
+          auto values =std::forward_as_tuple(args...);
           glUniform2i(uniform->second.loc,std::get<0>(values),std::get<1>(values));
           return true;
       }
@@ -179,7 +179,7 @@ return false;
 }
 
 
-template< typename Ts> 
+template< typename Ts>
 bool ShaderProgram::getRegisteredUniform(std::string_view _varname ,Ts &o_arg ) const noexcept
 {
    // std::cout<<"getRegisteredUniform "<<__PRETTY_FUNCTION__<<'\n';
@@ -194,7 +194,7 @@ bool ShaderProgram::getRegisteredUniform(std::string_view _varname ,Ts &o_arg ) 
       } // end of single float
 
       // ngl mat types
-      if constexpr (std::is_same<Ts,ngl::Mat2>::value  || 
+      if constexpr (std::is_same<Ts,ngl::Mat2>::value  ||
                     std::is_same<Ts,ngl::Mat3>::value ||
                     std::is_same<Ts,ngl::Mat4>::value)
       {
@@ -212,7 +212,7 @@ bool ShaderProgram::getRegisteredUniform(std::string_view _varname ,Ts &o_arg ) 
         if constexpr (std::is_same<array_value_type<Ts>,float>::value )
         {
           glGetUniformfv(m_programID, uniform->second.loc, o_arg.data());
-          
+
           return true;
         } // end of float array
         else if constexpr (std::is_same<array_value_type<Ts>,int>::value)
@@ -230,4 +230,3 @@ bool ShaderProgram::getRegisteredUniform(std::string_view _varname ,Ts &o_arg ) 
     }
 return false;
 }
-

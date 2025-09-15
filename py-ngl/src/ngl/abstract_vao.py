@@ -1,30 +1,31 @@
 import abc
+import ctypes
 
 import numpy as np
-from OpenGL.GL import *
+import OpenGL.GL as gl
 
 
 class VertexData:
-    def __init__(self, data, size, mode=GL_STATIC_DRAW):
+    def __init__(self, data, size, mode=gl.GL_STATIC_DRAW):
         self.data = np.array(data, dtype=np.float32)
         self.size = size
         self.mode = mode
 
 
 class AbstractVAO(abc.ABC):
-    def __init__(self, mode=GL_TRIANGLES):
-        self.m_id = glGenVertexArrays(1)
+    def __init__(self, mode=gl.GL_TRIANGLES):
+        self.m_id = gl.glGenVertexArrays(1)
         self.m_mode = mode
         self.m_bound = False
         self.m_allocated = False
         self.m_indicesCount = 0
 
     def bind(self):
-        glBindVertexArray(self.m_id)
+        gl.glBindVertexArray(self.m_id)
         self.m_bound = True
 
     def unbind(self):
-        glBindVertexArray(0)
+        gl.glBindVertexArray(0)
         self.m_bound = False
 
     @abc.abstractmethod
@@ -39,9 +40,13 @@ class AbstractVAO(abc.ABC):
     def remove_vao(self):
         pass
 
-    def set_vertex_attribute_pointer(self, id, size, type, stride, offset, normalize=False):
-        glVertexAttribPointer(id, size, type, normalize, stride, ctypes.c_void_p(offset))
-        glEnableVertexAttribArray(id)
+    def set_vertex_attribute_pointer(
+        self, id, size, type, stride, offset, normalize=False
+    ):
+        gl.glVertexAttribPointer(
+            id, size, type, normalize, stride, ctypes.c_void_p(offset)
+        )
+        gl.glEnableVertexAttribArray(id)
 
     def set_num_indices(self, count):
         self.m_indicesCount = count
@@ -60,11 +65,11 @@ class AbstractVAO(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def map_buffer(self, index=0, access_mode=GL_READ_WRITE):
+    def map_buffer(self, index=0, access_mode=gl.GL_READ_WRITE):
         pass
 
     def unmap_buffer(self):
-        glUnmapBuffer(GL_ARRAY_BUFFER)
+        gl.glUnmapBuffer(gl.GL_ARRAY_BUFFER)
 
     def get_id(self):
         return self.m_id

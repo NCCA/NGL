@@ -1,7 +1,6 @@
 import glfw
 import pytest
-from OpenGL.GL import *
-
+import OpenGL.GL as gl
 from ngl import Image, ImageModes, Texture
 
 
@@ -13,7 +12,7 @@ def opengl_context():
     glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 4)
     glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 1)
     glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)
-    glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, GL_FALSE)
+    glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, gl.GL_TRUE)
     glfw.window_hint(glfw.VISIBLE, glfw.FALSE)
     print("Initializing OpenGL context...")
     window = glfw.create_window(100, 100, "Test", None, None)
@@ -47,11 +46,11 @@ def test_load_rgb(opengl_context, tmp_path):
     t = Texture(str(filename))
     assert t.width == size
     assert t.height == size
-    assert t.format == GL_RGB
+    assert t.format == gl.GL_RGB
 
     tex_id = t.set_texture_gl()
     assert tex_id != 0
-    glDeleteTextures(1, [tex_id])
+    gl.glDeleteTextures(1, [tex_id])
 
 
 def test_load_rgba(opengl_context, tmp_path):
@@ -63,11 +62,11 @@ def test_load_rgba(opengl_context, tmp_path):
     t = Texture(str(filename))
     assert t.width == size
     assert t.height == size
-    assert t.format == GL_RGBA
+    assert t.format == gl.GL_RGBA
 
     tex_id = t.set_texture_gl()
     assert tex_id != 0
-    glDeleteTextures(1, [tex_id])
+    gl.glDeleteTextures(1, [tex_id])
 
 
 def test_multi_texture(opengl_context, tmp_path):
@@ -80,6 +79,6 @@ def test_multi_texture(opengl_context, tmp_path):
     t.set_multi_texture(1)
     tex_id = t.set_texture_gl()
     assert tex_id != 0
-    active_texture = glGetIntegerv(GL_ACTIVE_TEXTURE)
-    assert active_texture == GL_TEXTURE1
-    glDeleteTextures(1, [tex_id])
+    active_texture = gl.glGetIntegerv(gl.GL_ACTIVE_TEXTURE)
+    assert active_texture == gl.GL_TEXTURE1
+    gl.glDeleteTextures(1, [tex_id])

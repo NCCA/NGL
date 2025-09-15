@@ -1,9 +1,7 @@
 import pytest
 import numpy as np
 
-from ngl.mat2 import Mat2, Mat2Error
-from ngl.vec2 import Vec2
-
+from ngl import Mat2,Vec2
 def test_default_identity():
     m = Mat2()
     assert m.m == [[1.0, 0.0], [0.0, 1.0]]
