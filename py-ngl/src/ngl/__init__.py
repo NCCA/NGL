@@ -28,11 +28,11 @@ from .transform import Transform, TransformRotationOrder
 from .util import calc_normal, clamp, lerp, look_at, ortho, perspective
 from .vao_factory import VAOFactory
 from .vec2 import Vec2
-from .Vec2Array import Vec2Array
+from .vec2_array import Vec2Array
 from .vec3 import Vec3
-from .Vec3Array import Vec3Array
+from .vec3_array import Vec3Array
 from .vec4 import Vec4
-from .Vec4Array import Vec4Array
+from .vec4_array import Vec4Array
 
 all = [
     AbstractVAO,
@@ -80,4 +80,9 @@ all = [
     Random,
     Text,
     calc_normal,
+    Mat3Error,
+    Mat4Error,
+    Mat3NotSquare,
+    Mat4NotSquare,
+    Mat4NotSquare,
 ]

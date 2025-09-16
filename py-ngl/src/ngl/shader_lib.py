@@ -31,7 +31,9 @@ class _ShaderLib:
             print(f"Failed to compile vertex shader for {name}")
             return False
 
-        frag_shader = Shader(f"{name}Fragment", ShaderType.FRAGMENT.value, exit_on_error)
+        frag_shader = Shader(
+            f"{name}Fragment", ShaderType.FRAGMENT.value, exit_on_error
+        )
         frag_shader.load(frag)
         if not frag_shader.compile():
             print(f"Failed to compile fragment shader for {name}")
@@ -41,7 +43,9 @@ class _ShaderLib:
         program.attach_shader(frag_shader)
 
         if geo:
-            geo_shader = Shader(f"{name}Geometry", ShaderType.GEOMETRY.value, exit_on_error)
+            geo_shader = Shader(
+                f"{name}Geometry", ShaderType.GEOMETRY.value, exit_on_error
+            )
             geo_shader.load(geo)
             if not geo_shader.compile():
                 print(f"Failed to compile geometry shader for {name}")
@@ -97,7 +101,9 @@ class _ShaderLib:
 
     def attach_shader_to_program(self, program_name: str, shader_name: str):
         if program_name in self._shader_programs and shader_name in self._shaders:
-            self._shader_programs[program_name].attach_shader(self._shaders[shader_name])
+            self._shader_programs[program_name].attach_shader(
+                self._shaders[shader_name]
+            )
         else:
             print(f"Error: program {program_name} or shader {shader_name} not found")
 
@@ -161,10 +167,16 @@ class _ShaderLib:
         shader_folder = Path(__file__).parent / "shaders"
 
         if self.load_shader(
-            "nglColourShader", shader_folder / "colour_vertex.glsl", shader_folder / "colour_fragment.glsl"
+            "nglColourShader",
+            shader_folder / "colour_vertex.glsl",
+            shader_folder / "colour_fragment.glsl",
         ):
             print("Colour shader loaded successfully")
-        if self.load_shader("nglTextShader", shader_folder / "text_vertex.glsl", shader_folder / "text_fragment.glsl"):
+        if self.load_shader(
+            "nglTextShader",
+            shader_folder / "text_vertex.glsl",
+            shader_folder / "text_fragment.glsl",
+        ):
             print("Text shader loaded successfully")
         # self.load_shader("nglDiffuseShader", shader_folder / "diffuse_vertex.glsl", shader_folder / "diffuse_fragment.glsl")
         self._default_shaders_loaded = True

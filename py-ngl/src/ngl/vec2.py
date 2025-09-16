@@ -294,7 +294,9 @@ class Vec2:
         if isinstance(rhs, (float, int)):
             return Vec2(self.x * rhs, self.y * rhs)
         else:
-            raise ValueError(f"can only do piecewise multiplication with a scalar {rhs=}")
+            raise ValueError(
+                f"can only do piecewise multiplication with a scalar {rhs=}"
+            )
 
     def __rmul__(self, rhs):
         """

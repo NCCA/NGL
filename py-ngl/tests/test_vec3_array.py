@@ -76,6 +76,7 @@ def test_to_numpy():
     n = a.to_numpy()
     assert n.shape == (0,)
 
+
 def test_extend():
     """Test the extend method"""
     a = Vec3Array()

@@ -59,5 +59,7 @@ def test_ortho():
 
 
 def test_calc_normal():
-    result = calc_normal(Vec3(-1.0, -1.0, 0.0), Vec3(0.0, 0.0, 0.0), Vec3(1.0, -1.0, 0.0))
+    result = calc_normal(
+        Vec3(-1.0, -1.0, 0.0), Vec3(0.0, 0.0, 0.0), Vec3(1.0, -1.0, 0.0)
+    )
     assert result == pytest.approx(Vec3(0.0, 0.0, 1.0), abs=1e-3)

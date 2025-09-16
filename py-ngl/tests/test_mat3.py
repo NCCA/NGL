@@ -1,4 +1,4 @@
-import mat3Data   # this is generated from the julia file gen_mat4_tests.jl
+import mat3Data  # this is generated from the julia file gen_mat4_tests.jl
 import pytest
 
 from ngl import Mat3, Mat3Error, Mat3NotSquare

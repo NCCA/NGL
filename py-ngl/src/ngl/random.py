@@ -128,7 +128,9 @@ class Random:
         return v
 
     @staticmethod
-    def get_random_point(x_range: float = 1.0, y_range: float = 1.0, z_range: float = 1.0) -> Vec3:
+    def get_random_point(
+        x_range: float = 1.0, y_range: float = 1.0, z_range: float = 1.0
+    ) -> Vec3:
         """get a random point in 3D space defaults to +/- 1 else user defined range
         Args:
             x_range (float): the +/-x range

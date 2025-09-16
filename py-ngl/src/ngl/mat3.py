@@ -406,17 +406,35 @@ class Mat3:
             invdet = 1 / det
             tmp = Mat3()
             # minor matrix + co-factor
-            tmp.m[0][0] = +(self.m[1][1] * self.m[2][2] - self.m[1][2] * self.m[2][1]) * invdet
-            tmp.m[1][0] = -(self.m[1][0] * self.m[2][2] - self.m[1][2] * self.m[2][0]) * invdet
-            tmp.m[2][0] = +(self.m[1][0] * self.m[2][1] - self.m[1][1] * self.m[2][0]) * invdet
+            tmp.m[0][0] = (
+                +(self.m[1][1] * self.m[2][2] - self.m[1][2] * self.m[2][1]) * invdet
+            )
+            tmp.m[1][0] = (
+                -(self.m[1][0] * self.m[2][2] - self.m[1][2] * self.m[2][0]) * invdet
+            )
+            tmp.m[2][0] = (
+                +(self.m[1][0] * self.m[2][1] - self.m[1][1] * self.m[2][0]) * invdet
+            )
 
-            tmp.m[0][1] = -(self.m[0][1] * self.m[2][2] - self.m[0][2] * self.m[2][1]) * invdet
-            tmp.m[1][1] = +(self.m[0][0] * self.m[2][2] - self.m[0][2] * self.m[2][0]) * invdet
-            tmp.m[2][1] = -(self.m[0][0] * self.m[2][1] - self.m[0][1] * self.m[2][0]) * invdet
+            tmp.m[0][1] = (
+                -(self.m[0][1] * self.m[2][2] - self.m[0][2] * self.m[2][1]) * invdet
+            )
+            tmp.m[1][1] = (
+                +(self.m[0][0] * self.m[2][2] - self.m[0][2] * self.m[2][0]) * invdet
+            )
+            tmp.m[2][1] = (
+                -(self.m[0][0] * self.m[2][1] - self.m[0][1] * self.m[2][0]) * invdet
+            )
 
-            tmp.m[0][2] = +(self.m[0][1] * self.m[1][2] - self.m[0][2] * self.m[1][1]) * invdet
-            tmp.m[1][2] = -(self.m[0][0] * self.m[1][2] - self.m[0][2] * self.m[1][0]) * invdet
-            tmp.m[2][2] = +(self.m[0][0] * self.m[1][1] - self.m[0][1] * self.m[1][0]) * invdet
+            tmp.m[0][2] = (
+                +(self.m[0][1] * self.m[1][2] - self.m[0][2] * self.m[1][1]) * invdet
+            )
+            tmp.m[1][2] = (
+                -(self.m[0][0] * self.m[1][2] - self.m[0][2] * self.m[1][0]) * invdet
+            )
+            tmp.m[2][2] = (
+                +(self.m[0][0] * self.m[1][1] - self.m[0][1] * self.m[1][0]) * invdet
+            )
 
             return tmp
         except ZeroDivisionError:
@@ -433,14 +451,16 @@ class Mat3:
     @classmethod
     def from_mat4(cls, mat4):
         """Create a Mat3 from a Mat4"""
-        return Mat3.from_list([
-            mat4.m[0][0],
-            mat4.m[0][1],
-            mat4.m[0][2],
-            mat4.m[1][0],
-            mat4.m[1][1],
-            mat4.m[1][2],
-            mat4.m[2][0],
-            mat4.m[2][1],
-            mat4.m[2][2],
-        ])
+        return Mat3.from_list(
+            [
+                mat4.m[0][0],
+                mat4.m[0][1],
+                mat4.m[0][2],
+                mat4.m[1][0],
+                mat4.m[1][1],
+                mat4.m[1][2],
+                mat4.m[2][0],
+                mat4.m[2][1],
+                mat4.m[2][2],
+            ]
+        )

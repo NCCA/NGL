@@ -64,18 +64,6 @@ class Mat4:
         return v
 
     @classmethod
-    def zero(cls):
-        "class method to return a zero matrix"
-        v = Mat4()
-        v.m = [
-            [0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0, 0.0],
-        ]
-        return v
-
-    @classmethod
     def from_list(cls, lst):
         "class method to create mat4 from list"
         v = Mat4()

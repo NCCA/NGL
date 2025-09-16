@@ -1,6 +1,7 @@
 """
 Note opengl_context created once in conftest.py
 """
+
 from ngl import ShaderLib
 
 sourcedir = "tests/files/"

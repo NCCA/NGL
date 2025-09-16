@@ -177,10 +177,22 @@ class Vec4:
     def __matmul__(self, rhs):
         "Vec4 @ Mat4 matrix multiplication"
         return Vec4(
-            self.x * rhs.m[0][0] + self.y * rhs.m[1][0] + self.z * rhs.m[2][0] + self.w * rhs.m[3][0],
-            self.x * rhs.m[0][1] + self.y * rhs.m[1][1] + self.z * rhs.m[2][1] + self.w * rhs.m[3][1],
-            self.x * rhs.m[0][2] + self.y * rhs.m[1][2] + self.z * rhs.m[2][2] + self.w * rhs.m[3][2],
-            self.x * rhs.m[0][3] + self.y * rhs.m[1][3] + self.z * rhs.m[2][3] + self.w * rhs.m[3][3],
+            self.x * rhs.m[0][0]
+            + self.y * rhs.m[1][0]
+            + self.z * rhs.m[2][0]
+            + self.w * rhs.m[3][0],
+            self.x * rhs.m[0][1]
+            + self.y * rhs.m[1][1]
+            + self.z * rhs.m[2][1]
+            + self.w * rhs.m[3][1],
+            self.x * rhs.m[0][2]
+            + self.y * rhs.m[1][2]
+            + self.z * rhs.m[2][2]
+            + self.w * rhs.m[3][2],
+            self.x * rhs.m[0][3]
+            + self.y * rhs.m[1][3]
+            + self.z * rhs.m[2][3]
+            + self.w * rhs.m[3][3],
         )
 
     def __repr__(self):

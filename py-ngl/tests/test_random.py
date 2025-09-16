@@ -1,4 +1,4 @@
-import random as pyrandom
+import random
 
 from ngl.random import Random
 
@@ -63,15 +63,13 @@ def test_random_positive_number_param():
 
 def test_add_int_generator():
     Random.set_seed()
-    dist = lambda: pyrandom.randint(-100, 100)
-    Random.add_int_generator("test", dist)
+    Random.add_int_generator("test", lambda: random.randint(-100, 100))
     test = Random.get_int_from_generator_name("test")
     assert -100 <= test <= 100
 
 
 def test_add_float_generator():
     Random.set_seed()
-    dist = lambda: pyrandom.uniform(0.0, 5.0)
-    Random.add_float_generator("test", dist)
+    Random.add_float_generator("test", lambda: random.uniform(0.0, 5.0))
     test = Random.get_float_from_generator_name("test")
     assert 0.0 <= test <= 5.0

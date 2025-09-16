@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+
 from ngl import Image, ImageModes
 
 
@@ -37,8 +38,8 @@ def test_create_simple_image_rgba(tmp_path):
 
 def test_load_save_fail():
     loaded_img = Image()
-    assert loaded_img.load("notthere") == False
-    assert loaded_img.save("/") == False
+    assert not loaded_img.load("notthere")
+    assert not loaded_img.save("/")
 
 
 def test_create_simple_image_rgb(tmp_path):
