@@ -263,6 +263,7 @@ class Vec3:
             raise ZeroDivisionError(
                 f"Vec3.normalize {vector_length} length is zero most likely calling normalize on a zero vector"
             )
+        return self
 
     def reflect(self, n):
         """

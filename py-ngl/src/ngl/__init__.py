@@ -25,7 +25,7 @@ from .simple_vao import SimpleVAO
 from .text import Text
 from .texture import Texture
 from .transform import Transform, TransformRotationOrder
-from .util import clamp, lerp, look_at, ortho, perspective
+from .util import calc_normal, clamp, lerp, look_at, ortho, perspective
 from .vao_factory import VAOFactory
 from .vec2 import Vec2
 from .Vec2Array import Vec2Array
@@ -79,4 +79,5 @@ all = [
     TransformRotationOrder,
     Random,
     Text,
+    calc_normal,
 ]

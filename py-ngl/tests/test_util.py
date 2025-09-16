@@ -1,6 +1,6 @@
 import pytest
 
-from ngl import Mat4, Vec3, clamp, lerp, look_at, ortho, perspective
+from ngl import Mat4, Vec3, calc_normal, clamp, lerp, look_at, ortho, perspective
 
 
 def test_clamp():
@@ -56,3 +56,8 @@ def test_ortho():
     # fmt: on
 
     assert project.to_list() == pytest.approx(result.to_list(), abs=1e-3)
+
+
+def test_calc_normal():
+    result = calc_normal(Vec3(-1.0, -1.0, 0.0), Vec3(0.0, 0.0, 0.0), Vec3(1.0, -1.0, 0.0))
+    assert result == pytest.approx(Vec3(0.0, 0.0, 1.0), abs=1e-3)

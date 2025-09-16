@@ -75,3 +75,14 @@ def test_to_numpy():
     a = Vec3Array()
     n = a.to_numpy()
     assert n.shape == (0,)
+
+def test_extend():
+    """Test the extend method"""
+    a = Vec3Array()
+    v = [Vec3(1, 2, 3), Vec3(4, 5, 6)]
+    a.extend(v)
+    assert len(a) == 2
+    assert a[0] == Vec3(1, 2, 3)
+    assert a[1] == Vec3(4, 5, 6)
+    with pytest.raises(TypeError):
+        a.extend(["not a vec3"])

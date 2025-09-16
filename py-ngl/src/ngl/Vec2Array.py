@@ -61,6 +61,17 @@ class Vec2Array:
             raise TypeError("Only Vec2 objects can be appended")
         self._data.append(value)
 
+    def extend(self, values):
+        """
+        Extend the array with a list of Vec2 objects.
+
+        Args:
+            values (list): A list of Vec2 objects to extend.
+        """
+        if not all(isinstance(v, Vec2) for v in values):
+            raise TypeError("All elements must be of type Vec2")
+        self._data.extend(values)
+
     def to_list(self):
         """
         Convert the array of Vec2 objects to a single flat list of floats.

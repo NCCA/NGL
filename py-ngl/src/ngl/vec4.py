@@ -5,6 +5,8 @@ Simple Float only Vec3 class for 3D graphics, very similar to the pyngl ones
 import math
 
 import numpy as np
+
+
 class Vec4:
     __slots__ = ["_x", "_y", "_z", "_w"]
     "by using slots we fix our class attributes to x,y,z,w"
@@ -131,6 +133,7 @@ class Vec4:
             self.w /= length
         except ZeroDivisionError:
             raise ZeroDivisionError("cannot normalize the zero vector")
+        return self
 
     def __eq__(self, rhs):
         "test a==b using math.isclose"
@@ -193,6 +196,7 @@ class Vec4:
 
     def to_numpy(self):
         return np.array([self.x, self.y, self.z, self.w])
+
 
 # Helper function to create properties
 def _create_property(attr_name):

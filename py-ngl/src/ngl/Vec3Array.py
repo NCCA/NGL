@@ -61,6 +61,21 @@ class Vec3Array:
             raise TypeError("Only Vec3 objects can be appended")
         self._data.append(value)
 
+    def extend(self, values):
+        """
+        Extend the array by appending elements from the iterable.
+
+        Args:
+            values (iterable): An iterable of Vec3 objects to append.
+
+        Raises:
+            TypeError: If any element in values is not a Vec3.
+        """
+        for v in values:
+            if not isinstance(v, Vec3):
+                raise TypeError("All elements must be of type Vec3")
+            self._data.append(v)
+
     def to_list(self):
         """
         Convert the array of Vec3 objects to a single flat list of floats.

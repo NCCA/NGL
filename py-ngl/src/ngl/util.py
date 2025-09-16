@@ -86,3 +86,9 @@ def frustum(left, right, bottom, top, near, far):
 
 def lerp(a, b, t):
     return a + (b - a) * t
+
+
+def calc_normal(v1, v2, v3):
+    from .vec3 import Vec3
+
+    return Vec3.cross(v3 - v1, v2 - v1).normalize()

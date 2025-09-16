@@ -61,6 +61,17 @@ class Vec4Array:
             raise TypeError("Only Vec4 objects can be appended")
         self._data.append(value)
 
+    def extend(self, values):
+        """
+        Extend the array with a list of Vec4 objects.
+
+        Args:
+            values (list): A list of Vec4 objects to extend.
+        """
+        if not all(isinstance(v, Vec4) for v in values):
+            raise TypeError("All elements must be of type Vec4")
+        self._data.extend(values)
+
     def to_list(self):
         """
         Convert the array of Vec4 objects to a single flat list of floats.

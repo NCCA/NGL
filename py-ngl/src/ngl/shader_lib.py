@@ -28,11 +28,13 @@ class _ShaderLib:
         vert_shader = Shader(f"{name}Vertex", ShaderType.VERTEX.value, exit_on_error)
         vert_shader.load(vert)
         if not vert_shader.compile():
+            print(f"Failed to compile vertex shader for {name}")
             return False
 
         frag_shader = Shader(f"{name}Fragment", ShaderType.FRAGMENT.value, exit_on_error)
         frag_shader.load(frag)
         if not frag_shader.compile():
+            print(f"Failed to compile fragment shader for {name}")
             return False
 
         program.attach_shader(vert_shader)
@@ -42,10 +44,12 @@ class _ShaderLib:
             geo_shader = Shader(f"{name}Geometry", ShaderType.GEOMETRY.value, exit_on_error)
             geo_shader.load(geo)
             if not geo_shader.compile():
+                print(f"Failed to compile geometry shader for {name}")
                 return False
             program.attach_shader(geo_shader)
 
         if not program.link():
+            print(f"Failed to link shader program for {name}")
             return False
 
         self._shader_programs[name] = program

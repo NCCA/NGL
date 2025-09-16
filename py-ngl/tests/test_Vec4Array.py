@@ -28,6 +28,18 @@ def test_append():
         a.append("not a vec4")
 
 
+def test_extend():
+    """Test the extend method"""
+    a = Vec4Array()
+    v = [Vec4(1, 2, 3, 4), Vec4(5, 6, 7, 8)]
+    a.extend(v)
+    assert len(a) == 2
+    assert a[0] == Vec4(1, 2, 3, 4)
+    assert a[1] == Vec4(5, 6, 7, 8)
+    with pytest.raises(TypeError):
+        a.extend(["not a vec4"])
+
+
 def test_getitem():
     """Test the __getitem__ method"""
     v = [Vec4(1, 2, 3, 4), Vec4(5, 6, 7, 8)]

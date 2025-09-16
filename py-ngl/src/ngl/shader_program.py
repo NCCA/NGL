@@ -142,3 +142,11 @@ class ShaderProgram:
             gl.glGetUniformfv(self._id, loc, result)
             return list(result)
         return [0.0] * 16
+
+    def get_uniform_mat4x3(self, name: str) -> list[float]:
+        loc = self.get_uniform_location(name)
+        if loc != -1:
+            result = (ctypes.c_float * 12)()
+            gl.glGetUniformfv(self._id, loc, result)
+            return list(result)
+        return [0.0] * 12
