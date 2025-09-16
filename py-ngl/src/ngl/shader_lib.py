@@ -53,7 +53,9 @@ class _ShaderLib:
 
     def use(self, name: str):
         if not self._default_shaders_loaded:
+            print("Default shaders not loaded")
             self._load_default_shaders()
+
         if name in self._shader_programs:
             self._shader_programs[name].use()
             self._current_shader = name
@@ -154,18 +156,14 @@ class _ShaderLib:
     def _load_default_shaders(self):
         shader_folder = Path(__file__).parent / "shaders"
 
-        self.load_shader(
+        if self.load_shader(
             "nglColourShader", shader_folder / "colour_vertex.glsl", shader_folder / "colour_fragment.glsl"
-        )
-
-    def _load_shader_source_from_string(self, shader_name: str, shader_source: str):
-        self._shaders[shader_name].load_shader_source_from_string(shader_source)
-
-
-# linkProgramObject("nglDiffuseShader");
-# use("nglDiffuseShader");
-# autoRegisterUniforms("nglDiffuseShader");
-# use("NULL");
+        ):
+            print("Colour shader loaded successfully")
+        if self.load_shader("nglTextShader", shader_folder / "text_vertex.glsl", shader_folder / "text_fragment.glsl"):
+            print("Text shader loaded successfully")
+        # self.load_shader("nglDiffuseShader", shader_folder / "diffuse_vertex.glsl", shader_folder / "diffuse_fragment.glsl")
+        self._default_shaders_loaded = True
 
 
 ShaderLib = _ShaderLib()

@@ -16,18 +16,23 @@ from .obj import (
 )
 from .plane import Plane
 from .quaternion import Quaternion
+from .random import Random
 from .shader import MatrixTranspose, Shader, ShaderType
 from .shader_lib import ShaderLib
 from .shader_program import ShaderProgram
 from .simple_index_vao import IndexVertexData, SimpleIndexVAO
 from .simple_vao import SimpleVAO
+from .text import Text
 from .texture import Texture
 from .transform import Transform, TransformRotationOrder
-from .util import clamp, lerp, look_at, perspective
+from .util import clamp, lerp, look_at, ortho, perspective
 from .vao_factory import VAOFactory
 from .vec2 import Vec2
+from .Vec2Array import Vec2Array
 from .vec3 import Vec3
+from .Vec3Array import Vec3Array
 from .vec4 import Vec4
+from .Vec4Array import Vec4Array
 
 all = [
     AbstractVAO,
@@ -58,6 +63,9 @@ all = [
     Vec2,
     Vec3,
     Vec4,
+    Vec3Array,
+    Vec2Array,
+    Vec4Array,
     ObjParseVertexError,
     ObjParseNormalError,
     ObjParseUVError,
@@ -66,6 +74,9 @@ all = [
     lerp,
     look_at,
     perspective,
+    ortho,
     Transform,
     TransformRotationOrder,
+    Random,
+    Text,
 ]

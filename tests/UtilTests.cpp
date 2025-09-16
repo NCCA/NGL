@@ -77,6 +77,7 @@ TEST(Util,ortho)
 {
   auto orthNGL= ngl::ortho(-1.0f, 1.0f, -1.0f,1.0f,1.0f,-1.0f) ;
   auto orthGLM= glm::ortho(-1.0f, 1.0f, -1.0f,1.0f,1.0f,-1.0f) ;
+  std::cout<<"Ortho"<<orthNGL;
   EXPECT_TRUE(ngl::Mat4(orthGLM)==orthNGL);
 }
 

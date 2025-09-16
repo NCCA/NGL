@@ -5,6 +5,8 @@ Most of these functions are based on functions found in other libraries such as 
 
 import math
 
+from .mat4 import Mat4
+
 
 def clamp(num, low, high):
     "clamp to range min and max will throw ValueError is low>=high"
@@ -13,38 +15,10 @@ def clamp(num, low, high):
     return max(min(num, high), low)
 
 
-"""
-Vec3 n =   _center-_eye;
-Vec3 u = _up;
-Vec3 v = n.cross(u);
-u = v.cross(n);
-n.normalize();
-v.normalize();
-u.normalize();
-
-Mat4 result(1.0f);
-result.m_00= v.m_x;
-result.m_10= v.m_y;
-result.m_20= v.m_z;
-result.m_01= u.m_x;
-result.m_11= u.m_y;
-result.m_21= u.m_z;
-result.m_02=-n.m_x;
-result.m_12=-n.m_y;
-result.m_22=-n.m_z;
-result.m_30=-_eye.dot(v);
-result.m_31=-_eye.dot(u);
-result.m_32= _eye.dot(n);
-return result;
-
-"""
-
-
 def look_at(eye, look, up):
     """
     Calculate 4x4 matrix for camera lookAt
     """
-    from .mat4 import Mat4
 
     n = look - eye
     u = up
@@ -71,8 +45,6 @@ def look_at(eye, look, up):
 
 
 def perspective(fov, aspect, near, far):
-    from .mat4 import Mat4
-
     m = Mat4.zero()  # as per glm
     _range = math.tan(math.radians(fov / 2.0)) * near
     left = -_range * aspect
@@ -81,6 +53,31 @@ def perspective(fov, aspect, near, far):
     top = _range
     m.m[0][0] = (2.0 * near) / (right - left)
     m.m[1][1] = (2.0 * near) / (top - bottom)
+    m.m[2][2] = -(far + near) / (far - near)
+    m.m[2][3] = -1.0
+    m.m[3][2] = -(2.0 * far * near) / (far - near)
+    return m
+
+
+def ortho(left, right, bottom, top, near, far):
+    """Create an orthographic projection matrix."""
+    m = Mat4.identity()
+    m.m[0][0] = 2.0 / (right - left)
+    m.m[1][1] = 2.0 / (top - bottom)
+    m.m[2][2] = -2.0 / (far - near)
+    m.m[3][0] = -(right + left) / (right - left)
+    m.m[3][1] = -(top + bottom) / (top - bottom)
+    m.m[3][2] = -(far + near) / (far - near)
+    return m
+
+
+def frustum(left, right, bottom, top, near, far):
+    """Create a frustum projection matrix."""
+    m = Mat4.zero()
+    m.m[0][0] = (2.0 * near) / (right - left)
+    m.m[1][1] = (2.0 * near) / (top - bottom)
+    m.m[2][0] = (right + left) / (right - left)
+    m.m[2][1] = (top + bottom) / (top - bottom)
     m.m[2][2] = -(far + near) / (far - near)
     m.m[2][3] = -1.0
     m.m[3][2] = -(2.0 * far * near) / (far - near)

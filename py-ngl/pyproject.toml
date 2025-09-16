@@ -9,6 +9,7 @@ dependencies = [
     "PyOpenGL",
     "Pillow",
     "glfw>=2.9.0",
+    "freetype-py>=2.5.1",
 ]
 
 

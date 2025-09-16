@@ -1,6 +1,6 @@
 import pytest
 
-from ngl import Mat4, Vec3, clamp, lerp, look_at, perspective
+from ngl import Mat4, Vec3, clamp, lerp, look_at, ortho, perspective
 
 
 def test_clamp():
@@ -42,6 +42,17 @@ def test_perspective():
     project = perspective(fov, aspect, near, far)
     # fmt: off
     result=Mat4.from_list([1.69749,0,0,0,0,2.41421,0,0,0,0,-1.00401,-1,0,0,-0.0400802,0])
+    # fmt: on
+
+    assert project.to_list() == pytest.approx(result.to_list(), abs=1e-3)
+
+
+def test_ortho():
+    project = ortho(-1.0, 1.0, -1.0, 1.0, 1.0, -1.0)
+    # fmt: off
+
+    result=Mat4.from_list([+1.000000,+0.000000,+0.000000,-0.000000,+0.000000,+1.000000,+0.000000,-0.000000,+0.000000,+0.000000,+1.000000,+0.000000,+0.000000,+0.000000,+0.000000,+1.000000])
+
     # fmt: on
 
     assert project.to_list() == pytest.approx(result.to_list(), abs=1e-3)
