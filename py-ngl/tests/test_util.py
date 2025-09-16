@@ -30,13 +30,18 @@ def test_look_at():
     # fmt: off
     result=Mat4.from_list([0.7071067811865475, -0.4082482904638631, 0.5773502691896258 ,0.0, 0.0, 0.8164965809277261, 0.5773502691896258, 0.0, -0.7071067811865475, -0.4082482904638631, 0.5773502691896258 ,0.0, -0.0, -0.0, -3.4641016151377553, 1.0])
     # fmt: on
-    assert view == pytest.approx(result,abs=1e-3)
+    assert view.to_list() == pytest.approx(result.to_list(), abs=1e-3)
 
 
 def test_perspective():
-    project = perspective(45.0, 1.0, 0.1, 100)
+    # (1.69749,0,0,0,0,2.41421,0,0,0,0,-1.00401,-1,0,0,-0.0400802,0)
+    fov = 45.0
+    near = 0.02
+    far = 10.0
+    aspect = 1024.0 / 720.0
+    project = perspective(fov, aspect, near, far)
     # fmt: off
-    result=Mat4.from_list([2.4142135623730954, 0.0, 0.0, 0.0, 0.0 ,2.414213562373095, 0.0 ,0.0,0.0 ,0.0, -1.002002002002002, -1.0, 0.0, 0.0, -0.20020020020020018, 0.0])
+    result=Mat4.from_list([1.69749,0,0,0,0,2.41421,0,0,0,0,-1.00401,-1,0,0,-0.0400802,0])
     # fmt: on
 
-    assert project == pytest.approx(result,abs=1e-3)
+    assert project.to_list() == pytest.approx(result.to_list(), abs=1e-3)

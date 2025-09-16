@@ -249,3 +249,10 @@ def test_strings():
     a = Mat4.identity()
     assert str(a) == "[[1.0, 0.0, 0.0, 0.0]\n[0.0, 1.0, 0.0, 0.0]\n[0.0, 0.0, 1.0, 0.0]\n[0.0, 0.0, 0.0, 1.0]]"
     assert repr(a) == "Mat4([[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]])"
+
+def test_ngl() :
+    t1 = Mat4.rotate_x(45.0)
+    t2 = Mat4.rotate_y(35.0)
+    test = t2 @ t1
+    result=Mat4.from_list([0.819152, 0, -0.573577, 0, 0.40558, 0.707107, 0.579228, 0, 0.40558, -0.707107, 0.579228, 0, 0, 0, 0, 1])
+    assert test.to_list() == pytest.approx(result.to_list() , abs=1e-3)

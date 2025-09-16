@@ -95,7 +95,8 @@ class Mat4:
 
     def to_list(self):
         "convert matrix to list"
-        return [row for row in self.m]
+        # flatten to single array
+        return functools.reduce(operator.concat, self.m)
 
     def transpose(self):
         "transpose this matrix"

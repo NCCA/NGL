@@ -19,34 +19,34 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
     }// end of int / bool
     else if constexpr(std::is_same<Ts,Mat2&>::value)
     {
-        glUniformMatrix2fv(uniform->second.loc, 1, gl.GL_TRUE, &arg.m_openGL[0]);
+        glUniformMatrix2fv(uniform->second.loc, 1, GL_TRUE, &arg.m_openGL[0]);
         return true;
     } // end of mat2
 
     else if constexpr(std::is_same<Ts,Mat3&>::value)
     {
-        glUniformMatrix3fv(uniform->second.loc, 1, gl.GL_TRUE, &arg.m_openGL[0]);
+        glUniformMatrix3fv(uniform->second.loc, 1, GL_TRUE, &arg.m_openGL[0]);
         return true;
     } // end of mat3
     else if constexpr(std::is_same<Ts,Mat4&>::value)
     {
-        glUniformMatrix4fv(uniform->second.loc, 1, gl.GL_TRUE, &arg.m_openGL[0]);
+        glUniformMatrix4fv(uniform->second.loc, 1, GL_TRUE, &arg.m_openGL[0]);
         return true;
     } // end of mat4
     #ifdef USEGLM
     else if constexpr(std::is_same<Ts,glm::mat2&>::value)
     {
-        glUniformMatrix2fv(uniform->second.loc, 1, gl.GL_TRUE, &arg[0][0]);
+        glUniformMatrix2fv(uniform->second.loc, 1, GL_TRUE, &arg[0][0]);
         return true;
     } // end of glmmat2
     else if constexpr(std::is_same<Ts,glm::mat3&>::value)
     {
-        glUniformMatrix3fv(uniform->second.loc, 1, gl.GL_TRUE, &arg[0][0]);
+        glUniformMatrix3fv(uniform->second.loc, 1, GL_TRUE, &arg[0][0]);
         return true;
     } // end of glmmat3
     else if constexpr(std::is_same<Ts,glm::mat4&>::value)
     {
-        glUniformMatrix4fv(uniform->second.loc, 1, gl.GL_TRUE, &arg[0][0]);
+        glUniformMatrix4fv(uniform->second.loc, 1, GL_TRUE, &arg[0][0]);
         return true;
     } // end of glmmat2
     #endif
@@ -89,17 +89,17 @@ bool ShaderProgram::setRegisteredUniform(std::string_view _varname ,Ts &&arg ) c
     {
       if(arg.size() == 4)
       {
-        glUniformMatrix2fv(uniform->second.loc, 1, gl.GL_TRUE, &arg[0]);
+        glUniformMatrix2fv(uniform->second.loc, 1, GL_TRUE, &arg[0]);
         return true;
       }
       else if (arg.size() == 9)
       {
-        glUniformMatrix3fv(uniform->second.loc, 1, gl.GL_TRUE, &arg[0]);
+        glUniformMatrix3fv(uniform->second.loc, 1, GL_TRUE, &arg[0]);
         return true;
       }
       else if (arg.size() == 16)
       {
-        glUniformMatrix4fv(uniform->second.loc, 1, gl.GL_TRUE, &arg[0]);
+        glUniformMatrix4fv(uniform->second.loc, 1, GL_TRUE, &arg[0]);
         return true;
       }
     }

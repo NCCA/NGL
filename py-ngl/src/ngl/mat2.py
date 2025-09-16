@@ -1,7 +1,9 @@
 import copy
 import functools
 import operator
+
 from .vec2 import Vec2
+
 
 class Mat2Error(Exception):
     pass
@@ -21,15 +23,21 @@ class Mat2:
             m (list): A 2D list representing the matrix.
                         If not provided, an identity matrix is created.
         """
-        self.m = copy.deepcopy(_identity) if m is None else m
+        if m is None:
+            self.m = copy.deepcopy(_identity)
+        elif isinstance(m, list) and len(m) == 4 and not isinstance(m[0], list):
+            self.m = [m[0:2], m[2:4]]
+        else:
+            self.m = m
 
-    def get_matrix(self) -> list[list[float]]:
+    def get_matrix(self) -> list[float]:
         """
-        Get the current matrix representation.
+        Get the current matrix representation as a flat list in column-major order.
 
         Returns:
-            list: A 2D list representing the matrix.
+            list[float]: A flat list of floats.
         """
+        # return [item for sublist in zip(*self.m) for item in sublist]
         return functools.reduce(operator.concat, self.m)
 
     def get_numpy(self):
@@ -62,7 +70,8 @@ class Mat2:
         Args:
             rhs (Mat2 | Vec2): The right-hand side operand.
                                 If Mat2, perform matrix multiplication.
-                                If Vec2, transform the vector by the matrix.
+                                If Vec2, transform the vec
+                                r by the matrix.
 
         Returns:
             Mat2: Resulting matrix from matrix multiplication.
@@ -105,3 +114,8 @@ class Mat2:
             str: The string representation.
         """
         return f"Mat2({self.m[0]}, {self.m[1]})"
+
+    def to_list(self):
+        "convert matrix to list in column-major order"
+        # flatten to single array
+        return [item for sublist in zip(*self.m) for item in sublist]

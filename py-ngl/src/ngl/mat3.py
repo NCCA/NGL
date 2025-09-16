@@ -396,7 +396,8 @@ class Mat3:
 
     def to_list(self):
         "convert matrix to list"
-        return [row for row in self.m]
+        # flatten to single array
+        return functools.reduce(operator.concat, self.m)
 
     def inverse(self):
         "Inverse of matrix raise MatrixError if not calculable"
@@ -405,35 +406,17 @@ class Mat3:
             invdet = 1 / det
             tmp = Mat3()
             # minor matrix + co-factor
-            tmp.m[0][0] = (
-                +(self.m[1][1] * self.m[2][2] - self.m[1][2] * self.m[2][1]) * invdet
-            )
-            tmp.m[1][0] = (
-                -(self.m[1][0] * self.m[2][2] - self.m[1][2] * self.m[2][0]) * invdet
-            )
-            tmp.m[2][0] = (
-                +(self.m[1][0] * self.m[2][1] - self.m[1][1] * self.m[2][0]) * invdet
-            )
+            tmp.m[0][0] = +(self.m[1][1] * self.m[2][2] - self.m[1][2] * self.m[2][1]) * invdet
+            tmp.m[1][0] = -(self.m[1][0] * self.m[2][2] - self.m[1][2] * self.m[2][0]) * invdet
+            tmp.m[2][0] = +(self.m[1][0] * self.m[2][1] - self.m[1][1] * self.m[2][0]) * invdet
 
-            tmp.m[0][1] = (
-                -(self.m[0][1] * self.m[2][2] - self.m[0][2] * self.m[2][1]) * invdet
-            )
-            tmp.m[1][1] = (
-                +(self.m[0][0] * self.m[2][2] - self.m[0][2] * self.m[2][0]) * invdet
-            )
-            tmp.m[2][1] = (
-                -(self.m[0][0] * self.m[2][1] - self.m[0][1] * self.m[2][0]) * invdet
-            )
+            tmp.m[0][1] = -(self.m[0][1] * self.m[2][2] - self.m[0][2] * self.m[2][1]) * invdet
+            tmp.m[1][1] = +(self.m[0][0] * self.m[2][2] - self.m[0][2] * self.m[2][0]) * invdet
+            tmp.m[2][1] = -(self.m[0][0] * self.m[2][1] - self.m[0][1] * self.m[2][0]) * invdet
 
-            tmp.m[0][2] = (
-                +(self.m[0][1] * self.m[1][2] - self.m[0][2] * self.m[1][1]) * invdet
-            )
-            tmp.m[1][2] = (
-                -(self.m[0][0] * self.m[1][2] - self.m[0][2] * self.m[1][0]) * invdet
-            )
-            tmp.m[2][2] = (
-                +(self.m[0][0] * self.m[1][1] - self.m[0][1] * self.m[1][0]) * invdet
-            )
+            tmp.m[0][2] = +(self.m[0][1] * self.m[1][2] - self.m[0][2] * self.m[1][1]) * invdet
+            tmp.m[1][2] = -(self.m[0][0] * self.m[1][2] - self.m[0][2] * self.m[1][0]) * invdet
+            tmp.m[2][2] = +(self.m[0][0] * self.m[1][1] - self.m[0][1] * self.m[1][0]) * invdet
 
             return tmp
         except ZeroDivisionError:

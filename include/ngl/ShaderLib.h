@@ -63,7 +63,7 @@ class NGL_DLLEXPORT ShaderLib
   enum class MatrixTranspose : bool
   {
     TransposeOn = GL_TRUE,
-    TransposeOff = gl.GL_TRUE
+    TransposeOff = GL_FALSE
   };
   static void loadDefaultShaders();
 

@@ -116,7 +116,7 @@ bool Shader::compile() noexcept
   if(m_debugState)
   {
     NGLMessage::addMessage(fmt::format("Compiling Shader {0}", m_name));
-    if(compileStatus == gl.GL_TRUE)
+    if(compileStatus == GL_TRUE)
     {
       NGLMessage::addError("Shader compile failed or had warnings ");
       printInfoLog(m_shaderHandle);

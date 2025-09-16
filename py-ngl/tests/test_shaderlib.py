@@ -1,5 +1,4 @@
 import glfw
-import numpy as np
 import OpenGL.GL as gl
 import pytest
 
@@ -152,22 +151,22 @@ def test_set_uniform(opengl_context):
     assert result[2] == pytest.approx(-22.2)
     assert result[3] == pytest.approx(1230.4)
 
-    mat = Mat2()
+    mat = Mat2([1.0, 2.0, 3.0, 4.0])
     ShaderLib.set_uniform("testMat2", mat.to_list())
     result = ShaderLib.get_uniform_mat2("testMat2")
-    assert np.array_equal(result, mat.to_list())
+    assert result == mat.to_list()
 
-    mat = Mat3()
+    mat = Mat3.from_list([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0])
     ShaderLib.set_uniform("testMat3", mat.to_list())
     result = ShaderLib.get_uniform_mat3("testMat3")
-    print(result)
-    print(mat)
-    assert np.array_equal(result, mat.get_numpy())
+    # assert np.array_equal(result, mat.get_numpy())
+    assert result == mat.to_list()
 
-    mat = Mat4()
+    mat = Mat4.from_list([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0])
     ShaderLib.set_uniform("testMat4", mat.to_list())
     result = ShaderLib.get_uniform_mat4("testMat4")
-    assert np.array_equal(result, mat.to_list())
+    # assert np.array_equal(result, mat.to_list())
+    assert result == mat.to_list()
 
 
 def test_edit_shader(opengl_context):

@@ -4,8 +4,8 @@ from .bbox import BBox
 from .bezier_curve import BezierCurve
 from .image import Image, ImageModes
 from .mat2 import Mat2
-from .mat3 import Mat3,Mat3Error,Mat3NotSquare
-from .mat4 import Mat4,Mat4Error,Mat4NotSquare
+from .mat3 import Mat3, Mat3Error, Mat3NotSquare
+from .mat4 import Mat4, Mat4Error, Mat4NotSquare
 from .multi_buffer_vao import MultiBufferVAO
 from .obj import (
     Obj,
@@ -16,11 +16,13 @@ from .obj import (
 )
 from .plane import Plane
 from .quaternion import Quaternion
-from .shader import MatrixTranspose, Shader, ShaderProgram, ShaderType
+from .shader import MatrixTranspose, Shader, ShaderType
 from .shader_lib import ShaderLib
+from .shader_program import ShaderProgram
 from .simple_index_vao import IndexVertexData, SimpleIndexVAO
 from .simple_vao import SimpleVAO
 from .texture import Texture
+from .transform import Transform, TransformRotationOrder
 from .util import clamp, lerp, look_at, perspective
 from .vao_factory import VAOFactory
 from .vec2 import Vec2
@@ -64,4 +66,6 @@ all = [
     lerp,
     look_at,
     perspective,
+    Transform,
+    TransformRotationOrder,
 ]

@@ -4,7 +4,8 @@ from pathlib import Path
 
 import OpenGL.GL as gl
 
-from .shader import Shader, ShaderProgram, ShaderType
+from .shader import Shader, ShaderType
+from .shader_program import ShaderProgram
 
 
 class _ShaderLib:

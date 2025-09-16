@@ -13,6 +13,33 @@ def clamp(num, low, high):
     return max(min(num, high), low)
 
 
+"""
+Vec3 n =   _center-_eye;
+Vec3 u = _up;
+Vec3 v = n.cross(u);
+u = v.cross(n);
+n.normalize();
+v.normalize();
+u.normalize();
+
+Mat4 result(1.0f);
+result.m_00= v.m_x;
+result.m_10= v.m_y;
+result.m_20= v.m_z;
+result.m_01= u.m_x;
+result.m_11= u.m_y;
+result.m_21= u.m_z;
+result.m_02=-n.m_x;
+result.m_12=-n.m_y;
+result.m_22=-n.m_z;
+result.m_30=-_eye.dot(v);
+result.m_31=-_eye.dot(u);
+result.m_32= _eye.dot(n);
+return result;
+
+"""
+
+
 def look_at(eye, look, up):
     """
     Calculate 4x4 matrix for camera lookAt
@@ -20,11 +47,13 @@ def look_at(eye, look, up):
     from .mat4 import Mat4
 
     n = look - eye
-    v = n.cross(up)
+    u = up
+    v = n.cross(u)
     u = v.cross(n)
     n.normalize()
     v.normalize()
     u.normalize()
+
     result = Mat4.identity()
     result.m[0][0] = v.x
     result.m[1][0] = v.y
