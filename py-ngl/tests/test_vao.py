@@ -5,11 +5,11 @@ Note opengl_context created once in conftest.py
 import OpenGL.GL as gl
 import pytest
 
-from ngl import IndexVertexData, VAOFactory, VertexData
+from ngl import IndexVertexData, VAOFactory, VAOType, VertexData
 
 
 def test_vao_factory(opengl_context):
-    for vao_type in ["simpleVAO", "multiBufferVAO", "simpleIndexVAO"]:
+    for vao_type in VAOType.SIMPLE, VAOType.MULTI_BUFFER, VAOType.SIMPLE_INDEX:
         vao = VAOFactory.create_vao(vao_type, gl.GL_TRIANGLES)
         assert vao is not None
 
@@ -19,7 +19,7 @@ def test_vao_factory(opengl_context):
 
 def test_simple_vao(opengl_context):
     vertices = [-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0]
-    vao = VAOFactory.create_vao("simpleVAO", gl.GL_TRIANGLES)
+    vao = VAOFactory.create_vao(VAOType.SIMPLE, gl.GL_TRIANGLES)
     vao.bind()
     data = VertexData(data=vertices, size=len(vertices) // 3)
     vao.set_data(data)
@@ -34,7 +34,7 @@ def test_simple_vao(opengl_context):
 def test_multi_buffer_vao(opengl_context):
     verts = [-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0]
     colors = [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
-    vao = VAOFactory.create_vao("multiBufferVAO", gl.GL_TRIANGLES)
+    vao = VAOFactory.create_vao(VAOType.MULTI_BUFFER, gl.GL_TRIANGLES)
     vao.bind()
     vert_data = VertexData(data=verts, size=len(verts) // 3)
     vao.set_data(vert_data, 0)
@@ -52,7 +52,7 @@ def test_multi_buffer_vao(opengl_context):
 def test_simple_index_vao(opengl_context):
     vertices = [-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0]
     indices = [0, 1, 2]
-    vao = VAOFactory.create_vao("simpleIndexVAO", gl.GL_TRIANGLES)
+    vao = VAOFactory.create_vao(VAOType.SIMPLE_INDEX, gl.GL_TRIANGLES)
     vao.bind()
     data = IndexVertexData(
         data=vertices,

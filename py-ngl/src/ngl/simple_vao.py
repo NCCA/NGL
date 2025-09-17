@@ -1,5 +1,7 @@
 import OpenGL.GL as gl
 
+from ngl import logger
+
 from .abstract_vao import AbstractVAO, VertexData
 
 
@@ -14,7 +16,11 @@ class SimpleVAO(AbstractVAO):
 
     def set_data(self, data):
         if not isinstance(data, VertexData):
+            logger.error("data must be of type VertexData")
             raise TypeError("data must be of type VertexData")
+        if not self.m_bound:
+            logger.error("VAO not bound")
+            raise RuntimeError("VAO not bound")
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.m_buffer)
         gl.glBufferData(gl.GL_ARRAY_BUFFER, data.data.nbytes, data.data, data.mode)
         self.m_allocated = True

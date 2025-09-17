@@ -5,6 +5,7 @@ Simple Float only Vec3 class for 3D graphics, very similar to the pyngl ones
 import math
 
 import numpy as np
+from ngl import logger
 
 
 class Vec4:
@@ -17,6 +18,10 @@ class Vec4:
         self._y = y  # y component of vector : float
         self._z = z  # z component of vector : float
         self._w = w  # w component of vector : float
+
+    @classmethod
+    def sizeof(cls):
+        return 4 * 4  # 4 floats, each 4 bytes
 
     def _validate_and_set(self, v, name):
         """
@@ -109,7 +114,7 @@ class Vec4:
             self.z = float(z)
             self.w = float(w)
         except ValueError:
-            print("need float values")
+            logger.warning("need float values")
             raise
 
     def dot(self, rhs):

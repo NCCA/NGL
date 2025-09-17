@@ -3,6 +3,7 @@ from .base_mesh import BaseMesh, Face
 from .bbox import BBox
 from .bezier_curve import BezierCurve
 from .image import Image, ImageModes
+from .log import logger
 from .mat2 import Mat2
 from .mat3 import Mat3, Mat3Error, Mat3NotSquare
 from .mat4 import Mat4, Mat4Error, Mat4NotSquare
@@ -18,7 +19,7 @@ from .plane import Plane
 from .quaternion import Quaternion
 from .random import Random
 from .shader import MatrixTranspose, Shader, ShaderType
-from .shader_lib import ShaderLib
+from .shader_lib import DefaultShader, ShaderLib
 from .shader_program import ShaderProgram
 from .simple_index_vao import IndexVertexData, SimpleIndexVAO
 from .simple_vao import SimpleVAO
@@ -26,7 +27,7 @@ from .text import Text
 from .texture import Texture
 from .transform import Transform, TransformRotationOrder
 from .util import calc_normal, clamp, lerp, look_at, ortho, perspective
-from .vao_factory import VAOFactory
+from .vao_factory import VAOFactory, VAOType
 from .vec2 import Vec2
 from .vec2_array import Vec2Array
 from .vec3 import Vec3
@@ -85,4 +86,7 @@ all = [
     Mat3NotSquare,
     Mat4NotSquare,
     Mat4NotSquare,
+    VAOType,
+    DefaultShader,
+    logger,
 ]

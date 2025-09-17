@@ -3,6 +3,7 @@ from __future__ import annotations
 from enum import Enum
 
 import OpenGL.GL as gl
+from ngl import logger
 
 
 class ShaderType(Enum):
@@ -37,7 +38,7 @@ class Shader:
         gl.glCompileShader(self._id)
         if gl.glGetShaderiv(self._id, gl.GL_COMPILE_STATUS) != gl.GL_TRUE:
             info = gl.glGetShaderInfoLog(self._id)
-            print(f"Error compiling shader {self._name=}: {info=}")
+            logger.error(f"Error compiling shader {self._name=}: {info=}")
             if self._exit_on_error:
                 exit()
             return False
@@ -56,7 +57,6 @@ class Shader:
 
     def load_shader_source_from_string(self, shader_source: str):
         self._source = shader_source
-        print(f"{shader_source=}")
 
 
 # class ShaderProgram:

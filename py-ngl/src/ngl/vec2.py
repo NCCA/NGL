@@ -28,6 +28,10 @@ class Vec2:
         self._x = x  # x component of vector : float
         self._y = y  # y component of vector : float
 
+    @classmethod
+    def sizeof(cls):
+        return 2 * 4  # 2 floats, each 4 bytes
+
     def __iter__(self):
         """
         Make the Vec2 class iterable.

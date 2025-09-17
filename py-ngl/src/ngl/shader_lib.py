@@ -1,11 +1,19 @@
 from __future__ import annotations
 
+import enum
 from pathlib import Path
 
 import OpenGL.GL as gl
 
+from ngl import logger
+
 from .shader import Shader, ShaderType
 from .shader_program import ShaderProgram
+
+
+class DefaultShader(enum.Enum):
+    COLOUR = "nglColourShader"
+    TEXT = "nglTextShader"
 
 
 class _ShaderLib:
@@ -28,7 +36,7 @@ class _ShaderLib:
         vert_shader = Shader(f"{name}Vertex", ShaderType.VERTEX.value, exit_on_error)
         vert_shader.load(vert)
         if not vert_shader.compile():
-            print(f"Failed to compile vertex shader for {name}")
+            logger.error(f"Failed to compile vertex shader for {name}")
             return False
 
         frag_shader = Shader(
@@ -36,7 +44,7 @@ class _ShaderLib:
         )
         frag_shader.load(frag)
         if not frag_shader.compile():
-            print(f"Failed to compile fragment shader for {name}")
+            logger.error(f"Failed to compile fragment shader for {name}")
             return False
 
         program.attach_shader(vert_shader)
@@ -48,12 +56,12 @@ class _ShaderLib:
             )
             geo_shader.load(geo)
             if not geo_shader.compile():
-                print(f"Failed to compile geometry shader for {name}")
+                logger.error(f"Failed to compile geometry shader for {name}")
                 return False
             program.attach_shader(geo_shader)
 
         if not program.link():
-            print(f"Failed to link shader program for {name}")
+            logger.error(f"Failed to link shader program for {name}")
             return False
 
         self._shader_programs[name] = program
@@ -61,14 +69,14 @@ class _ShaderLib:
 
     def use(self, name: str):
         if not self._default_shaders_loaded:
-            print("Default shaders not loaded")
+            logger.warning("Default shaders not loaded loading now")
             self._load_default_shaders()
 
         if name in self._shader_programs:
             self._shader_programs[name].use()
             self._current_shader = name
         else:
-            print(f"Shader '{name}' not found")
+            logger.error(f"Shader '{name}' not found")
             gl.glUseProgram(0)
             self._current_shader = None
 
@@ -90,13 +98,13 @@ class _ShaderLib:
         if name in self._shaders:
             self._shaders[name].load(source_file)
         else:
-            print(f"Error: shader {name} not found")
+            logger.error(f"Error: shader {name} not found")
 
     def compile_shader(self, name: str) -> bool:
         if name in self._shaders:
             return self._shaders[name].compile()
         else:
-            print(f"Error: shader {name} not found")
+            logger.error(f"Error: shader {name} not found")
             return False
 
     def attach_shader_to_program(self, program_name: str, shader_name: str):
@@ -105,13 +113,15 @@ class _ShaderLib:
                 self._shaders[shader_name]
             )
         else:
-            print(f"Error: program {program_name} or shader {shader_name} not found")
+            logger.error(
+                f"Error: program {program_name} or shader {shader_name} not found"
+            )
 
     def link_program_object(self, name: str) -> bool:
         if name in self._shader_programs:
             return self._shader_programs[name].link()
         else:
-            print(f"Error: program {name} not found")
+            logger.error(f"Error: program {name} not found")
             return False
 
     def set_uniform(self, name: str, *value):
@@ -150,7 +160,6 @@ class _ShaderLib:
 
     def get_uniform_mat4(self, name: str) -> list[float]:
         if self._current_shader:
-            print(self._shader_programs[self._current_shader].get_uniform_mat4(name))
             return self._shader_programs[self._current_shader].get_uniform_mat4(name)
         return [0.0] * 16
 
@@ -167,18 +176,18 @@ class _ShaderLib:
         shader_folder = Path(__file__).parent / "shaders"
 
         if self.load_shader(
-            "nglColourShader",
+            DefaultShader.COLOUR,
             shader_folder / "colour_vertex.glsl",
             shader_folder / "colour_fragment.glsl",
         ):
-            print("Colour shader loaded successfully")
+            logger.info("Colour shader loaded successfully")
         if self.load_shader(
-            "nglTextShader",
+            DefaultShader.TEXT,
             shader_folder / "text_vertex.glsl",
             shader_folder / "text_fragment.glsl",
         ):
-            print("Text shader loaded successfully")
-        # self.load_shader("nglDiffuseShader", shader_folder / "diffuse_vertex.glsl", shader_folder / "diffuse_fragment.glsl")
+            logger.info("Text shader loaded successfully")
+
         self._default_shaders_loaded = True
 
 

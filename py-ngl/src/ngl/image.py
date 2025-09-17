@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import logging
 from enum import Enum
 
 import numpy as np
 from PIL import Image as PILImage
+
+logger = logging.getLogger(__name__)
 
 
 class ImageModes(Enum):
@@ -19,6 +22,7 @@ class Image:
         height: int = 0,
         mode: ImageModes = None,
     ):
+        logger.debug(f"Creating Image from file {filename} or {width}x{height}")
         if filename:
             self.load(filename)
         else:
@@ -47,7 +51,7 @@ class Image:
                 self._data = np.array(img)
             return True
         except Exception as e:
-            print(f"Error loading image {filename}: {e}")
+            logger.error(f"Error loading image {filename}: {e}")
             return False
 
     def save(self, filename: str) -> bool:
@@ -56,7 +60,7 @@ class Image:
             img.save(filename)
             return True
         except Exception as e:
-            print(f"Error saving image {filename}: {e}")
+            logger.error(f"Error saving image {filename}: {e}")
             return False
 
     @property

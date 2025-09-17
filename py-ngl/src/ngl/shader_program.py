@@ -10,6 +10,8 @@ from .vec2 import Vec2
 from .vec3 import Vec3
 from .vec4 import Vec4
 
+from ngl import logger
+
 
 class ShaderProgram:
     def __init__(self, name: str, exit_on_error: bool = True):
@@ -27,7 +29,7 @@ class ShaderProgram:
         gl.glLinkProgram(self._id)
         if gl.glGetProgramiv(self._id, gl.GL_LINK_STATUS) != gl.GL_TRUE:
             info = gl.glGetProgramInfoLog(self._id)
-            print(f"Error linking program {self._name}: {info}")
+            logger.error(f"Error linking program {self._name}: {info}")
             if self._exit_on_error:
                 exit()
             return False
@@ -84,12 +86,14 @@ class ShaderProgram:
                             loc, 1, gl.GL_FALSE, (ctypes.c_float * 9)(*val)
                         )
                     elif len(val) == 16:
-                        print("setting matrix4fv")
                         gl.glUniformMatrix4fv(
                             loc, 1, gl.GL_FALSE, (ctypes.c_float * 16)(*val)
                         )
                 except TypeError:
-                    print(f"Warning: uniform '{name}' has unknown type: {type(val)}")
+                    logger.warning(
+                        f"Warning: uniform '{name}' has unknown type: {type(val)}"
+                    )
+
                     pass
 
         elif len(value) == 2:

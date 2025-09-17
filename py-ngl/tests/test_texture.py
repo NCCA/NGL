@@ -19,7 +19,6 @@ def test_load_rgb(opengl_context, tmp_path):
     img = Image(width=size, height=size, mode=ImageModes.RGB)
     filename = tmp_path / "simpleRGB.png"
     img.save(str(filename))
-    print(filename)
     t = Texture(str(filename))
     assert t.width == size
     assert t.height == size

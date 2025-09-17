@@ -6,11 +6,12 @@ import freetype
 import numpy as np
 import OpenGL.GL as gl
 
-from .shader_lib import ShaderLib
+from .shader_lib import DefaultShader, ShaderLib
 from .simple_vao import VertexData
 from .util import ortho
-from .vao_factory import VAOFactory
+from .vao_factory import VAOFactory, VAOType
 from .vec3 import Vec3
+from ngl import logger
 
 
 class Character(object):
@@ -32,6 +33,9 @@ class Text(object):
         """
         self.characters = {}
         face = freetype.Face(font_name)
+        if not face:
+            logger.error(f"Font '{font_name}' not found")
+            raise ValueError(f"Font '{font_name}' not found")
         face.set_pixel_sizes(0, size)
         # disable byte-alignment restriction
         gl.glPixelStorei(gl.GL_UNPACK_ALIGNMENT, 1)
@@ -46,7 +50,6 @@ class Text(object):
                 face.glyph.bitmap.width,face.glyph.bitmap.rows, 0,
                 gl.GL_RED, gl.GL_UNSIGNED_BYTE,bytes(face.glyph.bitmap.buffer))
             # fmt: on
-            # print(f"{face.glyph.bitmap.width=} {face.glyph.bitmap.rows=} {bytes(face.glyph.bitmap.buffer)=}")
             # set texture options
             gl.glTexParameteri(
                 gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S, gl.GL_CLAMP_TO_EDGE
@@ -69,8 +72,8 @@ class Text(object):
 
         gl.glPixelStorei(gl.GL_UNPACK_ALIGNMENT, 4)
         self.set_colour(0.0, 0.0, 0.0)
-        self.vao = VAOFactory.create_vao("simpleVAO", gl.GL_TRIANGLES)
-        ShaderLib.use("nglTextShader")
+        self.vao = VAOFactory.create_vao(VAOType.SIMPLE, gl.GL_TRIANGLES)
+        ShaderLib.use(DefaultShader.TEXT)
         ShaderLib.set_uniform("text", 0)
 
     def __del__(self):
@@ -81,7 +84,7 @@ class Text(object):
         """
         renders the text string at screen coordinates x,y
         """
-        ShaderLib.use("nglTextShader")
+        ShaderLib.use(DefaultShader.TEXT)
 
         gl.glActiveTexture(gl.GL_TEXTURE0)
         gl.glEnable(gl.GL_BLEND)
@@ -124,7 +127,7 @@ class Text(object):
         """
         sets the screen size for the projection matrix
         """
-        ShaderLib.use("nglTextShader")
+        ShaderLib.use(DefaultShader.TEXT)
         ortho_proj = ortho(0, w, 0, h, 0.1, 100)
         ShaderLib.set_uniform("projection", ortho_proj)
 
@@ -132,12 +135,12 @@ class Text(object):
         """
         sets the colour of the text
         """
-        ShaderLib.use("nglTextShader")
+        ShaderLib.use(DefaultShader.TEXT)
         ShaderLib.set_uniform("textColour", r, g, b)
 
     def set_colour_vec3(self, c: Vec3):
         """
         sets the colour of the text from a Vec3
         """
-        ShaderLib.use("nglTextShader")
+        ShaderLib.use(DefaultShader.TEXT)
         ShaderLib.set_uniform("textColour", c.x, c.y, c.z)

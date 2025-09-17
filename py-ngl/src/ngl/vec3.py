@@ -32,6 +32,10 @@ class Vec3:
         self._y = y  # y component of vector : float
         self._z = z  # z component of vector : float
 
+    @classmethod
+    def sizeof(cls):
+        return 3 * 4  # 3 floats, each 4 bytes
+
     def __iter__(self):
         """
         Make the Vec3 class iterable.
