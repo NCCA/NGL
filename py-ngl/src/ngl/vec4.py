@@ -5,7 +5,7 @@ Simple Float only Vec3 class for 3D graphics, very similar to the pyngl ones
 import math
 
 import numpy as np
-from ngl import logger
+from .log import logger
 
 
 class Vec4:

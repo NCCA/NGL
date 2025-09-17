@@ -3,7 +3,7 @@ from __future__ import annotations
 from enum import Enum
 
 import OpenGL.GL as gl
-from ngl import logger
+from .log import logger
 
 
 class ShaderType(Enum):

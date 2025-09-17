@@ -2,6 +2,7 @@ import numpy as np
 import OpenGL.GL as gl
 
 from .abstract_vao import AbstractVAO, VertexData
+from .log import logger
 
 
 class IndexVertexData(VertexData):
@@ -14,6 +15,7 @@ class IndexVertexData(VertexData):
         }
         numpy_dtype = gl.GL_to_numpy_type.get(index_type)
         if numpy_dtype is None:
+            logger.error("SimpleIndexVAO: Unsupported index type")
             raise TypeError(f"Unsupported index type: {index_type}")
 
         self.indices = np.array(indices, dtype=numpy_dtype)
@@ -30,9 +32,12 @@ class SimpleIndexVAO(AbstractVAO):
     def draw(self):
         if self.m_bound and self.m_allocated:
             gl.glDrawElements(self.m_mode, self.m_indicesCount, self.m_index_type, None)
+        else:
+            logger.error("SimpleIndexVAO not bound or not allocated")
 
     def set_data(self, data):
         if not isinstance(data, IndexVertexData):
+            logger.error("SimpleIndexVAO: Unsupported index type")
             raise TypeError("data must be of type IndexVertexData")
 
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.m_buffer)

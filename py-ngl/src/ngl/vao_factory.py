@@ -3,7 +3,7 @@ import enum
 from .multi_buffer_vao import MultiBufferVAO
 from .simple_index_vao import SimpleIndexVAO
 from .simple_vao import SimpleVAO
-from ngl import logger
+from .log import logger
 
 
 class VAOType(enum.Enum):

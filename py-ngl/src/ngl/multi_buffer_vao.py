@@ -2,6 +2,7 @@ import numpy as np
 import OpenGL.GL as gl
 
 from .abstract_vao import AbstractVAO, VertexData
+from .log import logger
 
 
 class MultiBufferVAO(AbstractVAO):
@@ -12,10 +13,13 @@ class MultiBufferVAO(AbstractVAO):
     def draw(self):
         if self.m_bound and self.m_allocated:
             gl.glDrawArrays(self.m_mode, 0, self.m_indicesCount)
+        else:
+            logger.error("MultiBufferVAO is not bound or not allocated")
 
     def set_data(self, data, index=None):
         if not isinstance(data, VertexData):
             raise TypeError("data must be of type VertexData")
+            logger.error("MultiBufferVAO: Invalid data type")
         if index is None:
             index = len(self.m_vbo_ids)
 

@@ -67,3 +67,16 @@ def test_simple_index_vao(opengl_context):
     assert vao.get_id() != 0
     assert vao.get_buffer_id() != 0
     vao.remove_vao()
+
+
+def test_vao_context_manager(opengl_context):
+    vertices = [-0.5, -0.5, 0.0, 0.5, -0.5, 0.0, 0.0, 0.5, 0.0]
+    vao = VAOFactory.create_vao(VAOType.SIMPLE, gl.GL_TRIANGLES)
+    with vao as v:
+        assert v.m_bound is True
+        data = VertexData(data=vertices, size=len(vertices) // 3)
+        v.set_data(data)
+        v.set_vertex_attribute_pointer(0, 3, gl.GL_FLOAT, 0, 0)
+        v.draw()
+    assert v.m_bound is False
+    vao.remove_vao()

@@ -5,8 +5,7 @@ from pathlib import Path
 
 import OpenGL.GL as gl
 
-from ngl import logger
-
+from .log import logger
 from .shader import Shader, ShaderType
 from .shader_program import ShaderProgram
 
@@ -65,6 +64,7 @@ class _ShaderLib:
             return False
 
         self._shader_programs[name] = program
+        logger.info(f"Shader program '{name}' created")
         return True
 
     def use(self, name: str):

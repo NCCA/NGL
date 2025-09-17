@@ -3,7 +3,9 @@ import ctypes
 
 import numpy as np
 import OpenGL.GL as gl
+
 from .log import logger
+
 
 class VertexData:
     def __init__(self, data, size, mode=gl.GL_STATIC_DRAW):
@@ -28,6 +30,13 @@ class AbstractVAO(abc.ABC):
         gl.glBindVertexArray(0)
         self.m_bound = False
 
+    def __enter__(self):
+        self.bind()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.unbind()
+
     @abc.abstractmethod
     def draw(self):
         pass
@@ -44,7 +53,7 @@ class AbstractVAO(abc.ABC):
         self, id, size, type, stride, offset, normalize=False
     ):
         if not self.m_bound:
-            logger.error("VAO not bound")
+            logger.error("VAO not bound in set_vertex_attribute_pointer")
         gl.glVertexAttribPointer(
             id, size, type, normalize, stride, ctypes.c_void_p(offset)
         )

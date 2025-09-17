@@ -9,8 +9,7 @@ from .shader import Shader
 from .vec2 import Vec2
 from .vec3 import Vec3
 from .vec4 import Vec4
-
-from ngl import logger
+from .log import logger
 
 
 class ShaderProgram:

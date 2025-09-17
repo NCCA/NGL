@@ -11,7 +11,7 @@ from .simple_vao import VertexData
 from .util import ortho
 from .vao_factory import VAOFactory, VAOType
 from .vec3 import Vec3
-from ngl import logger
+from .log import logger
 
 
 class Character(object):
@@ -92,33 +92,32 @@ class Text(object):
         gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
         gl.glEnable(gl.GL_CULL_FACE)
         scale = 1.0
-        self.vao.bind()
-        for char in text:
-            fc = self.characters[char]
-            xpos = x + fc.bearingx * scale
-            ypos = y - (fc.sizey - fc.bearingy) * scale
-            w = fc.sizex * scale
-            h = fc.sizey * scale
-            # fmt: off
-            vertices = np.array(
-            [
-                xpos, ypos + h, 0.0, 0.0,
-                xpos, ypos, 0.0, 1.0,
-                xpos + w, ypos, 1.0, 1.0,
-                xpos, ypos + h, 0.0, 0.0,
-                xpos + w, ypos, 1.0, 1.0,
-                xpos + w, ypos + h, 1.0, 0.0,
-            ], dtype=np.float32)
-            # fmt: on
-            gl.glBindTexture(gl.GL_TEXTURE_2D, fc.texture_id)
-            data = VertexData(data=vertices, size=len(vertices) // 4)
-            self.vao.set_data(data)
-            self.vao.set_vertex_attribute_pointer(0, 4, gl.GL_FLOAT, 0, 0)
-            self.vao.set_num_indices(6)
-            self.vao.draw()
-            x += (fc.advance >> 6) * scale
+        with self.vao:
+            for char in text:
+                fc = self.characters[char]
+                xpos = x + fc.bearingx * scale
+                ypos = y - (fc.sizey - fc.bearingy) * scale
+                w = fc.sizex * scale
+                h = fc.sizey * scale
+                # fmt: off
+                vertices = np.array(
+                [
+                    xpos, ypos + h, 0.0, 0.0,
+                    xpos, ypos, 0.0, 1.0,
+                    xpos + w, ypos, 1.0, 1.0,
+                    xpos, ypos + h, 0.0, 0.0,
+                    xpos + w, ypos, 1.0, 1.0,
+                    xpos + w, ypos + h, 1.0, 0.0,
+                ], dtype=np.float32)
+                # fmt: on
+                gl.glBindTexture(gl.GL_TEXTURE_2D, fc.texture_id)
+                data = VertexData(data=vertices, size=len(vertices) // 4)
+                self.vao.set_data(data)
+                self.vao.set_vertex_attribute_pointer(0, 4, gl.GL_FLOAT, 0, 0)
+                self.vao.set_num_indices(6)
+                self.vao.draw()
+                x += (fc.advance >> 6) * scale
 
-        self.vao.unbind()
         gl.glDisable(gl.GL_BLEND)
         gl.glEnable(gl.GL_DEPTH_TEST)
         gl.glDisable(gl.GL_CULL_FACE)
