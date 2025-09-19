@@ -61,12 +61,8 @@ class _primitive:
             vert_data_size = 8 * 4  # 4 is sizeof float and 8 is x,y,z,nx,ny,nz,uv
             print(vert_data_size)
             self.vao.set_vertex_attribute_pointer(0, 3, gl.GL_FLOAT, vert_data_size, 0)
-            self.vao.set_vertex_attribute_pointer(
-                1, 3, gl.GL_FLOAT, vert_data_size, 3 * 4
-            )
-            self.vao.set_vertex_attribute_pointer(
-                2, 2, gl.GL_FLOAT, vert_data_size, 6 * 4
-            )
+            self.vao.set_vertex_attribute_pointer(1, 3, gl.GL_FLOAT, vert_data_size, 3 * 4)
+            self.vao.set_vertex_attribute_pointer(2, 2, gl.GL_FLOAT, vert_data_size, 6 * 4)
             self.vao.set_num_indices(prim_data.size // 8)
 
 
@@ -120,6 +116,47 @@ class Primitives:
             v2 += dstep
 
         # Convert the list to a NumPy array
+        data_array = np.array(data, dtype=np.float32)
+        prim = _primitive(data_array)
+        cls._primitives[name] = prim
+
+    @classmethod
+    def create_triangle_plane(cls, name, width, depth, w_p, d_p, v_n):
+        w2 = width / 2.0
+        d2 = depth / 2.0
+        w_step = width / w_p
+        d_step = depth / d_p
+
+        du = 0.9 / w_p
+        dv = 0.9 / d_p
+
+        data = []
+        v = 0.0
+        d = -d2
+        for _ in range(d_p):
+            u = 0.0
+            w = -w2
+            for _ in range(w_p):
+                # tri 1
+                # vert 1
+                data.extend([w, 0.0, d + d_step, v_n.x, v_n.y, v_n.z, u, v + dv])
+                # vert 2
+                data.extend([w + w_step, 0.0, d + d_step, v_n.x, v_n.y, v_n.z, u + du, v + dv])
+                # vert 3
+                data.extend([w, 0.0, d, v_n.x, v_n.y, v_n.z, u, v])
+
+                # tri 2
+                # vert 1
+                data.extend([w + w_step, 0.0, d + d_step, v_n.x, v_n.y, v_n.z, u + du, v + dv])
+                # vert 2
+                data.extend([w + w_step, 0.0, d, v_n.x, v_n.y, v_n.z, u + du, v])
+                # vert 3
+                data.extend([w, 0.0, d, v_n.x, v_n.y, v_n.z, u, v])
+                u += du
+                w += w_step
+            v += dv
+            d += d_step
+
         data_array = np.array(data, dtype=np.float32)
         prim = _primitive(data_array)
         cls._primitives[name] = prim

@@ -49,6 +49,13 @@ class Transform:
         else:
             raise ValueError
 
+    def reset(self):
+        self.position = Vec3()
+        self.rotation = Vec3()
+        self.scale = Vec3(1, 1, 1)
+        self.order = "xyz"
+        self.need_recalc = True
+
     def set_position(self, *args):
         "set position attrib using either x,y,z or vec types"
         self.position = self._set_value(args)
