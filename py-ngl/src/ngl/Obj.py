@@ -1,4 +1,5 @@
 from .base_mesh import BaseMesh, Face
+from .texture import Texture
 from .vec3 import Vec3
 
 
@@ -252,3 +253,14 @@ class Obj(BaseMesh):
                     obj_file.write(f"{face.normal[i] + 1} ")
                 obj_file.write(" ")
             obj_file.write("\n")
+
+    @classmethod
+    def obj_with_vao(cls, mesh_name: str, texture_name: str = None):
+        mesh = Obj()
+        mesh.load(mesh_name)
+        if texture_name:
+            texture = Texture(texture_name)
+            mesh.texture_id = texture.set_texture_gl()
+            print(f"{mesh.texture_id=}")
+        mesh.create_vao()
+        return mesh

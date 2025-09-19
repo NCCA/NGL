@@ -4,6 +4,8 @@ Simple float only Vec3 class for 3D graphics, very similar to the pyngl ones
 
 import math
 
+import numpy as np
+
 from .util import clamp
 
 
@@ -371,6 +373,12 @@ class Vec3:
             self.x * rhs.m[0][1] + self.y * rhs.m[1][1] + self.z * rhs.m[2][1],
             self.x * rhs.m[0][2] + self.y * rhs.m[1][2] + self.z * rhs.m[2][2],
         )
+
+    def to_list(self):
+        return [self.x, self.y, self.z]
+
+    def to_numpy(self):
+        return np.array([self.x, self.y, self.z])
 
 
 # Helper function to create properties

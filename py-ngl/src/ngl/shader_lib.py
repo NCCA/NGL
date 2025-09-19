@@ -13,6 +13,8 @@ from .shader_program import ShaderProgram
 class DefaultShader(enum.Enum):
     COLOUR = "nglColourShader"
     TEXT = "nglTextShader"
+    DIFFUSE = ("nglDiffuseShader",)
+    CHECKER = "nglCheckerShader"
 
 
 class _ShaderLib:
@@ -38,7 +40,9 @@ class _ShaderLib:
             logger.error(f"Failed to compile vertex shader for {name}")
             return False
 
-        frag_shader = Shader(f"{name}Fragment", ShaderType.FRAGMENT.value, exit_on_error)
+        frag_shader = Shader(
+            f"{name}Fragment", ShaderType.FRAGMENT.value, exit_on_error
+        )
         frag_shader.load(frag)
         if not frag_shader.compile():
             logger.error(f"Failed to compile fragment shader for {name}")
@@ -48,7 +52,9 @@ class _ShaderLib:
         program.attach_shader(frag_shader)
 
         if geo:
-            geo_shader = Shader(f"{name}Geometry", ShaderType.GEOMETRY.value, exit_on_error)
+            geo_shader = Shader(
+                f"{name}Geometry", ShaderType.GEOMETRY.value, exit_on_error
+            )
             geo_shader.load(geo)
             if not geo_shader.compile():
                 logger.error(f"Failed to compile geometry shader for {name}")
@@ -64,7 +70,8 @@ class _ShaderLib:
         return True
 
     def use(self, name: str):
-        if not self._default_shaders_loaded:
+        # lazy load default shaders on request
+        if not self._default_shaders_loaded and name not in self._shader_programs:
             logger.warning("Default shaders not loaded loading now")
             self._load_default_shaders()
 
@@ -105,9 +112,13 @@ class _ShaderLib:
 
     def attach_shader_to_program(self, program_name: str, shader_name: str):
         if program_name in self._shader_programs and shader_name in self._shaders:
-            self._shader_programs[program_name].attach_shader(self._shaders[shader_name])
+            self._shader_programs[program_name].attach_shader(
+                self._shaders[shader_name]
+            )
         else:
-            logger.error(f"Error: program {program_name} or shader {shader_name} not found")
+            logger.error(
+                f"Error: program {program_name} or shader {shader_name} not found"
+            )
 
     def link_program_object(self, name: str) -> bool:
         if name in self._shader_programs:
@@ -167,18 +178,30 @@ class _ShaderLib:
     def _load_default_shaders(self):
         shader_folder = Path(__file__).parent / "shaders"
 
-        if self.load_shader(
-            DefaultShader.COLOUR,
-            shader_folder / "colour_vertex.glsl",
-            shader_folder / "colour_fragment.glsl",
-        ):
-            logger.info("Colour shader loaded successfully")
-        if self.load_shader(
-            DefaultShader.TEXT,
-            shader_folder / "text_vertex.glsl",
-            shader_folder / "text_fragment.glsl",
-        ):
-            logger.info("Text shader loaded successfully")
+        to_load = {
+            DefaultShader.COLOUR: {
+                "vertex": shader_folder / "colour_vertex.glsl",
+                "fragment": shader_folder / "colour_fragment.glsl",
+            },
+            DefaultShader.TEXT: {
+                "vertex": shader_folder / "text_vertex.glsl",
+                "fragment": shader_folder / "text_fragment.glsl",
+            },
+            DefaultShader.DIFFUSE: {
+                "vertex": shader_folder / "diffuse_vertex.glsl",
+                "fragment": shader_folder / "diffuse_fragment.glsl",
+            },
+            DefaultShader.CHECKER: {
+                "vertex": shader_folder / "checker_vertex.glsl",
+                "fragment": shader_folder / "checker_fragment.glsl",
+            },
+        }
+
+        for shader_name, shader_data in to_load.items():
+            if self.load_shader(
+                shader_name, shader_data["vertex"], shader_data["fragment"]
+            ):
+                logger.info(f"{shader_name} shader loaded successfully")
 
         self._default_shaders_loaded = True
 
@@ -196,7 +219,9 @@ class _ShaderLib:
             logger.info(
                 "_______________________________________________________________________________________________________________________"
             )
-            logger.info(f"Printing Properties for ShaderProgram {self._current_shader} ")
+            logger.info(
+                f"Printing Properties for ShaderProgram {self._current_shader} "
+            )
             logger.info(
                 "_______________________________________________________________________________________________________________________"
             )
@@ -205,7 +230,9 @@ class _ShaderLib:
                 "_______________________________________________________________________________________________________________________"
             )
         else:
-            logger.warning(f"Warning no currently active shader to print properties for {self._current_shader} ")
+            logger.warning(
+                f"Warning no currently active shader to print properties for {self._current_shader} "
+            )
 
 
 ShaderLib = _ShaderLib()

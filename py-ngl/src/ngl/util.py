@@ -71,6 +71,16 @@ def ortho(left, right, bottom, top, near, far):
     return m
 
 
+# Mat4 result(1.0f);
+#   result.m_00= 2.0f / (_right - _left);
+#   result.m_11= 2.0f / (_top - _bottom);
+#   result.m_22= - 2.0f / (_zFar - _zNear);
+#   result.m_30= - (_right + _left) / (_right - _left);
+#   result.m_31= - (_top + _bottom) / (_top - _bottom);
+#   result.m_32= - (_zFar + _zNear) / (_zFar - _zNear);
+#   return result;
+
+
 def frustum(left, right, bottom, top, near, far):
     """Create a frustum projection matrix."""
     m = Mat4.zero()
@@ -88,7 +98,31 @@ def lerp(a, b, t):
     return a + (b - a) * t
 
 
-def calc_normal(v1, v2, v3):
-    from .vec3 import Vec3
+def calc_normal(p1, p2, p3):
+    """
+    Calculates the normal of a triangle defined by three points.
 
-    return Vec3.cross(v3 - v1, v2 - v1).normalize()
+    This is a Python implementation of the NGL C++ Util::calcNormal function.
+    It uses the vector cross product method for clarity and leverages the py-ngl library.
+    The order of the cross product is chosen to match the output of the C++ version.
+
+    Args:
+        p1: The first vertex of the triangle.
+        p2: The second vertex of the triangle.
+        p3: The third vertex of the triangle.
+
+    Returns:
+        The normalized normal vector of the triangle.
+    """
+    # Two vectors on the plane of the triangle
+    v1 = p3 - p1
+    v2 = p2 - p1
+
+    # The cross product gives the normal vector.
+    # The order (v1 x v2) is used to match the C++ implementation's result.
+    normal = v1.cross(v2)
+
+    # Normalize the result to get a unit length normal
+    normal.normalize()
+
+    return normal

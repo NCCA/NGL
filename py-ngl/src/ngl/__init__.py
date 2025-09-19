@@ -16,6 +16,7 @@ from .obj import (
     ObjParseVertexError,
 )
 from .plane import Plane
+from .primitives import Primitives, Prims
 from .quaternion import Quaternion
 from .random import Random
 from .shader import MatrixTranspose, Shader, ShaderType
@@ -26,7 +27,7 @@ from .simple_vao import SimpleVAO
 from .text import Text
 from .texture import Texture
 from .transform import Transform, TransformRotationOrder
-from .util import calc_normal, clamp, lerp, look_at, ortho, perspective
+from .util import calc_normal, clamp, frustum, lerp, look_at, ortho, perspective
 from .vao_factory import VAOFactory, VAOType
 from .vec2 import Vec2
 from .vec2_array import Vec2Array
@@ -76,6 +77,7 @@ all = [
     look_at,
     perspective,
     ortho,
+    frustum,
     Transform,
     TransformRotationOrder,
     Random,
@@ -89,4 +91,6 @@ all = [
     VAOType,
     DefaultShader,
     logger,
+    Primitives,
+    Prims,
 ]

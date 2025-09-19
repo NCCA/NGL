@@ -25,10 +25,12 @@ def setup_logger():
         console_handler = logging.StreamHandler(sys.stdout)
 
         file_formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+            "%(asctime)s - %(levelname)s - %(message)s",
+            datefmt="%H:%M:%S",
         )
         console_formatter = ColoredFormatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+            "%(asctime)s - %(levelname)s - %(message)s",
+            datefmt="%H:%M:%S",
         )
 
         file_handler.setFormatter(file_formatter)

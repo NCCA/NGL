@@ -69,11 +69,17 @@ class ShaderProgram:
             elif isinstance(val, float):
                 gl.glUniform1f(loc, val)
             elif isinstance(val, Mat2):
-                gl.glUniformMatrix2fv(loc, 1, gl.GL_FALSE, (ctypes.c_float * 4)(*val.get_matrix()))
+                gl.glUniformMatrix2fv(
+                    loc, 1, gl.GL_FALSE, (ctypes.c_float * 4)(*val.get_matrix())
+                )
             elif isinstance(val, Mat3):
-                gl.glUniformMatrix3fv(loc, 1, gl.GL_FALSE, (ctypes.c_float * 9)(*val.get_matrix()))
+                gl.glUniformMatrix3fv(
+                    loc, 1, gl.GL_FALSE, (ctypes.c_float * 9)(*val.get_matrix())
+                )
             elif isinstance(val, Mat4):
-                gl.glUniformMatrix4fv(loc, 1, gl.GL_FALSE, (ctypes.c_float * 16)(*val.get_matrix()))
+                gl.glUniformMatrix4fv(
+                    loc, 1, gl.GL_FALSE, (ctypes.c_float * 16)(*val.get_matrix())
+                )
             elif isinstance(val, Vec2):
                 gl.glUniform2f(loc, *val)
             elif isinstance(val, Vec3):
@@ -84,13 +90,21 @@ class ShaderProgram:
                 try:
                     val = list(value[0])
                     if len(val) == 4:
-                        gl.glUniformMatrix2fv(loc, 1, gl.GL_FALSE, (ctypes.c_float * 4)(*val))
+                        gl.glUniformMatrix2fv(
+                            loc, 1, gl.GL_FALSE, (ctypes.c_float * 4)(*val)
+                        )
                     elif len(val) == 9:
-                        gl.glUniformMatrix3fv(loc, 1, gl.GL_FALSE, (ctypes.c_float * 9)(*val))
+                        gl.glUniformMatrix3fv(
+                            loc, 1, gl.GL_FALSE, (ctypes.c_float * 9)(*val)
+                        )
                     elif len(val) == 16:
-                        gl.glUniformMatrix4fv(loc, 1, gl.GL_FALSE, (ctypes.c_float * 16)(*val))
+                        gl.glUniformMatrix4fv(
+                            loc, 1, gl.GL_FALSE, (ctypes.c_float * 16)(*val)
+                        )
                 except TypeError:
-                    logger.warning(f"Warning: uniform '{name}' has unknown type: {type(val)}")
+                    logger.warning(
+                        f"Warning: uniform '{name}' has unknown type: {type(val)}"
+                    )
 
                     pass
 

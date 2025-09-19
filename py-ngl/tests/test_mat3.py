@@ -1,8 +1,7 @@
 import mat3Data  # this is generated from the julia file gen_mat4_tests.jl
 import pytest
 
-from ngl import Mat3, Mat3Error, Mat3NotSquare
-from ngl import Vec3
+from ngl import Mat3, Mat3Error, Mat3NotSquare, Mat4, Vec3
 
 
 def test_ctor():
@@ -232,3 +231,11 @@ def test_strings():
     a = Mat3.identity()
     assert str(a) == "[[1.0, 0.0, 0.0]\n[0.0, 1.0, 0.0]\n[0.0, 0.0, 1.0]]"
     assert repr(a) == "Mat3([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])"
+
+
+def test_from_mat4():
+    m4 = Mat4.identity()
+    m3 = Mat3.from_mat4(m4)
+    assert m3.get_matrix() == pytest.approx(
+        [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+    )

@@ -1,6 +1,16 @@
 import pytest
 
-from ngl import Mat4, Vec3, calc_normal, clamp, lerp, look_at, ortho, perspective
+from ngl import (
+    Mat4,
+    Vec3,
+    calc_normal,
+    clamp,
+    frustum,
+    lerp,
+    look_at,
+    ortho,
+    perspective,
+)
 
 
 def test_clamp():
@@ -49,9 +59,27 @@ def test_perspective():
 
 def test_ortho():
     project = ortho(-1.0, 1.0, -1.0, 1.0, 1.0, -1.0)
+    m = [
+        +1.000000,
+        +0.000000,
+        +0.000000,
+        -0.000000,
+        +0.000000,
+        +1.000000,
+        +0.000000,
+        -0.000000,
+        +0.000000,
+        +0.000000,
+        +1.000000,
+        +0.000000,
+        +0.000000,
+        +0.000000,
+        +0.000000,
+        +1.000000,
+    ]
     # fmt: off
 
-    result=Mat4.from_list([+1.000000,+0.000000,+0.000000,-0.000000,+0.000000,+1.000000,+0.000000,-0.000000,+0.000000,+0.000000,+1.000000,+0.000000,+0.000000,+0.000000,+0.000000,+1.000000])
+    result=Mat4.from_list(m)
 
     # fmt: on
 
@@ -63,3 +91,29 @@ def test_calc_normal():
         Vec3(-1.0, -1.0, 0.0), Vec3(0.0, 0.0, 0.0), Vec3(1.0, -1.0, 0.0)
     )
     assert result == pytest.approx(Vec3(0.0, 0.0, 1.0), abs=1e-3)
+
+
+def test_frustum():
+    f = frustum(-1.0, 1.0, -1.0, 1.0, 1.0, -1.0)
+
+    assert f.to_list() == pytest.approx(
+        [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+            0.0,
+            -1.0,
+            0.0,
+        ],
+        abs=1e-3,
+    )

@@ -172,6 +172,7 @@ void Text::setScreenSize(int _w, int _h) noexcept
 
   auto orth = ngl::ortho(0, static_cast<float>(_w), 0, static_cast<float>(_h));
   ShaderLib::setUniform("projection", orth);
+  std::cout<<"Set text " <<orth<<"\n";
 }
 
 //---------------------------------------------------------------------------
