@@ -87,3 +87,13 @@ def test_to_numpy():
     a = Vec2Array()
     n = a.to_numpy()
     assert n.shape == (0,)
+
+
+def test_repr():
+    a = Vec2Array([Vec2(1, 2)])
+    assert repr(a) == "Vec2Array([Vec2 [1,2]])"
+
+
+def test_str():
+    a = Vec2Array([Vec2(1, 2)])
+    assert str(a) == "[Vec2 [1,2]]"

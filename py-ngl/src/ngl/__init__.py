@@ -2,6 +2,7 @@ from .abstract_vao import AbstractVAO, VertexData
 from .base_mesh import BaseMesh, Face
 from .bbox import BBox
 from .bezier_curve import BezierCurve
+from .first_person_camera import FirstPersonCamera
 from .image import Image, ImageModes
 from .log import logger
 from .mat2 import Mat2
@@ -93,4 +94,5 @@ all = [
     logger,
     Primitives,
     Prims,
+    FirstPersonCamera,
 ]

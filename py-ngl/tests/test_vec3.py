@@ -157,6 +157,9 @@ def test_not_equal():
     a = Vec3(0.3, 0.4, 0.3)
     b = Vec3(0.3, 0.4, 0.5)
     assert a != b
+    c = Vec3(1, 2, 3)
+    d = Vec3(4, 5, 6)
+    assert c != d
     assert a.__neq__(1) == NotImplemented
 
 
@@ -296,3 +299,7 @@ def test_clone():
     b = a.clone()
     assert a == b
     assert a is not b  # Ensure it's a different object
+
+
+def test_sizeof():
+    assert Vec3.sizeof() == 12

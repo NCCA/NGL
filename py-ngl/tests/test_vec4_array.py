@@ -87,3 +87,13 @@ def test_to_numpy():
     a = Vec4Array()
     n = a.to_numpy()
     assert n.shape == (0,)
+
+
+def test_repr():
+    a = Vec4Array([Vec4(1, 2, 3, 4)])
+    assert repr(a) == "Vec4Array([Vec4 [1,2,3,4]])"
+
+
+def test_str():
+    a = Vec4Array([Vec4(1, 2, 3, 4)])
+    assert str(a) == "[Vec4 [1,2,3,4]]"

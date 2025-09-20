@@ -152,12 +152,13 @@ class Vec2:
         Args:
             rhs (Vec2): The right-hand side vector to compare.
         Returns:
-            bool: True if the vectors are close, False otherwise.
+            bool: True if the vectors are not close, False otherwise.
             NotImplemented: If the right-hand side is not a Vec2.
         """
+
         if not isinstance(rhs, Vec2):
             return NotImplemented
-        return math.isclose(self.x, rhs.x) or math.isclose(self.y, rhs.y)
+        return not (math.isclose(self.x, rhs.x) and math.isclose(self.y, rhs.y))
 
     def __neg__(self):
         """
@@ -298,9 +299,7 @@ class Vec2:
         if isinstance(rhs, (float, int)):
             return Vec2(self.x * rhs, self.y * rhs)
         else:
-            raise ValueError(
-                f"can only do piecewise multiplication with a scalar {rhs=}"
-            )
+            raise ValueError(f"can only do piecewise multiplication with a scalar {rhs=}")
 
     def __rmul__(self, rhs):
         """

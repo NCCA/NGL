@@ -87,3 +87,13 @@ def test_extend():
     assert a[1] == Vec3(4, 5, 6)
     with pytest.raises(TypeError):
         a.extend(["not a vec3"])
+
+
+def test_repr():
+    a = Vec3Array([Vec3(1, 2, 3)])
+    assert repr(a) == "Vec3Array([Vec3 [1,2,3]])"
+
+
+def test_str():
+    a = Vec3Array([Vec3(1, 2, 3)])
+    assert str(a) == "[Vec3 [1,2,3]]"

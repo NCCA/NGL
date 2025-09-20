@@ -357,3 +357,435 @@ class Primitives:
         data_array = np.array(data, dtype=np.float32)
         prim = _primitive(data_array)
         cls._primitives[name] = prim
+
+    @classmethod
+    def create_capsule(cls, name, radius, height, precision):
+        """
+        Creates a capsule primitive.
+        The capsule is aligned along the y-axis.
+        It is composed of a cylinder and two hemispherical caps.
+        based on code from here https://code.google.com/p/rgine/source/browse/trunk/RGine/opengl/src/RGLShapes.cpp
+        and adapted
+        """
+        if radius <= 0.0:
+            raise ValueError("Radius must be positive")
+        if height < 0.0:
+            raise ValueError("Height must be non-negative")
+        if precision < 4:
+            precision = 4
+
+        data = []
+        h = height / 2.0
+        ang = np.pi / precision
+
+        for i in range(2 * precision):
+            c = radius * np.cos(ang * i)
+            c1 = radius * np.cos(ang * (i + 1))
+            s = radius * np.sin(ang * i)
+            s1 = radius * np.sin(ang * (i + 1))
+
+            # normals for cylinder sides
+            nc = np.cos(ang * i)
+            ns = np.sin(ang * i)
+            nc1 = np.cos(ang * (i + 1))
+            ns1 = np.sin(ang * (i + 1))
+
+            # side top
+            # Vert 1
+            data.extend([c1, h, s1, nc1, 0.0, ns1, 0.0, 0.0])
+            # Vert 2
+            data.extend([c, h, s, nc, 0.0, ns, 0.0, 0.0])
+            # Vert 3
+            data.extend([c, -h, s, nc, 0.0, ns, 0.0, 0.0])
+
+            # side bot
+            # Vert 1
+            data.extend([c, -h, s, nc, 0.0, ns, 0.0, 0.0])
+            # Vert 2
+            data.extend([c1, -h, s1, nc1, 0.0, ns1, 0.0, 0.0])
+            # Vert 3
+            data.extend([c1, h, s1, nc1, 0.0, ns1, 0.0, 0.0])
+
+        for i in range(2 * precision):
+            # longitude
+            s = -np.sin(ang * i)
+            s1 = -np.sin(ang * (i + 1))
+            c = np.cos(ang * i)
+            c1 = np.cos(ang * (i + 1))
+
+            for j in range(precision + 1):
+                if j < precision / 2:
+                    o = h
+                else:
+                    o = -h
+
+                # latitude
+                sb = radius * np.sin(ang * j)
+                sb1 = radius * np.sin(ang * (j + 1))
+                cb = radius * np.cos(ang * j)
+                cb1 = radius * np.cos(ang * (j + 1))
+
+                if j != precision - 1:
+                    # Vert 1
+                    nx = sb * c
+                    ny = cb
+                    nz = sb * s
+                    data.extend([nx, ny + o, nz, nx, ny, nz, 0.0, 0.0])
+                    # Vert 2
+                    nx = sb1 * c
+                    ny = cb1
+                    nz = sb1 * s
+                    data.extend([nx, ny + o, nz, nx, ny, nz, 0.0, 0.0])
+                    # Vert 3
+                    nx = sb1 * c1
+                    ny = cb1
+                    nz = sb1 * s1
+                    data.extend([nx, ny + o, nz, nx, ny, nz, 0.0, 0.0])
+
+                if j != 0:
+                    # Vert 1
+                    nx = sb * c
+                    ny = cb
+                    nz = sb * s
+                    data.extend([nx, ny + o, nz, nx, ny, nz, 0.0, 0.0])
+                    # Vert 2
+                    nx = sb1 * c1
+                    ny = cb1
+                    nz = sb1 * s1
+                    data.extend([nx, ny + o, nz, nx, ny, nz, 0.0, 0.0])
+                    # Vert 3
+                    nx = sb * c1
+                    ny = cb
+                    nz = sb * s1
+                    data.extend([nx, ny + o, nz, nx, ny, nz, 0.0, 0.0])
+
+        data_array = np.array(data, dtype=np.float32)
+        prim = _primitive(data_array)
+        cls._primitives[name] = prim
+
+    @classmethod
+    def create_cylinder(cls, name, radius, height, slices, stacks):
+        """
+        Creates a cylinder primitive.
+        The cylinder is aligned along the y-axis.
+        This method generates the cylinder walls, but not the top and bottom caps.
+        """
+        if radius <= 0.0:
+            raise ValueError("Radius must be positive")
+        if height < 0.0:
+            raise ValueError("Height must be non-negative")
+        if slices < 3:
+            slices = 3
+        if stacks < 1:
+            stacks = 1
+
+        data = []
+        h2 = height / 2.0
+        y_step = height / stacks
+
+        cs = _circle_table(slices)
+
+        du = 1.0 / slices
+        dv = 1.0 / stacks
+
+        for i in range(stacks):
+            y0 = -h2 + i * y_step
+            y1 = -h2 + (i + 1) * y_step
+            v = i * dv
+            for j in range(slices):
+                u = j * du
+
+                nx1 = cs[j, 0]  # cos
+                nz1 = cs[j, 1]  # sin
+                x1 = radius * nx1
+                z1 = radius * nz1
+
+                nx2 = cs[j + 1, 0]
+                nz2 = cs[j + 1, 1]
+                x2 = radius * nx2
+                z2 = radius * nz2
+
+                p_bl = [x1, y0, z1, nx1, 0, nz1, u, v]
+                p_br = [x2, y0, z2, nx2, 0, nz2, u + du, v]
+                p_tl = [x1, y1, z1, nx1, 0, nz1, u, v + dv]
+                p_tr = [x2, y1, z2, nx2, 0, nz2, u + du, v + dv]
+
+        data_array = np.array(data, dtype=np.float32)
+        prim = _primitive(data_array)
+        cls._primitives[name] = prim
+
+    @classmethod
+    def create_disk(cls, name, radius, slices):
+        if radius <= 0.0:
+            raise ValueError("Radius must be positive")
+        if slices < 3:
+            slices = 3
+
+        data = []
+        cs = _circle_table(slices)
+
+        center = [0, 0, 0, 0, 1, 0, 0.5, 0.5]
+
+        for i in range(slices):
+            p1 = [
+                radius * cs[i, 0],
+                0,
+                radius * cs[i, 1],
+                0,
+                1,
+                0,
+                cs[i, 0] * 0.5 + 0.5,
+                cs[i, 1] * 0.5 + 0.5,
+            ]
+            p2 = [
+                radius * cs[i + 1, 0],
+                0,
+                radius * cs[i + 1, 1],
+                0,
+                1,
+                0,
+                cs[i + 1, 0] * 0.5 + 0.5,
+                cs[i + 1, 1] * 0.5 + 0.5,
+            ]
+
+            data.extend(center)
+            data.extend(p2)
+            data.extend(p1)
+
+        data_array = np.array(data, dtype=np.float32)
+        prim = _primitive(data_array)
+        cls._primitives[name] = prim
+
+    @classmethod
+    def create_torus(cls, name, minor_radius, major_radius, sides, rings):
+        if minor_radius <= 0 or major_radius <= 0:
+            raise ValueError("Radii must be positive")
+        if sides < 3 or rings < 3:
+            raise ValueError("Sides and rings must be at least 3")
+
+        d_psi = 2.0 * np.pi / rings
+        d_phi = -2.0 * np.pi / sides
+
+        psi = 0.0
+
+        vertices = []
+        normals = []
+        uvs = []
+
+        for j in range(rings + 1):
+            c_psi = np.cos(psi)
+            s_psi = np.sin(psi)
+            phi = 0.0
+            for i in range(sides + 1):
+                c_phi = np.cos(phi)
+                s_phi = np.sin(phi)
+
+                x = c_psi * (major_radius + c_phi * minor_radius)
+                z = s_psi * (major_radius + c_phi * minor_radius)
+                y = s_phi * minor_radius
+                vertices.append([x, y, z])
+
+                nx = c_psi * c_phi
+                nz = s_psi * c_phi
+                ny = s_phi
+                normals.append([nx, ny, nz])
+
+                u = i / sides
+                v = j / rings
+                uvs.append([u, v])
+
+                phi += d_phi
+            psi += d_psi
+
+        data = []
+        for j in range(rings):
+            for i in range(sides):
+                idx1 = j * (sides + 1) + i
+                idx2 = j * (sides + 1) + (i + 1)
+                idx3 = (j + 1) * (sides + 1) + i
+                idx4 = (j + 1) * (sides + 1) + (i + 1)
+
+                p1 = vertices[idx1] + normals[idx1] + uvs[idx1]
+                p2 = vertices[idx2] + normals[idx2] + uvs[idx2]
+                p3 = vertices[idx3] + normals[idx3] + uvs[idx3]
+                p4 = vertices[idx4] + normals[idx4] + uvs[idx4]
+
+                data.extend(p1)
+                data.extend(p3)
+                data.extend(p2)
+
+                data.extend(p2)
+                data.extend(p3)
+                data.extend(p4)
+
+        data_array = np.array(data, dtype=np.float32)
+        prim = _primitive(data_array)
+        cls._primitives[name] = prim
+
+    @classmethod
+    def create_cylinder(cls, name, radius, height, slices, stacks):
+        """
+        Creates a cylinder primitive.
+        The cylinder is aligned along the y-axis.
+        This method generates the cylinder walls, but not the top and bottom caps.
+        """
+        if radius <= 0.0:
+            raise ValueError("Radius must be positive")
+        if height < 0.0:
+            raise ValueError("Height must be non-negative")
+        if slices < 3:
+            slices = 3
+        if stacks < 1:
+            stacks = 1
+
+        data = []
+        h2 = height / 2.0
+        y_step = height / stacks
+
+        cs = _circle_table(slices)
+
+        du = 1.0 / slices
+        dv = 1.0 / stacks
+
+        for i in range(stacks):
+            y0 = -h2 + i * y_step
+            y1 = -h2 + (i + 1) * y_step
+            v = i * dv
+            for j in range(slices):
+                u = j * du
+
+                nx1 = cs[j, 0]  # cos
+                nz1 = cs[j, 1]  # sin
+                x1 = radius * nx1
+                z1 = radius * nz1
+
+                nx2 = cs[j + 1, 0]
+                nz2 = cs[j + 1, 1]
+                x2 = radius * nx2
+                z2 = radius * nz2
+
+                p_bl = [x1, y0, z1, nx1, 0, nz1, u, v]
+                p_br = [x2, y0, z2, nx2, 0, nz2, u + du, v]
+                p_tl = [x1, y1, z1, nx1, 0, nz1, u, v + dv]
+                p_tr = [x2, y1, z2, nx2, 0, nz2, u + du, v + dv]
+
+                # Triangle 1
+                data.extend(p_bl)
+                data.extend(p_tl)
+                data.extend(p_br)
+                # Triangle 2
+                data.extend(p_br)
+                data.extend(p_tl)
+                data.extend(p_tr)
+
+        data_array = np.array(data, dtype=np.float32)
+        prim = _primitive(data_array)
+        cls._primitives[name] = prim
+
+    @classmethod
+    def create_disk(cls, name, radius, slices):
+        if radius <= 0.0:
+            raise ValueError("Radius must be positive")
+        if slices < 3:
+            slices = 3
+
+        data = []
+        cs = _circle_table(slices)
+
+        center = [0, 0, 0, 0, 1, 0, 0.5, 0.5]
+
+        for i in range(slices):
+            p1 = [
+                radius * cs[i, 0],
+                0,
+                radius * cs[i, 1],
+                0,
+                1,
+                0,
+                cs[i, 0] * 0.5 + 0.5,
+                cs[i, 1] * 0.5 + 0.5,
+            ]
+            p2 = [
+                radius * cs[i + 1, 0],
+                0,
+                radius * cs[i + 1, 1],
+                0,
+                1,
+                0,
+                cs[i + 1, 0] * 0.5 + 0.5,
+                cs[i + 1, 1] * 0.5 + 0.5,
+            ]
+
+            data.extend(center)
+            data.extend(p2)
+            data.extend(p1)
+
+        data_array = np.array(data, dtype=np.float32)
+        prim = _primitive(data_array)
+        cls._primitives[name] = prim
+
+    @classmethod
+    def create_torus(cls, name, minor_radius, major_radius, sides, rings):
+        if minor_radius <= 0 or major_radius <= 0:
+            raise ValueError("Radii must be positive")
+        if sides < 3 or rings < 3:
+            raise ValueError("Sides and rings must be at least 3")
+
+        d_psi = 2.0 * np.pi / rings
+        d_phi = -2.0 * np.pi / sides
+
+        psi = 0.0
+
+        vertices = []
+        normals = []
+        uvs = []
+
+        for j in range(rings + 1):
+            c_psi = np.cos(psi)
+            s_psi = np.sin(psi)
+            phi = 0.0
+            for i in range(sides + 1):
+                c_phi = np.cos(phi)
+                s_phi = np.sin(phi)
+
+                x = c_psi * (major_radius + c_phi * minor_radius)
+                z = s_psi * (major_radius + c_phi * minor_radius)
+                y = s_phi * minor_radius
+                vertices.append([x, y, z])
+
+                nx = c_psi * c_phi
+                nz = s_psi * c_phi
+                ny = s_phi
+                normals.append([nx, ny, nz])
+
+                u = i / sides
+                v = j / rings
+                uvs.append([u, v])
+
+                phi += d_phi
+            psi += d_psi
+
+        data = []
+        for j in range(rings):
+            for i in range(sides):
+                idx1 = j * (sides + 1) + i
+                idx2 = j * (sides + 1) + (i + 1)
+                idx3 = (j + 1) * (sides + 1) + i
+                idx4 = (j + 1) * (sides + 1) + (i + 1)
+
+                p1 = vertices[idx1] + normals[idx1] + uvs[idx1]
+                p2 = vertices[idx2] + normals[idx2] + uvs[idx2]
+                p3 = vertices[idx3] + normals[idx3] + uvs[idx3]
+                p4 = vertices[idx4] + normals[idx4] + uvs[idx4]
+
+                data.extend(p1)
+                data.extend(p3)
+                data.extend(p2)
+
+                data.extend(p2)
+                data.extend(p3)
+                data.extend(p4)
+
+        data_array = np.array(data, dtype=np.float32)
+        prim = _primitive(data_array)
+        cls._primitives[name] = prim

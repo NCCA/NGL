@@ -89,15 +89,14 @@ def test_neq():
     assert not (v1 != v2)
     v3 = Vec2(2.0, 2.0)
     assert v1 != v3
+    v4 = Vec2(3.0, 4.0)
+    assert v1 != v4
     assert (v1 != 1) is True
 
 
 def test_neq_not_implemented():
-    class MyObject:
-        pass
-
     v = Vec2(1, 2)
-    assert (v != MyObject()) is True
+    assert v.__neq__(2) is NotImplemented
 
 
 def test_neg():
